@@ -70,7 +70,7 @@ class RhsComment extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            openEmojiPickerForLastMessageFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }),
     };
 
@@ -116,31 +116,31 @@ class RhsComment extends React.PureComponent {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
 
-        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage;
-        const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage === Locations.RHS_ROOT;
-        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS) {
+        const reactToLastPostShortcutFromRhsIsPressed = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage &&
+        emojiPickerForLastMessage === Locations.RHS_ROOT;
+        if (reactToLastPostShortcutFromRhsIsPressed) {
             // Opening the emoji picker when more than one post in rhs is present
-            this.handleShortcutEmojiForLastMessage(isLastPost);
+            this.handleShortcutReactToLastPost(isLastPost);
         }
     }
 
-    handleShortcutEmojiForLastMessage = (isLastPost) => {
+    handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
             const {isReadOnly, channelIsArchived, enableEmojiPicker, post,
-                actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+                actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
             // irrespective of what type is the last post
-            openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
+            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
             const isPostDeleted = post && post.state === Posts.POST_DELETED;
-            const isEphemeral = post && isPostEphemeral(post);
+            const isEphemeralPost = post && isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
-            const fromAutoResponder = post && PostUtils.fromAutoResponder(post);
+            const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
             const isFailedPost = post.failed;
 
-            if (!isEphemeral && !isSystemMessage && !isReadOnly && !isFailedPost &&
-                !fromAutoResponder && !isPostDeleted && !channelIsArchived && !isMobile() && enableEmojiPicker) {
+            if (!isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
+                !isAutoRespondersPost && !isPostDeleted && !channelIsArchived && !isMobile() && enableEmojiPicker) {
                 this.setState({hover: true}, () => {
                     this.toggleEmojiPicker();
                 });

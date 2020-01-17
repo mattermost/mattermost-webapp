@@ -289,7 +289,7 @@ export function resetEmbedVisibility() {
  * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"
  */
 
-export function openEmojiPickerForLastMessageFrom(emittedFrom) {
+export function emitShortcutReactToLastPostFrom(emittedFrom) {
     return {
         type: ActionTypes.TOGGLE_EMOJI_FOR_LAST_MESSAGE,
         payload: emittedFrom

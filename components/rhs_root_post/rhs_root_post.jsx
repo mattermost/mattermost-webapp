@@ -65,7 +65,7 @@ class RhsRootPost extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            openEmojiPickerForLastMessageFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }),
     };
 
@@ -85,21 +85,21 @@ class RhsRootPost extends React.PureComponent {
         };
     }
 
-    handleShortcutEmojiForLastMessage = (isLastPost) => {
+    handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
             const {post, enableEmojiPicker, channelIsArchived,
-                actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+                actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
-            openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
+            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
             const isPostDeleted = post && post.state === Posts.POST_DELETED;
-            const isEphemeral = post && Utils.isPostEphemeral(post);
+            const isEphemeralPost = post && Utils.isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
-            const didPostFailed = post && post.failed;
+            const isFailedPost = post && post.failed;
             const isPostsFakeParentDeleted = post && post.type === Constants.PostTypes.FAKE_PARENT_DELETED;
 
-            if (!isEphemeral && !isSystemMessage && !isPostDeleted && !didPostFailed && !Utils.isMobile() &&
+            if (!isEphemeralPost && !isSystemMessage && !isPostDeleted && !isFailedPost && !Utils.isMobile() &&
                 !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
                 // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
                 // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
@@ -120,11 +120,11 @@ class RhsRootPost extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         const {emojiPickerForLastMessage, isLastPost} = this.props;
-        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage;
-        const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage === Locations.RHS_ROOT;
 
-        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS) {
-            this.handleShortcutEmojiForLastMessage(isLastPost);
+        const reactToLastPostShortcutFromRhsIsPressed = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage &&
+        emojiPickerForLastMessage === Locations.RHS_ROOT;
+        if (reactToLastPostShortcutFromRhsIsPressed) {
+            this.handleShortcutReactToLastPost(isLastPost);
         }
     }
 

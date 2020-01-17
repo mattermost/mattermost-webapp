@@ -190,7 +190,7 @@ class CreateComment extends React.PureComponent {
         /**
          * Function to set or unset emoji picker for last message
          */
-        openEmojiPickerForLastMessageFrom: PropTypes.func
+        emitShortcutReactToLastPostFrom: PropTypes.func
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -545,9 +545,9 @@ class CreateComment extends React.PureComponent {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
-        const {openEmojiPickerForLastMessageFrom} = this.props;
+        const {emitShortcutReactToLastPostFrom} = this.props;
 
-        openEmojiPickerForLastMessageFrom(Locations.RHS_ROOT);
+        emitShortcutReactToLastPostFrom(Locations.RHS_ROOT);
     }
 
     emitTypingEvent = () => {
@@ -588,7 +588,7 @@ class CreateComment extends React.PureComponent {
 
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (
             (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
@@ -625,7 +625,7 @@ class CreateComment extends React.PureComponent {
             }
         }
 
-        if (lastMessageEmojiKeyCombo) {
+        if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
         }
     }

@@ -118,7 +118,7 @@ export default class PostInfo extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            openEmojiPickerForLastMessageFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }).isRequired,
     };
 
@@ -233,21 +233,21 @@ export default class PostInfo extends React.PureComponent {
         );
     };
 
-    handleShortCutEmojiForLastMessage = () => {
+    handleShortcutReactToLastPost = () => {
         const {post, isLastPost, isReadOnly, enableEmojiPicker, isMobile,
-            actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+            actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
         if (isLastPost) {
             // Setting the last message emoji action to empty to clean up the redux state
-            openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
+            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
-            const isEphemeral = post && Utils.isPostEphemeral(post);
+            const isEphemeralPost = post && Utils.isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
-            const fromAutoResponder = post && PostUtils.fromAutoResponder(post);
+            const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
             const isFailedPost = post && post.failed;
             const isDeletedPost = post && post.state === Posts.POST_DELETED;
 
-            if (!isEphemeral && !isSystemMessage && !fromAutoResponder &&
+            if (!isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
                 !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
                 this.setState({
                     showOptionsMenuWithoutHover: true
@@ -260,11 +260,11 @@ export default class PostInfo extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         const {emojiPickerForLastMessage} = this.props;
-        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage;
-        const didEmojiPickerForLastMessageEmittedForCenter = emojiPickerForLastMessage === Locations.CENTER;
 
-        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForCenter) {
-            this.handleShortCutEmojiForLastMessage();
+        const reactToLastPostShortcutFromCenterIsPressed = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage &&
+        emojiPickerForLastMessage === Locations.CENTER;
+        if (reactToLastPostShortcutFromCenterIsPressed) {
+            this.handleShortcutReactToLastPost();
         }
     }
 

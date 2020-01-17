@@ -255,7 +255,7 @@ class CreatePost extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            openEmojiPickerForLastMessageFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }).isRequired,
     }
 
@@ -921,7 +921,7 @@ class CreatePost extends React.PureComponent {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
-        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
@@ -933,7 +933,7 @@ class CreatePost extends React.PureComponent {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
-        } else if (lastMessageEmojiKeyCombo) {
+        } else if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
         }
     }
@@ -982,9 +982,9 @@ class CreatePost extends React.PureComponent {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
-        const {actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+        const {actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
-        openEmojiPickerForLastMessageFrom(Locations.CENTER);
+        emitShortcutReactToLastPostFrom(Locations.CENTER);
     }
 
     handleBlur = () => {
