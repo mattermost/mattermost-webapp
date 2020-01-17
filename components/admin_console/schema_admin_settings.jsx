@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 
 import * as I18n from 'i18n/i18n.jsx';
 
@@ -981,12 +982,32 @@ export default class SchemaAdminSettings extends React.Component {
 
         if (!schema) {
             return (
-                <AdminHeader>
-                    <FormattedMessage
-                        id='error.not_found.title'
-                        defaultMessage='Page not found'
-                    />
-                </AdminHeader>
+                <div className={'wrapper--fixed'}>
+                    <AdminHeader>
+                        <FormattedMessage
+                            id='error.not_found.title'
+                            defaultMessage='Page not found'
+                        />
+                    </AdminHeader>
+                    <div className='admin-console__wrapper'>
+                        <div className='admin-console__content'>
+                            <p>
+                                <FormattedMessage
+                                    id='error.plugin_not_found.desc'
+                                    defaultMessage='The plugin you are looking for does not exist.'
+                                />
+                            </p>
+                            <Link
+                                to={'plugin_management'}
+                            >
+                                <FormattedMessage
+                                    id='admin.plugin.backToPlugins'
+                                    defaultMessage='Go back to the Plugins'
+                                />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             );
         }
 
