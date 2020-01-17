@@ -97,7 +97,7 @@ export default class SearchableUserList extends React.Component {
         }
 
         // Only show '0 members of X' if the component is not loading more users
-        if ((this.props.total && count) || (!count && this.loading)) {
+        if ((this.props.total && count) || (!count && this.props.loading)) {
             return (
                 <FormattedMessage
                     id='filtered_user_list.countTotal'
@@ -120,8 +120,15 @@ export default class SearchableUserList extends React.Component {
         if (this.props.term || !this.props.users) {
             usersToDisplay = this.props.users;
         } else {
-            usersToDisplay = this.props.users.slice(0, (this.props.page + 1) * this.props.usersPerPage);
-            hasMore = usersToDisplay.length < this.props.total;
+            const pageEnd = (this.props.page + 1) * this.props.usersPerPage;
+            const hasMorePreLoaded = this.props.users.length > pageEnd;
+
+            hasMore = pageEnd < this.props.total;
+            if (this.props.loading && hasMorePreLoaded) {
+                usersToDisplay = this.props.users.slice(0, pageEnd + this.props.usersPerPage);
+            } else {
+                usersToDisplay = this.props.users.slice(0, pageEnd);
+            }
         }
 
         let filterRow;

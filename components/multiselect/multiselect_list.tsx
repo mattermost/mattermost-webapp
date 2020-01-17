@@ -159,12 +159,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
     }
 
     private renderOptions(options: Value[]) {
-        let renderer: Props['optionRenderer'];
-        if (this.props.optionRenderer) {
-            renderer = this.props.optionRenderer;
-        } else {
-            renderer = this.defaultOptionRenderer;
-        }
+        const renderer = this.props.optionRenderer || this.defaultOptionRenderer;
         const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove));
 
         if (!this.props.infinite) {

@@ -56,7 +56,7 @@ export default class SearchableUserListContainer extends React.Component {
         return (
             <SearchableUserList
                 {...this.props}
-                loading={this.loading}
+                loading={this.state.loading}
                 nextPage={this.nextPage}
                 search={this.search}
                 page={this.state.page}
