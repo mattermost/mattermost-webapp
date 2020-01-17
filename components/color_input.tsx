@@ -79,7 +79,7 @@ class ColorInput extends React.PureComponent<Props, State> {
     };
 
     private ensureLongColourValue = (value: string) => {
-        if (value.length != 4) {
+        if (value.length !== 4) {
             return value;
         }
         return value.split('').map((ch, index) => {
