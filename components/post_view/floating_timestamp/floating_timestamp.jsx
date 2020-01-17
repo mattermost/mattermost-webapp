@@ -15,6 +15,7 @@ export default class FloatingTimestamp extends React.PureComponent {
             PropTypes.number,
         ]).isRequired,
         isRhsPost: PropTypes.bool,
+        stylesOverride: PropTypes.object,
     }
 
     render() {
@@ -48,6 +49,7 @@ export default class FloatingTimestamp extends React.PureComponent {
         return (
             <div
                 className={className}
+                style={this.props.stylesOverride}
                 data-testid='floatingTimestamp'
             >
                 <div>

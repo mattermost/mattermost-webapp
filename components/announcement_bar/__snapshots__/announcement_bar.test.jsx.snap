@@ -14,7 +14,7 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -28,7 +28,7 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -50,7 +50,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -64,7 +64,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -86,7 +86,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -100,7 +100,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -122,7 +122,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -136,7 +136,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -158,7 +158,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -172,7 +172,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -194,7 +194,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -208,7 +208,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -230,7 +230,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -244,7 +244,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -266,7 +266,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -280,7 +280,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -302,7 +302,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -316,7 +316,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
@@ -338,7 +338,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
         id="announcement-bar__tooltip"
         placement="right"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           id="text"
         />
       </Tooltip>
@@ -352,7 +352,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
     }
   >
     <span>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
     </span>
