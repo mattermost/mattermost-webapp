@@ -14,6 +14,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid5 = {id: 'userid5', username: 'user5', first_name: 'out', last_name: 'out', nickname: 'out'};
     const userid6 = {id: 'userid6', username: 'user6.six-split', first_name: 'out Junior', last_name: 'out', nickname: 'out'};
     const userid7 = {id: 'userid7', username: 'xuser7', first_name: '', last_name: '', nickname: 'x'};
+    const userid8 = {id: 'userid8', username: 'xuser8', first_name: 'Robert', last_name: 'Ward', nickname: 'nickname'};
 
     const baseParams = {
         currentUserId: 'userid1',
@@ -899,6 +900,56 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     {type: Constants.MENTION_MEMBERS, ...userid3},
                     {type: Constants.MENTION_NONMEMBERS, ...userid7},
                     {type: Constants.MENTION_NONMEMBERS, ...userid4},
+                ],
+                component: AtMentionSuggestion,
+            });
+        });
+    });
+
+    it('should suggest for full name match "robert ward"', async () => {
+        const pretext = '@robert ward';
+        const matchedPretext = '@robert ward';
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [],
+                    out_of_channel: [userid8],
+                }});
+            })),
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [],
+            items: [],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runAllTimers();
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        await Promise.resolve().then(() => {
+            expect(resultCallback).toHaveBeenNthCalledWith(3, {
+                matchedPretext,
+                terms: [
+                    '@xuser8',
+                ],
+                items: [
+                    {type: Constants.MENTION_NONMEMBERS, ...userid8},
                 ],
                 component: AtMentionSuggestion,
             });
