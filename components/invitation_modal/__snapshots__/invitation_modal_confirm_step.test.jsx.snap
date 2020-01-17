@@ -12,7 +12,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h1
     id="invitation_modal_title"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**Guests** Invited to **{teamName}**"
       id="invitation_modal.confirm.guests_title"
       values={
@@ -25,7 +25,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h2
     className="subtitle"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent"
       id="invitation_modal.confirm.members_subtitle"
       values={
@@ -121,7 +121,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h1
     id="invitation_modal_title"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
       values={
@@ -134,7 +134,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h2
     className="subtitle"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited, and **{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent"
       id="invitation_modal.confirm.members_subtitle"
       values={
@@ -230,7 +230,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h1
     id="invitation_modal_title"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
       values={
@@ -243,7 +243,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h2
     className="subtitle"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**{sentCount, number} {sentCount, plural, one {person} other {people}}** {sentCount, plural, one {has} other {have}} been invited"
       id="invitation_modal.confirm.members_subtitle_without_not_sent"
       values={
@@ -315,7 +315,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h1
     id="invitation_modal_title"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
       values={
@@ -328,7 +328,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h2
     className="subtitle"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="No invitation sent"
       id="invitation_modal.confirm.members_subtitle_without_sent_and_not_sent"
     />
@@ -372,7 +372,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h1
     id="invitation_modal_title"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
       values={
@@ -385,7 +385,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
   <h2
     className="subtitle"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="**{notSentCount, number} {notSentCount, plural, one {invitation} other {invitations}}** {notSentCount, plural, one {was} other {were}} not sent"
       id="invitation_modal.confirm.members_subtitle_without_sent"
       values={

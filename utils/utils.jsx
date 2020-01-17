@@ -950,6 +950,7 @@ export function applyTheme(theme) {
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
+            'sidebar-text-80': changeOpacity(theme.sidebarText, 0.8),
             'sidebar-unread-text': theme.sidebarUnreadText,
             'sidebar-text-hover-bg': theme.sidebarTextHoverBg,
             'sidebar-text-active-border': theme.sidebarTextActiveBorder,
