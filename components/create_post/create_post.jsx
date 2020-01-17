@@ -829,8 +829,8 @@ class CreatePost extends React.PureComponent {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {

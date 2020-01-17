@@ -5,7 +5,7 @@ exports[`components/PermalinkView should match snapshot 1`] = `
   className="app__content"
   id="app-content"
 >
-  <withRouter(Connect(InjectIntl(ChannelHeader)))
+  <withRouter(Connect(injectIntl(ChannelHeader)))
     channelId="channel_id"
   />
   <withRouter(Connect(PostView))
@@ -50,7 +50,7 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
   className="app__content"
   id="app-content"
 >
-  <withRouter(Connect(InjectIntl(ChannelHeader)))
+  <withRouter(Connect(injectIntl(ChannelHeader)))
     channelId="channel_id"
   />
   <withRouter(Connect(PostView))
@@ -70,7 +70,7 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
       }
       to="/team_name/channels/channel_name"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="You are viewing an **archived channel**. "
         id="center_panel.permalink.archivedChannel"
       />
