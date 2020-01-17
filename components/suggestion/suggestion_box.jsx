@@ -481,14 +481,16 @@ export default class SuggestionBox extends React.Component {
     }
 
     clear = () => {
-        this.setState({
-            cleared: true,
-            matchedPretext: [],
-            terms: [],
-            items: [],
-            components: [],
-            selection: '',
-        });
+        if (!this.state.cleared) {
+            this.setState({
+                cleared: true,
+                matchedPretext: [],
+                terms: [],
+                items: [],
+                components: [],
+                selection: '',
+            });
+        }
     }
 
     hasSuggestions = () => {

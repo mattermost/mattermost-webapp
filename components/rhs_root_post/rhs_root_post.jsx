@@ -140,7 +140,9 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     handleAlt = (e) => {
-        this.setState({alt: e.altKey});
+        if (this.state.alt !== e.altKey) {
+            this.setState({alt: e.altKey});
+        }
     }
 
     handleDropdownOpened = (isOpened) => {

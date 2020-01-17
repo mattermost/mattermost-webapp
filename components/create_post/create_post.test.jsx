@@ -140,6 +140,15 @@ function createPost({
 /* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
+    jest.useFakeTimers();
+    beforeEach(() => {
+        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+    });
+
+    afterEach(() => {
+        window.requestAnimationFrame.mockRestore();
+    });
+
     it('should match snapshot, init', () => {
         const wrapper = shallowWithIntl(createPost({}));
 
@@ -245,6 +254,8 @@ describe('components/create_post', () => {
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('change', {target: {value: 'change'}});
+        expect(setDraft).not.toHaveBeenCalled();
+        jest.runAllTimers();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
