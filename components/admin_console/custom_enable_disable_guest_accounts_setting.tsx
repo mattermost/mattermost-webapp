@@ -13,7 +13,7 @@ import BooleanSetting from './boolean_setting';
 type Props = {
     id: string;
     value: boolean;
-    onChange: (id: string, value: any, submit: boolean) => void;
+    onChange: (id: string, value: any, submitImmediately: boolean) => void;
     disabled?: boolean;
     setByEnv: boolean;
 }
@@ -82,7 +82,7 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                     confirmButtonText={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmButton'
-                            defaultMessage='Save Disable Guest Access'
+                            defaultMessage='Save and Disable Guest Access'
                         />
                     }
                     onConfirm={() => {
