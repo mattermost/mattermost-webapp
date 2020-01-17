@@ -5,14 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {onChannelByIdentifierEnter} from './actions';
+import channelActions from './actions';
 
 import ChannelIdentifierRouter from './channel_identifier_router.jsx';
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            onChannelByIdentifierEnter,
+            onChannelByIdentifierEnter: channelActions.onChannelByIdentifierEnter
         }, dispatch),
     };
 }
