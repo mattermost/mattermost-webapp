@@ -118,7 +118,12 @@ describe('Plugin Marketplace', () => {
 
         after(() => {
             // * cleanup installed plugins
-            cy.uninstallPluginById('github');
+            cy.getAllPlugins().then((response) => {
+                const active = response.body.active;
+                const inactive = response.body.inactive;
+                inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+                active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            });
         });
 
         it('render an error bar', () => {
@@ -209,8 +214,12 @@ describe('Plugin Marketplace', () => {
 
         after(() => {
             // * cleanup installed plugins
-            cy.uninstallPluginById('github');
-            cy.uninstallPluginById('com.mattermost.webex');
+            cy.getAllPlugins().then((response) => {
+                const active = response.body.active;
+                const inactive = response.body.inactive;
+                inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+                active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            });
         });
 
         it('autofocus on search plugin input box', () => {
@@ -345,17 +354,19 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
 
+        after(() => {
+            // # uninstall all user`s plugins
+            cy.getAllPlugins().then((response) => {
+                const active = response.body.active;
+                const inactive = response.body.inactive;
+                inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+                active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            });
+        });
+
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
         it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
-                // # uninstall all user`s plugins
-                cy.getAllPlugins().then((response) => {
-                    const active = response.body.active;
-                    const inactive = response.body.inactive;
-                    inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-                    active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-                });
-
                 // # switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
                 cy.findByText(/Installed/).should('have.attr', 'aria-selected', 'true');
