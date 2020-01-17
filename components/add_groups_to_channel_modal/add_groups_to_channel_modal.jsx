@@ -243,6 +243,9 @@ export default class AddGroupsToChannelModal extends React.Component {
             const hasGroup = (og) => this.props.includeGroups.find((g) => g.id === og.id);
             groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
+        groupsToShow = groupsToShow.map((group) => {
+            return {...{label: group.display_name, value: group.id}, ...group};
+        });
 
         return (
             <Modal
