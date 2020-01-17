@@ -3,17 +3,17 @@
 
 import React from 'react';
 import {
-    DateSource,
     FormattedMessage,
     injectIntl,
+    IntlShape,
 } from 'react-intl';
 import moment from 'moment-timezone';
 
 type Props = {
     timeZone?: string;
-    value: DateSource;
+    value: number | Date;
     children?(val: string): React.ReactElement | null;
-    intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
+    intl: IntlShape;
 }
 
 class RecentDate extends React.PureComponent<Props> {

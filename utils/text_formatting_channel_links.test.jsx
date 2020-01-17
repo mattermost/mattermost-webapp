@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 
 describe('TextFormatting.ChannelLinks', () => {
     test('Not channel links', () => {
