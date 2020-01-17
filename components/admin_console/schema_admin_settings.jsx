@@ -985,8 +985,8 @@ export default class SchemaAdminSettings extends React.Component {
                 <div className={'wrapper--fixed'}>
                     <AdminHeader>
                         <FormattedMessage
-                            id='error.not_found.title'
-                            defaultMessage='Page not found'
+                            id='error.plugin_not_found.title'
+                            defaultMessage='Plugin not found'
                         />
                     </AdminHeader>
                     <div className='admin-console__wrapper'>
