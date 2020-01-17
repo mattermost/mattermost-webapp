@@ -419,8 +419,14 @@ export default class MoreDirectChannels extends React.Component {
             }
             users = active.concat(inactive);
         }
+        users = users.map((user) => {
+            return {...{label: user.username, value: user.id}, ...user};
+        });
 
-        const groupChannels = this.props.groupChannels || [];
+        let groupChannels = this.props.groupChannels || [];
+        groupChannels = groupChannels.map((group) => {
+            return {...{label: group.display_name, value: group.id}, ...group};
+        });
 
         const options = [...users, ...groupChannels];
         const body = (
