@@ -30,10 +30,12 @@ import {connectionErrorCount} from 'selectors/views/system';
 
 import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
-import {selectPostFromRightHandSideSearchByPostId, setShowPreviewOnCreatePost} from 'actions/views/rhs';
+import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
+import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {getPostDraft, getIsRhsExpanded, showPreviewOnCreatePost} from 'selectors/rhs';
+import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
+import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';

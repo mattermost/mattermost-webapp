@@ -8,9 +8,8 @@ import {patchChannel} from 'mattermost-redux/actions/channels';
 import {Preferences} from 'mattermost-redux/constants';
 
 import {closeModal} from 'actions/views/modals';
-
-import {setShowPreviewOnEditChannelHeaderModal} from '../../actions/views/rhs';
-import {showPreviewOnEditChannelHeaderModal} from '../../selectors/rhs';
+import {setShowPreviewOnEditChannelHeaderModal} from 'actions/views/textbox';
+import {showPreviewOnEditChannelHeaderModal} from 'selectors/views/textbox';
 
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 

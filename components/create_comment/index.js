@@ -24,8 +24,9 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt, showPreviewOnCreateComment} from 'selectors/rhs';
-import {setShowPreviewOnCreateComment} from 'actions/views/rhs';
+import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
+import {showPreviewOnCreateComment} from 'selectors/views/textbox';
+import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 
 import CreateComment from './create_comment.jsx';
 

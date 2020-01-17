@@ -13,13 +13,12 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
+import {setShowPreviewOnEditPostModal} from 'actions/views/textbox';
+import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {hideEditPostModal} from 'actions/post_actions';
 import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import Constants from 'utils/constants';
-
-import {setShowPreviewOnEditPostModal} from '../../actions/views/rhs';
-import {showPreviewOnEditPostModal} from '../../selectors/rhs';
 
 import EditPostModal from './edit_post_modal.jsx';
 
