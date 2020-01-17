@@ -73,10 +73,6 @@ export default class AtMentionProvider extends Provider {
             return false;
         }
 
-        if (profile.id === this.currentUserId) {
-            return false;
-        }
-
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
 
@@ -87,10 +83,7 @@ export default class AtMentionProvider extends Provider {
     localMembers() {
         const localMembers = this.profilesInChannel.
             filter((profile) => this.filterProfile(profile)).
-            map((profile) => ({
-                type: Constants.MENTION_MEMBERS,
-                ...profile,
-            })).
+            map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS)).
             sort((a, b) => a.username.localeCompare(b.username)).
             splice(0, 25);
 
@@ -105,10 +98,7 @@ export default class AtMentionProvider extends Provider {
 
         return (this.data.users || []).
             filter((profile) => this.filterProfile(profile)).
-            map((profile) => ({
-                type: Constants.MENTION_MEMBERS,
-                ...profile,
-            }));
+            map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS));
     }
 
     // remoteNonMembers matches users listed as not in the channel by the server.
@@ -222,5 +212,20 @@ export default class AtMentionProvider extends Provider {
         });
 
         return true;
+    }
+
+    createFromProfile(profile, type) {
+        if (profile.id === this.currentUserId) {
+            return {
+                type,
+                ...profile,
+                isCurrentUser: true,
+            };
+        }
+
+        return {
+            type,
+            ...profile,
+        };
     }
 }

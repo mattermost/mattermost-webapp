@@ -38,7 +38,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
       <div
         className="margin-top"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
           values={
@@ -83,7 +83,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
       <div
         className="margin-top"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
           values={
@@ -136,7 +136,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
       <div
         className="margin-top"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
           values={

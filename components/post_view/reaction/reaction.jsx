@@ -265,7 +265,7 @@ export default class Reaction extends React.PureComponent {
                     }
                     onEnter={this.loadMissingProfiles}
                 >
-                    <span>
+                    <span className='d-flex align-items-center'>
                         <span
                             className='post-reaction__emoji emoticon'
                             style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
