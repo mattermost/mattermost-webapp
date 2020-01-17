@@ -102,6 +102,17 @@ export default class AtMentionSuggestion extends Suggestion {
             );
         }
 
+        let youElement = null;
+        if (user.isCurrentUser) {
+            youElement =
+            (<span className='mention__you'>
+                <FormattedMessage
+                    id='suggestion.user.isCurrent'
+                    defaultMessage='(you)'
+                />
+            </span>);
+        }
+
         let className = 'mentions__name';
         if (isSelection) {
             className += ' suggestion--selected';
@@ -127,6 +138,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     {' '}
                     {description}
                 </span>
+                {youElement}
                 <GuestBadge
                     show={Utils.isGuest(user)}
                     className='badge-autocomplete'

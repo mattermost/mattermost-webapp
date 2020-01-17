@@ -271,7 +271,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <div
             className="job-table-setting"
           >
-            <Connect(InjectIntl(JobTable))
+            <Connect(injectIntl(JobTable))
               createJobButtonText={
                 <FormattedMessage
                   defaultMessage="Index Now"
@@ -721,7 +721,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <div
             className="job-table-setting"
           >
-            <Connect(InjectIntl(JobTable))
+            <Connect(injectIntl(JobTable))
               createJobButtonText={
                 <FormattedMessage
                   defaultMessage="Index Now"

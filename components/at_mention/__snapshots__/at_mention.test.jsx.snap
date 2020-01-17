@@ -21,7 +21,7 @@ exports[`components/AtMention should match snapshot when mentioning current user
     rootClose={true}
     show={false}
   >
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
@@ -48,7 +48,7 @@ exports[`components/AtMention should match snapshot when mentioning user 1`] = `
     rootClose={true}
     show={false}
   >
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
@@ -75,7 +75,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
     rootClose={true}
     show={false}
   >
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
@@ -103,7 +103,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
     rootClose={true}
     show={false}
   >
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
@@ -130,7 +130,7 @@ exports[`components/AtMention should match snapshot when mentioning user followe
     rootClose={true}
     show={false}
   >
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
@@ -158,7 +158,7 @@ exports[`components/AtMention should match snapshot when mentioning user with di
     rootClose={true}
     show={false}
   >
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
@@ -185,7 +185,7 @@ exports[`components/AtMention should match snapshot when mentioning user with mi
     rootClose={true}
     show={false}
   >
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}

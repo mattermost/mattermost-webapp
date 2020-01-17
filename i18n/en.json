@@ -3222,6 +3222,7 @@
   "suggestion.search.direct": "Direct Messages",
   "suggestion.search.private": "Private Channels",
   "suggestion.search.public": "Public Channels",
+  "suggestion.user.isCurrent": "(you)",
   "system_notice.adminVisible": "Only visible to System Admins",
   "system_notice.adminVisible.icon": "Only visible to System Admins Icon",
   "system_notice.body.api3": "If you’ve created or installed integrations in the last two years, find out how [recent changes](!https://about.mattermost.com/default-apiv3-deprecation-guide) may have affected them.",
