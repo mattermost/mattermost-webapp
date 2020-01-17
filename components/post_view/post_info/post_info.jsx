@@ -241,11 +241,11 @@ export default class PostInfo extends React.PureComponent {
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
             const isEphemeralPost = post && Utils.isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
             const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
             const isFailedPost = post && post.failed;
-            const isDeletedPost = post && post.state === Posts.POST_DELETED;
 
             if (!isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
                 !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
