@@ -93,13 +93,13 @@ class RhsRootPost extends React.PureComponent {
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
-            const isPostDeleted = post && post.state === Posts.POST_DELETED;
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
             const isEphemeralPost = post && Utils.isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
             const isFailedPost = post && post.failed;
             const isPostsFakeParentDeleted = post && post.type === Constants.PostTypes.FAKE_PARENT_DELETED;
 
-            if (!isEphemeralPost && !isSystemMessage && !isPostDeleted && !isFailedPost && !Utils.isMobile() &&
+            if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
                 !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
                 // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
                 // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible

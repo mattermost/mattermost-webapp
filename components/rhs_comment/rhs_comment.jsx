@@ -133,14 +133,14 @@ class RhsComment extends React.PureComponent {
             // irrespective of what type is the last post
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
-            const isPostDeleted = post && post.state === Posts.POST_DELETED;
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
             const isEphemeralPost = post && isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
             const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
-            const isFailedPost = post.failed;
+            const isFailedPost = post && post.failed;
 
             if (!isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
-                !isAutoRespondersPost && !isPostDeleted && !channelIsArchived && !isMobile() && enableEmojiPicker) {
+                !isAutoRespondersPost && !isDeletedPost && !channelIsArchived && !isMobile() && enableEmojiPicker) {
                 this.setState({hover: true}, () => {
                     this.toggleEmojiPicker();
                 });

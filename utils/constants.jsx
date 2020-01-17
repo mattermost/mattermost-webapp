@@ -134,7 +134,7 @@ export const ActionTypes = keyMirror({
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
-    TOGGLE_EMOJI_FOR_LAST_MESSAGE: null,
+    EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
 

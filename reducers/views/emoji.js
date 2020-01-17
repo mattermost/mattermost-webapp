@@ -19,7 +19,7 @@ function emojiPickerCustomPage(state = 0, action) {
 
 function emojiPickerForLastMessage(state = '', action) {
     switch (action.type) {
-    case ActionTypes.TOGGLE_EMOJI_FOR_LAST_MESSAGE:
+    case ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST:
         if (action.payload === Locations.CENTER) {
             return Locations.CENTER;
         } else if (action.payload === Locations.RHS_ROOT) {

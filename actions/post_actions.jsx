@@ -291,7 +291,7 @@ export function resetEmbedVisibility() {
 
 export function emitShortcutReactToLastPostFrom(emittedFrom) {
     return {
-        type: ActionTypes.TOGGLE_EMOJI_FOR_LAST_MESSAGE,
+        type: ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST,
         payload: emittedFrom
     };
 }
