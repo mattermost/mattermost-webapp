@@ -40,7 +40,7 @@ describe('components/post_view/PostInfo', () => {
         hover: false,
         showTimeWithoutHover: false,
         enableEmojiPicker: false,
-        emojiPickerForLastMessage: '',
+        shortcutReactToLastPostEmittedFrom: '',
         actions: {
             removePost: jest.fn(),
         },

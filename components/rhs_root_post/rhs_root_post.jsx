@@ -57,7 +57,7 @@ class RhsRootPost extends React.PureComponent {
         /**
          * To check if the state of emoji for last message and from where it was emitted
          */
-        emojiPickerForLastMessage: PropTypes.string,
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
@@ -119,11 +119,11 @@ class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
-        const reactToLastPostShortcutFromRhsIsPressed = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage &&
-        emojiPickerForLastMessage === Locations.RHS_ROOT;
-        if (reactToLastPostShortcutFromRhsIsPressed) {
+        const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
+        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+        if (shortcutReactToLastPostEmittedFromRHS) {
             this.handleShortcutReactToLastPost(isLastPost);
         }
     }

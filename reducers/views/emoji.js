@@ -17,7 +17,7 @@ function emojiPickerCustomPage(state = 0, action) {
     }
 }
 
-function emojiPickerForLastMessage(state = '', action) {
+function shortcutReactToLastPostEmittedFrom(state = '', action) {
     switch (action.type) {
     case ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST:
         if (action.payload === Locations.CENTER) {
@@ -36,5 +36,5 @@ function emojiPickerForLastMessage(state = '', action) {
 
 export default combineReducers({
     emojiPickerCustomPage,
-    emojiPickerForLastMessage
+    shortcutReactToLastPostEmittedFrom
 });

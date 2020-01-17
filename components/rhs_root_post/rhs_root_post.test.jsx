@@ -53,7 +53,7 @@ describe('components/RhsRootPost', () => {
         channelType: 'O',
         channelDisplayName: 'Test',
         handleCardClick: jest.fn(),
-        emojiPickerForLastMessage: '',
+        shortcutReactToLastPostEmittedFrom: '',
         actions: {
             markPostAsUnread: jest.fn(),
         },

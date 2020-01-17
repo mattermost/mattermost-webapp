@@ -62,7 +62,7 @@ class RhsComment extends React.PureComponent {
         /**
          * To check if the state of emoji for last message and from where it was emitted
          */
-        emojiPickerForLastMessage: PropTypes.string,
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
@@ -110,15 +110,15 @@ class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
 
-        const reactToLastPostShortcutFromRhsIsPressed = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage &&
-        emojiPickerForLastMessage === Locations.RHS_ROOT;
-        if (reactToLastPostShortcutFromRhsIsPressed) {
+        const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
+        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+        if (shortcutReactToLastPostEmittedFromRHS) {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
         }

@@ -101,7 +101,7 @@ export default class PostInfo extends React.PureComponent {
         /**
          * To check if the state of emoji for last message and from where it was emitted
          */
-        emojiPickerForLastMessage: PropTypes.string,
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
 
         /**
          * To Check if the current post is last in the list
@@ -259,11 +259,11 @@ export default class PostInfo extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage} = this.props;
+        const {shortcutReactToLastPostEmittedFrom} = this.props;
 
-        const reactToLastPostShortcutFromCenterIsPressed = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage &&
-        emojiPickerForLastMessage === Locations.CENTER;
-        if (reactToLastPostShortcutFromCenterIsPressed) {
+        const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
+        shortcutReactToLastPostEmittedFrom === Locations.CENTER;
+        if (shortcutReactToLastPostEmittedFromCenter) {
             this.handleShortcutReactToLastPost();
         }
     }
