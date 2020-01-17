@@ -15,7 +15,7 @@ import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_ac
 import {isEmbedVisible} from 'selectors/posts';
 import {Preferences} from 'utils/constants';
 
-import {getsShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
+import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
@@ -28,7 +28,7 @@ function mapStateToProps(state, ownProps) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = getChannel(state, ownProps.post.channel_id) || {};
-    const shortcutReactToLastPostEmittedFrom = getsShortcutReactToLastPostEmittedFrom(state);
+    const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     return {
         author: getDisplayName(state, ownProps.post.user_id),

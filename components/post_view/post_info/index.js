@@ -12,7 +12,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
 import {getSelectedPostCard} from 'selectors/rhs.jsx';
-import {getsShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
+import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 
 import PostInfo from './post_info.jsx';
 
@@ -23,7 +23,7 @@ function mapStateToProps(state, ownProps) {
     const channelIsArchived = channel ? channel.delete_at !== 0 : null;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
-    const shortcutReactToLastPostEmittedFrom = getsShortcutReactToLastPostEmittedFrom(state);
+    const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     return {
         teamId,
