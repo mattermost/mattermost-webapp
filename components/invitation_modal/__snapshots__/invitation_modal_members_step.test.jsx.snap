@@ -12,7 +12,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   <h1
     id="invitation_modal_title"
   >
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="Invite **Members** to {teamName}"
       id="invitation_modal.members.title"
       values={

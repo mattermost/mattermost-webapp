@@ -320,4 +320,6 @@ class SidebarChannel extends React.PureComponent {
     }
 }
 
-export default injectIntl(SidebarChannel, {withRef: true});
+const wrappedComponent = injectIntl(SidebarChannel, {forwardRef: true});
+wrappedComponent.displayName = 'injectIntl(SidebarChannel)';
+export default wrappedComponent;

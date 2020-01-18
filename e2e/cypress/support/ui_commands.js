@@ -87,7 +87,6 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
 /**
  * Change the message display setting
  * @param {String} setting - as 'STANDARD' or 'COMPACT'
- * @param {String} username - User to login as
  */
 Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};

@@ -36,7 +36,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
       />
     </h4>
     <p>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Your slash command has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/slash-commands.html) for further details)."
         id="add_command.doneHelp"
       />
@@ -44,7 +44,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
     <p
       className="word-break--all"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**Token**: {token}"
         id="add_command.token"
         values={
@@ -113,7 +113,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
       />
     </h4>
     <p>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Your incoming webhook has been set up. Please send data to the following URL (see [documentation](!https://docs.mattermost.com/developer/webhooks-incoming.html) for further details)."
         id="add_incoming_webhook.doneHelp"
       />
@@ -121,7 +121,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
     <p
       className="word-break--all"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**URL**: {url}"
         id="add_incoming_webhook.url"
         values={
@@ -192,7 +192,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       key="add_oauth_app.doneHelp"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Your OAuth 2.0 application has been set up. Please use the following Client ID and Client Secret when requesting authorization for your application (see [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) for further details)."
         id="add_oauth_app.doneHelp"
       />
@@ -200,7 +200,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       key="add_oauth_app.clientId"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**Client ID**: {id}"
         id="add_oauth_app.clientId"
         values={
@@ -215,7 +215,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
         value="r5tpgt4iepf45jt768jz84djic"
       />
       <br />
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**Client Secret**: {secret}"
         id="add_oauth_app.clientSecret"
         values={
@@ -242,7 +242,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       className="word-break--all"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**URL(s)**: {url}"
         id="add_oauth_app.url"
         values={
@@ -308,7 +308,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
       />
     </h4>
     <p>
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Your outgoing webhook has been set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (see [documentation](!https://docs.mattermost.com/developer/webhooks-outgoing.html) for further details)."
         id="add_outgoing_webhook.doneHelp"
       />
@@ -316,7 +316,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
     <p
       className="word-break--all"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**Token**: {token}"
         id="add_outgoing_webhook.token"
         values={
