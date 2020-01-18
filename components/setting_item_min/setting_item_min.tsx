@@ -32,7 +32,7 @@ interface SettingItemMinProps {
     /**
      * Settings description
      */
-    describe: JSX.Element | string;
+    describe?: JSX.Element | string;
 
     /**
      * Shows the previous active section for focusing
