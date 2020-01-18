@@ -17,7 +17,7 @@ interface SettingItemMinProps {
     /**
      * Option to disable opening the setting
      */
-    disableOpen: boolean;
+    disableOpen?: boolean;
 
     /**
      * Settings or tab section
