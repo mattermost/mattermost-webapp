@@ -24,6 +24,7 @@ type Props = {
      */
         deferNavigation: (func: () => void) => void;
     };
+    children: string | React.ReactNode;
 };
 export default class BlockableLink extends React.PureComponent<Props> {
     private handleClick = (e: React.MouseEvent) => {

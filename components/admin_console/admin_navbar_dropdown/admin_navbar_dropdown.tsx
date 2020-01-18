@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -10,7 +10,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
+import {IntlShape} from 'utils/react_intl';
 
 import AboutBuildModal from 'components/about_build_modal';
 
@@ -19,7 +19,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuItemBlockableLink from './menu_item_blockable_link';
 
 interface AdminNavbarDropdownProps {
-    intl: intlShape;
+    intl: IntlShape;
     locale: string;
     siteName?: string;
     navigationBlocked?: boolean;
@@ -29,7 +29,7 @@ interface AdminNavbarDropdownProps {
     };
 }
 
-class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps, {}> {
+class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps & InjectedIntlProps, {}> {
     private handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
@@ -66,12 +66,17 @@ class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps, {}> 
                             id='select_team.icon'
                             defaultMessage='Select Team Icon'
                         >
-                            {(title) => (
-                                <i
-                                    className='fa fa-exchange'
-                                    title={title}
-                                />
-                            )}
+                            {(title) => {
+                                if (typeof title === 'string') {
+                                    return (
+                                        <i
+                                            className='fa fa-exchange'
+                                            title={title}
+                                        />
+                                    );
+                                }
+                                return null;
+                            }}
                         </FormattedMessage>
                     }
                     text={formatMessage({id: 'admin.nav.switch', defaultMessage: 'Team Selection'})}
@@ -115,4 +120,4 @@ class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps, {}> 
     }
 }
 
-export default injectIntl(AdminNavbarDropdown);
+export default injectIntl<AdminNavbarDropdownProps>(AdminNavbarDropdown);
