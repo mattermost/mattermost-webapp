@@ -6,6 +6,9 @@ import 'bootstrap';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Role} from 'mattermost-redux/types/roles';
+
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
 import ModalController from 'components/modal_controller';
@@ -16,45 +19,34 @@ import DiscardChangesModal from 'components/discard_changes_modal';
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
 
-type Actions = {
-    getConfig: () => void;
-    getEnvironmentConfig: () => void;
-    setNavigationBlocked: () => void;
-    confirmNavigation: () => void;
-    cancelNavigation: () => void;
-    loadRolesIfNeeded: (roles: string[]) => void;
-    editRole: () => void;
-    updateConfig?: () => void;
-}
-
-type Config = {
-    TestField: boolean;
-    ExperimentalSettings: {
-        RestrictSystemAdmin: boolean;
-    };
-}
-
-type Roles = {
-    channel_admin: string;
-    channel_user: string;
-    team_admin: string;
-    team_user: string;
-    system_admin: string;
-    system_user: string;
-}
-
 type Props = {
-    config: Config;
+    config: Record<string, any>;
     adminDefinition: Record<string, any>;
     environmentConfig?: Record<string, any>;
     license: Record<string, any>;
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
-    roles: Roles;
+    roles: {
+        channel_admin: string;
+        channel_user: string;
+        team_admin: string;
+        team_user: string;
+        system_admin: string;
+        system_user: string;
+    };
     match: { url: string };
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
-    actions: Actions;
+    actions: {
+        getConfig: () => ActionFunc;
+        getEnvironmentConfig: () => ActionFunc;
+        setNavigationBlocked: () => void;
+        confirmNavigation: () => void;
+        cancelNavigation: () => void;
+        loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
+        editRole: (role: Role) => void;
+        updateConfig?: (config: Record<string, any>) => ActionFunc;
+    };
 }
 
 type State = {
@@ -63,18 +55,25 @@ type State = {
 
 // not every page in the system console will need the license and config, but the vast majority will
 type ExtraProps = {
-    license?: {};
-    config?: {};
-    environmentConfig?: {};
+    license?: Record<string, any>;
+    config?: Record<string, any>;
+    environmentConfig?: Record<string, any>;
     setNavigationBlocked?: () => void;
-    roles?: Roles;
-    editRole?: () => void;
-    updateConfig?: () => void;
+    roles?: {
+        channel_admin: string;
+        channel_user: string;
+        team_admin: string;
+        team_user: string;
+        system_admin: string;
+        system_user: string;
+    };
+    editRole?: (role: Role) => void;
+    updateConfig?: (config: Record<string, any>) => ActionFunc;
 }
 
 type Item = {
-    isHidden?: (config: Record<string, any>, state: Record<string, any>, license: Record<string, any>, buildEnterpriseReady: boolean) => void;
-    schema: boolean;
+    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean) => void;
+    schema: Record<string, any>;
     url: string;
 }
 
@@ -96,7 +95,7 @@ export default class AdminConsole extends React.Component<Props, State> {
         this.setState({filter});
     }
 
-    private mainRolesLoaded(roles: Roles) {
+    private mainRolesLoaded(roles: Record<string, any>) {
         return (
             roles &&
             roles.channel_admin &&
