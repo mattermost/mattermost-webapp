@@ -48,7 +48,7 @@ export const intlConfigPropTypes = {
 export const intlFormatPropTypes = {
     formatDate: PropTypes.func.isRequired,
     formatTime: PropTypes.func.isRequired,
-    formatRelativeTime: PropTypes.func.isRequired,
+    formatRelative: PropTypes.func.isRequired,
     formatNumber: PropTypes.func.isRequired,
     formatPlural: PropTypes.func.isRequired,
     formatMessage: PropTypes.func.isRequired,
@@ -59,4 +59,5 @@ export const intlShape = PropTypes.shape({
     ...intlConfigPropTypes,
     ...intlFormatPropTypes,
     formatters: PropTypes.object,
+    now: PropTypes.func.isRequired,
 });
