@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -10,7 +10,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
-import {IntlShape} from 'utils/react_intl';
 
 import AboutBuildModal from 'components/about_build_modal';
 
@@ -29,7 +28,7 @@ interface AdminNavbarDropdownProps {
     };
 }
 
-class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps & InjectedIntlProps, {}> {
+class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps, {}> {
     private handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
@@ -120,4 +119,4 @@ class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps & Inj
     }
 }
 
-export default injectIntl<AdminNavbarDropdownProps>(AdminNavbarDropdown);
+export default injectIntl(AdminNavbarDropdown);

@@ -3,34 +3,6 @@
 
 import PropTypes from 'prop-types';
 
-export interface IntlConfigPropTypes {
-    locale: string;
-    timeZone: string;
-    formats: object;
-    messages: object;
-    textComponent: (...args: any[]) => any;
-
-    defaultLocale: string;
-    defaultFormats: object;
-
-    onError: (...args: any[]) => any;
-}
-
-export interface IntlFormatPropTypes {
-    formatDate: (...args: any[]) => any;
-    formatTime: (...args: any[]) => any;
-    formatRelative: (...args: any[]) => any;
-    formatNumber: (...args: any[]) => any;
-    formatPlural: (...args: any[]) => any;
-    formatMessage: (...args: any[]) => any;
-    formatHTMLMessage: (...args: any[]) => any;
-}
-
-export interface IntlShape extends IntlConfigPropTypes, IntlFormatPropTypes {
-    formatters: object;
-    now: (...args: any[]) => any;
-}
-
 // This is still for the components that have not yet migrated to Typescript
 export const intlConfigPropTypes = {
     locale: PropTypes.string,
