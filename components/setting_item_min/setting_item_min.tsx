@@ -61,7 +61,7 @@ export default class SettingItemMin extends React.PureComponent<SettingItemMinPr
         this.edit = node;
     }
 
-    private handleUpdateSection = (e: React.MouseEvent<HTMLElement>) => {
+    handleUpdateSection = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         this.props.actions.updateActiveSection(this.props.section);
         this.props.updateSection(this.props.section);

@@ -38,11 +38,11 @@ describe('components/SettingItemMin', () => {
     test('should have called updateSection on handleUpdateSection with section', () => {
         const updateSection = jest.fn();
         const props = {...baseProps, updateSection};
-        const wrapper: SettingItemMin = shallow(
+        const wrapper = shallow<SettingItemMin>(
             <SettingItemMin {...props}/>
         );
 
-        wrapper.instance().handleUpdateSection({preventDefault: jest.fn()});
+        wrapper.instance().handleUpdateSection({preventDefault: jest.fn()} as any);
         expect(updateSection).toHaveBeenCalled();
         expect(updateSection).toHaveBeenCalledWith('section');
     });
@@ -50,11 +50,11 @@ describe('components/SettingItemMin', () => {
     test('should have called updateSection on handleUpdateSection with empty string', () => {
         const updateSection = jest.fn();
         const props = {...baseProps, updateSection, section: ''};
-        const wrapper = shallow(
+        const wrapper = shallow<SettingItemMin>(
             <SettingItemMin {...props}/>
         );
 
-        wrapper.instance().handleUpdateSection({preventDefault: jest.fn()});
+        wrapper.instance().handleUpdateSection({preventDefault: jest.fn()} as any);
         expect(updateSection).toHaveBeenCalled();
         expect(updateSection).toHaveBeenCalledWith('');
     });
