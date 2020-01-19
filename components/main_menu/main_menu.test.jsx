@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {Constants} from 'utils/constants';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {Constants} from 'utils/constants';
 
 import MainMenu from './main_menu.jsx';
 
@@ -44,18 +44,18 @@ describe('components/Menu', () => {
 
     test('should match snapshot with id', () => {
         const props = {...defaultProps, id: 'test-id'};
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled', () => {
-        const wrapper = shallowWithIntl(<MainMenu {...defaultProps}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...defaultProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled in mobile', () => {
         const props = {...defaultProps, mobile: true};
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -77,7 +77,7 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -100,7 +100,7 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -112,7 +112,7 @@ describe('components/Menu', () => {
                 {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
             ],
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -125,13 +125,13 @@ describe('components/Menu', () => {
                 {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
             ],
         };
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should show leave team option when primary team is set', () => {
         const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
-        const wrapper = shallowWithIntl(<MainMenu {...props}/>).dive();
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
 
         // show leave team option when experimentalPrimaryTeam is not set
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);

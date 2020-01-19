@@ -54,14 +54,14 @@ describe('components/ChannelHeader', () => {
     test('should render properly when empty', () => {
         const wrapper = shallowWithIntl(
             <ChannelHeader {...baseProps}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should render properly when populated', () => {
         const wrapper = shallowWithIntl(
             <ChannelHeader {...populatedProps}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -92,7 +92,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -104,7 +104,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -116,7 +116,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -128,7 +128,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -140,7 +140,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -152,7 +152,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -172,7 +172,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        ).dive();
+        );
         expect(wrapper.containsMatchingElement(
             <Markdown
                 message={props.currentUser.bot_description}
