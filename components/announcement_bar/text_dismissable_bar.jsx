@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 
 import AnnouncementBar from './announcement_bar.jsx';
 

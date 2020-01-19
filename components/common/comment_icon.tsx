@@ -55,7 +55,6 @@ export default class CommentIcon extends React.PureComponent<Props> {
 
         return (
             <OverlayTrigger
-                className='hidden-xs'
                 delayShow={500}
                 placement='top'
                 overlay={tooltip}

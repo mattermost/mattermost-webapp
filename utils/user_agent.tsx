@@ -49,7 +49,7 @@ iOS App:
 const userAgent = window.navigator.userAgent;
 
 export function isChrome(): boolean {
-    return userAgent.indexOf('Chrome') > -1;
+    return userAgent.indexOf('Chrome') > -1 && userAgent.indexOf('Edge') === -1;
 }
 
 export function isSafari(): boolean {

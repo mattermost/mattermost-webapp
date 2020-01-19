@@ -328,6 +328,11 @@ class CreatePost extends React.PureComponent {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
+        if (this.saveDraftFrame) {
+            const channelId = this.props.currentChannel.id;
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            cancelAnimationFrame(this.saveDraftFrame);
+        }
     }
 
     updatePreview = (newState) => {
@@ -706,8 +711,10 @@ class CreatePost extends React.PureComponent {
             ...this.props.draft,
             message,
         };
-
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraftFrame = requestAnimationFrame(() => {
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        });
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -827,8 +834,8 @@ class CreatePost extends React.PureComponent {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
