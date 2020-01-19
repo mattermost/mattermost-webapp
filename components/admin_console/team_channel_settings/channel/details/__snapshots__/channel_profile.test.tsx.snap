@@ -15,14 +15,14 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
     <div
       className="group-teams-and-channels--body"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**Name**"
         id="admin.channel_settings.channel_detail.channelName"
       />
       <br />
       test
       <br />
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="**Team**"
         id="admin.channel_settings.channel_detail.channelTeam"
       />

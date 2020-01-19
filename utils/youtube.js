@@ -4,32 +4,32 @@
 export const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;
 
 export function handleYoutubeTime(link) {
-    const timeRegex = /[\\?&](t|start|time_continue)=([0-9]+h)?([0-9]+m)?([0-9]+s?)/;
+    const timeRegex = /[\\?&](t|time|start|time_continue)=([0-9]+h)?([0-9]+m)?([0-9]+s?)/;
 
     const time = link.match(timeRegex);
-    if (!time || !time[0]) {
+    if (!time?.[0]) {
         return '';
     }
 
-    const hours = time[2] ? time[2].match(/([0-9]+)h/) : null;
-    const minutes = time[3] ? time[3].match(/([0-9]+)m/) : null;
-    const seconds = time[4] ? time[4].match(/([0-9]+)s?/) : null;
+    const hours = time[2]?.match(/([0-9]+)h/) ?? null;
+    const minutes = time[3]?.match(/([0-9]+)m/) ?? null;
+    const seconds = time[4]?.match(/([0-9]+)s?/) ?? null;
 
-    let ticks = 0;
+    let startSeconds = 0;
 
-    if (hours && hours[1]) {
-        ticks += parseInt(hours[1], 10) * 3600;
+    if (hours?.[1]) {
+        startSeconds += parseInt(hours[1], 10) * 3600;
     }
 
-    if (minutes && minutes[1]) {
-        ticks += parseInt(minutes[1], 10) * 60;
+    if (minutes?.[1]) {
+        startSeconds += parseInt(minutes[1], 10) * 60;
     }
 
-    if (seconds && seconds[1]) {
-        ticks += parseInt(seconds[1], 10);
+    if (seconds?.[1]) {
+        startSeconds += parseInt(seconds[1], 10);
     }
 
-    return '&start=' + ticks.toString();
+    return `&start=${startSeconds}`;
 }
 
 export function getVideoId(link) {

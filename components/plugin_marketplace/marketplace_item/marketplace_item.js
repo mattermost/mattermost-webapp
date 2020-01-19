@@ -351,7 +351,7 @@ export default class MarketplaceItem extends React.Component {
             <button
                 onClick={this.onInstall}
                 className='btn btn-primary'
-                disabled={this.props.installing || this.props.downloadUrl === ''}
+                disabled={this.props.installing}
             >
                 <LoadingWrapper
                     loading={this.props.installing}
