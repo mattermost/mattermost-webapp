@@ -29,7 +29,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -116,7 +116,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -182,7 +182,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -296,7 +296,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />
@@ -410,7 +410,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
               id="admin.permissions.introBanner"
             />

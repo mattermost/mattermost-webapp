@@ -860,7 +860,8 @@
             cursor: pointer;
         }
 
-        &:hover:not(.clickable)  {
+        &:hover,
+        &.more-modal__row--selected  {
             background: v(center-channel-color-05);
 
             .more-modal__actions--round {
