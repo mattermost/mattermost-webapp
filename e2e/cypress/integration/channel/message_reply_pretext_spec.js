@@ -26,11 +26,6 @@ describe('Message Reply with attachment pretext', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-
-        const promoteToSysAdmin = (user) => {
-            cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
-        };
-
         // # Login and go to /
         cy.apiLogin('sysadmin');
 
@@ -48,25 +43,25 @@ describe('Message Reply with attachment pretext', () => {
         const botName = 'bot-' + Date.now();
 
         // # Create a bot and get userID
-        cy.apiCreateBot(botName,'Test Bot','test bot for E2E test replying to older bot post').then((userId) => {
+        cy.apiCreateBot( botName,'Test Bot','test bot for E2E test replying to older bot post').then((userId) => {
             botsUserId = userId;
+            const promoteToSysAdmin = (user) => {
+                cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/botsUserId/roles`, data: {roles: 'system_user system_post_all'}});
+             };
 
+            //cy.apiAddUserToChannel(newChannel.id,botsUserId)
             // # Get token from bots id
             cy.apiAccessToken(botsUserId, "Create token").then((token) => {
                 accessToken = token;
 
-                //cy.apiAssignBotToUser(botsUserId,"y8dmri3mxtfxj831rf93nkdw9e");
-
-                //cy.apiAddUserToChannel(newChannel.id,botsUserId)
-                //cy.apiAddUserToChannel(newChannel.id,"y8dmri3mxtfxj831rf93nkdw9e")
-
+                //# Add bot to team
+                cy.apiAddUserToTeam(newChannel.team_id,botsUserId);
+                //# Add bot to channel
+                cy.apiAddUserToChannel(newChannel.id,botsUserId);
                 // # Post message with auth token
-                cy.apiPostBotMessage(newChannel.id, 'Hello message from', 'Some Pretext', 'Some text', botsUserId, accessToken).
-                    its('id').
-                    should('exist').
-                    as('olderPost');
-                     });
-        });
+                cy.apiPostBotMessage(newChannel.id, 'Hello message from '+ botName, 'Some Pretext', 'Some text', accessToken);
+             });
+         });
 
         cy.get('@olderPost').then((postId) => {
             // # Open RHS comment menu
