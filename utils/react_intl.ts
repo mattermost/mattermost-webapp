@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 
-// This is still for the components that have not yet migrated to Typescript
+// Prop types copied from the old version of
+
 export const intlConfigPropTypes = {
     locale: PropTypes.string,
     timeZone: PropTypes.string,

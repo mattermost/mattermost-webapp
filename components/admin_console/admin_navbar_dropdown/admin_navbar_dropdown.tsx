@@ -17,7 +17,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import MenuItemBlockableLink from './menu_item_blockable_link';
 
-interface AdminNavbarDropdownProps {
+type Props = {
     intl: IntlShape;
     locale: string;
     siteName?: string;
@@ -26,9 +26,9 @@ interface AdminNavbarDropdownProps {
     actions: {
         deferNavigation: (onNavigationConfirmed: any) => any;
     };
-}
+};
 
-class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps, {}> {
+class AdminNavbarDropdown extends React.Component<Props, {}> {
     private handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
