@@ -25,6 +25,14 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const {teams} = this.props;
         const renderedTeams = teams.map(this.renderTeam);
 
+        // TODO temp
+        const root = document.querySelector('#root');
+        if (teams.length <= 1) {
+            root!.classList.remove('multi-teams');
+            return null;
+        }
+        root!.classList.add('multi-teams');
+
         return (
             <div className='team-sidebar'>
                 {'Team Sidebar Placeholder'}
