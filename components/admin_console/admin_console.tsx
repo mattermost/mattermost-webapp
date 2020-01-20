@@ -27,12 +27,7 @@ type Props = {
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
     roles: {
-        channel_admin: string;
-        channel_user: string;
-        team_admin: string;
-        team_user: string;
-        system_admin: string;
-        system_user: string;
+        [x: string]: string;
     };
     match: { url: string };
     showNavigationPrompt: boolean;
@@ -60,12 +55,7 @@ type ExtraProps = {
     environmentConfig?: Record<string, any>;
     setNavigationBlocked?: () => void;
     roles?: {
-        channel_admin: string;
-        channel_user: string;
-        team_admin: string;
-        team_user: string;
-        system_admin: string;
-        system_user: string;
+        [x: string]: string;
     };
     editRole?: (role: Role) => void;
     updateConfig?: (config: Record<string, any>) => ActionFunc;
