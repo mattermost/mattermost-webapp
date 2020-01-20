@@ -316,6 +316,24 @@ h6 {
     }
 }
 
+ol.markdown__list {
+    counter-reset: list;
+    display: table;
+    padding: 0;
+
+    > li {
+        counter-increment: list;
+        display: table-row;
+
+        &::before {
+            content: counter(list) ".";
+            padding-right: 8px;
+            display: table-cell;
+            text-align: right;
+        }
+    }
+}
+
 blockquote {
     border: none;
     font-size: inherit;
