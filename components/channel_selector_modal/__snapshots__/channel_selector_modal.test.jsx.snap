@@ -40,7 +40,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
       componentClass="h1"
       id="channelSelectorModalLabel"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Add Channels To **Channel Selection** List"
         id="add_channels_to_scheme.title"
       />
