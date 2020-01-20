@@ -38,6 +38,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             getGroups: jest.fn().mockResolvedValue([]),
             membersMinusGroupMembers: jest.fn(),
             updateChannelPrivacy: jest.fn(),
+            patchGroupSyncable: jest.fn(),
         };
 
         let wrapper = shallow(

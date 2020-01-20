@@ -17,10 +17,6 @@ describe('components/integrations/AddOutgoingWebhook', () => {
                     id: teamId,
                     name: 'test',
                 }}
-                createOutgoingHookRequest={{
-                    status: 'not_started',
-                    error: null,
-                }}
                 actions={{createOutgoingHook: emptyFunction}}
                 enablePostUsernameOverride={false}
                 enablePostIconOverride={false}

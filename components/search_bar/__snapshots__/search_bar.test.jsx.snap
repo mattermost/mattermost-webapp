@@ -66,6 +66,12 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         placeholder="Search"
         providers={
           Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
             SearchChannelProvider {
               "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
@@ -75,12 +81,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
             },
             SearchUserProvider {
               "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchDateProvider {
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -167,6 +167,12 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         placeholder="Search"
         providers={
           Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
             SearchChannelProvider {
               "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
@@ -176,12 +182,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
             },
             SearchUserProvider {
               "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchDateProvider {
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -279,6 +279,12 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         placeholder="Search"
         providers={
           Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
             SearchChannelProvider {
               "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
@@ -288,12 +294,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
             },
             SearchUserProvider {
               "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchDateProvider {
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -391,6 +391,12 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         placeholder="Search"
         providers={
           Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
             SearchChannelProvider {
               "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
@@ -400,12 +406,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
             },
             SearchUserProvider {
               "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchDateProvider {
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
