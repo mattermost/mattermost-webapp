@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 
 describe('TextFormatting.Emails', () => {
     it('Valid email addresses', () => {

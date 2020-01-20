@@ -224,7 +224,7 @@ describe('SF15699 Search Date Filter', () => {
 
             it('with "x"', () => {
                 cy.get('#searchBox').clear().wait(500).type(queryString);
-                cy.get('#searchClearButton').click();
+                cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
                 cy.get('#searchBox').should('have.value', '');
             });
         });

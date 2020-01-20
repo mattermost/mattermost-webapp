@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 import logoImage from 'images/logo.png';
 
 import AnnouncementBar from 'components/announcement_bar';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
