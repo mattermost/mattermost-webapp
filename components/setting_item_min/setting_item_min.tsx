@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {isMobile} from 'utils/utils.jsx';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 
-interface SettingItemMinProps {
+interface Props {
 
     /**
      * Settings title
@@ -46,7 +46,7 @@ interface SettingItemMinProps {
     actions: {updateActiveSection: (newActiveSection: string) => {type: string; data: string}};
 }
 
-export default class SettingItemMin extends React.PureComponent<SettingItemMinProps, {}> {
+export default class SettingItemMin extends React.PureComponent<Props> {
     private edit: HTMLButtonElement | null = null;
 
     componentDidMount() {
