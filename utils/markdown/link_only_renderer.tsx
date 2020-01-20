@@ -6,7 +6,7 @@ import {getScheme} from 'utils/url';
 import RemoveMarkdown from './remove_markdown';
 
 export default class LinkOnlyRenderer extends RemoveMarkdown {
-    link(href, title, text) {
+    public link(href: string, title: string, text: string) {
         let outHref = href;
 
         if (!getScheme(href)) {

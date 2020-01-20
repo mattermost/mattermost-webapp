@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import {Channel} from 'mattermost-redux/types/channels';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
@@ -15,23 +17,36 @@ import SearchIcon from 'components/widgets/icons/search_icon';
 
 import ChannelRow from './channel_row';
 
-export default class ChannelList extends React.PureComponent {
-    static propTypes = {
-        actions: PropTypes.shape({
-            searchAllChannels: PropTypes.func.isRequired,
-            getData: PropTypes.func.isRequired,
-        }).isRequired,
-        data: PropTypes.array,
-        total: PropTypes.number,
+interface ChannelListProps {
+    actions: {
+        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<Channel[]>;
     };
+    data?: {id: string; display_name: string}[];
+    total?: number;
+    removeGroup?: () => void;
+    onPageChangedCallback?: () => void;
+    emptyListTextId?: string;
+    emptyListTextDefaultMessage?: string;
+}
 
-    constructor(props) {
+interface ChannelListState {
+    searchString: string;
+    channels: Channel[];
+    searchTotalCount: number;
+    pageResetKey: number;
+    searchMode: boolean;
+}
+
+export default class ChannelList extends React.PureComponent<ChannelListProps, ChannelListState> {
+    constructor(props: ChannelListProps) {
         super(props);
         this.state = {
             searchString: '',
             channels: [],
             searchTotalCount: 0,
             pageResetKey: 0,
+            searchMode: false,
         };
     }
 
@@ -60,37 +75,39 @@ export default class ChannelList extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 
-    searchBarChangeHandler = (e) => {
+    private searchBarChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({searchString: e.target.value});
-    }
+    };
 
-    handleChannelSearchKeyUp = async (e) => {
+    private handleChannelSearchKeyUp = async (e: React.KeyboardEvent) => {
         const {key} = e;
         const {searchString} = this.state;
-
         if (key === Constants.KeyCodes.ENTER[0]) {
             if (searchString.length > 1) {
                 const response = await this.props.actions.searchAllChannels(searchString, '', false, 0, PAGE_SIZE);
-                this.setState({searchMode: true, channels: response.data.channels, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
+                if ('data' in response) {
+                    this.setState({searchMode: true, channels: response.data.channels, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
+                }
             }
         }
-
         if (searchString.length === 0) {
             this.resetSearch();
         }
-    }
-
-    getDataBySearch = async (page, perPage) => {
+    };
+    private getDataBySearch = async (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean): Promise<Channel[]> => {
         const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
-        return channels.concat(response.data.channels);
-    }
+        if ('data' in response) {
+            return channels.concat(response.data.channels);
+        }
+        return [];
+    };
 
-    resetSearch = () => {
+    private resetSearch = () => {
         this.setState({searchString: '', channels: [], searchMode: false, searchTotalCount: 0, pageResetKey: Date.now()});
-    }
+    };
 
     header() {
         return (
@@ -123,13 +140,13 @@ export default class ChannelList extends React.PureComponent {
         );
     }
 
-    onPageChangedCallback = (pagination, channels) => {
+    onPageChangedCallback = (pagination: {startCount: number; endCount: number; total: number}, channels: Channel[]) => {
         if (this.state.searchMode) {
             this.setState({channels});
         }
-    }
+    };
 
-    render() {
+    render(): JSX.Element {
         const absProps = {...this.props};
         if (this.state.searchMode) {
             absProps.actions.getData = this.getDataBySearch;
@@ -143,10 +160,11 @@ export default class ChannelList extends React.PureComponent {
                 onPageChangedCallback={this.onPageChangedCallback}
                 data={this.state.searchMode ? this.state.channels : this.props.data}
                 total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
-            />);
+            />
+        );
     }
 
-    renderRow = (item) => {
+    private renderRow = (item: Channel) => {
         return (
             <ChannelRow
                 key={item.id}
@@ -154,10 +172,9 @@ export default class ChannelList extends React.PureComponent {
                 onRowClick={this.onChannelClick}
             />
         );
-    }
+    };
 
-    onChannelClick = (id) => {
+    private onChannelClick = (id: string) => {
         browserHistory.push(`/admin_console/user_management/channels/${id}`);
-    }
+    };
 }
-
