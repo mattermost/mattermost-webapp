@@ -215,6 +215,40 @@ describe('Interactive Menu', () => {
         });
     });
 
+    it('IM21043 - Using up/down arrow keys to make selection', () => {
+        const basicOptions = getMessageMenusPayload({options});
+
+        // # Post an incoming webhook for interactive menu with basic options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+        });
+
+        cy.get('@messageAttachmentList').within(() => {
+            cy.findByPlaceholderText('Select an option...').as('optionInputField');
+            cy.get('@optionInputField').click();
+            cy.get('#suggestionList').should('be.visible');
+
+            // # Hit the down arrow two times
+            cy.get('@optionInputField').type('{downarrow}{downarrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[2].text);
+            });
+
+            // # Hit the up arrow two times
+            cy.get('@optionInputField').type('{uparrow}{uparrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[0].text);
+            });
+        });
+    });
+
     it('should truncate properly the selected long basic option', () => {
         const withLongBasicOption = [
             {text: 'Option 0 - This is with very long option', value: 'option0'},
@@ -546,8 +580,6 @@ describe('Interactive Menu', () => {
 
             cy.closeRHS();
         });
-
-        cy.closeRHS();
     });
 });
 

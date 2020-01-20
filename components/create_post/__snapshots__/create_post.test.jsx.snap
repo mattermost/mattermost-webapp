@@ -44,7 +44,7 @@ exports[`components/create_post Show tutorial 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -115,13 +115,13 @@ exports[`components/create_post Show tutorial 1`] = `
                 />
               </h4>
               <p>
-                <InjectIntl(FormattedMarkdownMessage)
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Type here to write a message and press **Enter** to post it."
                   id="create_post.tutorialTip1"
                 />
               </p>
               <p>
-                <InjectIntl(FormattedMarkdownMessage)
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Click the **Attachment** button to upload an image or a file."
                   id="create_post.tutorialTip2"
                 />
@@ -235,7 +235,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -520,7 +520,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -680,7 +680,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}

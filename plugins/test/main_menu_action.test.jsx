@@ -4,6 +4,7 @@
 import React from 'react';
 
 import MainMenu from 'components/main_menu/main_menu.jsx';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('plugins/MainMenuActions', () => {
@@ -43,7 +44,7 @@ describe('plugins/MainMenuActions', () => {
             <MainMenu
                 {...requiredProps}
             />
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem').props().text).toBe('some plugin text');
