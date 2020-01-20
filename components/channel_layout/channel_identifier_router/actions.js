@@ -31,39 +31,66 @@ export function onChannelByIdentifierEnter({match, history}) {
             return;
         }
 
-        if (path === 'channels') {
-            if (identifier.length === LENGTH_OF_ID) {
-            // It's hard to tell an ID apart from a channel name of the same length, so check first if
-            // the identifier matches a channel that we have
-                const channelsByName = getChannelByName(state, identifier);
-                const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
-                if (channelsByName || moreChannelsByName) {
-                    dispatch(exportFunctions.goToChannelByChannelName(match, history));
-                } else {
-                    dispatch(exportFunctions.goToChannelByChannelId(match, history));
-                }
-            } else if (identifier.length === LENGTH_OF_GROUP_ID) {
-                dispatch(exportFunctions.goToGroupChannelByGroupId(match, history));
-            } else if (isDirectChannelIdentifier(identifier)) {
-                dispatch(exportFunctions.goToDirectChannelByUserIds(match, history));
-            } else {
-                dispatch(exportFunctions.goToChannelByChannelName(match, history));
-            }
-        } else if (path === 'messages') {
-            if (identifier.indexOf('@') === 0) {
-                dispatch(exportFunctions.goToDirectChannelByUsername(match, history));
-            } else if (identifier.indexOf('@') > 0) {
-                dispatch(exportFunctions.goToDirectChannelByEmail(match, history));
-            } else if (identifier.length === LENGTH_OF_ID) {
-                dispatch(exportFunctions.goToDirectChannelByUserId(match, history, identifier));
-            } else if (identifier.length === LENGTH_OF_GROUP_ID) {
-                dispatch(exportFunctions.goToGroupChannelByGroupId(match, history));
-            } else {
+        const channelPath = getPathFromIdentifier(state, path, identifier);
+
+        switch(channelPath) {
+            case 'channel_name':
+                dispatch(goToChannelByChannelName(match, history));
+                break;
+            case 'channel_id':
+                dispatch(goToChannelByChannelId(match, history));
+                break;
+            case 'group_channel_group_id':
+                dispatch(goToGroupChannelByGroupId(match, history));
+                break;
+            case 'direct_channel_username':
+                dispatch(goToDirectChannelByUsername(match, history));
+                break;
+            case 'direct_channel_email':
+                dispatch(goToDirectChannelByEmail(match, history));
+                break;
+            case 'direct_channel_user_ids':
+                dispatch(goToDirectChannelByUserIds(match, history));
+                break;
+            case 'direct_channel_user_id':
+                dispatch(goToDirectChannelByUserId(match, history, identifier));
+                break;
+            case 'messages_error':
                 await dispatch(fetchMyChannelsAndMembers(teamObj.id));
                 handleError(match, history, getRedirectChannelNameForTeam(state, teamObj.id));
-            }
+                break;
         }
     };
+}
+
+export function getPathFromIdentifier(state, path, identifier) {
+    if (path === 'channels') {
+        if (identifier.length === LENGTH_OF_ID) {
+            // It's hard to tell an ID apart from a channel name of the same length, so check first if
+            // the identifier matches a channel that we have
+            const channelsByName = getChannelByName(state, identifier);
+            const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
+            return channelsByName || moreChannelsByName ? 'channel_name' : 'channel_id';
+        } else if (identifier.length === LENGTH_OF_GROUP_ID) {
+            return 'group_channel_group_id';
+        } else if (isDirectChannelIdentifier(identifier)) {
+            return 'direct_channel_user_ids';
+        } else {
+            return 'channel_name';
+        }
+    } else if (path === 'messages') {
+        if (identifier.indexOf('@') === 0) {
+            return 'direct_channel_username';
+        } else if (identifier.indexOf('@') > 0) {
+            return 'direct_channel_email';
+        } else if (identifier.length === LENGTH_OF_ID) {
+            return 'direct_channel_user_id';
+        } else if (identifier.length === LENGTH_OF_GROUP_ID) {
+            return 'group_channel_group_id';
+        } else {
+            return 'messages_error';
+        }
+    }
 }
 
 export function goToChannelByChannelId(match, history) {
