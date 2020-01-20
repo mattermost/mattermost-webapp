@@ -2,19 +2,21 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {createSelector} from 'reselect';
 
 import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {t} from 'utils/i18n';
 
 import {Constants} from 'utils/constants';
 
-import List from './channel_list.jsx';
+import List from './channel_list';
 
-const compareByDisplayName = (a, b) => a.display_name.localeCompare(b.display_name);
+const compareByDisplayName = (a: {display_name: string}, b: {display_name: string}) => a.display_name.localeCompare(b.display_name);
 
 const getSortedListOfChannels = createSelector(
     getAllChannels,
@@ -23,7 +25,7 @@ const getSortedListOfChannels = createSelector(
         sort(compareByDisplayName)
 );
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         data: getSortedListOfChannels(state),
         total: state.entities.channels.totalCount,
@@ -32,7 +34,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getData,

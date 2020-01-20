@@ -15,7 +15,6 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     };
 
     const requiredProps = {
-        intl: {},
         user,
         updateSection: jest.fn(),
         updateTab: jest.fn(),
