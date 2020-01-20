@@ -33,32 +33,32 @@ export function onChannelByIdentifierEnter({match, history}) {
 
         const channelPath = getPathFromIdentifier(state, path, identifier);
 
-        switch(channelPath) {
-            case 'channel_name':
-                dispatch(goToChannelByChannelName(match, history));
-                break;
-            case 'channel_id':
-                dispatch(goToChannelByChannelId(match, history));
-                break;
-            case 'group_channel_group_id':
-                dispatch(goToGroupChannelByGroupId(match, history));
-                break;
-            case 'direct_channel_username':
-                dispatch(goToDirectChannelByUsername(match, history));
-                break;
-            case 'direct_channel_email':
-                dispatch(goToDirectChannelByEmail(match, history));
-                break;
-            case 'direct_channel_user_ids':
-                dispatch(goToDirectChannelByUserIds(match, history));
-                break;
-            case 'direct_channel_user_id':
-                dispatch(goToDirectChannelByUserId(match, history, identifier));
-                break;
-            case 'messages_error':
-                await dispatch(fetchMyChannelsAndMembers(teamObj.id));
-                handleError(match, history, getRedirectChannelNameForTeam(state, teamObj.id));
-                break;
+        switch (channelPath) {
+        case 'channel_name':
+            dispatch(goToChannelByChannelName(match, history));
+            break;
+        case 'channel_id':
+            dispatch(goToChannelByChannelId(match, history));
+            break;
+        case 'group_channel_group_id':
+            dispatch(goToGroupChannelByGroupId(match, history));
+            break;
+        case 'direct_channel_username':
+            dispatch(goToDirectChannelByUsername(match, history));
+            break;
+        case 'direct_channel_email':
+            dispatch(goToDirectChannelByEmail(match, history));
+            break;
+        case 'direct_channel_user_ids':
+            dispatch(goToDirectChannelByUserIds(match, history));
+            break;
+        case 'direct_channel_user_id':
+            dispatch(goToDirectChannelByUserId(match, history, identifier));
+            break;
+        case 'error':
+            await dispatch(fetchMyChannelsAndMembers(teamObj.id));
+            handleError(match, history, getRedirectChannelNameForTeam(state, teamObj.id));
+            break;
         }
     };
 }
@@ -75,9 +75,8 @@ export function getPathFromIdentifier(state, path, identifier) {
             return 'group_channel_group_id';
         } else if (isDirectChannelIdentifier(identifier)) {
             return 'direct_channel_user_ids';
-        } else {
-            return 'channel_name';
         }
+        return 'channel_name';
     } else if (path === 'messages') {
         if (identifier.indexOf('@') === 0) {
             return 'direct_channel_username';
@@ -87,10 +86,11 @@ export function getPathFromIdentifier(state, path, identifier) {
             return 'direct_channel_user_id';
         } else if (identifier.length === LENGTH_OF_GROUP_ID) {
             return 'group_channel_group_id';
-        } else {
-            return 'messages_error';
         }
+        return 'error';
     }
+
+    return 'error';
 }
 
 export function goToChannelByChannelId(match, history) {

@@ -46,7 +46,7 @@ describe('Channel routing', () => {
 
     it('should go to other user direct channel using multiple ways to go', () => {
         cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
-            const user1 = userResponse.body[1]
+            const user1 = userResponse.body[1];
             const user2 = userResponse.body[0];
             const userIds = [user2.id, user1.id];
             cy.apiCreateDirectChannel(userIds).then((response) => {
