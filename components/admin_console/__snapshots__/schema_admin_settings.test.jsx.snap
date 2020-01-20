@@ -596,7 +596,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             setSaveNeeded={[Function]}
             unRegisterSaveAction={[Function]}
           />
-          <Connect(InjectIntl(JobTable))
+          <Connect(injectIntl(JobTable))
             createJobButtonText={
               <FormattedMessage
                 defaultMessage="Setting Twelve"
@@ -605,7 +605,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               />
             }
             createJobHelpText={
-              <InjectIntl(FormattedMarkdownMessage)
+              <injectIntl(FormattedMarkdownMessage)
                 defaultMessage="This is some help text for the jobs table field."
                 id="help-text-l"
               />

@@ -8,6 +8,14 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Constants} from 'utils/constants';
 import Sidebar from 'components/sidebar/sidebar';
 
+jest.mock('utils/user_agent', () => {
+    const original = require.requireActual('utils/user_agent');
+    return {
+        ...original,
+        isFirefox: () => true,
+    };
+});
+
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
@@ -510,5 +518,24 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         expect(document.removeEventListener).not.toBeCalled();
         instance.componentWillUnmount();
         expect(document.removeEventListener).toHaveBeenCalledTimes(2);
+    });
+
+    test('should display correct favicon', () => {
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.sizes = '16x16';
+        document.head.appendChild(link);
+
+        const wrapper = shallowWithIntl(
+            <Sidebar {...defaultProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.updateFavicon = jest.fn();
+
+        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
+        expect(instance.updateFavicon).lastCalledWith(true);
+
+        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 4}});
+        expect(instance.updateFavicon).lastCalledWith(false);
     });
 });

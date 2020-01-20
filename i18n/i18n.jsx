@@ -32,22 +32,6 @@ const zhTW = require('./zh-TW.json');
 
 const zhCN = require('./zh-CN.json');
 
-import {addLocaleData} from 'react-intl';
-import deLocaleData from 'react-intl/locale-data/de';
-import enLocaleData from 'react-intl/locale-data/en';
-import esLocaleData from 'react-intl/locale-data/es';
-import frLocaleData from 'react-intl/locale-data/fr';
-import itLocaleData from 'react-intl/locale-data/it';
-import jaLocaleData from 'react-intl/locale-data/ja';
-import koLocaleData from 'react-intl/locale-data/ko';
-import nlLocaleData from 'react-intl/locale-data/nl';
-import plLocaleData from 'react-intl/locale-data/pl';
-import ptLocaleData from 'react-intl/locale-data/pt';
-import roLocaleData from 'react-intl/locale-data/ro';
-import ruLocaleData from 'react-intl/locale-data/ru';
-import trLocaleData from 'react-intl/locale-data/tr';
-import ukLocaleData from 'react-intl/locale-data/uk';
-import zhLocaleData from 'react-intl/locale-data/zh';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import store from 'stores/redux_store.jsx';
@@ -178,19 +162,13 @@ export function isLanguageAvailable(locale) {
 }
 
 export function doAddLocaleData() {
-    addLocaleData(enLocaleData);
-    addLocaleData(deLocaleData);
-    addLocaleData(esLocaleData);
-    addLocaleData(frLocaleData);
-    addLocaleData(itLocaleData);
-    addLocaleData(jaLocaleData);
-    addLocaleData(koLocaleData);
-    addLocaleData(nlLocaleData);
-    addLocaleData(plLocaleData);
-    addLocaleData(ptLocaleData);
-    addLocaleData(roLocaleData);
-    addLocaleData(ruLocaleData);
-    addLocaleData(trLocaleData);
-    addLocaleData(ukLocaleData);
-    addLocaleData(zhLocaleData);
+    if (!Intl.PluralRules) {
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-pluralrules/polyfill-locales');
+    }
+
+    if (!Intl.RelativeTimeFormat) {
+        // eslint-disable-next-line global-require
+        require('@formatjs/intl-relativetimeformat/polyfill-locales');
+    }
 }
