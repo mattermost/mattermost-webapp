@@ -4,75 +4,75 @@
 import marked from 'marked';
 
 export default class RemoveMarkdown extends marked.Renderer {
-    code(text) {
+    public code(text: string) {
         return text.replace(/\n/g, ' ');
     }
 
-    blockquote(text) {
+    public blockquote(text: string) {
         return text.replace(/\n/g, ' ');
     }
 
-    heading(text) {
+    public heading(text: string) {
         return text + ' ';
     }
 
-    hr() {
+    public hr() {
         return '';
     }
 
-    list(body) {
+    public list(body: string) {
         return body;
     }
 
-    listitem(text) {
+    public listitem(text: string) {
         return text + ' ';
     }
 
-    paragraph(text) {
+    public paragraph(text: string) {
         return text + ' ';
     }
 
-    table() {
+    public table() {
         return '';
     }
 
-    tablerow() {
+    public tablerow() {
         return '';
     }
 
-    tablecell() {
+    public tablecell() {
         return '';
     }
 
-    strong(text) {
+    public strong(text: string) {
         return text;
     }
 
-    em(text) {
+    public em(text: string) {
         return text;
     }
 
-    codespan(text) {
+    public codespan(text: string) {
         return text.replace(/\n/g, ' ');
     }
 
-    br() {
+    public br() {
         return ' ';
     }
 
-    del(text) {
+    public del(text: string) {
         return text;
     }
 
-    link(href, title, text) {
+    public link(href: string, title: string, text: string) {
         return text;
     }
 
-    image(href, title, text) {
+    public image(href: string, title: string, text: string) {
         return text;
     }
 
-    text(text) {
+    public text(text: string) {
         return text.replace('\n', ' ');
     }
 }

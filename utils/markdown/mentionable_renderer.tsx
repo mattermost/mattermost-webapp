@@ -5,77 +5,77 @@ import marked from 'marked';
 
 /** A Markdown renderer that converts a post into plain text that we can search for mentions */
 export default class MentionableRenderer extends marked.Renderer {
-    code() {
+    public code() {
         // Code blocks can't contain mentions
         return '\n';
     }
 
-    blockquote(text) {
+    public blockquote(text: string) {
         return text + '\n';
     }
 
-    heading(text) {
+    public heading(text: string) {
         return text + '\n';
     }
 
-    hr() {
+    public hr() {
         return '\n';
     }
 
-    list(body) {
+    public list(body: string) {
         return body + '\n';
     }
 
-    listitem(text) {
+    public listitem(text: string) {
         return text + '\n';
     }
 
-    paragraph(text) {
+    public paragraph(text: string) {
         return text + '\n';
     }
 
-    table(header, body) {
+    public table(header: string, body: string) {
         return header + '\n' + body;
     }
 
-    tablerow(content) {
+    public tablerow(content: string) {
         return content;
     }
 
-    tablecell(content) {
+    public tablecell(content: string) {
         return content + '\n';
     }
 
-    strong(text) {
+    public strong(text: string) {
         return ' ' + text + ' ';
     }
 
-    em(text) {
+    public em(text: string) {
         return ' ' + text + ' ';
     }
 
-    codespan() {
+    public codespan() {
         // Code spans can't contain mentions
         return ' ';
     }
 
-    br() {
+    public br() {
         return '\n';
     }
 
-    del(text) {
+    public del(text: string) {
         return ' ' + text + ' ';
     }
 
-    link(href, title, text) {
+    public link(href: string, title: string, text: string) {
         return ' ' + text + ' ';
     }
 
-    image(href, title, text) {
+    public image(href: string, title: string, text: string) {
         return ' ' + text + ' ';
     }
 
-    text(text) {
+    public text(text: string) {
         return text;
     }
 }

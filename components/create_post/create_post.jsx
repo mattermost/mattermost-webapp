@@ -18,7 +18,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -328,6 +328,11 @@ class CreatePost extends React.PureComponent {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
+        if (this.saveDraftFrame) {
+            const channelId = this.props.currentChannel.id;
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            cancelAnimationFrame(this.saveDraftFrame);
+        }
     }
 
     updatePreview = (newState) => {
@@ -706,8 +711,10 @@ class CreatePost extends React.PureComponent {
             ...this.props.draft,
             message,
         };
-
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraftFrame = requestAnimationFrame(() => {
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        });
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -715,7 +722,6 @@ class CreatePost extends React.PureComponent {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
-
         const table = getTable(e.clipboardData);
         if (!table) {
             return;
@@ -723,8 +729,12 @@ class CreatePost extends React.PureComponent {
 
         e.preventDefault();
 
-        const message = formatMarkdownTableMessage(table, this.state.message.trim());
-
+        let message = '';
+        if (isGitHubCodeBlock(table.className)) {
+            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+        } else {
+            message = formatMarkdownTableMessage(table, this.state.message.trim());
+        }
         this.setState({message});
     }
 
@@ -824,8 +834,8 @@ class CreatePost extends React.PureComponent {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
