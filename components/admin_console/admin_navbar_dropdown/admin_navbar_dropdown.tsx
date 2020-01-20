@@ -74,7 +74,7 @@ class AdminNavbarDropdown extends React.Component<Props, {}> {
                                         />
                                     );
                                 }
-                                return null;
+                                return title;
                             }}
                         </FormattedMessage>
                     }
