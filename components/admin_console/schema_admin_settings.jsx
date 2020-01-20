@@ -134,7 +134,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
 
         if (this.state.saveNeeded === 'both' || this.state.saveNeeded === 'config') {
-            this.doSubmit(null, SchemaAdminSettings.getStateFromConfig);
+            this.doSubmit(SchemaAdminSettings.getStateFromConfig);
         } else {
             this.setState({
                 saving: false,
@@ -873,7 +873,7 @@ export default class SchemaAdminSettings extends React.Component {
         this.setState({errorTooltip: isElipsis});
     }
 
-    submitSetting = async (callback, key, value) => {
+    submitSetting = async (key, value) => {
         const config = JSON.parse(JSON.stringify(this.props.config));
         const category = key.split('.')[0];
         const setting = key.split('.')[1];
@@ -886,13 +886,9 @@ export default class SchemaAdminSettings extends React.Component {
                 serverErrorId: error.id,
             });
         }
-
-        if (callback) {
-            callback();
-        }
     }
 
-    doSubmit = async (callback, getStateFromConfig) => {
+    doSubmit = async (getStateFromConfig) => {
         this.setState({
             saving: true,
             serverError: null,
@@ -910,10 +906,6 @@ export default class SchemaAdminSettings extends React.Component {
             });
         } else {
             this.setState(getStateFromConfig(config));
-        }
-
-        if (callback) {
-            callback();
         }
 
         if (this.handleSaved) {
