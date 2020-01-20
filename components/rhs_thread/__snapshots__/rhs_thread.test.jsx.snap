@@ -45,7 +45,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
         <Connect(DateSeparator)
           date={2017-08-14T12:56:05.009Z}
         />
-        <Connect(InjectIntl(RhsRootPost))
+        <Connect(injectIntl(RhsRootPost))
           commentCount={0}
           currentUserId="user_id"
           handleCardClick={[Function]}
@@ -77,7 +77,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
       <div
         className="post-create__container"
       >
-        <Connect(InjectIntl(CreateComment))
+        <Connect(injectIntl(CreateComment))
           channelId="channel_id"
           latestPostId="id"
           rootDeleted={false}

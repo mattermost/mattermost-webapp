@@ -2,7 +2,7 @@
 
 exports[`admin_console/team_channel_settings/channel/ChannelRow should match snapshot 1`] = `
 <div
-  className="group "
+  className="group"
   onClick={[Function]}
 >
   <div
@@ -15,11 +15,12 @@ exports[`admin_console/team_channel_settings/channel/ChannelRow should match sna
       <GlobeIcon
         className="channel-icon channel-icon__globe"
       />
+      123
     </span>
     <span
       className="group-description row-content"
     >
-      team
+      123
     </span>
     <span
       className="group-description adjusted row-content"
@@ -32,6 +33,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelRow should match sna
     </span>
     <span
       className="group-actions"
+      data-testid="123edit"
     >
       <Link
         to="/admin_console/user_management/channels/123"

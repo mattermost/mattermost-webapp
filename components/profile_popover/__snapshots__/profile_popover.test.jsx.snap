@@ -152,7 +152,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       className="text-nowrap"
       href="#"
     >
-      <Connect(InjectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ModalToggleButtonRedux))
         accessibilityLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -178,7 +178,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
           }
         />
         Add to a Channel
-      </Connect(InjectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ModalToggleButtonRedux))>
     </a>
   </div>
   <Connect(Pluggable)

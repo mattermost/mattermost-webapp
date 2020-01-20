@@ -7,7 +7,7 @@ exports[`components/AdminConsole should generate the routes 1`] = `
 >
   <Connect(AnnouncementBarController) />
   <Connect(SystemNotice) />
-  <Connect(InjectIntl(AdminSidebar))
+  <Connect(injectIntl(AdminSidebar))
     onFilterChange={[Function]}
   />
   <div
