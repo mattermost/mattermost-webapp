@@ -2918,7 +2918,7 @@
   "post.ariaLabel.reactionMultiple": ", {reactionCount} reactions",
   "post.ariaLabel.replyMessage": "{authorName} at {time} {date} wrote a reply, {message}",
   "postlist.toast.newMessages": "{count, number} new {count, plural, one {message} other {messages}",
-  "postlist.toast.newMessagesSince": "{count, number} new {count, plural, one {message} other {messages} since {date} at {time}",
+  "postlist.toast.newMessagesSince": "{count, number} new {count, plural, one {message} other {messages}} since {date} at {time}",
   "postlist.toast.scrollToBottom": "Jump to recents",
   "postlist.toast.scrollToLatest": "Jump to new messages",
   "posts_view.loadMore": "Load More messages",
