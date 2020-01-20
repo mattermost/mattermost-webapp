@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {OverlayTrigger} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
