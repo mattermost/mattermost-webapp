@@ -1324,7 +1324,6 @@
   "admin.saml.verifyTitle": "Verify Signature:",
   "admin.saving": "Saving Config...",
   "admin.security.password": "Password",
-  "admin.security.requireEmailVerification.disabled": "Email verification cannot be changed while sending emails is disabled.",
   "admin.service.attemptDescription": "Number of login attempts allowed before a user is locked out and required to reset their password via email.",
   "admin.service.attemptExample": "E.g.: \"10\"",
   "admin.service.attemptTitle": "Maximum Login Attempts:",

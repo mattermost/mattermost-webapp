@@ -2209,9 +2209,6 @@ const AdminDefinition = {
                         label_default: 'Require Email Verification: ',
                         help_text: t('admin.email.requireVerificationDescription'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.',
-                        disabled_help_text: t('admin.security.requireEmailVerification.disabled'),
-                        disabled_help_text_default: 'Email verification cannot be changed while sending emails is disabled.',
-                        isDisabled: (config) => !config.EmailSettings.SendEmailNotifications,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
