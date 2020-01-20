@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import {Channel} from 'mattermost-redux/types/channels';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
@@ -10,17 +10,18 @@ import {Constants} from 'utils/constants';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 
-export default class ChannelRow extends React.Component {
-    static propTypes = {
-        channel: PropTypes.object.isRequired,
-        onRowClick: PropTypes.func.isRequired,
-    };
+interface Props {
+    channel: Channel;
+    onRowClick: (id: string) => void;
+}
 
-    handleRowClick = () => {
+export default class ChannelRow extends React.Component<Props> {
+    private handleRowClick = () => {
         const {channel, onRowClick} = this.props;
         onRowClick(channel.id);
-    }
-    render = () => {
+    };
+
+    render(): JSX.Element {
         const {channel} = this.props;
         return (
             <div
@@ -32,12 +33,14 @@ export default class ChannelRow extends React.Component {
                         className='group-name overflow--ellipsis row-content'
                         data-testid='channel-display-name'
                     >
-                        {channel.type === Constants.PRIVATE_CHANNEL ? <LockIcon className='channel-icon channel-icon__lock'/> : <GlobeIcon className='channel-icon channel-icon__globe'/>}
+                        {channel.type === Constants.PRIVATE_CHANNEL ? (
+                            <LockIcon className='channel-icon channel-icon__lock'/>
+                        ) : (
+                            <GlobeIcon className='channel-icon channel-icon__globe'/>
+                        )}
                         {channel.display_name}
                     </span>
-                    <span className='group-description row-content'>
-                        {channel.team_name}
-                    </span>
+                    <span className='group-description row-content'>{channel.team_id}</span>
                     <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
@@ -58,5 +61,5 @@ export default class ChannelRow extends React.Component {
                 </div>
             </div>
         );
-    };
+    }
 }
