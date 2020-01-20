@@ -52,17 +52,34 @@ exports[`components/QuickInput should match snapshot when clearable and with val
           ]
         }
       >
-        <span
-          aria-hidden="true"
-          className="input-clear-x"
-          onBlur={[Function]}
-          onClick={null}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <OverlayWrapper
+              intl={null}
+            />
+          }
+          placement="bottom"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
         >
-          ×
-        </span>
+          <span
+            aria-hidden="true"
+            className="input-clear-x"
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            ×
+          </span>
+        </OverlayTrigger>
       </OverlayTrigger>
     </div>
   </div>
