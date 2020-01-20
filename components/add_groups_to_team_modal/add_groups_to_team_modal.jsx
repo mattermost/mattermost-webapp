@@ -245,7 +245,7 @@ export default class AddGroupsToTeamModal extends React.Component {
         }
 
         groupsToShow = groupsToShow.map((group) => {
-            return {...{label: group.display_name, value: group.id}, ...group};
+            return {label: group.display_name, value: group.id, ...group};
         });
 
         return (
