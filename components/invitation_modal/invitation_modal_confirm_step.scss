@@ -77,11 +77,14 @@
             margin-right: 16px;
             padding: 13px 20px;
             border: 1px solid;
+            border-color: var(--button-bg);
             background: var(--center-channel-bg);
-            color: var(--button-bg);;
-            &:focus, &:active, &:focus:active {
-                outline: none;
-                border-color: transparent;
+            color: var(--button-bg);
+            &:hover {
+                background: var(--button-bg-05);
+            }
+            &:active {
+                background: var(--button-bg-10);
             }
         }
         .confirm-done {
