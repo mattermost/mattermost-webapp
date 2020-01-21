@@ -7,32 +7,34 @@ import {IntlContext, IntlShape} from 'react-intl';
 
 type Props = OverlayTriggerProps;
 
-export default class OverlayTrigger extends React.PureComponent<Props> {
-    static defaultProps = {
-        defaultOverlayShown: false,
-        trigger: ['hover', 'focus']
-    }
+const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
+    const {overlay, ...otherProps} = props;
 
-    render() {
-        const {overlay, ...props} = this.props;
+    // The overlay is rendered outside of the regular React context, and our version react-bootstrap can't forward
+    // that context itself, so we have to manually forward the react-intl context to this component's child.
+    const OverlayWrapper = ({intl, ...overlayProps}: {intl: IntlShape}) => (
+        <IntlContext.Provider value={intl}>
+            {React.cloneElement(overlay, overlayProps)}
+        </IntlContext.Provider>
+    );
 
-        // The overlay is rendered outside of the regular React context, and our version react-bootstrap can't forward
-        // that context itself, so we have to manually forward the react-intl context to this component's child.
-        const OverlayWrapper = ({intl, ...otherProps}: {intl: IntlShape}) => (
-            <IntlContext.Provider value={intl}>
-                {React.cloneElement(overlay, otherProps)}
-            </IntlContext.Provider>
-        );
+    return (
+        <IntlContext.Consumer>
+            {(intl): React.ReactNode => (
+                <BaseOverlayTrigger
+                    {...otherProps}
+                    ref={ref}
+                    overlay={<OverlayWrapper intl={intl}/>}
+                />
+            )}
+        </IntlContext.Consumer>
+    );
+});
 
-        return (
-            <IntlContext.Consumer>
-                {(intl): React.ReactNode => (
-                    <BaseOverlayTrigger
-                        {...props}
-                        overlay={<OverlayWrapper intl={intl}/>}
-                    />
-                )}
-            </IntlContext.Consumer>
-        );
-    }
-}
+OverlayTrigger.defaultProps = {
+    defaultOverlayShown: false,
+    trigger: ['hover', 'focus']
+};
+OverlayTrigger.displayName = 'OverlayTrigger';
+
+export default OverlayTrigger;
