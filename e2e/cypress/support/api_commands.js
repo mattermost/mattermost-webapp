@@ -235,7 +235,7 @@ Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
-        return cy.wrap(response);
+     postMessageAs   return cy.wrap(response);
     });
 });
 

@@ -59,7 +59,10 @@ describe('Message Reply with attachment pretext', () => {
                 //# Add bot to channel
                 cy.apiAddUserToChannel(newChannel.id,botsUserId);
                 // # Post message with auth token
-                cy.apiPostBotMessage(newChannel.id, 'Hello message from '+ botName, 'Some Pretext', 'Some text', accessToken);
+                const message = 'Hello message from ' + botName;
+                const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
+                cy.postMessageAs({token, message, props, channelId: newChannel.id});
+//                cy.apiPostBotMessage(newChannel.id, 'Hello message from '+ botName, 'Some Pretext', 'Some text', accessToken);
              });
          });
 

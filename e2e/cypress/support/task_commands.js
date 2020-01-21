@@ -9,9 +9,11 @@
 * @param {Object} channelId - where a post will be posted
 */
 Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, createAt}) => {
+Cypress.Commands.add('postMessageAs', ({sender, token, message, props, channelId, rootId, createAt}) => {
     const baseUrl = Cypress.config('baseUrl');
 
-    cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
+    //cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
+    cy.task('postMessageAs', {sender, token, message, props, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
         expect(status).to.equal(201);
 
         // # Return the data so it can be interacted in a test
