@@ -90,7 +90,6 @@ describe('Channel routing', () => {
         cy.apiGetUsers(users).then((userResponse) => {
             const userGroupIds = [userResponse.body[2].id, userResponse.body[1].id, userResponse.body[0].id];
             // # Create a group channel for 3 users
-            cy.apiCreateDirectChannel(userIds).then((response) => {
             cy.apiCreateGroupChannel(userGroupIds).then((response) => {
                 // # Visit the channel using the name using the channels route
                 cy.visit(`/ad-1/channels/${response.body.name}`);
