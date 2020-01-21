@@ -27,7 +27,7 @@ type Props = {
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
     roles: {
-        [x: string]: string;
+        [x: string]: string | object;
     };
     match: { url: string };
     showNavigationPrompt: boolean;
@@ -55,7 +55,7 @@ type ExtraProps = {
     environmentConfig?: Record<string, any>;
     setNavigationBlocked?: () => void;
     roles?: {
-        [x: string]: string;
+        [x: string]: string | object;
     };
     editRole?: (role: Role) => void;
     updateConfig?: (config: Record<string, any>) => ActionFunc;
