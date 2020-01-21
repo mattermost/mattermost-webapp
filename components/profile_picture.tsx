@@ -3,10 +3,14 @@
 
 import React from 'react';
 
-import OverlayTrigger from 'components/overlay_trigger';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
+
+interface MMOverlayTrigger extends BaseOverlayTrigger {
+    hide: () => void;
+}
 
 type Props = {
     hasMention?: boolean;
@@ -31,11 +35,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
         wrapperClass: '',
     };
 
-    constructor(props) {
-        super(props);
-
-        this.overlay = React.createRef();
-    }
+    overlay = React.createRef<MMOverlayTrigger>();
 
     public hideProfilePopover = () => {
         if (this.overlay.current) {
