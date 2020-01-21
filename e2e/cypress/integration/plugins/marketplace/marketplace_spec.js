@@ -118,12 +118,7 @@ describe('Plugin Marketplace', () => {
 
         after(() => {
             // * cleanup installed plugins
-            cy.getAllPlugins().then((response) => {
-                const active = response.body.active;
-                const inactive = response.body.inactive;
-                inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-                active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-            });
+            uninstallAllPlugins();
         });
 
         it('render an error bar', () => {
@@ -214,12 +209,7 @@ describe('Plugin Marketplace', () => {
 
         after(() => {
             // * cleanup installed plugins
-            cy.getAllPlugins().then((response) => {
-                const active = response.body.active;
-                const inactive = response.body.inactive;
-                inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-                active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-            });
+            uninstallAllPlugins();
         });
 
         it('autofocus on search plugin input box', () => {
@@ -356,12 +346,7 @@ describe('Plugin Marketplace', () => {
 
         after(() => {
             // # uninstall all user`s plugins
-            cy.getAllPlugins().then((response) => {
-                const active = response.body.active;
-                const inactive = response.body.inactive;
-                inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-                active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-            });
+            uninstallAllPlugins();
         });
 
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
@@ -443,4 +428,11 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
     });
+    function uninstallAllPlugins() {
+        cy.getAllPlugins().then((response) => {
+            const {active, inactive} = response.body;
+            inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+        });
+    }
 });
