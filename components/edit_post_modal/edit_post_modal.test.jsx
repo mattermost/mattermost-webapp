@@ -238,7 +238,7 @@ describe('components/EditPostModal', () => {
             setShowPreview: jest.fn(),
         };
 
-        const wrapper = shallowWithIntl(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost({actions}));
         const instance = wrapper.instance();
 
         instance.setShowPreview(true);

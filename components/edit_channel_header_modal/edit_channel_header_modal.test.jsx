@@ -31,6 +31,7 @@ describe('components/EditChannelHeaderModal', () => {
     const baseProps = {
         channel,
         ctrlSend: false,
+        show: false,
         shouldShowPreview: false,
         actions: {
             closeModal: jest.fn(),
