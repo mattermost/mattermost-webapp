@@ -2,16 +2,24 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {openModal} from 'actions/views/modals';
 
-import TeamMembersModal from './team_members_modal.jsx';
+import TeamMembersModal from './team_members_modal';
 
-function mapStateToProps(state) {
+type Actions = {
+    openModal: (modalData: {modalId: string; dialogType: React.Component }) => Promise<{
+        data: boolean;
+    }>;
+}
+
+function mapStateToProps(state: GlobalState) {
     const modalId = ModalIdentifiers.TEAM_MEMBERS;
     return {
         currentTeam: getCurrentTeam(state),
@@ -19,9 +27,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             openModal,
         }, dispatch),
     };

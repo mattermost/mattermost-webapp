@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
@@ -14,8 +13,27 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
+type Props = {
+    show: boolean;
+    user?: any;
+    userAccessTokensEnabled: boolean;
 
-function getStateFromProps(props) {
+    // defining custom function type instead of using React.MouseEventHandler
+    // to make the event optional
+    onModalDismissed: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+    actions: { updateUserRoles: Function };
+}
+
+type State = {
+    user: any;
+    error: any | null;
+    hasPostAllRole: boolean;
+    hasPostAllPublicRole: boolean;
+    hasUserAccessTokenRole: boolean;
+    isSystemAdmin: boolean;
+}
+
+function getStateFromProps(props: Props): State {
     const roles = props.user && props.user.roles ? props.user.roles : '';
 
     return {
@@ -28,44 +46,13 @@ function getStateFromProps(props) {
     };
 }
 
-export default class ManageRolesModal extends React.PureComponent {
-    static propTypes = {
-
-        /**
-         * Set to render the modal
-         */
-        show: PropTypes.bool.isRequired,
-
-        /**
-         * The user the roles are being managed for
-         */
-        user: PropTypes.object,
-
-        /**
-         * Set if user access tokens are enabled
-         */
-        userAccessTokensEnabled: PropTypes.bool.isRequired,
-
-        /**
-         * Function called when modal is dismissed
-         */
-        onModalDismissed: PropTypes.func.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function to update a user's roles
-             */
-            updateUserRoles: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    constructor(props) {
+export default class ManageRolesModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = getStateFromProps(props);
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
         const prevUser = prevState.user || {};
         const user = nextProps.user || {};
 
@@ -75,13 +62,13 @@ export default class ManageRolesModal extends React.PureComponent {
         return null;
     }
 
-    handleError = (error) => {
+    handleError = (error: any) => {
         this.setState({
             error,
         });
     }
 
-    handleSystemAdminChange = (e) => {
+    handleSystemAdminChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === 'systemadmin') {
             this.setState({isSystemAdmin: true});
         } else if (e.target.name === 'systemmember') {
@@ -89,25 +76,25 @@ export default class ManageRolesModal extends React.PureComponent {
         }
     };
 
-    handleUserAccessTokenChange = (e) => {
+    handleUserAccessTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             hasUserAccessTokenRole: e.target.checked,
         });
     };
 
-    handlePostAllChange = (e) => {
+    handlePostAllChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             hasPostAllRole: e.target.checked,
         });
     };
 
-    handlePostAllPublicChange = (e) => {
+    handlePostAllPublicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             hasPostAllPublicRole: e.target.checked,
         });
     };
 
-    trackRoleChanges = (roles, oldRoles) => {
+    trackRoleChanges = (roles: string, oldRoles: string) => {
         if (UserUtils.hasUserAccessTokenRole(roles) && !UserUtils.hasUserAccessTokenRole(oldRoles)) {
             trackEvent('actions', 'add_roles', {role: General.SYSTEM_USER_ACCESS_TOKEN_ROLE});
         } else if (!UserUtils.hasUserAccessTokenRole(roles) && UserUtils.hasUserAccessTokenRole(oldRoles)) {
