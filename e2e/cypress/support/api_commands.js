@@ -1081,7 +1081,7 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
  * @param {String} description - The description of the token usage
  * All parameters are required
  */
-Cypress.Commands.add('apiAccessToken', (user_id, description) => {
+Cypress.Commands.add('apiCreateUserAccessToken', (userId, description) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/' + user_id +'/tokens',
