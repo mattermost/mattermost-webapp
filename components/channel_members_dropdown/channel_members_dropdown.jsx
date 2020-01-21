@@ -123,7 +123,7 @@ export default class ChannelMembersDropdown extends React.Component {
         }
         const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
         const canMakeUserChannelAdmin = canChangeMemberRoles && isLicensed && isMember;
-        const canRemoveUserFromChannel = canRemoveMember && !(channel.group_constrained && !user.is_bot) && (!isDefaultChannel || isGuest);
+        const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
 
         if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
             return (
