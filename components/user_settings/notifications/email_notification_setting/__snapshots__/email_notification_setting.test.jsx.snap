@@ -12,33 +12,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -357,33 +330,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}

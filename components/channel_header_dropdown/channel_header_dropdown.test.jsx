@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import ChannelHeaderDropdown from './channel_header_dropdown_items.js';
 
@@ -22,7 +21,7 @@ describe('components/ChannelHeaderDropdown', () => {
     };
 
     test('should match snapshot with no plugin items', () => {
-        const wrapper = shallowWithIntl(<ChannelHeaderDropdown {...defaultProps}/>);
+        const wrapper = shallow(<ChannelHeaderDropdown {...defaultProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -34,7 +33,7 @@ describe('components/ChannelHeaderDropdown', () => {
                 {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text'},
             ],
         };
-        const wrapper = shallowWithIntl(<ChannelHeaderDropdown {...props}/>);
+        const wrapper = shallow(<ChannelHeaderDropdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });

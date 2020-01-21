@@ -49,6 +49,7 @@ export default class UserAccessTokenSection extends React.Component {
         super(props);
 
         this.state = {
+            active: this.props.active,
             showConfirmModal: false,
             newToken: null,
             tokenCreationState: TOKEN_NOT_CREATING,
@@ -64,17 +65,19 @@ export default class UserAccessTokenSection extends React.Component {
         this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!nextProps.active && this.props.active) {
-            this.setState({
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.active && prevState.active) {
+            return {
+                active: nextProps.active,
                 showConfirmModal: false,
                 newToken: null,
                 tokenCreationState: TOKEN_NOT_CREATING,
                 tokenError: '',
                 serverError: null,
                 saving: false,
-            });
+            };
         }
+        return {active: nextProps.active};
     }
 
     startCreatingToken = () => {

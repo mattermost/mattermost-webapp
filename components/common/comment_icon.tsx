@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 type Props = {
@@ -54,7 +55,6 @@ export default class CommentIcon extends React.PureComponent<Props> {
 
         return (
             <OverlayTrigger
-                className='hidden-xs'
                 delayShow={500}
                 placement='top'
                 overlay={tooltip}
