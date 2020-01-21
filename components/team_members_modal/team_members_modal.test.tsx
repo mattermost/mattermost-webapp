@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import TeamMembersModal from 'components/team_members_modal/team_members_modal.jsx';
+import TeamMembersModal from 'components/team_members_modal/team_members_modal';
 
 describe('components/TeamMembersModal', () => {
     test('should match snapshot', () => {
@@ -13,11 +13,13 @@ describe('components/TeamMembersModal', () => {
 
         const wrapper = shallow(
             <TeamMembersModal
-                currentTeam={{display_name: 'display name'}}
+                currentTeam={{
+                    id: 'id',
+                    display_name: 'display name'
+                }}
                 onHide={emptyFunction}
                 onLoad={emptyFunction}
-                isAdmin={false}
-                show={true}
+                actions={{openModal: jest.fn()}}
             />
         );
 
@@ -30,15 +32,20 @@ describe('components/TeamMembersModal', () => {
 
         const wrapper = shallow(
             <TeamMembersModal
-                currentTeam={{display_name: 'display name'}}
+                currentTeam={{
+                    id: 'id',
+                    display_name: 'display name'
+                }}
                 onHide={onHide}
                 onLoad={emptyFunction}
-                isAdmin={false}
-                show={true}
+                actions={{openModal: jest.fn()}}
             />
         );
 
-        wrapper.find(Modal).first().props().onExited();
+        const modalProps = wrapper.find(Modal).first().props();
+        if (modalProps.onExited) {
+            modalProps.onExited(document.createElement('div'));
+        }
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 });
