@@ -2,22 +2,28 @@
 // See LICENSE.txt for license information.
 
 const axios = require('axios');
+module.exports = async ({sender, token, message, props = {}, channelId, rootId, createAt = 0, baseUrl}) => {
+    const auth = {};
 
-module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseUrl}) => {
-    const loginResponse = await axios({
-        url: `${baseUrl}/api/v4/users/login`,
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'post',
-        data: {login_id: sender.username, password: sender.password},
-    });
+     if (token) {
+         auth.Authorization = `Bearer ${token}`;
+     } else if (sender) {
+         const loginResponse = await axios({
+             url: `${baseUrl}/api/v4/users/login`,
+             headers: {'X-Requested-With': 'XMLHttpRequest'},
+             method: 'post',
+             data: {login_id: sender.username, password: sender.password},
+         });
 
-    const setCookie = loginResponse.headers['set-cookie'];
-    let cookieString = '';
-    setCookie.forEach((cookie) => {
-        const nameAndValue = cookie.split(';')[0];
-        cookieString += nameAndValue + ';';
-    });
+         const setCookie = loginResponse.headers['set-cookie'];
+         let cookieString = '';
+         setCookie.forEach((cookie) => {
+             const nameAndValue = cookie.split(';')[0];
+             cookieString += nameAndValue + ';';
+         });
 
+         auth.Cookie = cookieString;
+     }
     let response;
     try {
         response = await axios({
@@ -25,12 +31,13 @@ module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseU
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                Cookie: cookieString,
+                auth,
             },
             method: 'post',
             data: {
                 channel_id: channelId,
                 message,
+                props,
                 type: '',
                 create_at: createAt,
                 parent_id: rootId,
