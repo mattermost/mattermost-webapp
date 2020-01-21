@@ -483,6 +483,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     className='form-control'
                                     type='email'
                                     onChange={this.updateEmail}
+                                    maxLength={Constants.MAX_EMAIL_LENGTH}
                                     value={this.state.email}
                                     aria-label={formatMessage({id: 'user.settings.general.newEmail', defaultMessage: 'New Email'})}
                                 />
@@ -506,6 +507,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     className='form-control'
                                     type='email'
                                     onChange={this.updateConfirmEmail}
+                                    maxLength={Constants.MAX_EMAIL_LENGTH}
                                     value={this.state.confirmEmail}
                                     aria-label={formatMessage({id: 'user.settings.general.confirmEmail', defaultMessage: 'Confirm Email'})}
                                 />
@@ -772,6 +774,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateFirstName}
+                                maxLength={Constants.MAX_FIRSTNAME_LENGTH}
                                 value={this.state.firstName}
                                 onFocus={Utils.moveCursorToEnd}
                                 aria-label={formatMessage({id: 'user.settings.general.firstName', defaultMessage: 'First Name'})}
@@ -797,6 +800,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateLastName}
+                                maxLength={Constants.MAX_LASTNAME_LENGTH}
                                 value={this.state.lastName}
                                 aria-label={formatMessage({id: 'user.settings.general.lastName', defaultMessage: 'Last Name'})}
                             />
