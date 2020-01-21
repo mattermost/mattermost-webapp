@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AdminConsole from 'components/admin_console/admin_console';
 import AdminDefinition from 'components/admin_console/admin_definition';
+
+import AdminConsole from './admin_console';
 
 describe('components/AdminConsole', () => {
     const baseProps = {
