@@ -64,10 +64,21 @@ export default class AutocompleteSelector extends React.PureComponent {
     }
 
     componentWillUpdate() {
+        this.updateModalBounds();
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.updateModalBounds);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateModalBounds);
+    }
+
+    updateModalBounds = () => {
         if (this.container) {
             const modalContainer = ReactDOM.findDOMNode(this.container).parentElement.parentElement.parentElement;
             const rect = modalContainer.getBoundingClientRect();
-            if (this.state.modalBounds.top !== rect.top) {
+            if (this.state.modalBounds.top !== rect.top || this.state.modalBounds.bottom !== rect.bottom) {
                 this.setState({modalBounds: {top: rect.top, bottom: rect.bottom}});
             }
         }
