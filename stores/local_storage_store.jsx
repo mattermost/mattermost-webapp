@@ -38,6 +38,13 @@ class LocalStorageStoreClass {
         localStorage.setItem(getPathScopedKey(basePath, key), value);
     }
 
+    removeItem(key) {
+        const state = store.getState();
+        const basePath = getBasePath(state);
+
+        localStorage.removeItem(getPathScopedKey(basePath, key));
+    }
+
     getPreviousChannelName(userId, teamId) {
         return this.getItem(getPreviousChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(teamId);
     }
@@ -55,8 +62,8 @@ class LocalStorageStoreClass {
     }
 
     removePreviousChannelName(userId, teamId) {
-        localStorage.setItem(getPreviousChannelNameKey(userId, teamId), this.getPenultimateChannelName(userId, teamId));
-        localStorage.removeItem(getPenultimateChannelNameKey(userId, teamId));
+        this.setItem(getPreviousChannelNameKey(userId, teamId), this.getPenultimateChannelName(userId, teamId));
+        this.removeItem(getPenultimateChannelNameKey(userId, teamId));
     }
 
     getPreviousTeamId(userId) {

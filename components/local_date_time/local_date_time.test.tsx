@@ -76,8 +76,10 @@ describe('components/LocalDateTime', () => {
 
         let wrapper = mountWithIntl(<LocalDateTime {...baseProps}/>);
         expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 07:15:13 GMT+1100 (Australia/Sydney)');
-        expect(wrapper.find('span').text()).toBe('07:15 AM');
+        expect(wrapper.find('span').text()).toBe('7:15 AM');
 
+        // This is to ignore expected console error from react-intl with US/Hawaii timezone
+        console.error = jest.fn();
         wrapper = mountWithIntl(
             <LocalDateTime
                 {...baseProps}
@@ -100,6 +102,9 @@ describe('components/LocalDateTime', () => {
 
         expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 15:15:13 GMT+1100 (Australia/Sydney)');
         expect(wrapper.find('span').text()).toBe('15:15');
+
+        // This is to ignore expected console error from react-intl with US/Alaska timezone
+        console.error = jest.fn();
 
         wrapper = mountWithIntl(
             <LocalDateTime
