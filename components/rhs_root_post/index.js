@@ -13,6 +13,8 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {markPostAsUnread} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+
+import {isChannelArchived} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 
 import RhsRootPost from './rhs_root_post.jsx';
@@ -36,7 +38,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
         pluginPostTypes: state.plugins.postTypes,
-        channelIsArchived: channel.delete_at !== 0,
+        channelIsArchived: isChannelArchived(channel),
         channelType: channel.type,
         channelDisplayName: channel.display_name,
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
