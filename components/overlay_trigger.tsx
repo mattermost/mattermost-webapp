@@ -5,6 +5,8 @@ import React from 'react';
 import {OverlayTrigger as BaseOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
 import {IntlContext, IntlShape} from 'react-intl';
 
+export {BaseOverlayTrigger};
+
 type Props = OverlayTriggerProps;
 
 const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
