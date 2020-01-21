@@ -4,7 +4,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Switch, Route} from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import Messaging from './components/messaging';
 import Composing from './components/composing';
@@ -13,12 +12,23 @@ import Formatting from './components/formatting';
 import Attaching from './components/attaching';
 import Commands from './components/commands';
 
-export default class HelpController extends React.Component {
-    componentDidUpdate() {
-        ReactDOM.findDOMNode(this).scrollIntoView();
+type Props = {
+    match: {
+        url: string;
+    };
+}
+
+export default class HelpController extends React.Component<Props> {
+    public componentDidUpdate(): void {
+        // eslint-disable-next-line react/no-find-dom-node
+        const helpControllerNode = ReactDOM.findDOMNode(this);
+
+        if (helpControllerNode && helpControllerNode instanceof HTMLDivElement) {
+            helpControllerNode.scrollIntoView();
+        }
     }
 
-    render() {
+    public render(): JSX.Element {
         return (
             <div className='help-page'>
                 <div className='container col-sm-10 col-sm-offset-1'>
@@ -53,13 +63,3 @@ export default class HelpController extends React.Component {
         );
     }
 }
-
-HelpController.propTypes = {
-
-    /*
-     * Object from react-router
-     */
-    match: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-    }).isRequired,
-};
