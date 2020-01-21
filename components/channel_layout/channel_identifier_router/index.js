@@ -12,7 +12,7 @@ import ChannelIdentifierRouter from './channel_identifier_router.jsx';
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            onChannelByIdentifierEnter,
+            onChannelByIdentifierEnter
         }, dispatch),
     };
 }
