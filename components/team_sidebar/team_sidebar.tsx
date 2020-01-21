@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Link} from 'react-router-dom';
+
 import {Team} from 'mattermost-redux/types/teams';
+
 import TeamButton from './team_button';
 
 type Props = {

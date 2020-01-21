@@ -3,7 +3,9 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
+
 import {Channel} from 'mattermost-redux/types/channels';
+
 import Constants from 'utils/constants';
 
 type Props = {

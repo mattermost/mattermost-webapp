@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
+import Pluggable from 'plugins/pluggable';
+
 import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
-import Pluggable from 'plugins/pluggable';
 import SidebarCategoryList from './sidebar_category_list';
 
 type Props = {

@@ -4,14 +4,15 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {getOrderedChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import SidebarCategoryList from './sidebar_category_list';
-import {getOrderedChannelIds} from 'mattermost-redux/selectors/entities/channels';
-import { getSidebarPreferences } from 'mattermost-redux/selectors/entities/preferences';
 
-function mapStateToProps(state: GlobalState) {
+// TODO: temp typing until we fix redux
+function mapStateToProps(state: GlobalState & {views: any}) {
     // TODO: temp
     const sidebarPrefs = getSidebarPreferences(state);
     const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
@@ -31,7 +32,7 @@ function mapStateToProps(state: GlobalState) {
             collapsed: false,
             channel_ids: channelCategory.items,
         };
-    })
+    });
 
     return {
         categories,

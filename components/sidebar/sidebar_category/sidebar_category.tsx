@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import SidebarChannel from '../sidebar_channel';
 
 type Props = {

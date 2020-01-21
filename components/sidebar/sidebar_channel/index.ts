@@ -10,8 +10,9 @@ import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import SidebarChannel from './sidebar_channel';
 import {Constants} from 'utils/constants';
+
+import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
     channelId: string;

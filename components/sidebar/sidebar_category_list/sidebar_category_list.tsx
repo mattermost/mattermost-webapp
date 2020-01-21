@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import SidebarCategory from '../sidebar_category';
 
 type Props = {
-    categories: any[],
+    categories: any[];
 };
 
 type State = {
