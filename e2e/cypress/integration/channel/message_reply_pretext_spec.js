@@ -61,12 +61,14 @@ describe('Message Reply with attachment pretext', () => {
                 // # Post message with auth token
                 const message = 'Hello message from ' + botName;
                 const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
-                cy.postMessageAs({token, message, props, channelId: newChannel.id});
-//                cy.apiPostBotMessage(newChannel.id, 'Hello message from '+ botName, 'Some Pretext', 'Some text', accessToken);
+                cy.postMessageAs({token, message, props, channelId: newChannel.id, createAt: yesterdaysDate}).
+                    its('id').
+                    should('exist').
+                    as('yesterdaysPost');
              });
          });
 
-        cy.get('@olderPost').then((postId) => {
+        cy.get('@yesterdaysPost').then((postId) => {
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);
 

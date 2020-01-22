@@ -235,7 +235,7 @@ Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
-     postMessageAs   return cy.wrap(response);
+        return cy.wrap(response);
     });
 });
 
@@ -1081,7 +1081,7 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
  * @param {String} description - The description of the token usage
  * All parameters are required
  */
-Cypress.Commands.add('apiCreateUserAccessToken', (userId, description) => {
+Cypress.Commands.add('apiAccessToken', (userId, description) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/' + userId +'/tokens',
