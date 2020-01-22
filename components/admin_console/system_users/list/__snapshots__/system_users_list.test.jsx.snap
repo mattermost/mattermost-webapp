@@ -2,7 +2,7 @@
 
 exports[`components/admin_console/system_users/list should match default snapshot 1`] = `
 <div>
-  <InjectIntl(SearchableUserList)
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -72,7 +72,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
 
 exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa disabled 1`] = `
 <div>
-  <InjectIntl(SearchableUserList)
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -261,7 +261,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
 
 exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa enabled 1`] = `
 <div>
-  <InjectIntl(SearchableUserList)
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
