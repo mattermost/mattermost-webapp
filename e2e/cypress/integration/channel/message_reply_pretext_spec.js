@@ -43,10 +43,10 @@ describe('Message Reply with attachment pretext', () => {
         const botName = 'bot-' + Date.now();
 
         // # Create a bot and get userID
-        cy.apiCreateBot( botName,'Test Bot','test bot for E2E test replying to older bot post').then((userId) => {
-            botsUserId = userId;
+        cy.apiCreateBot( botName,'Test Bot','test bot for E2E test replying to older bot post').then((response) => {
+            botsUserId = response.body.user_id;
             const promoteToSysAdmin = (user) => {
-                cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/botsUserId/roles`, data: {roles: 'system_user system_post_all'}});
+                cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/botsUserId/roles`, data: {roles: 'system_user system_post_all system_admin'}});
              };
 
             //cy.apiAddUserToChannel(newChannel.id,botsUserId)

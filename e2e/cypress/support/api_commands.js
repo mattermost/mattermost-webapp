@@ -1070,7 +1070,7 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
-        return cy.wrap(response.body.user_id);
+        return cy.wrap(response);
     });
 });
 
