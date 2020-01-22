@@ -92,14 +92,16 @@ class ChannelGroupsManageModal extends React.PureComponent {
                     height='32'
                 />
                 <div className='more-modal__details'>
-                    <div className='more-modal__name'>{item.display_name} {'-'}&nbsp;<span className='more-modal__name_count'>
-                        <FormattedMessage
-                            id='numMembers'
-                            defaultMessage='{num, number} {num, plural, one {member} other {members}}'
-                            values={{
-                                num: item.member_count,
-                            }}
-                        /></span>
+                    <div className='more-modal__name'>{item.display_name} {'-'}&nbsp;
+                        <span className='more-modal__name_count'>
+                            <FormattedMessage
+                                id='numMembers'
+                                defaultMessage='{num, number} {num, plural, one {member} other {members}}'
+                                values={{
+                                    num: item.member_count,
+                                }}
+                            />
+                        </span>
                     </div>
                 </div>
                 <div className='more-modal__actions'>
