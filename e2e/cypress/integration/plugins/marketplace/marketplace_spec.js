@@ -118,7 +118,7 @@ describe('Plugin Marketplace', () => {
 
         after(() => {
             // * cleanup installed plugins
-            cy.uninstallPluginById('github');
+            uninstallAllPlugins();
         });
 
         it('render an error bar', () => {
@@ -209,8 +209,7 @@ describe('Plugin Marketplace', () => {
 
         after(() => {
             // * cleanup installed plugins
-            cy.uninstallPluginById('github');
-            cy.uninstallPluginById('com.mattermost.webex');
+            uninstallAllPlugins();
         });
 
         it('autofocus on search plugin input box', () => {
@@ -345,6 +344,11 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
 
+        after(() => {
+            // # uninstall all user`s plugins
+            uninstallAllPlugins();
+        });
+
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
         it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
@@ -424,4 +428,11 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
     });
+    function uninstallAllPlugins() {
+        cy.getAllPlugins().then((response) => {
+            const {active, inactive} = response.body;
+            inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+        });
+    }
 });
