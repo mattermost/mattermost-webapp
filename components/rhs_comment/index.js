@@ -16,7 +16,7 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {markPostAsUnread} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 
-import {isChannelArchived} from 'utils/channel_utils';
+import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 
 import RhsComment from './rhs_comment.jsx';
@@ -61,7 +61,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
         pluginPostTypes: state.plugins.postTypes,
-        channelIsArchived: isChannelArchived(channel),
+        channelIsArchived: isArchivedChannel(channel),
         isConsecutivePost: isConsecutivePost(state, ownProps),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,

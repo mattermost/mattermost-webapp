@@ -18,7 +18,7 @@ import {
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
 
-import {isChannelArchived} from 'utils/channel_utils';
+import {isArchivedChannel} from 'utils/channel_utils';
 
 import DotMenu from './dot_menu.jsx';
 
@@ -26,7 +26,7 @@ function mapStateToProps(state, ownProps) {
     const channel = getChannel(state, ownProps.post.channel_id);
 
     return {
-        channelIsArchived: isChannelArchived(channel),
+        channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
         postEditTimeLimit: getConfig(state).PostEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
