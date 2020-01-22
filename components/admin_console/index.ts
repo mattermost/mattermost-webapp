@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {getConfig, getEnvironmentConfig, updateConfig} from 'mattermost-redux/actions/admin';
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
@@ -13,6 +13,8 @@ import {isCurrentUserSystemAdmin, getCurrentUserId} from 'mattermost-redux/selec
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {General} from 'mattermost-redux/constants';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
@@ -20,14 +22,14 @@ import {getAdminDefinition} from 'selectors/admin_console';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
-import AdminConsole from './admin_console.jsx';
+import AdminConsole from './admin_console';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const generalConfig = getGeneralConfig(state);
     const buildEnterpriseReady = generalConfig.BuildEnterpriseReady === 'true';
     const adminDefinition = getAdminDefinition(state);
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
-    const team = getTeam(state, teamId);
+    const team = getTeam(state, teamId || '');
     const unauthorizedRoute = team ? `/${team.name}/channels/${General.DEFAULT_CHANNEL}` : '/';
 
     return {
@@ -44,7 +46,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getConfig,
