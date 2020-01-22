@@ -125,6 +125,7 @@ describe('OverlayTrigger', () => {
         expect(overlay.prop('style').backgroundColor).toBe('red');
 
         // And confirm that react-bootstrap's props are included
+        expect(overlay.prop('className')).toContain('fade in');
         expect(overlay.prop('placement')).toBe('right');
         expect(overlay.prop('positionTop')).toBe(0);
     });
