@@ -3119,6 +3119,8 @@
   "shortcuts.nav.header": "Navigation",
   "shortcuts.nav.next": "Next channel:\tAlt|Down",
   "shortcuts.nav.next.mac": "Next channel:\t⌥|Down",
+  "shortcuts.nav.open_close_sidebar": "Open or close the right sidebar\tCtrl|.",
+  "shortcuts.nav.open_close_sidebar.mac": "Open or close the right sidebar\t⌘|.",
   "shortcuts.nav.prev": "Previous channel:\tAlt|Up",
   "shortcuts.nav.prev.mac": "Previous channel:\t⌥|Up",
   "shortcuts.nav.recent_mentions": "Recent mentions:\tCtrl|Shift|M",
