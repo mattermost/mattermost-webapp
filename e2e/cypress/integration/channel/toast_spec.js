@@ -43,6 +43,7 @@ describe('toasts', () => {
 
         // * should hide the scroll to new message button as it is at the bottom
         cy.get('div.toast__jump').should('not.be.visible');
+
         // * As time elapsed the toast should be hidden
         cy.get('div.toast').should('be.not.visible');
     });
