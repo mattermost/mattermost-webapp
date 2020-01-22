@@ -14,7 +14,7 @@ type Props = {
     isLicensed: boolean;
     audits: Array<any>;
     actions: {
-        getAudits: () => any;
+        getAudits: () => ActionFunc;
     };
 };
 
