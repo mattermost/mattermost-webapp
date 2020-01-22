@@ -254,7 +254,7 @@ export default class SelectTeam extends React.Component {
                         styleClass='signup-team-all'
                         totalItems={totalTeamsCount}
                         itemsPerPage={TEAMS_PER_PAGE}
-                        bufferValue={200}
+                        bufferValue={280}
                         pageNumber={currentPage}
                         loaderStyle={{padding: '0px', height: '40px'}}
                     >

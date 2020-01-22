@@ -38,7 +38,7 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
           />
         </h4>
         <InfiniteScroll
-          bufferValue={200}
+          bufferValue={280}
           callBack={[Function]}
           endOfDataMessage=""
           itemsPerPage={30}
@@ -338,7 +338,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           />
         </h4>
         <InfiniteScroll
-          bufferValue={200}
+          bufferValue={280}
           callBack={[Function]}
           endOfDataMessage=""
           itemsPerPage={30}
@@ -578,7 +578,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           />
         </h4>
         <InfiniteScroll
-          bufferValue={200}
+          bufferValue={280}
           callBack={[Function]}
           endOfDataMessage=""
           itemsPerPage={30}
