@@ -13,6 +13,7 @@ export function openModal(modalData) {
         };
 
         dispatch(action);
+        return {data: true};
     };
 }
 

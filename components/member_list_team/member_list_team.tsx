@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+import {TeamMembership} from 'mattermost-redux/types/teams';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -12,25 +14,41 @@ import TeamMembersDropdown from 'components/team_members_dropdown';
 
 const USERS_PER_PAGE = 50;
 
-export default class MemberListTeam extends React.Component {
-    static propTypes = {
-        searchTerm: PropTypes.string.isRequired,
-        users: PropTypes.arrayOf(PropTypes.object).isRequired,
-        teamMembers: PropTypes.object.isRequired,
-        currentTeamId: PropTypes.string.isRequired,
-        totalTeamMembers: PropTypes.number.isRequired,
-        canManageTeamMembers: PropTypes.bool,
-        actions: PropTypes.shape({
-            searchProfiles: PropTypes.func.isRequired,
-            getTeamStats: PropTypes.func.isRequired,
-            loadProfilesAndTeamMembers: PropTypes.func.isRequired,
-            loadStatusesForProfilesList: PropTypes.func.isRequired,
-            loadTeamMembersForProfilesList: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    searchTerm: string;
+    users: Array<UserProfile>;
+    teamMembers: {
+        [userId: string]: TeamMembership;
+    };
+    currentTeamId: string;
+    totalTeamMembers: number;
+    canManageTeamMembers?: boolean;
+    actions: {
+        searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+        getTeamStats: (teamId: string) => Promise<{data: {}}>;
+        loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
+            data: boolean;
+        }>;
+        loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
+            data: boolean;
+        }>;
+        loadTeamMembersForProfilesList: (profiles: any, teamId: string) => Promise<{
+            data: boolean;
+        }>;
+        setModalSearchTerm: (term: string) => Promise<{
+            data: boolean;
+        }>;
+    };
+}
 
-    constructor(props) {
+type State = {
+    loading: boolean;
+}
+
+export default class MemberListTeam extends React.Component<Props, State> {
+    private searchTimeoutId: number;
+
+    constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
@@ -54,18 +72,18 @@ export default class MemberListTeam extends React.Component {
         this.props.actions.setModalSearchTerm('');
     }
 
-    componentDidUpdate(prevProps) { // eslint-disable-line camelcase
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
             const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 this.loadComplete();
-                this.searchTimeoutId = '';
+                this.searchTimeoutId = 0;
                 return;
             }
 
-            const searchTimeoutId = setTimeout(
+            const searchTimeoutId = window.setTimeout(
                 async () => {
                     const {
                         loadStatusesForProfilesList,
@@ -98,11 +116,11 @@ export default class MemberListTeam extends React.Component {
         this.setState({loading: false});
     }
 
-    nextPage = (page) => {
+    nextPage = (page: number) => {
         this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
     }
 
-    search = (term) => {
+    search = (term: string) => {
         this.props.actions.setModalSearchTerm(term);
     }
 
@@ -114,7 +132,11 @@ export default class MemberListTeam extends React.Component {
 
         const teamMembers = this.props.teamMembers;
         const users = this.props.users;
-        const actionUserProps = {};
+        const actionUserProps: {
+            [userId: string]: {
+                teamMember: TeamMembership;
+            };
+        } = {};
 
         let usersToDisplay;
         if (this.state.loading) {

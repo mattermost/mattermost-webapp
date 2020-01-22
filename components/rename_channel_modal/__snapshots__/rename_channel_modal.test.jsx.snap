@@ -68,6 +68,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
           />
         </label>
         <LocalizedInput
+          aria-label="display name"
           className="form-control"
           id="display_name"
           maxLength={64}
@@ -120,6 +121,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
             </span>
           </OverlayTrigger>
           <LocalizedInput
+            aria-label="rename channel"
             className="form-control"
             id="channel_name"
             maxLength={64}
