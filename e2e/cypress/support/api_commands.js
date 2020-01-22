@@ -1096,43 +1096,6 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
 });
 
 /**
- * Post a message as a bot
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelid - The channel to post to
- * @param {String} message - The message of the bot
- * @param {String} pretext - The pretext of the message
- * @param {String} text - The text to attach to message
- * @param {String} token - The auth token
- * All parameters are required
- */
-Cypress.Commands.add('apiPostBotMessage', (channelId, message, pretext, text, token) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url:'api/v4/posts',
-        method: 'POST',
-        auth: {
-            bearer: token,
-          },
-        body: {
-            channel_id: channelId,
-            message: message,
-            props:{
-                   	attachments:
-                   	[
-                   		{
-                   			pretext: pretext,
-                   			text: text,
-                   		},
-                   	],
-                   },
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(response);
-    });
-});
-
-/**
  * Assign a bot to a user
  * This API assume that the user is logged in and has cookie to access
  * @param {String} botUser_id - The bot's user id
