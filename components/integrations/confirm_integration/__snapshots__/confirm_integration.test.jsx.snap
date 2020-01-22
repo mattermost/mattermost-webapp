@@ -247,7 +247,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
         id="add_oauth_app.url"
         values={
           Object {
-            "url": "someCallback",
+            "url": "https://someCallback, https://anotherCallback",
           }
         }
       />
