@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {mount, shallow} from 'enzyme';
+import {mount} from 'enzyme';
 import React from 'react';
-import {Overlay, OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
+import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
 import {FormattedMessage, IntlProvider} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
