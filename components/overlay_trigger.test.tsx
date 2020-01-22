@@ -114,7 +114,7 @@ describe('OverlayTrigger', () => {
         );
 
         // Dive into the react-bootstrap internals to find our overlay
-        const overlay = mount(wrapper.find(BaseOverlayTrigger).instance()._overlay).find('span'); // eslint-disable-line no-underscore-dangle
+        const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find('span'); // eslint-disable-line no-underscore-dangle
 
         // Confirm that we've found the right span
         expect(overlay.exists()).toBe(true);
@@ -122,7 +122,7 @@ describe('OverlayTrigger', () => {
 
         // Confirm that our props are included
         expect(overlay.prop('className')).toContain('test-overlay-className');
-        expect(overlay.prop('style').backgroundColor).toBe('red');
+        expect(overlay.prop('style')).toMatchObject({backgroundColor: 'red'});
 
         // And confirm that react-bootstrap's props are included
         expect(overlay.prop('className')).toContain('fade in');
