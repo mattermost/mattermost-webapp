@@ -8,7 +8,7 @@
 * @param {String} message - message in a post
 * @param {Object} channelId - where a post will be posted
 */
-Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, createAt}) => {
+//Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, createAt}) => {
 Cypress.Commands.add('postMessageAs', ({sender, token, message, props, channelId, rootId, createAt}) => {
     const baseUrl = Cypress.config('baseUrl');
 
