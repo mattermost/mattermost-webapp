@@ -36,7 +36,6 @@ describe('toasts', () => {
 
         // * find the toast
         cy.get('div.toast').should('be.visible');
-        cy.clock();
 
         // * check that the message is correct
         cy.get('div.toast__message>span').first().contains('30 new messages');
@@ -44,8 +43,6 @@ describe('toasts', () => {
 
         // * should hide the scroll to new message button as it is at the bottom
         cy.get('div.toast__jump').should('not.be.visible');
-        cy.tick(8000);
-
         // * As time elapsed the toast should be hidden
         cy.get('div.toast').should('be.not.visible');
     });
@@ -66,12 +63,10 @@ describe('toasts', () => {
         scrollUpAndPostAMessage().then(() => {
             // * find the toast
             cy.get('div.toast').should('be.visible');
-            cy.clock();
             cy.get('div.post-list__dynamic').scrollTo('bottom');
 
             // * should hide the scroll to new message button as it is at the bottom
             cy.get('div.toast__jump').should('not.be.visible');
-            cy.tick(2000);
 
             // * As time elapsed the toast should be hidden
             cy.get('div.toast').should('be.hidden');
