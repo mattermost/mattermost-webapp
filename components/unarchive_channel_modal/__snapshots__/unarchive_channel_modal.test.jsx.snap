@@ -55,7 +55,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
     <div
       className="alert alert-danger"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="This will unarchive the channel from the team and make its contents accessible for all users. \\\\n \\\\nAre you sure you wish to unarchive the **{display_name}** channel?"
         id="unarchive_channel.question"
         values={
