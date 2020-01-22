@@ -45,7 +45,7 @@ export function loadStatusesForChannelAndSidebar() {
 export function loadStatusesForProfilesList(users) {
     return (dispatch) => {
         if (users == null) {
-            return;
+            return {data: false};
         }
 
         const statusesToLoad = [];
@@ -54,6 +54,8 @@ export function loadStatusesForProfilesList(users) {
         }
 
         dispatch(loadStatusesByIds(statusesToLoad));
+
+        return {data: true};
     };
 }
 

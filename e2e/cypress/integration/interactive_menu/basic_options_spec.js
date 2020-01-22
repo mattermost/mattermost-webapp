@@ -81,10 +81,14 @@ describe('Interactive Menu', () => {
             cy.get('.post-message__text-container').should('be.visible').and('have.text', 'This is attachment text with basic options');
             cy.get('.attachment-actions').should('be.visible');
             cy.get('.select-suggestion-container').should('be.visible');
-            cy.get('.select-suggestion-container > input').should('be.visible').and('have.attr', 'placeholder', 'Select an option...');
 
+            // * Suggestion list should not be visible before dropdown is clicked
             cy.get('#suggestionList').should('not.be.visible');
-            cy.get('.select-suggestion-container > input').click();
+
+            // # Click on the suggestion dropdown input
+            cy.findByPlaceholderText('Select an option...').should('be.visible').click();
+
+            // * Suggestion list should now be open
             cy.get('#suggestionList').should('be.visible').children().should('have.length', options.length);
 
             cy.get('#suggestionList').children().each(($el, index) => {
@@ -107,10 +111,10 @@ describe('Interactive Menu', () => {
 
         cy.get('@messageAttachmentList').within(() => {
             // # Select option 1 by typing exact text and press enter
-            cy.get('.select-suggestion-container > input').click().clear().type(`${options[0].text}{enter}`);
+            cy.findByPlaceholderText('Select an option...').click().clear().type(`${options[0].text}{enter}`);
 
             // * Verify that the input is updated with the selected option
-            cy.get('.select-suggestion-container > input').should('be.visible').and('have.attr', 'value', options[0].text);
+            cy.findByDisplayValue(options[0].text).should('exist');
         });
 
         cy.wait(TIMEOUTS.SMALL);
@@ -180,7 +184,7 @@ describe('Interactive Menu', () => {
         });
 
         cy.get('@messageAttachmentList').within(() => {
-            cy.get('.select-suggestion-container > input').click().clear().type('sea');
+            cy.findByPlaceholderText('Select an option...').click().clear().type('sea');
 
             // * Message attachment menu dropdown should now be open
             cy.get('#suggestionList').should('exist').children().should('have.length', 2);
@@ -203,12 +207,49 @@ describe('Interactive Menu', () => {
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).within(() => {
+                // # Type the missing user in the select input
+                cy.findByPlaceholderText('Select an option...').click().clear().type(`${missingUser}`);
+
+                cy.get('#suggestionList').within(() => {
+                    // * Check if we get appropriate message when no options matches entered text
+                    cy.get('.suggestion-list__no-results').should('be.visible').should('have.text', `No items match ${missingUser}`);
+                });
+            });
+        });
+    });
+
+    it('IM21043 - Using up/down arrow keys to make selection', () => {
+        const basicOptions = getMessageMenusPayload({options});
+
+        // # Post an incoming webhook for interactive menu with basic options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
             cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
         });
 
         cy.get('@messageAttachmentList').within(() => {
-            cy.get('.select-suggestion-container > input').click().clear().type(`${missingUser}`);
-            cy.get('.suggestion-list__no-results').should('be.visible').should('have.text', `No items match ${missingUser}`);
+            cy.findByPlaceholderText('Select an option...').as('optionInputField');
+            cy.get('@optionInputField').click();
+            cy.get('#suggestionList').should('be.visible');
+
+            // # Hit the down arrow two times
+            cy.get('@optionInputField').type('{downarrow}{downarrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[2].text);
+            });
+
+            // # Hit the up arrow two times
+            cy.get('@optionInputField').type('{uparrow}{uparrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[0].text);
+            });
         });
     });
 
@@ -568,10 +609,10 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
 
         if (isRhs) {
             // * Verify that the selected option from center view matches the one in RHS
-            cy.get('.select-suggestion-container > input').should('have.value', text);
+            cy.findByPlaceholderText('Select an option...').should('have.value', text);
         } else {
             // # Select an option (long) in center view
-            cy.get('.select-suggestion-container > input').should('be.visible').click();
+            cy.findByPlaceholderText('Select an option...').should('be.visible').click();
             cy.get('#suggestionList').should('be.visible').children().first().click({force: true});
         }
 
@@ -581,12 +622,12 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
             and('have.css', 'height', '32px').
             and('have.css', 'width', '220px');
 
-        cy.get('.select-suggestion-container > input').
+        cy.findByPlaceholderText('Select an option...').
             and('have.css', 'height', '32px').
             and('have.css', 'width', '220px').
             and('have.css', 'padding-right', '30px');
 
-        return cy.get('.select-suggestion-container > input').invoke('attr', 'value').then((value) => {
+        return cy.findByPlaceholderText('Select an option...').invoke('attr', 'value').then((value) => {
             return cy.wrap({value});
         });
     });
@@ -603,6 +644,12 @@ function verifyLastPost() {
             cy.get(`#rhsPost_${postId}`).within(() => {
                 verifyMessageAttachmentList(postId, true, value);
             });
+
+            // # Wait for sometime for checks
+            cy.wait(TIMEOUTS.TINY);
+
+            // # Close the RHS
+            cy.closeRHS();
         });
     });
 }

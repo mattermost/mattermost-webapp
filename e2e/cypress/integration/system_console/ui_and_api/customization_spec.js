@@ -19,6 +19,7 @@ describe('Customization', () => {
                     SupportEmail: config.SupportSettings.SupportEmail,
                     HelpLink: config.SupportSettings.HelpLink,
                     AboutLink: config.SupportSettings.AboutLink,
+                    ReportAProblemLink: config.SupportSettings.ReportAProblemLink,
                     PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink,
                     TermsOfServiceLink: config.SupportSettings.TermsOfServiceLink,
                 },
@@ -150,6 +151,30 @@ describe('Customization', () => {
         cy.apiGetConfig().then((response) => {
             // * Verify the custom brand text is saved, directly via REST API
             expect(response.body.TeamSettings.CustomBrandText).to.eq(customBrandText);
+        });
+    });
+
+    it('SC20331 - Can change Report a Problem Link setting', () => {
+        // * Verify Report a Problem link label is visible and matches the text
+        cy.findByTestId('SupportSettings.ReportAProblemLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Report a Problem Link:');
+
+        // * Verify Report a Problem link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('SupportSettings.ReportAProblemLinkinput').should('have.value', origConfig.SupportSettings.ReportAProblemLink);
+
+        // * Verify Report a Problem link help text is visible and matches the text
+        cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.');
+
+        // # Enter a problem link
+        const reportAProblemLink = 'https://about.mattermost.com/default-report-a-problem/test';
+        cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(reportAProblemLink);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the Report a Problem link is saved, directly via REST API
+            expect(response.body.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
         });
     });
 
