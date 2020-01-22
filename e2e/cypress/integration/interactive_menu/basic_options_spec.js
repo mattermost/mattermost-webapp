@@ -625,10 +625,8 @@ describe('Interactive Menu', () => {
             // # Same id as parent post in center, only opened in RHS
             cy.get(`#rhsPost_${lastPostId}`).within(() => {
                 // * Verify the input has the selected value same as that of Center
-                cy.findByDisplayValue(longUsername).should('exist');
-
-                // # 
-                cy.findByDisplayValue(longUsername).should('have.css', 'text-overflow', 'ellipsis');
+                //   and verify that it has truncation css applied
+                cy.findByDisplayValue(longUsername).should('exist').and('have.css', 'text-overflow', 'ellipsis');
             });
 
             // # Close RHS
