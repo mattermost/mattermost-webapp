@@ -1084,10 +1084,10 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
 Cypress.Commands.add('apiCreateUserAccessToken', (userId, description) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/' + user_id +'/tokens',
+        url: '/api/v4/users/' + userId +'/tokens',
         method: 'POST',
         body: {
-            description: description,
+            description,
         },
     }).then((response) => {
         expect(response.status).to.equal(200);
