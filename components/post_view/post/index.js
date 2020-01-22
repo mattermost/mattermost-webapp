@@ -15,7 +15,7 @@ import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_util
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 
-import {isChannelArchived} from 'utils/channel_utils';
+import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 
@@ -89,7 +89,7 @@ function makeMapStateToProps() {
             isCommentMention: isPostCommentMention(state, post.id),
             center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
-            channelIsArchived: isChannelArchived(channel),
+            channelIsArchived: isArchivedChannel(channel),
         };
     };
 }
