@@ -23,8 +23,7 @@ describe('Email notification', () => {
             config = response.body;
         });
 
-        cy.visit('/');
-        cy.url().should('include', '/channels/town-square');
+        cy.visit('/ad-1/channels/town-square');
 
         cy.getCurrentTeamId().then((teamId) => {
             cy.createNewUser({}, [teamId]).then((user) => {
