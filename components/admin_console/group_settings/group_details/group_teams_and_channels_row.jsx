@@ -208,7 +208,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                         {this.props.name}
                     </span>
                 </td>
-                <td class='type'>
+                <td className='type'>
                     {typeText}
                 </td>
                 <td>
