@@ -76,7 +76,7 @@ export default class CloseDirectChannel extends React.PureComponent {
                 id={id}
                 show={channel.type === Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                 onClick={this.handleClose}
-                text={localizeMessage('center_panel.direct.closeChannel', 'Close Channel')}
+                text={localizeMessage('center_panel.direct.closeDirectMessage', 'Close Direct Message')}
             />
         );
     }
