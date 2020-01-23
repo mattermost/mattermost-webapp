@@ -2,7 +2,7 @@
 
 exports[`admin_console/team_channel_settings/channel/ChannelModes should match snapshot 1`] = `
 <AdminPanel
-  className="channel_manage"
+  className=""
   id="channel_manage"
   subtitleDefault="Choose between inviting members manually or syncing members automatically from groups."
   subtitleId="admin.channel_settings.channel_detail.manageDescription"

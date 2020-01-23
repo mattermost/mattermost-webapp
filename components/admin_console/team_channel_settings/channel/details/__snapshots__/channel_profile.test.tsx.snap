@@ -2,7 +2,7 @@
 
 exports[`admin_console/team_channel_settings/channel/ChannelProfile should match snapshot 1`] = `
 <AdminPanel
-  className="channel_profile"
+  className=""
   id="channel_profile"
   subtitleDefault="Summary of the channel, including the channel name."
   subtitleId="admin.channel_settings.channel_detail.profileDescription"
