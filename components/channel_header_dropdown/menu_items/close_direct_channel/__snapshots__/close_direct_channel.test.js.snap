@@ -4,7 +4,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.CloseDirectChannel shoud be h
 <MenuItemAction
   onClick={[Function]}
   show={false}
-  text="Close Channel"
+  text="Close Direct Message"
 />
 `;
 
@@ -12,6 +12,6 @@ exports[`components/ChannelHeaderDropdown/MenuItem.CloseDirectChannel should mat
 <MenuItemAction
   onClick={[Function]}
   show={true}
-  text="Close Channel"
+  text="Close Direct Message"
 />
 `;
