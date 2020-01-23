@@ -3366,7 +3366,7 @@ const AdminDefinition = {
                     if (config.GitLabSettings && config.GitLabSettings.Enable) {
                         newState.oauthType = Constants.GITLAB_SERVICE;
                     }
-                    if (config.Office365Settings && config.Office365Settings.Enable) {
+                    if (config.Office365Settings && config.Office365Settings.SSOSettings.Enable) {
                         newState.oauthType = Constants.OFFICE365_SERVICE;
                     }
                     if (config.GoogleSettings && config.GoogleSettings.Enable) {
@@ -3384,7 +3384,7 @@ const AdminDefinition = {
                     newConfig.GoogleSettings = config.GoogleSettings || {};
 
                     newConfig.GitLabSettings.Enable = false;
-                    newConfig.Office365Settings.Enable = false;
+                    newConfig.Office365Settings.SSOSettings.Enable = false;
                     newConfig.GoogleSettings.Enable = false;
                     newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
@@ -3392,7 +3392,7 @@ const AdminDefinition = {
                         newConfig.GitLabSettings.Enable = true;
                     }
                     if (config.oauthType === Constants.OFFICE365_SERVICE) {
-                        newConfig.Office365Settings.Enable = true;
+                        newConfig.Office365Settings.SSOSettings.Enable = true;
                     }
                     if (config.oauthType === Constants.GOOGLE_SERVICE) {
                         newConfig.GoogleSettings.Enable = true;
@@ -3566,7 +3566,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.Id',
+                        key: 'Office365Settings.SSOSettings.Id',
                         label: t('admin.office365.clientIdTitle'),
                         label_default: 'Application ID:',
                         help_text: t('admin.office365.clientIdDescription'),
@@ -3577,7 +3577,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.Secret',
+                        key: 'Office365Settings.SSOSettings.Secret',
                         label: t('admin.office365.clientSecretTitle'),
                         label_default: 'Application Secret Password:',
                         help_text: t('admin.office365.clientSecretDescription'),
@@ -3588,7 +3588,18 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.UserApiEndpoint',
+                        key: 'Office365Settings.DirectoryId',
+                        label: t('admin.office365.directoryIdTitle'),
+                        label_default: 'Directory (tenant) ID:',
+                        help_text: t('admin.office365.directoryIdDescription'),
+                        help_text_default: 'The Directory (tenant) ID you received when registering your application with Microsoft.',
+                        placeholder: t('admin.office365.directoryIdExample'),
+                        placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.SSOSettings.UserApiEndpoint',
                         label: t('admin.office365.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
@@ -3597,19 +3608,29 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.AuthEndpoint',
+                        key: 'Office365Settings.SSOSettings.AuthEndpoint',
                         label: t('admin.office365.authTitle'),
                         label_default: 'Auth Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/authorize';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/authorize';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.TokenEndpoint',
+                        key: 'Office365Settings.SSOSettings.TokenEndpoint',
                         label: t('admin.office365.tokenTitle'),
                         label_default: 'Token Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/token';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/token';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
