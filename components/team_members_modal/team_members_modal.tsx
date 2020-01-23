@@ -65,6 +65,27 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
         if (this.props.currentTeam) {
             teamDisplayName = this.props.currentTeam.display_name;
         }
+        let invitePeopleSection = null;
+        if (!this.props.currentTeam.group_constrained) {
+            invitePeopleSection = (
+                <TeamPermissionGate
+                    teamId={this.props.currentTeam.id}
+                    permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+                >
+                    <button
+                        id='invitePeople'
+                        type='button'
+                        className='btn btn-primary invite-people-btn'
+                        onClick={this.handleInvitePeople}
+                    >
+                    <FormattedMessage
+                        id='team_member_modal.invitePeople'
+                        defaultMessage='Invite People'
+                    />
+                    </button>
+                </TeamPermissionGate>
+            )
+        }
 
         return (
             <Modal
@@ -89,24 +110,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                             }}
                         />
                     </Modal.Title>
-                    if (!this.props.currentTeam.group_constrained) {
-                    <TeamPermissionGate
-                        teamId={this.props.currentTeam.id}
-                        permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
-                    >
-                        <button
-                            id='invitePeople'
-                            type='button'
-                            className='btn btn-primary invite-people-btn'
-                            onClick={this.handleInvitePeople}
-                        >
-                            <FormattedMessage
-                                id='team_member_modal.invitePeople'
-                                defaultMessage='Invite People'
-                            />
-                        </button>
-                    </TeamPermissionGate>
-                    }
+                    {invitePeopleSection}
                 </Modal.Header>
                 <Modal.Body>
                     <MemberListTeam
