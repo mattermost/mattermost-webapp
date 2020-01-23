@@ -59,7 +59,7 @@ describe('components/AdminSidebar', () => {
 
     test('should match snapshot', () => {
         const props = {...defaultProps};
-        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -100,7 +100,7 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -137,7 +137,7 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -180,7 +180,7 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -234,7 +234,7 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -273,7 +273,7 @@ describe('components/AdminSidebar', () => {
         test('should refresh the index in case idx is already present and there is a change in plugins or adminDefinition prop', () => {
             generateIndex.mockReturnValue(['mocked-index']);
 
-            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
             wrapper.instance().idx = ['some value'];
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
@@ -288,7 +288,7 @@ describe('components/AdminSidebar', () => {
         test('should not call the generate index in case of idx is not already present', () => {
             generateIndex.mockReturnValue(['mocked-index']);
 
-            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
 
@@ -302,7 +302,7 @@ describe('components/AdminSidebar', () => {
         test('should not generate index in case of same props', () => {
             generateIndex.mockReturnValue(['mocked-index']);
 
-            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
             wrapper.instance().idx = ['some value'];
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
@@ -353,13 +353,13 @@ describe('components/AdminSidebar', () => {
         };
 
         test('should match snapshot', () => {
-            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
 
         test('should filter plugins', () => {
-            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>).dive();
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
 
             idx.search.mockReturnValue(['plugin_mattermost-autolink']);
             wrapper.find('#adminSidebarFilter').simulate('change', {target: {value: 'autolink'}});

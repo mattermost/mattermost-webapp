@@ -34,6 +34,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
             link: jest.fn(),
             unlink: jest.fn(),
+            patchGroupSyncable: jest.fn(),
         },
     };
 
@@ -71,6 +72,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn(),
             unlink: jest.fn(),
+            patchGroupSyncable: jest.fn(),
         };
         shallow(
             <GroupDetails
@@ -91,6 +93,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
+            patchGroupSyncable: jest.fn(),
         };
         const wrapper = shallow(
             <GroupDetails
@@ -114,6 +117,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
+            patchGroupSyncable: jest.fn(),
         };
         const wrapper = shallow(
             <GroupDetails
