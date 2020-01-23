@@ -46,7 +46,7 @@ describe('Message Reply with attachment pretext', () => {
         cy.apiCreateBot( botName,'Test Bot','test bot for E2E test replying to older bot post').then((response) => {
             botsUserId = response.body.user_id;
             cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botsUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
- 
+
             // # Get token from bots id
             cy.apiAccessToken(botsUserId, "Create token").then((token) => {
                 accessToken = token;
@@ -67,20 +67,16 @@ describe('Message Reply with attachment pretext', () => {
         // # Add two subsequent posts
         cy.postMessage('First post');
         cy.postMessage('Another Post');
+
         cy.get('@yesterdaysPost').then((postId) => {
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);
 
-            // # Reply with the attachment
+            // # Reply to message
             cy.postMessageReplyInRHS('A reply to an older post with message attachment');
 
             // # Get the latest reply post
             cy.getLastPostId().then((replyId) => {
-                // * Verify that the reply is in the channel view with matching text
-                cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on '+ botName +'\'s message: Hello message from '+ botName);
-                    cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
-                });
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
@@ -95,11 +91,17 @@ describe('Message Reply with attachment pretext', () => {
                     // * Verify the first post timestamp was not modified by the reply
                     cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'title').and('not.equal', originalTimeStamp);
                 });
+
+                //# Close RHS
+                cy.closeRHS();
+
+                // * Verify that the reply is in the channel view with matching text
+                cy.get(`#post_${replyId}`).within(() => {
+                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on '+ botName +'\'s message: Hello message from '+ botName);
+                    cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
+                });
             });
         });
-
-        // # Close RHS
-        cy.closeRHS();
 
         // # Verify RHS is closed
         cy.get('#rhsContainer').should('not.be.visible');
