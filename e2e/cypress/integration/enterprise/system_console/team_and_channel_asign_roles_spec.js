@@ -7,6 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+const waitUntilConfigSave = () => {
+    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+        return el[0].innerText == "Save";
+    }));
+}
+
 describe('System Console', () => {
     it('MM-20059 - System Admin can map roles to groups from Team Configuration screen', () => {
         const teamName = 'eligendi';
@@ -31,6 +37,7 @@ describe('System Console', () => {
 
                 // # Save the setting
                 cy.get('#saveSetting').click();
+                waitUntilConfigSave();
             }
         });
 
@@ -39,6 +46,7 @@ describe('System Console', () => {
         cy.get('#multiSelectList').first().click();
         cy.get('#saveItems').click();
         cy.get('#saveSetting').click();
+        waitUntilConfigSave();
 
         // * Ensure default role is Member
         cy.findByTestId('current-role').should('have.text', 'Member').click();
@@ -51,9 +59,7 @@ describe('System Console', () => {
         // # Continue changing the role to Team Admin
         cy.get('#role-to-be').click();
         cy.get('#saveSetting').click();
-
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        waitUntilConfigSave();
 
         // # Reload to ensure it's been saved
         cy.reload();
@@ -72,9 +78,7 @@ describe('System Console', () => {
         // # Change role to memeber
         cy.get('#role-to-be').click();
         cy.get('#saveSetting').click();
-
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        waitUntilConfigSave();
 
         // # Reload to ensure it's been saved
         cy.reload();
@@ -91,6 +95,7 @@ describe('System Console', () => {
 
                 // # Save the setting
                 cy.get('#saveSetting').click();
+                waitUntilConfigSave();
             }
         });
 
@@ -129,6 +134,7 @@ describe('System Console', () => {
 
                 // # Save the setting
                 cy.get('#saveSetting').click();
+                waitUntilConfigSave();
             }
         });
 
@@ -148,9 +154,7 @@ describe('System Console', () => {
         // # Continue changing the role to Team Admin
         cy.get('#role-to-be').click();
         cy.get('#saveSetting').click();
-
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        waitUntilConfigSave();
 
         // # Reload to ensure it's been saved
         cy.reload();
@@ -182,6 +186,7 @@ describe('System Console', () => {
 
                 // # Save the setting
                 cy.get('#saveSetting').click();
+                waitUntilConfigSave();
             }
         });
 
@@ -190,6 +195,7 @@ describe('System Console', () => {
         cy.get('#multiSelectList').first().click();
         cy.get('#saveItems').click();
         cy.get('#saveSetting').click();
+        waitUntilConfigSave();
 
         // * Ensure default role is Member
         cy.findByTestId('current-role').should('have.text', 'Member').click();
@@ -202,6 +208,7 @@ describe('System Console', () => {
         // # Continue changing the role to Channel Admin
         cy.get('#role-to-be').click();
         cy.get('#saveSetting').click();
+        waitUntilConfigSave();
 
         // # Wait to ensure it has saved before reloading
         cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
@@ -223,9 +230,7 @@ describe('System Console', () => {
         // # Change role to Member
         cy.get('#role-to-be').click();
         cy.get('#saveSetting').click();
-
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        waitUntilConfigSave();
 
         // # Reload to ensure it's been saved
         cy.reload();
@@ -242,6 +247,7 @@ describe('System Console', () => {
 
                 // # Save the setting
                 cy.get('#saveSetting').click();
+                waitUntilConfigSave();
             }
         });
 
@@ -280,6 +286,7 @@ describe('System Console', () => {
 
                 // # Save the setting
                 cy.get('#saveSetting').click();
+                waitUntilConfigSave();
             }
         });
 
@@ -299,9 +306,7 @@ describe('System Console', () => {
         // # Continue changing the role to Team Admin
         cy.get('#role-to-be').click();
         cy.get('#saveSetting').click();
-
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        waitUntilConfigSave();
 
         // # Reload to ensure it's been saved
         cy.reload();
