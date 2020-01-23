@@ -45,11 +45,8 @@ describe('Message Reply with attachment pretext', () => {
         // # Create a bot and get userID
         cy.apiCreateBot( botName,'Test Bot','test bot for E2E test replying to older bot post').then((response) => {
             botsUserId = response.body.user_id;
-            const promoteToSysAdmin = (user) => {
-                cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/botsUserId/roles`, data: {roles: 'system_user system_post_all system_admin'}});
-             };
-
-            //cy.apiAddUserToChannel(newChannel.id,botsUserId)
+            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botsUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
+ 
             // # Get token from bots id
             cy.apiAccessToken(botsUserId, "Create token").then((token) => {
                 accessToken = token;
@@ -79,7 +76,7 @@ describe('Message Reply with attachment pretext', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello message to replying to an older bot post that has some attachment pretext');
+                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on '+ botName +'\'s message: Hello message from '+ botName);
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
 
