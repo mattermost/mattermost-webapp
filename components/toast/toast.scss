@@ -23,9 +23,8 @@
 
     body.enable-animations & {
         @include transition-property(opacity, visibility);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in, step-end);
+        @include transition-duration(0s);
+        @include transition-timing-function(ease-in-out);
     }
 
     .toast__jump {
@@ -72,8 +71,8 @@
 
         body.enable-animations & {
             @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-timing-function(ease-out, step-start);
+            @include transition-duration(0s);
+            @include transition-timing-function(ease-in-out);
         }
 }
 .toast__history {
