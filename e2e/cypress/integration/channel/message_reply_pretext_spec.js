@@ -14,10 +14,7 @@ const sysadmin = users.sysadmin;
 describe('Message Reply with attachment pretext', () => {
     let newChannel;
     let botsUserId;
-    let accessToken;
-
     before(() => {
-
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
@@ -33,28 +30,26 @@ describe('Message Reply with attachment pretext', () => {
         cy.createAndVisitNewChannel().then((channel) => {
             newChannel = channel;
         });
-
     });
 
     it('MM-16734 Reply to an older bot post that has some attachment pretext', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
-
         const botName = 'bot-' + Date.now();
 
         // # Create a bot and get userID
-        cy.apiCreateBot( botName,'Test Bot','test bot for E2E test replying to older bot post').then((response) => {
+        cy.apiCreateBot(botName, 'Test Bot', 'test bot for E2E test replying to older bot post').then((response) => {
             botsUserId = response.body.user_id;
             cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botsUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
 
             // # Get token from bots id
-            cy.apiAccessToken(botsUserId, "Create token").then((token) => {
-                accessToken = token;
-
+            cy.apiAccessToken(botsUserId, 'Create token').then((token) => {
                 //# Add bot to team
-                cy.apiAddUserToTeam(newChannel.team_id,botsUserId);
+                cy.apiAddUserToTeam(newChannel.team_id, botsUserId);
+
                 //# Add bot to channel
-                cy.apiAddUserToChannel(newChannel.id,botsUserId);
+                cy.apiAddUserToChannel(newChannel.id, botsUserId);
+
                 // # Post message with auth token
                 const message = 'Hello message from ' + botName;
                 const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
@@ -62,8 +57,9 @@ describe('Message Reply with attachment pretext', () => {
                     its('id').
                     should('exist').
                     as('yesterdaysPost');
-             });
-         });
+            });
+        });
+
         // # Add two subsequent posts
         cy.postMessage('First post');
         cy.postMessage('Another Post');
@@ -77,7 +73,6 @@ describe('Message Reply with attachment pretext', () => {
 
             // # Get the latest reply post
             cy.getLastPostId().then((replyId) => {
-
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
                     cy.queryByTestId('post-link').should('not.be.visible');
@@ -97,7 +92,7 @@ describe('Message Reply with attachment pretext', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on '+ botName +'\'s message: Hello message from '+ botName);
+                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Hello message from ' + botName);
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
             });

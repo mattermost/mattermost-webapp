@@ -10,7 +10,7 @@ module.exports = async ({token, message, props = {}, channelId, rootId, createAt
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'Authorization': `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
             method: 'post',
             data: {

@@ -1080,9 +1080,9 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
         url: '/api/v4/bots',
         method: 'POST',
         body: {
-            username: username,
+            username,
             display_name: displayName,
-            description: description,
+            description,
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
@@ -1100,7 +1100,7 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
 Cypress.Commands.add('apiAccessToken', (userId, description) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/' + userId +'/tokens',
+        url: '/api/v4/users/' + userId + '/tokens',
         method: 'POST',
         body: {
             description,
