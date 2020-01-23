@@ -9,9 +9,9 @@
 
 const waitUntilConfigSave = () => {
     cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText == "Save";
+        return el[0].innerText === 'Save';
     }));
-}
+};
 
 describe('System Console', () => {
     it('MM-20059 - System Admin can map roles to groups from Team Configuration screen', () => {
