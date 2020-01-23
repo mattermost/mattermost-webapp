@@ -9,13 +9,14 @@ import ChannelRow from './channel_row';
 
 describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
     const testChannel = {
-        id: '123',
+        id: 'C123',
         create_at: 0,
         update_at: 0,
         delete_at: 0,
-        team_id: '123',
+        team_id: 'T123',
+        team_display_name: 'Team Display Name',
         type: 'D' as ChannelType,
-        display_name: '123',
+        display_name: 'Channel Display Name',
         name: 'DN',
         header: '123',
         purpose: '123',
