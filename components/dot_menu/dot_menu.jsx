@@ -41,6 +41,7 @@ export default class DotMenu extends React.PureComponent {
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
         enableEmojiPicker: PropTypes.bool.isRequired,
+        channelIsArchived: PropTypes.bool.isRequired,
 
         /*
          * Components for overriding provided by plugins
@@ -324,7 +325,7 @@ export default class DotMenu extends React.PureComponent {
                     </ChannelPermissionGate>
                     <Menu.ItemAction
                         id={`unread_post_${this.props.post.id}`}
-                        show={!isSystemMessage}
+                        show={!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH}
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                         onClick={this.handleUnreadMenuItemActivated}
                     />
