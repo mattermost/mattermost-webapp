@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
+import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
@@ -126,5 +127,57 @@ describe('components/SuggestionBox', () => {
 
         instance.handleCompositionUpdate({data: '@저'});
         expect(instance.handlePretextChanged).toBeCalledWith('@저');
+    });
+
+    test('should reset selection after provider.handlePretextChanged is handled', () => {
+        const userid1 = {id: 'userid1', username: 'user', first_name: 'a', last_name: 'b', nickname: 'c'};
+        const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'};
+        const userid3 = {id: 'userid3', username: 'other', first_name: 'X', last_name: 'Y', nickname: 'Z'};
+
+        const baseParams = {
+            currentUserId: 'userid1',
+            profilesInChannel: [userid1, userid2, userid3],
+            autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
+        };
+        const provider = new AtMentionProvider(baseParams);
+        const props = {
+            ...baseProps,
+            providers: [provider],
+        };
+        const wrapper = shallow(
+            <SuggestionBox
+                {...props}
+            />
+        );
+        const instance = wrapper.instance();
+
+        expect(wrapper.state('selection')).toEqual('');
+
+        instance.nonDebouncedPretextChanged('hello world @');
+        expect(wrapper.state('selection')).toEqual('@other');
+
+        instance.nonDebouncedPretextChanged('hello world @u');
+        expect(wrapper.state('selection')).toEqual('@user');
+
+        instance.nonDebouncedPretextChanged('hello world @');
+        expect(wrapper.state('selection')).toEqual('@user');
+
+        instance.nonDebouncedPretextChanged('hello world ');
+        expect(wrapper.state('selection')).toEqual('');
+    });
+
+    test('should call setState for clear based on present cleared state', () => {
+        const wrapper = mount(
+            <SuggestionBox {...baseProps}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.setState = jest.fn();
+        instance.clear();
+        expect(instance.setState).not.toHaveBeenCalled();
+        wrapper.setState({cleared: false});
+        wrapper.update();
+        instance.clear();
+        expect(instance.setState).toHaveBeenCalled();
     });
 });

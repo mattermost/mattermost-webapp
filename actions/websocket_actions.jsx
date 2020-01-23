@@ -173,7 +173,7 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
         if (mostRecentPost) {
-            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at, false));
+            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
@@ -452,6 +452,8 @@ export function handleChannelUpdatedEvent(msg) {
 
 function handleChannelMemberUpdatedEvent(msg) {
     const channelMember = JSON.parse(msg.data.channelMember);
+    const roles = channelMember.roles.split(' ');
+    dispatch(loadRolesIfNeeded(roles));
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 

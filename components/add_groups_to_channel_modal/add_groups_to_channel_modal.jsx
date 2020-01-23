@@ -168,7 +168,7 @@ export default class AddGroupsToChannelModal extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd) {
+    renderOption(option, isSelected, onAdd, onMouseMove) {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
@@ -177,6 +177,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <img
                     className='more-modal__image'
@@ -242,6 +243,9 @@ export default class AddGroupsToChannelModal extends React.Component {
             const hasGroup = (og) => this.props.includeGroups.find((g) => g.id === og.id);
             groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
+        groupsToShow = groupsToShow.map((group) => {
+            return {label: group.display_name, value: group.id, ...group};
+        });
 
         return (
             <Modal

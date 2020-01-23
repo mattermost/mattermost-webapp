@@ -66,7 +66,7 @@
             }
 
             .post__pinned-badge {
-                margin: 0 0 0 5px;
+                margin: 0 8px 0 5px;
             }
         }
 
@@ -103,11 +103,7 @@
         }
 
         .msg-typing {
-            margin: 0 0 8px;
-
-            &:empty {
-                display: none;
-            }
+            margin: 0;
         }
 
         .post-create-footer {

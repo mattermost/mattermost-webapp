@@ -9,8 +9,10 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   >
     <InviteMembersIcon />
   </div>
-  <h1>
-    <InjectIntl(FormattedMarkdownMessage)
+  <h1
+    id="invitation_modal_title"
+  >
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="Invite **Members** to {teamName}"
       id="invitation_modal.members.title"
       values={
