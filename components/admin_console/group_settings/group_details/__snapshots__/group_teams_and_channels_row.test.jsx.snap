@@ -60,7 +60,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     </span>
   </td>
   <td
-    class="type"
+    className="type"
   >
     <FormattedMessage
       defaultMessage="Channel (Private)"
@@ -139,7 +139,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     </span>
   </td>
   <td
-    class="type"
+    className="type"
   >
     <FormattedMessage
       defaultMessage="Team (Private)"
@@ -225,7 +225,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     </span>
   </td>
   <td
-    class="type"
+    className="type"
   >
     <FormattedMessage
       defaultMessage="Channel"
@@ -304,7 +304,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     </span>
   </td>
   <td
-    class="type"
+    className="type"
   >
     <FormattedMessage
       defaultMessage="Team"
@@ -388,7 +388,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     </span>
   </td>
   <td
-    class="type"
+    className="type"
   >
     <FormattedMessage
       defaultMessage="Team"
@@ -472,7 +472,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     </span>
   </td>
   <td
-    class="type"
+    className="type"
   >
     <FormattedMessage
       defaultMessage="Team"
