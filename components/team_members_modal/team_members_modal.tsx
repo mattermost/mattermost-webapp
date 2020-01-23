@@ -17,6 +17,7 @@ type Props = {
     currentTeam: {
         id: string;
         display_name: string;
+        group_constrained: boolean;
     };
     onHide: () => void;
     onLoad?: () => void;

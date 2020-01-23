@@ -15,7 +15,8 @@ describe('components/TeamMembersModal', () => {
             <TeamMembersModal
                 currentTeam={{
                     id: 'id',
-                    display_name: 'display name'
+                    display_name: 'display name',
+                    group_constrained: true,
                 }}
                 onHide={emptyFunction}
                 onLoad={emptyFunction}
@@ -34,7 +35,8 @@ describe('components/TeamMembersModal', () => {
             <TeamMembersModal
                 currentTeam={{
                     id: 'id',
-                    display_name: 'display name'
+                    display_name: 'display name',
+                    group_constrained: false,
                 }}
                 onHide={onHide}
                 onLoad={emptyFunction}

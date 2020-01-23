@@ -64,7 +64,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         icon={false}
         id="invitePeople"
         modalId="invitation"
-        show={true}
+        show={false}
         text="Invite People"
       />
     </Connect(TeamPermissionGate)>
