@@ -58,7 +58,7 @@ describe('Message Reply with attachment pretext', () => {
                 // # Post message with auth token
                 const message = 'Hello message from ' + botName;
                 const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
-                cy.postMessageAs({token, message, props, channelId: newChannel.id, createAt: yesterdaysDate}).
+                cy.postBotMessage({token, message, props, channelId: newChannel.id, createAt: yesterdaysDate}).
                     its('id').
                     should('exist').
                     as('yesterdaysPost');
