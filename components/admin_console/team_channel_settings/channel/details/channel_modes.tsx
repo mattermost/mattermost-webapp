@@ -102,7 +102,6 @@ export const ChannelModes: React.SFC<Props> = (props: Props): JSX.Element => {
     return (
         <AdminPanel
             id='channel_manage'
-            className='channel_manage'
             titleId={t('admin.channel_settings.channel_detail.manageTitle')}
             titleDefault='Channel Management'
             subtitleId={t('admin.channel_settings.channel_detail.manageDescription')}

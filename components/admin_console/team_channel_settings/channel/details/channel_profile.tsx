@@ -25,7 +25,6 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
             titleDefault='Channel Profile'
             subtitleId={t('admin.channel_settings.channel_detail.profileDescription')}
             subtitleDefault='Summary of the channel, including the channel name.'
-            className='channel_profile'
         >
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--body'>
