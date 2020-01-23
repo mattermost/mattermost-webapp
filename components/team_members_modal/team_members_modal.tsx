@@ -77,13 +77,13 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                         className='btn btn-primary invite-people-btn'
                         onClick={this.handleInvitePeople}
                     >
-                    <FormattedMessage
-                        id='team_member_modal.invitePeople'
-                        defaultMessage='Invite People'
-                    />
+                        <FormattedMessage
+                            id='team_member_modal.invitePeople'
+                            defaultMessage='Invite People'
+                        />
                     </button>
                 </TeamPermissionGate>
-            )
+            );
         }
 
         return (
