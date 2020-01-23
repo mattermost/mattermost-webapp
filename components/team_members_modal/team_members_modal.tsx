@@ -17,6 +17,7 @@ type Props = {
     currentTeam: {
         id: string;
         display_name: string;
+        group_constrained: boolean;
     };
     onHide: () => void;
     onLoad?: () => void;
@@ -88,6 +89,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                             }}
                         />
                     </Modal.Title>
+                    if (!this.props.currentTeam.group_constrained) {
                     <TeamPermissionGate
                         teamId={this.props.currentTeam.id}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
@@ -104,6 +106,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                             />
                         </button>
                     </TeamPermissionGate>
+                    }
                 </Modal.Header>
                 <Modal.Body>
                     <MemberListTeam

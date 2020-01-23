@@ -189,6 +189,7 @@ class MainMenu extends React.PureComponent {
                     >
                         <Menu.ItemToggleModalRedux
                             id='invitePeople'
+                            show={!teamIsGroupConstrained}
                             modalId={ModalIdentifiers.INVITATION}
                             dialogType={InvitationModal}
                             text={formatMessage({id: 'navbar_dropdown.invitePeople', defaultMessage: 'Invite People'})}
