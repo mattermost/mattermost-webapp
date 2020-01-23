@@ -264,6 +264,7 @@ export default class InvitationModal extends React.Component {
                                 searchChannels={this.props.actions.searchChannels}
                                 defaultChannels={this.state.lastInviteChannels}
                                 defaultMessage={this.state.lastInviteMessage}
+                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                                 onSubmit={this.onGuestsSubmit}
                                 onEdit={this.onEdit}
                             />

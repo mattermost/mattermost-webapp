@@ -119,9 +119,16 @@ class InvitationModalMembersStep extends React.Component {
 
     render() {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
-        const placeholder = this.props.emailInvitationsEnabled ?
-            localizeMessage('invitation_modal.members.search-and-add.placeholder', 'Add members or email addresses') :
-            localizeMessage('invitation_modal.members.search-and-add.placeholder-email-disabled', 'Add members');
+
+        let placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder', 'Add members or email addresses');
+        let noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching');
+        let noMatchMessageDefault = 'No one found matching **{text}**, type email to invite';
+
+        if (!this.props.emailInvitationsEnabled) {
+            placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder-email-disabled', 'Add members');
+            noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled');
+            noMatchMessageDefault = 'No one found matching **{text}**';
+        }
 
         return (
             <div className='InvitationModalMembersStep'>
@@ -211,10 +218,11 @@ class InvitationModalMembersStep extends React.Component {
                             value={this.state.usersAndEmails}
                             validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
                             validAddressMessageDefault='Invite **{email}** as a team member'
-                            noMatchMessageId={t('invitation_modal.members.users_emails_input.no_user_found_matching')}
-                            noMatchMessageDefault='No one found matching **{text}**, type email to invite'
+                            noMatchMessageId={noMatchMessageId}
+                            noMatchMessageDefault={noMatchMessageDefault}
                             onInputChange={this.onUsersInputChange}
                             inputValue={this.state.usersInputValue}
+                            emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                         />
                     </div>
                     <div className='help-text'>
