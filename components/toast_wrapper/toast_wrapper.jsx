@@ -13,6 +13,7 @@ import LocalDateTime from 'components/local_date_time';
 
 export const TOAST_FADEOUT_TIME_UNREAD = 4000;
 export const TOAST_FADEOUT_TIME = 750;
+const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 
 class ToastWrapper extends React.PureComponent {
     static propTypes = {
@@ -25,7 +26,6 @@ class ToastWrapper extends React.PureComponent {
         atBottom: PropTypes.bool,
         lastViewedBottom: PropTypes.number,
         width: PropTypes.number,
-        isMobile: PropTypes.bool,
         lastViewedAt: PropTypes.number,
         updateNewMessagesAtInChannel: PropTypes.func,
         scrollToNewMessage: PropTypes.func,
@@ -160,7 +160,7 @@ class ToastWrapper extends React.PureComponent {
     }
 
     newMessagesToastText = (count, since) => {
-        if (!this.props.isMobile && typeof since !== 'undefined') {
+        if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
                 <FormattedMessage
                     id='postlist.toast.newMessagesSince'
