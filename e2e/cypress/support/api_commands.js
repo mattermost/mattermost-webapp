@@ -303,7 +303,7 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
 Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/teams/' + teamId + (permanent ? '/?permanent=true' : ''),
+        url: '/api/v4/teams/' + teamId + (permanent ? '?permanent=true' : ''),
         method: 'DELETE',
     });
 });
