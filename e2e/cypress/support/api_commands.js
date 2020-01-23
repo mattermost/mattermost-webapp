@@ -303,7 +303,7 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
 Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/teams/' + teamId + (permanent ? '/?permanent=true' : ''),
+        url: '/api/v4/teams/' + teamId + (permanent ? '?permanent=true' : ''),
         method: 'DELETE',
     });
 });
@@ -975,6 +975,22 @@ Cypress.Commands.add('uninstallPluginById', (pluginId) => {
         if (response.status !== 200 && response.status !== 404) {
             expect(response.status).to.equal(200);
         }
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get all user`s plugins.
+ *
+ */
+Cypress.Commands.add('getAllPlugins', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/plugins',
+        method: 'GET',
+        failOnStatusCode: false,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
 });

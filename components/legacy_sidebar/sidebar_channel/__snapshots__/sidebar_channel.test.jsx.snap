@@ -82,6 +82,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   />
   <SidebarTutorialTip
     offTopicDisplayName="Off-Topic"
+    openLhs={[MockFunction]}
     townSquareDisplayName="Town Square"
   />
 </li>

@@ -3,7 +3,9 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import {Constants} from 'utils/constants';
 
