@@ -48,7 +48,7 @@ const AllowAllToggle = ({isSynced, isPublic, isDefault, onToggle}) =>
         <LineSwitch
             disabled={isDefault}
             toggled={isPublic}
-            last={isPublic}
+            last={true}
             onToggle={() => {
                 if (isDefault) {
                     return;
