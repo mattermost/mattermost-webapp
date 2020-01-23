@@ -67,7 +67,9 @@ describe('Message Reply with attachment pretext', () => {
                     as('yesterdaysPost');
              });
          });
-
+        // # Add two subsequent posts
+        cy.postMessage('First post');
+        cy.postMessage('Another Post');
         cy.get('@yesterdaysPost').then((postId) => {
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);
