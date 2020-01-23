@@ -15,7 +15,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-channel' channel."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -31,7 +31,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the 'Test private-channel' channel?"
+        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -47,9 +47,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       className="arrow-icon"
     />
     <span
-      className="team-icon"
-    />
-    <span
       className="channel-icon"
     >
       <LockIcon
@@ -57,12 +54,14 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     </span>
     <span
-      className="name"
+      className=""
     >
       Test private-channel
     </span>
   </td>
-  <td>
+  <td
+    class="type"
+  >
     <FormattedMessage
       defaultMessage="Channel (Private)"
       id="admin.group_settings.group_details.group_teams_and_channels_row.privateChannel"
@@ -102,7 +101,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test private-team' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -118,7 +117,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the 'Test private-team' team?"
+        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -134,26 +133,14 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       className="arrow-icon"
     />
     <span
-      className="team-icon team-icon-private"
-    >
-      <span
-        className="fa-stack fa-2x"
-      >
-        <i
-          className="fa fa-circle-thin fa-stack-2x"
-        />
-        <i
-          className="fa fa-lock fa-stack-1x"
-        />
-      </span>
-    </span>
-    <span
-      className="name"
+      className="name-no-arrow"
     >
       Test private-team
     </span>
   </td>
-  <td>
+  <td
+    class="type"
+  >
     <FormattedMessage
       defaultMessage="Team (Private)"
       id="admin.group_settings.group_details.group_teams_and_channels_row.privateTeam"
@@ -193,7 +180,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-channel' channel."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -209,7 +196,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the 'Test public-channel' channel?"
+        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -225,9 +212,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       className="arrow-icon"
     />
     <span
-      className="team-icon"
-    />
-    <span
       className="channel-icon"
     >
       <GlobeIcon
@@ -235,12 +219,14 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     </span>
     <span
-      className="name"
+      className=""
     >
       Test public-channel
     </span>
   </td>
-  <td>
+  <td
+    class="type"
+  >
     <FormattedMessage
       defaultMessage="Channel"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicChannel"
@@ -280,7 +266,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test public-team' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -296,7 +282,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the 'Test public-team' team?"
+        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -312,19 +298,14 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       className="arrow-icon"
     />
     <span
-      className="team-icon team-icon-public"
-    >
-      <i
-        className="fa fa-circle-o-notch"
-      />
-    </span>
-    <span
-      className="name"
+      className="name-no-arrow"
     >
       Test public-team
     </span>
   </td>
-  <td>
+  <td
+    class="type"
+  >
     <FormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
@@ -364,7 +345,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -380,7 +361,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the 'Test team with children' team?"
+        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -401,19 +382,14 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     </span>
     <span
-      className="team-icon team-icon-public"
-    >
-      <i
-        className="fa fa-circle-o-notch"
-      />
-    </span>
-    <span
-      className="name"
+      className=""
     >
       Test team with children
     </span>
   </td>
-  <td>
+  <td
+    class="type"
+  >
     <FormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
@@ -453,7 +429,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the 'Test team with children' team."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -469,7 +445,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the 'Test team with children' team?"
+        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -490,19 +466,14 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     </span>
     <span
-      className="team-icon team-icon-public"
-    >
-      <i
-        className="fa fa-circle-o-notch"
-      />
-    </span>
-    <span
-      className="name"
+      className=""
     >
       Test team with children
     </span>
   </td>
-  <td>
+  <td
+    class="type"
+  >
     <FormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
