@@ -1095,24 +1095,3 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
     });
 });
 
-/**
- * Assign a bot to a user
- * This API assume that the user is logged in and has cookie to access
- * @param {String} botUser_id - The bot's user id
- * @param {String} userId - The user id to assign to
- * All parameters are required
- */
-Cypress.Commands.add('apiAssignBotToUser', (botUser_id, userId) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/bots/' + botUser_id +'/assign/'+ userId,
-        method: 'POST',
-        body: {
-            bot_user_id: botUser_id,
-            user_id: userId,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response.body.token);
-    });
-});
