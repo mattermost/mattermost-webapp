@@ -40,13 +40,12 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         super(props);
 
         const location = window.location.href.replace('/landing#', '');
-        const defaultProtocol = Utils.isMobile() ? 'mattermost-mobile' : 'mattermost';
 
         this.state = {
             rememberChecked: false,
             redirectPage: false,
             location,
-            nativeLocation: location.replace(/^(https|http)/, defaultProtocol),
+            nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
             brandImageError: false,
             navigating: false,
         };
@@ -141,16 +140,25 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     renderGoNativeAppMessage = () => {
-        const downloadLink = this.getDownloadLink();
-
         return (
             <a
-                href={this.state.nativeLocation}
+                href={Utils.isMobile() ? '#' : this.state.nativeLocation}
                 onMouseDown={() => {
                     this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
                 }}
                 onClick={() => {
                     this.setState({redirectPage: true, navigating: true});
+                    if (Utils.isMobile()) {
+                        window.location.replace(this.state.nativeLocation);
+                        var timeout = setTimeout(() => {
+                            window.location.replace(this.getDownloadLink()!);
+                        }, 2000);
+                        if (UserAgent.isAndroidWeb()) {
+                            window.addEventListener('blur', () => {
+                                clearTimeout(timeout);
+                            });
+                        }
+                    }
                 }}
                 className='btn btn-primary btn-lg get-app__download'
             >
