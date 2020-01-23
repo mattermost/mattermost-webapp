@@ -10,7 +10,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
     id?: string;
-    className: string;
+    className?: string;
     onHeaderClick?: React.EventHandler<React.MouseEvent>;
     titleId: string;
     titleDefault: string;
