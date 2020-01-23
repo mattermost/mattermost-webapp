@@ -15,7 +15,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -31,7 +31,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
+        defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -101,7 +101,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -117,7 +117,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
+        defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -180,7 +180,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -196,7 +196,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
+        defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -266,7 +266,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -282,7 +282,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
+        defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -345,7 +345,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -361,7 +361,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
+        defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
@@ -429,7 +429,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     }
     message={
       <FormattedMessage
-        defaultMessage="Removing this membership will prevent future users in this group from being added to the \\"{name}\\" {displayType}."
+        defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
           Object {
@@ -445,7 +445,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Remove Membership from the \\"{name}\\" {displayType}?"
+        defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
           Object {
