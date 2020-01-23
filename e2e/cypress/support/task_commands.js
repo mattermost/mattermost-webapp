@@ -42,3 +42,20 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
 
     cy.task('externalRequest', {baseUrl, user, method, path, data}).its('status').should('be.equal', 200);
 });
+
+/**
+* postMessageAs is a task which is wrapped as command with post-verification
+* that a message is successfully posted by the bot
+* @param {String} message - message in a post
+* @param {Object} channelId - where a post will be posted
+*/
+Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootId, createAt}) => {
+    const baseUrl = Cypress.config('baseUrl');
+
+    cy.task('postBotMessage', {token, message, props, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
+        expect(status).to.equal(201);
+
+        // # Return the data so it can be interacted in a test
+        cy.wrap({id: data.id, status, data});
+    });
+});
