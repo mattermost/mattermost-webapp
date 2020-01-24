@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import SystemUsersDropdown from './system_users_dropdown';
 
-describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx', () => {
+describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown', () => {
     const user = {
         id: 'user_id',
         roles: '',
