@@ -1,11 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Error} from 'mattermost-redux/types/errors';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Bot} from 'mattermost-redux/types/bots';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -23,74 +26,42 @@ import Menu from 'components/widgets/menu/menu';
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 const TOTAL_USERS_TO_OPEN_UP = 5;
 
-export default class SystemUsersDropdown extends React.PureComponent {
-    static propTypes = {
-
-        /*
-         * User to manage with dropdown
-         */
-        user: PropTypes.object.isRequired,
-
-        /**
-         * Whether MFA is licensed and enabled.
-         */
-        mfaEnabled: PropTypes.bool.isRequired,
-
-        /**
-         * Whether or not user access tokens are enabled.
-         */
-        enableUserAccessTokens: PropTypes.bool.isRequired,
-
-        /**
-         * Whether or not the experimental authentication transfer is enabled.
-         */
-        experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
-
-        /*
-         * Function to open password reset, takes user as an argument
-         */
-        doPasswordReset: PropTypes.func.isRequired,
-
-        /*
-         * Function to open email reset, takes user as an argument
-         */
-        doEmailReset: PropTypes.func.isRequired,
-
-        /*
-         * Function to open manage teams, takes user as an argument
-         */
-        doManageTeams: PropTypes.func.isRequired,
-
-        /*
-         * Function to open manage roles, takes user as an argument
-         */
-        doManageRoles: PropTypes.func.isRequired,
-
-        /*
-         * Function to open manage tokens, takes user as an argument
-         */
-        doManageTokens: PropTypes.func.isRequired,
-
-        /*
-         * The function to call when an error occurs
-         */
-        onError: PropTypes.func.isRequired,
-        currentUser: PropTypes.object.isRequired,
-        index: PropTypes.number.isRequired,
-        totalUsers: PropTypes.number.isRequired,
-        actions: PropTypes.shape({
-            updateUserActive: PropTypes.func.isRequired,
-            revokeAllSessionsForUser: PropTypes.func.isRequired,
-            promoteGuestToUser: PropTypes.func.isRequired,
-            demoteUserToGuest: PropTypes.func.isRequired,
-            loadBots: PropTypes.func.isRequired,
-        }).isRequired,
-        config: PropTypes.object.isRequired,
-        bots: PropTypes.object.isRequired,
-
+type Props = {
+    user: UserProfile & {mfa_active: boolean};
+    currentUser: UserProfile;
+    mfaEnabled: boolean;
+    enableUserAccessTokens: boolean;
+    experimentalEnableAuthenticationTransfer: boolean;
+    index: number;
+    totalUsers: number;
+    config: any;
+    bots: Dictionary<Bot>;
+    actions: {
+        updateUserActive: (id: string, active: boolean) => Promise<{error: Error}>;
+        revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
+        promoteGuestToUser: (id: string) => Promise<{error: Error}>;
+        demoteUserToGuest: (id: string) => Promise<{error: Error}>;
+        loadBots: (page?: number, size?: number) => Promise<void>;
     };
+    doPasswordReset: (user: UserProfile) => void;
+    doEmailReset: (user: UserProfile) => void;
+    doManageTeams: (user: UserProfile) => void;
+    doManageRoles: (user: UserProfile) => void;
+    doManageTokens: (user: UserProfile) => void;
+    onError: (error: Error | {id: string}) => void;
+}
 
-    constructor(props) {
+type State = {
+    showDeactivateMemberModal: boolean;
+    showRevokeSessionsModal: boolean;
+    showPromoteToUserModal: boolean;
+    showDemoteToGuestModal: boolean;
+    user: UserProfile | null;
+    role: string | null;
+}
+
+export default class SystemUsersDropdown extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -103,51 +74,51 @@ export default class SystemUsersDropdown extends React.PureComponent {
         };
     }
 
-    handleMakeActive = (e) => {
+    handleMakeActive = (e: Event) => {
         e.preventDefault();
         this.props.actions.updateUserActive(this.props.user.id, true).
             then(this.onUpdateActiveResult);
     }
 
-    handleManageTeams = (e) => {
+    handleManageTeams = (e: Event) => {
         e.preventDefault();
 
         this.props.doManageTeams(this.props.user);
     }
 
-    handleManageRoles = (e) => {
+    handleManageRoles = (e: Event) => {
         e.preventDefault();
 
         this.props.doManageRoles(this.props.user);
     }
 
-    handleManageTokens = (e) => {
+    handleManageTokens = (e: Event) => {
         e.preventDefault();
 
         this.props.doManageTokens(this.props.user);
     }
 
-    handleResetPassword = (e) => {
+    handleResetPassword = (e: Event) => {
         e.preventDefault();
         this.props.doPasswordReset(this.props.user);
     }
 
-    handleResetEmail = (e) => {
+    handleResetEmail = (e: Event) => {
         e.preventDefault();
         this.props.doEmailReset(this.props.user);
     }
 
-    handleResetMfa = (e) => {
+    handleResetMfa = (e: Event) => {
         e.preventDefault();
         adminResetMfa(this.props.user.id, null, this.props.onError);
     }
 
-    handleShowDeactivateMemberModal = async (e) => {
+    handleShowDeactivateMemberModal = async (e: Event) => {
         e.preventDefault();
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             await this.props.actions.loadBots(
                 Constants.Integrations.START_PAGE_NUM,
-                Constants.Integrations.PAGE_SIZE,
+                parseInt(Constants.Integrations.PAGE_SIZE, 10),
             );
         }
         this.setState({showDeactivateMemberModal: true});
@@ -159,7 +130,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         this.setState({showDeactivateMemberModal: false});
     }
 
-    onUpdateActiveResult = ({error}) => {
+    onUpdateActiveResult = ({error}: {error: Error}) => {
         if (error) {
             this.props.onError({id: error.server_error_id, ...error});
         }
@@ -265,7 +236,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
             this.props.config.ServiceSettings.DisableBotsWhenOwnerIsDeactivated;
     }
 
-    handleShowRevokeSessionsModal = (e) => {
+    handleShowRevokeSessionsModal = (e: Event) => {
         e.preventDefault();
         this.setState({showRevokeSessionsModal: true});
     }

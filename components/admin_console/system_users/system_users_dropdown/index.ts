@@ -2,18 +2,29 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+import {Error} from 'mattermost-redux/types/errors';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUserToGuest} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
-import SystemUsersDropdown from './system_users_dropdown.jsx';
+import SystemUsersDropdown from './system_users_dropdown';
 
-function mapStateToProps(state) {
+type Actions = {
+    updateUserActive: (id: string, active: boolean) => Promise<{error: Error}>;
+    revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
+    promoteGuestToUser: (id: string) => Promise<{error: Error}>;
+    demoteUserToGuest: (id: string) => Promise<{error: Error}>;
+    loadBots: (page?: number, size?: number) => Promise<void>;
+}
+
+function mapStateToProps(state: GlobalState) {
     const bots = getBotAccounts(state);
     return {
         config: Selectors.getConfig(state),
@@ -22,9 +33,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             updateUserActive,
             revokeAllSessionsForUser,
             promoteGuestToUser,
