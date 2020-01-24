@@ -3,20 +3,18 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 interface RevokeTokenButtonProps {
     actions: {
-        revokeUserAccessToken: (tokenId: string) => Promise<ActionFunc | ActionResult> |  ActionFunc | ActionResult;
-    }
+        revokeUserAccessToken: (tokenId: string) => Promise<ActionFunc | ActionResult> | ActionFunc | ActionResult;
+    };
     tokenId: string;
     onError: (errorMessage: string) => void;
 }
 
 export default class RevokeTokenButton extends React.PureComponent<RevokeTokenButtonProps, {}> {
-
     private handleClick = async (e: React.MouseEvent) => {
         e.preventDefault();
 
