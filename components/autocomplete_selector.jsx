@@ -34,10 +34,7 @@ export default class AutocompleteSelector extends React.PureComponent {
 
         this.state = {
             input: '',
-            modalBounds: {top: 0, bottom: 0},
         };
-
-        this.container = React.createRef();
     }
 
     onChange = (e) => {
@@ -60,13 +57,6 @@ export default class AutocompleteSelector extends React.PureComponent {
                 this.suggestionRef.blur();
             }
         });
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', this.updateModalBounds);
-    }
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateModalBounds);
     }
 
     setSuggestionRef = (ref) => {
