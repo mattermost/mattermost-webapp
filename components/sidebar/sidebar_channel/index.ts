@@ -26,13 +26,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentTeam = getCurrentTeam(state);
     const member = getMyChannelMemberships(state)[ownProps.channelId];
 
-    // DM channel username
-    let teammate;
-
-    if (channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
-        teammate = getUser(state, channel.teammate_id);
-    }
-
     // Unread counts
     let unreadMentions = 0;
     let unreadMsgs = 0;
@@ -51,7 +44,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     return {
         channel,
-        teammateUsername: teammate && teammate.username,
         currentTeamName: currentTeam.name,
         unreadMentions,
         unreadMsgs,
