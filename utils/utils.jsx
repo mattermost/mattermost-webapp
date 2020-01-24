@@ -1783,3 +1783,35 @@ export function enableDevModeFeatures() {
         },
     });
 }
+
+/**
+ * Get closest parent which match selector
+ */
+export function getClosestParent(elem, selector) {
+    // Element.matches() polyfill
+    if (!Element.prototype.matches) {
+        Element.prototype.matches =
+        Element.prototype.matchesSelector ||
+        Element.prototype.mozMatchesSelector ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.oMatchesSelector ||
+        Element.prototype.webkitMatchesSelector ||
+        ((s) => {
+            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+            let i = matches.length - 1;
+            while (i >= 0 && matches.item(i) !== this) {
+                i--;
+            }
+            return i > -1;
+        });
+    }
+
+    // Get the closest matching element
+    let currentElem = elem;
+    for (; currentElem && currentElem !== document; currentElem = currentElem.parentNode) {
+        if (currentElem.matches(selector)) {
+            return currentElem;
+        }
+    }
+    return null;
+}

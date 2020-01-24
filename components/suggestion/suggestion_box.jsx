@@ -133,11 +133,6 @@ export default class SuggestionBox extends React.Component {
          * Passes the wrapper reference for height calculation
          */
         wrapperHeight: PropTypes.number,
-
-        modalBounds: PropTypes.shape({
-            top: PropTypes.number.isRequired,
-            bottom: PropTypes.number.isRequired,
-        }),
     }
 
     static defaultProps = {
@@ -680,7 +675,6 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
-        Reflect.deleteProperty(props, 'modalBounds');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -726,9 +720,8 @@ export default class SuggestionBox extends React.Component {
                             selection={this.state.selection}
                             components={this.state.components}
                             wrapperHeight={this.props.wrapperHeight}
-                            modalBounds={this.props.modalBounds}
                             calculateInputRect={this.calculateInputRect}
-                            blur={this.blur}
+                            onLoseVisibility={this.blur}
                         />
                     </div>
                 }

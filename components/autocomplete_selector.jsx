@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
@@ -38,7 +37,6 @@ export default class AutocompleteSelector extends React.PureComponent {
             modalBounds: {top: 0, bottom: 0},
         };
 
-        this.dropDirection = 'bottom';
         this.container = React.createRef();
     }
 
@@ -64,25 +62,11 @@ export default class AutocompleteSelector extends React.PureComponent {
         });
     }
 
-    componentWillUpdate() {
-        this.updateModalBounds();
-    }
-
     componentDidMount() {
         window.addEventListener('resize', this.updateModalBounds);
     }
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateModalBounds);
-    }
-
-    updateModalBounds = () => {
-        if (this.container.current) {
-            const modalContainer = ReactDOM.findDOMNode(this.container.current).parentElement.parentElement.parentElement;
-            const rect = modalContainer.getBoundingClientRect();
-            if (this.state.modalBounds.top !== rect.top || this.state.modalBounds.bottom !== rect.bottom) {
-                this.setState({modalBounds: {top: rect.top, bottom: rect.bottom}});
-            }
-        }
     }
 
     setSuggestionRef = (ref) => {
@@ -151,10 +135,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                 className='form-group'
             >
                 {labelContent}
-                <div
-                    className={inputClassName}
-                    ref={this.container}
-                >
+                <div className={inputClassName}>
                     <SuggestionBox
                         placeholder={placeholder}
                         ref={this.setSuggestionRef}
@@ -174,8 +155,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                         openWhenEmpty={true}
                         replaceAllInputOnSelect={true}
                         disabled={disabled}
-                        listStyle={this.dropDirection}
-                        modalBounds={this.state.modalBounds}
+                        listStyle='bottom'
                     />
                     {helpTextContent}
                     {footer}
