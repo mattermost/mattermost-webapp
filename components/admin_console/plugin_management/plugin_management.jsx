@@ -1043,7 +1043,7 @@ export default class PluginManagement extends AdminSettings {
                             helpText={
                                 <FormattedMarkdownMessage
                                     id='admin.plugins.settings.automaticPrepackagedPluginsDesc'
-                                    defaultMessage='When true, automatically installs any prepackaged plugin found to be enabled in the server configuration.'
+                                    defaultMessage='When true, the server will detect previously enabled plugins on the server and will automatically install them.'
                                 />
                             }
                             value={this.state.automaticPrepackagedPlugins}
