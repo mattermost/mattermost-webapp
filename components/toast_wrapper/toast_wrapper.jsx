@@ -71,6 +71,11 @@ class ToastWrapper extends React.PureComponent {
             showNewMessagesToast = true;
         }
 
+        if (!unreadCount) {
+            showNewMessagesToast = false;
+            showUnreadToast = false;
+        }
+
         return {
             unreadCount,
             showUnreadToast,
@@ -192,7 +197,7 @@ class ToastWrapper extends React.PureComponent {
             width: this.props.width,
         };
 
-        if (this.state.showUnreadToast && this.state.unreadCount > 0) {
+        if (this.state.showUnreadToast) {
             toastProps = {
                 ...toastProps,
                 onDismiss: this.hideUnreadToast,
