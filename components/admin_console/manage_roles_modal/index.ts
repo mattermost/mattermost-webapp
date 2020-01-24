@@ -5,15 +5,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {updateUserRoles} from 'mattermost-redux/actions/users';
 
-import ManageRolesModal from './manage_roles_modal.jsx';
+import ManageRolesModal from './manage_roles_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         userAccessTokensEnabled: state.entities.admin.config.ServiceSettings.EnableUserAccessTokens,
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
     return {
         actions: bindActionCreators({
             updateUserRoles,

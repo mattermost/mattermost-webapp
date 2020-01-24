@@ -26,6 +26,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
@@ -127,6 +128,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
@@ -239,6 +241,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}
@@ -351,6 +354,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}

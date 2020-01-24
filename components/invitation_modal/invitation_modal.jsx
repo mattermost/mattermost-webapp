@@ -73,6 +73,18 @@ export default class InvitationModal extends React.Component {
         }
     }
 
+    goToFirstStep = () => {
+        if (this.props.canAddUsers && this.props.canInviteGuests) {
+            this.goToInitialStep();
+        } else if (this.props.canAddUsers) {
+            this.goToMembers();
+        } else if (this.props.canInviteGuests) {
+            this.goToGuests();
+        } else {
+            this.close();
+        }
+    }
+
     goToInitialStep = () => {
         if (this.state.hasChanges) {
             this.setState({confirmBack: true});
@@ -271,6 +283,7 @@ export default class InvitationModal extends React.Component {
                                 teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
                                 onDone={this.close}
+                                onInviteMore={this.goToFirstStep}
                                 invitesType={this.state.invitesType}
                                 invitesSent={this.state.invitesSent}
                                 invitesNotSent={this.state.invitesNotSent}
