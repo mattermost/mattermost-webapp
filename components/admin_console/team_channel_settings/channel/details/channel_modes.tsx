@@ -48,7 +48,7 @@ const SyncGroupsToggle: React.SFC<Props> = (props: Props): JSX.Element => {
 
 const AllowAllToggle: React.SFC<Props> = (props: Props): JSX.Element | null => {
     const {isPublic, isSynced, isDefault, onToggle} = props;
-    if (!isSynced) {
+    if (isSynced) {
         return null;
     }
     return (
