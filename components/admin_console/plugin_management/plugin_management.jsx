@@ -1065,7 +1065,7 @@ export default class PluginManagement extends AdminSettings {
                                 />
                             }
                             value={this.state.enableRemoteMarketplace}
-                            disabled={!this.state.enable}
+                            disabled={!this.state.enable || !this.state.enableMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
                         />
