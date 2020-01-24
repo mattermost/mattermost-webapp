@@ -26,14 +26,23 @@ export default class ModalSuggestionList extends React.PureComponent {
         };
     }
 
+    onModalScroll = () => {
+        if (this.state.scroll !== modalBodyContainer.scrollTop) {
+            this.setState({scroll: modalBodyContainer.scrollTop});
+        }
+    }
+
     componentDidMount() {
         if (this.container) {
             const modalBodyContainer = ReactDOM.findDOMNode(this.container).parentElement.parentElement.parentElement.parentElement.parentElement;
-            modalBodyContainer.addEventListener('scroll', () => {
-                if (this.state.scroll !== modalBodyContainer.scrollTop) {
-                    this.setState({scroll: modalBodyContainer.scrollTop});
-                }
-            });
+            modalBodyContainer.addEventListener('scroll', this.onModalScroll);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.container) {
+            const modalBodyContainer = ReactDOM.findDOMNode(this.container).parentElement.parentElement.parentElement.parentElement.parentElement;
+            modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
         }
     }
 
