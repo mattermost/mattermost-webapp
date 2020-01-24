@@ -2,7 +2,7 @@
 
 exports[`components/admin_console/system_users/list should match default snapshot 1`] = `
 <div>
-  <SearchableUserList
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -15,7 +15,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": false,
       }
     }
-    actionUserProps={Object {}}
     actions={
       Array [
         [Function],
@@ -35,7 +34,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
     renderFilterRow={[MockFunction]}
     rowComponentType={[Function]}
     search={[Function]}
-    showTeamToggle={false}
     teamId=""
     term=""
     total={0}
@@ -74,7 +72,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
 
 exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa disabled 1`] = `
 <div>
-  <SearchableUserList
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -87,7 +85,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": false,
       }
     }
-    actionUserProps={Object {}}
     actions={
       Array [
         [Function],
@@ -205,7 +202,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
     renderFilterRow={[MockFunction]}
     rowComponentType={[Function]}
     search={[Function]}
-    showTeamToggle={false}
     teamId=""
     term=""
     total={0}
@@ -265,7 +261,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
 
 exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa enabled 1`] = `
 <div>
-  <SearchableUserList
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -278,7 +274,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": true,
       }
     }
-    actionUserProps={Object {}}
     actions={
       Array [
         [Function],
@@ -421,7 +416,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
     renderFilterRow={[MockFunction]}
     rowComponentType={[Function]}
     search={[Function]}
-    showTeamToggle={false}
     teamId=""
     term=""
     total={0}

@@ -4,12 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-export default class EditChannelPurposeModal extends React.PureComponent {
+class EditChannelPurposeModal extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -26,6 +26,8 @@ export default class EditChannelPurposeModal extends React.PureComponent {
          * Check should we send purpose on CTRL + ENTER
          */
         ctrlSend: PropTypes.bool.isRequired,
+
+        intl: PropTypes.any,
 
         /*
          * Object with redux action creators
@@ -118,6 +120,8 @@ export default class EditChannelPurposeModal extends React.PureComponent {
 
     render() {
         let serverError = null;
+        const {formatMessage} = this.props.intl;
+
         if (this.state.serverError) {
             serverError = (
                 <div className='form-group has-error'>
@@ -162,6 +166,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
             );
         }
 
+        const ariaLabelForTitle = formatMessage({id: 'edit_channel_purpose_modal.title1', defaultMessage: 'Edit Purpose'}).toLowerCase();
         return (
             <Modal
                 dialogClassName='a11y__modal'
@@ -192,6 +197,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                         value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
+                        aria-label={ariaLabelForTitle}
                     />
                     {serverError}
                 </Modal.Body>
@@ -222,3 +228,5 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(EditChannelPurposeModal);
