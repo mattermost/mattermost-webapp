@@ -8,6 +8,11 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import Constants from 'utils/constants';
 
+import SidebarBaseChannel from './sidebar_base_channel';
+import SidebarDirectChannel from './sidebar_direct_channel';
+import SidebarFakeChannel from './sidebar_fake_channel';
+import SidebarGroupChannel from './sidebar_group_channel';
+
 type Props = {
     channel: Channel;
     teammateUsername?: string;
@@ -20,24 +25,22 @@ type State = {
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
     render() {
-        const {channel, teammateUsername, currentTeamName} = this.props;
-        const channelStringified = String(channel.fake && JSON.stringify(channel));
+        const {channel, currentTeamName} = this.props;
 
-        let link = '';
+        let ChannelComponent = SidebarBaseChannel;
         if (channel.fake) {
-            link = `/${currentTeamName}/channels/${channel.name}?fakechannel=${encodeURIComponent(channelStringified)}`;
+            ChannelComponent = SidebarFakeChannel;
         } else if (channel.type === Constants.DM_CHANNEL) {
-            link = `/${currentTeamName}/messages/@${teammateUsername}`;
+            ChannelComponent = SidebarDirectChannel;
         } else if (channel.type === Constants.GM_CHANNEL) {
-            link = `/${currentTeamName}/messages/${channel.name}`;
-        } else {
-            link = `/${currentTeamName}/channels/${channel.name}`;
+            ChannelComponent = SidebarGroupChannel;
         }
 
         return (
-            <div>
-                <Link to={link}>{channel.display_name}</Link>
-            </div>
+            <ChannelComponent
+                channel={channel}
+                currentTeamName={currentTeamName}
+            />
         );
     }
 }

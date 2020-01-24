@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -6,26 +7,21 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {Channel} from 'mattermost-redux/types/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {Constants} from 'utils/constants';
-
-import SidebarChannel from './sidebar_channel';
+import SidebarDirectChannel from './sidebar_direct_channel';
 
 type OwnProps = {
-    channelId: string;
+    channel: Channel;
+    currentTeamName: string;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const getChannel = makeGetChannel();
-    const channel = getChannel(state, {id: ownProps.channelId});
-    const currentTeam = getCurrentTeam(state);
+    const teammate = getUser(state, ownProps.channel.teammate_id)
 
     return {
-        channel,
-        currentTeamName: currentTeam.name,
+        teammateUsername: teammate && teammate.username,
     };
 }
 
@@ -36,4 +32,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarDirectChannel);
