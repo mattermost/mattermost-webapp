@@ -24,24 +24,27 @@ export default class ModalSuggestionList extends React.PureComponent {
             scroll: 0,
             location: props.location,
         };
+
+        this.container = React.createRef();
     }
 
     onModalScroll = () => {
+        const modalBodyContainer = ReactDOM.findDOMNode(this.container.current).parentElement.parentElement.parentElement.parentElement.parentElement;
         if (this.state.scroll !== modalBodyContainer.scrollTop) {
             this.setState({scroll: modalBodyContainer.scrollTop});
         }
     }
 
     componentDidMount() {
-        if (this.container) {
-            const modalBodyContainer = ReactDOM.findDOMNode(this.container).parentElement.parentElement.parentElement.parentElement.parentElement;
+        if (this.container.current) {
+            const modalBodyContainer = ReactDOM.findDOMNode(this.container.current).parentElement.parentElement.parentElement.parentElement.parentElement;
             modalBodyContainer.addEventListener('scroll', this.onModalScroll);
         }
     }
 
     componentWillUnmount() {
-        if (this.container) {
-            const modalBodyContainer = ReactDOM.findDOMNode(this.container).parentElement.parentElement.parentElement.parentElement.parentElement;
+        if (this.container.current) {
+            const modalBodyContainer = ReactDOM.findDOMNode(this.container.current).parentElement.parentElement.parentElement.parentElement.parentElement;
             modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
         }
     }
@@ -49,8 +52,8 @@ export default class ModalSuggestionList extends React.PureComponent {
     componentWillUpdate() {
         this.inputBounds = this.props.calculateInputRect();
 
-        if (this.container) {
-            const container = ReactDOM.findDOMNode(this.container);
+        if (this.container.current) {
+            const container = ReactDOM.findDOMNode(this.container.current);
             const modalBodyRect = container.parentElement.parentElement.parentElement.parentElement.parentElement.getBoundingClientRect();
             if ((this.inputBounds.bottom < modalBodyRect.top) || (this.inputBounds.top > modalBodyRect.bottom)) {
                 this.props.blur();
@@ -78,10 +81,6 @@ export default class ModalSuggestionList extends React.PureComponent {
     inputBounds = {top: 0, bottom: 0, width: 0};
     latestHeight = 0;
 
-    setContainer = (container) => {
-        this.container = container;
-    }
-
     render() {
         const {
             modalBounds,
@@ -97,7 +96,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         return (
             <div
                 style={{position: 'fixed', zIndex: 101, width: this.inputBounds.width, ...position}}
-                ref={this.setContainer}
+                ref={this.container}
             >
                 <SuggestionList
                     {...{...props, location: this.state.location}}

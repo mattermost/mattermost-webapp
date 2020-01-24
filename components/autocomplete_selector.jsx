@@ -39,6 +39,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         };
 
         this.dropDirection = 'bottom';
+        this.container = React.createRef();
     }
 
     onChange = (e) => {
@@ -75,8 +76,8 @@ export default class AutocompleteSelector extends React.PureComponent {
     }
 
     updateModalBounds = () => {
-        if (this.container) {
-            const modalContainer = ReactDOM.findDOMNode(this.container).parentElement.parentElement.parentElement;
+        if (this.container.current) {
+            const modalContainer = ReactDOM.findDOMNode(this.container.current).parentElement.parentElement.parentElement;
             const rect = modalContainer.getBoundingClientRect();
             if (this.state.modalBounds.top !== rect.top || this.state.modalBounds.bottom !== rect.bottom) {
                 this.setState({modalBounds: {top: rect.top, bottom: rect.bottom}});
@@ -102,10 +103,6 @@ export default class AutocompleteSelector extends React.PureComponent {
         if (this.props.toggleFocus) {
             this.props.toggleFocus(false);
         }
-    }
-
-    setContainerRef = (container) => {
-        this.container = container;
     }
 
     render() {
@@ -156,7 +153,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                 {labelContent}
                 <div
                     className={inputClassName}
-                    ref={this.setContainerRef}
+                    ref={this.container}
                 >
                     <SuggestionBox
                         placeholder={placeholder}
