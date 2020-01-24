@@ -4,7 +4,6 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {unarchiveChannel} from 'mattermost-redux/actions/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UnarchiveChannelModal from './unarchive_channel_modal.jsx';
@@ -14,7 +13,6 @@ function mapStateToProps(state) {
 
     return {
         canViewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
-        currentTeamDetails: getCurrentTeam(state),
     };
 }
 

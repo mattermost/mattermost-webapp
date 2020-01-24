@@ -10,8 +10,6 @@ import {browserHistory} from 'utils/browser_history';
 import UnarchiveChannelModal from './unarchive_channel_modal';
 
 describe('components/unarchive_channel_modal', () => {
-    function emptyFunction() {} //eslint-disable-line no-empty-function
-
     const channel = {
         create_at: 1508265709607,
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
@@ -37,9 +35,9 @@ describe('components/unarchive_channel_modal', () => {
         channel,
         currentTeamDetails,
         actions: {
-            unarchiveChannel: emptyFunction,
+            unarchiveChannel: jest.fn(),
         },
-        onHide: emptyFunction,
+        onHide: jest.fn(),
         penultimateViewedChannelName: 'my-prev-channel',
     };
 
