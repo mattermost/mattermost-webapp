@@ -150,7 +150,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     this.setState({redirectPage: true, navigating: true});
                     if (Utils.isMobile()) {
                         window.location.replace(this.state.nativeLocation);
-                        var timeout = setTimeout(() => {
+                        const timeout = setTimeout(() => {
                             window.location.replace(this.getDownloadLink()!);
                         }, 2000);
                         if (UserAgent.isAndroidWeb()) {
