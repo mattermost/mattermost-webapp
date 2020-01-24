@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -6,11 +7,12 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {Constants} from 'utils/constants';
+import {Constants, NotificationLevels} from 'utils/constants';
 
 import SidebarChannel from './sidebar_channel';
 
@@ -22,16 +24,38 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const getChannel = makeGetChannel();
     const channel = getChannel(state, {id: ownProps.channelId});
     const currentTeam = getCurrentTeam(state);
+    const member = getMyChannelMemberships(state)[ownProps.channelId];
+
+    // DM channel username
     let teammate;
 
     if (channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
         teammate = getUser(state, channel.teammate_id);
     }
 
+    // Unread counts
+    let unreadMentions = 0;
+    let unreadMsgs = 0;
+    let showUnreadForMsgs = true;
+    if (member) {
+        unreadMentions = member.mention_count;
+
+        if (channel) {
+            unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
+        }
+
+        if (member.notify_props) {
+            showUnreadForMsgs = member.notify_props.mark_unread !== NotificationLevels.MENTION;
+        }
+    }
+
     return {
         channel,
         teammateUsername: teammate && teammate.username,
         currentTeamName: currentTeam.name,
+        unreadMentions,
+        unreadMsgs,
+        showUnreadForMsgs,
     };
 }
 
