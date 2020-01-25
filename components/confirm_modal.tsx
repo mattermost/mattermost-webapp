@@ -55,12 +55,12 @@ type Props = {
     /*
      * Function called when the confirm button or ENTER is pressed. Passes `true` if the checkbox is checked
      */
-    onConfirm: Function;
+    onConfirm: (checked: boolean) => void;
 
     /*
      * Function called when the cancel button is pressed or the modal is hidden. Passes `true` if the checkbox is checked
      */
-    onCancel: Function;
+    onCancel: (checked: boolean) => void;
 
     /**
      * Function called when modal is dismissed
