@@ -76,7 +76,6 @@ export default class TextboxLinks extends React.PureComponent {
 
         const helpText = (
             <div
-                id='helpText'
                 style={{visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0'}}
                 className='help__format-text'
             >
@@ -128,7 +127,6 @@ export default class TextboxLinks extends React.PureComponent {
                 {helpText}
                 {previewLink}
                 <Link
-                    id='helpTextLink'
                     target='_blank'
                     rel='noopener noreferrer'
                     to='/help/messaging'

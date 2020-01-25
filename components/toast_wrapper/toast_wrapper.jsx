@@ -11,9 +11,6 @@ import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 import LocalDateTime from 'components/local_date_time';
 
-export const TOAST_FADEOUT_TIME_UNREAD = 4000;
-export const TOAST_FADEOUT_TIME = 750;
-
 class ToastWrapper extends React.PureComponent {
     static propTypes = {
         unreadCountInChannel: PropTypes.number,
@@ -26,7 +23,7 @@ class ToastWrapper extends React.PureComponent {
         lastViewedBottom: PropTypes.number,
         width: PropTypes.number,
         isMobile: PropTypes.bool,
-        lastViewedAt: PropTypes.string,
+        lastViewedAt: PropTypes.number,
         updateNewMessagesAtInChannel: PropTypes.func,
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
@@ -38,7 +35,6 @@ class ToastWrapper extends React.PureComponent {
         this.state = {
             unreadCountInChannel: props.unreadCountInChannel,
         };
-        this.forceUnreadEvenAtBottom = true;
     }
 
     static countNewMessages = (postListIds) => {
@@ -51,7 +47,7 @@ class ToastWrapper extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, prevState) {
-        let {showUnreadToast, showNewMessagesToast, toastTimer} = prevState;
+        let {showUnreadToast, showNewMessagesToast} = prevState;
         let unreadCount;
 
         if (props.atLatestPost) {
@@ -62,21 +58,16 @@ class ToastWrapper extends React.PureComponent {
             unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
         }
 
-        if (typeof showUnreadToast === 'undefined') {
+        if (typeof showUnreadToast === 'undefined' && !props.atBottom) {
             showUnreadToast = unreadCount > 0;
         }
 
-        if (props.channelMarkedAsUnread && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
+        if (props.channelMarkedAsUnread && !props.atBottom && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
             showUnreadToast = true;
         }
 
         if (!showUnreadToast && unreadCount > 0 && !props.atBottom && (props.lastViewedBottom < props.latestPostTimeStamp)) {
             showNewMessagesToast = true;
-            toastTimer = TOAST_FADEOUT_TIME;
-        }
-
-        if (showUnreadToast) {
-            toastTimer = TOAST_FADEOUT_TIME_UNREAD;
         }
 
         return {
@@ -84,15 +75,11 @@ class ToastWrapper extends React.PureComponent {
             showUnreadToast,
             showNewMessagesToast,
             channelMarkedAsUnread: props.channelMarkedAsUnread,
-            toastTimer,
         };
     }
 
     componentDidMount() {
         this.mounted = true;
-        this.forceShowUnreadToastTimer = setTimeout(() => {
-            this.forceUnreadEvenAtBottom = false;
-        }, TOAST_FADEOUT_TIME_UNREAD);
         document.addEventListener('keydown', this.handleShortcut);
     }
 
@@ -103,7 +90,7 @@ class ToastWrapper extends React.PureComponent {
             }
 
             if (this.state.showUnreadToast) {
-                this.hideUnreadToast(false);
+                this.hideUnreadToast();
             }
         }
 
@@ -120,7 +107,6 @@ class ToastWrapper extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        clearTimeout(this.forceShowUnreadToastTimer);
         document.removeEventListener('keydown', this.handleShortcut);
     }
 
@@ -134,26 +120,20 @@ class ToastWrapper extends React.PureComponent {
         }
     };
 
-    hideUnreadToast = (dismiss = true) => {
+    hideUnreadToast = () => {
         if (this.state.showUnreadToast) {
-            let toastTimer = this.forceUnreadEvenAtBottom ? TOAST_FADEOUT_TIME_UNREAD : TOAST_FADEOUT_TIME;
-            if (dismiss) {
-                toastTimer = 0;
-            }
             this.setState({
                 showUnreadToast: false,
-                toastTimer,
             });
         }
     }
 
-    hideNewMessagesToast = (dismiss = true) => {
+    hideNewMessagesToast = (updateLastViewedBottomAt = true) => {
         if (this.state.showNewMessagesToast) {
             this.setState({
                 showNewMessagesToast: false,
-                toastTimer: dismiss ? 0 : TOAST_FADEOUT_TIME,
             });
-            if (dismiss) {
+            if (updateLastViewedBottomAt) {
                 this.props.updateLastViewedBottomAt();
             }
         }
@@ -201,7 +181,7 @@ class ToastWrapper extends React.PureComponent {
 
     scrollToLatestMessages = () => {
         this.props.scrollToLatestMessages();
-        this.hideUnreadToast(false);
+        this.hideUnreadToast();
     }
 
     render() {
@@ -209,7 +189,6 @@ class ToastWrapper extends React.PureComponent {
             countUnread: this.state.unreadCount,
             show: false,
             width: this.props.width,
-            toastTimer: this.state.toastTimer
         };
 
         if (this.state.showUnreadToast && this.state.unreadCount > 0) {

@@ -23,8 +23,7 @@ describe('Email notification', () => {
             config = response.body;
         });
 
-        cy.visit('/');
-        cy.url().should('include', '/channels/town-square');
+        cy.visit('/ad-1/channels/town-square');
 
         cy.getCurrentTeamId().then((teamId) => {
             cy.createNewUser({}, [teamId]).then((user) => {
@@ -56,10 +55,11 @@ describe('Email notification', () => {
             const bodyText = response.data.body.text.split('\n');
 
             const permalink = bodyText[9].match(reUrl)[0];
-            const permalinkPostId = permalink.split('/')[5];
+            const permalinkPostId = permalink.split('/')[6];
 
-            // # Visit permalink (e.g. click on email link)
+            // # Visit permalink (e.g. click on email link), view in browser to proceed
             cy.visit(permalink);
+            cy.findByText('View in Browser').click();
 
             const postText = `#postMessageText_${permalinkPostId}`;
             cy.get(postText).should('have.text', text);
