@@ -56,9 +56,10 @@ export default class SearchBar extends React.Component {
         };
 
         this.suggestionProviders = [
+            new SearchDateProvider(),
             new SearchChannelProvider(props.actions.autocompleteChannelsForSearch),
             new SearchUserProvider(props.actions.autocompleteUsersInTeam),
-            new SearchDateProvider()];
+        ];
     }
 
     componentDidMount() {
@@ -251,6 +252,7 @@ export default class SearchBar extends React.Component {
                         onSubmit={this.handleSubmit}
                         style={style.searchForm}
                         autoComplete='off'
+                        aria-labelledby='searchBox'
                     >
                         <SearchIcon
                             className='search__icon'

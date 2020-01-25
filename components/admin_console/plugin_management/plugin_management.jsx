@@ -218,37 +218,34 @@ const PluginItem = ({
         );
     }
 
-    let removeButton;
-    if (!pluginStatus.is_prepackaged) {
-        let removeButtonText;
-        if (removing) {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.removing'
-                    defaultMessage='Removing...'
-                />
-            );
-        } else {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.remove'
-                    defaultMessage='Remove'
-                />
-            );
-        }
-        removeButton = (
-            <span>
-                {' - '}
-                <a
-                    data-plugin-id={pluginStatus.id}
-                    disabled={removing}
-                    onClick={handleRemove}
-                >
-                    {removeButtonText}
-                </a>
-            </span>
+    let removeButtonText;
+    if (removing) {
+        removeButtonText = (
+            <FormattedMessage
+                id='admin.plugin.removing'
+                defaultMessage='Removing...'
+            />
+        );
+    } else {
+        removeButtonText = (
+            <FormattedMessage
+                id='admin.plugin.remove'
+                defaultMessage='Remove'
+            />
         );
     }
+    const removeButton = (
+        <span>
+            {' - '}
+            <a
+                data-plugin-id={pluginStatus.id}
+                disabled={removing}
+                onClick={handleRemove}
+            >
+                {removeButtonText}
+            </a>
+        </span>
+    );
 
     let description;
     if (pluginStatus.description) {
@@ -256,19 +253,6 @@ const PluginItem = ({
             <div className='padding-top'>
                 {pluginStatus.description}
             </div>
-        );
-    }
-
-    let prepackagedLabel;
-    if (pluginStatus.is_prepackaged) {
-        prepackagedLabel = (
-            <span>
-                {', '}
-                <FormattedMessage
-                    id='admin.plugin.prepackaged'
-                    defaultMessage='pre-packaged'
-                />
-            </span>
         );
     }
 
@@ -357,14 +341,13 @@ const PluginItem = ({
     }
 
     return (
-        <div>
+        <div data-testid={pluginStatus.id}>
             <div>
                 <strong>{pluginStatus.name}</strong>
                 {' ('}
                 {pluginStatus.id}
                 {' - '}
                 {pluginStatus.version}
-                {prepackagedLabel}
                 {')'}
             </div>
             {description}
@@ -436,6 +419,8 @@ export default class PluginManagement extends AdminSettings {
         config.PluginSettings.EnableUploads = this.state.enableUploads;
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
         config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
+        config.PluginSettings.EnableRemoteMarketplace = this.state.enableRemoteMarketplace;
+        config.PluginSettings.AutomaticPrepackagedPlugins = this.state.automaticPrepackagedPlugins;
         config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
         config.PluginSettings.RequirePluginSignature = this.state.requirePluginSignature;
 
@@ -448,6 +433,8 @@ export default class PluginManagement extends AdminSettings {
             enableUploads: config.PluginSettings.EnableUploads,
             allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
             enableMarketplace: config.PluginSettings.EnableMarketplace,
+            enableRemoteMarketplace: config.PluginSettings.EnableRemoteMarketplace,
+            automaticPrepackagedPlugins: config.PluginSettings.AutomaticPrepackagedPlugins,
             marketplaceUrl: config.PluginSettings.MarketplaceUrl,
             requirePluginSignature: config.PluginSettings.RequirePluginSignature,
         };
@@ -904,7 +891,7 @@ export default class PluginManagement extends AdminSettings {
                         <p className='help-text'>
                             <FormattedHTMLMessage
                                 id='admin.plugin.installedDesc'
-                                defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed.'
+                                defaultMessage='Installed plugins on your Mattermost server.'
                             />
                         </p>
                         <br/>
@@ -1010,6 +997,7 @@ export default class PluginManagement extends AdminSettings {
                                 </div>
                                 <button
                                     className={btnClass}
+                                    id='uploadPlugin'
                                     disabled={!this.state.fileSelected}
                                     onClick={this.handleSubmitUpload}
                                 >
@@ -1044,7 +1032,44 @@ export default class PluginManagement extends AdminSettings {
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
                         />
-
+                        <BooleanSetting
+                            id='automaticPrepackagedPlugins'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.automaticPrepackagedPlugins'
+                                    defaultMessage='Enable Automatic Prepackaged Plugins:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.automaticPrepackagedPluginsDesc'
+                                    defaultMessage='When true, the server will detect previously enabled plugins on the server and will automatically install them.'
+                                />
+                            }
+                            value={this.state.automaticPrepackagedPlugins}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
+                        />
+                        <BooleanSetting
+                            id='enableRemoteMarketplace'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enableRemoteMarketplace'
+                                    defaultMessage='Enable Remote Marketplace:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.enableRemoteMarketplaceDesc'
+                                    defaultMessage='When true, marketplace fetches latest plugins from the configured Marketplace URL.'
+                                />
+                            }
+                            value={this.state.enableRemoteMarketplace}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
+                        />
                         <TextSetting
                             id={'marketplaceUrl'}
                             type={'input'}
@@ -1056,7 +1081,7 @@ export default class PluginManagement extends AdminSettings {
                             }
                             helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
                             value={this.state.marketplaceUrl}
-                            disabled={!this.state.enable || !this.state.enableMarketplace}
+                            disabled={!this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                         />

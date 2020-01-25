@@ -3,6 +3,7 @@
 exports[`components/admin_console/group_settings/GroupRow should match snapshot, on checked row 1`] = `
 <div
   className="group checked"
+  id="name_group"
   onClick={[Function]}
 >
   <div
@@ -51,6 +52,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
 exports[`components/admin_console/group_settings/GroupRow should match snapshot, on failed linked row 1`] = `
 <div
   className="group "
+  id="name_group"
   onClick={[Function]}
 >
   <div
@@ -91,6 +93,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
         className="group-actions"
       >
         <Link
+          id="name_configure"
           to="/admin_console/user_management/groups/group-id"
         >
           <FormattedMessage
@@ -108,6 +111,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
 exports[`components/admin_console/group_settings/GroupRow should match snapshot, on failed not linked row 1`] = `
 <div
   className="group "
+  id="name_group"
   onClick={[Function]}
 >
   <div
@@ -155,6 +159,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
 exports[`components/admin_console/group_settings/GroupRow should match snapshot, on linked and configured row 1`] = `
 <div
   className="group "
+  id="name_group"
   onClick={[Function]}
 >
   <div
@@ -194,6 +199,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
         className="group-actions"
       >
         <Link
+          id="name_edit"
           to="/admin_console/user_management/groups/group-id"
         >
           <FormattedMessage
@@ -211,6 +217,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
 exports[`components/admin_console/group_settings/GroupRow should match snapshot, on linked but not configured row 1`] = `
 <div
   className="group "
+  id="name_group"
   onClick={[Function]}
 >
   <div
@@ -250,6 +257,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
         className="group-actions"
       >
         <Link
+          id="name_configure"
           to="/admin_console/user_management/groups/group-id"
         >
           <FormattedMessage
@@ -267,6 +275,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
 exports[`components/admin_console/group_settings/GroupRow should match snapshot, on not linked row 1`] = `
 <div
   className="group "
+  id="name_group"
   onClick={[Function]}
 >
   <div
