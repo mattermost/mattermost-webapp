@@ -45,7 +45,7 @@ import {
 } from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
@@ -594,8 +594,9 @@ export function handleLeaveTeamEvent(msg) {
     }
 
     dispatch(batchActions(actions));
+    const currentUser = getCurrentUser(state);
 
-    if (getCurrentUserId(state) === msg.data.user_id) {
+    if (currentUser.Id === msg.data.user_id) {
         dispatch({type: TeamTypes.LEAVE_TEAM, data: {id: msg.data.team_id}});
 
         // if they are on the team being removed redirect them to default team
@@ -603,6 +604,22 @@ export function handleLeaveTeamEvent(msg) {
             if (!global.location.pathname.startsWith('/admin_console')) {
                 redirectUserToDefaultTeam();
             }
+        }
+    } else {
+        const team = getTeam(state, msg.broadcast.team_id);
+        const members = getChannelMembersInChannels(state);
+        const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
+        if (team && isGuest(currentUser) && !isMember) {
+            dispatch(batchActions([
+                {
+                    type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
+                    data: {user_id: msg.data.user_id},
+                },
+                {
+                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                    data: {team_id: team.id, user_id: msg.data.user_id},
+                },
+            ]));
         }
     }
 }
