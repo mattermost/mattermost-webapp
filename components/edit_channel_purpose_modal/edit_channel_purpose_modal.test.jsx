@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {shallow} from 'enzyme';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx';
 import Constants from 'utils/constants';
 
@@ -13,7 +13,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     };
 
     it('should match on init', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
@@ -33,7 +33,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             display_name: 'channel name',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channelWithDisplayName}
                 ctrlSend={true}
@@ -53,7 +53,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             type: 'P',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={privateChannel}
                 ctrlSend={true}
@@ -68,7 +68,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     });
 
     it('should match submitted', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
@@ -77,7 +77,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -88,7 +88,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             message: 'error',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
@@ -111,7 +111,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             message: 'error',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
@@ -129,7 +129,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     });
 
     it('clear error on next', async () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
@@ -152,7 +152,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     });
 
     it('update purpose state', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
@@ -175,7 +175,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     });
 
     it('hide on success', async () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
@@ -194,7 +194,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     it('submit on save button click', () => {
         const patchChannel = jest.fn().mockResolvedValue({data: true});
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
@@ -213,7 +213,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     it('submit on ctrl + enter', () => {
         const patchChannel = jest.fn().mockResolvedValue({data: true});
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
@@ -237,7 +237,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     it('submit on enter', () => {
         const patchChannel = jest.fn().mockResolvedValue({data: true});
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}

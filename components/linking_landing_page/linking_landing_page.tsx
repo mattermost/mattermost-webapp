@@ -3,7 +3,6 @@
 
 import React, {PureComponent} from 'react';
 import {FormattedMessage} from 'react-intl';
-import safeOpenProtocol from 'custom-protocol-detection';
 
 import desktopImg from 'images/deep-linking/deeplinking-desktop-img.png';
 import mobileImg from 'images/deep-linking/deeplinking-mobile-img.png';
@@ -28,8 +27,6 @@ type Props = {
 }
 
 type State = {
-    protocolUnsupported: boolean;
-    browserUnsupported: boolean;
     rememberChecked: boolean;
     redirectPage: boolean;
     location: string;
@@ -45,8 +42,6 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         const location = window.location.href.replace('/landing#', '');
 
         this.state = {
-            protocolUnsupported: false,
-            browserUnsupported: false,
             rememberChecked: false,
             redirectPage: false,
             location,
@@ -124,14 +119,6 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         window.location.href = this.state.location;
     }
 
-    tryOpen = () => {
-        safeOpenProtocol(this.state.nativeLocation,
-            () => this.setState({protocolUnsupported: true}),
-            () => null,
-            () => this.setState({browserUnsupported: true})
-        );
-    }
-
     renderSystemDialogMessage = () => {
         const isMobile = UserAgent.isMobile();
 
@@ -153,40 +140,25 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     renderGoNativeAppMessage = () => {
-        const {browserUnsupported, protocolUnsupported} = this.state;
-        const downloadLink = this.getDownloadLink();
-
-        if (protocolUnsupported && downloadLink) {
-            return (
-                <a
-                    href={downloadLink}
-                    className='btn btn-primary btn-lg get-app__download'
-                >
-                    <FormattedMessage
-                        id='get_app.downloadMattermost'
-                        defaultMessage='Download App'
-                    />
-                </a>
-            );
-        } else if (browserUnsupported) {
-            return (
-                <a className='btn btn-primary btn-lg get-app__download disabled'>
-                    <FormattedMessage
-                        id='get_app.browserUnsupported'
-                        defaultMessage='Browser not supported.'
-                    />
-                </a>
-            );
-        }
-
         return (
             <a
-                href={this.state.nativeLocation}
+                href={Utils.isMobile() ? '#' : this.state.nativeLocation}
                 onMouseDown={() => {
                     this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
                 }}
                 onClick={() => {
                     this.setState({redirectPage: true, navigating: true});
+                    if (Utils.isMobile()) {
+                        window.location.replace(this.state.nativeLocation);
+                        const timeout = setTimeout(() => {
+                            window.location.replace(this.getDownloadLink()!);
+                        }, 2000);
+                        if (UserAgent.isAndroidWeb()) {
+                            window.addEventListener('blur', () => {
+                                clearTimeout(timeout);
+                            });
+                        }
+                    }
                 }}
                 className='btn btn-primary btn-lg get-app__download'
             >
@@ -254,7 +226,6 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     renderDownloadLinkSection = () => {
-        const {protocolUnsupported} = this.state;
         const downloadLink = this.getDownloadLink();
 
         if (this.state.redirectPage) {
@@ -269,7 +240,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     />
                 </div>
             );
-        } else if (!protocolUnsupported && downloadLink) {
+        } else if (downloadLink) {
             return (
                 <div className='get-app__download-link'>
                     {this.renderDownloadLinkText()}
