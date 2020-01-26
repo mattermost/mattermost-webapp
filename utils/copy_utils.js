@@ -3,7 +3,7 @@
 import removeMd from 'remove-markdown';
 import rangy from 'rangy';
 
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from './text_formatting';
 
 import {getPostContent} from './copy_parser';
 
@@ -47,8 +47,8 @@ function getSelectedNodePostIds(node) {
         currNode.tagName &&
         currNode.tagName === 'DIV' &&
         currNode.id &&
-        currNode.id === 'postContent')
-    ) {
+        Array.from(currNode.classList || []).includes('post-message__text')
+    )) {
         currNode = currNode.parentNode;
         if (currNode === null) {
             break;
@@ -56,7 +56,7 @@ function getSelectedNodePostIds(node) {
     }
 
     if (currNode) {
-        return currNode.parentNode.id.split('post_')[1];
+        return currNode.id.split('postMessageText_')[1];
     }
 
     return null;

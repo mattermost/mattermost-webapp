@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
@@ -10,7 +11,6 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import {focusPost} from 'components/permalink_view/actions';
 import PermalinkView from 'components/permalink_view/permalink_view.jsx';
 
@@ -77,7 +77,7 @@ describe('components/PermalinkView', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermalinkView {...baseProps}/>,
         );
 
@@ -86,7 +86,7 @@ describe('components/PermalinkView', () => {
     });
 
     test('should call baseProps.actions.focusPost on doPermalinkEvent', async () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermalinkView {...baseProps}/>
         );
 
@@ -99,7 +99,7 @@ describe('components/PermalinkView', () => {
     });
 
     test('should call baseProps.actions.focusPost when postid changes', async () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermalinkView {...baseProps}/>
         );
         const newPostid = `${baseProps.match.params.postid}_new`;
@@ -112,7 +112,7 @@ describe('components/PermalinkView', () => {
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channelIsArchived: true};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermalinkView {...props}/>
         );
 
@@ -145,7 +145,7 @@ describe('components/PermalinkView', () => {
                 const testStore = await mockStore(initialState);
                 await testStore.dispatch(focusPost('postid1'));
 
-                expect(getPostThread).toHaveBeenCalledWith('postid1', false);
+                expect(getPostThread).toHaveBeenCalledWith('postid1');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'}}, order: ['postid1']}},
                     {type: 'MOCK_SELECT_CHANNEL', args: ['channelid1']},
@@ -160,7 +160,7 @@ describe('components/PermalinkView', () => {
 
                 await testStore.dispatch(focusPost('postid2'));
 
-                expect(getPostThread).toHaveBeenCalledWith('postid2', false);
+                expect(getPostThread).toHaveBeenCalledWith('postid2');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid2: {id: 'postid2', message: 'some message', channel_id: 'channelid2'}}, order: ['postid2']}},
                     {type: 'MOCK_GET_CHANNEL', data: {id: 'channelid2', type: 'O', team_id: 'current_team_id'}},
@@ -176,7 +176,7 @@ describe('components/PermalinkView', () => {
                 const testStore = await mockStore(initialState);
                 await testStore.dispatch(focusPost('dmpostid1'));
 
-                expect(getPostThread).toHaveBeenCalledWith('dmpostid1', false);
+                expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
                 ]);
@@ -187,7 +187,7 @@ describe('components/PermalinkView', () => {
                 const testStore = await mockStore(initialState);
                 await testStore.dispatch(focusPost('gmpostid1'));
 
-                expect(getPostThread).toHaveBeenCalledWith('gmpostid1', false);
+                expect(getPostThread).toHaveBeenCalledWith('gmpostid1');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {gmpostid1: {id: 'gmpostid1', message: 'some message', channel_id: 'gmchannelid'}}, order: ['gmpostid1']}},
                 ]);

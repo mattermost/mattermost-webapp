@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {Constants} from 'utils/constants';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {Constants} from 'utils/constants';
 
 import MainMenu from './main_menu.jsx';
 

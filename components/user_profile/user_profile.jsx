@@ -3,10 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import {OverlayTrigger} from 'react-bootstrap';
 
 import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -34,7 +34,13 @@ export default class UserProfile extends PureComponent {
     };
 
     hideProfilePopover = () => {
-        this.refs.overlay.hide();
+        if (this.overlay) {
+            this.overlay.hide();
+        }
+    }
+
+    setOverlaynRef = (ref) => {
+        this.overlay = ref;
     }
 
     render() {
@@ -68,7 +74,7 @@ export default class UserProfile extends PureComponent {
         return (
             <React.Fragment>
                 <OverlayTrigger
-                    ref='overlay'
+                    ref={this.setOverlaynRef}
                     trigger='click'
                     placement={placement}
                     rootClose={true}

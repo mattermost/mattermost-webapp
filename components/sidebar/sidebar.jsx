@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -15,10 +15,16 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import favicon from 'images/favicon/favicon-16x16.png';
-import redFavicon from 'images/favicon/redfavicon-16x16.png';
+import favicon16x16 from 'images/favicon/favicon-16x16.png';
+import favicon32x32 from 'images/favicon/favicon-32x32.png';
+import favicon96x96 from 'images/favicon/favicon-96x96.png';
+import redDotFavicon16x16 from 'images/favicon/favicon-reddot-16x16.png';
+import redDotFavicon32x32 from 'images/favicon/favicon-reddot-32x32.png';
+import redDotFavicon96x96 from 'images/favicon/favicon-reddot-96x96.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -57,7 +63,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class Sidebar extends React.PureComponent {
+class Sidebar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -113,6 +119,8 @@ export default class Sidebar extends React.PureComponent {
          */
         currentUser: PropTypes.object,
 
+        intl: intlShape.isRequired,
+
         /**
          * Number of unread mentions/messages
          */
@@ -133,6 +141,11 @@ export default class Sidebar extends React.PureComponent {
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
 
+        /**
+         * Setting that enables user to view archived channels
+         */
+        viewArchivedChannels: PropTypes.bool,
+
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
@@ -143,10 +156,6 @@ export default class Sidebar extends React.PureComponent {
     static defaultProps = {
         currentChannel: {},
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     constructor(props) {
         super(props);
@@ -165,6 +174,7 @@ export default class Sidebar extends React.PureComponent {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
+            morePublicChannelsModalType: 'public',
         };
 
         this.animate = new SpringSystem();
@@ -213,6 +223,11 @@ export default class Sidebar extends React.PureComponent {
             this.refs.scrollbar.scrollToTop();
         }
 
+        // Scroll to selected channel so it's in view
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.updateScrollbarOnChannelChange(this.props.currentChannel.id);
+        }
+
         // close the LHS on mobile when you change channels
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
             if (this.closedDirectChannel) {
@@ -224,8 +239,7 @@ export default class Sidebar extends React.PureComponent {
 
         this.updateTitle();
 
-        // Don't modify favicon for now: https://mattermost.atlassian.net/browse/MM-13643.
-        // this.setBadgesActiveAndFavicon();
+        this.setBadgesActiveAndFavicon();
 
         this.setFirstAndLastUnreadChannels();
         this.updateUnreadIndicators();
@@ -241,26 +255,38 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setBadgesActiveAndFavicon() {
+        if (!(UserAgent.isFirefox() || UserAgent.isChrome())) {
+            return;
+        }
+
+        const link = document.querySelector('link[rel="icon"]');
+
+        if (!link) {
+            return;
+        }
+
         this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentionCount;
+        this.badgesActive = this.props.unreads.mentionCount > 0;
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
-            var link = document.createElement('link');
-            link.type = 'image/x-icon';
-            link.rel = 'shortcut icon';
-            link.id = 'favicon';
-            if (this.badgesActive) {
-                link.href = typeof redFavicon === 'string' ? redFavicon : '';
-            } else {
-                link.href = typeof favicon === 'string' ? favicon : '';
-            }
-            var head = document.getElementsByTagName('head')[0];
-            var oldLink = document.getElementById('favicon');
-            if (oldLink) {
-                head.removeChild(oldLink);
-            }
-            head.appendChild(link);
+            this.updateFavicon(this.badgesActive);
+        }
+    }
+
+    updateFavicon = (active) => {
+        const link16x16 = document.querySelector('link[rel="icon"][sizes="16x16"]');
+        const link32x32 = document.querySelector('link[rel="icon"][sizes="32x32"]');
+        const link96x96 = document.querySelector('link[rel="icon"][sizes="96x96"]');
+
+        if (active) {
+            link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : '';
+            link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : '';
+            link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : '';
+        } else {
+            link16x16.href = typeof favicon16x16 === 'string' ? favicon16x16 : '';
+            link32x32.href = typeof favicon32x32 === 'string' ? favicon32x32 : '';
+            link96x96.href = typeof favicon96x96 === 'string' ? favicon96x96 : '';
         }
     }
 
@@ -296,7 +322,7 @@ export default class Sidebar extends React.PureComponent {
             currentTeammate,
             unreads,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
 
         const currentSiteName = config.SiteName || '';
 
@@ -389,9 +415,11 @@ export default class Sidebar extends React.PureComponent {
     }
 
     updateScrollbarOnChannelChange = (channelId) => {
-        const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
-        if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
-            this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
+        if (this.refs[channelId] && this.refs[channelId].getWrappedInstance().refs.channel) {
+            const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
+            if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
+                this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
+            }
         }
     }
 
@@ -495,8 +523,8 @@ export default class Sidebar extends React.PureComponent {
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
     }
 
-    showMoreChannelsModal = () => {
-        this.setState({showMoreChannelsModal: true});
+    showMoreChannelsModal = (type) => {
+        this.setState({showMoreChannelsModal: true, morePublicChannelsModalType: type});
         trackEvent('ui', 'ui_channels_more_public');
     }
 
@@ -621,6 +649,7 @@ export default class Sidebar extends React.PureComponent {
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
+                                    viewArchivedChannels={this.props.viewArchivedChannels}
                                 />
                             </ul>
                         );
@@ -638,8 +667,6 @@ export default class Sidebar extends React.PureComponent {
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);
         }
-
-        this.badgesActive = false;
 
         // keep track of the first and last unread channels so we can use them to set the unread indicators
         this.firstUnreadChannel = null;
@@ -683,6 +710,7 @@ export default class Sidebar extends React.PureComponent {
                         this.hideMoreChannelsModal();
                         this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
+                    morePublicChannelsModalType={this.state.morePublicChannelsModalType}
                 />
             );
         }
@@ -786,3 +814,5 @@ export default class Sidebar extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(Sidebar);

@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {injectIntl} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
-export default class SidebarChannel extends React.PureComponent {
+class SidebarChannel extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -34,6 +35,11 @@ export default class SidebarChannel extends React.PureComponent {
          * Channel display name
          */
         channelDisplayName: PropTypes.string.isRequired,
+
+        /**
+         * LHS bot icon image url
+         */
+        botIconUrl: PropTypes.string,
 
         /**
          * Channel is muted
@@ -84,6 +90,8 @@ export default class SidebarChannel extends React.PureComponent {
          * Whether the channel contains a draft in the center channel
          */
         hasDraft: PropTypes.bool.isRequired,
+
+        intl: intlShape.isRequired,
 
         /**
          * Whether or not to mark the channel as unread when it has unread messages and no mentions
@@ -149,10 +157,6 @@ export default class SidebarChannel extends React.PureComponent {
             leaveChannel: PropTypes.func.isRequired,
             openLhs: PropTypes.func.isRequired,
         }).isRequired,
-    }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     }
 
     isLeaving = false;
@@ -255,9 +259,9 @@ export default class SidebarChannel extends React.PureComponent {
                 <SidebarTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
+                    openLhs={this.props.actions.openLhs}
                 />
             );
-            this.props.actions.openLhs();
         }
 
         let link = '';
@@ -273,7 +277,7 @@ export default class SidebarChannel extends React.PureComponent {
 
         let displayName = '';
         if (this.props.currentUserId === this.props.channelTeammateId) {
-            displayName = this.context.intl.formatMessage({
+            displayName = this.props.intl.formatMessage({
                 id: 'sidebar.directchannel.you',
                 defaultMessage: '{displayname} (you)',
             }, {
@@ -294,6 +298,7 @@ export default class SidebarChannel extends React.PureComponent {
                     rowClass={rowClass}
                     channelId={this.props.channelId}
                     channelName={this.props.channelName}
+                    botIconUrl={this.props.botIconUrl}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}
@@ -314,3 +319,7 @@ export default class SidebarChannel extends React.PureComponent {
         );
     }
 }
+
+const wrappedComponent = injectIntl(SidebarChannel, {forwardRef: true});
+wrappedComponent.displayName = 'injectIntl(SidebarChannel)';
+export default wrappedComponent;

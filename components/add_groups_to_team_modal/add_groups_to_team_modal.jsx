@@ -11,7 +11,7 @@ import {Groups} from 'mattermost-redux/constants';
 import Constants from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 
@@ -167,7 +167,7 @@ export default class AddGroupsToTeamModal extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd) {
+    renderOption(option, isSelected, onAdd, onMouseMove) {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
@@ -176,6 +176,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <img
                     className='more-modal__image'
@@ -242,6 +243,10 @@ export default class AddGroupsToTeamModal extends React.Component {
             const hasGroup = (og) => this.props.includeGroups.find((g) => g.id === og.id);
             groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
+
+        groupsToShow = groupsToShow.map((group) => {
+            return {label: group.display_name, value: group.id, ...group};
+        });
 
         return (
             <Modal

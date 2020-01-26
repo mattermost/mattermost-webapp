@@ -9,6 +9,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
+import {updateNewMessagesAtInChannel} from 'actions/global_actions.jsx';
 import {getLatestPostId, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 import {
     checkAndSetMobileView,
@@ -59,7 +60,7 @@ function makeMapStateToProps() {
         }
 
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId: ownProps.channelId});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -94,6 +95,7 @@ function mapDispatchToProps(dispatch) {
             syncPostsInChannel,
             markChannelAsViewed,
             markChannelAsRead,
+            updateNewMessagesAtInChannel,
         }, dispatch),
     };
 }

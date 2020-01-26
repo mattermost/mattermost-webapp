@@ -11,7 +11,43 @@
 
     .post-right-comments-container {
         position: relative;
+
+        .post {
+            &.same--root {
+                &.same--user {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                }
+            }
+
+            &:hover {
+                & + .Separator {
+                    .separator__hr {
+                        overflow: visible;
+
+                        &:before {
+                            content: '';
+                            background: v(center-channel-color-08);
+                            width: 100%;
+                            height: 16px;
+                            position: absolute;
+                            left: 0;
+                            top: -16px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .Separator {
+            padding-top: 15px;
+
+            & + .post {
+                padding-top: 20px;
+            }
+        }
     }
+
 
 
     .help_format_text {
@@ -85,12 +121,6 @@
         border: none;
     }
 
-    .date-separator {
-        hr {
-            border-top: 1px solid #eee;
-        }
-    }
-
     .post-create__container {
         width: 100%;
 
@@ -156,7 +186,7 @@
 
 .post-right-channel__name {
     font-weight: 600;
-    margin: 0 0 15px;
+    margin: 8px 0 12px;
 }
 
 .card-info-channel__name {
@@ -186,7 +216,7 @@
 .post-right__scroll {
     -webkit-overflow-scrolling: touch;
     @include flex(1 1 auto);
-    padding-top: 10px;
+    padding-top: 28px;
     position: relative;
 
     .file-preview__container {

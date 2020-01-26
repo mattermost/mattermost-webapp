@@ -4,10 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
+
 import {PostRequestTypes} from 'utils/constants';
 
 import PostList, {MAX_EXTRA_PAGES_LOADED} from './post_list.jsx';
-import VirtPostList from './post_list_virtualized.jsx';
 
 const actionsProp = {
     getPostForCopy: jest.fn().mockImplementation(() => Promise.resolve([])),
@@ -19,6 +20,7 @@ const actionsProp = {
     checkAndSetMobileView: jest.fn(),
     markChannelAsViewed: jest.fn(),
     markChannelAsRead: jest.fn(),
+    updateNewMessagesAtInChannel: jest.fn(),
 };
 
 const lastViewedAt = 1532345226632;
@@ -142,7 +144,7 @@ describe('components/post_view/post_list', () => {
         test('should call getPostsSince on channel switch', () => {
             const postIds = createFakePosIds(2);
             shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds, latestPostTimeStamp: 1234}}/>);
-            expect(actionsProp.syncPostsInChannel).toHaveBeenCalledWith(baseProps.channelId, 1234);
+            expect(actionsProp.syncPostsInChannel).toHaveBeenCalledWith(baseProps.channelId, 1234, false);
         });
     });
 

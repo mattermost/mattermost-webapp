@@ -3,13 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+import {t} from 'utils/i18n';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -17,7 +18,8 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
@@ -27,6 +29,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
+import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -49,7 +52,7 @@ function trimRight(str) {
     return str.replace(/\s*$/, '');
 }
 
-export default class CreatePost extends React.Component {
+class CreatePost extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -173,6 +176,9 @@ export default class CreatePost extends React.Component {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        intl: intlShape.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -251,10 +257,6 @@ export default class CreatePost extends React.Component {
         }).isRequired,
     }
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
     static defaultProps = {
         latestReplyablePostId: '',
     }
@@ -326,6 +328,11 @@ export default class CreatePost extends React.Component {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
+        if (this.saveDraftFrame) {
+            const channelId = this.props.currentChannel.id;
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            cancelAnimationFrame(this.saveDraftFrame);
+        }
     }
 
     updatePreview = (newState) => {
@@ -655,7 +662,7 @@ export default class CreatePost extends React.Component {
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
+        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition);
 
         if (ignoreKeyPress) {
             e.preventDefault();
@@ -704,8 +711,10 @@ export default class CreatePost extends React.Component {
             ...this.props.draft,
             message,
         };
-
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraftFrame = requestAnimationFrame(() => {
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        });
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -714,23 +723,22 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        let message = '';
         const markdownData = e.clipboardData.getData('text/markdown');
         const table = getTable(e.clipboardData);
-        let message = null;
-        if (table) {
-            message = formatMarkdownTableMessage(table, this.state.message.trim());
-        }
-
         if (table || (markdownData && markdownData.length)) {
             e.preventDefault();
-        } else {
-            return;
-        }
-
-        if (message) {
+            if (table) {
+                message = formatMarkdownTableMessage(table, this.state.message.trim());
+                if (isGitHubCodeBlock(table.className)) {
+                    message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+                } else {
+                    message = formatMarkdownTableMessage(table, this.state.message.trim());
+                }
+            } else if (markdownData && markdownData.length) {
+                message = markdownData;
+            }
             this.setState({message});
-        } else {
-            this.setState({message: markdownData});
         }
     }
 
@@ -1091,7 +1099,7 @@ export default class CreatePost extends React.Component {
             showTutorialTip,
             readOnlyChannel,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
@@ -1307,12 +1315,12 @@ export default class CreatePost extends React.Component {
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >
-                                    <i
+                                    <LocalizedIcon
                                         className='fa fa-paper-plane'
-                                        title={formatMessage({
-                                            id: 'create_post.icon',
+                                        title={{
+                                            id: t('create_post.icon'),
                                             defaultMessage: 'Send Post Icon',
-                                        })}
+                                        }}
                                     />
                                 </a>
                             </span>
@@ -1358,3 +1366,5 @@ export default class CreatePost extends React.Component {
         );
     }
 }
+
+export default injectIntl(CreatePost);

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import DateSeparator from 'components/post_view/date_separator/date_separator.jsx';
 
@@ -16,7 +16,7 @@ describe('components/post_view/DateSeparator', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Fri, Jan 12, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Fri, Jan 12, 2018');
     });
 
     test('should render date without timezone enabled', () => {
@@ -29,7 +29,7 @@ describe('components/post_view/DateSeparator', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Fri, Jan 12, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Fri, Jan 12, 2018');
     });
 
     test('should render date with timezone enabled', () => {
@@ -42,6 +42,6 @@ describe('components/post_view/DateSeparator', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Sat, Jan 13, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Sat, Jan 13, 2018');
     });
 });

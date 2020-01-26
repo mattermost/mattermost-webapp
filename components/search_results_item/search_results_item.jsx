@@ -3,15 +3,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
-import CommentIcon from 'components/common/comment_icon.jsx';
+import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
+import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
@@ -25,6 +26,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 class SearchResultsItem extends React.PureComponent {
@@ -89,6 +91,8 @@ class SearchResultsItem extends React.PureComponent {
          * Is the search results item from a bot.
          */
         isBot: PropTypes.bool.isRequired,
+
+        a11yIndex: PropTypes.number,
 
         /**
         *  Function used for closing LHS
@@ -333,6 +337,7 @@ class SearchResultsItem extends React.PureComponent {
                             searchMatches: this.props.matches,
                             mentionHighlight: this.props.isMentionSearch,
                         }}
+                        isRHS={true}
                     />
                 </PostBodyAdditionalContent>
             );
@@ -362,6 +367,7 @@ class SearchResultsItem extends React.PureComponent {
                     className={`a11y__section ${this.getClassName()}`}
                     aria-label={this.state.currentAriaLabel}
                     onFocus={this.handleSearchItemFocus}
+                    data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
                         className='search-channel__name'

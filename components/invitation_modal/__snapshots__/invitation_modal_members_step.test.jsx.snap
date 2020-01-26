@@ -4,19 +4,22 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
 <div
   className="InvitationModalMembersStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
-    <InviteIcon />
+    <InviteMembersIcon />
   </div>
-  <h1>
-    <InjectIntl(FormattedMarkdownMessage)
-      defaultMessage="Invite **Members**"
+  <h1
+    id="invitation_modal_title"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite **Members** to {teamName}"
       id="invitation_modal.members.title"
+      values={
+        Object {
+          "teamName": "Test Team",
+        }
+      }
     />
   </h1>
   <div
@@ -34,6 +37,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="share-link-input-block"
     >
       <input
+        aria-label="team invite link"
         className="share-link-input"
         data-testid="shareLinkInput"
         readOnly={true}
@@ -57,7 +61,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Share this link to grant member access to this team."
+        defaultMessage="Share this link to invite people to this team."
         id="invitation_modal.members.share_link.description"
         values={Object {}}
       />
@@ -81,7 +85,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   >
     <h2>
       <FormattedMessage
-        defaultMessage="Invite People"
+        defaultMessage="Add or Invite People"
         id="invitation_modal.members.search_and_add.title"
         values={Object {}}
       />
@@ -101,7 +105,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Search and add members from other teams or email invite new users."
+        defaultMessage="Add existing members or send email invites to new members."
         id="invitation_modal.members.search-and-add.description"
         values={Object {}}
       />

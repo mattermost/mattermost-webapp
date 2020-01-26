@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 import {MemoryRouter} from 'react-router';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PasswordResetSendLink from './password_reset_send_link';
 
@@ -16,7 +17,7 @@ describe('components/PasswordResetSendLink', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<PasswordResetSendLink {...baseProps}/>);
+        const wrapper = shallow(<PasswordResetSendLink {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -29,7 +30,7 @@ describe('components/PasswordResetSendLink', () => {
             </MemoryRouter>
         ).children().children();
 
-        wrapper.instance().emailInput.current.input.current.value = 'test@example.com';
+        wrapper.instance().emailInput.current.value = 'test@example.com';
         wrapper.find('form').simulate('submit', {preventDefault: () => {}});
 
         expect(props.actions.sendPasswordResetEmail).toHaveBeenCalledWith('test@example.com');

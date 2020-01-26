@@ -61,5 +61,84 @@ describe('Emoji', () => {
 
             expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
         });
+
+        test('special case for thumbsup emoji should sort it before thumbsdown by aliases', () => {
+            const thumbsUpEmoji = {
+                aliases: ['+1'],
+            };
+
+            const thumbsDownEmoji = {
+                aliases: ['-1'],
+            };
+
+            const smileEmoji = {
+                aliases: ['smile'],
+            };
+
+            const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
+            emojiArray.sort((a, b) => compareEmojis(a, b));
+
+            expect(emojiArray).toEqual([thumbsUpEmoji, thumbsDownEmoji, smileEmoji]);
+        });
+
+        test('special case for thumbsup emoji should sort it before thumbsdown by names', () => {
+            const thumbsUpEmoji = {
+                name: 'thumbsup',
+            };
+
+            const thumbsDownEmoji = {
+                name: 'thumbsdown',
+            };
+
+            const smileEmoji = {
+                name: 'smile',
+            };
+
+            const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
+            emojiArray.sort((a, b) => compareEmojis(a, b));
+
+            expect(emojiArray).toEqual([smileEmoji, thumbsUpEmoji, thumbsDownEmoji]);
+        });
+
+        test('special case for thumbsup emoji should sort it when emoji is matched', () => {
+            const thumbsUpEmoji = {
+                name: 'thumbsup',
+            };
+
+            const thumbsDownEmoji = {
+                name: 'thumbsdown',
+            };
+
+            const smileEmoji = {
+                name: 'smile',
+            };
+
+            const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
+            emojiArray.sort((a, b) => compareEmojis(a, b, 'thumb'));
+
+            expect(emojiArray).toEqual([thumbsUpEmoji, thumbsDownEmoji, smileEmoji]);
+        });
+
+        test('special case for thumbsup emoji should sort custom "thumb" emojis after system', () => {
+            const thumbsUpEmoji = {
+                aliases: ['+1', 'thumbsup'],
+                category: 'default'
+            };
+
+            const thumbsDownEmoji = {
+                name: 'thumbsdown',
+                category: 'default'
+            };
+
+            const thumbsUpCustomEmoji = {
+                name: 'thumbsup-custom',
+                category: 'custom'
+            };
+
+            const emojiArray = [thumbsUpCustomEmoji, thumbsDownEmoji, thumbsUpEmoji];
+            emojiArray.sort((a, b) => compareEmojis(a, b, 'thumb'));
+
+            expect(emojiArray).toEqual([thumbsUpEmoji, thumbsDownEmoji, thumbsUpCustomEmoji]);
+        });
     });
 });

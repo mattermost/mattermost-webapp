@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
 import ProfilePicture from 'components/profile_picture';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -281,7 +281,7 @@ export default class MoreDirectChannels extends React.Component {
         return option.username;
     }
 
-    renderOption = (option, isSelected, onAdd) => {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         if (option.type && option.type === 'G') {
             return (
                 <GroupMessageOption
@@ -332,6 +332,7 @@ export default class MoreDirectChannels extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
@@ -418,8 +419,14 @@ export default class MoreDirectChannels extends React.Component {
             }
             users = active.concat(inactive);
         }
+        users = users.map((user) => {
+            return {label: user.username, value: user.id, ...user};
+        });
 
-        const groupChannels = this.props.groupChannels || [];
+        let groupChannels = this.props.groupChannels || [];
+        groupChannels = groupChannels.map((group) => {
+            return {label: group.display_name, value: group.id, ...group};
+        });
 
         const options = [...users, ...groupChannels];
         const body = (

@@ -21,6 +21,7 @@
   },
   "rules": {
     "import/no-unresolved": 2,
+    "comma-dangle": 0,
     "import/order": [
       "error",
       {
@@ -50,12 +51,7 @@
         "detectObjects": true
       }
     ],
-    "react/jsx-filename-extension": [
-      1,
-      {
-        "extensions": [".js"]
-      }
-    ],
+    "react/jsx-filename-extension": 0,
     "react/prop-types": [
       2,
       {
@@ -77,8 +73,10 @@
         "plugin:cypress/recommended"
       ],
       "rules": {
+        "comma-dangle": 0,
         "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/no-empty-function": 0,
         "@typescript-eslint/prefer-interface": 0,
         "@typescript-eslint/explicit-function-return-type": 0,
         "@typescript-eslint/indent": [

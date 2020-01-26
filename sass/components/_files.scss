@@ -158,6 +158,10 @@
                 display: inline;
                 margin-left: 5px;
             }
+
+            &.compact-display{
+                font-weight: normal;
+            }
         }
 
         .image-container {
@@ -208,6 +212,10 @@
                 position: relative;
                 z-index: 2;
 
+                &.compact-display {
+                    max-height: 175px;
+                }
+
                 &:hover {
                     @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
                 }
@@ -218,8 +226,17 @@
                 }
 
                 &.min-preview--portrait {
-                    max-height: initial;
+                    max-height: inherit;
                     max-width: 50px;
+                }
+
+                &.small-image--inside-container {
+                    box-shadow: none;
+                    border-width: 0;
+                    border-radius: 0;
+                    width: unset;
+                    margin: 0;
+                    max-height: inherit;
                 }
             }
 
@@ -358,7 +375,6 @@
 }
 
 .post-image__details {
-    position: relative;
     align-items: center;
     border-left: 1px solid $light-gray;
     color: alpha-color($black, .8);
@@ -366,6 +382,9 @@
     font-size: 13px;
     height: 100%;
     flex: 1;
+    overflow: hidden;
+    text-align: left;
+    position: relative;
 
     .post-image__detail_wrapper {
         padding: 0 45px 0 15px;
@@ -440,7 +459,6 @@
         position: absolute;
         bottom: 0px;
         width: 100%;
-        margin-left: -15px;
         border-radius: 0px;
     }
 
@@ -527,15 +545,37 @@
 }
 
 .image-loading__container {
+    position: relative;
     max-height: inherit;
     overflow: hidden;
-
-    &.markdown-inline-img svg {
-        margin: 5px 0px;
-    }
 }
 
 .file-preview__button {
     display: inline-block;
     vertical-align: top;
+    max-height: inherit;
+}
+
+.small-image__container {
+    margin: 5px 2px;
+    background: var(--center-channel-bg);
+    border: 1px solid var(--center-channel-color-30);
+    @include border-radius(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 48px;
+    max-height: inherit;
+    min-width: 48px;
+    max-width: calc(100% - 5px);
+
+    &:hover {
+        @include single-transition(all, .1s, linear);
+        @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
+        z-index: 2;
+    }
+}
+
+.small-image__container--min-width {
+    width: 48px;
 }

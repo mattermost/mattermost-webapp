@@ -37,19 +37,16 @@ exports[`components/NewChannelModal should match snapshot, display only private 
       closeLabel="Close"
     >
       <button
+        aria-label="Close"
         className="close"
         onClick={[MockFunction]}
+        title="Close"
         type="button"
       >
         <span
           aria-hidden="true"
         >
           ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
         </span>
       </button>
       <ModalTitle
@@ -336,19 +333,16 @@ exports[`components/NewChannelModal should match snapshot, display only public c
       closeLabel="Close"
     >
       <button
+        aria-label="Close"
         className="close"
         onClick={[MockFunction]}
+        title="Close"
         type="button"
       >
         <span
           aria-hidden="true"
         >
           ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
         </span>
       </button>
       <ModalTitle
@@ -635,19 +629,16 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
       closeLabel="Close"
     >
       <button
+        aria-label="Close"
         className="close"
         onClick={[MockFunction]}
+        title="Close"
         type="button"
       >
         <span
           aria-hidden="true"
         >
           ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
         </span>
       </button>
       <ModalTitle
@@ -976,19 +967,16 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
       closeLabel="Close"
     >
       <button
+        aria-label="Close"
         className="close"
         onClick={[MockFunction]}
+        title="Close"
         type="button"
       >
         <span
           aria-hidden="true"
         >
           ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
         </span>
       </button>
       <ModalTitle
@@ -1317,19 +1305,16 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
       closeLabel="Close"
     >
       <button
+        aria-label="Close"
         className="close"
         onClick={[MockFunction]}
+        title="Close"
         type="button"
       >
         <span
           aria-hidden="true"
         >
           ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
         </span>
       </button>
       <ModalTitle
@@ -1668,19 +1653,16 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
       closeLabel="Close"
     >
       <button
+        aria-label="Close"
         className="close"
         onClick={[MockFunction]}
+        title="Close"
         type="button"
       >
         <span
           aria-hidden="true"
         >
           ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
         </span>
       </button>
       <ModalTitle
@@ -2023,19 +2005,16 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
       closeLabel="Close"
     >
       <button
+        aria-label="Close"
         className="close"
         onClick={[MockFunction]}
+        title="Close"
         type="button"
       >
         <span
           aria-hidden="true"
         >
           ×
-        </span>
-        <span
-          className="sr-only"
-        >
-          Close
         </span>
       </button>
       <ModalTitle

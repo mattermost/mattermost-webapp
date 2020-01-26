@@ -347,3 +347,35 @@ export async function testSiteURL(success, error, siteURL) {
         error({id: err.server_error_id, ...err});
     }
 }
+
+export function registerAdminConsoleCustomSetting(pluginId, key, component, {showTitle}) {
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT,
+            data: {
+                pluginId,
+                key,
+                component,
+                options: {showTitle},
+            },
+        });
+    };
+}
+
+export async function getSamlMetadataFromIdp(success, error, samlMetadataURL) {
+    const {data, error: err} = await dispatch(AdminActions.getSamlMetadataFromIdp(samlMetadataURL));
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function setSamlIdpCertificateFromMetadata(success, error, certData) {
+    const {data, error: err} = await AdminActions.setSamlIdpCertificateFromMetadata(certData)(dispatch, getState);
+    if (data && success) {
+        success('saml-idp.crt');
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}

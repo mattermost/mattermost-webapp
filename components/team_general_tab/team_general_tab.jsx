@@ -43,9 +43,6 @@ export default class GeneralTab extends React.Component {
     }
 
     updateSection = (section) => {
-        if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
         this.setState(this.setupInitialState(this.props));
         this.props.updateSection(section);
     }
@@ -64,17 +61,23 @@ export default class GeneralTab extends React.Component {
             teamIconFile: null,
             loadingIcon: false,
             submitActive: false,
+            isInitialState: true,
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.setState({
-            name: nextProps.team.display_name,
-            description: nextProps.team.description,
-            allowed_domains: nextProps.team.allowed_domains,
-            invite_id: nextProps.team.invite_id,
-            allow_open_invite: nextProps.team.allow_open_invite,
-        });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const {team} = nextProps;
+        if (!prevState.isInitialState) {
+            return {
+                name: team.display_name,
+                description: team.description,
+                allowed_domains: team.allowed_domains,
+                invite_id: team.invite_id,
+                allow_open_invite: team.allow_open_invite,
+                isInitialState: false,
+            };
+        }
+        return null;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -371,6 +374,12 @@ export default class GeneralTab extends React.Component {
             } else {
                 inputs = [
                     <fieldset key='userOpenInviteOptions'>
+                        <legend className='form-legend hidden-label'>
+                            <FormattedMessage
+                                id='team_settings.openInviteDescription.ariaLabel'
+                                defaultMessage='Invite Code'
+                            />
+                        </legend>
                         <div className='radio'>
                             <label>
                                 <input
@@ -715,6 +724,7 @@ export default class GeneralTab extends React.Component {
                             value={this.state.allowed_domains}
                             onFocus={Utils.moveCursorToEnd}
                             placeholder={{id: t('general_tab.AllowedDomainsExample'), defaultMessage: 'corp.mattermost.com, mattermost.org'}}
+                            aria-label={Utils.localizeMessage('general_tab.allowedDomains.ariaLabel', 'Allowed Domains')}
                         />
                     </div>
                 </div>

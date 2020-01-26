@@ -9,7 +9,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
 import SearchBar from 'components/search_bar';
@@ -31,9 +31,14 @@ export default class SidebarRight extends React.PureComponent {
         isPinnedPosts: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
+        selectedPostId: PropTypes.string,
+        selectedPostCardId: PropTypes.string,
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
+            openRHSSearch: PropTypes.func.isRequired,
+            closeRightHandSide: PropTypes.func.isRequired,
+            openAtPrevious: PropTypes.func.isRequired,
         }),
     };
 
@@ -46,13 +51,42 @@ export default class SidebarRight extends React.PureComponent {
         };
     }
 
+    setPrevious = () => {
+        if (!this.props.isOpen) {
+            return;
+        }
+
+        this.previous = {
+            searchVisible: this.props.searchVisible,
+            isMentionSearch: this.props.isMentionSearch,
+            isPinnedPosts: this.props.isPinnedPosts,
+            isFlaggedPosts: this.props.isFlaggedPosts,
+            selectedPostId: this.props.selectedPostId,
+            selectedPostCardId: this.props.selectedPostCardId,
+            previousRhsState: this.props.previousRhsState,
+        };
+    }
+
+    handleShortcut = (e) => {
+        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+            e.preventDefault();
+            if (this.props.isOpen) {
+                this.props.actions.closeRightHandSide();
+            } else {
+                this.props.actions.openAtPrevious(this.previous);
+            }
+        }
+    }
+
     componentDidMount() {
         window.addEventListener('resize', this.determineTransition);
+        document.addEventListener('keydown', this.handleShortcut);
         this.determineTransition();
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.determineTransition);
+        document.removeEventListener('keydown', this.handleShortcut);
         if (this.sidebarRight.current) {
             this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
         }
@@ -70,6 +104,8 @@ export default class SidebarRight extends React.PureComponent {
         if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && channel.id !== prevProps.channel.id) {
             actions.showPinnedPosts(channel.id);
         }
+
+        this.setPrevious();
     }
 
     determineTransition = () => {
@@ -120,7 +156,12 @@ export default class SidebarRight extends React.PureComponent {
 
         var searchForm = null;
         if (currentUserId) {
-            searchForm = <SearchBar isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}/>;
+            searchForm = (
+                <SearchBar
+                    isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
+                    isSideBarRight={true}
+                />
+            );
         }
 
         let channelDisplayName = '';

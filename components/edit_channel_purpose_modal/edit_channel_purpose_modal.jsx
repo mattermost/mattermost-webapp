@@ -4,13 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
-import {RequestStatus} from 'mattermost-redux/constants';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-export default class EditChannelPurposeModal extends React.PureComponent {
+class EditChannelPurposeModal extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -28,15 +27,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
          */
         ctrlSend: PropTypes.bool.isRequired,
 
-        /*
-         * Info about patch serverError
-         */
-        serverError: PropTypes.object,
-
-        /*
-         *  Status of patch info about channel request
-         */
-        requestStatus: PropTypes.string.isRequired,
+        intl: PropTypes.any,
 
         /*
          * Object with redux action creators
@@ -58,22 +49,8 @@ export default class EditChannelPurposeModal extends React.PureComponent {
             serverError: '',
             show: true,
             submitted: false,
+            requestStarted: false,
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const {requestStatus: nextRequestStatus, serverError: nextServerError} = nextProps;
-        const {requestStatus} = this.props;
-
-        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
-            this.onHide();
-        }
-
-        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
-            this.setError(nextServerError);
-        } else {
-            this.unsetError();
-        }
     }
 
     setError = (err) => {
@@ -113,14 +90,23 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         }
     }
 
-    handleSave = () => {
+    handleSave = async () => {
         const {channel, actions: {patchChannel}} = this.props;
         const {purpose} = this.state;
         if (!channel) {
             return;
         }
 
-        patchChannel(channel.id, {purpose});
+        this.setState({requestStarted: true});
+        const {data, error} = await patchChannel(channel.id, {purpose});
+        this.setState({requestStarted: false});
+
+        if (data) {
+            this.unsetError();
+            this.onHide();
+        } else if (error) {
+            this.setError(error);
+        }
     }
 
     handleChange = (e) => {
@@ -134,6 +120,8 @@ export default class EditChannelPurposeModal extends React.PureComponent {
 
     render() {
         let serverError = null;
+        const {formatMessage} = this.props.intl;
+
         if (this.state.serverError) {
             serverError = (
                 <div className='form-group has-error'>
@@ -178,6 +166,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
             );
         }
 
+        const ariaLabelForTitle = formatMessage({id: 'edit_channel_purpose_modal.title1', defaultMessage: 'Edit Purpose'}).toLowerCase();
         return (
             <Modal
                 dialogClassName='a11y__modal'
@@ -208,6 +197,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                         value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
+                        aria-label={ariaLabelForTitle}
                     />
                     {serverError}
                 </Modal.Body>
@@ -225,7 +215,7 @@ export default class EditChannelPurposeModal extends React.PureComponent {
                     <button
                         type='button'
                         className='btn btn-primary save-button'
-                        disabled={this.props.requestStatus === RequestStatus.STARTED}
+                        disabled={this.state.requestStarted}
                         onClick={this.handleSave}
                     >
                         <FormattedMessage
@@ -238,3 +228,5 @@ export default class EditChannelPurposeModal extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(EditChannelPurposeModal);

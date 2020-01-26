@@ -4,10 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
 
 const allShortcuts = defineMessages({
@@ -114,6 +115,16 @@ const allShortcuts = defineMessages({
             id: t('shortcuts.nav.focus_center.mac'),
             defaultMessage: 'Set focus to input field:\t⌘|Shift|L',
         },
+    },
+    navOpenCloseSidebar: {
+        default: {
+            id: t('shortcuts.nav.open_close_sidebar'),
+            defaultMessage: 'Open or close the right sidebar\tCtrl|.',
+        },
+        mac: {
+            id: t('shortcuts.nav.open_close_sidebar.mac'),
+            defaultMessage: 'Open or close the right sidebar\t⌘|.',
+        }
     },
     msgHeader: {
         id: t('shortcuts.msgs.header'),
@@ -318,7 +329,7 @@ class ShortcutsModal extends React.PureComponent {
                             <strong>{renderShortcut(formatMessage(shortcuts.mainHeader))}</strong>
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body ref='modalBody'>
+                    <Modal.Body>
                         <div className='row'>
                             <div className='col-sm-4'>
                                 <div className='section'>
@@ -333,6 +344,7 @@ class ShortcutsModal extends React.PureComponent {
                                         {renderShortcut(formatMessage(shortcuts.navSettings))}
                                         {renderShortcut(formatMessage(shortcuts.navMentions))}
                                         {renderShortcut(formatMessage(shortcuts.navFocusCenter))}
+                                        {renderShortcut(formatMessage(shortcuts.navOpenCloseSidebar))}
                                     </div>
                                 </div>
                             </div>

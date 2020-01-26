@@ -2,37 +2,34 @@
 
 exports[`components/post_view/post_list snapshot for loading when there are no posts 1`] = `
 <div
-  id="post-list"
+  className="post-list-holder-by-time"
+  key="postlist-fake-id"
 >
   <div
-    className="post-list-holder-by-time"
-    key="postlist-fake-id"
+    className="post-list__table"
   >
     <div
-      className="post-list__table"
+      className="post-list__content"
+      id="virtualizedPostListContent"
     >
-      <div
-        className="post-list__content"
-        id="virtualizedPostListContent"
-      >
-        <PostList
-          actions={
-            Object {
-              "canLoadMorePosts": [Function],
-              "changeUnreadChunkTimeStamp": [MockFunction],
-              "checkAndSetMobileView": [MockFunction],
-              "loadNewerPosts": [Function],
-              "loadOlderPosts": [Function],
-            }
+      <injectIntl(PostList)
+        actions={
+          Object {
+            "canLoadMorePosts": [Function],
+            "changeUnreadChunkTimeStamp": [MockFunction],
+            "checkAndSetMobileView": [MockFunction],
+            "loadNewerPosts": [Function],
+            "loadOlderPosts": [Function],
+            "updateNewMessagesAtInChannel": [MockFunction],
           }
-          atLatestPost={false}
-          autoRetryEnable={true}
-          channelId="fake-id"
-          loadingNewerPosts={false}
-          loadingOlderPosts={false}
-          postListIds={Array []}
-        />
-      </div>
+        }
+        atLatestPost={false}
+        autoRetryEnable={true}
+        channelId="fake-id"
+        loadingNewerPosts={false}
+        loadingOlderPosts={false}
+        postListIds={Array []}
+      />
     </div>
   </div>
 </div>
@@ -40,37 +37,34 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
 
 exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
 <div
-  id="post-list"
+  className="post-list-holder-by-time"
+  key="postlist-fake-id"
 >
   <div
-    className="post-list-holder-by-time"
-    key="postlist-fake-id"
+    className="post-list__table"
   >
     <div
-      className="post-list__table"
+      className="post-list__content"
+      id="virtualizedPostListContent"
     >
-      <div
-        className="post-list__content"
-        id="virtualizedPostListContent"
-      >
-        <PostList
-          actions={
-            Object {
-              "canLoadMorePosts": [Function],
-              "changeUnreadChunkTimeStamp": [MockFunction],
-              "checkAndSetMobileView": [MockFunction],
-              "loadNewerPosts": [Function],
-              "loadOlderPosts": [Function],
-            }
+      <injectIntl(PostList)
+        actions={
+          Object {
+            "canLoadMorePosts": [Function],
+            "changeUnreadChunkTimeStamp": [MockFunction],
+            "checkAndSetMobileView": [MockFunction],
+            "loadNewerPosts": [Function],
+            "loadOlderPosts": [Function],
+            "updateNewMessagesAtInChannel": [MockFunction],
           }
-          atLatestPost={false}
-          autoRetryEnable={true}
-          channelId="fake-id"
-          loadingNewerPosts={false}
-          loadingOlderPosts={false}
-          postListIds={Array []}
-        />
-      </div>
+        }
+        atLatestPost={false}
+        autoRetryEnable={true}
+        channelId="fake-id"
+        loadingNewerPosts={false}
+        loadingOlderPosts={false}
+        postListIds={Array []}
+      />
     </div>
   </div>
 </div>
