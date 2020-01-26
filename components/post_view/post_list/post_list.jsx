@@ -9,7 +9,7 @@ import {PostRequestTypes} from 'utils/constants';
 
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
-import {copyPostData} from 'utils/copy_utils.jsx';
+import {copyPostData} from 'utils/copy_utils.js';
 
 import VirtPostList from './post_list_virtualized.jsx';
 

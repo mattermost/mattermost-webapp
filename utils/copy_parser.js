@@ -1,33 +1,36 @@
-function applyEncapsulatedMarkdown(ancestorContainer, builtString){
-    if(ancestorContainer.nodeName === '#text'){
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+function applyEncapsulatedMarkdown(ancestorContainer, builtString) {
+    if (ancestorContainer.nodeName === '#text') {
         return parseNodeToText(ancestorContainer.parentNode, builtString);
-    }else{
-        return parseNodeToText(ancestorContainer, builtString);
     }
+    return parseNodeToText(ancestorContainer, builtString);
 }
 
-function doDirectChildrenMatchTag(element, tagName){
+function doDirectChildrenMatchTag(element, tagName) {
     return Array.from(element.childNodes).some((child) => {
-        if(child.tagName === tagName){
+        if (child.tagName === tagName) {
             return true;
         }
+        return false;
     });
 }
 
-function getParsedChildNodes(node, shouldBreakLine = true){
-    let builtString = "";
+function getParsedChildNodes(node, shouldBreakLine = true) {
+    let builtString = '';
     const nodes = Array.from(node.childNodes);
-    for(let i = 0; i < nodes.length; i++){
+    for (let i = 0; i < nodes.length; i++) {
         const childNode = nodes[i];
-        let contentToAdd = parseNodeToText(childNode, shouldBreakLine);
-        if(contentToAdd){
+        const contentToAdd = parseNodeToText(childNode, shouldBreakLine);
+        if (contentToAdd) {
             builtString += contentToAdd;
         }
     }
     return builtString;
 }
 
-function parseNodeToText(node, shouldBreakLine = true, textContent = ""){
+function parseNodeToText(node, shouldBreakLine = true, textContent = '') {
     const optionalBreakLine = shouldBreakLine ? '\n' : '';
 
     const isEmojiContainer = node.tagName === 'SPAN' && node.dataset.emoticon;
@@ -45,115 +48,130 @@ function parseNodeToText(node, shouldBreakLine = true, textContent = ""){
     const isLabeledCodeContainers = node.tagName ? Array.from(node.querySelectorAll('.hljs-code') || []) : [];
 
     let content = textContent;
-    if(!content){
-        if(isEmojiContainer){
+    if (!content) {
+        if (isEmojiContainer) {
             content = node.dataset.emoticon;
-        }else if(isLinkContainer){
+        } else if (isLinkContainer) {
             content = node.childNodes.length > 0 ? getParsedChildNodes(node) : node.textContent;
-        }else{
+        } else {
             content = node.textContent;
         }
     }
 
-    if(!node.tagName && node.textContent){
+    if (!node.tagName && node.textContent) {
         return content;
-    }if(node.tagName.length === 2 && node.tagName[0] == 'H'){
+    }
+    if (node.tagName.length === 2 && node.tagName[0] === 'H') {
         const headerLevels = parseInt(node.tagName[1], 10);
-        const headerHashes = "#".repeat(headerLevels);
-        return `${headerHashes} ${content}`+optionalBreakLine;
-    }if(isImage || imageDescendant){
+        const headerHashes = '#'.repeat(headerLevels);
+        return `${headerHashes} ${content}` + optionalBreakLine;
+    }
+    if (isImage || imageDescendant) {
         let image = node;
-        if(imageDescendant){
+        if (imageDescendant) {
             image = node.querySelector('img');
         }
         const ImageSrc = image.src;
         const ImageAltText = image.alt;
-        return `![${ImageAltText}](${ImageSrc})`+optionalBreakLine;
+        return `![${ImageAltText}](${ImageSrc})` + optionalBreakLine;
     }
-    if(isListContainer){
+    if (isListContainer) {
         return getParsedChildNodes(node);
-    }if(isLinkContainer){
-        return `[${content}](${node.href})`+optionalBreakLine;
-    }if(isListItem){
+    }
+    if (isLinkContainer) {
+        return `[${content}](${node.href})` + optionalBreakLine;
+    }
+    if (isListItem) {
         return `${node.value}. ${content}`;
-    }if(isQuoteContainer){
+    }
+    if (isQuoteContainer) {
         return `>${content}`;
     }
-    if(isParagraph){
-        if(node.childNodes.length){
+    if (isParagraph) {
+        if (node.childNodes.length) {
             return getParsedChildNodes(node, false);
         }
         return content;
-    }if(isCodeTextContainer){
+    }
+    if (isCodeTextContainer) {
         return `\n${content}`;
-    }if(isLabeledCodeContainers.length > 0){
-        return '```'+isLabeledCodeContainers.map((stringContainer) => parseNodeToText(stringContainer)).join("")+'\n```';
-    }if(isUnlabeledCodeContainer){
-        return '```\n'+content.replace(/\n$/, "")+'\n```'+optionalBreakLine;
-    }if(node.tagName === 'CODE' || isCodeContainer){
-        return '```'+content.replace(/\n$/, "")+'```'+optionalBreakLine;
-    }if(node.tagName === 'DEL'){
+    }
+    if (isLabeledCodeContainers.length > 0) {
+        return '```' + isLabeledCodeContainers.map((stringContainer) => parseNodeToText(stringContainer)).join('') + '\n```';
+    }
+    if (isUnlabeledCodeContainer) {
+        return '```\n' + content.replace(/\n$/, '') + '\n```' + optionalBreakLine;
+    }
+    if (node.tagName === 'CODE' || isCodeContainer) {
+        return '```' + content.replace(/\n$/, '') + '```' + optionalBreakLine;
+    }
+    if (node.tagName === 'DEL') {
         return `~~${content}~~`;
-    }if(node.tagName === 'EM'){
+    }
+    if (node.tagName === 'EM') {
         return `*${content}*`;
-    }if(node.tagName === 'STRONG'){
+    }
+    if (node.tagName === 'STRONG') {
         return `**${content}**`;
-    }if(isEmojiContainer){
+    }
+    if (isEmojiContainer) {
         return `:${content}:`;
-    }if(isDiv){
+    }
+    if (isDiv) {
         return getParsedChildNodes(node, false);
     }
 
     return textContent;
 }
 
-export function getPostContent(posts, rangySelection){
+export function getPostContent(posts, rangySelection) {
     const content = {
         posts: {},
-        allContent: "",
+        allContent: '',
     };
-    
+
     const range = rangySelection.getRangeAt(0);
-    
+
     const ancestorContainer = range.commonAncestorContainer;
     const clonedContents = range.cloneContents();
     const childList = [...Array.from(clonedContents.childNodes)];
     let isAncestorContainerAllPosts = false;
 
-    for(let i = 0; i < childList.length; i++){
+    for (let i = 0; i < childList.length; i++) {
         const child = childList[i];
 
-        let contentToAdd = "";
+        let contentToAdd = '';
         let postMessageText = null;
-        if(child.tagName){
+        if (child.tagName) {
             postMessageText = child.querySelector('.post-message__text');
         }
 
-        if(child.tagName === 'DIV' && postMessageText){
+        if (child.tagName === 'DIV' && postMessageText) {
             contentToAdd = getParsedChildNodes(postMessageText);
             isAncestorContainerAllPosts = true;
-        }else{
+        } else {
             contentToAdd = parseNodeToText(child);
         }
 
-        if(contentToAdd.length > 0){
+        if (contentToAdd.length > 0) {
             content.allContent += contentToAdd;
             const isLastIndex = childList.length - 1 === i;
-            if(!isLastIndex){
-                content.allContent += "\n";
+            if (!isLastIndex) {
+                content.allContent += '\n';
             }
         }
 
-        if(posts.length === 1){
+        if (posts.length === 1) {
             content.posts[posts[0].id] = content.allContent;
-        }else if(postMessageText){
+        } else if (postMessageText) {
             const postId = postMessageText.id.split('postMessageText_')[1];
             content.posts[postId] = contentToAdd;
         }
-    };
+    }
 
-    const isAncestorContainerAPost = ancestorContainer.classList.contains('post-message__text');
-    if(isAncestorContainerAllPosts || isAncestorContainerAPost){
+    const nonNullAncestorClassList = Array.from(ancestorContainer.classList || []);
+    const isAncestorContainerAPost = nonNullAncestorClassList.includes('post-message__text');
+    if (isAncestorContainerAllPosts || isAncestorContainerAPost) {
         return content;
     }
 

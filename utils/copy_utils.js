@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 import removeMd from 'remove-markdown';
 import rangy from 'rangy';
+
 import * as TextFormatting from 'utils/text_formatting.jsx';
-import { getPostContent } from './copy_parser';
+
+import {getPostContent} from './copy_parser';
 
 export async function copyPostData(e, getPostForCopy) {
     const selection = rangy.getSelection();
@@ -19,7 +21,7 @@ export async function copyPostData(e, getPostForCopy) {
 
             const copiedContent = getPostContent(nonNullPostData, selection);
 
-            if (nonNullPostData.length > 0) {                
+            if (nonNullPostData.length > 0) {
                 e.clipboardData.setData('text/markdown', copiedContent.allContent);
                 e.clipboardData.setData('text/html', getHtmlFormat(copiedContent.allContent));
                 e.clipboardData.setData('text/plain', getRichTextFormat(nonNullPostData, copiedContent, showUserAndTime));
@@ -60,12 +62,11 @@ function getSelectedNodePostIds(node) {
     return null;
 }
 
-function customRemoveMarkdown(text){
-    if(text.match(/^[`]+$/)){
+function customRemoveMarkdown(text) {
+    if (text.match(/^[`]+$/)) {
         return '';
-    }else{
-        return removeMd(text);
     }
+    return removeMd(text);
 }
 
 function getHtmlFormat(copyData) {
@@ -96,7 +97,7 @@ function getRichTextFormat(posts, copyContent, showUserAndTime = false) {
     });
 
     const contentGroups = [];
-    for (const [date, posts] of dateMap.entries()) {
+    for (const [date, datePosts] of dateMap.entries()) {
         let previousUser;
         let previousTime;
         const dateString = getDateSeperatorFormat(new Date(date));
@@ -107,7 +108,7 @@ function getRichTextFormat(posts, copyContent, showUserAndTime = false) {
             content += `${dateString}${NEW_LINE}`;
         }
 
-        for (const post of posts) {
+        for (const post of datePosts) {
             const time = getDateTwelveHourFormat(post.date);
             const user = post.user;
             const isSameUserAndTime = !(user === previousUser && previousTime === time);
@@ -122,10 +123,10 @@ function getRichTextFormat(posts, copyContent, showUserAndTime = false) {
             }
 
             const postCopiedContent = copyContent.posts[post.id];
-            const postContent = postCopiedContent.split(/\r?\n/g).map(line => customRemoveMarkdown(line)).join('\n');
+            const postContent = postCopiedContent.split(/\r?\n/g).map((line) => customRemoveMarkdown(line)).join('\n');
             const postSplit = postContent.split(/\n/g);
             const fullContent = postSplit.map((item) => `${item.replace(/[\n,\r]/g, '')}\n`);
-            content += fullContent.filter(line => !line.match(/^\r?\n$/g)).join('');
+            content += fullContent.filter((line) => !line.match(/^\r?\n$/g)).join('');
 
             previousUser = user;
             previousTime = time;
