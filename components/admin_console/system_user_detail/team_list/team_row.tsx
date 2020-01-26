@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils';
@@ -11,14 +10,17 @@ import TeamIcon from 'components/widgets/team_icon/team_icon';
 import './team_row.scss';
 import TeamListDropdown from './team_list_dropdown';
 
-export default class TeamRow extends React.Component {
-    static propTypes = {
-        team: PropTypes.object.isRequired,
-        doRemoveUserFromTeam: PropTypes.func.isRequired,
-        doMakeUserTeamAdmin: PropTypes.func.isRequired,
-        doMakeUserTeamMember: PropTypes.func.isRequired,
-    };
-    renderTeamType = (team) => {
+type Props = {
+    key: string;
+    team: {[x: string]: string};
+    onRowClick?: () => void;
+    doRemoveUserFromTeam: (teamId: string) => Promise<void>;
+    doMakeUserTeamAdmin: (teamId: string) => Promise<void>;
+    doMakeUserTeamMember: (teamId: string) => Promise<void>;
+}
+
+export default class TeamRow extends React.Component<Props, {}> {
+    private renderTeamType = (team: {[x: string]: string}): JSX.Element => {
         if (team.group_constrained) {
             return (
                 <FormattedMessage
@@ -42,7 +44,7 @@ export default class TeamRow extends React.Component {
             />
         );
     }
-    renderTeamRole = (team) => {
+    private renderTeamRole = (team: {[x: string]: string}): JSX.Element | null => {
         if (team.scheme_guest) {
             return (
                 <FormattedMessage
@@ -69,7 +71,7 @@ export default class TeamRow extends React.Component {
         }
         return null;
     }
-    render = () => {
+    public render = (): JSX.Element => {
         const {team} = this.props;
         const teamIconUrl = Utils.imageURLForTeam(team);
         return (
