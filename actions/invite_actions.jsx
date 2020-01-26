@@ -129,7 +129,7 @@ export function sendGuestsInvites(teamId, channels, users, emails, message) {
                 response = {data: emails.map((email) => ({email, error: {error: localizeMessage('invite.guests.unable-to-add-the-user-to-the-channels', 'Unable to add the guest to the channels.')}}))};
             }
 
-            for (const res of response.data) {
+            for (const res of (response.data || [])) {
                 if (res.error) {
                     notSent.push({email: res.email, reason: res.error.message});
                 } else {
