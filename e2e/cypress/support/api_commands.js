@@ -316,7 +316,7 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
 Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/teams/' + teamId + (permanent ? '/?permanent=true' : ''),
+        url: '/api/v4/teams/' + teamId + (permanent ? '?permanent=true' : ''),
         method: 'DELETE',
     });
 });
@@ -1091,3 +1091,49 @@ function formRequest(method, url, formData) {
         });
     });
 }
+
+/**
+ * Creates a bot directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} username - The bots username
+ * @param {String} displayName - The non-unique UI name for the bot
+ * @param {String} description - The description of the bot
+ * All parameters are required
+ */
+Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots',
+        method: 'POST',
+        body: {
+            username,
+            display_name: displayName,
+            description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get access token
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} user_id - The user id to generate token for
+ * @param {String} description - The description of the token usage
+ * All parameters are required
+ */
+Cypress.Commands.add('apiAccessToken', (userId, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/' + userId + '/tokens',
+        method: 'POST',
+        body: {
+            description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.token);
+    });
+});
+
