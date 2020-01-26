@@ -315,6 +315,7 @@ export function getPostForCopy(postId) {
         const user = await getUser(state, post.user_id);
 
         return {
+            id: post.id,
             user: user.username,
             date: new Date(post.update_at),
             content: post.message,

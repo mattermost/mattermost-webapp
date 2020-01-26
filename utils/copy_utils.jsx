@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 import removeMd from 'remove-markdown';
 import rangy from 'rangy';
-
 import * as TextFormatting from 'utils/text_formatting.jsx';
+import { getPostContent } from './copy_parser';
 
 export async function copyPostData(e, getPostForCopy) {
     const selection = rangy.getSelection();
@@ -17,10 +17,12 @@ export async function copyPostData(e, getPostForCopy) {
             const resolvedPostData = await Promise.all(postData);
             const nonNullPostData = resolvedPostData.filter((data) => data !== null);
 
-            if (nonNullPostData.length > 0) {
-                e.clipboardData.setData('text/markdown', nonNullPostData.map((post) => post.content).join('\n\r'));
-                e.clipboardData.setData('text/html', getHtmlFormat(nonNullPostData));
-                e.clipboardData.setData('text/plain', getRichTextFormat(nonNullPostData, showUserAndTime));
+            const copiedContent = getPostContent(nonNullPostData, selection);
+
+            if (nonNullPostData.length > 0) {                
+                e.clipboardData.setData('text/markdown', copiedContent.allContent);
+                e.clipboardData.setData('text/html', getHtmlFormat(copiedContent.allContent));
+                e.clipboardData.setData('text/plain', getRichTextFormat(nonNullPostData, copiedContent, showUserAndTime));
                 e.preventDefault();
             }
         }
@@ -58,6 +60,14 @@ function getSelectedNodePostIds(node) {
     return null;
 }
 
+function customRemoveMarkdown(text){
+    if(text.match(/^[`]+$/)){
+        return '';
+    }else{
+        return removeMd(text);
+    }
+}
+
 function getHtmlFormat(copyData) {
     let content = '';
     for (const post of copyData) {
@@ -67,13 +77,13 @@ function getHtmlFormat(copyData) {
     return content;
 }
 
-function getRichTextFormat(copyData, showUserAndTime = false) {
+function getRichTextFormat(posts, copyContent, showUserAndTime = false) {
     const NEW_LINE = '\n';
     const DOUBLE_DIGIT_MONTH = 10;
 
     const dateMap = new Map();
-    copyData.forEach((post) => {
-        const month = post.date.getMonth();
+    posts.forEach((post) => {
+        const month = post.date.getMonth() + 1;
         const paddedMonth = month >= DOUBLE_DIGIT_MONTH ? month : '0' + month;
         const date = `${paddedMonth}-${post.date.getDate()}-${post.date.getFullYear()}`;
         if (dateMap.has(date)) {
@@ -111,10 +121,11 @@ function getRichTextFormat(copyData, showUserAndTime = false) {
                 content += `${user} - ${time}${NEW_LINE}`;
             }
 
-            const postContent = removeMd(post.content);
+            const postCopiedContent = copyContent.posts[post.id];
+            const postContent = postCopiedContent.split(/\r?\n/g).map(line => customRemoveMarkdown(line)).join('\n');
             const postSplit = postContent.split(/\n/g);
             const fullContent = postSplit.map((item) => `${item.replace(/[\n,\r]/g, '')}\n`);
-            content += fullContent.join('');
+            content += fullContent.filter(line => !line.match(/^\r?\n$/g)).join('');
 
             previousUser = user;
             previousTime = time;
