@@ -606,7 +606,7 @@ export function handleLeaveTeamEvent(msg) {
             }
         }
     } else {
-        const team = getTeam(state, msg.broadcast.team_id);
+        const team = getTeam(state, msg.data.team_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
         if (team && isGuest(currentUser) && !isMember) {
