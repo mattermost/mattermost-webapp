@@ -83,10 +83,20 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     />
   </div>
   <div
-    className="confirm-done"
+    className="button-input-block"
   >
     <button
-      className="btn btn-primary"
+      className="btn invite-more"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite More People"
+        id="invitation_modal.invite.more"
+        values={Object {}}
+      />
+    </button>
+    <button
+      className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
       <FormattedMessage
@@ -182,10 +192,20 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     />
   </div>
   <div
-    className="confirm-done"
+    className="button-input-block"
   >
     <button
-      className="btn btn-primary"
+      className="btn invite-more"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite More People"
+        id="invitation_modal.invite.more"
+        values={Object {}}
+      />
+    </button>
+    <button
+      className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
       <FormattedMessage
@@ -257,10 +277,20 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     />
   </div>
   <div
-    className="confirm-done"
+    className="button-input-block"
   >
     <button
-      className="btn btn-primary"
+      className="btn invite-more"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite More People"
+        id="invitation_modal.invite.more"
+        values={Object {}}
+      />
+    </button>
+    <button
+      className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
       <FormattedMessage
@@ -304,10 +334,20 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     />
   </h2>
   <div
-    className="confirm-done"
+    className="button-input-block"
   >
     <button
-      className="btn btn-primary"
+      className="btn invite-more"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite More People"
+        id="invitation_modal.invite.more"
+        values={Object {}}
+      />
+    </button>
+    <button
+      className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
       <FormattedMessage
@@ -379,10 +419,20 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     />
   </div>
   <div
-    className="confirm-done"
+    className="button-input-block"
   >
     <button
-      className="btn btn-primary"
+      className="btn invite-more"
+      onClick={[MockFunction]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite More People"
+        id="invitation_modal.invite.more"
+        values={Object {}}
+      />
+    </button>
+    <button
+      className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
       <FormattedMessage
