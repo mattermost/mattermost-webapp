@@ -75,7 +75,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
 
 exports[`components/post_view/DateSeparator should render date without timezone 1`] = `
 <DateSeparator
-  date={2018-01-12T12:15:13.000Z}
+  date={2018-01-12T08:15:13.000Z}
 >
   <BasicSeparator>
     <div
@@ -91,7 +91,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
         <injectIntl(RecentDate)
           day="2-digit"
           month="short"
-          value={2018-01-12T12:15:13.000Z}
+          value={2018-01-12T08:15:13.000Z}
           weekday="short"
           year="numeric"
         >
@@ -129,7 +129,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
               }
             }
             month="short"
-            value={2018-01-12T12:15:13.000Z}
+            value={2018-01-12T08:15:13.000Z}
             weekday="short"
             year="numeric"
           >
@@ -144,9 +144,9 @@ exports[`components/post_view/DateSeparator should render date without timezone 
 
 exports[`components/post_view/DateSeparator should render date without timezone enabled 1`] = `
 <DateSeparator
-  date={2018-01-12T12:15:13.000Z}
+  date={2018-01-12T08:15:13.000Z}
   enableTimezone={false}
-  timeZone="Australia/Sydney"
+  timeZone="New Zealand/Auckland"
 >
   <BasicSeparator>
     <div
@@ -162,7 +162,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
         <injectIntl(RecentDate)
           day="2-digit"
           month="short"
-          value={2018-01-12T12:15:13.000Z}
+          value={2018-01-12T08:15:13.000Z}
           weekday="short"
           year="numeric"
         >
@@ -200,7 +200,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
               }
             }
             month="short"
-            value={2018-01-12T12:15:13.000Z}
+            value={2018-01-12T08:15:13.000Z}
             weekday="short"
             year="numeric"
           >
