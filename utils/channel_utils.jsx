@@ -52,3 +52,7 @@ export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChann
 export function getRedirectChannelNameForTeam(teamId) {
     return getRedirectChannelNameForTeamRedux(store.getState(), teamId);
 }
+
+export function isArchivedChannel(channel) {
+    return Boolean(channel && channel.delete_at !== 0);
+}
