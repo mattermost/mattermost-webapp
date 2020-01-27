@@ -125,45 +125,47 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         }
 
         return (
-            <table
-                id='team_and_channel_membership_table'
-                className='AdminPanel__table group-teams-and-channels'
-            >
-                <thead className='group-teams-and-channels--header'>
-                    <tr>
-                        <th width='30%'>
-                            <FormattedMessage
-                                id='admin.group_settings.group_profile.group_teams_and_channels.name'
-                                defaultMessage='Name'
+            <div className='AdminPanel__content'>
+                <table
+                    id='team_and_channel_membership_table'
+                    className='AdminPanel__table group-teams-and-channels'
+                >
+                    <thead className='group-teams-and-channels--header'>
+                        <tr>
+                            <th width='30%'>
+                                <FormattedMessage
+                                    id='admin.group_settings.group_profile.group_teams_and_channels.name'
+                                    defaultMessage='Name'
+                                />
+                            </th>
+                            <th width='25%'>
+                                <FormattedMessage
+                                    id='admin.group_settings.group_profile.group_teams_and_channels.type'
+                                    defaultMessage='Type'
+                                />
+                            </th>
+                            <th width='25%'>
+                                <FormattedMessage
+                                    id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
+                                    defaultMessage='Assigned Roles'
+                                />
+                            </th>
+                            <th width='20%'/>
+                        </tr>
+                    </thead>
+                    <tbody className='group-teams-and-channels--body'>
+                        {entries.map((entry) => (
+                            <GroupTeamsAndChannelsRow
+                                key={entry.id}
+                                onRemoveItem={this.onRemoveItem}
+                                onChangeRoles={this.onChangeRoles}
+                                onToggleCollapse={this.onToggleCollapse}
+                                {...entry}
                             />
-                        </th>
-                        <th width='25%'>
-                            <FormattedMessage
-                                id='admin.group_settings.group_profile.group_teams_and_channels.type'
-                                defaultMessage='Type'
-                            />
-                        </th>
-                        <th width='25%'>
-                            <FormattedMessage
-                                id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
-                                defaultMessage='Assigned Roles'
-                            />
-                        </th>
-                        <th width='20%'/>
-                    </tr>
-                </thead>
-                <tbody className='group-teams-and-channels--body'>
-                    {entries.map((entry) => (
-                        <GroupTeamsAndChannelsRow
-                            key={entry.id}
-                            onRemoveItem={this.onRemoveItem}
-                            onChangeRoles={this.onChangeRoles}
-                            onToggleCollapse={this.onToggleCollapse}
-                            {...entry}
-                        />
-                    ))}
-                </tbody>
-            </table>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         );
     };
 }
