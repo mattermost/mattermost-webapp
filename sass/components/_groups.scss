@@ -511,6 +511,15 @@
                 }
             }
 
+            .type {
+                color: #454448;
+                opacity: 50%;
+            }
+            
+            .name-no-arrow{
+                margin-left: 16px;
+            }
+
             .name-content {
                 flex: 1;
                 display: flex;
