@@ -3,12 +3,13 @@
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {canDownloadFiles} from 'utils/file_utils.jsx';
 
-import FileInfoPreview from './file_info_preview.jsx';
+import FileInfoPreview from './file_info_preview';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     return {
