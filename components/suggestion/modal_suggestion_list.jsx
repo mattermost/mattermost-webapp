@@ -11,6 +11,8 @@ import {getClosestParent} from 'utils/utils.jsx';
 export default class ModalSuggestionList extends React.PureComponent {
     static propTypes = {
         location: PropTypes.string.isRequired,
+        open: PropTypes.bool.isRequired,
+        cleared: PropTypes.bool.isRequired,
         calculateInputRect: PropTypes.func.isRequired,
         onLoseVisibility: PropTypes.func.isRequired,
     }
@@ -29,6 +31,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         };
 
         this.container = React.createRef();
+        this.suggestionList = React.createRef();
     }
 
     tryRegisterScroll = () => {
@@ -53,33 +56,39 @@ export default class ModalSuggestionList extends React.PureComponent {
 
     componentWillUnmount() {
         if (this.container.current && this.scrollRegistered) {
-            const modalBodyContainer = getClosestParent(ReactDOM.findDOMNode(this.container.current), '.modal-body');
+            const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
             modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
         }
         window.removeEventListener('resize', this.updateModalBounds);
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (!this.scrollRegistered) {
             this.tryRegisterScroll();
         }
 
-        if (this.getChildHeight() === 0) {
+        if (!this.props.open || this.props.cleared) {
             return;
         }
 
-        const newInputBounds = this.updateInputBounds();
-        this.updateLocation(newInputBounds);
+        if (prevProps.open !== this.state.open ||
+            prevProps.cleared !== this.state.cleared ||
+            prevState.scroll !== this.state.scroll ||
+            prevState.modalBounds.top !== this.state.modalBounds.top ||
+            prevState.modalBounds.bottom !== this.state.modalBounds.bottom) {
+            const newInputBounds = this.updateInputBounds();
+            this.updateLocation(newInputBounds);
 
-        if (this.container.current && newInputBounds) {
-            const modalBodyRect = getClosestParent(ReactDOM.findDOMNode(this.container.current), '.modal-body').getBoundingClientRect();
-            if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
-                this.props.onLoseVisibility();
-                return;
+            if (this.container.current) {
+                const modalBodyRect = getClosestParent(this.container.current, '.modal-body').getBoundingClientRect();
+                if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
+                    this.props.onLoseVisibility();
+                    return;
+                }
             }
-        }
 
-        this.updateModalBounds();
+            this.updateModalBounds();
+        }
     }
 
     getChildHeight = () => {
@@ -87,8 +96,7 @@ export default class ModalSuggestionList extends React.PureComponent {
             return 0;
         }
 
-        const container = ReactDOM.findDOMNode(this.container.current);
-        const listElement = container.querySelector('.suggestion-list__content');
+        const listElement = this.suggestionList.current.getContent()[0];
         if (!listElement) {
             return 0;
         }
@@ -102,9 +110,8 @@ export default class ModalSuggestionList extends React.PureComponent {
             inputBounds.bottom !== this.state.inputBounds.bottom ||
             inputBounds.width !== this.state.inputBounds.width) {
             this.setState({inputBounds});
-            return inputBounds;
         }
-        return null;
+        return inputBounds;
     }
 
     updateLocation = (newInputBounds) => {
@@ -168,6 +175,7 @@ export default class ModalSuggestionList extends React.PureComponent {
                 <SuggestionList
                     {...props}
                     location={this.state.location}
+                    ref={this.suggestionList}
                 />
             </div>
         );

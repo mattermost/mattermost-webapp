@@ -197,7 +197,7 @@ export default class SuggestionBox extends React.Component {
 
     calculateInputRect = () => {
         if (this.inputRef.current) {
-            const rect = ReactDOM.findDOMNode(this.inputRef.current).getBoundingClientRect();
+            const rect = this.inputRef.current.getInput().getBoundingClientRect();
             return {top: rect.top, bottom: rect.bottom, width: rect.width};
         }
         return {top: 0, bottom: 0, width: 0};

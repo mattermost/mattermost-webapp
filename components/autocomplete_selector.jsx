@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
+import SuggestionList from 'components/suggestion/suggestion_list';
 
 export default class AutocompleteSelector extends React.PureComponent {
     static propTypes = {
@@ -27,6 +27,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         id: '',
         labelClassName: '',
         inputClassName: '',
+        listComponent: SuggestionList,
     };
 
     constructor(props) {
@@ -90,6 +91,7 @@ export default class AutocompleteSelector extends React.PureComponent {
             inputClassName,
             value,
             disabled,
+            listComponent,
         } = this.props;
 
         const {focused} = this.state;
@@ -129,7 +131,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                     <SuggestionBox
                         placeholder={placeholder}
                         ref={this.setSuggestionRef}
-                        listComponent={ModalSuggestionList}
+                        listComponent={listComponent}
                         className='form-control'
                         containerClass='select-suggestion-container'
                         value={input}
