@@ -11,9 +11,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 type Props = {
     team: {[x: string]: string};
-    doRemoveUserFromTeam: (teamId: string) => Promise<void>;
-    doMakeUserTeamAdmin: (teamId: string) => Promise<void>;
-    doMakeUserTeamMember: (teamId: string) => Promise<void>;
+    doRemoveUserFromTeam: (teamId: string) => void;
+    doMakeUserTeamAdmin: (teamId: string) => void;
+    doMakeUserTeamMember: (teamId: string) => void;
 }
 
 type State = {
