@@ -298,6 +298,7 @@ export class RenameChannelModal extends React.PureComponent {
                                 placeholder={holders.displayNameHolder}
                                 value={this.state.displayName}
                                 maxLength={Constants.MAX_CHANNELNAME_LENGTH}
+                                aria-label={formatMessage({id: 'rename_channel.displayName', defaultMessage: 'Display Name'}).toLowerCase()}
                             />
                             {displayNameError}
                         </div>
@@ -321,6 +322,7 @@ export class RenameChannelModal extends React.PureComponent {
                                     value={this.state.channelName}
                                     maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                     readOnly={readOnlyHandleInput}
+                                    aria-label={formatMessage({id: 'rename_channel.title', defaultMessage: 'Rename Channel'}).toLowerCase()}
                                 />
                             </div>
                             {nameError}

@@ -200,7 +200,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -522,7 +522,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -878,7 +878,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -1234,7 +1234,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -1590,7 +1590,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -1951,7 +1951,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -2307,7 +2307,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -2635,7 +2635,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -2991,7 +2991,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -3347,7 +3347,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -3764,7 +3764,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -4150,7 +4150,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -4536,7 +4536,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }
@@ -4922,7 +4922,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                defaultMessage="When true, the server will detect previously enabled plugins on the server and will automatically install them."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
             }

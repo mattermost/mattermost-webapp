@@ -9,7 +9,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds} from 'utils/constants';
 
-import ToastWrapper, {TOAST_FADEOUT_TIME_UNREAD, TOAST_FADEOUT_TIME} from './toast_wrapper.jsx';
+import ToastWrapper from './toast_wrapper.jsx';
 
 describe('components/ToastWrapper', () => {
     const baseProps = {
@@ -133,7 +133,6 @@ describe('components/ToastWrapper', () => {
             wrapper.instance().forceUnreadEvenAtBottom = true;
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showUnreadToast')).toBe(false);
-            expect(wrapper.state('toastTimer')).toBe(TOAST_FADEOUT_TIME_UNREAD);
         });
 
         test('Should hide showNewMessagesToast if atBottom is true', () => {
@@ -156,7 +155,6 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showNewMessagesToast')).toBe(false);
-            expect(wrapper.state('toastTimer')).toBe(TOAST_FADEOUT_TIME);
         });
 
         test('Should hide unread toast on scrollToNewMessage', () => {
@@ -178,7 +176,6 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.instance().scrollToLatestMessages();
             expect(wrapper.state('showUnreadToast')).toBe(false);
-            expect(wrapper.state('toastTimer')).toBe(TOAST_FADEOUT_TIME);
             expect(baseProps.scrollToLatestMessages).toHaveBeenCalledTimes(1);
         });
 
@@ -204,7 +201,6 @@ describe('components/ToastWrapper', () => {
             wrapper.setProps({lastViewedBottom: 1235, latestPostTimeStamp: 1235});
             wrapper.instance().scrollToNewMessage();
             expect(wrapper.state('showNewMessagesToast')).toBe(false);
-            expect(wrapper.state('toastTimer')).toBe(0);
             expect(baseProps.scrollToNewMessage).toHaveBeenCalledTimes(1);
         });
 

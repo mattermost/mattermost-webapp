@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
+import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import MenuIcon from 'components/widgets/icons/menu_icon';
 
@@ -13,12 +13,12 @@ import Avatar from 'components/widgets/users/avatar';
 
 import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown';
 
-export default class SidebarHeader extends React.Component {
-    static propTypes = {
-        currentUser: PropTypes.object,
-    }
+type Props = {
+    currentUser: UserProfile& {last_picture_update?: number};
+}
 
-    render() {
+export default class SidebarHeader extends React.Component<Props> {
+    public render() {
         const me = this.props.currentUser;
         let profilePicture = null;
 
