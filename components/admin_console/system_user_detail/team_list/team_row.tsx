@@ -11,7 +11,6 @@ import './team_row.scss';
 import TeamListDropdown from './team_list_dropdown';
 
 type Props = {
-    key: string;
     team: {[x: string]: string};
     onRowClick?: () => void;
     doRemoveUserFromTeam: (teamId: string) => Promise<void>;

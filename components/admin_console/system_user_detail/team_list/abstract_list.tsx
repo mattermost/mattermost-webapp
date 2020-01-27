@@ -23,7 +23,7 @@ type Props = {
     emptyListTextId: string;
     emptyListTextDefaultMessage: string;
     actions: {
-        getTeamsData: (userId: string) => ActionFunc;
+        getTeamsData: (userId: string) => ActionFunc & Partial<{then: (func: () => void) => void}> | Promise<Record<string, any>>;
         removeGroup?: () => void;
     };
 }
@@ -78,7 +78,7 @@ export default class AbstractList extends React.PureComponent<Props, State> {
         newState.loading = true;
         this.setState(newState);
 
-        this.props.actions.getTeamsData(userId).then(() => {
+        this.props.actions.getTeamsData(userId).then!(() => {
             if (this.props.onPageChangedCallback) {
                 this.props.onPageChangedCallback(this.getPaging());
             }
