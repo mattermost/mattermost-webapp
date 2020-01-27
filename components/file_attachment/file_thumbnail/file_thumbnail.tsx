@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 import Constants, {FileTypes} from 'utils/constants';
 import {
@@ -14,13 +15,7 @@ import {
 
 type Props = {
     enableSVGs: boolean;
-    fileInfo: {
-        id: string;
-        extension: string;
-        width: number;
-        height: number;
-        has_preview_image: boolean;
-    };
+    fileInfo: FileInfo;
 }
 
 export default class FileThumbnail extends React.PureComponent<Props> {
