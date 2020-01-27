@@ -14,7 +14,6 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
         update_at: 0,
         delete_at: 0,
         team_id: 'T123',
-        team_display_name: 'Team Display Name',
         type: 'D' as ChannelType,
         display_name: 'Channel Display Name',
         name: 'DN',
@@ -25,7 +24,10 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
         extra_update_at: 0,
         creator_id: '123',
         scheme_id: '123',
-        group_constrained: false
+        group_constrained: false,
+        team_display_name: 'Team Display Name',
+        team_name: 'Team Name',
+        team_update_at: 0,
     };
     test('should match snapshot', () => {
         const wrapper = shallow(

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {FormattedMessage} from 'react-intl';
 
@@ -32,7 +32,7 @@ interface ChannelListProps {
 
 interface ChannelListState {
     searchString: string;
-    channels: Channel[];
+    channels: ChannelWithTeamData[];
     searchTotalCount: number;
     pageResetKey: number;
     searchMode: boolean;
@@ -164,7 +164,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         );
     }
 
-    private renderRow = (item: Channel) => {
+    private renderRow = (item: ChannelWithTeamData) => {
         return (
             <ChannelRow
                 key={item.id}

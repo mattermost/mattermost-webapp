@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,7 +11,7 @@ import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 
 interface Props {
-    channel: Channel;
+    channel: ChannelWithTeamData;
     onRowClick: (id: string) => void;
 }
 
@@ -40,7 +40,9 @@ export default class ChannelRow extends React.Component<Props> {
                         )}
                         {channel.display_name}
                     </span>
-                    <span className='group-description row-content'>{channel.team_display_name}</span>
+                    <span className='group-description row-content'>
+                        {channel.team_display_name}
+                    </span>
                     <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
