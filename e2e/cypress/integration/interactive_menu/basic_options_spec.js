@@ -72,7 +72,7 @@ describe('Interactive Menu', () => {
         });
 
         // * Verify each element of message attachment list
-        cy.get('@messageAttachmentList').within(() => {
+        cy.get('@messageAttachmentList').scrollIntoView().within(() => {
             cy.get('.attachment__thumb-pretext').should('be.visible').and('have.text', 'This is attachment pretext with basic options');
             cy.get('.post-message__text-container').should('be.visible').and('have.text', 'This is attachment text with basic options');
             cy.get('.attachment-actions').should('be.visible');

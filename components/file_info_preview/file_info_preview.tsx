@@ -1,18 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class FileInfoPreview extends React.PureComponent {
-    static propTypes = {
-        fileInfo: PropTypes.object.isRequired,
-        fileUrl: PropTypes.string.isRequired,
-        canDownloadFiles: PropTypes.bool.isRequired,
+type Props = {
+    fileInfo: {
+        name: string;
+        extension: string;
+        size: number;
     };
+    fileUrl: string;
+    canDownloadFiles: boolean;
+};
 
+export default class FileInfoPreview extends React.PureComponent<Props> {
     render() {
         const fileInfo = this.props.fileInfo;
         const fileUrl = this.props.fileUrl;

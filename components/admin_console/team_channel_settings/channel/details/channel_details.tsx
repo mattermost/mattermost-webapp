@@ -263,7 +263,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 filter((g) => {
                     return !origGroups.some((group) => group.id === g.id);
                 }).
-                map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
+                map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
             const result = await Promise.all([...promises, ...patchChannelSyncable, ...unlink, ...link]);
             const resultWithError = result.find((r) => 'error' in r);
             if (resultWithError && 'error' in resultWithError) {
