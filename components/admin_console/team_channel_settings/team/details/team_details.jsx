@@ -21,6 +21,8 @@ import {TeamProfile} from './team_profile';
 import {TeamModes} from './team_modes';
 import {TeamGroups} from './team_groups';
 
+import UserGrid from 'components/admin_console/user_grid/index';
+
 export default class TeamDetails extends React.Component {
     static propTypes = {
         teamID: PropTypes.string.isRequired,
@@ -256,6 +258,17 @@ export default class TeamDetails extends React.Component {
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
                             setNewGroupRole={this.setNewGroupRole}
+                        />
+
+                        <UserGrid
+                            titleId='admin.team_settings.team_detail.membersTitle'
+                            titleDefault='Members'
+                            subtitleId='admin.team_settings.team_detail.membersDescription'
+                            subtitleDefault='The users in this list are members of this team'
+                            users={[]}
+                            page={1}
+                            perPage={30}
+                            teamId={this.props.teamID}
                         />
 
                     </div>
