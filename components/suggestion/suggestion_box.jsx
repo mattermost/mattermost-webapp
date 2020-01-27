@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 

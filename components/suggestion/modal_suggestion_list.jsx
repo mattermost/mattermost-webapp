@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import {getClosestParent} from 'utils/utils.jsx';
@@ -36,7 +35,7 @@ export default class ModalSuggestionList extends React.PureComponent {
 
     tryRegisterScroll = () => {
         if (this.container.current) {
-            const modalBodyContainer = getClosestParent(ReactDOM.findDOMNode(this.container.current), '.modal-body');
+            const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
             modalBodyContainer.addEventListener('scroll', this.onModalScroll);
             this.scrollRegistered = true;
         }
@@ -144,7 +143,7 @@ export default class ModalSuggestionList extends React.PureComponent {
             return;
         }
 
-        const modalContainer = getClosestParent(ReactDOM.findDOMNode(this.container.current), '.modal-content');
+        const modalContainer = getClosestParent(this.container.current, '.modal-content');
         const modalBounds = modalContainer.getBoundingClientRect();
 
         if (this.state.modalBounds.top !== modalBounds.top || this.state.modalBounds.bottom !== modalBounds.bottom) {
