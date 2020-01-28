@@ -80,7 +80,7 @@ export default class UnarchiveChannelModal extends React.PureComponent {
                         {!canViewArchivedChannels &&
                             <FormattedMarkdownMessage
                                 id='unarchive_channel.question'
-                                defaultMessage='This will unarchive the channel from the team and make its contents accessible for all users. \n \nAre you sure you wish to unarchive the **{display_name}** channel?'
+                                defaultMessage='Are you sure you wish to unarchive the **{display_name}** channel?'
                                 values={{
                                     display_name: this.props.channel.display_name,
                                 }}
@@ -88,7 +88,7 @@ export default class UnarchiveChannelModal extends React.PureComponent {
                         {canViewArchivedChannels &&
                             <FormattedMarkdownMessage
                                 id='unarchive_channel.viewArchived.question'
-                                defaultMessage={'This will unarchive the channel from the team.\n \nAre you sure you wish to unarchive the **{display_name}** channel?'}
+                                defaultMessage={'Are you sure you wish to unarchive the **{display_name}** channel?'}
                                 values={{
                                     display_name: this.props.channel.display_name,
                                 }}
