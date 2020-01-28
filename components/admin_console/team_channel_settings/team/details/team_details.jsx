@@ -128,7 +128,7 @@ export default class TeamDetails extends React.Component {
                 filter((g) => {
                     return !origGroups.some((group) => group.id === g.id);
                 }).
-                map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
+                map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: g.scheme_admin}));
             const result = await Promise.all([patchTeamPromise, ...patchTeamSyncable, ...unlink, ...link]);
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
