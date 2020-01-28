@@ -605,7 +605,7 @@ describe('Interactive Menu', () => {
                 cy.findByPlaceholderText('Select an option...').clear().type(`${longUsername}`);
 
                 // # Wait a little for async search
-                cy.wait(TIMEOUTS.TINY);
+                cy.wait(TIMEOUTS.SMALL);
 
                 cy.get('#suggestionList').within(() => {
                     // * Newly added username should be there in the search list
