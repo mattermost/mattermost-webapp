@@ -26,6 +26,7 @@ const payload = getMessageMenusPayload({options});
 
 let channelId;
 let incomingWebhook;
+let longUsername;
 
 describe('Interactive Menu', () => {
     before(() => {
@@ -60,6 +61,16 @@ describe('Interactive Menu', () => {
                 incomingWebhook = hook;
             });
         });
+
+        cy.getCurrentTeamId().then((teamId) => {
+            longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
+
+            // # Create a new user with 64 chars lenght
+            cy.createNewUser({username: longUsername}, [teamId]);
+        });
+
+        // Login again, this is a temp fix as cy.createNewUser, logs out the current user
+        cy.apiLogin('sysadmin').visit('/ad-1/channels/town-square');
     });
 
     it('matches elements', () => {
@@ -583,17 +594,7 @@ describe('Interactive Menu', () => {
     });
 
     it('IM21038 - Selected options with long usernames are not cut off in the RHS', () => {
-        const longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
-
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create a new user with 64 chars lenght
-            cy.createNewUser({username: longUsername}, [teamId]).as('longUser');
-        });
-
-        // # Lets wait until the new user is added to the team
-        cy.wait(TIMEOUTS.SMALL);
-
-        // # Now make webhook request to get list of all the users
+        // # Make webhook request to get list of all the users
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
 
