@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
-export default function ImagePreview({fileInfo, canDownloadFiles}) {
+export default function ImagePreview({fileInfo, canDownloadFiles, isExternalFile}) {
     const {has_preview_image: hasPreviewImage, id, link} = fileInfo;
     const fileUrl = link || getFileDownloadUrl(id);
     const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
@@ -19,7 +19,7 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
             href={fileUrl}
             target='_blank'
             rel='noopener noreferrer'
-            download={true}
+            download={!isExternalFile}
         >
             <img
                 data-testid='imagePreview'
@@ -33,4 +33,5 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
 ImagePreview.propTypes = {
     fileInfo: PropTypes.object.isRequired,
     canDownloadFiles: PropTypes.bool.isRequired,
+    isExternalFile: PropTypes.bool.isRequired,
 };

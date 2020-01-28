@@ -225,6 +225,7 @@ export default class ViewImageModal extends React.PureComponent {
                     <ImagePreview
                         fileInfo={fileInfo}
                         canDownloadFiles={this.props.canDownloadFiles}
+                        isExternalFile={isExternalFile}
                     />
                 );
             } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
