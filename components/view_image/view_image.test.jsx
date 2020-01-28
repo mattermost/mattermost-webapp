@@ -5,7 +5,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
-import ImagePreview from 'components/view_image/image_preview';
 import PopoverBar from 'components/view_image/popover_bar';
 import ViewImageModal from 'components/view_image/view_image';
 
@@ -325,16 +324,15 @@ describe('components/ViewImageModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should pass isExternalFile to ImagePreview and PopoverBar correctly for an external file', () => {
+    test('should pass isExternalFile to PopoverBar correctly for an internal file', () => {
         const wrapper = shallow(<ViewImageModal {...baseProps}/>);
 
         wrapper.setState({loaded: [true]});
 
-        expect(wrapper.find(ImagePreview).prop('isExternalFile')).toBe(false);
         expect(wrapper.find(PopoverBar).prop('isExternalFile')).toBe(false);
     });
 
-    test('should pass isExternalFile to ImagePreview and PopoverBar correctly for an internal file', () => {
+    test('should pass isExternalFile to PopoverBar correctly for an external file', () => {
         const props = {
             ...baseProps,
             fileInfos: [{
@@ -347,7 +345,6 @@ describe('components/ViewImageModal', () => {
 
         wrapper.setState({loaded: [true]});
 
-        expect(wrapper.find(ImagePreview).prop('isExternalFile')).toBe(true);
         expect(wrapper.find(PopoverBar).prop('isExternalFile')).toBe(true);
     });
 });

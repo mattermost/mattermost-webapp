@@ -80,7 +80,9 @@ describe('components/view_image/ImagePreview', () => {
     test('should not download link for external file', () => {
         const props = {
             ...baseProps,
-            isExternalFile: true,
+            fileInfo: {
+                link: 'https://example.com/image.png',
+            },
         };
 
         const wrapper = shallow(
@@ -88,5 +90,7 @@ describe('components/view_image/ImagePreview', () => {
         );
 
         expect(wrapper.find('a').prop('download')).toBe(false);
+        expect(wrapper.find('a').prop('href')).toBe(props.fileInfo.link);
+        expect(wrapper.find('img').prop('src')).toBe(props.fileInfo.link);
     });
 });
