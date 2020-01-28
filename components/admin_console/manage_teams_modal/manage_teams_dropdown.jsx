@@ -77,7 +77,7 @@ export default class ManageTeamsDropdown extends React.Component {
                     <Menu.ItemAction
                         show={isTeamAdmin}
                         onClick={this.makeMember}
-                        text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Member')}
+                        text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Team Member')}
                     />
                     <Menu.ItemAction
                         show={!team.group_constrained}
