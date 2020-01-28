@@ -61,19 +61,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-## @types/redux-mock-store
-
-This product contains '@types/redux-mock-store' by TypeScript ESLint.
-
-
-
-* HOMEPAGE:
-  * 
-
-* LICENSE:
-
----
-
 ## @typescript-eslint/parser
 
 This product contains '@typescript-eslint/parser' by TypeScript ESLint.
