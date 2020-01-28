@@ -70,8 +70,14 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             ChannelComponent = SidebarGroupChannel;
         }
 
-        return (
-            <div>
+        return React.forwardRef((_, ref: React.Ref<HTMLDivElement>) => (
+            <div
+                ref={ref}
+                style={{
+                    display: 'flex',
+                    fontWeight: this.showChannelAsUnread() ? "bold" : "inherit",    // TODO temp styling
+                }}
+            >
                 <ChannelComponent
                     channel={channel}
                     currentTeamName={currentTeamName}
@@ -81,6 +87,6 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                     unreadMentions={this.props.unreadMentions}
                 />
             </div>
-        );
+        ));
     }
 }

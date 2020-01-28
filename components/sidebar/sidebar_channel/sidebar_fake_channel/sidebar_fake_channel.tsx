@@ -21,9 +21,7 @@ export default class SidebarFakeChannel extends React.PureComponent<Props, State
         const channelStringified = String(channel.fake && JSON.stringify(channel));
 
         return (
-            <div>
-                <Link to={`/${currentTeamName}/channels/${channel.name}?fakechannel=${encodeURIComponent(channelStringified)}`}>{channel.display_name}</Link>
-            </div>
+            <Link to={`/${currentTeamName}/channels/${channel.name}?fakechannel=${encodeURIComponent(channelStringified)}`}>{channel.display_name}</Link>
         );
     }
 }

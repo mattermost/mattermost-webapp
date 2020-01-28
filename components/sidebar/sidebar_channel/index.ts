@@ -9,10 +9,9 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {Constants, NotificationLevels} from 'utils/constants';
+import {NotificationLevels} from 'utils/constants';
 
 import SidebarChannel from './sidebar_channel';
 
@@ -58,4 +57,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannel);
+export default connect(mapStateToProps, mapDispatchToProps, null, {forwardRef : true})(SidebarChannel);
