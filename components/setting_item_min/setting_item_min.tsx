@@ -1,79 +1,73 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {isMobile} from 'utils/utils.jsx';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 
-export default class SettingItemMin extends React.PureComponent {
-    static defaultProps = {
-        section: '',
-    };
+interface Props {
 
-    static propTypes = {
+    /**
+     * Settings title
+     */
+    title: JSX.Element | string;
 
-        /**
-         * Settings title
-         */
-        title: PropTypes.node,
+    /**
+     * Option to disable opening the setting
+     */
+    disableOpen?: boolean;
 
-        /**
-         * Option to disable opening the setting
-         */
-        disableOpen: PropTypes.bool,
+    /**
+     * Settings or tab section
+     */
+    section: string;
 
-        /**
-         * Settings or tab section
-         */
-        section: PropTypes.string,
+    /**
+     * Function to update section
+     */
+    updateSection: (section: string) => void;
 
-        /**
-         * Function to update section
-         */
-        updateSection: PropTypes.func,
+    /**
+     * Settings description
+     */
+    describe?: JSX.Element | string;
 
-        /**
-         * Settings description
-         */
-        describe: PropTypes.node,
+    /**
+     * Shows the previous active section for focusing
+     */
+    previousActiveSection?: string;
 
-        /**
-         * Shows the previous active section for focusing
-         */
-        previousActiveSection: PropTypes.string,
+    /**
+     * Actions
+     * Update the active section for focusing
+     */
+    actions: {updateActiveSection: (newActiveSection: string) => {type: string; data: string}};
+}
 
-        /**
-         * Actions
-         */
-        actions: PropTypes.shape({
-
-            /**
-             * Update the active section for focusing
-             */
-            updateActiveSection: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+export default class SettingItemMin extends React.PureComponent<Props> {
+    private edit: HTMLButtonElement | null = null;
 
     componentDidMount() {
         if (this.props.previousActiveSection === this.props.section) {
-            this.edit.focus();
+            if (this.edit) {
+                this.edit.focus();
+            }
         }
     }
 
-    getEdit = (node) => {
+    private getEdit = (node: HTMLButtonElement) => {
         this.edit = node;
     }
 
-    handleUpdateSection = (e) => {
+    handleUpdateSection = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         this.props.actions.updateActiveSection(this.props.section);
         this.props.updateSection(this.props.section);
     }
 
-    render() {
+    render(): JSX.Element {
         let editButton = null;
         let describeSection = null;
 

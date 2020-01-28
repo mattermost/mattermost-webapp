@@ -6,6 +6,8 @@ import React from 'react';
 import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
 import {FormattedMessage, IntlProvider} from 'react-intl';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import OverlayTrigger from './overlay_trigger';
 
 describe('OverlayTrigger', () => {
@@ -18,12 +20,14 @@ describe('OverlayTrigger', () => {
             [testId]: 'Actual value',
         },
     };
-    const testOverlay = (
-        <FormattedMessage
-            id={testId}
-            defaultMessage='Default value'
-        />
-    );
+    const baseProps = {
+        overlay: (
+            <FormattedMessage
+                id={testId}
+                defaultMessage='Default value'
+            />
+        ),
+    };
 
     // Intercept console error messages since we intentionally cause some as part of these tests
     let originalConsoleError: () => void;
@@ -40,7 +44,7 @@ describe('OverlayTrigger', () => {
     test('base OverlayTrigger should fail to pass intl to overlay', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
-                <BaseOverlayTrigger overlay={testOverlay}>
+                <BaseOverlayTrigger {...baseProps}>
                     <span/>
                 </BaseOverlayTrigger>
             </IntlProvider>
@@ -57,7 +61,7 @@ describe('OverlayTrigger', () => {
     test('custom OverlayTrigger should fail to pass intl to overlay', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
-                <OverlayTrigger overlay={testOverlay}>
+                <OverlayTrigger {...baseProps}>
                     <span/>
                 </OverlayTrigger>
             </IntlProvider>
@@ -67,5 +71,23 @@ describe('OverlayTrigger', () => {
 
         expect(overlay.text()).toBe('Actual value');
         expect(console.error).not.toHaveBeenCalled();
+    });
+
+    test('ref should properly be forwarded', () => {
+        const ref = React.createRef<BaseOverlayTrigger>();
+        const props = {
+            ...baseProps,
+            ref,
+        };
+
+        const wrapper = mountWithIntl(
+            <IntlProvider {...intlProviderProps}>
+                <OverlayTrigger {...props}>
+                    <span/>
+                </OverlayTrigger>
+            </IntlProvider>
+        );
+
+        expect(ref.current).toBe(wrapper.find(BaseOverlayTrigger).instance());
     });
 });

@@ -44,7 +44,7 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
@@ -503,7 +503,7 @@ export function handleNewPostEvent(msg) {
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post)) {
+        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post) && !getIsManualStatusForUserId(myGetState(), post.user_id)) {
             myDispatch({
                 type: UserTypes.RECEIVED_STATUSES,
                 data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
