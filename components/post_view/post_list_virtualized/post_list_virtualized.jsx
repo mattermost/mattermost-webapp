@@ -125,7 +125,7 @@ class PostList extends React.PureComponent {
         this.state = {
             isScrolling: false,
             isMobile,
-            atBottom: false,
+            atBottom: true,
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
@@ -491,7 +491,6 @@ class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}
-                isMobile={this.state.isMobile}
             />
         );
     }
