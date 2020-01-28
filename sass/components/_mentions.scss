@@ -115,7 +115,7 @@
     }
 }
 
-.mention__fullname {
+.mention__fullname, .mention__you {
     @include opacity(.5);
     margin: 0 0 0 4px;
     overflow: hidden;

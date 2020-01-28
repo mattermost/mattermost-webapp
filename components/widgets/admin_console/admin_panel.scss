@@ -11,8 +11,28 @@
     margin: 2em 0 1em;
     padding: 0;
 
+    .AdminPanel__content {
+        padding: 10px 20px 20px;
+    }
+
+    .AdminPanel__table {
+        width: 100%;
+
+        th {
+            border-bottom: solid 1px alpha-color($black, .1);
+        }
+
+        td,
+        th {
+            padding: 6px 20px;
+
+            &:first-child {
+                padding-left: 20px;
+            }
+        }
+    }
+
     .header {
-        cursor: pointer;
         align-items: center;
         background: $white;
         display: flex;

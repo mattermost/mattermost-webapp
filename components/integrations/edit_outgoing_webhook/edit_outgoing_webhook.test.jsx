@@ -134,11 +134,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match when submitHook is called on error', async () => {
         const newActions = {...baseProps.actions, updateOutgoingHook: jest.fn().mockReturnValue({data: ''})};
-        const newUpdateOutgoingHookRequest = {
-            status: 'error',
-            error: {message: 'error'},
-        };
-        const props = {...baseProps, hook, updateOutgoingHookRequest: newUpdateOutgoingHookRequest, actions: newActions};
+        const props = {...baseProps, hook, actions: newActions};
         const wrapper = shallow(
             <EditOutgoingWebhook {...props}/>
         );
@@ -147,7 +143,6 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         wrapper.setState({showConfirmModal: true});
         await instance.submitHook();
 
-        expect(wrapper.state('serverError')).toEqual(newUpdateOutgoingHookRequest.error.message);
         expect(wrapper.state('showConfirmModal')).toEqual(false);
     });
 });

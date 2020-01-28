@@ -72,7 +72,7 @@ describe('Interactive Menu', () => {
         });
 
         // * Verify each element of message attachment list
-        cy.get('@messageAttachmentList').within(() => {
+        cy.get('@messageAttachmentList').scrollIntoView().within(() => {
             cy.get('.attachment__thumb-pretext').should('be.visible').and('have.text', 'This is attachment pretext with basic options');
             cy.get('.post-message__text-container').should('be.visible').and('have.text', 'This is attachment text with basic options');
             cy.get('.attachment-actions').should('be.visible');
@@ -211,6 +211,40 @@ describe('Interactive Menu', () => {
                     // * Check if we get appropriate message when no options matches entered text
                     cy.get('.suggestion-list__no-results').should('be.visible').should('have.text', `No items match ${missingUser}`);
                 });
+            });
+        });
+    });
+
+    it('IM21043 - Using up/down arrow keys to make selection', () => {
+        const basicOptions = getMessageMenusPayload({options});
+
+        // # Post an incoming webhook for interactive menu with basic options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+        });
+
+        cy.get('@messageAttachmentList').within(() => {
+            cy.findByPlaceholderText('Select an option...').as('optionInputField');
+            cy.get('@optionInputField').click();
+            cy.get('#suggestionList').should('be.visible');
+
+            // # Hit the down arrow two times
+            cy.get('@optionInputField').type('{downarrow}{downarrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[2].text);
+            });
+
+            // # Hit the up arrow two times
+            cy.get('@optionInputField').type('{uparrow}{uparrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[0].text);
             });
         });
     });

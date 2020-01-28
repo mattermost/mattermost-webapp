@@ -252,6 +252,7 @@ export default class SearchBar extends React.Component {
                         onSubmit={this.handleSubmit}
                         style={style.searchForm}
                         autoComplete='off'
+                        aria-labelledby='searchBox'
                     >
                         <SearchIcon
                             className='search__icon'
