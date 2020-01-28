@@ -94,8 +94,6 @@ export default class QuickInput extends React.PureComponent {
         if (this.props.onClear) {
             this.props.onClear();
         }
-
-        this.value = '';
     }
 
     render() {
@@ -124,7 +122,7 @@ export default class QuickInput extends React.PureComponent {
 
         return (<div>
             {inputElement}
-            {clearable && this.input && this.value && this.value !== '' &&
+            {clearable && value && this.props.onClear &&
                 <div
                     className='input-clear visible'
                     onClick={this.onClear}
