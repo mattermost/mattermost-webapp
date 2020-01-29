@@ -19,7 +19,7 @@ type Props = {
 }
 
 export default class TeamRow extends React.Component<Props, {}> {
-    private renderTeamType = (team: {[x: string]: string}): JSX.Element => {
+    private renderTeamType = (team: {[x: string]: string}) => {
         if (team.group_constrained) {
             return (
                 <FormattedMessage
@@ -43,7 +43,7 @@ export default class TeamRow extends React.Component<Props, {}> {
             />
         );
     }
-    private renderTeamRole = (team: {[x: string]: string}): JSX.Element | null => {
+    private renderTeamRole = (team: {[x: string]: string}) => {
         if (team.scheme_guest) {
             return (
                 <FormattedMessage
