@@ -26,7 +26,7 @@ export const ChannelProfile = ({team, channel}) => (
                     defaultMessage='**Name**'
                 />
                 <br/>
-                {channel.name}
+                {channel.display_name}
                 <br/>
                 <FormattedMarkdownMessage
                     id='admin.channel_settings.channel_detail.channelTeam'
