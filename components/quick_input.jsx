@@ -32,12 +32,13 @@ export default class QuickInput extends React.PureComponent {
         value: PropTypes.string.isRequired,
 
         /**
-         * Whether it shows an X on the input field that clears the input when clicked. Default: false
+         * When true, and an onClear callback is defined, show an X on the input field that clears
+         * the input when clicked.
          */
         clearable: PropTypes.bool,
 
         /**
-         * Function to call when input is cleared when 'X' is clicked.
+         * Callback to clear the input value, and used in tandem with the clearable prop above.
          */
         onClear: PropTypes.func,
     };
