@@ -46,10 +46,12 @@ class LocalStorageStoreClass {
     }
 
     getPreviousChannelName(userId, teamId) {
+        console.log(`getPreviousChannelName: ${this.getItem(getPreviousChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(teamId)}`);
         return this.getItem(getPreviousChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(teamId);
     }
 
     setPreviousChannelName(userId, teamId, channelName) {
+        console.log(`set previous channel to: ${channelName}`);
         this.setItem(getPreviousChannelNameKey(userId, teamId), channelName);
     }
 
