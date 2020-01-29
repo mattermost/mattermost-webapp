@@ -454,7 +454,7 @@
             overflow: hidden;
 
             .control-label {
-                padding: 0;
+                padding: 5px 0 0 0;
                 @include text-clamp(2, 20);
             }
         }

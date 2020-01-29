@@ -13,30 +13,26 @@ import BooleanSetting from './boolean_setting';
 type Props = {
     id: string;
     value: boolean;
-    onChange: (id: string, value: any) => void;
+    onChange: (id: string, value: boolean, confirm?: boolean, doSubmit?: boolean, warning?: React.ReactNode | string) => void;
     disabled?: boolean;
     setByEnv: boolean;
-}
-
-type State = {
     showConfirm: boolean;
 }
 
-export default class CustomEnableDisableGuestAccountsSetting extends React.Component<Props, State> {
-    public constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            showConfirm: false,
-        };
-    }
-
-    public handleChange = (id: string, value: boolean, confirm?: boolean) => {
-        if (!value && !confirm) {
-            this.setState({showConfirm: true});
-        } else {
-            this.props.onChange(id, value);
+export default class CustomEnableDisableGuestAccountsSetting extends React.Component<Props> {
+    public handleChange = (id: string, value: boolean, submit?: boolean) => {
+        const doSubmit = submit || false;
+        const confirmNeeded = value === false; // Requires confirmation if disabling guest accounts
+        let warning: React.ReactNode | string = '';
+        if (confirmNeeded) {
+            warning = (
+                <FormattedMessage
+                    id='admin.guest_access.disableConfirmWarning'
+                    defaultMessage='All current guest account sessions will be revoked, and marked as inactive'
+                />
+            );
         }
+        this.props.onChange(id, value, confirmNeeded, doSubmit, warning);
     };
 
     public render() {
@@ -64,11 +60,11 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                     onChange={this.handleChange}
                 />
                 <ConfirmModal
-                    show={this.state.showConfirm}
+                    show={this.props.showConfirm && (this.props.value === false)}
                     title={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmTitle'
-                            defaultMessage='Disable Guest Access?'
+                            defaultMessage='Save and Disable Guest Access?'
                         />
                     }
                     message={
@@ -80,14 +76,14 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                     confirmButtonText={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmButton'
-                            defaultMessage='Disable Guest Access'
+                            defaultMessage='Save and Disable Guest Access'
                         />
                     }
                     onConfirm={() => {
                         this.handleChange(this.props.id, false, true);
                         this.setState({showConfirm: false});
                     }}
-                    onCancel={() => this.setState({showConfirm: false})}
+                    onCancel={() => this.handleChange(this.props.id, true, false)}
                 />
             </>
         );
