@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -16,10 +16,15 @@ import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import favicon from 'images/favicon/favicon-16x16.png';
-import redFavicon from 'images/favicon/redfavicon-16x16.png';
+import favicon16x16 from 'images/favicon/favicon-16x16.png';
+import favicon32x32 from 'images/favicon/favicon-32x32.png';
+import favicon96x96 from 'images/favicon/favicon-96x96.png';
+import redDotFavicon16x16 from 'images/favicon/favicon-reddot-16x16.png';
+import redDotFavicon32x32 from 'images/favicon/favicon-reddot-32x32.png';
+import redDotFavicon96x96 from 'images/favicon/favicon-reddot-96x96.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -58,7 +63,14 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class Sidebar extends React.PureComponent {
+// scrollMargin is the margin at the edge of the channel list that we leave when scrolling to a channel.
+const scrollMargin = 15;
+
+// scrollMarginWithUnread is the margin that we leave at the edge of the channel list when scrolling to a channel so
+// that the channel is not under the unread indicator.
+const scrollMarginWithUnread = 60;
+
+class Sidebar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -114,6 +126,8 @@ export default class Sidebar extends React.PureComponent {
          */
         currentUser: PropTypes.object,
 
+        intl: intlShape.isRequired,
+
         /**
          * Number of unread mentions/messages
          */
@@ -150,10 +164,6 @@ export default class Sidebar extends React.PureComponent {
         currentChannel: {},
     }
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
     constructor(props) {
         super(props);
 
@@ -175,9 +185,9 @@ export default class Sidebar extends React.PureComponent {
         };
 
         this.animate = new SpringSystem();
-        this.unreadScrollAnimate = this.animate.createSpring();
-        this.unreadScrollAnimate.setOvershootClampingEnabled(true); // disables the spring action at the end of animation
-        this.unreadScrollAnimate.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
+        this.scrollAnimation = this.animate.createSpring();
+        this.scrollAnimation.setOvershootClampingEnabled(true); // disables the spring action at the end of animation
+        this.scrollAnimation.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -222,7 +232,7 @@ export default class Sidebar extends React.PureComponent {
 
         // Scroll to selected channel so it's in view
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.updateScrollbarOnChannelChange(this.props.currentChannel.id);
+            this.scrollToChannel(this.props.currentChannel.id);
         }
 
         // close the LHS on mobile when you change channels
@@ -236,8 +246,7 @@ export default class Sidebar extends React.PureComponent {
 
         this.updateTitle();
 
-        // Don't modify favicon for now: https://mattermost.atlassian.net/browse/MM-13643.
-        // this.setBadgesActiveAndFavicon();
+        this.setBadgesActiveAndFavicon();
 
         this.setFirstAndLastUnreadChannels();
         this.updateUnreadIndicators();
@@ -247,32 +256,44 @@ export default class Sidebar extends React.PureComponent {
         document.removeEventListener('keydown', this.navigateChannelShortcut);
         document.removeEventListener('keydown', this.navigateUnreadChannelShortcut);
 
-        this.animate.deregisterSpring(this.unreadScrollAnimate);
+        this.animate.deregisterSpring(this.scrollAnimation);
         this.animate.removeAllListeners();
-        this.unreadScrollAnimate.destroy();
+        this.scrollAnimation.destroy();
     }
 
     setBadgesActiveAndFavicon() {
+        if (!(UserAgent.isFirefox() || UserAgent.isChrome())) {
+            return;
+        }
+
+        const link = document.querySelector('link[rel="icon"]');
+
+        if (!link) {
+            return;
+        }
+
         this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentionCount;
+        this.badgesActive = this.props.unreads.mentionCount > 0;
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
-            var link = document.createElement('link');
-            link.type = 'image/x-icon';
-            link.rel = 'shortcut icon';
-            link.id = 'favicon';
-            if (this.badgesActive) {
-                link.href = typeof redFavicon === 'string' ? redFavicon : '';
-            } else {
-                link.href = typeof favicon === 'string' ? favicon : '';
-            }
-            var head = document.getElementsByTagName('head')[0];
-            var oldLink = document.getElementById('favicon');
-            if (oldLink) {
-                head.removeChild(oldLink);
-            }
-            head.appendChild(link);
+            this.updateFavicon(this.badgesActive);
+        }
+    }
+
+    updateFavicon = (active) => {
+        const link16x16 = document.querySelector('link[rel="icon"][sizes="16x16"]');
+        const link32x32 = document.querySelector('link[rel="icon"][sizes="32x32"]');
+        const link96x96 = document.querySelector('link[rel="icon"][sizes="96x96"]');
+
+        if (active) {
+            link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : '';
+            link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : '';
+            link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : '';
+        } else {
+            link16x16.href = typeof favicon16x16 === 'string' ? favicon16x16 : '';
+            link32x32.href = typeof favicon32x32 === 'string' ? favicon32x32 : '';
+            link96x96.href = typeof favicon96x96 === 'string' ? favicon96x96 : '';
         }
     }
 
@@ -308,7 +329,7 @@ export default class Sidebar extends React.PureComponent {
             currentTeammate,
             unreads,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
 
         const currentSiteName = config.SiteName || '';
 
@@ -339,33 +360,53 @@ export default class Sidebar extends React.PureComponent {
     }
 
     scrollToFirstUnreadChannel = () => {
-        if (this.firstUnreadChannel) {
-            const displayedChannels = this.getDisplayedChannels(this.state.orderedChannelIds);
-            this.unreadScrollAnimate.setCurrentValue(this.refs.scrollbar.getScrollTop()).setAtRest();
-            let position;
-            if (displayedChannels.length > 0 && displayedChannels[0] === this.firstUnreadChannel) {
-                position = MathUtil.mapValueInRange(0, 0, 1, 0, 1);
-            } else {
-                const unreadMargin = 15;
-                const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
-                const scrollTop = firstUnreadElement.position().top - unreadMargin;
-                position = MathUtil.mapValueInRange(scrollTop, 0, 1, 0, 1);
-            }
-            this.unreadScrollAnimate.setEndValue(position);
-        }
+        this.scrollToChannel(this.firstUnreadChannel, true);
     }
 
     scrollToLastUnreadChannel = () => {
-        if (this.lastUnreadChannel) {
-            const {scrollbar} = this.refs;
-            const unreadMargin = 15;
-            const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
-            const elementBottom = lastUnreadElement.position().top + lastUnreadElement.height();
-            const scrollTop = (elementBottom - scrollbar.getClientHeight()) + unreadMargin;
-            const position = MathUtil.mapValueInRange(scrollTop, 0, 1, 0, 1);
-            this.unreadScrollAnimate.setCurrentValue(scrollbar.getScrollTop()).setAtRest();
-            this.unreadScrollAnimate.setEndValue(position);
+        this.scrollToChannel(this.lastUnreadChannel, true);
+    }
+
+    scrollToChannel = (channelId, scrollingToUnread = false) => {
+        const element = $(ReactDOM.findDOMNode(this.refs[channelId]));
+        if (!element) {
+            return;
         }
+
+        const top = element.position().top;
+        const bottom = top + element.height();
+
+        const scrollTop = this.refs.scrollbar.getScrollTop();
+        const scrollHeight = this.refs.scrollbar.getClientHeight();
+
+        if (top < scrollTop) {
+            // Scroll up to the item
+            const margin = (scrollingToUnread || !this.state.showTopUnread) ? scrollMargin : scrollMarginWithUnread;
+
+            let scrollEnd;
+            const displayedChannels = this.getDisplayedChannels(this.state.orderedChannelIds);
+            if (displayedChannels.length > 0 && displayedChannels[0] === channelId) {
+                // This is the first channel, so scroll right to the top
+                scrollEnd = MathUtil.mapValueInRange(0, 0, 1, 0, 1);
+            } else {
+                scrollEnd = MathUtil.mapValueInRange(top - margin, 0, 1, 0, 1);
+            }
+
+            this.scrollToPosition(scrollEnd);
+        } else if (bottom > scrollTop + scrollHeight) {
+            // Scroll down to the item
+            const margin = (scrollingToUnread || !this.state.showBottomUnread) ? scrollMargin : scrollMarginWithUnread;
+            const scrollEnd = (bottom - scrollHeight) + margin;
+
+            this.scrollToPosition(scrollEnd);
+        }
+    }
+
+    scrollToPosition = (scrollEnd) => {
+        // Stop the current animation before scrolling
+        this.scrollAnimation.setCurrentValue(this.refs.scrollbar.getScrollTop()).setAtRest();
+
+        this.scrollAnimation.setEndValue(scrollEnd);
     }
 
     updateUnreadIndicators = () => {
@@ -373,13 +414,12 @@ export default class Sidebar extends React.PureComponent {
         let showBottomUnread = false;
 
         // Consider partially obscured channels as above/below
-        const unreadMargin = 15;
 
         if (this.firstUnreadChannel) {
             const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
             const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
 
-            if (firstUnreadPosition && ((firstUnreadPosition.top + firstUnreadElement.height()) - unreadMargin) < this.refs.scrollbar.getScrollTop()) {
+            if (firstUnreadPosition && ((firstUnreadPosition.top + firstUnreadElement.height()) - scrollMargin) < this.refs.scrollbar.getScrollTop()) {
                 showTopUnread = true;
             }
         }
@@ -388,7 +428,7 @@ export default class Sidebar extends React.PureComponent {
             const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
             const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.position() : null;
 
-            if (lastUnreadPosition && (lastUnreadPosition.top + unreadMargin) > (this.refs.scrollbar.getScrollTop() + this.refs.scrollbar.getClientHeight())) {
+            if (lastUnreadPosition && (lastUnreadPosition.top + scrollMargin) > (this.refs.scrollbar.getScrollTop() + this.refs.scrollbar.getClientHeight())) {
                 showBottomUnread = true;
             }
         }
@@ -397,15 +437,6 @@ export default class Sidebar extends React.PureComponent {
                 showTopUnread,
                 showBottomUnread,
             });
-        }
-    }
-
-    updateScrollbarOnChannelChange = (channelId) => {
-        if (this.refs[channelId]) {
-            const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
-            if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
-                this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
-            }
         }
     }
 
@@ -434,7 +465,7 @@ export default class Sidebar extends React.PureComponent {
             }
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
             this.props.actions.switchToChannelById(nextChannelId);
-            this.updateScrollbarOnChannelChange(nextChannelId);
+            this.scrollToChannel(nextChannelId);
 
             this.isSwitchingChannel = false;
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
@@ -471,7 +502,7 @@ export default class Sidebar extends React.PureComponent {
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
                 this.props.actions.switchToChannelById(nextChannelId);
-                this.updateScrollbarOnChannelChange(nextChannelId);
+                this.scrollToChannel(nextChannelId);
             }
 
             this.isSwitchingChannel = false;
@@ -654,8 +685,6 @@ export default class Sidebar extends React.PureComponent {
             return (<div/>);
         }
 
-        this.badgesActive = false;
-
         // keep track of the first and last unread channels so we can use them to set the unread indicators
         this.firstUnreadChannel = null;
         this.lastUnreadChannel = null;
@@ -802,3 +831,5 @@ export default class Sidebar extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(Sidebar);

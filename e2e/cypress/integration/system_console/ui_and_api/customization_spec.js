@@ -19,11 +19,15 @@ describe('Customization', () => {
                     SupportEmail: config.SupportSettings.SupportEmail,
                     HelpLink: config.SupportSettings.HelpLink,
                     AboutLink: config.SupportSettings.AboutLink,
+                    ReportAProblemLink: config.SupportSettings.ReportAProblemLink,
                     PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink,
                     TermsOfServiceLink: config.SupportSettings.TermsOfServiceLink,
                 },
                 TeamSettings: {
                     SiteName: config.TeamSettings.SiteName,
+                    CustomDescriptionText: config.TeamSettings.CustomDescriptionText,
+                    EnableCustomBrand: config.TeamSettings.EnableCustomBrand,
+                    CustomBrandText: config.TeamSettings.CustomBrandText,
                 },
                 NativeAppSettings: {
                     AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
@@ -96,6 +100,81 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20332 - Can change Site Description setting', () => {
+        // * Verify site description label is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomDescriptionTextlabel').should('be.visible').and('have.text', 'Site Description: ');
+
+        // * Verify the site description input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').should('have.value', origConfig.TeamSettings.CustomDescriptionText);
+
+        // * Verify the site description help text is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomDescriptionTexthelp-text').find('span').should('be.visible').and('have.text', 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.');
+
+        // # Generate and enter a random site description
+        const siteDescription = 'New site description';
+        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the site description is saved, directly via REST API
+            expect(response.body.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
+        });
+    });
+
+    it('SC20342 - Can change Custom Brand Text setting', () => {
+        // * Verify custom brand text label is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomBrandTextlabel').scrollIntoView().should('be.visible').and('have.text', 'Custom Brand Text:');
+
+        // * Verify the custom brand input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.CustomBrandTextinput').should('have.value', origConfig.TeamSettings.CustomBrandText);
+
+        // * Verify the custom brand help text is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomBrandTexthelp-text').find('span').should('be.visible').and('have.text', 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.');
+
+        //Enable custom branding
+        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check({force: true});
+
+        // # Enter a custom brand text
+        const customBrandText = 'Random brand text';
+        cy.findByTestId('TeamSettings.CustomBrandTextinput').clear().type(customBrandText);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the custom brand text is saved, directly via REST API
+            expect(response.body.TeamSettings.CustomBrandText).to.eq(customBrandText);
+        });
+    });
+
+    it('SC20331 - Can change Report a Problem Link setting', () => {
+        // * Verify Report a Problem link label is visible and matches the text
+        cy.findByTestId('SupportSettings.ReportAProblemLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Report a Problem Link:');
+
+        // * Verify Report a Problem link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('SupportSettings.ReportAProblemLinkinput').should('have.value', origConfig.SupportSettings.ReportAProblemLink);
+
+        // * Verify Report a Problem link help text is visible and matches the text
+        cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.');
+
+        // # Enter a problem link
+        const reportAProblemLink = 'https://about.mattermost.com/default-report-a-problem/test';
+        cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(reportAProblemLink);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the Report a Problem link is saved, directly via REST API
+            expect(response.body.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
         });
     });
 
@@ -303,6 +382,43 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.SupportSettings.TermsOfServiceLink).to.eq(newValue);
+        });
+    });
+
+    it('SC20339 - Can change Enable Custom Branding setting', () => {
+        // # Make sure necessary field is false
+        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.reload();
+
+        cy.findByTestId('TeamSettings.EnableCustomBrand').should('be.visible').within(() => {
+            // * Verify that setting is visible and matches text content
+            cy.get('label:first').should('be.visible').and('have.text', 'Enable Custom Branding: ');
+
+            // * Verify that help setting is visible and matches text content
+            const content = 'Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page.';
+            cy.get('.help-text').should('be.visible').and('have.text', content);
+
+            // # Set Enable Custom Branding to true
+            cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
+        });
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(true);
+        });
+
+        // # Set Enable Custom Branding to false
+        cy.findByTestId('TeamSettings.EnableCustomBrandfalse').check();
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
 });

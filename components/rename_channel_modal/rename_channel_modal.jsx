@@ -3,10 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Modal, Tooltip} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import LocalizedInput from 'components/localized_input/localized_input';
+import OverlayTrigger from 'components/overlay_trigger';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {intlShape} from 'utils/react_intl';
@@ -297,6 +298,7 @@ export class RenameChannelModal extends React.PureComponent {
                                 placeholder={holders.displayNameHolder}
                                 value={this.state.displayName}
                                 maxLength={Constants.MAX_CHANNELNAME_LENGTH}
+                                aria-label={formatMessage({id: 'rename_channel.displayName', defaultMessage: 'Display Name'}).toLowerCase()}
                             />
                             {displayNameError}
                         </div>
@@ -320,6 +322,7 @@ export class RenameChannelModal extends React.PureComponent {
                                     value={this.state.channelName}
                                     maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                     readOnly={readOnlyHandleInput}
+                                    aria-label={formatMessage({id: 'rename_channel.title', defaultMessage: 'Rename Channel'}).toLowerCase()}
                                 />
                             </div>
                             {nameError}

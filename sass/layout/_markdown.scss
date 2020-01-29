@@ -44,8 +44,7 @@ h6 {
 }
 
 .markdown__paragraph-inline {
-    display: inline-flex;
-    align-items: center;
+    display: inline;
 
     + .markdown__paragraph-inline {
         margin-left: 4px;
@@ -155,9 +154,9 @@ h6 {
         border: unset;
     }
 
-    .markdown__paragraph-inline {
-        display: inline-flex;
-        align-items: center;
+    div.markdown__paragraph-inline {
+        display: inline-block;
+        line-height: 22px;
     }
 
     .broken-image {
@@ -313,6 +312,24 @@ h6 {
 
         &:nth-child(2n) {
             background-color: #f8f8f8;
+        }
+    }
+}
+
+ol.markdown__list {
+    counter-reset: list;
+    display: table;
+    padding: 0;
+
+    > li {
+        counter-increment: list;
+        display: table-row;
+
+        &::before {
+            content: counter(list) ".";
+            padding-right: 8px;
+            display: table-cell;
+            text-align: right;
         }
     }
 }

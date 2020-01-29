@@ -2,7 +2,7 @@
 
 exports[`components/admin_console/system_users/list should match default snapshot 1`] = `
 <div>
-  <SearchableUserList
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -15,7 +15,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": false,
       }
     }
-    actionUserProps={Object {}}
     actions={
       Array [
         [Function],
@@ -35,7 +34,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
     renderFilterRow={[MockFunction]}
     rowComponentType={[Function]}
     search={[Function]}
-    showTeamToggle={false}
     teamId=""
     term=""
     total={0}
@@ -74,7 +72,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
 
 exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa disabled 1`] = `
 <div>
-  <SearchableUserList
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -87,7 +85,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": false,
       }
     }
-    actionUserProps={Object {}}
     actions={
       Array [
         [Function],
@@ -98,12 +95,12 @@ exports[`components/admin_console/system_users/list should match default snapsho
     extraInfo={
       Object {
         "id1": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -114,12 +111,12 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
         ],
         "id2": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -130,7 +127,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
         ],
         "id3": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
@@ -140,7 +137,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -151,7 +148,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
         ],
         "id4": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
@@ -161,7 +158,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -172,7 +169,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
         ],
         "id5": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
@@ -182,7 +179,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -205,7 +202,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
     renderFilterRow={[MockFunction]}
     rowComponentType={[Function]}
     search={[Function]}
-    showTeamToggle={false}
     teamId=""
     term=""
     total={0}
@@ -265,7 +261,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
 
 exports[`components/admin_console/system_users/list should match default snapshot, with users and mfa enabled 1`] = `
 <div>
-  <SearchableUserList
+  <injectIntl(SearchableUserList)
     actionProps={
       Object {
         "doEmailReset": [Function],
@@ -278,7 +274,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": true,
       }
     }
-    actionUserProps={Object {}}
     actions={
       Array [
         [Function],
@@ -289,12 +284,12 @@ exports[`components/admin_console/system_users/list should match default snapsho
     extraInfo={
       Object {
         "id1": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -304,18 +299,18 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
           />,
         ],
         "id2": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -325,13 +320,13 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
           />,
         ],
         "id3": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
@@ -341,7 +336,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -351,13 +346,13 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
           />,
         ],
         "id4": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
@@ -367,7 +362,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -377,13 +372,13 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
           />,
         ],
         "id5": Array [
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** {service}"
             id="admin.user_item.authServiceNotEmail"
             values={
@@ -393,7 +388,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**User ID:** {userID}"
             id="admin.user_item.user_id"
             values={
@@ -403,7 +398,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
             }
           />,
           ", ",
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
           />,
@@ -421,7 +416,6 @@ exports[`components/admin_console/system_users/list should match default snapsho
     renderFilterRow={[MockFunction]}
     rowComponentType={[Function]}
     search={[Function]}
-    showTeamToggle={false}
     teamId=""
     term=""
     total={0}

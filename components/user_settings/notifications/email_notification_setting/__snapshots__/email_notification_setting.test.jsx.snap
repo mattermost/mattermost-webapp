@@ -12,33 +12,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -122,26 +95,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     title="Email notifications"
     updateSection={[Function]}
   >
-    <ul
+    <section
       className="section-max form-horizontal "
     >
-      <li
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
         Email notifications
-      </li>
-      <li
+      </h4>
+      <div
         className="col-sm-9 col-sm-offset-3"
       >
-        <ul
+        <div
           className="setting-list"
-          role="presentation"
           tabIndex="-1"
         >
-          <li
+          <div
             className="setting-list-item"
-            role="presentation"
           >
             <fieldset
               key="userNotificationEmailOptions"
@@ -222,17 +193,31 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                  
               </div>
             </fieldset>
-          </li>
-          <li
+          </div>
+          <div
             className="setting-list-item"
           >
             <hr />
             <SaveButton
               btnClass="btn-primary"
+              defaultMessage={
+                <FormattedMessage
+                  defaultMessage="Save"
+                  id="save_button.save"
+                  values={Object {}}
+                />
+              }
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
+              savingMessage={
+                <FormattedMessage
+                  defaultMessage="Saving"
+                  id="save_button.saving"
+                  values={Object {}}
+                />
+              }
             >
               <button
                 className="save-button btn btn-primary"
@@ -243,10 +228,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               >
                 <LoadingWrapper
                   loading={false}
-                  text="Saving"
+                  text={
+                    <FormattedMessage
+                      defaultMessage="Saving"
+                      id="save_button.saving"
+                      values={Object {}}
+                    />
+                  }
                 >
                   <span>
-                    Save
+                    <FormattedMessage
+                      defaultMessage="Save"
+                      id="save_button.save"
+                      values={Object {}}
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </FormattedMessage>
                   </span>
                 </LoadingWrapper>
               </button>
@@ -266,10 +265,10 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </span>
               </FormattedMessage>
             </button>
-          </li>
-        </ul>
-      </li>
-    </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </SettingItemMax>
 </EmailNotificationSetting>
 `;
@@ -331,33 +330,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -492,26 +464,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     title="Email notifications"
     updateSection={[Function]}
   >
-    <ul
+    <section
       className="section-max form-horizontal "
     >
-      <li
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
         Email notifications
-      </li>
-      <li
+      </h4>
+      <div
         className="col-sm-9 col-sm-offset-3"
       >
-        <ul
+        <div
           className="setting-list"
-          role="presentation"
           tabIndex="-1"
         >
-          <li
+          <div
             className="setting-list-item"
-            role="presentation"
           >
             <fieldset
               key="userNotificationEmailOptions"
@@ -655,17 +625,31 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </FormattedMessage>
               </div>
             </fieldset>
-          </li>
-          <li
+          </div>
+          <div
             className="setting-list-item"
           >
             <hr />
             <SaveButton
               btnClass="btn-primary"
+              defaultMessage={
+                <FormattedMessage
+                  defaultMessage="Save"
+                  id="save_button.save"
+                  values={Object {}}
+                />
+              }
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
+              savingMessage={
+                <FormattedMessage
+                  defaultMessage="Saving"
+                  id="save_button.saving"
+                  values={Object {}}
+                />
+              }
             >
               <button
                 className="save-button btn btn-primary"
@@ -676,10 +660,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               >
                 <LoadingWrapper
                   loading={false}
-                  text="Saving"
+                  text={
+                    <FormattedMessage
+                      defaultMessage="Saving"
+                      id="save_button.saving"
+                      values={Object {}}
+                    />
+                  }
                 >
                   <span>
-                    Save
+                    <FormattedMessage
+                      defaultMessage="Save"
+                      id="save_button.save"
+                      values={Object {}}
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </FormattedMessage>
                   </span>
                 </LoadingWrapper>
               </button>
@@ -699,10 +697,10 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </span>
               </FormattedMessage>
             </button>
-          </li>
-        </ul>
-      </li>
-    </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </SettingItemMax>
 </EmailNotificationSetting>
 `;
