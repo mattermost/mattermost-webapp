@@ -594,6 +594,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             registerSaveAction={[Function]}
             setByEnv={false}
             setSaveNeeded={[Function]}
+            showConfirm={false}
             unRegisterSaveAction={[Function]}
           />
           <Connect(injectIntl(JobTable))
@@ -702,6 +703,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
+      <FormError
+        error=""
+        errors={Array []}
+        iconClassName="fa-exclamation-triangle"
+        textClassName="has-warning"
+      />
       <FormError
         error={null}
         errors={Array []}
