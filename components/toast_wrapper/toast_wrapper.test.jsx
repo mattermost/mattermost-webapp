@@ -124,13 +124,13 @@ describe('components/ToastWrapper', () => {
             wrapper.setProps({
                 channelMarkedAsUnread: true,
                 postListIds: [
-                  'post1',
-                  'post2',
-                  'post3',
-                  PostListRowListIds.START_OF_NEW_MESSAGES,
-                  DATE_LINE + 1551711600000,
-                  'post4',
-                  'post5',
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
                 ],
             });
 
