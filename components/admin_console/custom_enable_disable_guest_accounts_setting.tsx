@@ -20,8 +20,7 @@ type Props = {
 }
 
 export default class CustomEnableDisableGuestAccountsSetting extends React.Component<Props> {
-    public handleChange = (id: string, value: boolean, submit?: boolean) => {
-        const doSubmit = submit || false;
+    public handleChange = (id: string, value: boolean, submit = false) => {
         const confirmNeeded = value === false; // Requires confirmation if disabling guest accounts
         let warning: React.ReactNode | string = '';
         if (confirmNeeded) {
@@ -32,7 +31,7 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                 />
             );
         }
-        this.props.onChange(id, value, confirmNeeded, doSubmit, warning);
+        this.props.onChange(id, value, confirmNeeded, submit, warning);
     };
 
     public render() {

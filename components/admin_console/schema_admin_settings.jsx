@@ -79,8 +79,8 @@ export default class SchemaAdminSettings extends React.Component {
             serverError: null,
             errorTooltip: false,
             customComponentWrapperClass: '',
-            confirmNeeded: false,
-            showConfirm: false,
+            confirmNeededId: '',
+            showConfirmId: '',
             clientWarning: '',
         };
     }
@@ -102,9 +102,9 @@ export default class SchemaAdminSettings extends React.Component {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (this.state.confirmNeeded) {
+        if (this.state.confirmNeededId) {
             this.setState({
-                showConfirm: this.state.confirmNeeded,
+                showConfirmId: this.state.confirmNeededId,
             });
             return;
         }
@@ -632,13 +632,17 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     handleChange = (id, value, confirm = false, doSubmit = false, warning = false) => {
-        const saveNeeded = this.state.saveNeeded === 'permissions' ? 'config' : 'both';
-        const confirmNeeded = confirm ? id : this.state.confirmNeeded;
+        const saveNeeded = this.state.saveNeeded === 'permissions' ? 'both' : 'config';
         const clientWarning = warning === false ? this.state.clientWarning : warning;
+
+        let confirmNeededId = confirm ? id : this.state.confirmNeededId;
+        if (id === this.state.confirmNeededId && !confirm) {
+            confirmNeededId = '';
+        }
 
         this.setState({
             saveNeeded,
-            confirmNeeded,
+            confirmNeededId,
             clientWarning,
             [id]: value,
         });
@@ -797,7 +801,7 @@ export default class SchemaAdminSettings extends React.Component {
                 registerSaveAction={this.registerSaveAction}
                 setSaveNeeded={this.setSaveNeeded}
                 unRegisterSaveAction={this.unRegisterSaveAction}
-                showConfirm={this.state.showConfirm === setting.key}
+                showConfirm={this.state.showConfirmId === setting.key}
             />);
 
         // Show the plugin custom setting title
@@ -917,7 +921,7 @@ export default class SchemaAdminSettings extends React.Component {
         if (hasError) {
             this.setState({saving: false});
         } else {
-            this.setState({saving: false, saveNeeded: false, confirmNeeded: false, showConfirm: false, clientWarning: ''});
+            this.setState({saving: false, saveNeeded: false, confirmNeededId: '', showConfirmId: '', clientWarning: ''});
             this.props.setNavigationBlocked(false);
         }
     };

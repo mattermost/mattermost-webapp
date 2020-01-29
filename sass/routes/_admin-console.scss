@@ -456,6 +456,7 @@
             .control-label {
                 padding: 5px 0 0 0;
                 @include text-clamp(2, 20);
+                margin-top: -5px;
             }
         }
         .reset-defaults-btn {
