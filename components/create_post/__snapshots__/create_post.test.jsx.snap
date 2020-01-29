@@ -182,7 +182,7 @@ exports[`components/create_post Show tutorial 1`] = `
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
         id="notify_all.title.confirm"
         values={Object {}}
       />

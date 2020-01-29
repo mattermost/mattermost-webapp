@@ -759,7 +759,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
                   aria-hidden={true}
                 >
                   <FormattedMessage
-                    defaultMessage="Remove this icon"
+                    defaultMessage="Remove This Icon"
                     id="setting_picture.remove"
                     values={Object {}}
                   />
@@ -788,7 +788,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
                 className="sr-only"
               >
                 <FormattedMessage
-                  defaultMessage="Remove this icon"
+                  defaultMessage="Remove This Icon"
                   id="setting_picture.remove"
                   values={Object {}}
                 />

@@ -3675,7 +3675,7 @@
   "user.settings.tokens.clickToEdit": "Click 'Edit' to manage your personal access tokens",
   "user.settings.tokens.confirmCopyButton": "Yes, I have copied the token",
   "user.settings.tokens.confirmCopyMessage": "Make sure you have copied and saved the access token below. You won't be able to see it again!",
-  "user.settings.tokens.confirmCopyTitle": "Copied your token?",
+  "user.settings.tokens.confirmCopyTitle": "Copied Your Token?",
   "user.settings.tokens.confirmCreateButton": "Yes, Create",
   "user.settings.tokens.confirmCreateMessage": "You are generating a personal access token with System Admin permissions. Are you sure want to create this token?",
   "user.settings.tokens.confirmCreateTitle": "Create System Admin Personal Access Token",

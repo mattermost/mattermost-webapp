@@ -116,7 +116,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
