@@ -119,9 +119,21 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: true,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-
             expect(wrapper.state('showUnreadToast')).toBe(false);
-            wrapper.setProps({channelMarkedAsUnread: true});
+
+            wrapper.setProps({
+                channelMarkedAsUnread: true,
+                postListIds: [
+                  'post1',
+                  'post2',
+                  'post3',
+                  PostListRowListIds.START_OF_NEW_MESSAGES,
+                  DATE_LINE + 1551711600000,
+                  'post4',
+                  'post5',
+                ],
+            });
+
             expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showUnreadToast')).toBe(false);
