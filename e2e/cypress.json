@@ -9,6 +9,17 @@
     "testFiles": "**/*_spec.js",
     "env": {
         "storybookUrl": "http://localhost:6006/",
-        "webhookBaseUrl": "http://localhost:3000"
-    }
+        "webhookBaseUrl": "http://localhost:3000",
+        "okta_root_url": "http://www.okta.com",
+        "okta_base_url": "https://dev-631202.okta.com",
+        "okta_api_url": "https://dev-631202.okta.com/api/v1",
+        "okta_mm_app_name": "mattermostdev631202_mattermost1_1",
+        "okta_mm_app_id": "exk2mo3yqlfjKg2Xk357",
+        "okta_mm_app_instance_id": "0oa2mo3yqmrf9uymb357",
+        "okta_mm_app_token": "00qL_fldxqUFiztZbMH3hGa-uCC0NktvYQTiZJ30cD",
+        "config_folder": "/Users/catalintomai/go/src/github.com/mattermost/mattermost-server/config/",
+        "saml_test_user_password": "Password1",
+        "turnOffChromeWebSecurity": false
+    },
+    "chromeWebSecurity": true
 }

@@ -1,0 +1,54 @@
+{
+    "users": {
+        "samluser-1": {
+            "username": "samluser-1",
+            "password": "Password1",
+            "email": "samluser-1@test.com",
+            "firstname": "saml1",
+            "lastname": "user"
+        },
+        "samluser-2": {
+            "username": "samluser-2",
+            "password": "Password1",
+            "email": "samluser-2@test.com",
+            "firstname": "saml2",
+            "lastname": "user"
+        }
+    },
+    "admins": {
+        "samladmin-1": {
+            "username": "samladmin-1",
+            "password": "Password1",
+            "email": "samladmin-1@test.com",
+            "firstname": "saml1",
+            "lastname": "admin",
+            "IsAdmin": true
+        },
+        "samladmin-2": {
+            "username": "samladmin-2",
+            "password": "Password1",
+            "email": "samladmin-2@test.com",
+            "firstname": "saml2",
+            "lastname": "admin",
+            "UserType": "admin"
+        }
+    },
+    "guests": {
+        "samlguest-1": {
+            "username": "samlguest-1",
+            "password": "Password1",
+            "email": "samlguest-1@test.com",
+            "firstname": "saml1",
+            "lastname": "guest",
+            "IsGuest": true
+        },
+        "samlguest-2": {
+            "username": "samlguest-2",
+            "password": "Password1",
+            "email": "samlguest-2@test.com",
+            "firstname": "saml2",
+            "lastname": "guest",
+            "UserType": "guest"
+        }
+    }
+}

@@ -80,6 +80,14 @@ Cypress.on('test:after:run', (test, runnable) => {
     }
 });
 
+Cypress.on('window:before:load', (win) => {
+    Object.defineProperty(win, 'self', {
+        get: () => {
+            return window.top
+        }
+    })
+})
+
 // Add login cookies to whitelist to preserve it
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
