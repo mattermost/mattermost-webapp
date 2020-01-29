@@ -3,8 +3,10 @@
 
 // Use when sorting multiple teams by their `display_name` field
 function compareTeamsByDisplayName(locale, a, b) {
-    if (a.display_name !== b.display_name) {
-        return a.display_name.localeCompare(b.display_name, locale, {numeric: true});
+    if (a.display_name !== null) {
+        if (a.display_name !== b.display_name) {
+            return a.display_name.localeCompare(b.display_name, locale, {numeric: true});
+        }
     }
 
     return a.name.localeCompare(b.name, locale, {numeric: true});
@@ -19,13 +21,19 @@ export function filterAndSortTeamsByDisplayName(teams, locale, teamsOrder = '') 
     const teamsOrderList = teamsOrder.split(',');
 
     const customSortedTeams = teams.filter((team) => {
-        return teamsOrderList.includes(team.id);
+        if (team !== null) {
+            return teamsOrderList.includes(team.id);
+        }
+        return false;
     }).sort((a, b) => {
         return teamsOrderList.indexOf(a.id) - teamsOrderList.indexOf(b.id);
     });
 
     const otherTeams = teams.filter((team) => {
-        return !teamsOrderList.includes(team.id);
+        if (team !== null) {
+            return !teamsOrderList.includes(team.id);
+        }
+        return false;
     }).sort((a, b) => {
         return compareTeamsByDisplayName(locale, a, b);
     });

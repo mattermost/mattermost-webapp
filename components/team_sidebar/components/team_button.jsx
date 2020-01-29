@@ -33,6 +33,9 @@ class TeamButton extends React.Component {
         teamIconUrl: PropTypes.string,
         switchTeam: PropTypes.func.isRequired,
         intl: intlShape.isRequired,
+        isDraggable: PropTypes.bool,
+        teamIndex: PropTypes.number,
+        teamId: PropTypes.string,
     };
 
     static defaultProps = {
