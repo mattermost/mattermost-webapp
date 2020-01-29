@@ -57,8 +57,17 @@ exports[`components/QuickInput should match snapshot when clearable and with val
           delayShow={400}
           overlay={
             <OverlayWrapper
+              bsClass="tooltip"
+              id="InputClearTooltip"
               intl={null}
-            />
+              placement="right"
+            >
+              <FormattedMessage
+                defaultMessage="Clear input"
+                id="input.clear"
+                values={Object {}}
+              />
+            </OverlayWrapper>
           }
           placement="bottom"
           trigger={

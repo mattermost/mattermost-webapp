@@ -51,6 +51,8 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
       defaultOverlayShown={false}
       overlay={
         <OverlayWrapper
+          className="navbar__popover"
+          id="header-popover"
           intl={
             Object {
               "defaultFormats": Object {},
@@ -82,7 +84,25 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
               "timeZone": "Etc/UTC",
             }
           }
-        />
+          placement="bottom"
+          popoverSize="sm"
+          popoverStyle="info"
+        >
+          <Connect(Markdown)
+            message="channel header"
+            options={
+              Object {
+                "mentionHighlight": false,
+              }
+            }
+          />
+          <div
+            className="close visible-xs-block"
+            onClick={[Function]}
+          >
+            ×
+          </div>
+        </OverlayWrapper>
       }
       placement="bottom"
       rootClose={true}
@@ -218,6 +238,8 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
       defaultOverlayShown={false}
       overlay={
         <OverlayWrapper
+          className="navbar__popover"
+          id="header-popover"
           intl={
             Object {
               "defaultFormats": Object {},
@@ -249,7 +271,45 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
               "timeZone": "Etc/UTC",
             }
           }
-        />
+          placement="bottom"
+          popoverSize="sm"
+          popoverStyle="info"
+        >
+          <div>
+            <FormattedMessage
+              defaultMessage="No channel header yet."
+              id="navbar.noHeader"
+              values={Object {}}
+            />
+            <React.Fragment>
+              <br />
+              <FormattedMessage
+                defaultMessage="{clickHere} to add one."
+                id="navbar.clickToAddHeader"
+                values={
+                  Object {
+                    "clickHere": <a
+                      href="#"
+                      onClick={[Function]}
+                    >
+                      <FormattedMessage
+                        defaultMessage="Click here"
+                        id="navbar.click"
+                        values={Object {}}
+                      />
+                    </a>,
+                  }
+                }
+              />
+            </React.Fragment>
+          </div>
+          <div
+            className="close visible-xs-block"
+            onClick={[Function]}
+          >
+            ×
+          </div>
+        </OverlayWrapper>
       }
       placement="bottom"
       rootClose={true}
