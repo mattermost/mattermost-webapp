@@ -18,4 +18,4 @@ window.PostUtils = {formatText, messageHtmlToComponent};
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
 window.openInteractiveDialog = openInteractiveDialog;
-window.WebappUtils = {browserHistory}
+window.WebappUtils = {browserHistory};
