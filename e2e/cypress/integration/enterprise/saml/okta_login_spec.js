@@ -58,6 +58,8 @@ context('Okta', () => {
         let file3 = Cypress.env("config_folder")+ configSamlSettings.SamlSettings.PrivateKeyFile;
 
         before(() => {
+            let userId;
+
             expect(Cypress.config("chromeWebSecurity")).to.eq(false)
 
             //TODO - step for obtaining the callbackUrl dynamically from the CI(?) - or do we have a step that builds the cypress.env.json by the CI -maybe create some temporary config values?
@@ -88,38 +90,38 @@ context('Okta', () => {
             });
 
             //push the users to Okta
-            users.regulars.forEach(_user => {
+            Object.values(users.regulars).forEach(_user => {
                 cy.oktaGetUser(_user.email).then(uId => {
                     userId = uId;
                     if( userId == null ){
                         cy.oktaCreateUser(_user).then(uId => {
                             userId = uId;
                             //can we do it when creating the user?
-                            cy.oktaAssignUserToApplication(userId, user);
+                            cy.oktaAssignUserToApplication(userId, _user);
                         });
                     }
                 });
             });
 
-            users.guests.forEach(_user => {
+            Object.values(users.guests).forEach(_user => {
                 cy.oktaGetUser(_user.email).then(uId => {
                     userId = uId;
                     if( userId == null ){
                         cy.oktaCreateUser(_user).then(uId => {
                             userId = uId;
-                            cy.oktaAssignUserToApplication(userId, user);
+                            cy.oktaAssignUserToApplication(userId, _user);
                         });
                     }
                 });
             });
 
-            users.admins.forEach(_user => {
+            Object.values(users.admins).forEach(_user => {
                 cy.oktaGetUser(_user.email).then(uId => {
                     userId = uId;
                     if( userId == null ){
                         cy.oktaCreateUser(_user).then(uId => {
                             userId = uId;
-                            cy.oktaAssignUserToApplication(userId, user);
+                            cy.oktaAssignUserToApplication(userId, _user);
                         });
                     }
                 });
@@ -135,14 +137,19 @@ context('Okta', () => {
                 userId = uId;
                 if( userId != null ){
                     //delete the user
-                    cy.oktaDeleteUser(userId).then(() => {
+                    cy.oktaDeleteSession(userId).then(() => {
                         //do we need to delete the session as well?
-                        cy.oktaDeleteSession(userId);
+                        cy.oktaDeleteUser(userId);
                     });
                 }
+                //now add to Okta the "new" user
+                cy.oktaCreateUser(user).then(uId => {
+                    userId = uId;
+                    cy.oktaAssignUserToApplication(userId, user);
+                });
             });
 
-            //login this new user
+            //login then logout this user
              cy.doSamlLoginClick({ buttonText: mmLoginButtonText, siteUrl: '', }).then(() => {
                 cy.doOktaLogin(user).then(() => {
                     let teamName = 't' + userId.substring(0,14);
@@ -154,51 +161,40 @@ context('Okta', () => {
                     });
                 });
             });
-
-            //add the user back to Okta
-            cy.oktaGetUser(user.email).then(uId => {
-                userId = uId;
-                if( userId == null ){
-                    cy.oktaCreateUser(user).then(uId => {
-                        userId = uId;
-                        cy.oktaAssignUserToApplication(userId, user);
-                    });
-                }
-            });
         });
 
-        it('Saml login existing MM regular user', () => {
-            let userId;
-            let user = regular1;
+        // it('Saml login existing MM regular user', () => {
+        //     let userId;
+        //     let user = regular1;
 
-            cy.oktaGetUser(user.email).then(uId => {
-                userId = uId;
-                if( userId == null ){
-                    cy.oktaCreateUser(user).then(uId => {
-                        userId = uId;
-                        cy.oktaAssignUserToApplication(userId, user);
-                    });
-                } else {
-                    //make sure the user is assigned to the app
-                    cy.oktaAssignUserToApplication(userId, user);
-                    //make sure there is no hanging session
-                    cy.oktaDeleteSession(userId);
-                }
-            });
+        //     cy.oktaGetUser(user.email).then(uId => {
+        //         userId = uId;
+        //         if( userId == null ){
+        //             cy.oktaCreateUser(user).then(uId => {
+        //                 userId = uId;
+        //                 cy.oktaAssignUserToApplication(userId, user);
+        //             });
+        //         } else {
+        //             //make sure the user is assigned to the app
+        //             cy.oktaAssignUserToApplication(userId, user);
+        //             //make sure there is no hanging session
+        //             cy.oktaDeleteSession(userId);
+        //         }
+        //     });
 
-            cy.doSamlLoginClick({ buttonText: mmLoginButtonText, siteUrl: '', }).then(() => {
-                cy.get('#channel_view')
-                cy.doOktaLogin(user).then(() => {
-                    let teamName = 't' + userId.substring(0,14);
-                    cy.doCreateTeam(teamName).then(() => {
-                        cy.get('#channel_view').should('be.visible');
-                        cy.doSamlLogoutClick().then(() => {
-                            cy.oktaDeleteSession(userId);
-                        });
-                    });
-                });
-            });
-        });
+        //     cy.doSamlLoginClick({ buttonText: mmLoginButtonText, siteUrl: '', }).then(() => {
+        //         cy.get('#channel_view')
+        //         cy.doOktaLogin(user).then(() => {
+        //             let teamName = 't' + userId.substring(0,14);
+        //             cy.doCreateTeam(teamName).then(() => {
+        //                 cy.get('#channel_view').should('be.visible');
+        //                 cy.doSamlLogoutClick().then(() => {
+        //                     cy.oktaDeleteSession(userId);
+        //                 });
+        //             });
+        //         });
+        //     });
+        // });
 
         // it('Saml login existing MM admin', () => {
         //     let userId;
@@ -232,10 +228,12 @@ context('Okta', () => {
         // });
 
         after(() => {
+            let userId;
+
             cy.task('cleanupConfigFolder', {files: [file1, file2, file3], platform: Cypress.platform});
 
             //remove the users from Okta
-            users.regulars.forEach(_user => {
+            Object.values(users.regulars).forEach(_user => {
                 cy.oktaGetUser(_user.email).then(uId => {
                     userId = uId;
                     if( userId != null ){
@@ -244,7 +242,7 @@ context('Okta', () => {
                 });
             });
 
-            users.guests.forEach(_user => {
+            Object.values(users.guests).forEach(_user => {
                 cy.oktaGetUser(_user.email).then(uId => {
                     userId = uId;
                     if( userId != null ){
@@ -253,7 +251,7 @@ context('Okta', () => {
                 });
             });
 
-            users.admins.forEach(_user => {
+            Object.values(users.admins).forEach(_user => {
                 cy.oktaGetUser(_user.email).then(uId => {
                     userId = uId;
                     if( userId != null ){
