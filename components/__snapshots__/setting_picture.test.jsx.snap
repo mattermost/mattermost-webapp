@@ -929,7 +929,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
                   aria-hidden={true}
                 >
                   <FormattedMessage
-                    defaultMessage="Remove profile picture"
+                    defaultMessage="Remove Profile Picture"
                     id="setting_picture.remove_profile_picture"
                     values={Object {}}
                   />
@@ -958,7 +958,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
                 className="sr-only"
               >
                 <FormattedMessage
-                  defaultMessage="Remove profile picture"
+                  defaultMessage="Remove Profile Picture"
                   id="setting_picture.remove_profile_picture"
                   values={Object {}}
                 />
