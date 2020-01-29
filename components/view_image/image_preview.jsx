@@ -6,11 +6,11 @@ import React from 'react';
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 export default function ImagePreview({fileInfo, canDownloadFiles}) {
-    const isExternalImage = !fileInfo.id;
+    const isExternalFile = !fileInfo.id;
 
     let fileUrl;
     let previewUrl;
-    if (isExternalImage) {
+    if (isExternalFile) {
         fileUrl = fileInfo.link;
         previewUrl = fileInfo.link;
     } else {
@@ -27,7 +27,7 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
             href={fileUrl}
             target='_blank'
             rel='noopener noreferrer'
-            download={!isExternalImage}
+            download={!isExternalFile}
         >
             <img
                 data-testid='imagePreview'
