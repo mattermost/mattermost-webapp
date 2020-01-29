@@ -64,33 +64,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
   }
   id={null}
   includeDetailedError={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   requestAction={
     [MockFunction] {
       "calls": Array [
@@ -151,10 +124,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <WarningIcon
               additionalClassName={null}
             >
-              <i
+              <LocalizedIcon
                 className="fa fa-warning"
-                title="Warning Icon"
-              />
+                component="i"
+                title={
+                  Object {
+                    "defaultMessage": "Warning Icon",
+                    "id": "generic_icons.warning",
+                  }
+                }
+              >
+                <FormattedMessage
+                  defaultMessage="Warning Icon"
+                  id="generic_icons.warning"
+                  values={Object {}}
+                >
+                  <i
+                    className="fa fa-warning"
+                    title="Warning Icon"
+                  />
+                </FormattedMessage>
+              </LocalizedIcon>
             </WarningIcon>
             <FormattedMessage
               defaultMessage="Error Message: {error}"
@@ -215,33 +205,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
   }
   id={null}
   includeDetailedError={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   requestAction={
     [MockFunction] {
       "calls": Array [
@@ -310,10 +273,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <WarningIcon
               additionalClassName={null}
             >
-              <i
+              <LocalizedIcon
                 className="fa fa-warning"
-                title="Warning Icon"
-              />
+                component="i"
+                title={
+                  Object {
+                    "defaultMessage": "Warning Icon",
+                    "id": "generic_icons.warning",
+                  }
+                }
+              >
+                <FormattedMessage
+                  defaultMessage="Warning Icon"
+                  id="generic_icons.warning"
+                  values={Object {}}
+                >
+                  <i
+                    className="fa fa-warning"
+                    title="Warning Icon"
+                  />
+                </FormattedMessage>
+              </LocalizedIcon>
             </WarningIcon>
             <FormattedMessage
               defaultMessage="Error Message: {error}"
@@ -374,33 +354,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
   }
   id={null}
   includeDetailedError={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   requestAction={
     [MockFunction] {
       "calls": Array [
@@ -525,33 +478,6 @@ exports[`components/admin_console/request_button/request_button.jsx should match
   }
   id={null}
   includeDetailedError={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   requestAction={
     [MockFunction] {
       "calls": Array [

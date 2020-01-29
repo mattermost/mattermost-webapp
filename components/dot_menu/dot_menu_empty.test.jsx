@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
@@ -29,6 +28,8 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             isLicensed: false,
             postEditTimeLimit: '-1',
             enableEmojiPicker: true,
+            components: {},
+            channelIsArchived: false,
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -40,7 +41,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );
 

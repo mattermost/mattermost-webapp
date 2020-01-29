@@ -3,10 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import {OverlayTrigger} from 'react-bootstrap';
 
 import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';

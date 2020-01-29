@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import UserSettingsTheme from 'components/user_settings/display/user_settings_theme/user_settings_theme.jsx';
 
 describe('components/user_settings/display/user_settings_theme/user_settings_theme.jsx', () => {
@@ -25,7 +25,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <UserSettingsTheme {...requiredProps}/>
         );
 
@@ -33,7 +33,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
     });
 
     it('should saveTheme', async () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <UserSettingsTheme {...requiredProps}/>
         );
 
@@ -57,7 +57,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <UserSettingsTheme {...props}/>
         );
 

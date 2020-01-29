@@ -3,9 +3,10 @@
 
 import emojiRegex from 'emoji-regex';
 
-import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting.jsx';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
+
+import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 describe('formatText', () => {
@@ -211,6 +212,31 @@ describe('parseSearchTerms', () => {
         {
             description: 'with search flags before and after',
             input: 'from:someone someword "some phrase" in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with date search flags before and after',
+            input: 'on:1970-01-01 someword "some phrase" after:1970-01-01 before: 1970-01-01',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags after',
+            input: 'someword "some phrase" -from:someone -in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags before',
+            input: '-from:someone -in: channel someword "some phrase"',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags before and after',
+            input: '-from:someone someword "some phrase" -in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative date search flags before and after',
+            input: '-on:1970-01-01 someword "some phrase" -after:1970-01-01 -before: 1970-01-01',
             expected: ['someword', 'some phrase'],
         },
     ];

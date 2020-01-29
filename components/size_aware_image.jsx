@@ -7,6 +7,8 @@ import React from 'react';
 import {localizeMessage} from 'utils/utils.jsx';
 import LoadingImagePreview from 'components/loading_image_preview';
 
+const MIN_IMAGE_SIZE = 48;
+
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
 export default class SizeAwareImage extends React.PureComponent {
@@ -47,13 +49,21 @@ export default class SizeAwareImage extends React.PureComponent {
          * css classes that can added to the img as well as parent div on svg for placeholder
          */
         className: PropTypes.string,
+
+        /*
+         * Enables the logic of surrounding small images with a bigger container div for better click/tap targeting
+         */
+        handleSmallImageContainer: PropTypes.bool,
     }
 
     constructor(props) {
         super(props);
+        const {dimensions} = props;
 
         this.state = {
             loaded: false,
+            isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
+                dimensions.width, dimensions.height) : false,
         };
 
         this.heightTimeout = 0;
@@ -67,15 +77,27 @@ export default class SizeAwareImage extends React.PureComponent {
         this.mounted = false;
     }
 
+    dimensionsAvailable = (dimensions) => {
+        return dimensions && dimensions.width && dimensions.height;
+    }
+
+    isSmallImage = (width, height) => {
+        return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE;
+    }
+
     handleLoad = (event) => {
         if (this.mounted) {
             const image = event.target;
-            if (this.props.onImageLoaded && image.naturalHeight) {
-                this.props.onImageLoaded({height: image.naturalHeight, width: image.naturalWidth});
-            }
+            const isSmallImage = this.isSmallImage(image.naturalWidth, image.naturalHeight);
             this.setState({
                 loaded: true,
                 error: false,
+                isSmallImage,
+                imageWidth: image.naturalWidth,
+            }, () => { // Call onImageLoaded prop only after state has already been set
+                if (this.props.onImageLoaded && image.naturalHeight) {
+                    this.props.onImageLoaded({height: image.naturalHeight, width: image.naturalWidth});
+                }
             });
         }
     };
@@ -108,22 +130,70 @@ export default class SizeAwareImage extends React.PureComponent {
         return null;
     }
 
-    renderImageOrPlaceholder = () => {
+    renderImageWithContainerIfNeeded = () => {
         const {
-            dimensions,
             fileInfo,
             src,
             ...props
         } = this.props;
 
-        let placeHolder;
-        let imageStyleChangesOnLoad = {};
+        Reflect.deleteProperty(props, 'showLoader');
+        Reflect.deleteProperty(props, 'onImageLoaded');
+        Reflect.deleteProperty(props, 'onImageLoadFail');
+        Reflect.deleteProperty(props, 'dimensions');
+        Reflect.deleteProperty(props, 'handleSmallImageContainer');
+
         let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
         if (fileInfo) {
             ariaLabelImage += ` ${fileInfo.name}`.toLowerCase();
         }
 
-        if (dimensions && dimensions.width && !this.state.loaded) {
+        const image = (
+            <img
+                {...props}
+                aria-label={ariaLabelImage}
+                tabIndex='0'
+                onKeyDown={this.onEnterKeyDown}
+                className={
+                    this.props.className +
+                    (this.props.handleSmallImageContainer &&
+                        this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                src={src}
+                onError={this.handleError}
+                onLoad={this.handleLoad}
+            />
+        );
+
+        if (this.props.handleSmallImageContainer && this.state.isSmallImage) {
+            let className = 'small-image__container cursor--pointer a11y--active';
+            if (this.state.imageWidth < MIN_IMAGE_SIZE) {
+                className += ' small-image__container--min-width';
+            }
+
+            return (
+                <div
+                    onClick={this.props.onClick}
+                    className={className}
+                    style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
+                        width: this.state.imageWidth + 2, // 2px to account for the border
+                    } : {}}
+                >
+                    {image}
+                </div>
+            );
+        }
+
+        return image;
+    }
+
+    renderImageOrPlaceholder = () => {
+        const {
+            dimensions,
+        } = this.props;
+
+        let placeHolder;
+
+        if (this.dimensionsAvailable(dimensions) && !this.state.loaded) {
             placeHolder = (
                 <div
                     className={`image-loading__container ${this.props.className}`}
@@ -133,38 +203,22 @@ export default class SizeAwareImage extends React.PureComponent {
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                        style={{maxHeight: dimensions.height, maxWidth: dimensions.width}}
+                        style={{maxHeight: dimensions.height, maxWidth: dimensions.width, verticalAlign: 'middle'}}
                     />
                 </div>
             );
         }
-        Reflect.deleteProperty(props, 'showLoader');
-        Reflect.deleteProperty(props, 'onImageLoaded');
-        Reflect.deleteProperty(props, 'onImageLoadFail');
 
-        //The css hack here for loading images in the background can be removed after IE11 is dropped in 5.16v
-        //We can go back to https://github.com/mattermost/mattermost-webapp/pull/2924/files
-        if (!this.state.loaded && dimensions && dimensions.width) {
-            imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden', overflow: 'hidden'};
-        }
+        const shouldShowImg = !this.dimensionsAvailable(dimensions) || this.state.loaded;
 
         return (
             <React.Fragment>
                 {placeHolder}
                 <div
-                    className='style--none file-preview__button'
-                    style={imageStyleChangesOnLoad}
+                    className='file-preview__button'
+                    style={{display: shouldShowImg ? 'initial' : 'none'}}
                 >
-                    <img
-                        {...props}
-                        aria-label={ariaLabelImage}
-                        tabIndex='0'
-                        onKeyDown={this.onEnterKeyDown}
-                        className={this.props.className}
-                        src={src}
-                        onError={this.handleError}
-                        onLoad={this.handleLoad}
-                    />
+                    {this.renderImageWithContainerIfNeeded()}
                 </div>
             </React.Fragment>
         );

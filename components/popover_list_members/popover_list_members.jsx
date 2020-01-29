@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Overlay, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Overlay, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
@@ -13,6 +12,7 @@ import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
+import OverlayTrigger from 'components/overlay_trigger';
 import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
 import TeamMembersModal from 'components/team_members_modal';
@@ -47,10 +47,6 @@ export default class PopoverListMembers extends React.Component {
             statuses: props.statuses,
             sortedUsers: this.sortUsers(props.users, props.statuses),
         };
-    }
-
-    componentDidUpdate() {
-        $('.member-list__popover .popover-content .more-modal__body').perfectScrollbar();
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -163,6 +159,7 @@ export default class PopoverListMembers extends React.Component {
                 >
                     <button
                         className='btn btn-link'
+                        data-testid='membersModal'
                         onClick={this.showMembersModal}
                     >
                         {membersName}

@@ -422,15 +422,20 @@ export default class GroupsList extends React.PureComponent {
                             defaultMessage='Name'
                         />
                     </div>
-                    <div className='group-description'>
-                        <FormattedMessage
-                            id='admin.group_settings.groups_list.mappingHeader'
-                            defaultMessage='Mattermost Linking'
-                        />
+                    <div className='group-content'>
+                        <div className='group-description'>
+                            <FormattedMessage
+                                id='admin.group_settings.groups_list.mappingHeader'
+                                defaultMessage='Mattermost Linking'
+                            />
+                        </div>
+                        <div className='group-actions'/>
                     </div>
-                    <div className='group-actions'/>
                 </div>
-                <div className='groups-list--body'>
+                <div
+                    id='groups-list--body'
+                    className='groups-list--body'
+                >
                     {this.renderRows()}
                 </div>
                 {total > 0 &&

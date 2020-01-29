@@ -29,7 +29,6 @@ describe('components/CreateComment', () => {
         ctrlSend: false,
         latestPostId,
         locale: 'en',
-        getSidebarBody: jest.fn(),
         clearCommentDraftUploads: jest.fn(),
         onUpdateCommentDraft: jest.fn(),
         updateCommentDraftWithRootId: jest.fn(),
@@ -145,10 +144,16 @@ describe('components/CreateComment', () => {
         const mockImpl = () => {
             return {
                 setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()})}};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -850,8 +855,21 @@ describe('components/CreateComment', () => {
         instance.commentMsgKeyPress = jest.fn();
         instance.focusTextbox = jest.fn();
         const blur = jest.fn();
-        const focus = jest.fn();
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus})}};
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                blur: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus, getInputBox: jest.fn(mockImpl)})}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -986,5 +1004,63 @@ describe('components/CreateComment', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);
+    });
+
+    it('should be able to format a github codeblock (pasted as a table)', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+                draft={draft}
+            />
+        );
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/plain', 'text/html'],
+                getData: (type) => {
+                    if (type === 'text/plain') {
+                        return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
+                    }
+                    return '<table class="highlight tab-size js-file-line-container" data-tab-size="8"><tbody><tr><td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> a javascript codeblock example</span></td></tr><tr><td id="L2" class="blob-num js-line-number" data-line-number="2">&nbsp;</td><td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> (<span class="pl-c1">1</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {</td></tr><tr><td id="L3" class="blob-num js-line-number" data-line-number="3">&nbsp;</td><td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">\'</span>condition is true<span class="pl-pds">\'</span></span>);</td></tr><tr><td id="L4" class="blob-num js-line-number" data-line-number="4">&nbsp;</td><td id="LC4" class="blob-code blob-code-inner js-file-line">}</td></tr></tbody></table>';
+                },
+            },
+        };
+
+        const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
+    });
+
+    test('should show preview and edit mode, and return focus on preview disable', () => {
+        const wrapper = shallowWithIntl(
+            <CreateComment {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.focusTextbox = jest.fn();
+
+        expect(wrapper.state('showPreview')).toBe(false);
+        expect(instance.focusTextbox).not.toBeCalled();
+
+        instance.updatePreview(true);
+
+        expect(wrapper.state('showPreview')).toBe(true);
+        expect(instance.focusTextbox).not.toBeCalled();
+
+        instance.updatePreview(false);
+
+        expect(wrapper.state('showPreview')).toBe(false);
+        expect(instance.focusTextbox).toBeCalled();
     });
 });

@@ -3,9 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -17,10 +18,16 @@ import {
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
 
+import {isArchivedChannel} from 'utils/channel_utils';
+
 import DotMenu from './dot_menu.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+    const channel = getChannel(state, ownProps.post.channel_id);
+
     return {
+        channelIsArchived: isArchivedChannel(channel),
+        components: state.plugins.components,
         postEditTimeLimit: getConfig(state).PostEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),

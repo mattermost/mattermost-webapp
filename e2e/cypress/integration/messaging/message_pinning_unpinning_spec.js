@@ -40,6 +40,9 @@ describe('Messaging', () => {
     });
 
     it('M15010 Pinning or un-pinning older post does not cause it to display at bottom of channel', () => {
+        // * Ensure that the channel view is loaded
+        cy.get('#post_textbox').should('be.visible');
+
         // # Post messages
         const olderPost = 7;
         for (let i = olderPost; i > 0; --i) {
@@ -100,7 +103,7 @@ describe('Messaging', () => {
                     cy.get('#search-items-container').children().should('have.length', 2);
 
                     // * Right-hand-side does not have the last pinned post.
-                    cy.get('#search-items-container').children().should('not.contain', `#postMessageText_${postId}`);
+                    cy.get('#search-items-container').children().should('not.contain', `#rhsPostMessageText_${postId}`);
                 });
             });
         });

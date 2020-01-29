@@ -126,6 +126,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
   </div>
   <button
     className="margin-top x3 style--none color--link"
+    data-testid="Install-Plugins-button"
     onClick={[Function]}
   >
     <FormattedMessage
@@ -160,7 +161,8 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
 
 exports[`components/marketplace/ MarketplaceModal should render with error banner 1`] = `
 <RootPortal>
-  <InjectIntl(FullScreenModal)
+  <injectIntl(FullScreenModal)
+    ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
   >
@@ -168,7 +170,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
       className="error-bar"
       id="error_bar"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
         id="app.plugin.marketplace_plugins.app_error"
         values={
@@ -199,6 +201,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
@@ -208,6 +211,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
                 "render": [Function],
               }
             }
+            onClear={[Function]}
             onInput={[Function]}
             placeholder={
               Object {
@@ -241,18 +245,20 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           title="Installed (0)"
         >
           <InstalledPlugins
+            changeTab={[Function]}
             installedPlugins={Array []}
           />
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </InjectIntl(FullScreenModal)>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with no plugins installed 1`] = `
 <RootPortal>
-  <InjectIntl(FullScreenModal)
+  <injectIntl(FullScreenModal)
+    ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
   >
@@ -277,6 +283,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
@@ -286,6 +293,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
                 "render": [Function],
               }
             }
+            onClear={[Function]}
             onInput={[Function]}
             placeholder={
               Object {
@@ -319,18 +327,20 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           title="Installed (0)"
         >
           <InstalledPlugins
+            changeTab={[Function]}
             installedPlugins={Array []}
           />
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </InjectIntl(FullScreenModal)>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with plugins installed 1`] = `
 <RootPortal>
-  <InjectIntl(FullScreenModal)
+  <injectIntl(FullScreenModal)
+    ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
   >
@@ -355,6 +365,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
@@ -364,6 +375,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
                 "render": [Function],
               }
             }
+            onClear={[Function]}
             onInput={[Function]}
             placeholder={
               Object {
@@ -397,6 +409,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           title="Installed (1)"
         >
           <InstalledPlugins
+            changeTab={[Function]}
             installedPlugins={
               Array [
                 Object {
@@ -417,7 +430,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </InjectIntl(FullScreenModal)>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
@@ -431,7 +444,6 @@ exports[`components/marketplace/ Plugins should render with multiple plugins 1`]
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
-    isPrepackaged={false}
     key="com.mattermost.nps"
     name="User Satisfaction Surveys"
     version="1.0.3"
@@ -442,7 +454,6 @@ exports[`components/marketplace/ Plugins should render with multiple plugins 1`]
     homepageUrl="https://github.com/mattermost/mattermost-test"
     id="com.mattermost.test"
     installedVersion="1.0.3"
-    isPrepackaged={false}
     key="com.mattermost.test"
     name="Test"
     version="1.0.3"
@@ -466,7 +477,6 @@ exports[`components/marketplace/ Plugins should render with one plugin 1`] = `
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
-    isPrepackaged={false}
     key="com.mattermost.nps"
     name="User Satisfaction Surveys"
     version="1.0.3"

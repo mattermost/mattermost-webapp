@@ -109,7 +109,10 @@ export default class AbstractList extends React.PureComponent {
         return (
             <div className='groups-list groups-list-no-padding'>
                 {this.props.header}
-                <div className='groups-list--body'>
+                <div
+                    id='groups-list--body'
+                    className='groups-list--body'
+                >
                     {this.renderRows()}
                 </div>
                 {total > 0 && <div className='groups-list--footer'>
@@ -144,4 +147,3 @@ export default class AbstractList extends React.PureComponent {
         );
     }
 }
-

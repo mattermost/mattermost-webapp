@@ -6,6 +6,7 @@ import merge from 'merge-deep';
 import {getRandomInt} from '../utils';
 
 import users from '../fixtures/users.json';
+
 import theme from '../fixtures/theme.json';
 
 // *****************************************************************************
@@ -302,7 +303,7 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
 Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/teams/' + teamId + (permanent ? '/?permanent=true' : ''),
+        url: '/api/v4/teams/' + teamId + (permanent ? '?permanent=true' : ''),
         method: 'DELETE',
     });
 });
@@ -512,6 +513,36 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
     });
 });
 
+const defaultSidebarSettingPreference = {
+    grouping: 'by_type',
+    unreads_at_top: 'true',
+    favorite_at_top: 'true',
+    sorting: 'alpha',
+};
+
+/**
+ * Saves theme preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Object} value - sidebar settings object.  Will pass default value if none is provided.
+ */
+Cypress.Commands.add('apiSaveSidebarSettingPreference', (value = {}) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const newValue = {
+            ...defaultSidebarSettingPreference,
+            ...value,
+        };
+
+        const preference = {
+            user_id: cookie.value,
+            category: 'sidebar_settings',
+            name: '',
+            value: JSON.stringify(newValue),
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
 /**
  * Saves the preference on whether to show link and image previews
  * This API assume that the user is logged in and has cookie to access
@@ -620,8 +651,15 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
 
+    const createUserOption = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: '/api/v4/users',
+        body: {email, username, first_name: firstName, last_name: lastName, password, nickname},
+    };
+
     // # Create a new user
-    return cy.request({method: 'POST', url: '/api/v4/users', body: {email, username, first_name: firstName, last_name: lastName, password, nickname}}).then((userResponse) => {
+    return cy.request(createUserOption).then((userResponse) => {
         // Safety assertions to make sure we have a valid response
         expect(userResponse).to.have.property('body').to.have.property('id');
 
@@ -638,9 +676,13 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
                 expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
 
                 // Pull out only the first 2 teams
-                teamsResponse.body.slice(0, 2).map((t) => t.id).forEach((teamId) => {
-                    cy.apiAddUserToTeam(teamId, userId);
-                });
+                teamsResponse.body.
+                    filter((t) => t.delete_at === 0).
+                    slice(0, 2).
+                    map((t) => t.id).
+                    forEach((teamId) => {
+                        cy.apiAddUserToTeam(teamId, userId);
+                    });
             });
         }
 
@@ -669,14 +711,16 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
  * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
-    return cy.createNewUser(user, [], bypassTutorial).then((newUser) => {
+Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
+    return cy.createNewUser(user, teamIds, bypassTutorial).then((newUser) => {
+        cy.apiLogout();
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             url: '/api/v4/users/login',
             method: 'POST',
             body: {login_id: newUser.username, password: newUser.password},
-        }).then(() => {
+        }).then((response) => {
+            expect(response.status).to.equal(200);
             cy.visit('/');
 
             return cy.wrap(newUser);
@@ -724,6 +768,23 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
 // System config
 // https://api.mattermost.com/#tag/system
 // *****************************************************************************
+
+Cypress.Commands.add('apiUpdateConfigBasic', (newSettings = {}) => {
+    // # Get current settings
+    cy.request('/api/v4/config').then((response) => {
+        const oldSettings = response.body;
+
+        const settings = merge(oldSettings, newSettings);
+
+        // # Set the modified settings
+        cy.request({
+            url: '/api/v4/config',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            method: 'PUT',
+            body: settings,
+        });
+    });
+});
 
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     cy.apiLogin('sysadmin');
@@ -917,3 +978,136 @@ Cypress.Commands.add('uninstallPluginById', (pluginId) => {
         return cy.wrap(response);
     });
 });
+
+/**
+ * Get all user`s plugins.
+ *
+ */
+Cypress.Commands.add('getAllPlugins', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/plugins',
+        method: 'GET',
+        failOnStatusCode: false,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Enable plugin by id.
+ *
+ * @param {String} pluginId - Id of the plugin to enable
+ */
+Cypress.Commands.add('enablePluginById', (pluginId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/plugins/${encodeURIComponent(pluginId)}/enable`,
+        method: 'POST',
+        timeout: 60000,
+        failOnStatusCode: true,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Upload binary file by name and Type *
+ * @param {String} fileName - name of the plugin to upload
+ * @param {String} fileType - type of the plugin to upload
+ */
+Cypress.Commands.add('uploadBinaryFileByName', (fileName, fileType) => {
+    const formData = new FormData();
+
+    // Get file from fixtures as binary
+    cy.fixture(fileName, 'binary').then((content) => {
+        // File in binary format gets converted to blob so it can be sent as Form data
+        Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
+            formData.set('plugin', blob, fileName);
+            formRequest('POST', '/api/v4/plugins', formData);
+        });
+    });
+});
+
+/**
+ * process binary file HTTP form request
+ * @param {String} method - Http request method - POST/PUT
+ * @param {String} url - HTTP resource URL
+ * @param {FormData} FormData - Key value pairs representing form fields and value
+ */
+function formRequest(method, url, formData) {
+    const baseUrl = Cypress.config('baseUrl');
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, false);
+    let cookies = '';
+    cy.getCookie('MMCSRF', {log: false}).then((token) => {
+        //get MMCSRF cookie value
+        const csrfToken = token.value;
+        cy.getCookies({log: false}).then((cookieValues) => {
+            //prepare cookie string
+            cookieValues.forEach((cookie) => {
+                cookies += cookie.name + '=' + cookie.value + '; ';
+            });
+
+            //set headers
+            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
+            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+            xhr.setRequestHeader('Cookie', cookies);
+            xhr.send(formData);
+            if (xhr.readyState === 4) {
+                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(201);
+            } else {
+                expect(xhr.status, 'Form request process delayed').to.equal(201);
+            }
+        });
+    });
+}
+
+/**
+ * Creates a bot directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} username - The bots username
+ * @param {String} displayName - The non-unique UI name for the bot
+ * @param {String} description - The description of the bot
+ * All parameters are required
+ */
+Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots',
+        method: 'POST',
+        body: {
+            username,
+            display_name: displayName,
+            description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get access token
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} user_id - The user id to generate token for
+ * @param {String} description - The description of the token usage
+ * All parameters are required
+ */
+Cypress.Commands.add('apiAccessToken', (userId, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/' + userId + '/tokens',
+        method: 'POST',
+        body: {
+            description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.token);
+    });
+});
+

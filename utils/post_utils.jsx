@@ -178,8 +178,8 @@ function canAutomaticallyCloseBackticks(message) {
     return {allowSending: true};
 }
 
-function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter) {
-    const match = message.match(Constants.TRIPLE_BACK_TICKS);
+function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter, caretPosition) {
+    const match = message.substring(0, caretPosition).match(Constants.TRIPLE_BACK_TICKS);
     if (isSendMessageOnCtrlEnter && ctrlOrMetaKeyPressed && (!match || match.length % 2 === 0)) {
         return {allowSending: true};
     } else if (!isSendMessageOnCtrlEnter && (!match || match.length % 2 === 0)) {
@@ -191,7 +191,7 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
     return {allowSending: false};
 }
 
-export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0) {
+export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0, caretPosition = 0) {
     if (!event) {
         return {allowSending: false};
     }
@@ -221,9 +221,9 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
     const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
 
     if (sendMessageOnCtrlEnter) {
-        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, true);
+        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, true, caretPosition);
     } else if (sendCodeBlockOnCtrlEnter) {
-        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, false);
+        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, false, caretPosition);
     }
 
     return {allowSending: false};
@@ -237,7 +237,7 @@ export function isErrorInvalidSlashCommand(error) {
     return false;
 }
 
-function isIdNotPost(postId) {
+export function isIdNotPost(postId) {
     return (
         PostListUtils.isStartOfNewMessages(postId) ||
         PostListUtils.isDateLine(postId) ||
@@ -455,4 +455,10 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
     const firstPiece = message.substring(0, caretPosition);
     const lastPiece = message.substring(caretPosition, message.length);
     return {firstPiece, lastPiece};
+}
+
+export function getNewMessageIndex(postListIds) {
+    return postListIds.findIndex(
+        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+    );
 }

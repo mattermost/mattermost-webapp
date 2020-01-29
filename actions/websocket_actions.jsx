@@ -22,6 +22,7 @@ import {
     viewChannel,
     markChannelAsRead,
 } from 'mattermost-redux/actions/channels';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
@@ -43,7 +44,7 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -172,7 +173,7 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
         if (mostRecentPost) {
-            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at, false));
+            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
@@ -451,6 +452,8 @@ export function handleChannelUpdatedEvent(msg) {
 
 function handleChannelMemberUpdatedEvent(msg) {
     const channelMember = JSON.parse(msg.data.channelMember);
+    const roles = channelMember.roles.split(' ');
+    dispatch(loadRolesIfNeeded(roles));
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
@@ -500,7 +503,7 @@ export function handleNewPostEvent(msg) {
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post)) {
+        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post) && !getIsManualStatusForUserId(myGetState(), post.user_id)) {
             myDispatch({
                 type: UserTypes.RECEIVED_STATUSES,
                 data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
@@ -665,9 +668,14 @@ function handleDeleteTeamEvent(msg) {
 }
 
 function handleUpdateMemberRoleEvent(msg) {
+    const memberData = JSON.parse(msg.data.member);
+    const newRoles = memberData.roles.split(' ');
+
+    dispatch(loadRolesIfNeeded(newRoles));
+
     dispatch({
         type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-        data: JSON.parse(msg.data.member),
+        data: memberData,
     });
 }
 
@@ -967,9 +975,11 @@ function handleUserRoleUpdated(msg) {
 
     if (user) {
         const roles = msg.data.roles;
+        const newRoles = roles.split(' ');
         const demoted = user.roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN) && !roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN);
 
         store.dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...user, roles}});
+        dispatch(loadRolesIfNeeded(newRoles));
 
         if (demoted && global.location.pathname.startsWith('/admin_console')) {
             redirectUserToDefaultTeam();

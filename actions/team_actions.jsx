@@ -4,7 +4,7 @@
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -82,7 +82,12 @@ export function addUsersToTeam(teamId, userIds) {
 
 export function switchTeam(url) {
     return (dispatch, getState) => {
-        dispatch(viewChannel(getCurrentChannelId(getState())));
+        const state = getState();
+        const currentChannelId = getCurrentChannelId(state);
+        if (!isManuallyUnread(state, currentChannelId)) {
+            dispatch(viewChannel(currentChannelId));
+        }
+
         browserHistory.push(url);
     };
 }
