@@ -84,13 +84,10 @@ export default class AtMentionSuggestion extends Suggestion {
             );
         } else {
             username = user.username;
+            const displayName = Utils.getUserDisplayName(user);
 
-            if ((user.first_name || user.last_name) && user.nickname) {
-                description = `- ${Utils.getFullName(user)} (${user.nickname})`;
-            } else if (user.nickname) {
-                description = `- (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                description = `- ${Utils.getFullName(user)}`;
+            if (username !== displayName) {
+                description = `- ${displayName}`
             }
 
             icon = (

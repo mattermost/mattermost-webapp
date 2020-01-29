@@ -11,7 +11,12 @@ import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux} from 'mattermost-redux/selectors/entities/users';
+import {
+    getCurrentUserId, 
+    getUser, 
+    getUserByUsername as getUserByUsernameRedux, 
+    makeGetDisplayName
+} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
@@ -1282,6 +1287,11 @@ export function getDisplayName(user) {
     return user.username;
 }
 
+export function getUserDisplayName(user) {
+    const getDisplayName = makeGetDisplayName();
+    return getDisplayName(store.getState(), user.id);
+}
+
 export function getLongDisplayName(user) {
     let displayName = '@' + user.username;
     var fullName = getFullName(user);
@@ -1369,30 +1379,14 @@ export function displayEntireNameForUser(user) {
     }
 
     let displayName = '@' + user.username;
-    const fullName = getFullName(user);
+    const description = getUserDisplayName(user);
 
-    if (fullName && user.nickname) {
+    if (user.username !== description) {
         displayName = (
             <span>
                 {'@' + user.username}
                 {' - '}
-                <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
-            </span>
-        );
-    } else if (fullName) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{fullName}</span>
-            </span>
-        );
-    } else if (user.nickname) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{'(' + user.nickname + ')'}</span>
+                <span className='light'>{description}</span>
             </span>
         );
     }
