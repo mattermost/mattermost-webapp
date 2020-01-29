@@ -222,7 +222,6 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
                 "id": "file_id_1",
               }
             }
-            isExternalFile={false}
           />
         </div>
         <PopoverBar
@@ -512,7 +511,6 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
                 "id": "file_id",
               }
             }
-            isExternalFile={false}
           />
         </div>
         <PopoverBar
@@ -596,7 +594,6 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
                 "id": "file_id",
               }
             }
-            isExternalFile={false}
           />
         </div>
         <PopoverBar
@@ -929,7 +926,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
                 "id": "file_id_1",
               }
             }
-            isExternalFile={false}
           />
         </div>
         <PopoverBar
@@ -1033,7 +1029,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
                 "id": "file_id",
               }
             }
-            isExternalFile={false}
           />
         </div>
         <PopoverBar
@@ -1117,7 +1112,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
                 "id": "file_id_1",
               }
             }
-            isExternalFile={false}
           />
         </div>
         <PopoverBar
