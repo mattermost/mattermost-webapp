@@ -15,7 +15,7 @@ This product contains '@formatjs/intl-pluralrules' by Eemeli Aro.
 Polyfill for Intl.PluralRules
 
 * HOMEPAGE:
-  * https://github.com/eemeli/intl-pluralrules
+  * https://github.com/formatjs/formatjs
 
 * LICENSE: Copyright 2015-2018 by Eemeli Aro <eemeli@gmail.com>
 
