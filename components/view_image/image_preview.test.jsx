@@ -12,7 +12,6 @@ describe('components/view_image/ImagePreview', () => {
         fileInfo: {
             id: 'file_id',
         },
-        isExternalFile: false,
     };
 
     test('should match snapshot, without preview', () => {
