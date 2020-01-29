@@ -9,13 +9,13 @@ import ChannelRow from './channel_row';
 
 describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
     const testChannel = {
-        id: '123',
+        id: 'C123',
         create_at: 0,
         update_at: 0,
         delete_at: 0,
-        team_id: '123',
+        team_id: 'T123',
         type: 'D' as ChannelType,
-        display_name: '123',
+        display_name: 'Channel Display Name',
         name: 'DN',
         header: '123',
         purpose: '123',
@@ -24,7 +24,10 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
         extra_update_at: 0,
         creator_id: '123',
         scheme_id: '123',
-        group_constrained: false
+        group_constrained: false,
+        team_display_name: 'Team Display Name',
+        team_name: 'Team Name',
+        team_update_at: 0,
     };
     test('should match snapshot', () => {
         const wrapper = shallow(

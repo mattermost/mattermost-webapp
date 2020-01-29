@@ -93,12 +93,22 @@ describe('components/ToastWrapper', () => {
         test('Should have unread toast channel is marked as unread', () => {
             const props = {
                 ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
                 channelMarkedAsUnread: false,
+                atBottom: true,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-
-            expect(wrapper.state('showUnreadToast')).toBe(false);
-            wrapper.setProps({channelMarkedAsUnread: true});
+            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
@@ -265,6 +275,29 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
             wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
             expect(baseProps.updateLastViewedBottomAt).toHaveBeenCalledTimes(1);
+        });
+
+        test('Changing unreadCount to 0 should set the showNewMessagesToast state to false', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            wrapper.setState({atBottom: false, showUnreadToast: false});
+            wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
+            expect(wrapper.state('showNewMessagesToast')).toBe(true);
+            wrapper.setProps({postListIds: baseProps.postListIds});
+            expect(wrapper.state('showNewMessagesToast')).toBe(false);
         });
     });
 });

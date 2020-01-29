@@ -9,7 +9,7 @@ import {General} from 'mattermost-redux/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {getMonthLong, t} from 'utils/i18n';
 
-import MoreInfo from './more_info.jsx';
+import MoreInfo from './more_info';
 
 export default class ActivityLog extends React.PureComponent {
     static propTypes = {

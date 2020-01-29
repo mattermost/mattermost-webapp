@@ -71,8 +71,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
           delayShow={400}
           overlay={
             <OverlayWrapper
+              bsClass="tooltip"
+              className=""
+              id="pluginTooltip"
               intl={null}
-            />
+              placement="right"
+            >
+              <span>
+                some tooltip text
+              </span>
+            </OverlayWrapper>
           }
           placement="bottom"
           trigger={
