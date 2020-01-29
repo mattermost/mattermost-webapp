@@ -9,7 +9,7 @@ const xml2js = require('xml2js')
 context('Okta', () => {
     const mmLoginButtonText = "SAML";
 
-    const regular1 = users.users['samluser-1'];
+    const regular1 = users.regulars['samluser-1'];
     const admin1 = users.admins['samladmin-1'];
     const guest1 = users.guests['samlguest-1'];
 
@@ -65,6 +65,7 @@ context('Okta', () => {
             cy.oktaGetApp().then(appSettings => {
                 appSettings.settings.signOn.destination = assertionConsumerServiceURL;
             });
+            cy.apiUpdateConfig(configSamlSettings);
 
             cy.oktaGetAppMetadata().then(xmlMetadata => {
                 var parser = new xml2js.Parser();
@@ -85,31 +86,84 @@ context('Okta', () => {
                     });
                 });
             });
-            cy.apiUpdateConfig(configSamlSettings);
+
+            //push the users to Okta
+            users.regulars.forEach(_user => {
+                cy.oktaGetUser(_user.email).then(uId => {
+                    userId = uId;
+                    if( userId == null ){
+                        cy.oktaCreateUser(_user).then(uId => {
+                            userId = uId;
+                            //can we do it when creating the user?
+                            cy.oktaAssignUserToApplication(userId, user);
+                        });
+                    }
+                });
+            });
+
+            users.guests.forEach(_user => {
+                cy.oktaGetUser(_user.email).then(uId => {
+                    userId = uId;
+                    if( userId == null ){
+                        cy.oktaCreateUser(_user).then(uId => {
+                            userId = uId;
+                            cy.oktaAssignUserToApplication(userId, user);
+                        });
+                    }
+                });
+            });
+
+            users.admins.forEach(_user => {
+                cy.oktaGetUser(_user.email).then(uId => {
+                    userId = uId;
+                    if( userId == null ){
+                        cy.oktaCreateUser(_user).then(uId => {
+                            userId = uId;
+                            cy.oktaAssignUserToApplication(userId, user);
+                        });
+                    }
+                });
+            });
         });
 
-        it('Saml login new MM user', () => {
+        it('Saml login new MM regular user', () => {
             let userId;
             let user = regular1;
 
-            // Create OKTA new random user
-            cy.generateRandomMMUser().then((user) => {
-                cy.oktaCreateUser(user).then(uId => {
-                    userId = uId;
-                    cy.oktaAssignUserToApplication(userId, user);
-                });
+            //remove existing user from Okta
+            cy.oktaGetUser(user.email).then(uId => {
+                userId = uId;
+                if( userId != null ){
+                    //delete the user
+                    cy.oktaDeleteUser(userId).then(() => {
+                        //do we need to delete the session as well?
+                        cy.oktaDeleteSession(userId);
+                    });
+                }
+            });
 
-                cy.doSamlLoginClick({ buttonText: mmLoginButtonText, siteUrl: '', }).then(() => {
-                    cy.doOktaLogin(user).then(() => {
-                        let teamName = 't' + userId.substring(0,14);
-                        cy.doCreateTeam(teamName).then(() => {
-                            cy.get('#channel_view').should('be.visible');
-                            cy.samlLogout();
-                            //remove new random user from Okta
-                            //cy.oktaDeleteUser(userId);
+            //login this new user
+             cy.doSamlLoginClick({ buttonText: mmLoginButtonText, siteUrl: '', }).then(() => {
+                cy.doOktaLogin(user).then(() => {
+                    let teamName = 't' + userId.substring(0,14);
+                    cy.doCreateTeam(teamName).then(() => {
+                        cy.get('#channel_view').should('be.visible');
+                        cy.doSamlLogoutClick().then(() => {
+                            cy.oktaDeleteSession(userId);
                         });
                     });
                 });
+            });
+
+            //add the user back to Okta
+            cy.oktaGetUser(user.email).then(uId => {
+                userId = uId;
+                if( userId == null ){
+                    cy.oktaCreateUser(user).then(uId => {
+                        userId = uId;
+                        cy.oktaAssignUserToApplication(userId, user);
+                    });
+                }
             });
         });
 
@@ -125,8 +179,9 @@ context('Okta', () => {
                         cy.oktaAssignUserToApplication(userId, user);
                     });
                 } else {
-                    //we need to make sure the user is assigned to the app
+                    //make sure the user is assigned to the app
                     cy.oktaAssignUserToApplication(userId, user);
+                    //make sure there is no hanging session
                     cy.oktaDeleteSession(userId);
                 }
             });
@@ -137,47 +192,75 @@ context('Okta', () => {
                     let teamName = 't' + userId.substring(0,14);
                     cy.doCreateTeam(teamName).then(() => {
                         cy.get('#channel_view').should('be.visible');
-                        cy.samlLogoutClick();
-                        //remove new random user from Okta
-                        //cy.oktaDeleteUser(userId);
+                        cy.doSamlLogoutClick().then(() => {
+                            cy.oktaDeleteSession(userId);
+                        });
                     });
                 });
             });
         });
 
-        it('Saml login existing MM admin', () => {
-            let userId;
-            let user = admin1;
+        // it('Saml login existing MM admin', () => {
+        //     let userId;
+        //     let user = admin1;
 
-            cy.oktaGetUser(user.email).then(uId => {
-                userId = uId;
-                if( userId == null ){
-                    cy.oktaCreateUser(user).then(uId => {
-                        userId = uId;
-                        cy.oktaAssignUserToApplication(userId, user);
-                    });
-                } else {
-                    //we need to make sure the user is assigned to the app
-                    cy.oktaAssignUserToApplication(userId, user);
-                    cy.oktaDeleteSession(userId);
-                }
-            });
+        //     cy.oktaGetUser(user.email).then(uId => {
+        //         userId = uId;
+        //         if( userId == null ){
+        //             cy.oktaCreateUser(user).then(uId => {
+        //                 userId = uId;
+        //                 cy.oktaAssignUserToApplication(userId, user);
+        //             });
+        //         } else {
+        //             //we need to make sure the user is assigned to the app
+        //             cy.oktaAssignUserToApplication(userId, user);
+        //         }
+        //     });
 
-            cy.doSamlLoginClick({ buttonText: mmLoginButtonText, siteUrl: '', }).then(() => {
-                cy.doOktaLogin(user).then(() => {
-                    let teamName = 't' + userId.substring(0,14);
-                    cy.doCreateTeam(teamName).then(() => {
-                        cy.get('#channel_view').should('be.visible');
-                        cy.samlLogoutClick();
-                        //remove new random user from Okta
-                        //cy.oktaDeleteUser(userId);
-                    });
-                });
-            });
-        });
+        //     cy.doSamlLoginClick({ buttonText: mmLoginButtonText, siteUrl: '', }).then(() => {
+        //         cy.doOktaLogin(user).then(() => {
+        //             let teamName = 't' + userId.substring(0,14);
+        //             cy.doCreateTeam(teamName).then(() => {
+        //                 cy.get('#channel_view').should('be.visible');
+        //                 cy.samlLogoutClick();
+        //                 //remove new random user from Okta
+        //                 cy.oktaDeleteUser(userId);
+        //                 cy.oktaDeleteSession(userId);
+        //             });
+        //         });
+        //     });
+        // });
 
         after(() => {
             cy.task('cleanupConfigFolder', {files: [file1, file2, file3], platform: Cypress.platform});
+
+            //remove the users from Okta
+            users.regulars.forEach(_user => {
+                cy.oktaGetUser(_user.email).then(uId => {
+                    userId = uId;
+                    if( userId != null ){
+                        cy.oktaDeleteUser(userId);
+                    }
+                });
+            });
+
+            users.guests.forEach(_user => {
+                cy.oktaGetUser(_user.email).then(uId => {
+                    userId = uId;
+                    if( userId != null ){
+                        cy.oktaDeleteUser(userId);
+                    }
+                });
+            });
+
+            users.admins.forEach(_user => {
+                cy.oktaGetUser(_user.email).then(uId => {
+                    userId = uId;
+                    if( userId != null ){
+                        cy.oktaDeleteUser(userId);
+                    }
+                });
+            });
         });
     });
 });

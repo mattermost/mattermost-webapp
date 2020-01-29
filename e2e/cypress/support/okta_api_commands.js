@@ -188,11 +188,8 @@ Cypress.Commands.add('oktaAssignUserToApplication', (userId = '', user = {}) => 
 });
 
 Cypress.Commands.add('doOktaLogin', (user) => {
-    cy.get('body').then((body) => {
-        if (body.find('channelView').length) {
-            cy.get("#okta-sign-in").should('be.visible');
-            cy.get('#okta-signin-username').should('be.visible').type(user.email);
-            cy.get('#okta-signin-password').should('be.visible').type(user.password);
-            cy.get('#okta-signin-submit').should('be.visible').click().wait(TIMEOUTS.SMALL);
-        }
+    cy.get("#okta-sign-in").should('be.visible');
+    cy.get('#okta-signin-username').should('be.visible').type(user.email);
+    cy.get('#okta-signin-password').should('be.visible').type(user.password);
+    cy.get('#okta-signin-submit').should('be.visible').click().wait(TIMEOUTS.SMALL);
 });

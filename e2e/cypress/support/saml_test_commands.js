@@ -75,7 +75,7 @@ Cypress.Commands.add('generateRandomMMUser', () => {
     return user;
 });
 
-Cypress.Commands.add('samlLogoutClick', () => {
+Cypress.Commands.add('doSamlLogoutClick', () => {
     // # Click hamburger main menu button
     cy.get('#sidebarHeaderDropdownButton').click().wait(TIMEOUTS.TINY).then(() => {
         cy.get('#logout').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
