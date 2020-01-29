@@ -12,9 +12,9 @@ import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/select
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
-    getCurrentUserId, 
-    getUser, 
-    getUserByUsername as getUserByUsernameRedux, 
+    getCurrentUserId,
+    getUser,
+    getUserByUsername as getUserByUsernameRedux,
     makeGetDisplayName
 } from 'mattermost-redux/selectors/entities/users';
 import {
@@ -1288,8 +1288,8 @@ export function getDisplayName(user) {
 }
 
 export function getUserDisplayName(user) {
-    const getDisplayName = makeGetDisplayName();
-    return getDisplayName(store.getState(), user.id);
+    const getCorrectDisplayName = makeGetDisplayName();
+    return getCorrectDisplayName(store.getState(), user.id);
 }
 
 export function getLongDisplayName(user) {

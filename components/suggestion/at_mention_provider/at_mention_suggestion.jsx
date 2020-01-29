@@ -87,7 +87,7 @@ export default class AtMentionSuggestion extends Suggestion {
             const displayName = Utils.getUserDisplayName(user);
 
             if (username !== displayName) {
-                description = `- ${displayName}`
+                description = `- ${displayName}`;
             }
 
             icon = (
