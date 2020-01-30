@@ -185,7 +185,7 @@ export default class TeamMembersDropdown extends React.Component {
             const title = (
                 <FormattedMessage
                     id='team_members_dropdown.confirmDemoteRoleTitle'
-                    defaultMessage='Confirm demotion from System Admin role'
+                    defaultMessage='Confirm Demotion from System Admin Role'
                 />
             );
 
