@@ -178,7 +178,7 @@ export default class TeamMembersDropdown extends React.Component {
             showMakeAdmin = false;
         }
 
-        const canRemoveFromTeam = user.id !== me.id && !currentTeam.group_constrained;
+        const canRemoveFromTeam = user.id !== me.id && (!currentTeam.group_constrained || user.is_bot);
 
         let makeDemoteModal = null;
         if (user.id === me.id) {

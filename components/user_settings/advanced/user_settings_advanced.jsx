@@ -187,7 +187,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             },
             mac: {
                 id: t('user.settings.advance.sendDesc.mac'),
-                defaultMessage: 'When enabled, CMD + ENTER will send the message and ENTER inserts a new line.',
+                defaultMessage: 'When enabled, ⌘ + ENTER will send the message and ENTER inserts a new line.',
             },
         };
         const title = {
@@ -196,8 +196,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 defaultMessage: 'Send Messages on CTRL+ENTER',
             },
             mac: {
-                id: t('user.settings.advance.sendTitle.mac'),
-                defaultMessage: 'Send Messages on CMD+ENTER',
+                id: t('user.settings.advance.sendTitle.mac'),                
+                defaultMessage: 'Send Messages on ⌘+ENTER',
             },
         };
         if (Utils.isMac()) {

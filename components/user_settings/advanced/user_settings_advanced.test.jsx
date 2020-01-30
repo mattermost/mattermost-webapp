@@ -95,7 +95,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {...requiredProps};
 
         const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
-        expect(wrapper.instance().getCtrlSendText().ctrlSendTitle.defaultMessage).toEqual('Send Messages on CMD+ENTER');
+        expect(wrapper.instance().getCtrlSendText().ctrlSendTitle.defaultMessage).toEqual('Send Messages on ⌘+ENTER');
     });
 
     test('function getCtrlSendText should return correct value for Windows', () => {
