@@ -21,6 +21,9 @@ describe('components/TextBox', () => {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),
         },
+        permissions: {
+            useChannelMentions: true,
+        },
     };
 
     test('should match snapshot with required props', () => {
