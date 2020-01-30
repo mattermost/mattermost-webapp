@@ -564,6 +564,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             value=""
           />
           <component
+            cancelSubmit={[Function]}
             config={
               Object {
                 "EscapedSettings": Object {
