@@ -11,7 +11,7 @@ import users from '../../fixtures/users.json';
 
 const sysadmin = users.sysadmin;
 
-describe('Message Reply to bot message', () => {
+describe('Messaging', () => {
     let newChannel;
     let botsUserId;
     before(() => {
