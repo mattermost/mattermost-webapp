@@ -186,6 +186,11 @@ class CreateComment extends React.PureComponent {
         selectedPostFocussedAt: PropTypes.number.isRequired,
 
         canPost: PropTypes.bool.isRequired,
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
+
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -426,7 +431,7 @@ class CreateComment extends React.PureComponent {
         this.updatePreview(false);
 
         const membersCount = this.props.channelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             membersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.draft.message)) {
@@ -996,6 +1001,7 @@ class CreateComment extends React.PureComponent {
                                 suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createCommentControls'

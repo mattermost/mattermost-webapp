@@ -9,6 +9,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
@@ -25,8 +26,9 @@ import {
     moveHistoryIndexForward,
     removeReaction,
 } from 'mattermost-redux/actions/posts';
-import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -74,6 +76,10 @@ function makeMapStateToProps() {
                 permission: Permissions.CREATE_POST,
             }
         );
+        const useChannelMentions = haveIChannelPermission(state, {
+            channel: currentChannel.id,
+            permission: Permissions.USE_CHANNEL_MENTIONS,
+        });
 
         return {
             currentTeamId: getCurrentTeamId(state),
@@ -102,6 +108,7 @@ function makeMapStateToProps() {
             badConnection,
             isTimezoneEnabled,
             canPost,
+            useChannelMentions,
         };
     };
 }
