@@ -14,8 +14,9 @@ import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
+import {getGroupsAssociatedToTeam} from 'mattermost-redux/selectors/entities/groups';
 
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -299,13 +300,17 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
-    console.log('---------------');
-    console.log(teamChannels);
-    let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
+    const channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
     channel = teamChannels[channelName];
-    console.log(`channelName: ${channelName} -> channel: ${channel}`);
+    if (typeof channel === 'undefined') {
+        const dmList = getAllDirectChannels(state);
+        channel = dmList.find((directChannel) => directChannel.name === channelName);
+    }
+    if (typeof channel === 'undefined') {
+        const groups = getGroupsAssociatedToTeam(state, team.id);
+        channel = groups[channelName];
+    }
     let channelMember = getMyChannelMember(state, channel && channel.id);
-    console.log(`channelMember: ${channelMember}`);
     if (!channel || !channelMember) {
         // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
         await dispatch(getChannelByNameAndTeamName(team.name, channelName)); // eslint-disable-line no-await-in-loop
@@ -316,8 +321,8 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
     }
 
     if (!channel || !channelMember) {
-        channelName = getRedirectChannelNameForTeam(state, team.id);
-        channel = teamChannels[channelName];
+        const redirectedChannelName = getRedirectChannelNameForTeam(state, team.id);
+        channel = teamChannels[redirectedChannelName];
         channelMember = getMyChannelMember(state, channel && channel.id);
     }
 
