@@ -187,7 +187,7 @@ export default class TutorialIntroScreens extends React.Component {
                 <h3>
                     <FormattedMessage
                         id='tutorial_intro.screenTwo.title'
-                        defaultMessage='How Mattermost works:'
+                        defaultMessage='How Mattermost Works:'
                     />
                 </h3>
                 <p>

@@ -116,7 +116,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -429,7 +429,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -617,7 +617,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                 className="form-legend hidden-label"
               >
                 <FormattedMessage
-                  defaultMessage="Default appearance of image previews"
+                  defaultMessage="Default Appearance of Image Previews"
                   id="user.settings.display.collapseDisplay"
                   values={Object {}}
                 />
@@ -676,7 +676,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         submit={[Function]}
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -857,7 +857,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1025,7 +1025,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1272,7 +1272,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1453,7 +1453,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1720,7 +1720,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -1901,7 +1901,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -2082,7 +2082,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -2274,7 +2274,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
@@ -2455,7 +2455,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="collapse"
         title={
           <FormattedMessage
-            defaultMessage="Default appearance of image previews"
+            defaultMessage="Default Appearance of Image Previews"
             id="user.settings.display.collapseDisplay"
             values={Object {}}
           />
