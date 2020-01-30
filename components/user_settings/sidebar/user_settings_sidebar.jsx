@@ -675,7 +675,7 @@ export default class UserSettingsSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id='user.settings.sidebar.groupAndSortChannelsTitle'
-                            defaultMessage='Channel grouping and sorting'
+                            defaultMessage='Channel Grouping and Sorting'
                         />
                     }
                     inputs={inputs}
@@ -692,7 +692,7 @@ export default class UserSettingsSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id='user.settings.sidebar.groupAndSortChannelsTitle'
-                            defaultMessage='Channel grouping and sorting'
+                            defaultMessage='Channel Grouping and Sorting'
                         />
                     }
                     describe={this.renderOrganizationLabel()}

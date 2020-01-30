@@ -322,7 +322,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         expect(wrapper.contains(
             <FormattedMessage
                 id='error.plugin_not_found.title'
-                defaultMessage='Plugin not found'
+                defaultMessage='Plugin Not Found'
             />
         )).toEqual(true);
     });
