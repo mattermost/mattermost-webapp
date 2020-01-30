@@ -33,7 +33,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 This product contains '@formatjs/intl-pluralrules' by FormatJS.
 
-`Intl.RelativeTimeFormat`
+Polyfill for Intl.RelativeTimeFormat
 
 * HOMEPAGE:
   * https://github.com/formatjs/formatjs
