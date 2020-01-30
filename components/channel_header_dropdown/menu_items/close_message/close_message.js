@@ -9,7 +9,7 @@ import {Constants} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 import Menu from 'components/widgets/menu/menu';
 
-export default class CloseDirectChannel extends React.PureComponent {
+export default class CloseMessage extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -62,21 +62,40 @@ export default class CloseDirectChannel extends React.PureComponent {
             },
         } = this.props;
 
-        const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
+        let name;
+        let category;
+        if (channel.type === Constants.DM_CHANNEL) {
+            category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
+            name = channel.teammate_id;
+        } else {
+            category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
+            name = channel.id;
+        }
 
-        savePreferences(currentUser.id, [{user_id: currentUser.id, category, name: channel.teammate_id, value: 'false'}]);
+        savePreferences(currentUser.id, [{user_id: currentUser.id, category, name, value: 'false'}]);
 
         browserHistory.push(`/${currentTeam.name}/channels/${redirectChannel}`);
     }
 
     render() {
         const {id, channel} = this.props;
+
+        if (channel.type === Constants.DM_CHANNEL) {
+            return (
+                <Menu.ItemAction
+                    id={id}
+                    show={channel.type === Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
+                    onClick={this.handleClose}
+                    text={localizeMessage('center_panel.direct.closeDirectMessage', 'Close Direct Message')}
+                />
+            );
+        }
         return (
             <Menu.ItemAction
                 id={id}
-                show={channel.type === Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
+                show={channel.type !== Constants.DM_CHANNEL && channel.type === Constants.GM_CHANNEL}
                 onClick={this.handleClose}
-                text={localizeMessage('center_panel.direct.closeDirectMessage', 'Close Direct Message')}
+                text={localizeMessage('center_panel.direct.closeGroupMessage', 'Close Group Message')}
             />
         );
     }
