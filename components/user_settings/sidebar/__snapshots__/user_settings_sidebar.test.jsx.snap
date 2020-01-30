@@ -86,7 +86,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       section="groupChannels"
       title={
         <FormattedMessage
-          defaultMessage="Channel grouping and sorting"
+          defaultMessage="Channel Grouping and Sorting"
           id="user.settings.sidebar.groupAndSortChannelsTitle"
           values={Object {}}
         />

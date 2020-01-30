@@ -117,7 +117,7 @@ export default class UserAccessTokenSection extends React.Component {
             confirmTitle: (
                 <FormattedMessage
                     id='user.settings.tokens.confirmCopyTitle'
-                    defaultMessage='Have you copied your token?'
+                    defaultMessage='Copied Your Token?'
                 />
             ),
             confirmMessage: (state) => (
