@@ -30,6 +30,7 @@ function getCategoryFromChannel(channelCategories: ChannelCategory[]) {
         };
     });
 }
+const categoriesFunc = memoizeResult(getCategoryFromChannel);
 
 // TODO: temp typing until we fix redux
 function mapStateToProps(state: GlobalState & {views: any}) {
@@ -45,7 +46,6 @@ function mapStateToProps(state: GlobalState & {views: any}) {
         sidebarPrefs.favorite_at_top === 'true',
     );
 
-    const categoriesFunc = memoizeResult(getCategoryFromChannel);
     const categories = categoriesFunc(orderedChannelIds);
 
     return {
