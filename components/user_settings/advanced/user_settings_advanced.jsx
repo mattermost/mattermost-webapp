@@ -196,7 +196,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 defaultMessage: 'Send Messages on CTRL+ENTER',
             },
             mac: {
-                id: t('user.settings.advance.sendTitle.mac'),                
+                id: t('user.settings.advance.sendTitle.mac'),
                 defaultMessage: 'Send Messages on ⌘+ENTER',
             },
         };
