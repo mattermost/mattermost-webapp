@@ -23,7 +23,7 @@ describe('Message Reply to bot message', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login and go to /
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // # Create and visit new channel
