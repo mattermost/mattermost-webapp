@@ -16,7 +16,6 @@ import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMembershi
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
-import {getGroupsAssociatedToTeam} from 'mattermost-redux/selectors/entities/groups';
 
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -305,10 +304,6 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
     if (typeof channel === 'undefined') {
         const dmList = getAllDirectChannels(state);
         channel = dmList.find((directChannel) => directChannel.name === channelName);
-    }
-    if (typeof channel === 'undefined') {
-        const groups = getGroupsAssociatedToTeam(state, team.id);
-        channel = groups[channelName];
     }
     let channelMember = getMyChannelMember(state, channel && channel.id);
     if (!channel || !channelMember) {
