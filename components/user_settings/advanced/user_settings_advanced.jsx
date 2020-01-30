@@ -193,11 +193,11 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         const title = {
             default: {
                 id: t('user.settings.advance.sendTitle'),
-                defaultMessage: 'Send messages on CTRL+ENTER',
+                defaultMessage: 'Send Messages on CTRL+ENTER',
             },
             mac: {
                 id: t('user.settings.advance.sendTitle.mac'),
-                defaultMessage: 'Send messages on ⌘+ENTER',
+                defaultMessage: 'Send Messages on ⌘+ENTER',
             },
         };
         if (Utils.isMac()) {
@@ -508,7 +508,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         title={
                             <FormattedMessage
                                 id='user.settings.advance.preReleaseTitle'
-                                defaultMessage='Preview pre-release features'
+                                defaultMessage='Preview Pre-release Features'
                             />
                         }
                         inputs={inputs}
@@ -521,7 +521,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             } else {
                 previewFeaturesSection = (
                     <SettingItemMin
-                        title={Utils.localizeMessage('user.settings.advance.preReleaseTitle', 'Preview pre-release features')}
+                        title={Utils.localizeMessage('user.settings.advance.preReleaseTitle', 'Preview Pre-release Features')}
                         describe={
                             <FormattedMessage
                                 id='user.settings.advance.enabledFeatures'
