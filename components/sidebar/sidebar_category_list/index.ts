@@ -25,7 +25,7 @@ function getCategoryFromChannel(channelCategories: ChannelCategory[]) {
             display_name: channelCategory.name,
             collapsed: false,
             channel_ids: channelCategory.items,
-        }
+        };
     });
 }
 const categoriesFunc = memoizeResult(getCategoryFromChannel);
