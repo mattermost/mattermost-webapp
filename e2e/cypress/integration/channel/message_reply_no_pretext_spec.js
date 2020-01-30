@@ -32,7 +32,7 @@ describe('Message Reply to bot message', () => {
         });
     });
 
-    it('MM-16735 Reply to an older bot post that has no content and no attachment pretext', () => {
+    it('M16735 - Replying to an older bot post that has no post content and no attachment pretext', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
         const botName = 'bot-' + Date.now();
