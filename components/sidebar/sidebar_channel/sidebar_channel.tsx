@@ -82,7 +82,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                 ref={this.setRef}
                 style={{
                     display: 'flex',
-                    fontWeight: this.showChannelAsUnread() ? "bold" : "inherit",    // TODO temp styling
+                    fontWeight: this.showChannelAsUnread() ? 'bold' : 'inherit', // TODO temp styling
                 }}
             >
                 <ChannelComponent

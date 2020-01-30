@@ -57,4 +57,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {forwardRef : true})(SidebarChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannel);

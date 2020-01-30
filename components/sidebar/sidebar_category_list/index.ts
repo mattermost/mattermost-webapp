@@ -27,7 +27,7 @@ function getCategoryFromChannel(channelCategories: ChannelCategory[]) {
             display_name: channelCategory.name,
             collapsed: false,
             channel_ids: channelCategory.items,
-        }
+        };
     });
 }
 
@@ -52,7 +52,7 @@ function mapStateToProps(state: GlobalState & {views: any}) {
         currentTeam: getCurrentTeam(state),
         currentChannel: getCurrentChannel(state),
         categories,
-        unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),    // This function call doesn't need to be 5 arguments does it?
+        unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'), // This function call doesn't need to be 5 arguments does it?
     };
 }
 

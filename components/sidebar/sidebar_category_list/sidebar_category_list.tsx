@@ -4,6 +4,10 @@
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
+
+// TODO: For some reason TSC is not picking up MathUtil...disabling for now
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
 import {Spring, SpringSystem, MathUtil} from 'rebound';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -68,7 +72,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.state = {
             showTopUnread: false,
             showBottomUnread: false,
-        }
+        };
         this.scrollbar = React.createRef();
 
         this.animate = new SpringSystem();
@@ -84,7 +88,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         }
 
         // Scroll to selected channel so it's in view
-        if (this.props.currentChannel?.id !== prevProps.currentChannel?.id) {
+        if (this.props.currentChannel?.id !== prevProps.currentChannel?.id) { //eslint-disable-line no-undef
             this.scrollToChannel(this.props.currentChannel!.id);
         }
 
@@ -107,9 +111,9 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 }
                 return null;
             });
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     handleScrollAnimationUpdate = (spring: Spring) => {
@@ -176,8 +180,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         let showBottomUnread = false;
 
         // Consider partially obscured channels as above/below
-        let firstUnreadChannel = this.getFirstUnreadChannel();
-        let lastUnreadChannel = this.getLastUnreadChannel();
+        const firstUnreadChannel = this.getFirstUnreadChannel();
+        const lastUnreadChannel = this.getLastUnreadChannel();
 
         if (firstUnreadChannel) {
             const firstUnreadElement = this.channelRefs.get(firstUnreadChannel);
@@ -212,7 +216,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannels().reverse());
     }
 
-    getDisplayedChannels = () : string[] => {
+    getDisplayedChannels = () => {
         return this.props.categories.reduce((allChannelIds, section) => {
             allChannelIds.push(...section.channel_ids);
             return allChannelIds;
