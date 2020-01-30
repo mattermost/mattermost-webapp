@@ -19,6 +19,7 @@ describe('components/invitation_modal/InvitationModal', () => {
         invitableChannels: [],
         canInviteGuests: true,
         canAddUsers: true,
+        emailInvitationsEnabled: true,
         actions: {
             closeModal: jest.fn(),
             sendGuestsInvites: jest.fn(),

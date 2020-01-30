@@ -26,6 +26,7 @@ class InvitationModalMembersStep extends React.Component {
         intl: PropTypes.any,
         inviteId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
+        emailInvitationsEnabled: PropTypes.bool.isRequired,
         onEdit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
     }
@@ -118,6 +119,17 @@ class InvitationModalMembersStep extends React.Component {
 
     render() {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
+
+        let placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder', 'Add members or email addresses');
+        let noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching');
+        let noMatchMessageDefault = 'No one found matching **{text}**, type email to invite';
+
+        if (!this.props.emailInvitationsEnabled) {
+            placeholder = localizeMessage('invitation_modal.members.search-and-add.placeholder-email-disabled', 'Add members');
+            noMatchMessageId = t('invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled');
+            noMatchMessageDefault = 'No one found matching **{text}**';
+        }
+
         return (
             <div className='InvitationModalMembersStep'>
                 <div className='modal-icon'>
@@ -198,32 +210,34 @@ class InvitationModalMembersStep extends React.Component {
                         />
                     </h2>
                     <div data-testid='inputPlaceholder'>
-                        <FormattedMessage
-                            id='invitation_modal.members.search-and-add.placeholder'
-                            defaultMessage='Add members or email addresses'
-                        >
-                            {(placeholder) => (
-                                <UsersEmailsInput
-                                    usersLoader={this.usersLoader}
-                                    placeholder={placeholder}
-                                    ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
-                                    onChange={this.onChange}
-                                    value={this.state.usersAndEmails}
-                                    validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
-                                    validAddressMessageDefault='Invite **{email}** as a team member'
-                                    noMatchMessageId={t('invitation_modal.members.users_emails_input.no_user_found_matching')}
-                                    noMatchMessageDefault='No one found matching **{text}**, type email to invite'
-                                    onInputChange={this.onUsersInputChange}
-                                    inputValue={this.state.usersInputValue}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <UsersEmailsInput
+                            usersLoader={this.usersLoader}
+                            placeholder={placeholder}
+                            ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
+                            onChange={this.onChange}
+                            value={this.state.usersAndEmails}
+                            validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
+                            validAddressMessageDefault='Invite **{email}** as a team member'
+                            noMatchMessageId={noMatchMessageId}
+                            noMatchMessageDefault={noMatchMessageDefault}
+                            onInputChange={this.onUsersInputChange}
+                            inputValue={this.state.usersInputValue}
+                            emailInvitationsEnabled={this.props.emailInvitationsEnabled}
+                        />
                     </div>
                     <div className='help-text'>
+                        {this.props.emailInvitationsEnabled &&
                         <FormattedMessage
                             id='invitation_modal.members.search-and-add.description'
                             defaultMessage='Add existing members or send email invites to new members.'
                         />
+                        }
+                        {!this.props.emailInvitationsEnabled &&
+                        <FormattedMessage
+                            id='invitation_modal.members.search-and-add.description-email-disabled'
+                            defaultMessage='Add existing members to this team.'
+                        />
+                        }
                     </div>
                 </div>
                 <div className='invite-members'>
