@@ -1106,7 +1106,7 @@ class CreatePost extends React.PureComponent {
         const notifyAllTitle = (
             <FormattedMessage
                 id='notify_all.title.confirm'
-                defaultMessage='Confirm sending notifications to entire channel'
+                defaultMessage='Confirm Sending Notifications to Entire Channel'
             />
         );
 
