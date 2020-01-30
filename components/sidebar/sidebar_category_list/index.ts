@@ -8,8 +8,26 @@ import {getOrderedChannelIds} from 'mattermost-redux/selectors/entities/channels
 import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import SidebarCategoryList from './sidebar_category_list';
+
+type ChannelCategory = {
+    type: string;
+    name: string;
+    items: string[];
+}
+
+function getCategoryFromChannel(channelCategories: ChannelCategory[]) {
+    return channelCategories.map((channelCategory) => {
+        return {
+            id: channelCategory.type,
+            display_name: channelCategory.name,
+            collapsed: false,
+            channel_ids: channelCategory.items,
+        }
+    });
+}
 
 // TODO: temp typing until we fix redux
 function mapStateToProps(state: GlobalState & {views: any}) {
@@ -25,14 +43,8 @@ function mapStateToProps(state: GlobalState & {views: any}) {
         sidebarPrefs.favorite_at_top === 'true',
     );
 
-    const categories = orderedChannelIds.map((channelCategory) => {
-        return {
-            id: channelCategory.type,
-            display_name: channelCategory.name,
-            collapsed: false,
-            channel_ids: channelCategory.items,
-        };
-    });
+    const categoriesFunc = memoizeResult(getCategoryFromChannel);
+    const categories = categoriesFunc(orderedChannelIds);
 
     return {
         categories,
