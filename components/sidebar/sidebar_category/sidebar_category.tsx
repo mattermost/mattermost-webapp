@@ -7,7 +7,7 @@ import SidebarChannel from '../sidebar_channel';
 
 type Props = {
     category: any;
-    channelRefs: Map<string, React.RefObject<HTMLDivElement>>;
+    setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
 };
 
 type State = {
@@ -16,10 +16,10 @@ type State = {
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
     renderChannel = (channelId: string) => {
-        const channelRef = this.props.channelRefs.get(channelId) || React.createRef();
         return (
             <SidebarChannel
                 channelId={channelId}
+                setChannelRef={this.props.setChannelRef}
             />
         );
     }

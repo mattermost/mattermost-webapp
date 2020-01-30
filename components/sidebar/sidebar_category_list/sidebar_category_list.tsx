@@ -2,9 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import Scrollbars from 'react-custom-scrollbars';
+import {FormattedMessage} from 'react-intl';
+import {Spring, SpringSystem, MathUtil} from 'rebound';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import SidebarCategory from '../sidebar_category';
-import SidebarChannel from '../sidebar_channel/sidebar_channel';
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 
 type Props = {
     currentChannel: Channel | undefined;
@@ -13,29 +18,178 @@ type Props = {
 };
 
 type State = {
-
+    showTopUnread: boolean;
+    showBottomUnread: boolean;
 };
 
+export function renderView(props: Props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+}
+
+export function renderThumbHorizontal(props: Props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+}
+
+export function renderThumbVertical(props: Props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+}
+
+// scrollMargin is the margin at the edge of the channel list that we leave when scrolling to a channel.
+const scrollMargin = 15;
+
+// scrollMarginWithUnread is the margin that we leave at the edge of the channel list when scrolling to a channel so
+// that the channel is not under the unread indicator.
+const scrollMarginWithUnread = 60;
+
 export default class SidebarCategoryList extends React.PureComponent<Props, State> {
-    channelRefs: Map<string, React.RefObject<HTMLDivElement>>;
+    channelRefs: Map<string, HTMLDivElement>;
+    scrollbar: React.RefObject<Scrollbars>;
+    animate: SpringSystem;
+    scrollAnimation: Spring;
 
     constructor(props: Props) {
         super(props);
 
-        this.channelRefs = this.createChannelRefs();
+        this.channelRefs = new Map();
+        this.state = {
+            showTopUnread: false,
+            showBottomUnread: false,
+        }
+        this.scrollbar = React.createRef();
+
+        this.animate = new SpringSystem();
+        this.scrollAnimation = this.animate.createSpring();
+        this.scrollAnimation.setOvershootClampingEnabled(true); // disables the spring action at the end of animation
+        this.scrollAnimation.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
     }
 
-    createChannelRefs = () => {
-        return new Map(this.getDisplayedChannels().map((channelId) => [channelId, React.createRef<HTMLDivElement>()]));
+    componentDidUpdate() {
+        this.updateUnreadIndicators();
+    }
+
+    setChannelRef = (channelId: string, ref: HTMLDivElement) => {
+        if (ref) {
+            this.channelRefs.set(channelId, ref);
+        } else {
+            this.channelRefs.delete(channelId);
+        }
     }
 
     getFirstUnreadChannelFromChannelIdArray = (array: string[]) => {
-        return array.find((channelId) => {
-            if (channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
-                return channelId;
-            }
+        if (this.props.currentChannel) {
+            return array.find((channelId) => {
+                if (channelId !== this.props.currentChannel!.id && this.props.unreadChannelIds.includes(channelId)) {
+                    return channelId;
+                }
+                return null;
+            });
+        } else {
             return null;
-        });
+        }
+    }
+
+    handleScrollAnimationUpdate = (spring: Spring) => {
+        const val = spring.getCurrentValue();
+        this.scrollbar.current!.scrollTop(val);
+    }
+
+    scrollToFirstUnreadChannel = () => {
+        this.scrollToChannel(this.getFirstUnreadChannel(), true);
+    }
+
+    scrollToLastUnreadChannel = () => {
+        this.scrollToChannel(this.getLastUnreadChannel(), true);
+    }
+
+    scrollToChannel = (channelId: string | null | undefined, scrollingToUnread = false) => {
+        if (!channelId) {
+            return;
+        }
+
+        const element = this.channelRefs.get(channelId);
+        if (!element) {
+            return;
+        }
+
+        const top = element.offsetTop;
+        const bottom = top + element.offsetHeight;
+
+        const scrollTop = this.scrollbar.current!.getScrollTop();
+        const scrollHeight = this.scrollbar.current!.getClientHeight();
+
+        if (top < scrollTop) {
+            // Scroll up to the item
+            const margin = (scrollingToUnread || !this.state.showTopUnread) ? scrollMargin : scrollMarginWithUnread;
+
+            let scrollEnd;
+            const displayedChannels = this.getDisplayedChannels();
+            if (displayedChannels.length > 0 && displayedChannels[0] === channelId) {
+                // This is the first channel, so scroll right to the top
+                scrollEnd = MathUtil.mapValueInRange(0, 0, 1, 0, 1);
+            } else {
+                scrollEnd = MathUtil.mapValueInRange(top - margin, 0, 1, 0, 1);
+            }
+
+            this.scrollToPosition(scrollEnd);
+        } else if (bottom > scrollTop + scrollHeight) {
+            // Scroll down to the item
+            const margin = (scrollingToUnread || !this.state.showBottomUnread) ? scrollMargin : scrollMarginWithUnread;
+            const scrollEnd = (bottom - scrollHeight) + margin;
+
+            this.scrollToPosition(scrollEnd);
+        }
+    }
+
+    scrollToPosition = (scrollEnd: number) => {
+        // Stop the current animation before scrolling
+        this.scrollAnimation.setCurrentValue(this.scrollbar.current!.getScrollTop()).setAtRest();
+
+        this.scrollAnimation.setEndValue(scrollEnd);
+    }
+
+    updateUnreadIndicators = () => {
+        let showTopUnread = false;
+        let showBottomUnread = false;
+
+        // Consider partially obscured channels as above/below
+        let firstUnreadChannel = this.getFirstUnreadChannel();
+        let lastUnreadChannel = this.getLastUnreadChannel();
+
+        if (firstUnreadChannel) {
+            const firstUnreadElement = this.channelRefs.get(firstUnreadChannel);
+            const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.offsetTop : null;
+
+            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin) < this.scrollbar.current!.getScrollTop()) {
+                showTopUnread = true;
+            }
+        }
+
+        if (lastUnreadChannel) {
+            const lastUnreadElement = this.channelRefs.get(lastUnreadChannel);
+            const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.offsetTop : null;
+
+            if (lastUnreadPosition && (lastUnreadPosition + scrollMargin) > (this.scrollbar.current!.getScrollTop() + this.scrollbar.current!.getClientHeight())) {
+                showBottomUnread = true;
+            }
+        }
+        if (showTopUnread !== this.state.showTopUnread || showBottomUnread !== this.state.showBottomUnread) {
+            this.setState({
+                showTopUnread,
+                showBottomUnread,
+            });
+        }
     }
 
     getFirstUnreadChannel = () => {
@@ -57,19 +211,65 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         return (
             <SidebarCategory
                 category={category}
-                channelRefs={this.channelRefs}
+                setChannelRef={this.setChannelRef}
             />
         );
+    }
+
+    onScroll = () => {
+        this.updateUnreadIndicators();
     }
 
     render() {
         const {categories} = this.props;
         const renderedCategories = categories.map(this.renderCategory);
 
+        const above = (
+            <FormattedMessage
+                id='sidebar.unreads'
+                defaultMessage='More unreads'
+            />
+        );
+
+        const below = (
+            <FormattedMessage
+                id='sidebar.unreads'
+                defaultMessage='More unreads'
+            />
+        );
+
         return (
-            <div>
-                {'Sidebar Category List'}
-                {renderedCategories}
+            <div
+                className='sidebar--left__list'
+                style={{fontSize: '24px'}}
+            >
+                <UnreadChannelIndicator
+                    name='Top'
+                    show={this.state.showTopUnread}
+                    onClick={this.scrollToFirstUnreadChannel}
+                    extraClass='nav-pills__unread-indicator-top'
+                    content={above}
+                />
+                <UnreadChannelIndicator
+                    name='Bottom'
+                    show={this.state.showBottomUnread}
+                    onClick={this.scrollToLastUnreadChannel}
+                    extraClass='nav-pills__unread-indicator-bottom'
+                    content={below}
+                />
+                <Scrollbars
+                    ref={this.scrollbar}
+                    autoHide={true}
+                    autoHideTimeout={500}
+                    autoHideDuration={500}
+                    renderThumbHorizontal={renderThumbHorizontal}
+                    renderThumbVertical={renderThumbVertical}
+                    renderView={renderView}
+                    onScroll={this.onScroll}
+                    style={{position: 'absolute'}}
+                >
+                    {renderedCategories}
+                </Scrollbars>
             </div>
         );
     }

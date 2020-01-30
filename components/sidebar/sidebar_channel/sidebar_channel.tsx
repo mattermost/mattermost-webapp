@@ -43,6 +43,11 @@ type Props = {
      * User preference of whether the channel can be marked unread
      */
     showUnreadForMsgs: boolean;
+
+    /**
+     * aaa
+     */
+    setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
 };
 
 type State = {
@@ -58,6 +63,10 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
     };
 
+    setRef = (ref: HTMLDivElement) => {
+        this.props.setChannelRef(this.props.channel.id, ref);
+    }
+
     render() {
         const {channel, currentTeamName} = this.props;
 
@@ -68,9 +77,9 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             ChannelComponent = SidebarGroupChannel;
         }
 
-        return React.forwardRef((_, ref: React.Ref<HTMLDivElement>) => (
+        return (
             <div
-                ref={ref}
+                ref={this.setRef}
                 style={{
                     display: 'flex',
                     fontWeight: this.showChannelAsUnread() ? "bold" : "inherit",    // TODO temp styling
@@ -85,6 +94,6 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                     unreadMentions={this.props.unreadMentions}
                 />
             </div>
-        ));
+        );
     }
 }
