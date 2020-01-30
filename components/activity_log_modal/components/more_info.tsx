@@ -1,18 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import {getMonthLong} from 'utils/i18n';
 
-export default function MoreInfo({
-    locale,
-    currentSession,
-    moreInfo,
-    handleMoreInfo,
-}) {
+type Props = {
+    locale: string;
+    currentSession: {
+        props: {
+            os: string;
+            platform: string;
+            browser: string;
+        };
+        create_at: number;
+        last_activity_at: number;
+        id: string;
+    };
+    handleMoreInfo: () => void;
+    moreInfo: boolean;
+};
+
+export default function MoreInfo(props: Props) {
+    const {locale, currentSession, handleMoreInfo, moreInfo} = props;
+
     if (moreInfo) {
         const firstAccessTime = new Date(currentSession.create_at);
 
@@ -85,10 +97,3 @@ export default function MoreInfo({
         </a>
     );
 }
-
-MoreInfo.propTypes = {
-    locale: PropTypes.string.isRequired,
-    currentSession: PropTypes.object.isRequired,
-    handleMoreInfo: PropTypes.func.isRequired,
-    moreInfo: PropTypes.bool.isRequired,
-};

@@ -197,7 +197,7 @@ export default class DesktopNotificationSettings extends React.Component {
 
         return (
             <SettingItemMax
-                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
+                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop Notifications')}
                 inputs={inputs}
                 submit={this.props.submit}
                 saving={this.props.saving}
@@ -253,7 +253,7 @@ export default class DesktopNotificationSettings extends React.Component {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
+                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop Notifications')}
                 describe={<FormattedMessage {...formattedMessageProps}/>}
                 focused={this.props.focused}
                 section={'desktop'}
