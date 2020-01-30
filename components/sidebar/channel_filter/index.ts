@@ -6,13 +6,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 
-import TeamSidebar from './team_sidebar';
+import ChannelFilter from './channel_filter';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        teams: getMyTeams(state),
     };
 }
 
@@ -23,4 +21,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeamSidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelFilter);

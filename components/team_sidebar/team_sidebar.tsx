@@ -3,8 +3,12 @@
 
 import React from 'react';
 
-type Props = {
+import {Team} from 'mattermost-redux/types/teams';
 
+import TeamButton from './team_button';
+
+type Props = {
+    teams: Team[];
 };
 
 type State = {
@@ -12,10 +16,28 @@ type State = {
 };
 
 export default class TeamSidebar extends React.PureComponent<Props, State> {
-    render() {
+    renderTeam = (team: Team) => {
         return (
-            <div>
+            <TeamButton team={team}/>
+        );
+    }
+
+    render() {
+        const {teams} = this.props;
+        const renderedTeams = teams.map(this.renderTeam);
+
+        // TODO temp
+        const root = document.querySelector('#root');
+        if (teams.length <= 1) {
+            root!.classList.remove('multi-teams');
+            return null;
+        }
+        root!.classList.add('multi-teams');
+
+        return (
+            <div className='team-sidebar'>
                 {'Team Sidebar Placeholder'}
+                {renderedTeams}
             </div>
         );
     }
