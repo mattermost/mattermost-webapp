@@ -7,11 +7,13 @@ import {FormattedMessage} from 'react-intl';
 import {Spring, SpringSystem, MathUtil} from 'rebound';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from 'mattermost-redux/types/teams';
 
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 
 type Props = {
+    currentTeam: Team;
     currentChannel: Channel | undefined;
     categories: any[];
     unreadChannelIds: string[];
@@ -75,7 +77,17 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.scrollAnimation.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps: Props) {
+        // reset the scrollbar upon switching teams
+        if (this.props.currentTeam !== prevProps.currentTeam) {
+            this.scrollbar.current!.scrollToTop();
+        }
+
+        // Scroll to selected channel so it's in view
+        if (this.props.currentChannel?.id !== prevProps.currentChannel?.id) {
+            this.scrollToChannel(this.props.currentChannel!.id);
+        }
+
         this.updateUnreadIndicators();
     }
 
