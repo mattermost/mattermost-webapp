@@ -18,7 +18,7 @@ type OwnProps = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const teammate = getUser(state, ownProps.channel.teammate_id)
+    const teammate = getUser(state, ownProps.channel.teammate_id!);
 
     return {
         teammateUsername: teammate && teammate.username,

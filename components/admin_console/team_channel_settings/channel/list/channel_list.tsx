@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {FormattedMessage} from 'react-intl';
 
@@ -20,7 +20,7 @@ import ChannelRow from './channel_row';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<Channel[]>;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
     data?: {id: string; display_name: string}[];
     total?: number;
@@ -32,7 +32,7 @@ interface ChannelListProps {
 
 interface ChannelListState {
     searchString: string;
-    channels: Channel[];
+    channels: ChannelWithTeamData[];
     searchTotalCount: number;
     pageResetKey: number;
     searchMode: boolean;
@@ -96,7 +96,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             this.resetSearch();
         }
     };
-    private getDataBySearch = async (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean): Promise<Channel[]> => {
+    private getDataBySearch = async (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean): Promise<ChannelWithTeamData[]> => {
         const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
         if ('data' in response) {
@@ -140,7 +140,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         );
     }
 
-    onPageChangedCallback = (pagination: {startCount: number; endCount: number; total: number}, channels: Channel[]) => {
+    onPageChangedCallback = (pagination: {startCount: number; endCount: number; total: number}, channels: ChannelWithTeamData[]) => {
         if (this.state.searchMode) {
             this.setState({channels});
         }
@@ -164,7 +164,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         );
     }
 
-    private renderRow = (item: Channel) => {
+    private renderRow = (item: ChannelWithTeamData) => {
         return (
             <ChannelRow
                 key={item.id}

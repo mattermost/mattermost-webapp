@@ -111,4 +111,6 @@ class FullScreenModal extends React.Component<Props> {
     }
 }
 
-export default injectIntl(FullScreenModal);
+const wrappedComponent = injectIntl(FullScreenModal, {forwardRef: true});
+wrappedComponent.displayName = 'injectIntl(FullScreenModal)';
+export default wrappedComponent;
