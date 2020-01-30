@@ -801,6 +801,7 @@ export default class SchemaAdminSettings extends React.Component {
                 registerSaveAction={this.registerSaveAction}
                 setSaveNeeded={this.setSaveNeeded}
                 unRegisterSaveAction={this.unRegisterSaveAction}
+                cancelSubmit={this.cancelSubmit}
                 showConfirm={this.state.showConfirmId === setting.key}
             />);
 
@@ -924,6 +925,12 @@ export default class SchemaAdminSettings extends React.Component {
             this.setState({saving: false, saveNeeded: false, confirmNeededId: '', showConfirmId: '', clientWarning: ''});
             this.props.setNavigationBlocked(false);
         }
+    };
+
+    cancelSubmit = () => {
+        this.setState({
+            showConfirmId: '',
+        });
     };
 
     // Some path parts may contain periods (e.g. plugin ids), but path walking the configuration

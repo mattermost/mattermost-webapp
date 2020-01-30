@@ -699,7 +699,7 @@
   "admin.group_teams_and_channels_row.member": "Member",
   "admin.group_teams_and_channels_row.teamAdmin": "Team Admin",
   "admin.guest_access.disableConfirmButton": "Save and Disable Guest Access",
-  "admin.guest_access.disableConfirmMessage": "Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts.",
+  "admin.guest_access.disableConfirmMessage": "Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts. Are you sure you wish to remove these users?",
   "admin.guest_access.disableConfirmTitle": "Save and Disable Guest Access?",
   "admin.guest_access.disableConfirmWarning": "All current guest account sessions will be revoked, and marked as inactive",
   "admin.guest_access.enableDescription": "When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests.",
