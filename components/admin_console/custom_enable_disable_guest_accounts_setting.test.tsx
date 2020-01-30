@@ -13,6 +13,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
         id: 'MySetting',
         value: false,
         onChange: jest.fn(),
+        cancelSubmit: jest.fn(),
         disabled: false,
         setByEnv: false,
         showConfirm: false,

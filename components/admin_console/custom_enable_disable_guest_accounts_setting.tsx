@@ -83,7 +83,7 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                         this.handleChange(this.props.id, false, true);
                         this.setState({showConfirm: false});
                     }}
-                    onCancel={this.props.cancelSubmit}
+                    onCancel={() => this.props.cancelSubmit}
                 />
             </>
         );
