@@ -16,6 +16,8 @@ import {intlShape} from 'utils/react_intl';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
+import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
+
 import groupsAvatar from 'images/groups-avatar.png';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -117,22 +119,29 @@ class TeamGroupsManageModal extends React.PureComponent {
                     height='32'
                 />
                 <div className='more-modal__details'>
-                    <div className='more-modal__name'>{item.display_name} {'-'} <span>
-                        <FormattedMessage
-                            id='numMembers'
-                            defaultMessage='{num, number} {num, plural, one {member} other {members}}'
-                            values={{
-                                num: item.member_count,
-                            }}
-                        /></span>
+                    <div className='more-modal__name'>{item.display_name} {'-'} &nbsp;
+                        <span className='more-modal__name_count'>
+                            <FormattedMessage
+                                id='numMembers'
+                                defaultMessage='{num, number} {num, plural, one {member} other {members}}'
+                                values={{
+                                    num: item.member_count,
+                                }}
+                            />
+                        </span>
                     </div>
                 </div>
-                <div className='more-modal__dropdown'>
+                <div className='more-modal__actions'>
                     <MenuWrapper>
-                        <a>
+                        <button
+                            id={`teamGroupsDropdown_${item.display_name}`}
+                            className='dropdown-toggle theme color--link style--none'
+                            type='button'
+                            aria-expanded='true'
+                        >
                             <span>{title} </span>
-                            <span className='caret'/>
-                        </a>
+                            <DropdownIcon/>
+                        </button>
                         <Menu
                             openLeft={true}
                             ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
