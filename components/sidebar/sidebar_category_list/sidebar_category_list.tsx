@@ -5,10 +5,7 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 
-// TODO: For some reason TSC is not picking up MathUtil...disabling for now
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import {Spring, SpringSystem, MathUtil} from 'rebound';
+import {Spring, SpringSystem, util as MathUtil} from 'rebound';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
