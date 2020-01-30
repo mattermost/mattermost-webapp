@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import {_} from 'lodash';
+
+const xml2js = require('xml2js')
 
 Cypress.Commands.add('oktaGetApp', () => {
     return cy.request({
@@ -14,6 +17,21 @@ Cypress.Commands.add('oktaGetApp', () => {
         expect(response.status).to.be.equal(200);
         console.log('oktaGetApp ' + response.body);
         return response.body;
+    });
+});
+
+Cypress.Commands.add('oktaGetAppCertificate', () => {
+    cy.oktaGetAppMetadata().then(xmlMetadata => {
+        let certificateStr;
+
+        var parser = new xml2js.Parser();
+        parser.parseString(xmlMetadata, function (err, result) {
+            let jsonMetadata = (JSON.parse(JSON.stringify(result)));
+            const match = _.get(jsonMetadata, ['md:EntityDescriptor', 'md:IDPSSODescriptor', '0', 'md:KeyDescriptor', '0', 'ds:KeyInfo', '0', 'ds:X509Data', '0', 'ds:X509Certificate', '0'], null);
+            expect(match).to.not.be.null;
+            certificateStr = '-----BEGIN PRIVATE KEY-----\n' + match + '\n-----END PRIVATE KEY-----';
+        });
+        return certificateStr;
     });
 });
 
@@ -192,4 +210,96 @@ Cypress.Commands.add('doOktaLogin', (user) => {
     cy.get('#okta-signin-username').should('be.visible').type(user.email);
     cy.get('#okta-signin-password').should('be.visible').type(user.password);
     cy.get('#okta-signin-submit').should('be.visible').click().wait(TIMEOUTS.SMALL);
+});
+
+Cypress.Commands.add('oktaGetOrCreateUser', (user) => {
+    let userId;
+    cy.oktaGetUser(user.email).then(uId => {
+        userId = uId;
+        if( userId == null ){
+            cy.oktaCreateUser(user).then(uId => {
+                userId = uId;
+                cy.oktaAssignUserToApplication(userId, user);
+                return cy.wrap(userId);
+            });
+        } else {
+            cy.oktaAssignUserToApplication(userId, user);
+            return cy.wrap(userId);
+        }
+    });
+});
+
+Cypress.Commands.add('oktaAddUsers', (users) => {
+    let userId;
+    //push the users to Okta
+    Object.values(users.regulars).forEach(_user => {
+        cy.oktaGetUser(_user.email).then(uId => {
+            userId = uId;
+            if( userId == null ){
+                cy.oktaCreateUser(_user).then(uId => {
+                    userId = uId;
+                    //can we do it when creating the user?
+                    cy.oktaAssignUserToApplication(userId, _user);
+                    cy.oktaDeleteSession(userId);
+                });
+            }
+        });
+    });
+
+    Object.values(users.guests).forEach(_user => {
+        cy.oktaGetUser(_user.email).then(uId => {
+            userId = uId;
+            if( userId == null ){
+                cy.oktaCreateUser(_user).then(uId => {
+                    userId = uId;
+                    cy.oktaAssignUserToApplication(userId, _user);
+                    cy.oktaDeleteSession(userId);
+                });
+            }
+        });
+    });
+
+    Object.values(users.admins).forEach(_user => {
+        cy.oktaGetUser(_user.email).then(uId => {
+            userId = uId;
+            if( userId == null ){
+                cy.oktaCreateUser(_user).then(uId => {
+                    userId = uId;
+                    cy.oktaAssignUserToApplication(userId, _user);
+                    cy.oktaDeleteSession(userId);
+                });
+            }
+        });
+    });
+});
+
+Cypress.Commands.add('oktaRemoveUsers', (users) => {
+    let userId;
+    //remove the users from Okta
+    Object.values(users.regulars).forEach(_user => {
+        cy.oktaGetUser(_user.email).then(uId => {
+            userId = uId;
+            if( userId != null ){
+                cy.oktaDeleteUser(userId);
+            }
+        });
+    });
+
+    Object.values(users.guests).forEach(_user => {
+        cy.oktaGetUser(_user.email).then(uId => {
+            userId = uId;
+            if( userId != null ){
+                cy.oktaDeleteUser(userId);
+            }
+        });
+    });
+
+    Object.values(users.admins).forEach(_user => {
+        cy.oktaGetUser(_user.email).then(uId => {
+            userId = uId;
+            if( userId != null ){
+                cy.oktaDeleteUser(userId);
+            }
+        });
+    });
 });

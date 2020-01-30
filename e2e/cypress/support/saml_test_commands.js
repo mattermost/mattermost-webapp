@@ -4,7 +4,7 @@
 import * as TIMEOUTS from '../fixtures/timeouts';
 import {_} from 'lodash';
 
-Cypress.Commands.add('doSamlLoginClick', (testParams = {}) => {
+Cypress.Commands.add('doSamlLogin', (testParams = {}) => {
     // # Go to login page
     cy.apiLogout();
     cy.visit('/login');
@@ -39,49 +39,39 @@ Cypress.Commands.add('doSamlLoginClick', (testParams = {}) => {
     cy.get('#login_section').find('a').last().should('contain', testParams.buttonText).click().wait(TIMEOUTS.SMALL);
 });
 
-Cypress.Commands.add('doCreateTeam', (teamName) => {
-    // cy.wait(TIMEOUTS.SMALL).then(() => {
-        cy.get('body').then((body) => {
-
-            if (body.text().includes('Create a team')) {
-                cy.get('#createNewTeamLink').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
-                    cy.get('input[id="teamNameInput"]').should('exist').type(teamName, {force: true}).wait(TIMEOUTS.TINY).then(() => {
-                        cy.get('#teamNameNextButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
-                            cy.get('#teamURLFinishButton').should('be.visible').click().wait(TIMEOUTS.TINY);
-                        });
-                    });
-                });
-            }
-        });
-    // });
-});
-
-Cypress.Commands.add('generateRandomMMUser', () => {
-    const uuid = () => _.random(0, 1e6);
-    const id = uuid();
-    const testName = Cypress.mocha.getRunner().test.title.toLowerCase().trim().split(' ').join('');
-    const name = `${testName}-${id}`;
-
-    console.log('generateRandomMMUser ' + name);
-
-    var user = {
-        firstname: name,
-        lastname: name,
-        email: name + '@test.com',
-        login: name + '@test.com',
-        password: Cypress.env("saml_test_user_password")
-    };
-
-    return user;
-});
-
-Cypress.Commands.add('doSamlLogoutClick', () => {
+Cypress.Commands.add('doSamlLogout', () => {
     // # Click hamburger main menu button
     cy.get('#sidebarHeaderDropdownButton').click().wait(TIMEOUTS.TINY).then(() => {
         cy.get('#logout').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
             // * Check that it logout successfully and it redirects into the login page
             cy.get('#login_section').should('be.visible');
             cy.location('pathname').should('contain', '/login');
+        });
+    });
+});
+
+Cypress.Commands.add('doCreateTeam', (teamName) => {
+    cy.get('body').then((body) => {
+        if (body.text().includes('Create a team')) {
+            cy.get('#createNewTeamLink').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+                cy.get('input[id="teamNameInput"]').should('exist').type(teamName, {force: true}).wait(TIMEOUTS.TINY).then(() => {
+                    cy.get('#teamNameNextButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+                        cy.get('#teamURLFinishButton').should('be.visible').click().wait(TIMEOUTS.TINY);
+                    });
+                });
+            });
+        }
+    });
+});
+
+Cypress.Commands.add('getInvitePeopleLink', () => {
+    cy.get('#sidebarHeaderDropdownButton').click().wait(TIMEOUTS.TINY).then(() => {
+        cy.get('#invitePeople').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+            cy.findByTestId('shareLinkInputButton').should('be.visible').and('have.text', 'Copy Link');
+            cy.findByTestId('shareLinkInput').invoke('val').then( (text) => {
+                console.log('getInvitePeopleLink ' + text);
+                return text;
+            });
         });
     });
 });

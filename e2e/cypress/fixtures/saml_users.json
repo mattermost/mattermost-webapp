@@ -13,6 +13,13 @@
             "email": "samluser-2@test.com",
             "firstname": "saml2",
             "lastname": "user"
+        },
+        "samluser-3": {
+            "username": "samluser-3",
+            "password": "Password1",
+            "email": "samluser-3@test.com",
+            "firstname": "saml3",
+            "lastname": "user"
         }
     },
     "admins": {
