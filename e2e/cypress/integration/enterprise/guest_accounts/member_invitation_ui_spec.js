@@ -46,7 +46,7 @@ function verifyInvitationError(user, errorText) {
             cy.wrap($subel).find('.username-or-icon').should('contain', user);
             cy.wrap($subel).find('.reason').should('have.text', errorText);
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.wrap($el).find('.confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -66,7 +66,7 @@ function verifyInvitationSuccess(user, successText) {
             cy.wrap($subel).find('.username-or-icon').should('contain', user);
             cy.wrap($subel).find('.reason').should('have.text', successText);
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.wrap($el).find('.confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -203,7 +203,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         invitePeople(user1.email, 1, user1.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(user1.username, 'This member has been added to the team.');
+        verifyInvitationSuccess(user1.username, 'An invitation email has been sent.');
 
         // # Search and add a new member by email who is not part of the team
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
