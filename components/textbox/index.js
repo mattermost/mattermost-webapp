@@ -11,15 +11,15 @@ import {autocompleteChannels} from 'actions/channel_actions';
 
 import Textbox from './textbox.jsx';
 
-const mapStateToProps = (state, ownProps) => {
+const makeMapStateToProps = () => {
     const getProfilesInChannel = makeGetProfilesInChannel();
     const getProfilesNotInChannel = makeGetProfilesNotInChannel();
 
-    return {
+    return (state, ownProps) => ({
         currentUserId: getCurrentUserId(state),
         profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
         profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
-    };
+    });
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -29,4 +29,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(Textbox);
+export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(Textbox);
