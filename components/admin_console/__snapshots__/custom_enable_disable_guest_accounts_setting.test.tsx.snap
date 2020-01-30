@@ -53,7 +53,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
       />
     }
     modalClass=""
-    onCancel={[Function]}
+    onCancel={[MockFunction]}
     onConfirm={[Function]}
     show={false}
     title={
@@ -120,7 +120,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
       />
     }
     modalClass=""
-    onCancel={[Function]}
+    onCancel={[MockFunction]}
     onConfirm={[Function]}
     show={false}
     title={
