@@ -15,7 +15,6 @@ import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux} 
 import {
     blendColors,
     changeOpacity,
-    setThemeDefaults,
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -470,8 +469,6 @@ export function isHexColor(value) {
 }
 
 export function applyTheme(theme) {
-    setThemeDefaults(theme);
-
     if (theme.sidebarBg) {
         changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
         changeCss('body.app__body', 'scrollbar-face-color:' + theme.sidebarBg);
