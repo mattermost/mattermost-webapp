@@ -11,7 +11,6 @@
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
 import messageMenusOptions from '../../fixtures/interactive_message_menus_options.json';
 import {getMessageMenusPayload} from '../../utils';
@@ -45,13 +44,12 @@ describe('Interactive Menu', () => {
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference('clean');
 
-        // # Visit '/' and create incoming webhook
-        cy.visit('/ad-1/channels/town-square');
-        cy.getCurrentChannelId().then((id) => {
-            channelId = id;
+        // # Create and visit new channel and create incoming webhook
+        cy.createAndVisitNewChannel().then((channel) => {
+            channelId = channel.id;
 
             const newIncomingHook = {
-                channel_id: id,
+                channel_id: channelId,
                 channel_locked: true,
                 description: 'Incoming webhook interactive menu',
                 display_name: 'menuIn' + Date.now(),
@@ -60,17 +58,17 @@ describe('Interactive Menu', () => {
             cy.apiCreateWebhook(newIncomingHook).then((hook) => {
                 incomingWebhook = hook;
             });
+
+            cy.getCurrentTeamId().then((teamId) => {
+                longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
+    
+                // # Create a new user with 64 chars lenght
+                cy.createNewUser({username: longUsername}, [teamId]);
+            });
+    
+            // Login again, this is a temp fix as cy.createNewUser, logs out the current user
+            cy.apiLogin('sysadmin').visit(`/ad-1/channels/${channelId}`);
         });
-
-        cy.getCurrentTeamId().then((teamId) => {
-            longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
-
-            // # Create a new user with 64 chars lenght
-            cy.createNewUser({username: longUsername}, [teamId]);
-        });
-
-        // Login again, this is a temp fix as cy.createNewUser, logs out the current user
-        cy.apiLogin('sysadmin').visit('/ad-1/channels/town-square');
     });
 
     it('matches elements', () => {
@@ -124,8 +122,6 @@ describe('Interactive Menu', () => {
             cy.findByDisplayValue(options[0].text).should('exist');
         });
 
-        cy.wait(TIMEOUTS.SMALL);
-
         cy.getLastPostId().then((postId) => {
             // * Verify that ephemeral message is posted, visible to observer and contains an exact message
             cy.get(`#${postId}_message`).should('be.visible').and('have.class', 'post--ephemeral');
@@ -136,6 +132,12 @@ describe('Interactive Menu', () => {
 
     it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         const user1 = users['user-1'];
+
+        // # Add user to channel
+        cy.apiGetUserByEmail(user1.email).then((res) => {
+            const user = res.body;
+            cy.apiAddUserToChannel(channelId, user.id);
+        });
 
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
@@ -353,8 +355,6 @@ describe('Interactive Menu', () => {
                 // # Type the selected word to find in the list
                 cy.get('@optionInputField').type(selectedOption);
 
-                cy.wait(TIMEOUTS.TINY);
-
                 // # Checking values inside the attachment menu dropdown
                 cy.get('#suggestionList').within(() => {
                     // * All other options should not be there
@@ -381,9 +381,6 @@ describe('Interactive Menu', () => {
                 cy.findByDisplayValue(selectedOption).should('exist');
             });
         });
-
-        // # Lets wait a little for the webhook to return confirmation message
-        cy.wait(TIMEOUTS.TINY);
 
         // # Get the emphemirical message from webhook, which is only visible to us
         cy.getLastPostId().then((lastPostId) => {
@@ -476,9 +473,6 @@ describe('Interactive Menu', () => {
             });
         });
 
-        // # Lets wait a little for the webhook to return confirmation message
-        cy.wait(TIMEOUTS.TINY);
-
         // # Checking if we got the ephemeral message with the selection we made
         cy.getLastPostId().then((botLastPostId) => {
             cy.get(`#post_${botLastPostId}`).within(() => {
@@ -534,9 +528,6 @@ describe('Interactive Menu', () => {
                 cy.findByDisplayValue(firstSelectedItem).should('exist');
             });
 
-            // # Lets wait a little for the webhook to return confirmation message
-            cy.wait(TIMEOUTS.TINY);
-
             // # Checking if we got the ephemeral message with the selection we made
             cy.getLastPostId().then((botLastPostId) => {
                 cy.get(`#post_${botLastPostId}`).within(() => {
@@ -568,9 +559,6 @@ describe('Interactive Menu', () => {
                 // * Verify the input has the new selected value in the RHS message
                 cy.findByDisplayValue(secondSelectedItem).should('exist');
             });
-
-            // # Lets wait a little for the webhook to return confirmation message
-            cy.wait(TIMEOUTS.TINY);
 
             // * Verify the original message with attacment's selection is also changed
             cy.get(`#messageAttachmentList_${parentPostId}`).within(() => {
@@ -604,9 +592,6 @@ describe('Interactive Menu', () => {
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // # Find and select the user, we just added
                 cy.findByPlaceholderText('Select an option...').clear().type(`${longUsername}`);
-
-                // # Wait a little for async search
-                cy.wait(TIMEOUTS.SMALL);
 
                 cy.get('#suggestionList').within(() => {
                     // * Newly added username should be there in the search list
@@ -677,9 +662,6 @@ function verifyLastPost() {
             cy.get(`#rhsPost_${postId}`).within(() => {
                 verifyMessageAttachmentList(postId, true, value);
             });
-
-            // # Wait for sometime for checks
-            cy.wait(TIMEOUTS.TINY);
 
             // # Close the RHS
             cy.closeRHS();
