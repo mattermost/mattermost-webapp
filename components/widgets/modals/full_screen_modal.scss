@@ -53,3 +53,19 @@
         transition: opacity 100ms;
     }
 }
+
+.FullScreenModal.FullScreenModal--compact {
+    .back {
+        top: 8px;
+        left: 16px;
+    }
+
+    .close-x {
+        top: 8px;
+        right: 16px;
+    }
+
+    .close-x, .back {
+        position: absolute;
+    }
+}

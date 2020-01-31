@@ -68,6 +68,19 @@ Cypress.Commands.add('apiLogout', () => {
     cy.getCookies({log: false}).should('be.empty');
 });
 
+/**
+ * Get a list of all the bots
+ * This API assumes that the user logged in has permission to read bots
+ */
+
+Cypress.Commands.add('apiGetBots', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots',
+        method: 'GET',
+    });
+});
+
 // *****************************************************************************
 // Channels
 // https://api.mattermost.com/#tag/channels
@@ -317,6 +330,19 @@ Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
+    });
+});
+
+/**
+ * Gets a list of all of the teams on the server
+ * This API assume that the user is logged in as sysadmin
+ */
+
+Cypress.Commands.add('apiGetAllTeams', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: 'api/v4/teams',
+        method: 'GET',
     });
 });
 
