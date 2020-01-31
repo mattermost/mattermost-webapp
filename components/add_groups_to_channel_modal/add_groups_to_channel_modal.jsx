@@ -259,7 +259,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                     <Modal.Title>
                         <FormattedMessage
                             id='add_groups_to_channel.title'
-                            defaultMessage='Add New Groups To {channelName} Channel'
+                            defaultMessage='Add New Groups to {channelName} Channel'
                             values={{
                                 channelName: (
                                     <strong>{this.props.currentChannelName}</strong>
