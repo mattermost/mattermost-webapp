@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
-import {_} from 'lodash';
+import user_roles from '../fixtures/saml_user_roles.json';
 
 Cypress.Commands.add('doSamlLogin', (testParams = {}) => {
     // # Go to login page
@@ -11,6 +11,7 @@ Cypress.Commands.add('doSamlLogin', (testParams = {}) => {
 
     // * Check that the login section is loaded
     cy.get('#login_section').should('be.visible');
+
     // * Check the title
     cy.title().should('include', testParams.siteUrl);
 
@@ -68,10 +69,28 @@ Cypress.Commands.add('getInvitePeopleLink', () => {
     cy.get('#sidebarHeaderDropdownButton').click().wait(TIMEOUTS.TINY).then(() => {
         cy.get('#invitePeople').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
             cy.findByTestId('shareLinkInputButton').should('be.visible').and('have.text', 'Copy Link');
-            cy.findByTestId('shareLinkInput').invoke('val').then( (text) => {
-                console.log('getInvitePeopleLink ' + text);
+            cy.findByTestId('shareLinkInput').invoke('val').then((text) => {
                 return text;
             });
         });
     });
 });
+
+Cypress.Commands.add('setUserRole', (configSamlSettings, role) => {
+    configSamlSettings.SamlSettings.GuestAttribute = "";
+    configSamlSettings.SamlSettings.AdminAttribute = "";
+
+    switch(role) {
+        case user_roles.guest:
+            configSamlSettings.SamlSettings.GuestAttribute = "userType='Guest'";
+            break;
+        case user_roles.admin:
+            configSamlSettings.SamlSettings.AdminAttribute = "userType='Admin'";
+            break;
+        default:
+            break;
+    }
+    console.log('setUserRole ' + 'ga: ' + configSamlSettings.SamlSettings.GuestAttribute + ' aa:' + configSamlSettings.SamlSettings.AdminAttribute);
+    cy.apiUpdateConfig(configSamlSettings);
+});
+

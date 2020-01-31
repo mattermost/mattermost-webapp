@@ -6,7 +6,6 @@ const postBotMessage = require('./post_bot_message');
 const externalRequest = require('./external_request');
 const getRecentEmail = require('./get_recent_email');
 const postIncomingWebhook = require('./post_incoming_webhook');
-const cleanupConfigFolder = require('./clean_up_config_folder');
 
 module.exports = (on, config) => {
     on('task', {
@@ -14,11 +13,10 @@ module.exports = (on, config) => {
         postBotMessage,
         externalRequest,
         getRecentEmail,
-        postIncomingWebhook,
-        cleanupConfigFolder
+        postIncomingWebhook
     });
 
-    if(config.env.turnOffChromeWebSecurity) {
+    if(config.env.setChromeWebSecurity) {
         config.chromeWebSecurity = false;
     }
 
@@ -27,8 +25,10 @@ module.exports = (on, config) => {
             args.push('--disable-notifications');
         }
 
-        args.push("--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process");
-        args.push("--load-extension=cypress/extensions/Ignore-X-Frame-headers_v1.1");
+        if(config.env.setChromeWebSecurity) {
+            args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
+            args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers_v1.1');
+        }
 
         return args;
     });
