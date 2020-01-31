@@ -94,7 +94,7 @@ export default function HelpMessaging() {
                     <Link to='/help/formatting'>
                         <FormattedMessage
                             id='help.link.formatting'
-                            defaultMessage='Formatting Messages using Markdown'
+                            defaultMessage='Formatting Messages Using Markdown'
                         />
                     </Link>
                 </li>

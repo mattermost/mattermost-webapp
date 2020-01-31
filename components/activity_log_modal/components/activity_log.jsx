@@ -197,7 +197,7 @@ export default class ActivityLog extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='activity_log.logout'
-                            defaultMessage='Logout'
+                            defaultMessage='Log Out'
                         />
                     </button>
                 </div>

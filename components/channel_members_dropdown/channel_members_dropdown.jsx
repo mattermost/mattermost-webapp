@@ -154,7 +154,7 @@ export default class ChannelMembersDropdown extends React.Component {
                         <Menu.ItemAction
                             show={canRemoveUserFromChannel}
                             onClick={this.handleRemoveFromChannel}
-                            text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove From Channel')}
+                            text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel')}
                         />
                         {serverError && (
                             <div className='has-error'>
