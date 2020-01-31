@@ -59,7 +59,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         verifyGuest();
 
         // # Click on the Manage User option
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.wait(TIMEOUTS.TINY).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
 
         // * Verify the manage options which should be displayed for Guest User
         const includeOptions = ['Deactivate', 'Manage Teams', 'Reset Password', 'Update Email', 'Promote to User', 'Revoke Sessions'];
@@ -76,8 +76,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
     it('MM-18048 Deactivate Guest User and Verify', () => {
         // # Click on the Deactivate option
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Deactivate').click();
+        cy.wait(TIMEOUTS.TINY).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.wait(TIMEOUTS.TINY).findByText('Deactivate').click();
 
         // * Verify the confirmation message displayed
         cy.get('#confirmModal').should('be.visible').within(() => {
@@ -91,8 +91,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         verifyGuest();
 
         // * Verify the behavior when Deactivate button in the confirmation message is clicked
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Deactivate').click();
+        cy.wait(TIMEOUTS.TINY).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.wait(TIMEOUTS.TINY).findByText('Deactivate').click();
         cy.get('#confirmModalButton').click();
         cy.get('#confirmModal').should('not.exist');
         verifyGuest('Inactive ');
@@ -105,8 +105,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
     it('MM-18048 Activate Guest User and Verify', () => {
         // # Click on the Activate option
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Activate').click();
+        cy.wait(TIMEOUTS.TINY).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.wait(TIMEOUTS.TINY).findByText('Activate').click();
 
         // * Verify if User's status is activated again
         verifyGuest();
@@ -119,8 +119,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
     it('MM-18048 Change Email of a Guest User and Verify', () => {
         // # Click on the Update Email option
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Update Email').click();
+        cy.wait(TIMEOUTS.TINY).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.wait(TIMEOUTS.TINY).findByText('Update Email').click();
 
         // * Update email of Guest User
         const email = `temp-${getRandomInt(9999)}@mattermost.com`;
@@ -140,8 +140,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
     it('MM-18048 Revoke Session of a Guest User and Verify', () => {
         // # Click on the Revoke Session option
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Revoke Sessions').click();
+        cy.wait(TIMEOUTS.TINY).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.wait(TIMEOUTS.TINY).findByText('Revoke Sessions').click();
 
         // * Verify the confirmation message displayed
         cy.get('#confirmModal').should('be.visible').within(() => {
