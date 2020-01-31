@@ -117,7 +117,7 @@ class ChannelGroupsManageModal extends React.PureComponent {
                         </button>
                         <Menu
                             openLeft={true}
-                            ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Channel member role change')}
+                            ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member')}
                         >
                             <Menu.ItemAction
                                 show={!item.scheme_admin}

@@ -108,7 +108,7 @@ class TeamButton extends React.Component {
             />
         );
 
-        const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
         const btn = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}

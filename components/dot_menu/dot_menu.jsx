@@ -213,7 +213,7 @@ export default class DotMenu extends React.PureComponent {
         >
             <FormattedMessage
                 id='post_info.dot_menu.tooltip.more_actions'
-                defaultMessage='More Actions'
+                defaultMessage='See more available actions'
             />
         </Tooltip>
     )
@@ -294,7 +294,7 @@ export default class DotMenu extends React.PureComponent {
                 >
                     <button
                         id={`${this.props.location}_button_${this.props.post.id}`}
-                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More Actions').toLowerCase()}
+                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'See more available actions').toLowerCase()}
                         className='post__dropdown color--link style--none'
                         type='button'
                         aria-expanded='false'

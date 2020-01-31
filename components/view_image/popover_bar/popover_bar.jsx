@@ -40,7 +40,7 @@ export default class PopoverBar extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='view_image_popover.publicLink'
-                            defaultMessage='Get Public Link'
+                            defaultMessage='Get a public link'
                         />
                     </a>
                     <span className='text'>{' | '}</span>

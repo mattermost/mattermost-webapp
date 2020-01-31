@@ -26,19 +26,19 @@ export default function HeaderIconWrapper({
             class: 'text-nowrap',
             id: 'flaggedTooltip',
             messageID: t('channel_header.flagged'),
-            message: 'Flagged Posts',
+            message: 'See flagged posts',
         },
         pinnedPosts: {
             class: '',
             id: 'pinnedPostTooltip',
             messageID: t('channel_header.pinnedPosts'),
-            message: 'Pinned Posts',
+            message: 'See pinned posts',
         },
         recentMentions: {
             class: '',
             id: 'recentMentionsTooltip',
             messageID: t('channel_header.recentMentions'),
-            message: 'Recent Mentions',
+            message: 'See recent mentions',
         },
         search: {
             class: '',

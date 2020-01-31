@@ -144,7 +144,7 @@ class TeamGroupsManageModal extends React.PureComponent {
                         </button>
                         <Menu
                             openLeft={true}
-                            ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                            ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                         >
                             <Menu.ItemAction
                                 show={!item.scheme_admin}
