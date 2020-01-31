@@ -61,12 +61,12 @@ describe('Interactive Menu', () => {
 
             cy.getCurrentTeamId().then((teamId) => {
                 longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
-    
+
                 // # Create a new user with 64 chars lenght
                 cy.createNewUser({username: longUsername}, [teamId]);
             });
-    
-            // Login again, this is a temp fix as cy.createNewUser, logs out the current user
+
+            // # Login again, this is a temp fix as cy.createNewUser, logs out the current user
             cy.apiLogin('sysadmin').visit(`/ad-1/channels/${channelId}`);
         });
     });
