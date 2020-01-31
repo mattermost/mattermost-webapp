@@ -3,7 +3,7 @@
 exports[`components/post_view/post_list_row should render channel intro message 1`] = `<Connect(ChannelIntroMessage) />`;
 
 exports[`components/post_view/post_list_row should render combined post 1`] = `
-<Connect(Connect(InjectIntl(Post)))
+<Connect(Connect(injectIntl(Post)))
   combinedId="user-activity-1234-5678"
   previousPostId="abcd"
   shouldHighlight={false}
@@ -57,7 +57,7 @@ exports[`components/post_view/post_list_row should render new messages line 1`] 
 `;
 
 exports[`components/post_view/post_list_row should render post 1`] = `
-<Connect(InjectIntl(Post))
+<Connect(injectIntl(Post))
   postId="1234"
   previousPostId="abcd"
   shouldHighlight={false}

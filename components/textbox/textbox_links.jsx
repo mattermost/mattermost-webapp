@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class TextboxLinks extends React.Component {
+export default class TextboxLinks extends React.PureComponent {
     static propTypes = {
         showPreview: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
@@ -76,7 +76,6 @@ export default class TextboxLinks extends React.Component {
 
         const helpText = (
             <div
-                id='helpText'
                 style={{visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0'}}
                 className='help__format-text'
             >
@@ -128,7 +127,6 @@ export default class TextboxLinks extends React.Component {
                 {helpText}
                 {previewLink}
                 <Link
-                    id='helpTextLink'
                     target='_blank'
                     rel='noopener noreferrer'
                     to='/help/messaging'

@@ -424,6 +424,7 @@ describe('handleNewPostEvent', () => {
         entities: {
             users: {
                 currentUserId: 'user1',
+                isManualStatus: {},
             },
         },
     };
@@ -457,6 +458,31 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2', type: Constants.AUTO_RESPONDER};
+        const msg = {data: {post: JSON.stringify(post)}};
+
+        testStore.dispatch(handleNewPostEvent(msg));
+
+        expect(testStore.getActions()).not.toContainEqual({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
+    });
+
+    test('should not set other user to online if status was manually set', () => {
+        const testStore = configureStore({
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                users: {
+                    ...initialState.entities.users,
+                    isManualStatus: {
+                        user2: true,
+                    }
+                },
+            },
+        });
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
         const msg = {data: {post: JSON.stringify(post)}};
 
         testStore.dispatch(handleNewPostEvent(msg));
@@ -506,7 +532,7 @@ describe('handleNewPostEvents', () => {
 describe('reconnect', () => {
     test('should call syncPostsInChannel when socket reconnects', () => {
         reconnect(false);
-        expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345', false);
+        expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345');
     });
 });
 

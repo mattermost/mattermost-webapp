@@ -364,7 +364,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         const title = (
             <FormattedMessage
                 id='demote_to_user_modal.title'
-                defaultMessage='Demote user {username} to guest'
+                defaultMessage='Demote User {username} to Guest'
                 values={{
                     username: this.props.user.username,
                 }}
