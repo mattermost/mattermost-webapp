@@ -469,6 +469,8 @@
     }
 
     .group-teams-and-channels--body {
+        padding: 20px;
+
         .group-teams-and-channels-row.has-clidren {
             .type {
                 margin-left: 20px;
@@ -507,6 +509,15 @@
                 button {
                     padding: 5px;
                 }
+            }
+
+            .type {
+                color: #454448;
+                opacity: 50%;
+            }
+            
+            .name-no-arrow{
+                margin-left: 16px;
             }
 
             .name-content {
