@@ -16,15 +16,9 @@ import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
-import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import favicon16x16 from 'images/favicon/favicon-16x16.png';
-import favicon32x32 from 'images/favicon/favicon-32x32.png';
-import favicon96x96 from 'images/favicon/favicon-96x96.png';
-import redDotFavicon16x16 from 'images/favicon/favicon-reddot-16x16.png';
-import redDotFavicon32x32 from 'images/favicon/favicon-reddot-32x32.png';
-import redDotFavicon96x96 from 'images/favicon/favicon-reddot-96x96.png';
+
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -244,10 +238,6 @@ class LegacySidebar extends React.PureComponent {
             }
         }
 
-        this.updateTitle();
-
-        this.setBadgesActiveAndFavicon();
-
         this.setFirstAndLastUnreadChannels();
         this.updateUnreadIndicators();
     }
@@ -259,42 +249,6 @@ class LegacySidebar extends React.PureComponent {
         this.animate.deregisterSpring(this.scrollAnimation);
         this.animate.removeAllListeners();
         this.scrollAnimation.destroy();
-    }
-
-    setBadgesActiveAndFavicon() {
-        if (!(UserAgent.isFirefox() || UserAgent.isChrome())) {
-            return;
-        }
-
-        const link = document.querySelector('link[rel="icon"]');
-
-        if (!link) {
-            return;
-        }
-
-        this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentionCount > 0;
-
-        // update the favicon to show if there are any notifications
-        if (this.lastBadgesActive !== this.badgesActive) {
-            this.updateFavicon(this.badgesActive);
-        }
-    }
-
-    updateFavicon = (active) => {
-        const link16x16 = document.querySelector('link[rel="icon"][sizes="16x16"]');
-        const link32x32 = document.querySelector('link[rel="icon"][sizes="32x32"]');
-        const link96x96 = document.querySelector('link[rel="icon"][sizes="96x96"]');
-
-        if (active) {
-            link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : '';
-            link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : '';
-            link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : '';
-        } else {
-            link16x16.href = typeof favicon16x16 === 'string' ? favicon16x16 : '';
-            link32x32.href = typeof favicon32x32 === 'string' ? favicon32x32 : '';
-            link96x96.href = typeof favicon96x96 === 'string' ? favicon96x96 : '';
-        }
     }
 
     setFirstAndLastUnreadChannels() {
@@ -318,34 +272,6 @@ class LegacySidebar extends React.PureComponent {
             this.hideMoreDirectChannelsModal();
         } else {
             this.showMoreDirectChannelsModal();
-        }
-    }
-
-    updateTitle = () => {
-        const {
-            config,
-            currentChannel,
-            currentTeam,
-            currentTeammate,
-            unreads,
-        } = this.props;
-        const {formatMessage} = this.props.intl;
-
-        const currentSiteName = config.SiteName || '';
-
-        if (currentChannel && currentTeam && currentChannel.id) {
-            let currentChannelName = currentChannel.display_name;
-            if (currentChannel.type === Constants.DM_CHANNEL) {
-                if (currentTeammate != null) {
-                    currentChannelName = currentTeammate.display_name;
-                }
-            }
-
-            const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
-            const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
-            document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
-        } else {
-            document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});
         }
     }
 
