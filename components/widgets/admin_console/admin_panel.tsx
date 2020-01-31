@@ -37,7 +37,7 @@ const AdminPanel: React.FC<Props> = (props: Props) => (
                         defaultMessage={props.titleDefault}
                     />
                 </h3>
-                <div className='margin-top'>
+                <div className='mt-2'>
                     <FormattedMarkdownMessage
                         id={props.subtitleId}
                         defaultMessage={props.subtitleDefault}

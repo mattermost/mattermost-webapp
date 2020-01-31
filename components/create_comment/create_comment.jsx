@@ -1024,7 +1024,7 @@ class CreateComment extends React.PureComponent {
                                 />
                             </div>
                         </div>
-                        <div className='text-right margin-top'>
+                        <div className='text-right mt-2'>
                             {uploadsInProgressText}
                             <input
                                 type='button'

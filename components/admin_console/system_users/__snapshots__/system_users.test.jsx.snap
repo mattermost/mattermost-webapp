@@ -76,7 +76,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
           }
         />
         <div
-          className="padding-top padding-bottom x2"
+          className="pt-3 pb-3"
         >
           <button
             className="btn btn-default"
