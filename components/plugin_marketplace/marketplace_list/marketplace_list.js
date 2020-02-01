@@ -19,7 +19,7 @@ export default class MarketplaceList extends React.PureComponent {
     };
 
     static getDerivedStateFromProps(props, state) {
-        if (state.page > 0 && props.plugins.length < state.pluginsPerPage) {
+        if (state.page > 0 && props.plugins.length < PLUGINS_PER_PAGE) {
             return {page: 0};
         }
 
@@ -31,7 +31,6 @@ export default class MarketplaceList extends React.PureComponent {
 
         this.state = {
             page: 0,
-            pluginsPerPage: PLUGINS_PER_PAGE,
         };
     }
 
@@ -48,8 +47,8 @@ export default class MarketplaceList extends React.PureComponent {
     renderCount = () => {
         const total = this.props.plugins.length;
         const count = this.props.plugins.length;
-        const startCount = this.state.page * this.state.pluginsPerPage;
-        const endCount = Math.min(startCount + this.state.pluginsPerPage, this.props.plugins.length);
+        const startCount = this.state.page * PLUGINS_PER_PAGE;
+        const endCount = Math.min(startCount + PLUGINS_PER_PAGE, this.props.plugins.length);
 
         return (
             <FormattedMessage
@@ -67,12 +66,12 @@ export default class MarketplaceList extends React.PureComponent {
 
     render() {
         const style = getStyle(this.props.theme);
-        const pageStart = this.state.page * this.state.pluginsPerPage;
-        const pageEnd = pageStart + this.state.pluginsPerPage;
+        const pageStart = this.state.page * PLUGINS_PER_PAGE;
+        const pageEnd = pageStart + PLUGINS_PER_PAGE;
         const pluginsToDisplay = this.props.plugins.slice(pageStart, pageEnd);
         let nextButton;
         let previousButton;
-        if (pluginsToDisplay.length >= this.state.pluginsPerPage && pageEnd < this.props.plugins.length) {
+        if (pluginsToDisplay.length >= PLUGINS_PER_PAGE && pageEnd < this.props.plugins.length) {
             nextButton = (
                 <button
                     id='marketplaceModalNextButton'
