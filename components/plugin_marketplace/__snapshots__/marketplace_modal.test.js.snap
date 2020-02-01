@@ -161,7 +161,7 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
 
 exports[`components/marketplace/ MarketplaceModal should render with error banner 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -170,7 +170,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
       className="error-bar"
       id="error_bar"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
         id="app.plugin.marketplace_plugins.app_error"
         values={
@@ -251,13 +251,13 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with no plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -333,13 +333,13 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -430,6 +430,6 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;

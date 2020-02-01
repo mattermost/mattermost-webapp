@@ -4,13 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
+import OverlayTrigger from 'components/overlay_trigger';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -40,6 +41,7 @@ export default class DotMenu extends React.PureComponent {
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
         enableEmojiPicker: PropTypes.bool.isRequired,
+        channelIsArchived: PropTypes.bool.isRequired,
 
         /*
          * Components for overriding provided by plugins
@@ -323,7 +325,7 @@ export default class DotMenu extends React.PureComponent {
                     </ChannelPermissionGate>
                     <Menu.ItemAction
                         id={`unread_post_${this.props.post.id}`}
-                        show={!isSystemMessage}
+                        show={!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH}
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                         onClick={this.handleUnreadMenuItemActivated}
                     />
