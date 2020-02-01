@@ -26,7 +26,12 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverl
                 <BaseOverlayTrigger
                     {...otherProps}
                     ref={ref}
-                    overlay={<OverlayWrapper intl={intl}/>}
+                    overlay={
+                        <OverlayWrapper
+                            {...overlay.props}
+                            intl={intl}
+                        />
+                    }
                 />
             )}
         </IntlContext.Consumer>

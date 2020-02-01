@@ -7,70 +7,49 @@ import {mount} from 'enzyme';
 import QuickInput from 'components/quick_input';
 
 describe('components/QuickInput', () => {
-    test('should match snapshot when not clearable and empty', () => {
-        const wrapper = mount(
-            <QuickInput/>
-        );
+    describe('should not render clear button', () => {
+        [
+            ['in default state', {}],
+            ['when not clearable', {value: 'value', clearable: false, onClear: () => {}}],
+            ['when no onClear callback', {value: 'value', clearable: true}],
+            ['when value undefined', {clearable: true, onClear: () => {}}],
+            ['when value empty', {value: '', clearable: true, onClear: () => {}}],
+        ].forEach(([description, props]) => {
+            it(description, () => {
+                const wrapper = mount(
+                    <QuickInput {...props}/>
+                );
 
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.unmount();
+                expect(wrapper.find('.input-clear').exists()).toBe(false);
+            });
+        });
     });
 
-    test('should match snapshot when not clearable and with content', () => {
-        const wrapper = mount(
-            <QuickInput/>
-        );
-
-        wrapper.setProps({value: 'mock'});
-        wrapper.instance().forceUpdate();
-        wrapper.update();
-
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.unmount();
-    });
-
-    test('should match snapshot when clearable and empty', () => {
+    test('should render clear button', () => {
         const wrapper = mount(
             <QuickInput
+                value='mock'
                 clearable={true}
+                onClear={() => {}}
             />
         );
 
-        wrapper.setProps({value: ''});
-        wrapper.instance().forceUpdate();
-        wrapper.update();
-
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.unmount();
+        expect(wrapper.find('.input-clear').exists()).toBe(true);
     });
 
-    test('should match snapshot when clearable and with value', () => {
+    test('should dismiss clear button', () => {
         const wrapper = mount(
             <QuickInput
+                value='mock'
                 clearable={true}
-                value=''
+                onClear={() => {}}
             />
         );
 
-        wrapper.setProps({value: 'mock'});
-        wrapper.instance().forceUpdate();
-        wrapper.update();
-
-        expect(wrapper.instance().value).toEqual('mock');
-
-        expect(wrapper).toMatchSnapshot();
+        wrapper.setProps({onClear: () => wrapper.setProps({value: ''})});
+        expect(wrapper.find('.input-clear').exists()).toBe(true);
 
         wrapper.find('.input-clear').simulate('click');
-        wrapper.instance().forceUpdate();
-        wrapper.update();
-
-        expect(wrapper.instance().value).toEqual('');
-
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.unmount();
+        expect(wrapper.find('.input-clear').exists()).toBe(false);
     });
 });
