@@ -129,6 +129,8 @@ export default class PostInfo extends React.PureComponent {
             showEmojiPicker: false,
             showOptionsMenuWithoutHover: false
         };
+
+        this.postInfoRef = React.createRef();
     }
 
     toggleEmojiPicker = () => {
@@ -247,13 +249,19 @@ export default class PostInfo extends React.PureComponent {
             const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
             const isFailedPost = post && post.failed;
 
-            if (!isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
-                !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
-                this.setState({
-                    showOptionsMenuWithoutHover: true
-                }, () => {
-                    this.toggleEmojiPicker();
-                });
+            const boundingRectOfPostInfo = this.postInfoRef.current.getBoundingClientRect();
+            const isPostInfoVisibleToUser = boundingRectOfPostInfo.top >= 0 &&
+                boundingRectOfPostInfo.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+
+            if (isPostInfoVisibleToUser) {
+                if (!isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
+                    !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
+                    this.setState({
+                        showOptionsMenuWithoutHover: true
+                    }, () => {
+                        this.toggleEmojiPicker();
+                    });
+                }
             }
         }
     }
@@ -369,7 +377,10 @@ export default class PostInfo extends React.PureComponent {
         }
 
         return (
-            <div className='post__header--info'>
+            <div
+                className='post__header--info'
+                ref={this.postInfoRef}
+            >
                 <div className='col'>
                     {postTime}
                     {pinnedBadge}
