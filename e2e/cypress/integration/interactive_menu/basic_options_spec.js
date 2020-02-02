@@ -26,6 +26,7 @@ const payload = getMessageMenusPayload({options});
 
 let channelId;
 let incomingWebhook;
+let longUsername;
 
 describe('Interactive Menu', () => {
     before(() => {
@@ -60,6 +61,16 @@ describe('Interactive Menu', () => {
                 incomingWebhook = hook;
             });
         });
+
+        cy.getCurrentTeamId().then((teamId) => {
+            longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
+
+            // # Create a new user with 64 chars lenght
+            cy.createNewUser({username: longUsername}, [teamId]);
+        });
+
+        // Login again, this is a temp fix as cy.createNewUser, logs out the current user
+        cy.apiLogin('sysadmin').visit('/ad-1/channels/town-square');
     });
 
     it('matches elements', () => {
@@ -72,7 +83,7 @@ describe('Interactive Menu', () => {
         });
 
         // * Verify each element of message attachment list
-        cy.get('@messageAttachmentList').within(() => {
+        cy.get('@messageAttachmentList').scrollIntoView().within(() => {
             cy.get('.attachment__thumb-pretext').should('be.visible').and('have.text', 'This is attachment pretext with basic options');
             cy.get('.post-message__text-container').should('be.visible').and('have.text', 'This is attachment text with basic options');
             cy.get('.attachment-actions').should('be.visible');
@@ -578,6 +589,48 @@ describe('Interactive Menu', () => {
                 });
             });
 
+            cy.closeRHS();
+        });
+    });
+
+    it('IM21038 - Selected options with long usernames are not cut off in the RHS', () => {
+        // # Make webhook request to get list of all the users
+        const userOptions = getMessageMenusPayload({dataSource: 'users'});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+
+        // # Go to last webhook message with users list
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // # Find and select the user, we just added
+                cy.findByPlaceholderText('Select an option...').clear().type(`${longUsername}`);
+
+                // # Wait a little for async search
+                cy.wait(TIMEOUTS.SMALL);
+
+                cy.get('#suggestionList').within(() => {
+                    // * Newly added username should be there in the search list
+                    cy.findByText(`@${longUsername}`).should('exist').click();
+                });
+
+                // * Verify the input has the complete username value
+                cy.findByDisplayValue(longUsername).should('exist');
+            });
+
+            // # Click on reply icon to open message in RHS
+            cy.clickPostCommentIcon(lastPostId);
+
+            // * Verify RHS has opened
+            cy.get('#rhsContainer').should('exist');
+
+            // # Same id as parent post in center, only opened in RHS
+            cy.get(`#rhsPost_${lastPostId}`).within(() => {
+                // * Verify the input has the selected value same as that of Center
+                //   and verify that it has truncation css applied
+                cy.findByDisplayValue(longUsername).should('exist').and('have.css', 'text-overflow', 'ellipsis');
+            });
+
+            // # Close RHS
             cy.closeRHS();
         });
     });

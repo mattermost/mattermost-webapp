@@ -31,6 +31,41 @@ describe('format', () => {
         expect(output).not.toContain('<span class="post-code__language">');
     });
 
+    describe('lists', () => {
+        test('unordered lists should not include a start index', () => {
+            const input = `- a
+- b
+- c`;
+            const expected = `<ul className="markdown__list">
+<li>a</li><li>b</li><li>c</li></ul>`;
+
+            const output = format(input);
+            expect(output).toBe(expected);
+        });
+
+        test('ordered lists starting at 1 should include a start index', () => {
+            const input = `1. a
+2. b
+3. c`;
+            const expected = `<ol className="markdown__list" style="counter-reset: list 0">
+<li>a</li><li>b</li><li>c</li></ol>`;
+
+            const output = format(input);
+            expect(output).toBe(expected);
+        });
+
+        test('ordered lists starting at any other number should include a start index', () => {
+            const input = `999. a
+1. b
+1. c`;
+            const expected = `<ol className="markdown__list" style="counter-reset: list 998">
+<li>a</li><li>b</li><li>c</li></ol>`;
+
+            const output = format(input);
+            expect(output).toBe(expected);
+        });
+    });
+
     test('should wrap code without a language tag', () => {
         const output = format(`~~~
 this is long text this is long text this is long text this is long text this is long text this is long text

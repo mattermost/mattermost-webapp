@@ -64,6 +64,7 @@ export default class UserList extends React.Component {
                 <div
                     key='no-users-found'
                     className='more-modal__placeholder-row'
+                    data-testid='noUsersFound'
                 >
                     <p>
                         <FormattedMessage

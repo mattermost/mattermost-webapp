@@ -179,7 +179,7 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--hovered';
         }
 
-        if (this.state.alt) {
+        if (this.state.alt && !this.props.channelIsArchived) {
             className += ' cursor--pointer';
         }
 
@@ -199,6 +199,10 @@ class RhsRootPost extends React.PureComponent {
     };
 
     handlePostClick = (e) => {
+        if (this.props.channelIsArchived) {
+            return;
+        }
+
         if (e.altKey) {
             this.props.actions.markPostAsUnread(this.props.post);
         }

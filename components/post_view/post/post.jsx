@@ -83,6 +83,12 @@ class Post extends React.PureComponent {
          * To Check if the current post is last in the list
          */
         isLastPost: PropTypes.bool,
+
+        /**
+         * Whether or not the channel that contains this post is archived
+         */
+        channelIsArchived: PropTypes.bool.isRequired,
+
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
@@ -111,16 +117,24 @@ class Post extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
         document.addEventListener('keydown', this.handleAlt);
         document.addEventListener('keyup', this.handleAlt);
-        this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
+        // Refs can be null when this component is shallowly rendered for testing
+        if (this.postRef.current) {
+            this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
+
     componentWillUnmount() {
-        this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
         document.removeEventListener('keydown', this.handleAlt);
         document.removeEventListener('keyup', this.handleAlt);
-        this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
+        if (this.postRef.current) {
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
 
     componentDidUpdate() {
@@ -151,6 +165,11 @@ class Post extends React.PureComponent {
         if (!post) {
             return;
         }
+
+        if (this.props.channelIsArchived) {
+            return;
+        }
+
         if (e.altKey) {
             this.props.actions.markPostAsUnread(post);
         }
@@ -242,7 +261,7 @@ class Post extends React.PureComponent {
             className += ' post--pinned';
         }
 
-        if (this.state.alt) {
+        if (this.state.alt && !this.props.channelIsArchived) {
             className += ' cursor--pointer';
         }
 
