@@ -17,7 +17,6 @@ export default class ModalSuggestionList extends React.PureComponent {
     }
 
     latestHeight = 0;
-    scrollRegistered = false;
 
     constructor(props) {
         super(props);
@@ -33,14 +32,6 @@ export default class ModalSuggestionList extends React.PureComponent {
         this.suggestionList = React.createRef();
     }
 
-    tryRegisterScroll = () => {
-        if (this.container.current) {
-            const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
-            modalBodyContainer.addEventListener('scroll', this.onModalScroll);
-            this.scrollRegistered = true;
-        }
-    }
-
     onModalScroll = (e) => {
         if (this.state.scroll !== e.target.scrollTop &&
             this.latestHeight !== 0) {
@@ -49,12 +40,15 @@ export default class ModalSuggestionList extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.tryRegisterScroll();
+        if (this.container.current) {
+            const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
+            modalBodyContainer.addEventListener('scroll', this.onModalScroll);
+        }
         window.addEventListener('resize', this.updateModalBounds);
     }
 
     componentWillUnmount() {
-        if (this.container.current && this.scrollRegistered) {
+        if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
             modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
         }
@@ -62,10 +56,6 @@ export default class ModalSuggestionList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!this.scrollRegistered) {
-            this.tryRegisterScroll();
-        }
-
         if (!this.props.open || this.props.cleared) {
             return;
         }
