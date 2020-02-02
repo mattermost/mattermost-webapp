@@ -15,12 +15,12 @@ exports[`admin_console/team_channel_settings/channel/ChannelRow should match sna
       <GlobeIcon
         className="channel-icon channel-icon__globe"
       />
-      123
+      Channel Display Name
     </span>
     <span
       className="group-description row-content"
     >
-      123
+      Team Display Name
     </span>
     <span
       className="group-description adjusted row-content"
@@ -33,10 +33,10 @@ exports[`admin_console/team_channel_settings/channel/ChannelRow should match sna
     </span>
     <span
       className="group-actions"
-      data-testid="123edit"
+      data-testid="Channel Display Nameedit"
     >
       <Link
-        to="/admin_console/user_management/channels/123"
+        to="/admin_console/user_management/channels/C123"
       >
         <FormattedMessage
           defaultMessage="Edit"

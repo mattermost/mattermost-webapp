@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FileInfoPreview from 'components/file_info_preview/file_info_preview.jsx';
+import FileInfoPreview from 'components/file_info_preview/file_info_preview';
 
 describe('components/FileInfoPreview', () => {
     test('should match snapshot, can download files', () => {

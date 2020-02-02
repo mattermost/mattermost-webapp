@@ -46,9 +46,9 @@ class RecentDate extends React.PureComponent<Props> {
         };
         const formattedDate = this.props.intl.formatDate(value, options);
 
-        // `formatDate` returns unformatted date string on error like in the case of (react-intl) unsupported timezone.
+        // On error, `formatDate` returns unformatted date or value string like in the case of (react-intl) unsupported timezone.
         // Therefore, use react-intl by default or moment-timezone for unsupported timezone.
-        if (formattedDate !== String(date)) {
+        if (formattedDate !== String(date) && formattedDate !== String(value)) {
             return formattedDate;
         }
 
