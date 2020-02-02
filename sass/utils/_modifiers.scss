@@ -1,34 +1,34 @@
 @charset 'UTF-8';
 $positions: 't b l r';
 
-$positions:
-    't' top,
-    'b' bottom,
-    'l' left,
-    'r' right;
+$positions: 't'top,
+'b'bottom,
+'l'left,
+'r'right;
 
 @for $i from 0 through 20 {
-    @each $label, $position in $positions {
+
+    @each $label,
+    $position in $positions {
         .p#{$label}-#{$i} {
             padding-#{$position}: #{$i*4}px !important;
         }
     }
-}
 
-@for $i from 0 through 20 {
-    @each $label, $position in $positions {
+    @each $label,
+    $position in $positions {
         .m#{$label}-#{$i} {
             margin-#{$position}: #{$i*4}px !important;
         }
     }
-}
 
-.p-0 {
-    padding: 0 !important;
-}
+    .m-#{$i} {
+        margin: #{$i*4}px !important;
+    }
 
-.m-0 {
-    margin: 0 !important;
+    .p-#{$i} {
+        margin: #{$i*4}px !important;
+    }
 }
 
 .d-block {
