@@ -12,7 +12,7 @@ import {isKeyPressed} from 'utils/utils';
 type Props = {
     currentUserId: string;
     currentTeamId: string;
-    onHide: () => {};
+    onHide: () => void;
     show: boolean;
     actions: {
         leaveTeam: (teamId: string, userId: string) => ActionFunc;
