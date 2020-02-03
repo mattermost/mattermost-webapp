@@ -283,7 +283,7 @@ export function emitBrowserFocus(focus) {
     });
 }
 
-async function getTeamRedirectChannelIfIsAccesible(user, team) {
+export async function getTeamRedirectChannelIfIsAccesible(user, team) {
     let state = getState();
     let channel = null;
 
