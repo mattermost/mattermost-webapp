@@ -65,7 +65,7 @@ describe('components/view_image/popover_bar/PopoverBar', () => {
             expect(wrapper.find('a').prop('download')).toBeUndefined();
         });
 
-        test('when add download attribute when internally hosted', () => {
+        test('should add download attribute when internally hosted', () => {
             const wrapper = shallow(
                 <PopoverBar
                     {...props}
