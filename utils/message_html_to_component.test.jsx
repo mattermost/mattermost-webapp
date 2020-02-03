@@ -7,6 +7,7 @@ import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting';
 import MarkdownImage from 'components/markdown_image';
+import AtMention from 'components/at_mention';
 
 describe('messageHtmlToComponent', () => {
     test('plain text', () => {
@@ -68,5 +69,22 @@ That was some latex!`;
         });
         expect(component).toMatchSnapshot();
         expect(shallow(component).find(MarkdownImage).prop('imageIsLink')).toBe(true);
+    });
+
+    test('At mention', () => {
+        const options = {mentionHighlight: true, atMentions: true, mentionKeys: [{key: '@joram'}]};
+        let html = TextFormatting.formatText('@joram', options);
+
+        let component = messageHtmlToComponent(html);
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(false);
+
+        options.mentionHighlight = false;
+
+        html = TextFormatting.formatText('@joram', options);
+
+        component = messageHtmlToComponent(html);
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(true);
     });
 });

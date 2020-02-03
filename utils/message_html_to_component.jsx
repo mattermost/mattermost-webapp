@@ -70,11 +70,13 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             shouldProcessNode: (node) => node.attribs && node.attribs[mentionAttrib],
             processNode: (node, children) => {
                 const mentionName = node.attribs[mentionAttrib];
+                const mentionHighlighted = node.parentNode.attribs.class && node.parentNode.attribs.class.includes('mention--highlight');
                 const callAtMention = (
                     <AtMention
                         mentionName={mentionName}
                         isRHS={isRHS}
                         hasMention={true}
+                        disableHighlight={!mentionHighlighted}
                     >
                         {children}
                     </AtMention>
