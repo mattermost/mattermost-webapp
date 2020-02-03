@@ -524,7 +524,7 @@ export default class UserAccessTokenSection extends React.Component {
                 >
                     <FormattedMessage
                         id='user.settings.tokens.create'
-                        defaultMessage='Create New Token'
+                        defaultMessage='Create Token'
                     />
                 </a>
             );

@@ -223,7 +223,7 @@ export default class TutorialIntroScreens extends React.Component {
                 >
                     <FormattedMessage
                         id='tutorial_intro.invite'
-                        defaultMessage='Invite teammates'
+                        defaultMessage='Invite Teammates'
                     />
                 </ModalToggleButtonRedux>
             );
@@ -345,7 +345,7 @@ export default class TutorialIntroScreens extends React.Component {
                             >
                                 <FormattedMessage
                                     id='tutorial_intro.skip'
-                                    defaultMessage='Skip tutorial'
+                                    defaultMessage='Skip Tutorial'
                                 />
                             </a>
                         </div>
