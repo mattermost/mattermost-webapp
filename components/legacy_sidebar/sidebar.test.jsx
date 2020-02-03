@@ -414,29 +414,6 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         expect(instance.handleOpenMoreDirectChannelsModal).toHaveBeenCalledTimes(2);
     });
 
-    test('set correctly the title when needed', () => {
-        const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
-        );
-        const instance = wrapper.instance();
-        instance.updateTitle();
-        instance.componentDidUpdate = jest.fn();
-        instance.render = jest.fn();
-        expect(document.title).toBe('Public test 1 - Test team display name Test site');
-        wrapper.setProps({config: {SiteName: null}});
-        instance.updateTitle();
-        expect(document.title).toBe('Public test 1 - Test team display name');
-        wrapper.setProps({currentChannel: {id: 1, type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
-        instance.updateTitle();
-        expect(document.title).toBe('teammate - Test team display name');
-        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
-        instance.updateTitle();
-        expect(document.title).toBe('(3) * teammate - Test team display name');
-        wrapper.setProps({currentChannel: {}, currentTeammate: {}});
-        instance.updateTitle();
-        expect(document.title).toBe('Mattermost - Join a team');
-    });
-
     test('should show/hide correctly more channels modal', () => {
         const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
@@ -518,24 +495,5 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         expect(document.removeEventListener).not.toBeCalled();
         instance.componentWillUnmount();
         expect(document.removeEventListener).toHaveBeenCalledTimes(2);
-    });
-
-    test('should display correct favicon', () => {
-        const link = document.createElement('link');
-        link.rel = 'icon';
-        link.sizes = '16x16';
-        document.head.appendChild(link);
-
-        const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
-        );
-        const instance = wrapper.instance();
-        instance.updateFavicon = jest.fn();
-
-        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
-        expect(instance.updateFavicon).lastCalledWith(true);
-
-        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 4}});
-        expect(instance.updateFavicon).lastCalledWith(false);
     });
 });
