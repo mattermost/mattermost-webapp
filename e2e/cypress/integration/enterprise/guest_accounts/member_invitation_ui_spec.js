@@ -203,7 +203,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         invitePeople(user1.email, 1, user1.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(user1.username, 'An invitation email has been sent.');
+        verifyInvitationSuccess(user1.username, 'This member has been added to the team.');
 
         // # Search and add a new member by email who is not part of the team
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
