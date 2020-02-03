@@ -3366,7 +3366,7 @@ const AdminDefinition = {
                     if (config.GitLabSettings && config.GitLabSettings.Enable) {
                         newState.oauthType = Constants.GITLAB_SERVICE;
                     }
-                    if (config.Office365Settings && config.Office365Settings.SSOSettings.Enable) {
+                    if (config.Office365Settings && config.Office365Settings.Enable) {
                         newState.oauthType = Constants.OFFICE365_SERVICE;
                     }
                     if (config.GoogleSettings && config.GoogleSettings.Enable) {
@@ -3384,7 +3384,7 @@ const AdminDefinition = {
                     newConfig.GoogleSettings = config.GoogleSettings || {};
 
                     newConfig.GitLabSettings.Enable = false;
-                    newConfig.Office365Settings.SSOSettings.Enable = false;
+                    newConfig.Office365Settings.Enable = false;
                     newConfig.GoogleSettings.Enable = false;
                     newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
@@ -3392,7 +3392,7 @@ const AdminDefinition = {
                         newConfig.GitLabSettings.Enable = true;
                     }
                     if (config.oauthType === Constants.OFFICE365_SERVICE) {
-                        newConfig.Office365Settings.SSOSettings.Enable = true;
+                        newConfig.Office365Settings.Enable = true;
                     }
                     if (config.oauthType === Constants.GOOGLE_SERVICE) {
                         newConfig.GoogleSettings.Enable = true;
@@ -3566,7 +3566,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.SSOSettings.Id',
+                        key: 'Office365Settings.Id',
                         label: t('admin.office365.clientIdTitle'),
                         label_default: 'Application ID:',
                         help_text: t('admin.office365.clientIdDescription'),
@@ -3577,7 +3577,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.SSOSettings.Secret',
+                        key: 'Office365Settings.Secret',
                         label: t('admin.office365.clientSecretTitle'),
                         label_default: 'Application Secret Password:',
                         help_text: t('admin.office365.clientSecretDescription'),
@@ -3599,7 +3599,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.SSOSettings.UserApiEndpoint',
+                        key: 'Office365Settings.UserApiEndpoint',
                         label: t('admin.office365.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
@@ -3608,7 +3608,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.SSOSettings.AuthEndpoint',
+                        key: 'Office365Settings.AuthEndpoint',
                         label: t('admin.office365.authTitle'),
                         label_default: 'Auth Endpoint:',
                         dynamic_value: (value, config, state) => {
@@ -3622,7 +3622,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.SSOSettings.TokenEndpoint',
+                        key: 'Office365Settings.TokenEndpoint',
                         label: t('admin.office365.tokenTitle'),
                         label_default: 'Token Endpoint:',
                         dynamic_value: (value, config, state) => {
