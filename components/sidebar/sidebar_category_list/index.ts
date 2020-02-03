@@ -11,6 +11,8 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
+import {switchToChannelById} from 'actions/views/channel';
+
 import SidebarCategoryList from './sidebar_category_list';
 
 type ChannelCategory = {
@@ -58,6 +60,7 @@ function mapStateToProps(state: GlobalState & {views: any}) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            switchToChannelById,
         }, dispatch),
     };
 }
