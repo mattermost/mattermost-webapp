@@ -489,7 +489,7 @@ export default class SecurityTab extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchGitlab'
-                                    defaultMessage='Switch to using GitLab SSO'
+                                    defaultMessage='Switch to Using GitLab SSO'
                                 />
                             </Link>
                             <br/>
@@ -506,7 +506,7 @@ export default class SecurityTab extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchGoogle'
-                                    defaultMessage='Switch to using Google SSO'
+                                    defaultMessage='Switch to Using Google SSO'
                                 />
                             </Link>
                             <br/>
@@ -523,7 +523,7 @@ export default class SecurityTab extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchOffice365'
-                                    defaultMessage='Switch to using Office 365 SSO'
+                                    defaultMessage='Switch to Using Office 365 SSO'
                                 />
                             </Link>
                             <br/>
@@ -540,7 +540,7 @@ export default class SecurityTab extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchLdap'
-                                    defaultMessage='Switch to using AD/LDAP'
+                                    defaultMessage='Switch to Using AD/LDAP'
                                 />
                             </Link>
                             <br/>
@@ -557,7 +557,7 @@ export default class SecurityTab extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchSaml'
-                                    defaultMessage='Switch to using SAML SSO'
+                                    defaultMessage='Switch to Using SAML SSO'
                                 />
                             </Link>
                             <br/>
@@ -580,7 +580,7 @@ export default class SecurityTab extends React.PureComponent {
                         >
                             <FormattedMessage
                                 id='user.settings.security.switchEmail'
-                                defaultMessage='Switch to using email and password'
+                                defaultMessage='Switch to Using Email and Password'
                             />
                         </Link>
                         <br/>
@@ -942,7 +942,7 @@ export default class SecurityTab extends React.PureComponent {
                         </FormattedMessage>
                         <FormattedMessage
                             id='user.settings.security.logoutActiveSessions'
-                            defaultMessage='View and Logout of Active Sessions'
+                            defaultMessage='View and Log Out of Active Sessions'
                         />
                     </ToggleModalButton>
                 </div>

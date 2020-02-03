@@ -194,7 +194,7 @@ export default class SettingPicture extends Component {
                 title = (
                     <FormattedMessage
                         id='setting_picture.remove'
-                        defaultMessage='Remove this icon'
+                        defaultMessage='Remove This Icon'
                     />
                 );
                 handler = this.handleRemoveSrc;
@@ -202,7 +202,7 @@ export default class SettingPicture extends Component {
                 title = (
                     <FormattedMessage
                         id='setting_picture.remove_profile_picture'
-                        defaultMessage='Remove profile picture'
+                        defaultMessage='Remove Profile Picture'
                     />
                 );
                 handler = this.handleSetDefaultSrc;
