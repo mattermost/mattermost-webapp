@@ -206,7 +206,7 @@ export default class ChannelSelectorModal extends React.Component {
                     >
                         <FormattedMarkdownMessage
                             id='add_channels_to_scheme.title'
-                            defaultMessage='Add Channels To **Channel Selection** List'
+                            defaultMessage='Add Channels to **Channel Selection** List'
                         />
                     </Modal.Title>
                 </Modal.Header>
