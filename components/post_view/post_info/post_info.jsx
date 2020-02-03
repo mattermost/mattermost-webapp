@@ -130,7 +130,7 @@ export default class PostInfo extends React.PureComponent {
             showOptionsMenuWithoutHover: false
         };
 
-        this.postInfoRef = React.createRef();
+        this.postHeaderRef = React.createRef();
     }
 
     toggleEmojiPicker = () => {
@@ -249,11 +249,12 @@ export default class PostInfo extends React.PureComponent {
             const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
             const isFailedPost = post && post.failed;
 
-            const boundingRectOfPostInfo = this.postInfoRef.current.getBoundingClientRect();
-            const isPostInfoVisibleToUser = boundingRectOfPostInfo.top >= 0 &&
-                boundingRectOfPostInfo.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+            // Checking if post is at scroll view of the user
+            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
+            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 65) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight - 85);
 
-            if (isPostInfoVisibleToUser) {
+            if (isPostHeaderVisibleToUser) {
                 if (!isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
                     !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
                     this.setState({
@@ -379,7 +380,7 @@ export default class PostInfo extends React.PureComponent {
         return (
             <div
                 className='post__header--info'
-                ref={this.postInfoRef}
+                ref={this.postHeaderRef}
             >
                 <div className='col'>
                     {postTime}

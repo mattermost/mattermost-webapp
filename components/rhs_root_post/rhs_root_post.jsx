@@ -83,6 +83,8 @@ class RhsRootPost extends React.PureComponent {
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+
+        this.postHeaderRef = React.createRef();
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -99,11 +101,18 @@ class RhsRootPost extends React.PureComponent {
             const isFailedPost = post && post.failed;
             const isPostsFakeParentDeleted = post && post.type === Constants.PostTypes.FAKE_PARENT_DELETED;
 
-            if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
-                !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
-                // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
-                // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
-                this.toggleEmojiPicker(isLastPost);
+            // Checking if post is at scroll view of the user
+            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
+            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight);
+
+            if (isPostHeaderVisibleToUser) {
+                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
+                    !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
+                    // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
+                    // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
+                    this.toggleEmojiPicker(isLastPost);
+                }
             }
         }
     }
@@ -423,7 +432,10 @@ class RhsRootPost extends React.PureComponent {
                         />
                     </div>
                     <div>
-                        <div className='post__header'>
+                        <div
+                            className='post__header'
+                            ref={this.postHeaderRef}
+                        >
                             <div className='col__name'>
                                 {userProfile}
                                 {botIndicator}

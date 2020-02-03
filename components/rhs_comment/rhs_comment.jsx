@@ -87,6 +87,8 @@ class RhsComment extends React.PureComponent {
             a11yActive: false,
             currentAriaLabel: '',
         };
+
+        this.postHeaderRef = React.createRef();
     }
 
     componentDidMount() {
@@ -133,17 +135,24 @@ class RhsComment extends React.PureComponent {
             // irrespective of what type is the last post
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
-            const isDeletedPost = post && post.state === Posts.POST_DELETED;
-            const isEphemeralPost = post && isPostEphemeral(post);
-            const isSystemMessage = post && PostUtils.isSystemMessage(post);
-            const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
-            const isFailedPost = post && post.failed;
+            // Checking if post is at scroll view of the user
+            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
+            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight);
 
-            if (!isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
+            if (isPostHeaderVisibleToUser) {
+                const isDeletedPost = post && post.state === Posts.POST_DELETED;
+                const isEphemeralPost = post && isPostEphemeral(post);
+                const isSystemMessage = post && PostUtils.isSystemMessage(post);
+                const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
+                const isFailedPost = post && post.failed;
+
+                if (!isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
                 !isAutoRespondersPost && !isDeletedPost && !channelIsArchived && !isMobile() && enableEmojiPicker) {
-                this.setState({hover: true}, () => {
-                    this.toggleEmojiPicker();
-                });
+                    this.setState({hover: true}, () => {
+                        this.toggleEmojiPicker();
+                    });
+                }
             }
         }
     }
@@ -526,7 +535,10 @@ class RhsComment extends React.PureComponent {
                         {profilePicture}
                     </div>
                     <div>
-                        <div className='post__header'>
+                        <div
+                            className='post__header'
+                            ref={this.postHeaderRef}
+                        >
                             <div className='col col__name'>
                                 {userProfile}
                                 {botIndicator}
