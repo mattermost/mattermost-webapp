@@ -246,7 +246,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         invitePeople(user1.email, 1, user1.username);
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(user1.username, 'An invitation email has been sent.');
+        verifyInvitationError(user1.username, 'This person is already a member.');
 
         // # Demote the user from member to guest
         cy.demoteUser(newUser.id);
@@ -270,7 +270,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
             invitePeople(user.email, 1, user.username);
 
-            verifyInvitationSuccess(user.username, 'An invitation email has been sent.');
+            verifyInvitationSuccess(user.username, 'This guest has been added to the team and channel.', true);
         });
 
         // # Search and add a new guest by email, who is not part of the team
