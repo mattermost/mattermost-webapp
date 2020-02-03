@@ -138,7 +138,7 @@ export default class SystemNotice extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='system_notice.remind_me'
-                            defaultMessage='Remind me later'
+                            defaultMessage='Remind Me Later'
                         />
                     </button>
                     {notice.allowForget &&
@@ -149,7 +149,7 @@ export default class SystemNotice extends React.PureComponent {
                         >
                             <FormattedMessage
                                 id='system_notice.dont_show'
-                                defaultMessage="Don't show again"
+                                defaultMessage="Don't Show Again"
                             />
                         </button>}
                 </div>

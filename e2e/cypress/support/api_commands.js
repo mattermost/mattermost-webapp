@@ -68,6 +68,19 @@ Cypress.Commands.add('apiLogout', () => {
     cy.getCookies({log: false}).should('be.empty');
 });
 
+/**
+ * Get a list of all the bots
+ * This API assumes that the user logged in has permission to read bots
+ */
+
+Cypress.Commands.add('apiGetBots', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots',
+        method: 'GET',
+    });
+});
+
 // *****************************************************************************
 // Channels
 // https://api.mattermost.com/#tag/channels
@@ -303,7 +316,7 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
 Cypress.Commands.add('apiDeleteTeam', (teamId, permanent = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/teams/' + teamId + (permanent ? '/?permanent=true' : ''),
+        url: '/api/v4/teams/' + teamId + (permanent ? '?permanent=true' : ''),
         method: 'DELETE',
     });
 });
@@ -317,6 +330,19 @@ Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
+    });
+});
+
+/**
+ * Gets a list of all of the teams on the server
+ * This API assume that the user is logged in as sysadmin
+ */
+
+Cypress.Commands.add('apiGetAllTeams', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: 'api/v4/teams',
+        method: 'GET',
     });
 });
 
@@ -980,6 +1006,22 @@ Cypress.Commands.add('uninstallPluginById', (pluginId) => {
 });
 
 /**
+ * Get all user`s plugins.
+ *
+ */
+Cypress.Commands.add('getAllPlugins', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/plugins',
+        method: 'GET',
+        failOnStatusCode: false,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
  * Enable plugin by id.
  *
  * @param {String} pluginId - Id of the plugin to enable
@@ -1049,3 +1091,49 @@ function formRequest(method, url, formData) {
         });
     });
 }
+
+/**
+ * Creates a bot directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} username - The bots username
+ * @param {String} displayName - The non-unique UI name for the bot
+ * @param {String} description - The description of the bot
+ * All parameters are required
+ */
+Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots',
+        method: 'POST',
+        body: {
+            username,
+            display_name: displayName,
+            description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get access token
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} user_id - The user id to generate token for
+ * @param {String} description - The description of the token usage
+ * All parameters are required
+ */
+Cypress.Commands.add('apiAccessToken', (userId, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/' + userId + '/tokens',
+        method: 'POST',
+        body: {
+            description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.token);
+    });
+});
+
