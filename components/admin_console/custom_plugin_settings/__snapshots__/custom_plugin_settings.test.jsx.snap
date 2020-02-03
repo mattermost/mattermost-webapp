@@ -218,6 +218,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       onMouseOver={[Function]}
     >
       <FormError
+        error=""
+        errors={Array []}
+        iconClassName="fa-exclamation-triangle"
+        textClassName="has-warning"
+      />
+      <FormError
         error={null}
         errors={Array []}
       />
@@ -287,6 +293,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
+      <FormError
+        error=""
+        errors={Array []}
+        iconClassName="fa-exclamation-triangle"
+        textClassName="has-warning"
+      />
       <FormError
         error={null}
         errors={Array []}
@@ -526,6 +538,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
+      <FormError
+        error=""
+        errors={Array []}
+        iconClassName="fa-exclamation-triangle"
+        textClassName="has-warning"
+      />
       <FormError
         error={null}
         errors={Array []}
