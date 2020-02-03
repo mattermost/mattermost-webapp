@@ -92,7 +92,7 @@ exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should 
           onClick={[Function]}
         >
           <FormattedMessage
-            defaultMessage="Skip tutorial"
+            defaultMessage="Skip Tutorial"
             id="tutorial_intro.skip"
             values={Object {}}
           />
