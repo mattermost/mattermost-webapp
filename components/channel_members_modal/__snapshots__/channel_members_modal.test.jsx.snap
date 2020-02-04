@@ -60,7 +60,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         onClick={[Function]}
       >
         <FormattedMessage
-          defaultMessage=" Add New Members"
+          defaultMessage=" Add Members"
           id="channel_members_modal.addNew"
           values={Object {}}
         />
