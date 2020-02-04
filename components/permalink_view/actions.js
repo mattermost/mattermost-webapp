@@ -3,7 +3,7 @@
 
 import {getChannel, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -65,6 +65,14 @@ export function focusPost(postId, returnTo = '') {
             data: postId,
             channelId,
         });
+
+        const team = getTeam(state, channel.team_id || teamId);
+
+        if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
+            browserHistory.replace(`/${team.name}/messages/${channel.name}/${postId}`);
+        } else {
+            browserHistory.replace(`/${team.name}/channels/${channel.name}/${postId}`);
+        }
 
         dispatch(loadChannelsForCurrentUser());
         dispatch(getChannelStats(channelId));

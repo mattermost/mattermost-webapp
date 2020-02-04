@@ -22,6 +22,7 @@ export default class Toast extends React.PureComponent {
         show: PropTypes.bool.isRequired,
         showActions: PropTypes.bool, //used for showing jump actions
         width: PropTypes.number,
+        extraClasses: PropTypes.string,
     }
 
     componentDidMount() {
@@ -41,6 +42,10 @@ export default class Toast extends React.PureComponent {
     render() {
         let toastClass = 'toast';
         const {show} = this.props;
+        if (this.props.extraClasses) {
+            toastClass += ` ${this.props.extraClasses}`;
+        }
+
         if (show) {
             toastClass += ' toast__visible';
         }
