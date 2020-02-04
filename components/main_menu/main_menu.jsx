@@ -257,7 +257,7 @@ class MainMenu extends React.PureComponent {
                         <Menu.ItemLink
                             id='createTeam'
                             to='/create_team'
-                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a New Team'})}
+                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             icon={this.props.mobile && <i className='fa fa-plus-square'/>}
                         />
                     </SystemPermissionGate>
@@ -362,7 +362,7 @@ class MainMenu extends React.PureComponent {
                     <Menu.ItemAction
                         id='logout'
                         onClick={this.handleEmitUserLoggedOutEvent}
-                        text={formatMessage({id: 'navbar_dropdown.logout', defaultMessage: 'Logout'})}
+                        text={formatMessage({id: 'navbar_dropdown.logout', defaultMessage: 'Log Out'})}
                         icon={this.props.mobile && <i className='fa fa-sign-out'/>}
                     />
                 </Menu.Group>

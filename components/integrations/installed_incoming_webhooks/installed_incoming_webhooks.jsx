@@ -169,7 +169,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                                 >
                                     <FormattedMessage
                                         id='installed_incoming_webhooks.help.buildYourOwn'
-                                        defaultMessage='Build your own'
+                                        defaultMessage='Build Your Own'
                                     />
                                 </a>
                             ),

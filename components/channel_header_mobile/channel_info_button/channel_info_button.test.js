@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import OverlayTrigger from 'components/overlay_trigger';
+import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -30,7 +29,7 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
 
         const hide = jest.fn();
 
-        const ref = wrapper.find(OverlayTrigger);
+        const ref = wrapper.find(BaseOverlayTrigger);
         ref.instance().hide = hide;
         wrapper.instance().hide();
 
@@ -47,7 +46,7 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
 
         const hide = jest.fn();
 
-        const ref = wrapper.find(OverlayTrigger);
+        const ref = wrapper.find(BaseOverlayTrigger);
         ref.instance().hide = hide;
         wrapper.instance().showEditChannelHeaderModal();
 

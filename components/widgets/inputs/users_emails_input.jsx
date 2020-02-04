@@ -39,6 +39,7 @@ export default class UsersEmailsInput extends React.Component {
         validAddressMessageDefault: PropTypes.string,
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
+        emailInvitationsEnabled: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -217,7 +218,7 @@ export default class UsersEmailsInput extends React.Component {
                 }
             }
 
-            if (isEmail(this.props.inputValue)) {
+            if (this.props.emailInvitationsEnabled && isEmail(this.props.inputValue)) {
                 const email = this.props.inputValue;
                 this.onChange([...values, {value: email, label: email}]);
                 this.props.onInputChange('');
@@ -240,7 +241,7 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     showAddEmail = (input, values, options) => {
-        return options.length === 0 && isEmail(input);
+        return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
     onFocus = () => {
