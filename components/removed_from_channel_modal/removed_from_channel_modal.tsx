@@ -2,19 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-export default class RemovedFromChannelModal extends React.PureComponent {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        onHide: PropTypes.func.isRequired,
-        channelName: PropTypes.string,
-        remover: PropTypes.string,
-    };
+type Props = {
+    currentUserId: string;
+    onHide: () => void;
+    channelName: string;
+    remover: string;
+}
 
-    constructor(props) {
+type State = {
+    show: boolean;
+}
+
+export default class RemovedFromChannelModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {show: true};
@@ -25,7 +28,10 @@ export default class RemovedFromChannelModal extends React.PureComponent {
     }
 
     render() {
-        let channelName = (
+        let channelName: JSX.Element | string;
+        let remover: JSX.Element | string;
+
+        channelName = (
             <FormattedMessage
                 id='removed_channel.channelName'
                 defaultMessage='the channel'
@@ -35,7 +41,7 @@ export default class RemovedFromChannelModal extends React.PureComponent {
             channelName = this.props.channelName;
         }
 
-        let remover = (
+        remover = (
             <FormattedMessage
                 id='removed_channel.someone'
                 defaultMessage='Someone'
