@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import LeaveTeamModal from 'components/leave_team_modal/leave_team_modal.jsx';
+import LeaveTeamModal from 'components/leave_team_modal/leave_team_modal';
 
 describe('components/LeaveTeamModal', () => {
     const requiredProps = {
@@ -50,7 +50,7 @@ describe('components/LeaveTeamModal', () => {
         document.removeEventListener = jest.fn();
 
         const wrapper = shallow(<LeaveTeamModal {...{...requiredProps, show: true}}/>);
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as LeaveTeamModal;
 
         expect(document.addEventListener).toHaveBeenCalledTimes(1);
         expect(document.removeEventListener).not.toBeCalled();
