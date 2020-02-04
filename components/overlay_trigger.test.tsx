@@ -6,6 +6,8 @@ import React from 'react';
 import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
 import {FormattedMessage, IntlProvider} from 'react-intl';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import OverlayTrigger from './overlay_trigger';
 
 describe('OverlayTrigger', () => {
@@ -18,12 +20,14 @@ describe('OverlayTrigger', () => {
             [testId]: 'Actual value',
         },
     };
-    const testOverlay = (
-        <FormattedMessage
-            id={testId}
-            defaultMessage='Default value'
-        />
-    );
+    const baseProps = {
+        overlay: (
+            <FormattedMessage
+                id={testId}
+                defaultMessage='Default value'
+            />
+        ),
+    };
 
     // Intercept console error messages since we intentionally cause some as part of these tests
     let originalConsoleError: () => void;
@@ -40,7 +44,7 @@ describe('OverlayTrigger', () => {
     test('base OverlayTrigger should fail to pass intl to overlay', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
-                <BaseOverlayTrigger overlay={testOverlay}>
+                <BaseOverlayTrigger {...baseProps}>
                     <span/>
                 </BaseOverlayTrigger>
             </IntlProvider>
@@ -54,10 +58,10 @@ describe('OverlayTrigger', () => {
         expect(console.error).toHaveBeenCalled();
     });
 
-    test('custom OverlayTrigger should fail to pass intl to overlay', () => {
+    test('custom OverlayTrigger should pass intl to overlay', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
-                <OverlayTrigger overlay={testOverlay}>
+                <OverlayTrigger {...baseProps}>
                     <span/>
                 </OverlayTrigger>
             </IntlProvider>
@@ -67,5 +71,62 @@ describe('OverlayTrigger', () => {
 
         expect(overlay.text()).toBe('Actual value');
         expect(console.error).not.toHaveBeenCalled();
+    });
+
+    test('ref should properly be forwarded', () => {
+        const ref = React.createRef<BaseOverlayTrigger>();
+        const props = {
+            ...baseProps,
+            ref,
+        };
+
+        const wrapper = mountWithIntl(
+            <IntlProvider {...intlProviderProps}>
+                <OverlayTrigger {...props}>
+                    <span/>
+                </OverlayTrigger>
+            </IntlProvider>
+        );
+
+        expect(ref.current).toBe(wrapper.find(BaseOverlayTrigger).instance());
+    });
+
+    test('style and className should correctly be passed to overlay', () => {
+        const props = {
+            ...baseProps,
+            overlay: (
+                <span
+                    className='test-overlay-className'
+                    style={{backgroundColor: 'red'}}
+                >
+                    {'test-overlay'}
+                </span>
+            ),
+            defaultOverlayShown: true, // Make sure the overlay is visible
+        };
+
+        const wrapper = mount(
+            <IntlProvider {...intlProviderProps}>
+                <OverlayTrigger {...props}>
+                    <span/>
+                </OverlayTrigger>
+            </IntlProvider>
+        );
+
+        // Dive into the react-bootstrap internals to find our overlay
+        const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find('span'); // eslint-disable-line no-underscore-dangle
+
+        // Confirm that we've found the right span
+        expect(overlay.exists()).toBe(true);
+        expect(overlay.text()).toBe('test-overlay');
+
+        // Confirm that our props are included
+        expect(overlay.prop('className')).toContain('test-overlay-className');
+        expect(overlay.prop('style')).toMatchObject({backgroundColor: 'red'});
+
+        // And confirm that react-bootstrap's props are included
+        expect(overlay.prop('className')).toContain('fade in');
+        expect(overlay.prop('placement')).toBe('right');
+        expect(overlay.prop('positionTop')).toBe(0);
     });
 });

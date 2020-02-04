@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {General} from 'mattermost-redux/constants';
 
-import MoreInfo from 'components/activity_log_modal/components/more_info.jsx';
+import MoreInfo from 'components/activity_log_modal/components/more_info';
 
 describe('components/activity_log_modal/MoreInfo', () => {
     const baseProps = {

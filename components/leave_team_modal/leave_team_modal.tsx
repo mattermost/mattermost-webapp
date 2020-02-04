@@ -4,52 +4,24 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
-export default class LeaveTeamModal extends React.PureComponent {
-    static propTypes = {
-
-        /**
-         * Current user id.
-         */
-        currentUserId: PropTypes.string.isRequired,
-
-        /**
-         * Current team id.
-         */
-        currentTeamId: PropTypes.string.isRequired,
-
-        /**
-         * hide action
-         */
-
-        onHide: PropTypes.func.isRequired,
-
-        /**
-         * show or hide modal
-         */
-
-        show: PropTypes.bool.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-             * An action to remove user from team
-             */
-
-            leaveTeam: PropTypes.func.isRequired,
-
-            /**
-             * An action to toggle the right menu
-             */
-
-            toggleSideBarRightMenu: PropTypes.func.isRequired,
-        }),
+type Props = {
+    currentUserId: string;
+    currentTeamId: string;
+    onHide: () => void;
+    show: boolean;
+    actions: {
+        leaveTeam: (teamId: string, userId: string) => ActionFunc;
+        toggleSideBarRightMenu: () => void;
     };
 
+}
+
+export default class LeaveTeamModal extends React.PureComponent<Props> {
     componentDidMount() {
         if (this.props.show) {
             document.addEventListener('keypress', this.handleKeyPress);
@@ -60,9 +32,9 @@ export default class LeaveTeamModal extends React.PureComponent {
         document.removeEventListener('keypress', this.handleKeyPress);
     }
 
-    handleKeyPress = (e) => {
+    handleKeyPress = (e: KeyboardEvent) => {
         if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
-            this.handleSubmit(e);
+            this.handleSubmit();
         }
     };
 
