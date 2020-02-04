@@ -108,7 +108,7 @@ describe('components/ToastWrapper', () => {
                 atBottom: true,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
