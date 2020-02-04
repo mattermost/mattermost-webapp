@@ -33,6 +33,7 @@ type Props = {
 }
 
 type Actions = {
+    getTeamMembers: (teamId: string) => Promise<{data: {}}>;
     searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
     getTeamStats: (teamId: string) => Promise<{data: {}}>;
     loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
