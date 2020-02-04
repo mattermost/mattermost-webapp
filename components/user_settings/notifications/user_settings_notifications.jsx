@@ -423,7 +423,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             return (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
+                    title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                     extraInfo={extraInfo}
                     inputs={inputs}
                     submit={submit}
@@ -498,7 +498,7 @@ export default class NotificationsTab extends React.PureComponent {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
+                title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                 describe={describe}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
@@ -633,7 +633,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             keysSection = (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
@@ -680,7 +680,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             keysSection = (
                 <SettingItemMin
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     describe={describe}
                     section={'keys'}
                     updateSection={this.handleUpdateSection}
