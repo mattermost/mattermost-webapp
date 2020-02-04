@@ -669,19 +669,14 @@ function handleDeleteTeamEvent(msg) {
 
 function handleUpdateMemberRoleEvent(msg) {
     const memberData = JSON.parse(msg.data.member);
-    const memberUserId = memberData.user_id;
-    const teamId = memberData.team_id;
-    const currentUserId = getCurrentUserId(getState());
     const newRoles = memberData.roles.split(' ');
 
-    if (memberUserId === currentUserId) {
-        dispatch(loadRolesIfNeeded(newRoles));
-        dispatch({
-            type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-            data: memberData,
-        });
-    }
-    dispatch(TeamActions.getTeamMember(teamId, memberUserId));
+    dispatch(loadRolesIfNeeded(newRoles));
+
+    dispatch({
+        type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
+        data: memberData,
+    });
 }
 
 function handleDirectAddedEvent(msg) {
