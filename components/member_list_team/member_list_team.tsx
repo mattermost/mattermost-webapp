@@ -24,6 +24,7 @@ type Props = {
     totalTeamMembers: number;
     canManageTeamMembers?: boolean;
     actions: {
+        getTeamMembers: (teamId: string) => Promise<{data: {}}>;
         searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
         getTeamStats: (teamId: string) => Promise<{data: {}}>;
         loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
@@ -58,14 +59,11 @@ export default class MemberListTeam extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
-        this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId).then(({data}) => {
-            if (data) {
-                this.loadComplete();
-            }
-        });
-
+    async componentDidMount() {
+        await this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId);
+        await this.props.actions.getTeamMembers(this.props.currentTeamId);
         this.props.actions.getTeamStats(this.props.currentTeamId);
+        this.loadComplete();
     }
 
     componentWillUnmount() {
