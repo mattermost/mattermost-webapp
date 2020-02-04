@@ -212,4 +212,13 @@ describe('Guest Account - Member Invitation Flow', () => {
         // * Verify the content and message in next screen
         verifyInvitationSuccess(email, 'An invitation email has been sent.');
     });
+
+    it('MM-22037 Invite Member via Email containing upper case letters', () => {
+        // # Invite a email containing uppercase letters
+        const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(email, 'An invitation email has been sent.');
+    });
 });
