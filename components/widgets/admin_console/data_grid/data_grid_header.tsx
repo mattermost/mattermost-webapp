@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import './data_grid.scss';
 
@@ -13,10 +13,17 @@ export type Props = {
 
 class DataGridHeader extends React.Component<Props> {
     renderHeaderElement(col: Column) {
+        let style: CSSProperties = {};
+        if (col.width) {
+            style['flexGrow'] = col.width;
+        }
+
+
         return (
             <div
-                className="dg-cell"
                 key={col.name}
+                className="dg-cell"
+                style={style}
             >
                 {col.name}
             </div>
