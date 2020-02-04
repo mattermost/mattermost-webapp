@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SaveButton from 'components/save_button';
@@ -117,7 +117,7 @@ export default class UserAccessTokenSection extends React.Component {
             confirmTitle: (
                 <FormattedMessage
                     id='user.settings.tokens.confirmCopyTitle'
-                    defaultMessage='Have you copied your token?'
+                    defaultMessage='Copied Your Token?'
                 />
             ),
             confirmMessage: (state) => (
@@ -527,7 +527,7 @@ export default class UserAccessTokenSection extends React.Component {
                 >
                     <FormattedMessage
                         id='user.settings.tokens.create'
-                        defaultMessage='Create New Token'
+                        defaultMessage='Create Token'
                     />
                 </a>
             );

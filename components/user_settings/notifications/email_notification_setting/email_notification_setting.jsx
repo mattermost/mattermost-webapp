@@ -202,7 +202,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
 
         return (
             <SettingItemMin
-                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 describe={description}
                 focused={focused}
                 section={'email'}
@@ -215,7 +215,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
         if (!this.props.sendEmailNotifications) {
             return (
                 <SettingItemMax
-                    title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                    title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                     inputs={[
                         <div
                             key='oauthEmailInfo'
@@ -288,7 +288,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
 
         return (
             <SettingItemMax
-                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 inputs={[
                     <fieldset key='userNotificationEmailOptions'>
                         <legend className='form-legend'>
