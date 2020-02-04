@@ -96,7 +96,7 @@ export default class ChannelMembersModal extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_members_modal.addNew'
-                                    defaultMessage=' Add New Members'
+                                    defaultMessage=' Add Members'
                                 />
                             </a>
                         }
