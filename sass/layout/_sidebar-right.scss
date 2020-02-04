@@ -272,15 +272,17 @@
 
     .sidebar--right__subheader {
         font-size: 1em;
-        padding: .5em 1em 0;
+        padding: 0 1em 0;
 
         h4 {
             font-size: 1em;
+            margin: 0 0 16px;
         }
 
         ul {
             @include opacity(.7);
-            padding: 10px 0 0 30px;
+            padding: 0 0 0 30px;
+            margin: 0;
         }
 
         li {

@@ -5,7 +5,7 @@
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
         z-index: 12;
-        top: 0px;
+        top: 0px !important;
 
         .announcement-bar--fixed & {
             top: 32px !important;
