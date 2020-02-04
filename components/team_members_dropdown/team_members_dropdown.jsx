@@ -178,14 +178,14 @@ export default class TeamMembersDropdown extends React.Component {
             showMakeAdmin = false;
         }
 
-        const canRemoveFromTeam = user.id !== me.id && !currentTeam.group_constrained;
+        const canRemoveFromTeam = user.id !== me.id && (!currentTeam.group_constrained || user.is_bot);
 
         let makeDemoteModal = null;
         if (user.id === me.id) {
             const title = (
                 <FormattedMessage
                     id='team_members_dropdown.confirmDemoteRoleTitle'
-                    defaultMessage='Confirm demotion from System Admin role'
+                    defaultMessage='Confirm Demotion from System Admin Role'
                 />
             );
 

@@ -133,7 +133,7 @@ export default class ResetStatusModal extends React.PureComponent {
         const manualStatusTitle = (
             <FormattedMessage
                 id={userStatusId}
-                defaultMessage='Your status is set to "{status}"'
+                defaultMessage='Your Status is Set to "{status}"'
                 values={{
                     status: toTitleCase(userStatus),
                 }}

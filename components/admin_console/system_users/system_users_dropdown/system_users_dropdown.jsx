@@ -20,7 +20,8 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-const ROWS_FROM_BOTTOM_TO_OPEN_UP = 5;
+const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
+const TOTAL_USERS_TO_OPEN_UP = 5;
 
 export default class SystemUsersDropdown extends React.PureComponent {
     static propTypes = {
@@ -364,7 +365,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         const title = (
             <FormattedMessage
                 id='demote_to_user_modal.title'
-                defaultMessage='Demote user {username} to guest'
+                defaultMessage='Demote User {username} to Guest'
                 values={{
                     username: this.props.user.username,
                 }}
@@ -541,11 +542,6 @@ export default class SystemUsersDropdown extends React.PureComponent {
         const demoteToGuestModal = this.renderDemoteToGuestModal();
 
         const {index, totalUsers} = this.props;
-        let openUp = false;
-        if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
-            openUp = true;
-        }
-
         return (
             <React.Fragment>
                 {deactivateMemberModal}
@@ -562,7 +558,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
                     </div>
                     <Menu
                         openLeft={true}
-                        openUp={openUp}
+                        openUp={totalUsers > TOTAL_USERS_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
                         ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                     >
                         <Menu.ItemAction

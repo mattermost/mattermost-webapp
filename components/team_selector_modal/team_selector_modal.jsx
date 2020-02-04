@@ -255,7 +255,7 @@ export default class TeamSelectorModal extends React.Component {
                     >
                         <FormattedMarkdownMessage
                             id='add_teams_to_scheme.title'
-                            defaultMessage='Add Teams To **Team Selection** List'
+                            defaultMessage='Add Teams to **Team Selection** List'
                         />
                     </Modal.Title>
                 </Modal.Header>
