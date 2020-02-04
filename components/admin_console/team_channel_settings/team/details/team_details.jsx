@@ -265,9 +265,6 @@ export default class TeamDetails extends React.Component {
                             titleDefault='Members'
                             subtitleId='admin.team_settings.team_detail.membersDescription'
                             subtitleDefault='The users in this list are members of this team'
-                            users={[]}
-                            page={1}
-                            perPage={30}
                             teamId={this.props.teamID}
                         />
 

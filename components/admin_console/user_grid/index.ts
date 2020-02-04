@@ -7,8 +7,8 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import {getProfilesInTeam} from 'mattermost-redux/actions/users';
-import {getProfilesInTeam as selectProfiles} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInTeam, getTotalUsersStats} from 'mattermost-redux/actions/users';
+import {getProfilesInTeam as selectProfiles, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
 
 import UserGrid from './user_grid';
 
@@ -24,16 +24,21 @@ type Actions = {
 
 
 function mapStateToProps(state: GlobalState, props: Props) {
+
     const teamId = props.teamId;
     const users = selectProfiles(state, teamId);
+    const {total_users_count: total} = getTotalUsersStatsSelector(state)
+
     return {
         users,
+        total,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getProfilesInTeam,
+            getTotalUsersStats,
         }, dispatch),
     };
 }

@@ -8,7 +8,7 @@ $white: #FFF;
 
     padding: 1rem 2rem 2rem 2rem;
     background: $grey;
-    
+
     .dg-header {
         border-bottom: solid 1px rgba(0, 0, 0, 0.1);
         display: flex;
@@ -21,20 +21,29 @@ $white: #FFF;
     .dg-row, .dg-header {
         display: flex;
         flex-direction: row;
-        min-width: 200px;
+        padding-left: 20px;
         height: auto;
 
         .dg-cell {
             flex-basis: 100%;
+            flex: 1 0 200px;
         }
     }
 
     .dg-row {
-        &:nth-child(odd) {
+        min-height: 50px;
+
+        &:nth-child(even) {
             background: $white;
         }
         .dg-cell {
-            padding: 10px;
+            margin: auto;
+            text-overflow: ellipsis;
+            padding-right: 10px;
         }
+    }
+
+    .dg-footer {
+        text-align: right;
     }
 }
