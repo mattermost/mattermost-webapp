@@ -24,7 +24,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -56,7 +56,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
       className="alert alert-danger"
     >
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="This will unarchive the channel from the team and make its contents accessible for all users. \\\\n \\\\nAre you sure you wish to unarchive the **{display_name}** channel?"
+        defaultMessage="Are you sure you wish to unarchive the **{display_name}** channel?"
         id="unarchive_channel.question"
         values={
           Object {
