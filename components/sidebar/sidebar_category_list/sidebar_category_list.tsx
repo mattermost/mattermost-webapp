@@ -229,7 +229,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         return (
             <div
                 className='sidebar--left__list'
-                style={{fontSize: '24px'}}
             >
                 <UnreadChannelIndicator
                     name='Top'
