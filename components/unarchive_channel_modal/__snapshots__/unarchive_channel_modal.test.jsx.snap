@@ -57,7 +57,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
     >
       <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Are you sure you wish to unarchive the **{display_name}** channel?"
-        id="unarchive_channel.question"
+        id="unarchive_channel.viewArchived.question"
         values={
           Object {
             "display_name": "testing",
