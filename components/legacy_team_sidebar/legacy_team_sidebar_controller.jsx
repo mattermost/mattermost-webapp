@@ -115,7 +115,7 @@ export default class LegacyTeamSidebar extends React.PureComponent {
                         tip={
                             <FormattedMessage
                                 id='navbar_dropdown.create'
-                                defaultMessage='Create a New Team'
+                                defaultMessage='Create a Team'
                             />
                         }
                         content={'+'}
