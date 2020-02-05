@@ -68,7 +68,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
     scrollAnimation: Spring;
-    isSwitchingChannel: boolean;
 
     constructor(props: Props) {
         super(props);
@@ -79,7 +78,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             showBottomUnread: false,
         };
         this.scrollbar = React.createRef();
-        this.isSwitchingChannel = false;
 
         this.animate = new SpringSystem();
         this.scrollAnimation = this.animate.createSpring();
@@ -243,11 +241,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            if (this.isSwitchingChannel) {
-                return;
-            }
-
-            this.isSwitchingChannel = true;
             const allChannelIds = this.getDisplayedChannels();
             const curChannelId = this.props.currentChannel!.id;
             let curIndex = -1;
@@ -265,8 +258,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
             this.props.actions.switchToChannelById(nextChannelId);
             this.scrollToChannel(nextChannelId);
-
-            this.isSwitchingChannel = false;
         }
 
         // TODO: handle when doing modals
@@ -278,12 +269,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     navigateUnreadChannelShortcut = (e: KeyboardEvent) => {
         if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
-
-            if (this.isSwitchingChannel) {
-                return;
-            }
-
-            this.isSwitchingChannel = true;
 
             const allChannelIds = this.getDisplayedChannels();
 
@@ -306,8 +291,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 this.props.actions.switchToChannelById(nextChannelId);
                 this.scrollToChannel(nextChannelId);
             }
-
-            this.isSwitchingChannel = false;
         }
     };
 
