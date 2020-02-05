@@ -13,12 +13,21 @@ module.exports = (on, config) => {
         postBotMessage,
         externalRequest,
         getRecentEmail,
-        postIncomingWebhook,
+        postIncomingWebhook
     });
+
+    if(!config.env.setChromeWebSecurity) {
+        config.chromeWebSecurity = false;
+    }
 
     on('before:browser:launch', (browser = {}, args) => {
         if (browser.name === 'chrome') {
             args.push('--disable-notifications');
+        }
+
+        if(browser.name === 'chrome' && !config.chromeWebSecurity) {
+            args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
+            args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');
         }
 
         return args;
