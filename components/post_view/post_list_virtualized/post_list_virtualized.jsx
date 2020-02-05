@@ -130,6 +130,7 @@ class PostList extends React.PureComponent {
             postListIds: [channelIntroMessage],
             topPostId: '',
             postMenuOpened: false,
+            initScrollCompleted: false,
             dynamicListStyle: {
                 willChange: 'transform',
             },
@@ -324,6 +325,10 @@ class PostList extends React.PureComponent {
     }
 
     onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
+        if (scrollHeight <= 0) {
+            return;
+        }
+
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
@@ -347,6 +352,8 @@ class PostList extends React.PureComponent {
             }
         }
 
+        this.checkBottom(scrollOffset, scrollHeight, clientHeight);
+
         if (scrollUpdateWasRequested) { //if scroll change is programatically requested i.e by calling scrollTo
             //This is a private method on virtlist
             const postsRenderedRange = this.listRef.current._getRangeToRender(); //eslint-disable-line no-underscore-dangle
@@ -355,10 +362,12 @@ class PostList extends React.PureComponent {
             if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
-        }
 
-        if (scrollHeight > 0) {
-            this.checkBottom(scrollOffset, scrollHeight, clientHeight);
+            if (!this.state.initScrollCompleted) {
+                this.setState({
+                    initScrollCompleted: true,
+                });
+            }
         }
     }
 
@@ -491,6 +500,7 @@ class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}
+                initScrollCompleted={this.state.initScrollCompleted}
             />
         );
     }
