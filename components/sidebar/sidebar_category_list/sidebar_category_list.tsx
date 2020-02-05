@@ -75,17 +75,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         }
     }
 
-    getFirstUnreadChannelFromChannelIdArray = (array: string[]) => {
-        if (this.props.currentChannel) {
-            return array.find((channelId) => {
-                if (channelId !== this.props.currentChannel!.id && this.props.unreadChannelIds.includes(channelId)) {
-                    return channelId;
-                }
-                return null;
-            });
+    getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
+        if (!this.props.currentChannel) {
+            return null;
         }
 
-        return null;
+        return channelIds.find((channelId) => {
+            return channelId !== this.props.currentChannel!.id && this.props.unreadChannelIds.includes(channelId);
+        });
     }
 
     handleScrollAnimationUpdate = (spring: Spring) => {
