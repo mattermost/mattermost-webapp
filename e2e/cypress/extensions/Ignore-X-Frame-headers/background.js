@@ -1,5 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See LICENSE.txt for license information.
+//from https://github.com/guilryder/chrome-extensions/tree/master/xframe_ignore
 var HEADERS_TO_STRIP_LOWERCASE = [
     'content-security-policy',
     'x-frame-options',

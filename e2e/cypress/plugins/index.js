@@ -27,7 +27,7 @@ module.exports = (on, config) => {
 
         if(browser.name === 'chrome' && !config.chromeWebSecurity) {
             args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
-            args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers_v1.1');
+            args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');
         }
 
         return args;
