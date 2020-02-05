@@ -29,11 +29,7 @@ type Props = {
     currentTeammate: Channel | null;
 };
 
-type State = {
-
-};
-
-class FaviconTitleHandler extends React.PureComponent<Props, State> {
+class FaviconTitleHandler extends React.PureComponent<Props> {
     badgesActive: boolean;
     lastBadgesActive: boolean;
 
@@ -44,12 +40,12 @@ class FaviconTitleHandler extends React.PureComponent<Props, State> {
         this.lastBadgesActive = false;
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps: Props) {
         this.updateTitle();
-        this.setBadgesActiveAndFavicon();
+        this.setBadgesActiveAndFavicon(prevProps.unreads.mentionCount > 0);
     }
 
-    setBadgesActiveAndFavicon() {
+    setBadgesActiveAndFavicon(lastBadgesActive: boolean) {
         if (!(UserAgent.isFirefox() || UserAgent.isChrome())) {
             return;
         }
@@ -60,11 +56,10 @@ class FaviconTitleHandler extends React.PureComponent<Props, State> {
             return;
         }
 
-        this.lastBadgesActive = this.badgesActive;
         this.badgesActive = this.props.unreads.mentionCount > 0;
 
         // update the favicon to show if there are any notifications
-        if (this.lastBadgesActive !== this.badgesActive) {
+        if (lastBadgesActive !== this.badgesActive) {
             this.updateFavicon(this.badgesActive);
         }
     }
