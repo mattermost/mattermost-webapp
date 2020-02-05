@@ -16,7 +16,7 @@ module.exports = (on, config) => {
         postIncomingWebhook
     });
 
-    if(config.env.setChromeWebSecurity) {
+    if(!config.env.setChromeWebSecurity) {
         config.chromeWebSecurity = false;
     }
 
@@ -25,7 +25,7 @@ module.exports = (on, config) => {
             args.push('--disable-notifications');
         }
 
-        if(config.env.setChromeWebSecurity) {
+        if(browser.name === 'chrome' && !config.chromeWebSecurity) {
             args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
             args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers_v1.1');
         }

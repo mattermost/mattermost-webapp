@@ -2,80 +2,82 @@
 // See LICENSE.txt for license information.
 
 import users from '../../../fixtures/saml_users.json';
-import user_roles from '../../../fixtures/saml_user_roles.json';
-
 
 context('Okta', () => {
-    const mmLoginButtonText = 'SAML';
+    const loginButtonText = 'SAML';
 
     const regular1 = users.regulars['samluser-1'];
     const admin1 = users.admins['samladmin-1'];
     const guest1 = users.guests['samlguest-1'];
 
-    const assertionConsumerServiceURL = Cypress.config('baseUrl') + '/login/sso/saml';
-    const configSamlSettings = {
+    const newConfig = {
+        ServiceSettings: {
+            SiteURL: Cypress.config('baseUrl'),
+        },
         SamlSettings: {
             Enable: true,
             EnableSyncWithLdap: false,
             EnableSyncWithLdapIncludeAuth: false,
             Verify: true,
             Encrypt: true,
-            SignRequest: false,
+            SignRequest: true,
             IdpUrl: Cypress.env('okta_base_url') + '/app/' + Cypress.env('okta_mm_app_name') + '/' + Cypress.env('okta_mm_app_id') + '/sso/saml',
-            IdpDescriptorUrl: Cypress.env('okta_base_url') + '/' + Cypress.env('okta_mm_app_id'),
+            IdpDescriptorUrl: Cypress.env('okta_root_url') + '/' + Cypress.env('okta_mm_app_id'),
             IdpMetadataUrl: Cypress.env('okta_base_url') + '/app/' + Cypress.env('okta_mm_app_id') + '/sso/saml/metadata',
-            AssertionConsumerServiceURL: assertionConsumerServiceURL,
+            AssertionConsumerServiceURL: Cypress.config('baseUrl') + '/login/sso/saml',
             SignatureAlgorithm: 'RSAwithSHA1',
             CanonicalAlgorithm: 'Canonical1.0',
-            ScopingIDPProviderId: '',
-            ScopingIDPName: '',
             IdpCertificateFile: 'saml-idp.crt',
             PublicCertificateFile: 'saml-public.crt',
             PrivateKeyFile: 'saml-private.key',
             IdAttribute: "",
-            GuestAttribute: "",
+            GuestAttribute: "UserType=Guest",
             EnableAdminAttribute: true,
-            AdminAttribute: "userType=Admin",
+            AdminAttribute: "UserType=Admin",
             FirstNameAttribute: "",
             LastNameAttribute: "",
             EmailAttribute: "Email",
             UsernameAttribute: "Username",
-            NicknameAttribute: "",
-            LocaleAttribute: "",
-            PositionAttribute: "",
             LoginButtonText: "SAML",
-            LoginButtonColor: "#34a28b",
-            LoginButtonBorderColor: "#2389D7",
-            LoginButtonTextColor: "#ffffff"
         },
         ExperimentalSettings: {
             UseNewSAMLLibrary: true
-        }
+        },
+        GuestAccountsSettings: {
+            Enable: true
+        },
     };
+
+    let config;
+    let testSettings;
 
     describe('SAML Login flow', () => {
         //assumes that the SAML certificates are already present in the config folder
         before(() => {
-            cy.oktaGetApp().then((appSettings) => {
-                appSettings.settings.signOn.destination = assertionConsumerServiceURL;
-                cy.oktaUpdateAppSettings(appSettings);
+            cy.oktaAddUsers(users);
+            cy.apiUpdateConfig(newConfig).then( () => {
+                cy.apiGetConfig().then((response) => {
+                    config = response.body;
+                    testSettings = {
+                        loginButtonText: loginButtonText,
+                        siteName: config.TeamSettings.SiteName,
+                        siteUrl: config.ServiceSettings.SiteURL,
+                        teamName: "",
+                        user: null
+                    }
+                });
             });
-
-            //cy.oktaAddUsers(users);
-            cy.apiUpdateConfig(configSamlSettings);
         });
 
         it('Saml login new MM regular user', () => {
-            cy.setUserRole(configSamlSettings, user_roles.regular);
+            testSettings.user = regular1;
 
-            cy.oktaGetOrCreateUser(regular1).then((userId) => {
-                cy.doSamlLogin({buttonText: mmLoginButtonText, siteUrl: ''}).then(() => {
-                    cy.doOktaLogin(regular1).then(() => {
-                        const teamName = 't' + userId.substring(0, 14);
-                        cy.doCreateTeam(teamName).then(() => {
-                            cy.get('#channel_view').should('be.visible');
-                            cy.doSamlLogout().then(() => {
-                                cy.oktaDeleteSession(userId);
+            cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.doSamlLogin(testSettings).then(() => {
+                    cy.doOktaLogin(testSettings.user).then(() => {
+                        cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
+                            cy.doSamlLogout(testSettings).then(() => {
+                                cy.oktaDeleteSession(oktaUserId);
                             });
                         });
                     });
@@ -83,122 +85,120 @@ context('Okta', () => {
             });
         });
 
-        // //assumes that the user 'regular1' successfully logged-in into MM, he is a MM user
-        // it('Saml login existing MM regular user', () => {
+        //assumes that the user 'regular1' successfully logged-in into MM, he is a MM user
+        it('Saml login existing MM regular user', () => {
+            testSettings.user = regular1;
 
-        //     cy.setUserRole(configSamlSettings, user_roles.regular);
+            cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.doSamlLogin(testSettings).then(() => {
+                    cy.doOktaLogin(testSettings.user).then(() => {
+                        cy.doSamlLogout(testSettings).then(() => {
+                            cy.oktaDeleteSession(oktaUserId);
+                        });
+                    });
+                });
+            });
+        });
 
-        //     cy.oktaGetOrCreateUser(regular1).then((userId) => {
-        //         cy.doSamlLogin({buttonText: mmLoginButtonText, siteUrl: ''}).then(() => {
-        //             cy.doOktaLogin(regular1).then(() => {
-        //                 cy.get('#channel_view').should('be.visible');
-        //                 cy.doSamlLogout().then(() => {
-        //                     cy.oktaDeleteSession(userId);
-        //                 });
-        //             });
-        //         });
-        //     });
-        // });
+        it('Saml login new MM guest user', () => {
+            testSettings.user = guest1;
 
-        // it('Saml login new MM admin', () => {
-        //     //set the user as admin in MM
+            cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.doSamlLogin(testSettings).then(() => {
+                    cy.doOktaLogin(testSettings.user).then(() => {
+                        cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
+                            cy.doSamlLogoutFromSignUp().then( () => {
+                                cy.oktaDeleteSession(oktaUserId);
+                            });
+                        });
+                    });
+                });
+            });
+        });
 
-        //     cy.setUserRole(configSamlSettings, user_roles.admin);
+        //assumes that the user 'guest1' successfully logged-in into MM, he is a MM user
+        it('Saml login existing MM guest user', () => {
+            testSettings.user = guest1;
 
-        //     cy.oktaGetOrCreateUser(admin1).then((userId) => {
-        //         cy.doSamlLogin({buttonText: mmLoginButtonText, siteUrl: ''}).then(() => {
-        //             cy.doOktaLogin(admin1).then(() => {
-        //                 const teamName = 't' + userId.substring(0, 14);
-        //                 cy.doCreateTeam(teamName).then(() => {
-        //                     cy.get('#channel_view').should('be.visible');
+            cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.doSamlLogin(testSettings).then(() => {
+                    cy.doOktaLogin(testSettings.user).then(() => {
+                        cy.doSamlLogoutFromSignUp().then( () => {
+                            cy.oktaDeleteSession(oktaUserId);
+                        });
+                    });
+                });
+            });
+        });
 
-        //                     //check that he is an admin
-        //                     cy.get('#sidebarHeaderDropdownButton').click()..then(() => {
-        //                         //check that he is an admin
-        //                         cy.get('#systemConsole').should('be.visible')
-        //                     });
+        it('Saml login new MM admin', () => {
+            testSettings.user = admin1;
 
-        //                     cy.doSamlLogout().then(() => {
-        //                         cy.oktaDeleteSession(userId);
-        //                     });
-        //                 });
-        //             });
-        //         });
-        //     });
-        // });
+            cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.doSamlLogin(testSettings).then(() => {
+                    cy.doOktaLogin(testSettings.user).then(() => {
+                        cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
+                            cy.doSamlLogout(testSettings).then(() => {
+                                cy.oktaDeleteSession(oktaUserId);
+                            });
+                        });
+                    });
+                });
+            });
+        });
 
-        // //assumes that the user 'admin1' successfully logged-in into MM, he is a MM user
-        // it('Saml login existing MM admin', () => {
-        //     //set the user as admin in MM
-        //     cy.setUserRole(configSamlSettings, user_roles.admin);
+        //assumes that the user 'admin1' successfully logged-in into MM, he is a MM user
+        it('Saml login existing MM admin', () => {
+            testSettings.user = admin1;
 
-        //     cy.oktaGetOrCreateUser(admin1).then((userId) => {
-        //         cy.doSamlLogin({buttonText: mmLoginButtonText, siteUrl: ''}).then(() => {
-        //             cy.doOktaLogin(admin1).then(() => {
-        //                 cy.get('#channel_view').should('be.visible');
+            cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.doSamlLogin(testSettings).then(() => {
+                    cy.doOktaLogin(testSettings.user).then(() => {
+                        cy.doSamlLogout(testSettings).then(() => {
+                            cy.oktaDeleteSession(oktaUserId);
+                        });
+                    });
+                });
+            });
+        });
 
-        //                 //check that he is an admin
-        //                 cy.get('#sidebarHeaderDropdownButton').click()..then(() => {
-        //                     //check that he is an admin
-        //                     cy.get('#systemConsole').should('be.visible')
-        //                 });
+        it('Saml login invited Guest user to a closed channel', () => {
+            testSettings.user = regular1
 
-        //                 cy.doSamlLogout().then(() => {
-        //                     cy.oktaDeleteSession(userId);
-        //                 });
-        //             });
-        //         });
-        //     });
-        // });
-
-        // it('Saml login invited Guest user', () => {
-        //     let inviteUrl;
-
-        //     //set the user as guest in MM
-        //     cy.setUserRole(configSamlSettings, user_roles.guest);
-
-        //     //login as a regular MM user - generate an invite link
-        //     cy.oktaGetOrCreateUser(regular1).then((userId) => {
-        //         cy.doSamlLogin({buttonText: mmLoginButtonText, siteUrl: ''}).then(() => {
-        //             cy.doOktaLogin(regular1).then(() => {
-        //                 const teamName = 't' + userId.substring(0, 14);
-        //                 cy.doCreateTeam(teamName).then(() => {
-        //                     cy.get('#channel_view').should('be.visible');
-
-        //                     //invite user guest1 to the team
-        //                     cy.getInvitePeopleLink().then((response) => {
-        //                         inviteUrl = response;
-        //                         cy.get('.close-x').should('be.visible').click();
-        //                         cy.get('#channel_view').should('be.visible');
-
-        //                         cy.doSamlLogout().then(() => {
-        //                             cy.oktaDeleteSession(userId);
-
-        //                             cy.oktaGetOrCreateUser(guest1).then((_userId) => {
-        //                                 //next, enter the new Url
-        //                                 cy.visit(inviteUrl);
-
-        //                                 //login the guest
-        //                                 cy.doSamlLogin({buttonText: mmLoginButtonText, siteUrl: ''}).then(() => {
-        //                                     cy.doOktaLogin(guest1).then(() => {
-        //                                         cy.get('#channel_view').should('be.visible');
-        //                                         cy.doSamlLogout().then(() => {
-        //                                             cy.oktaDeleteSession(_userId);
-        //                                         });
-        //                                     });
-        //                                 });
-        //                             });
-        //                         });
-        //                     });
-        //                 });
-        //             });
-        //         });
-        //     });
-        // });
+            //login as a regular user - generate an invite link
+            cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.oktaDeleteSession(oktaUserId);
+                cy.doSamlLogin(testSettings).then(() => {
+                    cy.doOktaLogin(testSettings.user).then(() => {
+                        cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
+                            //get invite link
+                            cy.getInvitePeopleLink(testSettings).then((inviteUrl) => {
+                                //logout regular1
+                                cy.oktaDeleteSession(oktaUserId);
+                                cy.doSamlLogout(testSettings).then(() => {
+                                    testSettings.user = guest1;
+                                    cy.oktaGetOrCreateUser(testSettings.user).then((_oktaUserId) => {
+                                        cy.visit(inviteUrl).then(() => {
+                                            cy.oktaDeleteSession(_oktaUserId);
+                                            //login the guest
+                                            cy.doSamlLogin(testSettings).then(() => {
+                                                cy.doOktaLogin(testSettings.user).then(() => {
+                                                    cy.doSamlLogoutFromSignUp();
+                                                    cy.oktaDeleteSession(_oktaUserId);
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
 
         after(() => {
-            //cy.oktaRemoveUsers(users);
+            cy.oktaRemoveUsers(users);
         });
     });
 });
-

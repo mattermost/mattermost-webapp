@@ -5,21 +5,24 @@
             "password": "Password1",
             "email": "samluser-1@test.com",
             "firstname": "saml1",
-            "lastname": "user"
+            "lastname": "user",
+            "userType": ""
         },
         "samluser-2": {
             "username": "samluser-2",
             "password": "Password1",
             "email": "samluser-2@test.com",
             "firstname": "saml2",
-            "lastname": "user"
+            "lastname": "user",
+            "userType": ""
         },
         "samluser-3": {
             "username": "samluser-3",
             "password": "Password1",
             "email": "samluser-3@test.com",
             "firstname": "saml3",
-            "lastname": "user"
+            "lastname": "user",
+            "userType": ""
         }
     },
     "admins": {
@@ -29,7 +32,7 @@
             "email": "samladmin-1@test.com",
             "firstname": "saml1",
             "lastname": "admin",
-            "IsAdmin": true
+            "userType": "Admin"
         },
         "samladmin-2": {
             "username": "samladmin-2",
@@ -37,7 +40,7 @@
             "email": "samladmin-2@test.com",
             "firstname": "saml2",
             "lastname": "admin",
-            "UserType": "admin"
+            "userType": "Admin"
         }
     },
     "guests": {
@@ -47,7 +50,7 @@
             "email": "samlguest-1@test.com",
             "firstname": "saml1",
             "lastname": "guest",
-            "IsGuest": true
+            "userType": "Guest"
         },
         "samlguest-2": {
             "username": "samlguest-2",
@@ -55,7 +58,7 @@
             "email": "samlguest-2@test.com",
             "firstname": "saml2",
             "lastname": "guest",
-            "UserType": "guest"
+            "userType": "Guest"
         }
     }
 }

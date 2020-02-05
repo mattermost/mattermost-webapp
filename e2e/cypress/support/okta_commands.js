@@ -13,8 +13,8 @@ Cypress.Commands.add('oktaGetApp', () => {
         }
     }).then((response) => {
         expect(response.status).to.be.equal(200);
-        console.log('oktaGetApp ' + response.body);
-        return response.body;
+        //console.log('oktaGetApp ' + JSON.stringify(response.body));
+        return cy.wrap(response.body);
     });
 });
 
@@ -29,8 +29,8 @@ Cypress.Commands.add('oktaUpdateAppSettings', (appSettingsJson) => {
         body: appSettingsJson
     }).then((response) => {
         expect(response.status).to.equal(200);
-        console.log('oktaUpdateAppSettings ' + response.body);
-        return response.body;
+        //console.log('oktaUpdateAppSettings ' + JSON.stringify(response.body));
+        return cy.wrap(response.body);
     });
 });
 
@@ -40,9 +40,7 @@ function buildProfile(user) {
         lastName: user.lastname === null ? null : user.lastname,
         email: user.email === null ? null : user.email,
         login: user.email === null ? null : user.email,
-        userType: user.userType === null ? null : user.userType,
-        isguest: user.IsGuest === false ? null : user.IsGuest,
-        isadmin: user.IsAdmin === false ? null : user.IsAdmin,
+        userType: user.userType === null ? null : user.userType
     };
     return profile;
 }
@@ -67,7 +65,7 @@ Cypress.Commands.add('oktaCreateUser', (user = {}) => {
         }
     }).then((response) => {
         expect(response.status).to.equal(200);
-        console.log('oktaCreateUser ' + response.body);
+        //console.log('oktaCreateUser ' + JSON.stringify(response.body));
         const userId = response.body.id;
         return userId;
     });
@@ -83,7 +81,7 @@ Cypress.Commands.add('oktaGetUser', (userId = '') => {
         failOnStatusCode: false
     }).then((response) => {
         expect(response.status).to.be.equal(200);
-        console.log('oktaGetUser ' + response.body);
+        //console.log('oktaGetUser ' + JSON.stringify(response.body));
         if (response.body.length > 0) {
             return response.body[0].id;
         }
@@ -104,7 +102,7 @@ Cypress.Commands.add('oktaUpdateUser', (userId = '', user = {}) => {
         }
     }).then((response) => {
         expect(response.status).to.equal(201);
-        console.log('oktaUpdateUser ' + response);
+        //console.log('oktaUpdateUser ' + response);
         return cy.wrap(response);
     });
 });
@@ -119,7 +117,7 @@ Cypress.Commands.add('oktaDeleteUser', (userId = '') => {
         }
     }).then((response) => {
         expect(response.status).to.equal(204);
-        console.log('oktaDeleteUser(1) ' + userId);
+        //console.log('oktaDeleteUser(1) ' + userId);
         expect(response.body).is.empty;
         cy.request({
             method: 'DELETE',
@@ -129,7 +127,7 @@ Cypress.Commands.add('oktaDeleteUser', (userId = '') => {
             }
         }).then((_response) => {
             expect(_response.status).to.equal(204);
-            console.log('oktaDeleteUser(2) ' + _response.body);
+            //console.log('oktaDeleteUser(2) ' + _response.body);
             expect(_response.body).is.empty;
         });
     });
@@ -144,7 +142,7 @@ Cypress.Commands.add('oktaDeleteSession', (userId = '') => {
         }
     }).then((response) => {
         expect(response.status).to.equal(204);
-        console.log('oktaDeleteSession ' + response.body);
+        //console.log('oktaDeleteSession ' + JSON.stringify(response.body));
         expect(response.body).is.empty;
     });
 });
@@ -167,16 +165,9 @@ Cypress.Commands.add('oktaAssignUserToApplication', (userId = '', user = {}) => 
         }
     }).then((response) => {
         expect(response.status).to.be.equal(200);
-        console.log('oktaAssignUserToApplication ' + response.body);
+        //console.log('oktaAssignUserToApplication ' + JSON.stringify(response.body));
         return cy.wrap(response);
     });
-});
-
-Cypress.Commands.add('doOktaLogin', (user) => {
-    cy.get('#okta-sign-in').should('be.visible');
-    cy.get('#okta-signin-username').should('be.visible').type(user.email);
-    cy.get('#okta-signin-password').should('be.visible').type(user.password);
-    cy.get('#okta-signin-submit').should('be.visible').click().wait(TIMEOUTS.SMALL);
 });
 
 Cypress.Commands.add('oktaGetOrCreateUser', (user) => {
@@ -184,8 +175,8 @@ Cypress.Commands.add('oktaGetOrCreateUser', (user) => {
     cy.oktaGetUser(user.email).then((uId) => {
         userId = uId;
         if (userId == null) {
-            cy.oktaCreateUser(user).then((tuId) => {
-                userId = tuId;
+            cy.oktaCreateUser(user).then((_uId) => {
+                userId = _uId;
                 cy.oktaAssignUserToApplication(userId, user);
             });
         } else {
@@ -197,15 +188,13 @@ Cypress.Commands.add('oktaGetOrCreateUser', (user) => {
 
 Cypress.Commands.add('oktaAddUsers', (users) => {
     let userId;
-    Object.values(users.regulars).forEach((user) => {
-        cy.oktaGetUser(user.email).then((uId) => {
+    Object.values(users.regulars).forEach((_user) => {
+        cy.oktaGetUser(_user.email).then((uId) => {
             userId = uId;
             if (userId == null) {
-                cy.oktaCreateUser(user).then((tuId) => {
-                    userId = tuId;
-
-                    //can we do it when creating the user?
-                    cy.oktaAssignUserToApplication(userId, user);
+                cy.oktaCreateUser(_user).then((_uId) => {
+                    userId = _uId;
+                    cy.oktaAssignUserToApplication(userId, _user);
                     cy.oktaDeleteSession(userId);
                 });
             }
@@ -216,8 +205,8 @@ Cypress.Commands.add('oktaAddUsers', (users) => {
         cy.oktaGetUser(_user.email).then((uId) => {
             userId = uId;
             if (userId == null) {
-                cy.oktaCreateUser(_user).then((tuId) => {
-                    userId = tuId;
+                cy.oktaCreateUser(_user).then((_uId) => {
+                    userId = _uId;
                     cy.oktaAssignUserToApplication(userId, _user);
                     cy.oktaDeleteSession(userId);
                 });
@@ -229,8 +218,8 @@ Cypress.Commands.add('oktaAddUsers', (users) => {
         cy.oktaGetUser(_user.email).then((uId) => {
             userId = uId;
             if (userId == null) {
-                cy.oktaCreateUser(_user).then((tuId) => {
-                    userId = tuId;
+                cy.oktaCreateUser(_user).then((_uId) => {
+                    userId = _uId;
                     cy.oktaAssignUserToApplication(userId, _user);
                     cy.oktaDeleteSession(userId);
                 });
@@ -242,8 +231,8 @@ Cypress.Commands.add('oktaAddUsers', (users) => {
 Cypress.Commands.add('oktaRemoveUsers', (users) => {
     let userId;
     Object.values(users.regulars).forEach((_user) => {
-        cy.oktaGetUser(_user.email).then((uId) => {
-            userId = uId;
+        cy.oktaGetUser(_user.email).then((_uId) => {
+            userId = _uId;
             if (userId != null) {
                 cy.oktaDeleteUser(userId);
             }
@@ -251,8 +240,8 @@ Cypress.Commands.add('oktaRemoveUsers', (users) => {
     });
 
     Object.values(users.guests).forEach((_user) => {
-        cy.oktaGetUser(_user.email).then((uId) => {
-            userId = uId;
+        cy.oktaGetUser(_user.email).then((_uId) => {
+            userId = _uId;
             if (userId != null) {
                 cy.oktaDeleteUser(userId);
             }
@@ -260,8 +249,8 @@ Cypress.Commands.add('oktaRemoveUsers', (users) => {
     });
 
     Object.values(users.admins).forEach((_user) => {
-        cy.oktaGetUser(_user.email).then((uId) => {
-            userId = uId;
+        cy.oktaGetUser(_user.email).then((_uId) => {
+            userId = _uId;
             if (userId != null) {
                 cy.oktaDeleteUser(userId);
             }
@@ -269,3 +258,17 @@ Cypress.Commands.add('oktaRemoveUsers', (users) => {
     });
 });
 
+Cypress.Commands.add('checkOktaLoginPage', () => {
+    cy.get('#okta-sign-in').should('be.visible');
+    cy.get('#okta-signin-username').should('be.visible');
+    cy.get('#okta-signin-password').should('be.visible');
+    cy.get('#okta-signin-submit').should('be.visible');
+});
+
+Cypress.Commands.add('doOktaLogin', (user) => {
+    cy.checkOktaLoginPage();
+
+    cy.get('#okta-signin-username').type(user.email);
+    cy.get('#okta-signin-password').type(user.password);
+    cy.get('#okta-signin-submit').click().wait(TIMEOUTS.SMALL);
+});
