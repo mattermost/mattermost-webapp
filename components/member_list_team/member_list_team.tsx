@@ -60,9 +60,11 @@ export default class MemberListTeam extends React.Component<Props, State> {
     }
 
     async componentDidMount() {
-        await this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId);
-        await this.props.actions.getTeamMembers(this.props.currentTeamId);
-        this.props.actions.getTeamStats(this.props.currentTeamId);
+        await Promise.all([
+            this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId),
+            this.props.actions.getTeamMembers(this.props.currentTeamId),
+            this.props.actions.getTeamStats(this.props.currentTeamId),
+        ]);
         this.loadComplete();
     }
 
