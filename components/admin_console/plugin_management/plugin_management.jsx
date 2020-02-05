@@ -12,7 +12,7 @@ import PluginState from 'mattermost-redux/constants/plugins';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import AdminSettings from '../admin_settings';
 import BooleanSetting from '../boolean_setting';

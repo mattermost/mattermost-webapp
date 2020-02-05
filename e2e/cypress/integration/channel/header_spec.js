@@ -78,7 +78,7 @@ describe('Header', () => {
 
         // # Click the pin icon to open the pinned posts RHS
         cy.get('#channelHeaderPinButton').should('be.visible').click();
-        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts in');
+        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts in');
 
         // # Verify that the Search term input box is still cleared and search term does not reappear when RHS opens
         cy.get('#searchBox').should('have.attr', 'value', '').and('be.empty');
