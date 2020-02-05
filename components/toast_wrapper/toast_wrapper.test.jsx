@@ -32,6 +32,7 @@ describe('components/ToastWrapper', () => {
         scrollToLatestMessages: jest.fn(),
         updateLastViewedBottomAt: jest.fn(),
         lastViewedAt: 12344,
+        initScrollCompleted: true,
     };
 
     describe('unread count logic', () => {
@@ -90,6 +91,20 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
+        test('Should set state of have unread toast when initScrollCompleted is true', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+                initScrollCompleted: false,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            wrapper.setProps({initScrollCompleted: true});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
         test('Should have unread toast channel is marked as unread', () => {
             const props = {
                 ...baseProps,
@@ -107,7 +122,7 @@ describe('components/ToastWrapper', () => {
                 atBottom: true,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
