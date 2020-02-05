@@ -22,8 +22,6 @@ export default class UnarchiveChannelModal extends React.PureComponent {
          */
         channel: PropTypes.object.isRequired,
 
-        canViewArchivedChannels: PropTypes.bool,
-
         actions: PropTypes.shape({
 
             /**
@@ -53,7 +51,6 @@ export default class UnarchiveChannelModal extends React.PureComponent {
     }
 
     render() {
-        const {canViewArchivedChannels} = this.props;
         return (
             <Modal
                 dialogClassName='a11y__modal'
@@ -77,22 +74,13 @@ export default class UnarchiveChannelModal extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='alert alert-danger'>
-                        {!canViewArchivedChannels &&
-                            <FormattedMarkdownMessage
-                                id='unarchive_channel.question'
-                                defaultMessage='Are you sure you wish to unarchive the **{display_name}** channel?'
-                                values={{
-                                    display_name: this.props.channel.display_name,
-                                }}
-                            />}
-                        {canViewArchivedChannels &&
-                            <FormattedMarkdownMessage
-                                id='unarchive_channel.viewArchived.question'
-                                defaultMessage={'Are you sure you wish to unarchive the **{display_name}** channel?'}
-                                values={{
-                                    display_name: this.props.channel.display_name,
-                                }}
-                            />}
+                        <FormattedMarkdownMessage
+                            id='unarchive_channel.viewArchived.question'
+                            defaultMessage={'Are you sure you wish to unarchive the **{display_name}** channel?'}
+                            values={{
+                                display_name: this.props.channel.display_name,
+                            }}
+                        />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

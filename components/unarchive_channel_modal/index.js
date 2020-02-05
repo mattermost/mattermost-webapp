@@ -4,17 +4,8 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {unarchiveChannel} from 'mattermost-redux/actions/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UnarchiveChannelModal from './unarchive_channel_modal.jsx';
-
-function mapStateToProps(state) {
-    const config = getConfig(state);
-
-    return {
-        canViewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -24,4 +15,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UnarchiveChannelModal);
+export default connect(null, mapDispatchToProps)(UnarchiveChannelModal);
