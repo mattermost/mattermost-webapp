@@ -48,23 +48,17 @@ context('Okta', () => {
         },
     };
 
-    let config;
     let testSettings;
 
     describe('SAML Login flow', () => {
         //assumes that the SAML certificates are already present in the config folder
         before(() => {
             cy.oktaAddUsers(users);
-            cy.apiUpdateConfig(newConfig).then( () => {
+            cy.apiUpdateConfig(newConfig).then(() => {
                 cy.apiGetConfig().then((response) => {
-                    config = response.body;
-                    testSettings = {
-                        loginButtonText: loginButtonText,
-                        siteName: config.TeamSettings.SiteName,
-                        siteUrl: config.ServiceSettings.SiteURL,
-                        teamName: "",
-                        user: null
-                    }
+                    cy.setTestSettings(loginButtonText, response.body).then((response) => {
+                        testSettings = response;
+                    });
                 });
             });
         });

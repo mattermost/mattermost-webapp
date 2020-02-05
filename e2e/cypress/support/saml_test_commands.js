@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
-import user_roles from '../fixtures/saml_user_roles.json';
 
 Cypress.Commands.add('checkLoginPage', (settings = {}) => {
     // * Check that the login section is loaded
@@ -122,11 +121,21 @@ Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
         cy.get('#invitePeople').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
             cy.checkInvitePeoplePage();
             cy.findByTestId('shareLinkInput').should('be.visible').invoke('val').then((text) => {
-                //close the invitepeople page
+                //close the invitepeople modal
                 cy.get('.close-x').should('be.visible').click();
                 return cy.wrap(text);
             });
         });
     });
+});
+
+Cypress.Commands.add('setTestSettings', (loginButtonText, config) => {
+    return {
+        loginButtonText: loginButtonText,
+        siteName: config.TeamSettings.SiteName,
+        siteUrl: config.ServiceSettings.SiteURL,
+        teamName: "",
+        user: null
+    };
 });
 
