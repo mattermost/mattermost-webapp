@@ -24,7 +24,7 @@ type Props = {
      */
         deferNavigation: (func: () => void) => void;
     };
-    children: string | React.ReactNode;
+    children?: string | React.ReactNode;
     className?: string;
 };
 export default class BlockableLink extends React.PureComponent<Props> {
