@@ -27,6 +27,7 @@ import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
+import FaviconTitleHandler from 'components/favicon_title_handler';
 
 export default class ChannelController extends React.Component {
     static propTypes = {
@@ -73,6 +74,7 @@ export default class ChannelController extends React.Component {
             >
                 <AnnouncementBarController/>
                 <SystemNotice/>
+                <FaviconTitleHandler/>
 
                 <div className='container-fluid'>
                     <SidebarRight/>
