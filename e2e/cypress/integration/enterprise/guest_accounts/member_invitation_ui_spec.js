@@ -46,7 +46,7 @@ function verifyInvitationError(user, errorText) {
             cy.wrap($subel).find('.username-or-icon').should('contain', user);
             cy.wrap($subel).find('.reason').should('have.text', errorText);
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.wrap($el).find('.confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -66,7 +66,7 @@ function verifyInvitationSuccess(user, successText) {
             cy.wrap($subel).find('.username-or-icon').should('contain', user);
             cy.wrap($subel).find('.reason').should('have.text', successText);
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.wrap($el).find('.confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed

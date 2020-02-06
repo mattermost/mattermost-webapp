@@ -12,7 +12,7 @@ import {ChannelProfile} from './channel_profile';
 describe('admin_console/team_channel_settings/channel/ChannelProfile', () => {
     test('should match snapshot', () => {
         const testTeam: Partial<Team> = {display_name: 'test'};
-        const testChannel: Partial<Channel> = {name: 'test'};
+        const testChannel: Partial<Channel> = {display_name: 'test'};
         const wrapper = shallow(
             <ChannelProfile
                 team={testTeam}

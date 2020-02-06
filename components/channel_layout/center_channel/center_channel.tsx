@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -10,24 +9,33 @@ import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 
-export default class CenterChannel extends React.PureComponent {
-    static propTypes = {
-        match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        lastChannelPath: PropTypes.string.isRequired,
-        lhsOpen: PropTypes.bool.isRequired,
-        rhsOpen: PropTypes.bool.isRequired,
-        rhsMenuOpen: PropTypes.bool.isRequired,
+type Props = {
+    match: {
+        url: string;
     };
+    location: {
+        pathname: string;
+    };
+    lastChannelPath: string;
+    lhsOpen: boolean;
+    rhsOpen: boolean;
+    rhsMenuOpen: boolean;
+};
 
-    constructor(props) {
+type State = {
+    returnTo: string;
+    lastReturnTo: string;
+};
+
+export default class CenterChannel extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             returnTo: '',
             lastReturnTo: '',
         };
     }
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         if (prevState.lastReturnTo !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
             return {
                 lastReturnTo: nextProps.location.pathname,
