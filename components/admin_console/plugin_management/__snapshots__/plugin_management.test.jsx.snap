@@ -177,7 +177,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -533,7 +533,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -855,7 +855,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -1211,7 +1211,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -1567,7 +1567,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -1923,7 +1923,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -2284,7 +2284,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -2640,7 +2640,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -2968,7 +2968,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -3324,7 +3324,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -3680,7 +3680,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -4097,7 +4097,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -4483,7 +4483,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -4869,7 +4869,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"
@@ -5255,7 +5255,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 />
               </button>
               <div
-                className="help-text no-margin"
+                className="help-text m-0"
               />
               <p
                 className="help-text"

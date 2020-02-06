@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -471,7 +471,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         }
 
         return (
-            <div className='light margin-top half'>
+            <div className='light mt-1'>
                 <FormattedMessage
                     key='admin.user_item.userAccessToken'
                     id={messageId}
