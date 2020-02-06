@@ -54,7 +54,7 @@ type Props = {
     */
     restrictDirectMessage?: string;
     onModalDismissed: () => void;
-    onHide: () => void;
+    onHide?: () => void;
     bodyOnly?: boolean;
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
