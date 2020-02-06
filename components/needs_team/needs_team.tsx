@@ -34,36 +34,6 @@ declare global {
     }
 }
 
-// params: PropTypes.object,
-// currentUser: PropTypes.object,
-// currentChannelId: PropTypes.string,
-// currentTeamId: PropTypes.string,
-// actions: PropTypes.shape({
-//     fetchMyChannelsAndMembers: PropTypes.func.isRequired,
-//     getMyTeamUnreads: PropTypes.func.isRequired,
-//     viewChannel: PropTypes.func.isRequired,
-//     markChannelAsReadOnFocus: PropTypes.func.isRequired,
-//     getTeamByName: PropTypes.func.isRequired,
-//     addUserToTeam: PropTypes.func.isRequired,
-//     selectTeam: PropTypes.func.isRequired,
-//     setPreviousTeamId: PropTypes.func.isRequired,
-//     loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
-//     loadProfilesForDirect: PropTypes.func.isRequired,
-// }).isRequired,
-// theme: PropTypes.object.isRequired,
-// mfaRequired: PropTypes.bool.isRequired,
-
-// /*
-//  * Object from react-router
-//  */
-// match: PropTypes.shape({
-//     params: PropTypes.shape({
-//         team: PropTypes.string.isRequired,
-//     }).isRequired,
-// }).isRequired,
-// history: PropTypes.object.isRequired,
-// teamsList: PropTypes.arrayOf(PropTypes.object),
-
 type Props = {
     currentUser: {
         id: string;
