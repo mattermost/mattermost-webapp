@@ -12,7 +12,7 @@ import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
-import {PostListRowListIds} from 'utils/constants';
+import {PostListRowListIds, Locations} from 'utils/constants';
 
 export default class PostListRow extends React.PureComponent {
     static propTypes = {
@@ -29,6 +29,44 @@ export default class PostListRow extends React.PureComponent {
          */
         isLastPost: PropTypes.bool,
 
+        /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
+
+        actions: PropTypes.shape({
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func
+        }).isRequired,
+    }
+
+    blockShortcutReactToLastPostForNonMessages(listId) {
+        const {actions: {emitShortcutReactToLastPostFrom}} = this.props;
+        const isDateLine = PostListUtils.isDateLine(listId);
+        const isNewMessageSeparator = PostListUtils.isStartOfNewMessages(listId);
+        const isChannelIntroMessage = listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE;
+        const isLoadMoreButton = listId === PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER || listId === PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER;
+        const isLoadingScreen = listId === PostListRowListIds.OLDER_MESSAGES_LOADER || listId === PostListRowListIds.NEWER_MESSAGES_LOADER;
+
+        if (isDateLine || isNewMessageSeparator || isChannelIntroMessage || isLoadMoreButton || isLoadingScreen) {
+            // This is a good escape hatch as any of the above conditions don't return <Post/> component, Emoji picker is only at Post component
+            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const {listId, isLastPost, shortcutReactToLastPostEmittedFrom} = this.props;
+
+        const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
+            shortcutReactToLastPostEmittedFrom === Locations.CENTER;
+
+        // If last message is non message type then we block the shortcut to react to last message, early on
+        if (isLastPost && shortcutReactToLastPostEmittedFromCenter) {
+            this.blockShortcutReactToLastPostForNonMessages(listId);
+        }
     }
 
     render() {
