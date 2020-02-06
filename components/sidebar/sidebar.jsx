@@ -230,11 +230,6 @@ class Sidebar extends React.PureComponent {
             this.refs.scrollbar.scrollToTop();
         }
 
-        // Scroll to selected channel so it's in view
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.scrollToChannel(this.props.currentChannel.id);
-        }
-
         // close the LHS on mobile when you change channels
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
             if (this.closedDirectChannel) {
