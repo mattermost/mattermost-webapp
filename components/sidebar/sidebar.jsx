@@ -369,11 +369,12 @@ class Sidebar extends React.PureComponent {
 
     scrollToChannel = (channelId, scrollingToUnread = false) => {
         const element = $(ReactDOM.findDOMNode(this.refs[channelId]));
-        if (!element) {
+        const position = element.position();
+        if (!element || !position) {
             return;
         }
 
-        const top = element.position().top;
+        const top = position.top;
         const bottom = top + element.height();
 
         const scrollTop = this.refs.scrollbar.getScrollTop();
