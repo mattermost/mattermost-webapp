@@ -75,7 +75,7 @@ That was some latex!`;
         const options = {mentionHighlight: true, atMentions: true, mentionKeys: [{key: '@joram'}]};
         let html = TextFormatting.formatText('@joram', options);
 
-        let component = messageHtmlToComponent(html);
+        let component = messageHtmlToComponent(html, false, {mentionHighlight: true});
         expect(component).toMatchSnapshot();
         expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(false);
 
@@ -83,7 +83,7 @@ That was some latex!`;
 
         html = TextFormatting.formatText('@joram', options);
 
-        component = messageHtmlToComponent(html);
+        component = messageHtmlToComponent(html, false, {mentionHighlight: false});
         expect(component).toMatchSnapshot();
         expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(true);
     });
