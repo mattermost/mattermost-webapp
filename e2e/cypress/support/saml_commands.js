@@ -14,7 +14,7 @@ Cypress.Commands.add('checkLoginPage', (settings = {}) => {
         expect(placeholder).to.match(/Username/);
     });
     cy.get('#loginPassword').should('be.visible').and('have.attr', 'placeholder', 'Password');
--   cy.findByText('Sign in').should('be.visible');
+    cy.findByText('Sign in').should('be.visible');
 });
 
 Cypress.Commands.add('checkSignUpPageSection', () => {
