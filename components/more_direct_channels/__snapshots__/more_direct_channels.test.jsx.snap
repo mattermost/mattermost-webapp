@@ -223,6 +223,6 @@ exports[`components/MoreDirectChannels should render the group channel option 1`
     }
   }
   isSelected={false}
-  onAdd={[MockFunction]}
+  onAdd={[Function]}
 />
 `;
