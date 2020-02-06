@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export default class NotifyCounts extends React.PureComponent {
-    static propTypes = {
-        mentionCount: PropTypes.number.isRequired,
-        messageCount: PropTypes.number.isRequired,
-    }
+type Props = {
+    mentionCount: number;
+    messageCount: number;
+}
+
+export default class NotifyCounts extends React.PureComponent<Props> {
     render() {
         if (this.props.mentionCount) {
             return <span className='badge badge-notify'>{this.props.mentionCount}</span>;

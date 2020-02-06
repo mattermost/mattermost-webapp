@@ -4,10 +4,11 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import FileThumbnail from './file_thumbnail';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         enableSVGs: getConfig(state).EnableSVGs === 'true',
     };

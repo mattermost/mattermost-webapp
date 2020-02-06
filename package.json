@@ -91,6 +91,8 @@
     "@storybook/addon-notes": "5.2.5",
     "@storybook/addons": "5.2.5",
     "@storybook/react": "5.2.5",
+    "@testing-library/jest-dom": "5.0.2",
+    "@testing-library/react": "9.4.0",
     "@types/chart.js": "2.8.10",
     "@types/classnames": "2.2.6",
     "@types/enzyme": "3.10.3",
