@@ -3562,7 +3562,7 @@
   "user.settings.notifications.sensitiveUsername": "Your non-case sensitive username \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Other non-case sensitive words, separated by commas:",
   "user.settings.notifications.soundConfig": "Please configure notification sounds in your browser settings",
-  "user.settings.notifications.sounds_info": "Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps.",
+  "user.settings.notifications.sounds_info": "Notification sounds are available on Edge, Safari, Chrome and Mattermost Desktop Apps.",
   "user.settings.notifications.title": "Notification Settings",
   "user.settings.notifications.wordsTrigger": "Words That Trigger Mentions",
   "user.settings.push_notification.allActivity": "For all activity",
