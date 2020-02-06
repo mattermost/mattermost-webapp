@@ -21,6 +21,7 @@ type Props = {
     currentChannel: Channel | undefined;
     categories: any[];
     unreadChannelIds: string[];
+    handleOpenMoreDirectChannelsModal: (e: Event) => void;
     actions: {
         switchToChannelById: (channelId: string) => void;
     };
@@ -230,12 +231,9 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
             this.props.actions.switchToChannelById(nextChannelId);
             this.scrollToChannel(nextChannelId);
+        } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+            this.props.handleOpenMoreDirectChannelsModal(e);
         }
-
-        // TODO: handle when doing modals
-        // } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-        //     this.handleOpenMoreDirectChannelsModal(e);
-        // }
     };
 
     navigateUnreadChannelShortcut = (e: KeyboardEvent) => {
@@ -271,6 +269,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             <SidebarCategory
                 category={category}
                 setChannelRef={this.setChannelRef}
+                handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
             />
         );
     }

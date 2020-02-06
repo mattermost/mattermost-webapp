@@ -5,23 +5,28 @@ import React from 'react';
 
 import Pluggable from 'plugins/pluggable';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import MoreDirectChannels from 'components/more_direct_channels';
 import MoreChannels from 'components/more_channels';
+import NewChannelFlow from 'components/new_channel_flow';
 
 import {Constants} from 'utils/constants';
 
+import AddChannelDropdown from './add_channel_dropdown';
 import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
 import SidebarCategoryList from './sidebar_category_list';
 
 type Props = {
-
+    canCreatePublicChannel: boolean;
+    canCreatePrivateChannel: boolean;
 };
 
 type State = {
     showDirectChannelsModal: boolean;
     showMoreChannelsModal: boolean;
+    showNewChannelModal: boolean;
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
@@ -30,15 +35,42 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.state = {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
+            showNewChannelModal: false,
         };
     }
 
-    onHideMoreDirectChannelsModal = () => {
+    showMoreDirectChannelsModal = () => {
+        this.setState({showDirectChannelsModal: true});
+    }
+
+    hideMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: false});
     }
 
-    onHideMoreChannelsModal = () => {
+    showMoreChannelsModal = () => {
+        this.setState({showMoreChannelsModal: true});
+        trackEvent('ui', 'ui_channels_more_public');
+    }
+
+    hideMoreChannelsModal = () => {
         this.setState({showMoreChannelsModal: false});
+    }
+
+    showNewChannelModal = () => {
+        this.setState({showNewChannelModal: true});
+    }
+
+    hideNewChannelModal = () => {
+        this.setState({showNewChannelModal: false});
+    }
+
+    handleOpenMoreDirectChannelsModal = (e: Event) => {
+        e.preventDefault();
+        if (this.state.showDirectChannelsModal) {
+            this.hideMoreDirectChannelsModal();
+        } else {
+            this.showMoreDirectChannelsModal();
+        }
     }
 
     renderModals = () => {
@@ -46,7 +78,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         if (this.state.showDirectChannelsModal) {
             moreDirectChannelsModal = (
                 <MoreDirectChannels
-                    onModalDismissed={this.onHideMoreDirectChannelsModal}
+                    onModalDismissed={this.hideMoreDirectChannelsModal}
                     isExistingChannel={false}
                 />
             );
@@ -56,12 +88,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         if (this.state.showMoreChannelsModal) {
             moreChannelsModal = (
                 <MoreChannels
-                    onModalDismissed={this.onHideMoreChannelsModal}
+                    onModalDismissed={this.hideMoreChannelsModal}
                     handleNewChannel={() => {
-                        this.onHideMoreChannelsModal();
-                        this.showNewChannelModal(Constants.OPEN_CHANNEL);
+                        this.hideMoreChannelsModal();
+                        this.showNewChannelModal();
                     }}
-                    morePublicChannelsModalType={this.state.morePublicChannelsModalType}
+                    morePublicChannelsModalType={'public'} // TODO: need to incorporate 'private' when showing archived channels: (getConfig(state).ExperimentalViewArchivedChannels === 'true')
                 />
             );
         }
@@ -72,7 +104,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     show={this.state.showNewChannelModal}
                     canCreatePublicChannel={this.props.canCreatePublicChannel}
                     canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                    channelType={this.state.newChannelModalType}
+                    channelType={Constants.OPEN_CHANNEL}
                     onModalDismissed={this.hideNewChannelModal}
                 />
                 {moreDirectChannelsModal}
@@ -87,8 +119,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <SidebarHeader/>
                 <ChannelNavigator/>
                 <ChannelFilter/>
+                <AddChannelDropdown
+                    showNewChannelModal={this.showNewChannelModal}
+                    showMoreChannelsModal={this.showMoreChannelsModal}
+                />
                 <Pluggable/>
-                <SidebarCategoryList/>
+                <SidebarCategoryList handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}/>
                 {this.renderModals()}
             </div>
         );
