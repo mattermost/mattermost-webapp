@@ -40,7 +40,7 @@ export default class PostListRow extends React.PureComponent {
              * Function to set or unset emoji picker for last message
              */
             emitShortcutReactToLastPostFrom: PropTypes.func
-        }).isRequired,
+        }),
     }
 
     blockShortcutReactToLastPostForNonMessages(listId) {
