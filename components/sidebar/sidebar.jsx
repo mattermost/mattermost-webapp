@@ -373,7 +373,12 @@ class Sidebar extends React.PureComponent {
             return;
         }
 
-        const top = element.position().top;
+        const position = element.position();
+        if (!position) {
+            return;
+        }
+
+        const top = position.top;
         const bottom = top + element.height();
 
         const scrollTop = this.refs.scrollbar.getScrollTop();
