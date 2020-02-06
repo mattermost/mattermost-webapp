@@ -76,7 +76,7 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
         }
       >
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <Link
             className="signup-team-login"
@@ -99,7 +99,7 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
         }
       >
         <div
-          className="margin--extra hidden-xs"
+          className="mt-8 hidden-xs"
         >
           <Link
             className="signup-team-login"
@@ -160,7 +160,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on error 1`] =
         }
       >
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <Link
             className="signup-team-login"
@@ -183,7 +183,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on error 1`] =
         }
       >
         <div
-          className="margin--extra hidden-xs"
+          className="mt-8 hidden-xs"
         >
           <Link
             className="signup-team-login"
@@ -234,7 +234,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on loading 1`]
         }
       >
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <Link
             className="signup-team-login"
@@ -257,7 +257,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on loading 1`]
         }
       >
         <div
-          className="margin--extra hidden-xs"
+          className="mt-8 hidden-xs"
         >
           <Link
             className="signup-team-login"
@@ -353,7 +353,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         }
       >
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <Link
             className="signup-team-login"
@@ -376,7 +376,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         }
       >
         <div
-          className="margin--extra hidden-xs"
+          className="mt-8 hidden-xs"
         >
           <Link
             className="signup-team-login"
@@ -440,7 +440,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         }
       >
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <Link
             className="signup-team-login"
@@ -463,7 +463,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         }
       >
         <div
-          className="margin--extra hidden-xs"
+          className="mt-8 hidden-xs"
         >
           <Link
             className="signup-team-login"
@@ -537,7 +537,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         }
       >
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <Link
             className="signup-team-login"
@@ -560,7 +560,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
         }
       >
         <div
-          className="margin--extra hidden-xs"
+          className="mt-8 hidden-xs"
         >
           <Link
             className="signup-team-login"

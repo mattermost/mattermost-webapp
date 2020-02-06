@@ -159,7 +159,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
                     target="_blank"
                   >
                     <FormattedMessage
-                      defaultMessage="see list of built-in slash commands"
+                      defaultMessage="See built-in slash commands"
                       id="add_command.trigger.helpReservedLinkText"
                       values={Object {}}
                     />
@@ -655,7 +655,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
                     target="_blank"
                   >
                     <FormattedMessage
-                      defaultMessage="see list of built-in slash commands"
+                      defaultMessage="See built-in slash commands"
                       id="add_command.trigger.helpReservedLinkText"
                       values={Object {}}
                     />
