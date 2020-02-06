@@ -381,7 +381,7 @@ export default class SystemUsers extends React.Component {
                         </div>
                         <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
                             {revokeAllUsersModal}
-                            <div className='padding-top padding-bottom x2'>
+                            <div className='pt-3 pb-3'>
                                 <button
                                     id='revoke-all-users'
                                     className='btn btn-default'

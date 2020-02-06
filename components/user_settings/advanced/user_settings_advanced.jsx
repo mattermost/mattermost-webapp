@@ -306,7 +306,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                 </label>
                                 <br/>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.advance.formattingDesc'
                                     defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'
