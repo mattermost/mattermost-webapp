@@ -12,7 +12,6 @@ import {ModalIdentifiers} from 'utils/constants';
 import ChannelMembersModal from './channel_members_modal';
 
 describe('components/ChannelMembersModal', () => {
-    const channelType: ChannelType = 'O';
     const baseProps = {
         channel: {
             id: 'channel_id',
@@ -21,7 +20,7 @@ describe('components/ChannelMembersModal', () => {
             update_at: 0,
             delete_at: 0,
             team_id: '',
-            type: channelType,
+            type: 'O' as ChannelType,
             name: '',
             header: '',
             purpose: '',
