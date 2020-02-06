@@ -1861,6 +1861,8 @@
   "bot.add.post_channels.help": "Bot will have access to post to all Mattermost public channels.",
   "bot.add.role": "Role",
   "bot.add.role.help": "Choose what role the bot should have.",
+  "bot.add.role.member": "Member",
+  "bot.add.role.admin": "System Admin",
   "bot.add.username.help": "You can use lowercase letters, numbers, periods, dashes, and underscores.",
   "bot.create_failed": "Failed to create bot",
   "bot.create_token.close": "Close",
