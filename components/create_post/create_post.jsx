@@ -484,6 +484,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
+        cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 

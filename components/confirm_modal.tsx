@@ -143,7 +143,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
         let checkbox;
         if (this.props.showCheckbox) {
             checkbox = (
-                <div className='checkbox text-right margin-bottom--none'>
+                <div className='checkbox text-right mb-0'>
                     <label>
                         <input
                             type='checkbox'
