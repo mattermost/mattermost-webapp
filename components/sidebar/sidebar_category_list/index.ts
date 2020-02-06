@@ -4,8 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getOrderedChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {getOrderedChannelIds, getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -47,7 +48,10 @@ function mapStateToProps(state: GlobalState & {views: any}) {
     const categories = categoriesFunc(orderedChannelIds);
 
     return {
+        currentTeam: getCurrentTeam(state),
+        currentChannel: getCurrentChannel(state),
         categories,
+        unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'), // This function call doesn't need to be 5 arguments does it?
     };
 }
 

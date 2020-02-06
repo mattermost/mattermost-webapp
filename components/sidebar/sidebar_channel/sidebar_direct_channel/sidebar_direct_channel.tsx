@@ -21,9 +21,7 @@ export default class SidebarDirectChannel extends React.PureComponent<Props, Sta
         const {channel, teammateUsername, currentTeamName} = this.props;
 
         return (
-            <div>
-                <Link to={`/${currentTeamName}/messages/@${teammateUsername}`}>{channel.display_name}</Link>
-            </div>
+            <Link to={`/${currentTeamName}/messages/@${teammateUsername}`}>{channel.display_name}</Link>
         );
     }
 }

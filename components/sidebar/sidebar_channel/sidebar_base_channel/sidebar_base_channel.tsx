@@ -20,9 +20,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
         const {channel, currentTeamName} = this.props;
 
         return (
-            <div>
-                <Link to={`/${currentTeamName}/channels/${channel.name}`}>{channel.display_name}</Link>
-            </div>
+            <Link to={`/${currentTeamName}/channels/${channel.name}`}>{channel.display_name}</Link>
         );
     }
 }
