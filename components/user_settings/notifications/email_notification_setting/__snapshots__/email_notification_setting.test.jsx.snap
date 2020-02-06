@@ -76,7 +76,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             </label>
           </div>
           <div
-            className="margin-top x2"
+            className="mt-3"
           >
             <FormattedMessage
               defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
@@ -179,7 +179,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </label>
               </div>
               <div
-                className="margin-top x2"
+                className="mt-3"
               >
                 <FormattedMessage
                   defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
@@ -440,7 +440,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             </label>
           </div>
           <div
-            className="margin-top x2"
+            className="mt-3"
           >
             <FormattedMessage
               defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
@@ -602,7 +602,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </label>
               </div>
               <div
-                className="margin-top x2"
+                className="mt-3"
               >
                 <FormattedMessage
                   defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
@@ -712,7 +712,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   inputs={
     Array [
       <div
-        className="padding-top"
+        className="pt-2"
       >
         <FormattedMessage
           defaultMessage="Email notifications have not been enabled by your System Administrator."
@@ -787,7 +787,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           </label>
         </div>
         <div
-          className="margin-top x2"
+          className="mt-3"
         >
           <FormattedMessage
             defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."

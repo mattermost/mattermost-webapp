@@ -471,7 +471,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         }
 
         return (
-            <div className='light margin-top half'>
+            <div className='light mt-1'>
                 <FormattedMessage
                     key='admin.user_item.userAccessToken'
                     id={messageId}
