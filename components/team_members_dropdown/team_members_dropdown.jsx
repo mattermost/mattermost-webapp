@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
 import Menu from 'components/widgets/menu/menu';
@@ -185,7 +185,7 @@ export default class TeamMembersDropdown extends React.Component {
             const title = (
                 <FormattedMessage
                     id='team_members_dropdown.confirmDemoteRoleTitle'
-                    defaultMessage='Confirm demotion from System Admin role'
+                    defaultMessage='Confirm Demotion from System Admin Role'
                 />
             );
 

@@ -44,7 +44,7 @@ const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
             errorTitle = (
                 <FormattedMessage
                     id='error.oauth_missing_code.title'
-                    defaultMessage='Mattermost needs your help'
+                    defaultMessage='Mattermost Needs Your Help'
                 />
             );
             break;

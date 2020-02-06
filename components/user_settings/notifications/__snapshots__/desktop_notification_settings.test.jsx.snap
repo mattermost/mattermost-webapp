@@ -159,7 +159,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   section=""
   server_error=""
   submit={[Function]}
-  title="Desktop notifications"
+  title="Desktop Notifications"
   updateSection={[Function]}
 />
 `;
@@ -261,7 +261,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   section=""
   server_error=""
   submit={[Function]}
-  title="Desktop notifications"
+  title="Desktop Notifications"
   updateSection={[Function]}
 />
 `;
@@ -277,7 +277,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   }
   focused={false}
   section="desktop"
-  title="Desktop notifications"
+  title="Desktop Notifications"
   updateSection={[Function]}
 />
 `;
@@ -293,7 +293,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   }
   focused={false}
   section="desktop"
-  title="Desktop notifications"
+  title="Desktop Notifications"
   updateSection={[Function]}
 />
 `;
@@ -457,7 +457,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   section=""
   server_error=""
   submit={[Function]}
-  title="Desktop notifications"
+  title="Desktop Notifications"
   updateSection={[Function]}
 />
 `;
@@ -473,7 +473,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   }
   focused={false}
   section="desktop"
-  title="Desktop notifications"
+  title="Desktop Notifications"
   updateSection={[Function]}
 />
 `;
