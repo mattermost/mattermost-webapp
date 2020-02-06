@@ -196,7 +196,7 @@ export default class MoreChannels extends React.Component {
                 >
                     <FormattedMessage
                         id='more_channels.create'
-                        defaultMessage='Create New Channel'
+                        defaultMessage='Create Channel'
                     />
                 </button>
             </TeamPermissionGate>

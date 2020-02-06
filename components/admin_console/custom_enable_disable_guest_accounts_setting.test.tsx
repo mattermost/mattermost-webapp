@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {FormattedMessage} from 'react-intl';
+
 import CustomEnableDisableGuestAccountsSetting from './custom_enable_disable_guest_accounts_setting';
 
 describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () => {
@@ -11,9 +13,19 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
         id: 'MySetting',
         value: false,
         onChange: jest.fn(),
+        cancelSubmit: jest.fn(),
         disabled: false,
         setByEnv: false,
+        showConfirm: false,
     };
+
+    const warningMessage = (
+        <FormattedMessage
+            defaultMessage='All current guest account sessions will be revoked, and marked as inactive'
+            id='admin.guest_access.disableConfirmWarning'
+            values={{}}
+        />
+    );
 
     describe('initial state', () => {
         test('with true', () => {
@@ -42,9 +54,10 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
     });
 
     describe('handleChange', () => {
-        test('should enable without show confirmation modal', () => {
+        test('should enable without show confirmation modal or warning', () => {
             const props = {
                 ...baseProps,
+                showConfirm: true,
                 onChange: jest.fn(),
             };
 
@@ -53,13 +66,13 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             );
 
             wrapper.instance().handleChange('MySetting', true);
-            expect(props.onChange).toBeCalledWith(baseProps.id, true);
-            expect(wrapper.state().showConfirm).toBe(false);
+            expect(props.onChange).toBeCalledWith(baseProps.id, true, false, false, '');
         });
 
-        test('should show confirmation modal on disable without confirm', () => {
+        test('should show confirmation modal and warning when disabling', () => {
             const props = {
                 ...baseProps,
+                showConfirm: true,
                 onChange: jest.fn(),
             };
 
@@ -68,14 +81,14 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             );
 
             wrapper.instance().handleChange('MySetting', false);
-            expect(props.onChange).not.toBeCalled();
-            expect(wrapper.state().showConfirm).toBe(true);
+            expect(props.onChange).toBeCalledWith(baseProps.id, false, true, false, warningMessage);
         });
 
-        test('should disable when confirm param is passed', () => {
+        test('should call onChange with doSubmit = true when confirm is true', () => {
             const props = {
                 ...baseProps,
                 onChange: jest.fn(),
+                showConfirm: true,
             };
 
             const wrapper = shallow<CustomEnableDisableGuestAccountsSetting>(
@@ -83,8 +96,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             );
 
             wrapper.instance().handleChange('MySetting', false, true);
-            expect(props.onChange).toBeCalledWith(baseProps.id, false);
-            expect(wrapper.state().showConfirm).toBe(false);
+            expect(props.onChange).toBeCalledWith(baseProps.id, false, true, true, warningMessage);
         });
     });
 });
