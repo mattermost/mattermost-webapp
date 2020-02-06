@@ -35,7 +35,7 @@ import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
-import {getEmojiMap} from 'selectors/emojis';
+import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
@@ -64,6 +64,7 @@ function makeMapStateToProps() {
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+        const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
         return {
             currentTeamId: getCurrentTeamId(state),
@@ -91,6 +92,7 @@ function makeMapStateToProps() {
             emojiMap: getEmojiMap(state),
             badConnection,
             isTimezoneEnabled,
+            shortcutReactToLastPostEmittedFrom
         };
     };
 }

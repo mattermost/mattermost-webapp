@@ -132,7 +132,6 @@ class RhsComment extends React.PureComponent {
                 actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
-            // irrespective of what type is the last post
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
             // Checking if post is at scroll view of the user

@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {StoragePrefixes, ModalIdentifiers, Locations} from 'utils/constants';
+import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
     containsAtChannel,
@@ -876,11 +876,17 @@ class CreatePost extends React.PureComponent {
     documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
+            return;
+        } else if (lastMessageReactionKeyCombo) {
+            e.preventDefault();
+
+            this.reactToLastMessage(e);
             return;
         }
 
@@ -928,7 +934,6 @@ class CreatePost extends React.PureComponent {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
-        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
@@ -940,8 +945,6 @@ class CreatePost extends React.PureComponent {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
-        } else if (lastMessageReactionKeyCombo) {
-            this.reactToLastMessage(e);
         }
     }
 
@@ -989,9 +992,18 @@ class CreatePost extends React.PureComponent {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
-        const {actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
-        emitShortcutReactToLastPostFrom(Locations.CENTER);
+        const {rhsExpanded, actions: {emitShortcutReactToLastPostFrom}} = this.props;
+        const noModalsAreOpen = document.getElementsByClassName(A11yClassNames.MODAL).length === 0;
+        const noPopupsDropdownsAreOpen = document.getElementsByClassName(A11yClassNames.POPUP).length === 0;
+
+        // Block keyboard shortcut react to last message when :
+        // - RHS is completely expanded
+        // - Any dropdown/popups are open
+        // - Any modals are open
+        if (!rhsExpanded && noModalsAreOpen && noPopupsDropdownsAreOpen) {
+            emitShortcutReactToLastPostFrom(Locations.CENTER);
+        }
     }
 
     handleBlur = () => {

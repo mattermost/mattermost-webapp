@@ -243,6 +243,7 @@ export default class PostInfo extends React.PureComponent {
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
+            // Following are the types of posts on which adding reaction is not possible
             const isDeletedPost = post && post.state === Posts.POST_DELETED;
             const isEphemeralPost = post && Utils.isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
@@ -254,15 +255,13 @@ export default class PostInfo extends React.PureComponent {
             const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 65) > 0 &&
                 boundingRectOfPostInfo.bottom < (window.innerHeight - 85);
 
-            if (isPostHeaderVisibleToUser) {
-                if (!isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
+            if (isPostHeaderVisibleToUser && !isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
                     !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
-                    this.setState({
-                        showOptionsMenuWithoutHover: true
-                    }, () => {
-                        this.toggleEmojiPicker();
-                    });
-                }
+                this.setState({
+                    showOptionsMenuWithoutHover: true
+                }, () => {
+                    this.toggleEmojiPicker();
+                });
             }
         }
     }
