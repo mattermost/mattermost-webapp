@@ -2,14 +2,27 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getAudits} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import Audits from './audits';
+
+type Actions = {
+    getAudits: () => Promise<{data: {
+        id: string;
+        create_at: number;
+        user_id: string;
+        action: string;
+        extra_info: string;
+        ip_address: string;
+        session_id: string;
+    };
+    }>;
+}
 
 function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
@@ -23,7 +36,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getAudits
         }, dispatch)
     };

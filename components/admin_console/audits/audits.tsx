@@ -4,17 +4,27 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+
 import ComplianceReports from 'components/admin_console/compliance_reports';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen';
 
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
-
 type Props = {
     isLicensed: boolean;
     audits: Array<any>;
     actions: {
-        getAudits: () => ActionFunc;
+        getAudits: () => Promise<{data: {
+            id: string;
+            create_at: number;
+            user_id: string;
+            action: string;
+            extra_info: string;
+            ip_address: string;
+            session_id: string;
+        };
+        }>;
     };
 };
 
