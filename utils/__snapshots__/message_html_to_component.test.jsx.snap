@@ -11,6 +11,7 @@ exports[`messageHtmlToComponent At mention 1`] = `
       <Connect(AtMention)
         disableHighlight={false}
         hasMention={true}
+        isRHS={false}
         mentionName="joram"
       >
         @joram
@@ -28,6 +29,7 @@ exports[`messageHtmlToComponent At mention 2`] = `
     <Connect(AtMention)
       disableHighlight={true}
       hasMention={true}
+      isRHS={false}
       mentionName="joram"
     >
       @joram
