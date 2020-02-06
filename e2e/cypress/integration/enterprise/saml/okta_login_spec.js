@@ -21,24 +21,24 @@ context('Okta', () => {
             Verify: true,
             Encrypt: true,
             SignRequest: true,
-            IdpUrl: Cypress.env('okta_base_url') + '/app/' + Cypress.env('okta_mm_app_name') + '/' + Cypress.env('okta_mm_app_id') + '/sso/saml',
-            IdpDescriptorUrl: Cypress.env('okta_root_url') + '/' + Cypress.env('okta_mm_app_id'),
-            IdpMetadataUrl: Cypress.env('okta_base_url') + '/app/' + Cypress.env('okta_mm_app_id') + '/sso/saml/metadata',
+            IdpUrl: Cypress.env('oktaBaseUrl') + '/app/' + Cypress.env('oktaMMAppName') + '/' + Cypress.env('oktaMMAppId') + '/sso/saml',
+            IdpDescriptorUrl: Cypress.env('oktaRootUrl') + '/' + Cypress.env('oktaMMAppId'),
+            IdpMetadataUrl: Cypress.env('oktaBaseUrl') + '/app/' + Cypress.env('oktaMMAppId') + '/sso/saml/metadata',
             AssertionConsumerServiceURL: Cypress.config('baseUrl') + '/login/sso/saml',
             SignatureAlgorithm: 'RSAwithSHA1',
             CanonicalAlgorithm: 'Canonical1.0',
             IdpCertificateFile: 'saml-idp.crt',
             PublicCertificateFile: 'saml-public.crt',
             PrivateKeyFile: 'saml-private.key',
-            IdAttribute: "",
-            GuestAttribute: "UserType=Guest",
+            IdAttribute: '',
+            GuestAttribute: 'UserType=Guest',
             EnableAdminAttribute: true,
-            AdminAttribute: "UserType=Admin",
-            FirstNameAttribute: "",
-            LastNameAttribute: "",
-            EmailAttribute: "Email",
-            UsernameAttribute: "Username",
-            LoginButtonText: "SAML",
+            AdminAttribute: 'UserType=Admin',
+            FirstNameAttribute: '',
+            LastNameAttribute: '',
+            EmailAttribute: 'Email',
+            UsernameAttribute: 'Username',
+            LoginButtonText: 'SAML',
         },
         ExperimentalSettings: {
             UseNewSAMLLibrary: true
@@ -56,8 +56,8 @@ context('Okta', () => {
             cy.oktaAddUsers(users);
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.apiGetConfig().then((response) => {
-                    cy.setTestSettings(loginButtonText, response.body).then((response) => {
-                        testSettings = response;
+                    cy.setTestSettings(loginButtonText, response.body).then((_response) => {
+                        testSettings = _response;
                     });
                 });
             });
@@ -67,6 +67,7 @@ context('Okta', () => {
             testSettings.user = regular1;
 
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
                     cy.doOktaLogin(testSettings.user).then(() => {
                         cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
@@ -84,6 +85,7 @@ context('Okta', () => {
             testSettings.user = regular1;
 
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
                     cy.doOktaLogin(testSettings.user).then(() => {
                         cy.doSamlLogout(testSettings).then(() => {
@@ -98,10 +100,11 @@ context('Okta', () => {
             testSettings.user = guest1;
 
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
                     cy.doOktaLogin(testSettings.user).then(() => {
                         cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                            cy.doSamlLogoutFromSignUp().then( () => {
+                            cy.doSamlLogoutFromSignUp().then(() => {
                                 cy.oktaDeleteSession(oktaUserId);
                             });
                         });
@@ -115,9 +118,10 @@ context('Okta', () => {
             testSettings.user = guest1;
 
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
                     cy.doOktaLogin(testSettings.user).then(() => {
-                        cy.doSamlLogoutFromSignUp().then( () => {
+                        cy.doSamlLogoutFromSignUp().then(() => {
                             cy.oktaDeleteSession(oktaUserId);
                         });
                     });
@@ -129,6 +133,7 @@ context('Okta', () => {
             testSettings.user = admin1;
 
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
                     cy.doOktaLogin(testSettings.user).then(() => {
                         cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
@@ -146,6 +151,7 @@ context('Okta', () => {
             testSettings.user = admin1;
 
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
+                cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
                     cy.doOktaLogin(testSettings.user).then(() => {
                         cy.doSamlLogout(testSettings).then(() => {
@@ -157,7 +163,7 @@ context('Okta', () => {
         });
 
         it('Saml login invited Guest user to a closed channel', () => {
-            testSettings.user = regular1
+            testSettings.user = regular1;
 
             //login as a regular user - generate an invite link
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
@@ -174,6 +180,7 @@ context('Okta', () => {
                                     cy.oktaGetOrCreateUser(testSettings.user).then((_oktaUserId) => {
                                         cy.visit(inviteUrl).then(() => {
                                             cy.oktaDeleteSession(_oktaUserId);
+
                                             //login the guest
                                             cy.doSamlLogin(testSettings).then(() => {
                                                 cy.doOktaLogin(testSettings.user).then(() => {
