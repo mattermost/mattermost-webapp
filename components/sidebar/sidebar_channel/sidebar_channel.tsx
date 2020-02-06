@@ -45,7 +45,7 @@ type Props = {
     showUnreadForMsgs: boolean;
 
     /**
-     * aaa
+     * Sets the ref for the sidebar channel div element, so that it can be used by parent components
      */
     setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
 };
