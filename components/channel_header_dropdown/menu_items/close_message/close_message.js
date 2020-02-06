@@ -80,22 +80,19 @@ export default class CloseMessage extends React.PureComponent {
     render() {
         const {id, channel} = this.props;
 
+        let text;
         if (channel.type === Constants.DM_CHANNEL) {
-            return (
-                <Menu.ItemAction
-                    id={id}
-                    show={channel.type === Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
-                    onClick={this.handleClose}
-                    text={localizeMessage('center_panel.direct.closeDirectMessage', 'Close Direct Message')}
-                />
-            );
+            text = localizeMessage('center_panel.direct.closeDirectMessage', 'Close Direct Message');
+        } else if (channel.type === Constants.GM_CHANNEL) {
+            text = localizeMessage('center_panel.direct.closeGroupMessage', 'Close Group Message');
         }
+
         return (
             <Menu.ItemAction
                 id={id}
-                show={channel.type !== Constants.DM_CHANNEL && channel.type === Constants.GM_CHANNEL}
+                show={channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL}
                 onClick={this.handleClose}
-                text={localizeMessage('center_panel.direct.closeGroupMessage', 'Close Group Message')}
+                text={text}
             />
         );
     }
