@@ -106,7 +106,7 @@ class AdminNavbarDropdown extends React.Component {
                 <Menu.Group>
                     <Menu.ItemAction
                         onClick={this.handleLogout}
-                        text={formatMessage({id: 'navbar_dropdown.logout', defaultMessage: 'Logout'})}
+                        text={formatMessage({id: 'navbar_dropdown.logout', defaultMessage: 'Log Out'})}
                     />
                 </Menu.Group>
             </Menu>

@@ -36,7 +36,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         />
       </h3>
       <div
-        className="margin-top"
+        className="mt-2"
       >
         <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
@@ -81,7 +81,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         />
       </h3>
       <div
-        className="margin-top"
+        className="mt-2"
       >
         <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
@@ -134,7 +134,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         />
       </h3>
       <div
-        className="margin-top"
+        className="mt-2"
       >
         <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
