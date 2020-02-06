@@ -454,10 +454,15 @@
             overflow: hidden;
 
             .control-label {
-                padding: 0;
+                padding: 5px 0 0 0;
                 @include text-clamp(2, 20);
             }
+
+            div:nth-child(2) > .control-label {
+                padding: 0;
+            }
         }
+
         .reset-defaults-btn {
             position: absolute;
             right: 0;

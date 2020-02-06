@@ -137,7 +137,7 @@ export default function HelpFormatting(): JSX.Element {
             </p>
             <FormattedMessage
                 id='help.formatting.syntaxEx'
-                defaultMessage={'```go\npackage main\nimport "fmt"\nfunc main() \\{\n    fmt.Println("Hello, 世界")\n\\}\n```'}
+                defaultMessage={'```go\npackage main\nimport "fmt"\nfunc main() {\n    fmt.Println("Hello, 世界")\n}\n```'}
                 values={{dummy: ''}}
             >
                 {(example) => renderRawExample(example)}

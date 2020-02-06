@@ -65,7 +65,7 @@ export default class TeamListDropdown extends React.Component {
                             id='removeFromTeam'
                             show={true}
                             onClick={() => this.props.doRemoveUserFromTeam(team.id)}
-                            text={localizeMessage('team_members_dropdown.leave_team', 'Remove From Team')}
+                            text={localizeMessage('team_members_dropdown.leave_team', 'Remove from Team')}
                             buttonClass='SystemUserDetail__action-remove-team'
                         />
                     </Menu>
