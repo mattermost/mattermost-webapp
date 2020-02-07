@@ -23,7 +23,7 @@ import Popover from 'components/widgets/popover';
 
 const {KeyCodes} = Constants;
 
-export default class SearchBar extends React.PureComponent {
+export default class SearchBar extends React.Component {
     static propTypes = {
         isSearchingTerm: PropTypes.bool,
         searchTerms: PropTypes.string,
