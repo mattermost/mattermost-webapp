@@ -245,7 +245,7 @@ describe('components/MoreDirectChannels', () => {
         });
     });
 
-    test('should excluded deleted users if there is not direct channel between users', () => {
+    test('should exclude deleted users if there is not direct channel between users', () => {
         const users = [
             {
                 id: 'user_id_1',
