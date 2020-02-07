@@ -13,6 +13,7 @@ import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
 import InvitationModal from 'components/invitation_modal';
 
 const NUM_SCREENS = 3;
+const SUPPORT_SETTINGS_DEFAULT_SUPPORT_EMAIL = "feedback@mattermost.com";
 
 export default class TutorialIntroScreens extends React.Component {
     static propTypes = {
@@ -242,7 +243,7 @@ export default class TutorialIntroScreens extends React.Component {
         const circles = this.createCircles();
 
         let supportInfo = null;
-        if (this.props.supportEmail) {
+        if (this.props.supportEmail && this.props.supportEmail != SUPPORT_SETTINGS_DEFAULT_SUPPORT_EMAIL) {
             supportInfo = (
                 <p id='supportInfo'>
                     <FormattedMessage
