@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getTeamStats} from 'mattermost-redux/actions/teams';
+import {getTeamStats, getTeamMembers} from 'mattermost-redux/actions/teams';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getMembersInCurrentTeam, getCurrentTeamStats} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentTeam, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
@@ -44,6 +44,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            getTeamMembers,
             searchProfiles,
             getTeamStats,
             loadProfilesAndTeamMembers,
