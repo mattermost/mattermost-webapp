@@ -14,6 +14,10 @@ export default class ScrollToBottomArrows extends React.PureComponent {
         onClick: PropTypes.func.isRequired,
     };
 
+    static defaultProps = {
+        atBottom: false,
+    };
+
     render() {
         // only show on mobile
         if ($(window).width() > 768) {
