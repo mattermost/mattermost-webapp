@@ -9,12 +9,14 @@ import {Spring, SpringSystem, util as MathUtil} from 'rebound';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
+
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 
 type Props = {
     currentTeam: Team;
-    currentChannel: Channel | undefined;
+    currentChannel: Channel;
     categories: any[];
     unreadChannelIds: string[];
 };
@@ -54,6 +56,20 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     componentDidUpdate(prevProps: Props) {
+        if (!this.props.currentChannel || !prevProps.currentChannel) {
+            return;
+        }
+
+        // if the active channel disappeared (which can happen when dm channels
+        // autoclose), go to user default channel in team
+        if (this.props.currentTeam === prevProps.currentTeam &&
+            this.props.currentChannel.id === prevProps.currentChannel.id &&
+            !this.getDisplayedChannels().find((channelId: string) => channelId === this.props.currentChannel.id)
+        ) {
+            redirectUserToDefaultTeam();
+            return;
+        }
+
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
             this.scrollbar.current!.scrollTop = 0;
@@ -64,7 +80,27 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             this.scrollToChannel(this.props.currentChannel!.id);
         }
 
+        // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
+        // close the LHS on mobile when you change channels
+        // if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        //     if (this.closedDirectChannel) {
+        //         this.closedDirectChannel = false;
+        //     } else {
+        //         this.props.actions.close();
+        //     }
+        // }
+
         this.updateUnreadIndicators();
+    }
+
+    channelIdIsDisplayedForProps = (id: string) => {
+        const allChannels = this.getDisplayedChannels();
+        for (let i = 0; i < allChannels.length; i++) {
+            if (allChannels[i] === id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     setChannelRef = (channelId: string, ref: HTMLDivElement) => {

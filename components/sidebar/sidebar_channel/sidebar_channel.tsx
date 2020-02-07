@@ -30,21 +30,6 @@ type Props = {
     currentTeamName: string;
 
     /**
-     * Number of unread mentions in this channel
-     */
-    unreadMentions: number;
-
-    /**
-     * Number of unread messages in this channel
-     */
-    unreadMsgs: number;
-
-    /**
-     * User preference of whether the channel can be marked unread
-     */
-    showUnreadForMsgs: boolean;
-
-    /**
      * Sets the ref for the sidebar channel div element, so that it can be used by parent components
      */
     setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
@@ -55,14 +40,6 @@ type State = {
 };
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
-    /**
-     * Show as unread if you have unread mentions
-     * OR if you have unread messages and the channel can be marked unread by preferences
-     */
-    showChannelAsUnread = () => {
-        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
-    };
-
     setRef = (ref: HTMLDivElement) => {
         this.props.setChannelRef(this.props.channel.id, ref);
     }
@@ -70,7 +47,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
     render() {
         const {channel, currentTeamName} = this.props;
 
-        let ChannelComponent = SidebarBaseChannel;
+        let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string}> = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {
             ChannelComponent = SidebarDirectChannel;
         } else if (channel.type === Constants.GM_CHANNEL) {
@@ -78,20 +55,10 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         }
 
         return (
-            <div
-                ref={this.setRef}
-                style={{
-                    display: 'flex',
-                    fontWeight: this.showChannelAsUnread() ? 'bold' : 'inherit', // TODO temp styling
-                }}
-            >
+            <div ref={this.setRef}>
                 <ChannelComponent
                     channel={channel}
                     currentTeamName={currentTeamName}
-                />
-                <ChannelMentionBadge
-                    channelId={channel.id}
-                    unreadMentions={this.props.unreadMentions}
                 />
             </div>
         );

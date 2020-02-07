@@ -1,0 +1,87 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import React from 'react';
+import {Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/types/channels';
+
+import Constants from 'utils/constants';
+import OverlayTrigger from 'components/overlay_trigger';
+
+type Props = {
+    channel: Channel;
+    show: boolean;
+    closeHandler?: (callback: () => void) => void;
+};
+
+type State = {
+
+};
+
+export default class SidebarChannelClose extends React.PureComponent<Props, State> {
+    isLeaving: boolean;
+
+    constructor(props: Props) {
+        super(props);
+
+        this.isLeaving = false;
+    }
+
+    handleLeaveChannel = () => {
+        if (this.isLeaving || !this.props.closeHandler) {
+            return;
+        }
+
+        this.isLeaving = true;
+
+        this.props.closeHandler(() => {
+            this.isLeaving = false;
+        });
+    }
+
+    render() {
+        const {channel, closeHandler} = this.props;
+
+        let closeButton = null;
+
+        if (this.props.show && closeHandler) {
+            let removeTooltip = (
+                <Tooltip id='remove-dm-tooltip'>
+                    <FormattedMessage
+                        id='sidebar.removeList'
+                        defaultMessage='Remove from list'
+                    />
+                </Tooltip>
+            );
+
+            if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
+                removeTooltip = (
+                    <Tooltip id='remove-dm-tooltip'>
+                        <FormattedMessage
+                            id='sidebar.leave'
+                            defaultMessage='Leave channel'
+                        />
+                    </Tooltip>
+                );
+            }
+
+            closeButton = (
+                <OverlayTrigger
+                    delayShow={1000}
+                    placement='top'
+                    overlay={removeTooltip}
+                >
+                    <span
+                        onClick={this.handleLeaveChannel}
+                        className='btn-close'
+                    >
+                        {'×'}
+                    </span>
+                </OverlayTrigger>
+            );
+        }
+        return closeButton;
+    }
+}

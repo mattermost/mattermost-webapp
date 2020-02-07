@@ -25,7 +25,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <SidebarHeader/>
                 <ChannelNavigator/>
                 <ChannelFilter/>
-                <Pluggable/>
+                <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList/>
             </div>
         );
