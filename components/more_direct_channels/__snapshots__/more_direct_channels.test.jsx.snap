@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/MoreDirectChannels should excluded deleted users if there is not direct channel between users 1`] = `
+exports[`components/MoreDirectChannels should exclude deleted users if there is not direct channel between users 1`] = `
 <Modal
   animation={true}
   aria-labelledby="moreDmModalLabel"
