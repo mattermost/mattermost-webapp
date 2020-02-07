@@ -801,7 +801,6 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap) {
                 const codePoint = fixedCharCodeAt(emojiMatch, i);
                 if (codePoint === -1) {
                     // Not a complete character
-                    // console.log('incomplete', emojiMatch);
                     continue;
                 }
 
@@ -810,7 +809,6 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap) {
         }
 
         const emojiCode = codePoints.map((codePoint) => codePoint.toString(16)).join('-');
-        // console.log(emojiCode, emojiMatch);
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
         if (emojiMap.hasUnicode(emojiCode)) {
@@ -828,7 +826,7 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap) {
 
 // Gets the unicode character code of a character starting at the given index in the string
 // Adapted from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
-function fixedCharCodeAt(str, idx = 0) {
+function fixedCharCodeAt(str: string, idx = 0) {
     // ex. fixedCharCodeAt('\uD800\uDC00', 0); // 65536
     // ex. fixedCharCodeAt('\uD800\uDC00', 1); // false
     const code = str.charCodeAt(idx);
