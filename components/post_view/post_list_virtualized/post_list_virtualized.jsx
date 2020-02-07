@@ -125,12 +125,13 @@ class PostList extends React.PureComponent {
         this.state = {
             isScrolling: false,
             isMobile,
-            atBottom: true,
+
+            /* Intentionally setting undefined so that toast can determine when the first time this state is defined */
+            atBottom: undefined, // eslint-disable-line no-undefined
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
             postMenuOpened: false,
-            initScrollCompleted: false,
             dynamicListStyle: {
                 willChange: 'transform',
             },
@@ -170,7 +171,7 @@ class PostList extends React.PureComponent {
         if (this.postListRef && this.postListRef.current) {
             const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
-            if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
+            if ((postsAddedAtTop || channelHeaderAdded) && this.state.atBottom === false) {
                 const postListNode = this.postListRef.current;
                 const previousScrollTop = postListNode.parentElement.scrollTop;
                 const previousScrollHeight = postListNode.scrollHeight;
@@ -362,12 +363,6 @@ class PostList extends React.PureComponent {
             if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
-
-            if (!this.state.initScrollCompleted) {
-                this.setState({
-                    initScrollCompleted: true,
-                });
-            }
         }
     }
 
@@ -500,7 +495,6 @@ class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}
-                initScrollCompleted={this.state.initScrollCompleted}
             />
         );
     }

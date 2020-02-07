@@ -155,27 +155,6 @@ describe('PostList', () => {
 
             expect(baseProps.actions.canLoadMorePosts).not.toHaveBeenCalled();
         });
-
-        test('should set initScrollCompleted on first onScroll when scrollUpdateWasRequested', () => {
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
-
-            const scrollOffset = 1234;
-            const scrollHeight = 1000;
-            const clientHeight = 500;
-
-            instance.listRef = {current: {_getRangeToRender: () => [0, 70, 70, 70]}};
-            expect(wrapper.state('initScrollCompleted')).toBe(false);
-            instance.onScroll({
-                scrollDirection: 'forward',
-                scrollOffset,
-                scrollUpdateWasRequested: true,
-                scrollHeight,
-                clientHeight,
-            });
-
-            expect(wrapper.state('initScrollCompleted')).toBe(true);
-        });
     });
 
     describe('isAtBottom', () => {
@@ -287,7 +266,8 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
             wrapper.setProps({atOldestPost: true});
-            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual(null);
+            wrapper.setState({atBottom: true});
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual(null);
         });
     });
 
