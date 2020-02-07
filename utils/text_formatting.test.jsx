@@ -136,7 +136,7 @@ describe('handleUnicodeEmoji', () => {
             output: '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>'
         },
         {
-            description: 'should correctly match gendered emojis',
+            description: 'should correctly match emojis with skin tones',
             text: '👍🏿👍🏻',
             output: '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>'
         },
