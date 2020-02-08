@@ -15,7 +15,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {intlShape} from 'utils/react_intl';
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 import * as Utils from 'utils/utils.jsx';
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n.jsx';
@@ -26,7 +26,7 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
@@ -639,7 +639,7 @@ class LoginController extends React.Component {
                     <Link to={'/reset_password'}>
                         <FormattedMessage
                             id='login.forgot'
-                            defaultMessage='I forgot my password'
+                            defaultMessage='I forgot my password.'
                         />
                     </Link>
                 </div>

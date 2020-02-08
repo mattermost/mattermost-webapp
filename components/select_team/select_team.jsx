@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 import logoImage from 'images/logo.png';
 
 import AnnouncementBar from 'components/announcement_bar';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
@@ -224,7 +224,7 @@ export default class SelectTeam extends React.Component {
 
         const teamSignUp = (
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
-                <div className='margin--extra'>
+                <div className='mt-8'>
                     <Link
                         id='createNewTeamLink'
                         to='/create_team'
@@ -243,7 +243,7 @@ export default class SelectTeam extends React.Component {
         if (!UserAgent.isMobileApp()) {
             adminConsoleLink = (
                 <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
-                    <div className='margin--extra hidden-xs'>
+                    <div className='mt-8 hidden-xs'>
                         <Link
                             to='/admin_console'
                             className='signup-team-login'

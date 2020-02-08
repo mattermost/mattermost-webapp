@@ -3,12 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import LocalDateTime from 'components/local_date_time';
+import OverlayTrigger from 'components/overlay_trigger';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -276,7 +277,7 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-position'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom padding-top half'
+                        className='overflow--ellipsis text-nowrap pt-1 pb-1'
                     >
                         {position}
                     </div>
@@ -301,7 +302,7 @@ class ProfilePopover extends React.PureComponent {
                 >
                     <a
                         href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email padding-bottom half'
+                        className='text-nowrap text-lowercase user-popover__email pb-1'
                     >
                         {email}
                     </a>
@@ -323,7 +324,7 @@ class ProfilePopover extends React.PureComponent {
             dataContent.push(
                 <div
                     key='user-popover-local-time'
-                    className='padding-bottom half'
+                    className='pb-1'
                 >
                     <FormattedMessage
                         id='user_profile.account.localTime'

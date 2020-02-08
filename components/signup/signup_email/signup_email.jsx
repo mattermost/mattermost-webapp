@@ -16,7 +16,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
 
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 
@@ -314,7 +314,7 @@ export default class SignupEmail extends React.Component {
             );
         }
 
-        let emailContainerStyle = 'margin--extra';
+        let emailContainerStyle = 'mt-8';
         if (this.state.email) {
             emailContainerStyle = 'hidden';
         }
@@ -349,7 +349,7 @@ export default class SignupEmail extends React.Component {
                         </div>
                     </div>
                     {yourEmailIs}
-                    <div className='margin--extra'>
+                    <div className='mt-8'>
                         <h5 id='name_label'>
                             <strong>
                                 <FormattedMessage
@@ -373,7 +373,7 @@ export default class SignupEmail extends React.Component {
                             {nameHelpText}
                         </div>
                     </div>
-                    <div className='margin--extra'>
+                    <div className='mt-8'>
                         <h5 id='password_label'>
                             <strong>
                                 <FormattedMessage
@@ -395,7 +395,7 @@ export default class SignupEmail extends React.Component {
                             {passwordError}
                         </div>
                     </div>
-                    <p className='margin--extra'>
+                    <p className='mt-5'>
                         <button
                             id='createAccountButton'
                             type='submit'

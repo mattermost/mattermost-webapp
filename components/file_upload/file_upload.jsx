@@ -589,6 +589,16 @@ class FileUpload extends PureComponent {
         let bodyAction;
         const ariaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
 
+        let onClick;
+        if (!isMobile) {
+            onClick = this.simulateInputClick;
+        }
+
+        let onTouchEnd;
+        if (isMobile) {
+            onTouchEnd = this.simulateInputClick;
+        }
+
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
                 <div>
@@ -597,8 +607,8 @@ class FileUpload extends PureComponent {
                         id='fileUploadButton'
                         aria-label={ariaLabel}
                         className='style--none post-action icon icon--attachment'
-                        onClick={!isMobile && this.simulateInputClick}
-                        onTouchEnd={isMobile && this.simulateInputClick}
+                        onClick={onClick}
+                        onTouchEnd={onTouchEnd}
                     >
                         <AttachmentIcon/>
                     </button>
@@ -628,7 +638,9 @@ class FileUpload extends PureComponent {
                         }}
                     >
                         <a href='#'>
-                            <span className='margin-right'>{item.icon}</span>
+                            <span className='mr-2'>
+                                {item.icon}
+                            </span>
                             {item.text}
                         </a>
                     </li>
@@ -661,6 +673,7 @@ class FileUpload extends PureComponent {
                             </div>
                         </button>
                         <Menu
+                            id='fileUploadOptions'
                             openLeft={true}
                             openUp={true}
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
@@ -669,10 +682,12 @@ class FileUpload extends PureComponent {
                             <li>
                                 <a
                                     href='#'
-                                    onClick={!isMobile && this.simulateInputClick}
-                                    onTouchEnd={isMobile && this.simulateInputClick}
+                                    onClick={onClick}
+                                    onTouchEnd={onTouchEnd}
                                 >
-                                    <span className='margin-right'><i className='fa fa-laptop'/></span>
+                                    <span className='mr-2'>
+                                        <i className='fa fa-laptop'/>
+                                    </span>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'
@@ -698,4 +713,6 @@ class FileUpload extends PureComponent {
     }
 }
 
-export default injectIntl(FileUpload, {withRef: true});
+const wrappedComponent = injectIntl(FileUpload, {forwardRef: true});
+wrappedComponent.displayName = 'injectIntl(FileUpload)';
+export default wrappedComponent;

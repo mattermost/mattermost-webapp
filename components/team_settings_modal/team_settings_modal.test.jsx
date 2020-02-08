@@ -2,21 +2,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamSettingsModal from 'components/team_settings_modal/team_settings_modal.jsx';
 
 describe('components/team_settings_modal', () => {
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<TeamSettingsModal/>);
+        const wrapper = shallow(<TeamSettingsModal/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call onHide callback when the modal is hidden', () => {
         const onHide = jest.fn();
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <TeamSettingsModal
                 onHide={onHide}
             />

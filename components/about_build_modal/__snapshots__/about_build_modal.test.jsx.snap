@@ -76,7 +76,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           />
         </h3>
         <p
-          className="about-modal__subtitle padding-bottom"
+          className="about-modal__subtitle pb-2"
         >
           <FormattedMessage
             defaultMessage="Modern communication from behind your firewall."
@@ -200,10 +200,10 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
       </div>
     </div>
     <div
-      className="about-modal__notice form-group padding-top x2"
+      className="about-modal__notice form-group pt-3"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />
@@ -327,7 +327,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           />
         </h3>
         <p
-          className="about-modal__subtitle padding-bottom"
+          className="about-modal__subtitle pb-2"
         >
           <FormattedMessage
             defaultMessage="All your team communication in one place, instantly searchable and accessible anywhere."
@@ -440,10 +440,10 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
       </div>
     </div>
     <div
-      className="about-modal__notice form-group padding-top x2"
+      className="about-modal__notice form-group pt-3"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />
@@ -566,7 +566,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           />
         </h3>
         <p
-          className="about-modal__subtitle padding-bottom"
+          className="about-modal__subtitle pb-2"
         >
           <FormattedMessage
             defaultMessage="All your team communication in one place, instantly searchable and accessible anywhere."
@@ -691,10 +691,10 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
       </div>
     </div>
     <div
-      className="about-modal__notice form-group padding-top x2"
+      className="about-modal__notice form-group pt-3"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />
@@ -817,7 +817,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           />
         </h3>
         <p
-          className="about-modal__subtitle padding-bottom"
+          className="about-modal__subtitle pb-2"
         >
           <FormattedMessage
             defaultMessage="All your team communication in one place, instantly searchable and accessible anywhere."
@@ -930,10 +930,10 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
       </div>
     </div>
     <div
-      className="about-modal__notice form-group padding-top x2"
+      className="about-modal__notice form-group pt-3"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />

@@ -497,10 +497,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .icon__bot', 'fill:' + theme.sidebarText);
     }
 
-    if (theme.sidebarUnreadText) {
-        changeCss('.sidebar--left .nav-pills__container li .sidebar-item.unread-title', 'color:' + theme.sidebarUnreadText);
-    }
-
     if (theme.sidebarTextHoverBg) {
         changeCss('.sidebar--left .nav-pills__container li .sidebar-item:hover, .sidebar--left .nav-pills__container li > .nav-more:hover, .app__body .modal .settings-modal .nav-pills>li:hover button', 'background:' + theme.sidebarTextHoverBg);
     }
@@ -954,6 +950,7 @@ export function applyTheme(theme) {
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
+            'sidebar-text-80': changeOpacity(theme.sidebarText, 0.8),
             'sidebar-unread-text': theme.sidebarUnreadText,
             'sidebar-text-hover-bg': theme.sidebarTextHoverBg,
             'sidebar-text-active-border': theme.sidebarTextActiveBorder,

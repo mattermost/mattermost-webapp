@@ -11,7 +11,7 @@ import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import FormError from 'components/form_error';
 import LocalizedIcon from 'components/localized_icon';
 
@@ -368,7 +368,7 @@ export default class SignupController extends React.Component {
                                     id='web.root.signup_info'
                                 />
                             </h4>
-                            <div className='margin--extra'>
+                            <div className='mt-8'>
                                 <h5><strong>
                                     <FormattedMessage
                                         id='signup.title'

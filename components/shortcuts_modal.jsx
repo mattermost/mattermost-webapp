@@ -146,6 +146,16 @@ const allShortcuts = defineMessages({
             defaultMessage: 'Set focus to input field:\t⌘|Shift|L',
         },
     },
+    navOpenCloseSidebar: {
+        default: {
+            id: t('shortcuts.nav.open_close_sidebar'),
+            defaultMessage: 'Open or close the right sidebar\tCtrl|.',
+        },
+        mac: {
+            id: t('shortcuts.nav.open_close_sidebar.mac'),
+            defaultMessage: 'Open or close the right sidebar\t⌘|.',
+        }
+    },
     msgHeader: {
         id: t('shortcuts.msgs.header'),
         defaultMessage: 'Messages',
@@ -367,6 +377,7 @@ class ShortcutsModal extends React.PureComponent {
                                         {renderShortcut(formatMessage(shortcuts.navSettings))}
                                         {renderShortcut(formatMessage(shortcuts.navMentions))}
                                         {renderShortcut(formatMessage(shortcuts.navFocusCenter))}
+                                        {renderShortcut(formatMessage(shortcuts.navOpenCloseSidebar))}
                                     </div>
                                 </div>
                             </div>

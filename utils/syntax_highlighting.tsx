@@ -62,8 +62,8 @@ import hljsVhdl from 'highlight.js/lib/languages/vhdl.js';
 import hljsXml from 'highlight.js/lib/languages/xml.js';
 import hljsYaml from 'highlight.js/lib/languages/yaml.js';
 
-import Constants from './constants.jsx';
-import * as TextFormatting from './text_formatting.jsx';
+import Constants from './constants';
+import * as TextFormatting from './text_formatting';
 
 hlJS.registerLanguage('actionscript', hljsActionscript);
 hlJS.registerLanguage('applescript', hljsApplescript);
@@ -138,13 +138,10 @@ const HighlightedLanguages: languageObject = Constants.HighlightedLanguages;
 // This function add line numbers to code
 function formatHighLight(code: string) {
     if (code) {
-        return code.split('\n').map((str, index) => {
+        return code.split('\n').map((str) => {
             if (str || str === '') {
                 return `
-                    <div>
-                        <span class='hljs-ln-numbers'>
-                            ${index + 1}
-                        </span>
+                    <div class='hljs-ln-numbers'>
                         <span class='hljs-code'>${str}</span>
                     </div>
                 `;

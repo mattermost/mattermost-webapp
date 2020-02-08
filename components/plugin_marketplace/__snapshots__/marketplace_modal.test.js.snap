@@ -9,7 +9,7 @@ exports[`components/marketplace/ AllPlugins should render with no plugins 1`] = 
     className="icon__plugin"
   />
   <div
-    className="margin-top x2 light"
+    className="mt-3 light"
   >
     <FormattedMessage
       defaultMessage="There are no plugins available at this time."
@@ -116,7 +116,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
     className="icon__plugin"
   />
   <div
-    className="margin-top x2 light"
+    className="mt-3 light"
   >
     <FormattedMessage
       defaultMessage="You do not have any plugins installed."
@@ -125,7 +125,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
     />
   </div>
   <button
-    className="margin-top x3 style--none color--link"
+    className="mt-5 style--none color--link"
     data-testid="Install-Plugins-button"
     onClick={[Function]}
   >
@@ -161,7 +161,7 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
 
 exports[`components/marketplace/ MarketplaceModal should render with error banner 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -170,7 +170,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
       className="error-bar"
       id="error_bar"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
         id="app.plugin.marketplace_plugins.app_error"
         values={
@@ -251,13 +251,13 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with no plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -333,13 +333,13 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -430,7 +430,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
@@ -444,7 +444,6 @@ exports[`components/marketplace/ Plugins should render with multiple plugins 1`]
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
-    isPrepackaged={false}
     key="com.mattermost.nps"
     name="User Satisfaction Surveys"
     version="1.0.3"
@@ -455,7 +454,6 @@ exports[`components/marketplace/ Plugins should render with multiple plugins 1`]
     homepageUrl="https://github.com/mattermost/mattermost-test"
     id="com.mattermost.test"
     installedVersion="1.0.3"
-    isPrepackaged={false}
     key="com.mattermost.test"
     name="Test"
     version="1.0.3"
@@ -479,7 +477,6 @@ exports[`components/marketplace/ Plugins should render with one plugin 1`] = `
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
-    isPrepackaged={false}
     key="com.mattermost.nps"
     name="User Satisfaction Surveys"
     version="1.0.3"

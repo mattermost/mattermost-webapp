@@ -206,24 +206,20 @@ h6 {
         >div {
             display: flex;
         }
-
-        /* for block of numbers */
-        .hljs-ln-numbers {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            color: #ccc;
-            border-right: 1px solid #CCC;
-            vertical-align: top;
-            padding-right: 5px;
-            vertical-align: top;
-            padding-right: 4px;
-            margin-right: 12px;
-            min-width: 36px;
-        }
+              
+    /* for block of numbers */
+    .hljs-ln-numbers:before {
+        content: counter(code-counter);
+        counter-increment: code-counter;
+        color: #ccc;
+        border-right: 1px solid #CCC;
+        vertical-align: top;
+        padding-right: 5px;
+        vertical-align: top;
+        padding-right: 4px;
+        margin-right: 12px;
+        min-width: 36px;
+    }
 
         .hljs-code {
             white-space: pre;
@@ -237,6 +233,7 @@ h6 {
 
     .hljs-ln {
         white-space: unset;
+        counter-reset: code-counter;
 
         .post-code__search-highlighting {
             left: 54.5px;
@@ -312,6 +309,24 @@ h6 {
 
         &:nth-child(2n) {
             background-color: #f8f8f8;
+        }
+    }
+}
+
+ol.markdown__list {
+    counter-reset: list;
+    display: table;
+    padding: 0;
+
+    > li {
+        counter-increment: list;
+        display: table-row;
+
+        &::before {
+            content: counter(list) ".";
+            padding-right: 8px;
+            display: table-cell;
+            text-align: right;
         }
     }
 }

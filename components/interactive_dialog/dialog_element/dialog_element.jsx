@@ -42,6 +42,7 @@ export default class DialogElement extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        let defaultText = '';
         this.providers = [];
         if (props.type === 'select') {
             if (props.dataSource === 'users') {
@@ -51,10 +52,17 @@ export default class DialogElement extends React.PureComponent {
             } else if (props.options) {
                 this.providers = [new MenuActionProvider(props.options)];
             }
+
+            if (props.value && props.options) {
+                const defaultOption = props.options.find(
+                    (option) => option.value === props.value
+                );
+                defaultText = defaultOption ? defaultOption.text : '';
+            }
         }
 
         this.state = {
-            value: '',
+            value: defaultText,
         };
     }
 
@@ -116,7 +124,7 @@ export default class DialogElement extends React.PureComponent {
             helpTextContent = (
                 <React.Fragment>
                     {helpText}
-                    <div className='error-text margin-top x2'>
+                    <div className='error-text mt-3'>
                         {errorText}
                     </div>
                 </React.Fragment>
