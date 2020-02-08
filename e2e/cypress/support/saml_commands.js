@@ -30,7 +30,7 @@ Cypress.Commands.add('checkChatSideBar', (settings = {}) => {
         cy.get('#headerUsername').should('be.visible').and('contain', settings.user.username);
     }
 
-    if (settings.user.userType === 'Admin') {
+    if (settings.user.userType === 'Admin' || settings.user.isAdmin) {
         //check that he is an admin
         cy.get('#sidebarHeaderDropdownButton').click().then(() => {
             cy.findByText('System Console').should('be.visible');
@@ -53,7 +53,7 @@ Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
 });
 
 Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
-    if (settings.user.userType === 'Guest') {
+    if (settings.user.userType === 'Guest' || settings.user.isGuest) {
         cy.findByText('Create a team').should('not.be.visible');
     } else {
         cy.findByText('Create a team').should('be.visible');

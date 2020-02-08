@@ -11,7 +11,9 @@ function buildProfile(user) {
         lastName: user.lastname,
         email: user.email,
         login: user.email,
-        userType: user.userType
+        userType: user.userType,
+        isAdmin: user.isAdmin,
+        isGuest: user.isGuest
     };
     return profile;
 }
