@@ -39,7 +39,7 @@ describe('React to last message shortcut', () => {
         cy.postMessage(MESSAGES.TINY);
     });
 
-    sit('Should not open the emoji picker by shortcut if already an emoji picker is open for other message', () => {
+    it('Should not open the emoji picker by shortcut if already an emoji picker is open for other message', () => {
         // # Get Id of first post
         cy.getLastPostId().then((firstPostId) => {
             // # Post another message
