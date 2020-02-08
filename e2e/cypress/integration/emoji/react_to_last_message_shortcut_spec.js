@@ -39,23 +39,32 @@ describe('React to last message shortcut', () => {
         cy.postMessage(MESSAGES.TINY);
     });
 
-    it('Should not open the emoji picker if any modals are open', () => {
-        // # Open account settings modal
-        openMainMenuOptions('Account Settings');
+    sit('Should not open the emoji picker by shortcut if already an emoji picker is open for other message', () => {
+        // # Get Id of first post
+        cy.getLastPostId().then((firstPostId) => {
+            // # Post another message
+            cy.postMessage(MESSAGES.MEDIUM);
 
-        // * Emulate react to last message shortcut and verify its blocked
-        verifyShortcutReactToLastMessageIsBlocked();
+            // # Click reaction button to "First" message
+            cy.clickPostReactionIcon(firstPostId);
 
-        // * Open view members modal and verify shortcut is blocked
-        openMainMenuOptions('Manage Members');
-        verifyShortcutReactToLastMessageIsBlocked();
+            // # Enter the shortcut while picker is open
+            pressShortcutReactToLastMessage();
 
-        // * Open invite people full modal and verify shortcut is blocked
-        openMainMenuOptions('Invite People');
-        verifyShortcutReactToLastMessageIsBlocked();
+            // # Add reaction to First post
+            addingReactionWithEmojiPicker();
+
+            // * Verify no reactions were added to latter message
+            cy.getLastPostId().then((lastPostId) => {
+                cy.get(`#${lastPostId}_message`).within(() => {
+                    cy.findByLabelText('reactions').should('not.exist');
+                    cy.findByLabelText('remove reaction smile').should('not.exist');
+                });
+            });
+        });
     });
 
-    xit('Should open the emoji picker in the channel view when the focus on the center text box', () => {
+    it('Should open the emoji picker in the channel view when the focus on the center text box', () => {
         // # Emulate react to last message shortcut when focus is on the center text box
         pressShortcutReactToLastMessage('CENTER');
 
@@ -68,7 +77,7 @@ describe('React to last message shortcut', () => {
         });
     });
 
-    xit('Should open the emoji picker in the channel view when the focus is not on the center text box', () => {
+    it('Should open the emoji picker in the channel view when the focus is not on the center text box', () => {
         // # Click anywhere to take focus away from center text box
         cy.get('#lhsList').within(() => {
             cy.findByText('Town Square').click();
@@ -86,7 +95,7 @@ describe('React to last message shortcut', () => {
         });
     });
 
-    xit('Should always reopen emoji picker even if shortcut is hit repeated multiple times on center textbox', () => {
+    it('Should always reopen emoji picker even if shortcut is hit repeated multiple times on center textbox', () => {
         // # Emulate react to last message shortcut when focus is on the center text box
         pressShortcutReactToLastMessage('CENTER');
 
@@ -124,7 +133,7 @@ describe('React to last message shortcut', () => {
         });
     });
 
-    xit('Should always reopen emoji picker even if shortcut is hit repeated multiple times without center textbox focus', () => {
+    it('Should always reopen emoji picker even if shortcut is hit repeated multiple times without center textbox focus', () => {
         // # Emulate react to last message shortcut when focus is on the center text box
         pressShortcutReactToLastMessage();
 
@@ -162,7 +171,7 @@ describe('React to last message shortcut', () => {
         });
     });
 
-    xit('Should add reaction to same post on which emoji picker was opened by shortcut,not on any new messages', () => {
+    it('Should add reaction to same post on which emoji picker was opened by shortcut,not on any new messages', () => {
         // # Save the post id which user initially intended to add reactions to, for later use
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#${lastPostId}_message`).as('postIdForAddingReaction');
@@ -195,7 +204,7 @@ describe('React to last message shortcut', () => {
         });
     });
 
-    xit('Should open emoji picker for last message when focus is on RHS comment with only one post', () => {
+    it('Should open emoji picker for last message when focus is on RHS comment with only one post', () => {
         // # Mouseover the last post and click post comment icon.
         cy.clickPostCommentIcon();
 
@@ -216,7 +225,7 @@ describe('React to last message shortcut', () => {
         cy.closeRHS();
     });
 
-    xit('Should open emoji picker for last comment when focus is on RHS comment with multiple comments', () => {
+    it('Should open emoji picker for last comment when focus is on RHS comment with multiple comments', () => {
         // # Mouseover the last post and click post comment icon.
         cy.clickPostCommentIcon();
 
@@ -241,7 +250,7 @@ describe('React to last message shortcut', () => {
         cy.closeRHS();
     });
 
-    xit('Should open emoji picker for last post on center when RHS is open but focus is not on RHS text box but on Center textbox', () => {
+    it('Should open emoji picker for last post on center when RHS is open but focus is not on RHS text box but on Center textbox', () => {
         // # Mouseover the entered post and click post comment icon.
         cy.clickPostCommentIcon();
 
@@ -291,7 +300,7 @@ describe('React to last message shortcut', () => {
         cy.closeRHS();
     });
 
-    xit('Should open emoji picker for last post on center when RHS is open but focus is neither on RHS nor Center text box ', () => {
+    it('Should open emoji picker for last post on center when RHS is open but focus is neither on RHS nor Center text box ', () => {
         // # Mouseover the entered post and click post comment icon.
         cy.clickPostCommentIcon();
 
@@ -341,7 +350,7 @@ describe('React to last message shortcut', () => {
         cy.closeRHS();
     });
 
-    xit('Should not open emoji picker for last message when the last message is not in the user view anymore', () => {
+    it('Should not open emoji picker for last message when the last message is not in the user view anymore', () => {
         // Get the post id of the first post
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#${lastPostId}_message`).as('firstPost');
@@ -374,36 +383,138 @@ describe('React to last message shortcut', () => {
         });
     });
 
-    // xit('Should not open emoji picker when channel is new and empty or archived', () => {
-    //     // # Visit the new empty channel
-    //     cy.visit(`/ad-1/channels/${newChannel.name}`);
+    it('Should not open the emoji picker if any modals are open', () => {
+        // # Open account settings modal
+        openMainMenuOptions('Account Settings');
 
-    //     // * Check that there are no posts except you joined message
-    //     cy.findAllByTestId('postView').should('have.length', 1);
+        // * Emulate react to last message shortcut and verify its blocked
+        verifyShortcutReactToLastMessageIsBlocked();
 
-    //     // # Emulate react to last message shortcut
-    //     cy.get('body').cmdOrCtrlShortcut('{shift}\\');
-    //     cy.wait(TIMEOUTS.TINY);
+        // * Open view members modal and verify shortcut is blocked
+        openMainMenuOptions('Manage Members');
+        verifyShortcutReactToLastMessageIsBlocked();
 
-    //     // * Check that emoji picker is not opened for empty channel
-    //     cy.get('#emojiPicker').should('not.exist');
+        // * Open invite people full modal and verify shortcut is blocked
+        // openMainMenuOptions('Invite People');
+        // verifyShortcutReactToLastMessageIsBlocked();
 
-    //     // # Post a message to channel
-    //     cy.postMessage(MESSAGES.TINY);
+        // * Open about mattermost modal and verify shortcut is blocked
+        openMainMenuOptions('About Mattermost');
+        verifyShortcutReactToLastMessageIsBlocked();
 
-    //     // # Archive the channel after posting a message
-    //     cy.apiDeleteChannel(newChannel.id);
+        // * Open channel header modal and verify shortcut is blocked
+        openChannelMainOptions('Edit Channel Header');
+        verifyShortcutReactToLastMessageIsBlocked();
 
-    //     // # Emulate react to last message shortcut
-    //     cy.get('body').cmdOrCtrlShortcut('{shift}\\');
-    //     cy.wait(TIMEOUTS.TINY);
+        // * Open Edit channel header modal and verify shortcut is blocked
+        openChannelMainOptions('View Members');
+        verifyShortcutReactToLastMessageIsBlocked();
 
-    //     // * Check that emoji picker is not opened
-    //     cy.get('#emojiPicker').should('not.exist');
+        // * Open channel rename modal and verify shortcut is blocked
+        openChannelMainOptions('View Members');
+        verifyShortcutReactToLastMessageIsBlocked();
 
-    //     // # Close the archived channel
-    //     cy.findByText('Close Channel').should('exist').click();
-    // });
+        cy.get('body').type('{esc}');
+    });
+
+    it('Should not open the emoji picker if any dropdown or popups are open', () => {
+        // * Open the channel menu dropdown, execute the shortcut and verify its is blocked
+        cy.findByLabelText('channel menu').click();
+        verifyShortcutReactToLastMessageIsBlocked();
+        cy.get('body').type('{esc}');
+
+        // * Open the channel menu dropdown, execute the shortcut and verify its is blocked
+        cy.findByLabelText('main menu').click();
+        verifyShortcutReactToLastMessageIsBlocked();
+        cy.get('body').type('{esc}');
+
+        // * Open the channel members dropdown, execute the shortcut and verify its is blocked
+        // Needs code Improve in app
+        // cy.findByLabelText('members').click();
+        // verifyShortcutReactToLastMessageIsBlocked();
+        // cy.get('body').type('{esc}');
+    });
+
+    it('Should not open the emoji picker RHS is full expanded', () => {
+        // # Open the flagged message
+        cy.findByLabelText('Flagged Posts').click();
+
+        // # Expand the flagged message
+        cy.findByLabelText('Expand').click();
+
+        // Execute the shortcut
+        pressShortcutReactToLastMessage();
+
+        // Check if emoji picker opened
+        cy.get('#emojiPicker').should('not.exist');
+
+        // Close the expanded sidebar
+        cy.findByLabelText('Expand').click();
+
+        // # Open the Pinned Posts
+        cy.findByLabelText('Pinned Posts').click();
+
+        // # Expand the Pinned Posts
+        cy.findByLabelText('Expand').click();
+
+        // Execute the shortcut
+        pressShortcutReactToLastMessage();
+
+        // Check if emoji picker opened
+        cy.get('#emojiPicker').should('not.exist');
+
+        // Close the expanded sidebar
+        cy.findByLabelText('Expand').click();
+    });
+
+    it('Should not open emoji picker for system messages', () => {
+        // # Visit the new empty channel
+        cy.visit(`/ad-1/channels/${newChannel.name}`);
+
+        // * Check that there are no posts except you joined message
+        cy.findAllByTestId('postView').should('have.length', 1);
+
+        // # Emulate react to last message shortcut
+        pressShortcutReactToLastMessage();
+
+        // * Check that emoji picker is not opened for system joining message
+        cy.get('#emojiPicker').should('not.exist');
+
+        // # Delete the system message
+        cy.getLastPostId().then((lastPostId) => {
+            cy.clickPostDotMenu(lastPostId);
+
+            // # Click delete button.
+            cy.get(`#delete_post_${lastPostId}`).click();
+
+            // * Check that confirmation dialog is open.
+            cy.get('#deletePostModal').should('be.visible');
+
+            // # Confirm deletion.
+            cy.get('#deletePostModalButton').click();
+
+            // # Emulate react to last message shortcut
+            pressShortcutReactToLastMessage('CENTER');
+
+            // * Check that emoji picker is not opened for new channel
+            cy.get('#emojiPicker').should('not.exist');
+        });
+
+        // # Post a message to channel
+        cy.postMessage(MESSAGES.TINY);
+
+        // # Archive the channel after posting a message
+        cy.apiDeleteChannel(newChannel.id);
+
+        // # Emulate react to last message shortcut
+        pressShortcutReactToLastMessage();
+
+        // * Check that emoji picker is not opened
+        cy.get('#emojiPicker').should('not.exist');
+
+        // # Close the archived channel
+        cy.findByText('Close Channel').should('exist').click();
+    });
 });
 
 /**
@@ -450,6 +561,10 @@ function checkingIfReactionsWereAddedToPost(postId, withinSamePost = true) {
     }
 }
 
+/**
+ * Check if after shortcut is executed no emoji picker opens
+ * @param {String} from CENTER or RHS or If left blank then it defaults to on-Body.
+ */
 function verifyShortcutReactToLastMessageIsBlocked(from) {
     pressShortcutReactToLastMessage(from);
 
@@ -460,5 +575,11 @@ function verifyShortcutReactToLastMessageIsBlocked(from) {
 function openMainMenuOptions(menu) {
     cy.get('body').type('{esc}');
     cy.findByLabelText('main menu').click();
+    cy.findByText(menu).click();
+}
+
+function openChannelMainOptions(menu) {
+    cy.get('body').type('{esc}');
+    cy.findByLabelText('channel menu').click();
     cy.findByText(menu).click();
 }
