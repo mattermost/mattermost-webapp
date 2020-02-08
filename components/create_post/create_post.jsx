@@ -885,8 +885,6 @@ class CreatePost extends React.PureComponent {
             GlobalActions.toggleShortcutsModal();
             return;
         } else if (lastMessageReactionKeyCombo) {
-            e.preventDefault();
-
             this.reactToLastMessage(e);
             return;
         }

@@ -95,13 +95,14 @@ class RhsRootPost extends React.PureComponent {
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
+            // Following are the types of posts on which adding reaction is not possible
             const isDeletedPost = post && post.state === Posts.POST_DELETED;
             const isEphemeralPost = post && Utils.isPostEphemeral(post);
             const isSystemMessage = post && PostUtils.isSystemMessage(post);
             const isFailedPost = post && post.failed;
             const isPostsFakeParentDeleted = post && post.type === Constants.PostTypes.FAKE_PARENT_DELETED;
 
-            // Checking if post is at scroll view of the user
+            // Checking if rhs root comment is at scroll view of the user
             const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
             const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
                 boundingRectOfPostInfo.bottom < (window.innerHeight);

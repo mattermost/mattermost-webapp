@@ -248,8 +248,8 @@ export default class RhsThread extends React.Component {
         }
 
         const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
-        const {selected, currentUserId} = this.props;
         const postsLength = postsArray.length;
+        const {selected, currentUserId} = this.props;
 
         let isRhsRootLastPost = false;
         let lastRhsCommentPost = '';

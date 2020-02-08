@@ -235,11 +235,11 @@ export default class PostInfo extends React.PureComponent {
         );
     };
 
-    handleShortcutReactToLastPost = () => {
-        const {post, isLastPost, isReadOnly, enableEmojiPicker, isMobile,
-            actions: {emitShortcutReactToLastPostFrom}} = this.props;
-
+    handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
+            const {post, isReadOnly, enableEmojiPicker, isMobile,
+                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
@@ -267,12 +267,12 @@ export default class PostInfo extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
         shortcutReactToLastPostEmittedFrom === Locations.CENTER;
         if (shortcutReactToLastPostEmittedFromCenter) {
-            this.handleShortcutReactToLastPost();
+            this.handleShortcutReactToLastPost(isLastPost);
         }
     }
 

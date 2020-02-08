@@ -134,24 +134,23 @@ class RhsComment extends React.PureComponent {
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
 
-            // Checking if post is at scroll view of the user
+            // Following are the types of posts on which adding reaction is not possible
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
+            const isEphemeralPost = post && isPostEphemeral(post);
+            const isSystemMessage = post && PostUtils.isSystemMessage(post);
+            const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
+            const isFailedPost = post && post.failed;
+
+            // Checking if rhs comment is at scroll view of the user
             const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
             const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
                 boundingRectOfPostInfo.bottom < (window.innerHeight);
 
-            if (isPostHeaderVisibleToUser) {
-                const isDeletedPost = post && post.state === Posts.POST_DELETED;
-                const isEphemeralPost = post && isPostEphemeral(post);
-                const isSystemMessage = post && PostUtils.isSystemMessage(post);
-                const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
-                const isFailedPost = post && post.failed;
-
-                if (!isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
+            if (isPostHeaderVisibleToUser && !isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
                 !isAutoRespondersPost && !isDeletedPost && !channelIsArchived && !isMobile() && enableEmojiPicker) {
-                    this.setState({hover: true}, () => {
-                        this.toggleEmojiPicker();
-                    });
-                }
+                this.setState({hover: true}, () => {
+                    this.toggleEmojiPicker();
+                });
             }
         }
     }

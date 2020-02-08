@@ -545,8 +545,11 @@ class CreateComment extends React.PureComponent {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
+
         const {emitShortcutReactToLastPostFrom} = this.props;
 
+        // Here we are not handling conditions such as check for modals,  popups etc as shortcut is only trigger on
+        // textbox input focus. Since all of them will already be closed as soon as they loose focus.
         emitShortcutReactToLastPostFrom(Locations.RHS_ROOT);
     }
 
