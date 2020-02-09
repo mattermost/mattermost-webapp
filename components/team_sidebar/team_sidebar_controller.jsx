@@ -123,11 +123,12 @@ export default class TeamSidebar extends React.PureComponent {
 
         const plugins = [];
         const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale).
-            map((team) => {
+            map((team, idx) => {
                 const member = this.props.myTeamMembers[team.id];
                 return (
                     <TeamButton
                         key={'switch_team_' + team.name}
+                        order={idx + 1}
                         url={`/${team.name}`}
                         tip={team.display_name}
                         active={team.id === this.props.currentTeamId}

@@ -11,7 +11,7 @@ import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {isDesktopApp} from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, isMac} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
@@ -24,6 +24,7 @@ class TeamButton extends React.Component {
         displayName: PropTypes.string,
         content: PropTypes.node,
         tip: PropTypes.node.isRequired,
+        order: PropTypes.number,
         active: PropTypes.bool,
         disabled: PropTypes.bool,
         unread: PropTypes.bool,
@@ -108,7 +109,19 @@ class TeamButton extends React.Component {
             />
         );
 
-        const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        if (this.props.order !== undefined) {
+            const toolTipHelp = isMac()
+                  ? `⌘ ⌥ ${this.props.order}`
+                  : `Ctrl + Alt + ${this.props.order}`;
+            toolTip = (
+                <>
+                  <div>{toolTip}</div>
+                  <div className="tooltip-help">{toolTipHelp}</div>
+                </>
+            );
+        }
+
         const btn = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
