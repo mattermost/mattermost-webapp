@@ -21,12 +21,12 @@ type State = {
 };
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
-    categoryRef: React.RefObject<HTMLDivElement>;
+    categoryTitleRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
         super(props);
 
-        this.categoryRef = React.createRef();
+        this.categoryTitleRef = React.createRef();
         this.state = {
             isCollapsed: props.category.collapsed,
         };
@@ -34,28 +34,28 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         // Refs can be null when this component is shallowly rendered for testing
-        if (this.categoryRef.current) {
-            this.categoryRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            this.categoryRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        if (this.categoryTitleRef.current) {
+            this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
     }
 
     componentWillUnmount() {
-        if (this.categoryRef.current) {
-            this.categoryRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            this.categoryRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        if (this.categoryTitleRef.current) {
+            this.categoryTitleRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.categoryTitleRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
     }
 
     handleA11yActivateEvent = () => {
-        if (this.categoryRef.current) {
-            this.categoryRef.current.addEventListener('keydown', this.handleA11yKeyDown);
+        if (this.categoryTitleRef.current) {
+            this.categoryTitleRef.current.addEventListener('keydown', this.handleA11yKeyDown);
         }
     }
 
     handleA11yDeactivateEvent = () => {
-        if (this.categoryRef.current) {
-            this.categoryRef.current.removeEventListener('keydown', this.handleA11yKeyDown);
+        if (this.categoryTitleRef.current) {
+            this.categoryTitleRef.current.removeEventListener('keydown', this.handleA11yKeyDown);
         }
     }
 
@@ -99,11 +99,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const channels = category.channel_ids.map(this.renderChannel);
 
         return (
-            <div
-                ref={this.categoryRef}
-                className='a11y__section'
-            >
+            <div>
                 <div
+                    ref={this.categoryTitleRef}
+                    className='a11y__section'
                     style={{display: 'flex'}}
                     onClick={this.handleCollapse}
                 >
