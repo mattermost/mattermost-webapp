@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
@@ -45,6 +46,11 @@ type Props = {
     showUnreadForMsgs: boolean;
 
     /**
+     * Gets the ref for a given channel id
+     */
+    getChannelRef: (channelId: string) => HTMLDivElement | undefined;
+
+    /**
      * Sets the ref for the sidebar channel div element, so that it can be used by parent components
      */
     setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
@@ -76,6 +82,40 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         }
     }
 
+    componentDidMount() {
+        const channelElement = this.getRef();
+        if (channelElement) {
+            channelElement.addEventListener('transitionend', this.removeAnimation);
+        }
+    }
+
+    componentWillUnmount() {
+        const channelElement = this.getRef();
+        if (channelElement) {
+            channelElement.removeEventListener('transitionend', this.removeAnimation);
+        }
+    }
+
+    componentDidUpdate(_: Props, prevState: State) {
+        if (this.state.isCollapsed !== prevState.isCollapsed) {
+            const channelElement = this.getRef();
+            if (channelElement) {
+                channelElement.classList.add('animating');
+            }
+        }
+    }
+
+    removeAnimation = () => {
+        const channelElement = this.getRef();
+        if (channelElement) {
+            channelElement.classList.remove('animating');
+        }
+    }
+
+    getRef = () => {
+        return this.props.getChannelRef(this.props.channel.id);
+    }
+
     setRef = (ref: HTMLDivElement) => {
         this.props.setChannelRef(this.props.channel.id, ref);
     }
@@ -94,8 +134,11 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return (
             <div
                 ref={this.setRef}
+                className={classNames('SidebarChannel', {
+                    'collapsed': isCollapsed,
+                })}
                 style={{
-                    display: isCollapsed ? 'none' : 'flex',
+                    display: 'flex',
                     fontWeight: isUnread ? 'bold' : 'inherit', // TODO temp styling
                 }}
             >

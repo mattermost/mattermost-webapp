@@ -67,6 +67,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }
 
+    getChannelRef = (channelId: string) => {
+        return this.channelRefs.get(channelId);
+    }
+
     setChannelRef = (channelId: string, ref: HTMLDivElement) => {
         if (ref) {
             this.channelRefs.set(channelId, ref);
@@ -197,6 +201,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             <SidebarCategory
                 category={category}
                 setChannelRef={this.setChannelRef}
+                getChannelRef={this.getChannelRef}
             />
         );
     }

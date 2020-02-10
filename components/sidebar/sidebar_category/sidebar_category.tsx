@@ -8,9 +8,10 @@ import SidebarChannel from '../sidebar_channel';
 type Props = {
     category: any;
     setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
+    getChannelRef: (channelId: string) => HTMLDivElement | undefined;
     actions: {
         setCollapsedState: (categoryId: string, isCollapsed: boolean) => void;
-    }
+    };
 };
 
 type State = {
@@ -33,6 +34,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             <SidebarChannel
                 channelId={channelId}
                 setChannelRef={this.props.setChannelRef}
+                getChannelRef={this.props.getChannelRef}
                 isCategoryCollapsed={isCollapsed}
             />
         );
