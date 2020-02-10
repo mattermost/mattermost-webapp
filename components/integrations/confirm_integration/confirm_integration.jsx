@@ -136,7 +136,7 @@ export default class ConfirmIntegration extends React.Component {
                 <p>
                     <FormattedMarkdownMessage
                         id='add_outgoing_webhook.doneHelp'
-                        defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at  [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html)).'
+                        defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html)).'
                     />
                 </p>
             );
