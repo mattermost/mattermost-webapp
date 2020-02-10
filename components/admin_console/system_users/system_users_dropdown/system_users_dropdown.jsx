@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -35,6 +35,11 @@ export default class SystemUsersDropdown extends React.PureComponent {
          * Whether MFA is licensed and enabled.
          */
         mfaEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * The license is installed
+         */
+        isLicensed: PropTypes.bool.isRequired,
 
         /**
          * Whether or not user access tokens are enabled.
@@ -471,7 +476,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         }
 
         return (
-            <div className='light margin-top half'>
+            <div className='light mt-1'>
                 <FormattedMessage
                     key='admin.user_item.userAccessToken'
                     id={messageId}
@@ -481,7 +486,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
     }
 
     render() {
-        const {currentUser, user} = this.props;
+        const {currentUser, user, isLicensed} = this.props;
         const isGuest = Utils.isGuest(user);
         if (!user) {
             return <div/>;
@@ -614,7 +619,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
                             text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
                         />
                         <Menu.ItemAction
-                            show={!isGuest && user.id !== currentUser.id}
+                            show={!isGuest && user.id !== currentUser.id && isLicensed}
                             onClick={this.handleDemoteToGuest}
                             text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
                         />

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MenuItemBlockableLinkImpl} from './menu_item_blockable_link.jsx';
+import {MenuItemBlockableLinkImpl} from './menu_item_blockable_link';
 
 describe('components/MenuItemBlockableLink', () => {
     test('should match snapshot', () => {

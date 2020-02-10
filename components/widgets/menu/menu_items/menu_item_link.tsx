@@ -11,7 +11,7 @@ type Props = {
     text: React.ReactNode;
 }
 
-export const MenuItemLinkImpl: React.FC<Props> = ({to, text}: Props) => <Link to={to}>{text}</Link>;
+export const MenuItemLinkImpl: React.FC<Props> = ({to, text}: Props) => <Link to={to}><span className='MenuItem__primary-text'>{text}</span></Link>;
 
 const MenuItemLink = menuItem(MenuItemLinkImpl);
 MenuItemLink.displayName = 'MenuItemLink';
