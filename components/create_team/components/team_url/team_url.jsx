@@ -252,7 +252,7 @@ export default class TeamUrl extends React.PureComponent {
                             />
                         </li>
                     </ul>
-                    <div className='margin--extra'>
+                    <div className='mt-8'>
                         <Button
                             id='teamURLFinishButton'
                             type='submit'
@@ -263,7 +263,7 @@ export default class TeamUrl extends React.PureComponent {
                             {finishMessage}
                         </Button>
                     </div>
-                    <div className='margin--extra'>
+                    <div className='mt-8'>
                         <a
                             href='#'
                             onClick={this.submitBack}

@@ -1137,3 +1137,44 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
     });
 });
 
+// *****************************************************************************
+// Roles
+// https://api.mattermost.com/#tag/roles
+// *****************************************************************************
+
+/**
+ * Get role by name.
+ *
+ * @param {String} roleName - Name of the role to get
+ */
+Cypress.Commands.add('getRoleByName', (roleName) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/roles/name/${roleName}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Patch a role.
+ *
+ * @param {String} roleID - ID of the role to patch
+ * @param {String} force - Set to 'true' to overwrite a previously installed plugin with the same ID, if any
+ */
+Cypress.Commands.add('patchRole', (roleID, patch) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/roles/${roleID}/patch`,
+        method: 'PUT',
+        timeout: 60000,
+        body: patch,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+

@@ -184,6 +184,8 @@ class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+
+        canPost: PropTypes.bool.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -787,7 +789,7 @@ class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
-        const {readOnlyChannel} = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
@@ -1024,7 +1026,7 @@ class CreateComment extends React.PureComponent {
                                 />
                             </div>
                         </div>
-                        <div className='text-right margin-top'>
+                        <div className='text-right mt-2'>
                             {uploadsInProgressText}
                             <input
                                 type='button'
