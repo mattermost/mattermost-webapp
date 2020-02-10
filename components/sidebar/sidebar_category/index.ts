@@ -9,7 +9,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import SidebarCategory from './sidebar_category';
 
-function MOCK_setCollapsedState(categoryId: string, isCollapsed: boolean) {
+function mockSetCollapsedState(categoryId: string, isCollapsed: boolean) {
     return (dispatch: any, getState: any) => {};
 }
 
@@ -21,7 +21,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            setCollapsedState: MOCK_setCollapsedState,
+            setCollapsedState: mockSetCollapsedState,
         }, dispatch),
     };
 }

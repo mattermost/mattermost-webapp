@@ -4,6 +4,8 @@
 import React from 'react';
 
 import SidebarChannel from '../sidebar_channel';
+import Constants, {A11yCustomEventTypes} from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 type Props = {
     category: any;
@@ -19,12 +21,48 @@ type State = {
 };
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
+    categoryRef: React.RefObject<HTMLDivElement>;
+
     constructor(props: Props) {
         super(props);
 
+        this.categoryRef = React.createRef();
         this.state = {
             isCollapsed: props.category.collapsed,
         };
+    }
+
+    componentDidMount() {
+        // Refs can be null when this component is shallowly rendered for testing
+        if (this.categoryRef.current) {
+            this.categoryRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.categoryRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.categoryRef.current) {
+            this.categoryRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.categoryRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
+    }
+
+    handleA11yActivateEvent = () => {
+        if (this.categoryRef.current) {
+            this.categoryRef.current.addEventListener('keydown', this.handleA11yKeyDown);
+        }
+    }
+
+    handleA11yDeactivateEvent = () => {
+        if (this.categoryRef.current) {
+            this.categoryRef.current.removeEventListener('keydown', this.handleA11yKeyDown);
+        }
+    }
+
+    handleA11yKeyDown = (e: KeyboardEvent) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            this.handleCollapse();
+        }
     }
 
     renderChannel = (channelId: string) => {
@@ -61,7 +99,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const channels = category.channel_ids.map(this.renderChannel);
 
         return (
-            <div>
+            <div
+                ref={this.categoryRef}
+                className='a11y__section'
+            >
                 <div
                     style={{display: 'flex'}}
                     onClick={this.handleCollapse}

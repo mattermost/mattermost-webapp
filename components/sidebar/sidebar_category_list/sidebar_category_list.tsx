@@ -230,7 +230,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         return (
             <div
-                className='sidebar--left__list'
+                className='sidebar--left__list a11y__region'
+                data-a11y-sort-order='6'
             >
                 <UnreadChannelIndicator
                     name='Top'

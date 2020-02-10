@@ -79,7 +79,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return {
             isUnread,
             isCollapsed,
-        }
+        };
     }
 
     componentDidMount() {
@@ -135,7 +135,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             <div
                 ref={this.setRef}
                 className={classNames('SidebarChannel', {
-                    'collapsed': isCollapsed,
+                    collapsed: isCollapsed,
                 })}
                 style={{
                     display: 'flex',
