@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 import Constants, {FileTypes} from 'utils/constants';
 import {
@@ -13,12 +13,12 @@ import {
     isGIFImage,
 } from 'utils/utils.jsx';
 
-export default class FileThumbnail extends React.PureComponent {
-    static propTypes = {
-        enableSVGs: PropTypes.bool.isRequired,
-        fileInfo: PropTypes.object.isRequired,
-    }
+type Props = {
+    enableSVGs: boolean;
+    fileInfo: FileInfo;
+}
 
+export default class FileThumbnail extends React.PureComponent<Props> {
     render() {
         const {fileInfo} = this.props;
         const type = getFileType(fileInfo.extension);

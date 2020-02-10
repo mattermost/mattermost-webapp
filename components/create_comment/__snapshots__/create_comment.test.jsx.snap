@@ -75,7 +75,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn"
@@ -238,7 +238,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn"
@@ -377,7 +377,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn"
@@ -552,7 +552,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn disabled"
@@ -715,7 +715,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <span
           className="post-right-comments-upload-in-progress"
