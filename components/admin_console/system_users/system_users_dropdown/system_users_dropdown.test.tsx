@@ -12,11 +12,11 @@ import SystemUsersDropdown from './system_users_dropdown';
 describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown', () => {
     const user: UserProfile & {mfa_active: boolean} = Object.assign(TestHelper.getUserMock(), {mfa_active: true});
 
-    const otherUser = {
+    const otherUser = TestHelper.getUserMock({
         id: 'other_user_id',
         roles: '',
         username: 'other-user',
-    };
+    });
 
     const requiredProps = {
         user,
