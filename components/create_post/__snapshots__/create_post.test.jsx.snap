@@ -627,7 +627,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
         id="notify_all.title.confirm"
         values={Object {}}
       />

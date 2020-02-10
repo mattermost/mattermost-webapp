@@ -202,7 +202,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn"
