@@ -61,24 +61,44 @@ type Props = {
 };
 
 type State = {
-
+    isUnread: boolean;
+    isCollapsed: boolean;
 };
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
+
+    constructor(props: Props) {
+        super(props);
+
+        this.state = SidebarChannel.getDerivedStateFromProps(props);
+    }
+
+    static getDerivedStateFromProps(nextProps: Props) {
+        return {
+            isUnread: SidebarChannel.isUnread(nextProps),
+            isCollapsed: SidebarChannel.isCollapsed(nextProps),
+        }
+    }
+
     /**
      * Show as unread if you have unread mentions
      * OR if you have unread messages and the channel can be marked unread by preferences
      */
-    showChannelAsUnread = () => {
-        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
+    static isUnread = (props: Props) => {
+        return props.unreadMentions > 0 || (props.unreadMsgs > 0 && props.showUnreadForMsgs);
     };
+
+    static isCollapsed = (props: Props) => {
+        return props.isCollapsed && !SidebarChannel.isUnread(props) && !props.isCurrentChannel;
+    }
 
     setRef = (ref: HTMLDivElement) => {
         this.props.setChannelRef(this.props.channel.id, ref);
     }
 
     render() {
-        const {channel, currentTeamName, isCollapsed, isCurrentChannel} = this.props;
+        const {channel, currentTeamName} = this.props;
+        const {isUnread, isCollapsed} = this.state;
 
         let ChannelComponent = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {
@@ -87,14 +107,12 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             ChannelComponent = SidebarGroupChannel;
         }
 
-        const collapsedHide = isCollapsed && !this.showChannelAsUnread() && !isCurrentChannel;
-
         return (
             <div
                 ref={this.setRef}
                 style={{
-                    display: collapsedHide ? 'none' : 'flex',
-                    fontWeight: this.showChannelAsUnread() ? 'bold' : 'inherit', // TODO temp styling
+                    display: isCollapsed ? 'none' : 'flex',
+                    fontWeight: isUnread ? 'bold' : 'inherit', // TODO temp styling
                 }}
             >
                 <ChannelComponent

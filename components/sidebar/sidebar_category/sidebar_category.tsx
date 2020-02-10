@@ -38,6 +38,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         );
     }
 
+    // TODO: uncomment when the state is in redux
     // static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     //     if (nextProps.category.collapsed !== prevState.isCollapsed) {
     //         return {isCollapsed: nextProps.category.collapsed};
@@ -59,10 +60,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         return (
             <div>
-                <div style={{display: 'flex'}}>
-                    <a onClick={this.handleCollapse}>
-                        {isCollapsed ? '+' : '-'}
-                    </a>
+                <div
+                    style={{display: 'flex'}}
+                    onClick={this.handleCollapse}
+                >
+                    {isCollapsed ? '+' : '-'}
                     {category.display_name}
                 </div>
                 {channels}
