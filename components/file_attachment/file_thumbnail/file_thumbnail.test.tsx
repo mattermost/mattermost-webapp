@@ -13,6 +13,14 @@ describe('FileThumbnail', () => {
         width: 100,
         height: 80,
         has_preview_image: true,
+        user_id: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        name: '',
+        size: 100,
+        mime_type: '',
+        clientId: '',
     };
     const baseProps = {
         fileInfo,

@@ -159,6 +159,7 @@ export default class UsersEmailsInput extends React.Component {
                 id={this.props.validAddressMessageId}
                 defaultMessage={this.props.validAddressMessageDefault}
                 values={{email: value}}
+                disableLinks={true}
             />
         </React.Fragment>
     );
@@ -174,6 +175,7 @@ export default class UsersEmailsInput extends React.Component {
                     id={this.props.noMatchMessageId}
                     defaultMessage={this.props.noMatchMessageDefault}
                     values={{text: inputValue}}
+                    disableLinks={true}
                 >
                     {(message) => (
                         <components.NoOptionsMessage {...props}>
@@ -198,7 +200,7 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     handleInputChange = (inputValue, action) => {
-        if (action.action === 'input-blur') {
+        if (action.action === 'input-blur' && inputValue !== '') {
             const values = this.props.value.map((v) => {
                 if (v.id) {
                     return v;

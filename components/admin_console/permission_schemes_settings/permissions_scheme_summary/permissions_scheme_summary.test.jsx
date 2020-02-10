@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import PermissionsSchemeSummary from 'components/admin_console/permission_schemes_settings/permissions_scheme_summary/permissions_scheme_summary.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permissions_scheme_summary', () => {

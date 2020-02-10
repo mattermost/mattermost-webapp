@@ -159,7 +159,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -288,7 +288,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>
