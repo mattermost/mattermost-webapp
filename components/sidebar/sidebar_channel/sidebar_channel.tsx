@@ -66,30 +66,14 @@ type State = {
 };
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
-
-    constructor(props: Props) {
-        super(props);
-
-        this.state = SidebarChannel.getDerivedStateFromProps(props);
-    }
-
     static getDerivedStateFromProps(nextProps: Props) {
+        const isUnread = nextProps.unreadMentions > 0 || (nextProps.unreadMsgs > 0 && nextProps.showUnreadForMsgs);
+        const isCollapsed = nextProps.isCollapsed && !isUnread && !nextProps.isCurrentChannel;
+
         return {
-            isUnread: SidebarChannel.isUnread(nextProps),
-            isCollapsed: SidebarChannel.isCollapsed(nextProps),
+            isUnread,
+            isCollapsed,
         }
-    }
-
-    /**
-     * Show as unread if you have unread mentions
-     * OR if you have unread messages and the channel can be marked unread by preferences
-     */
-    static isUnread = (props: Props) => {
-        return props.unreadMentions > 0 || (props.unreadMsgs > 0 && props.showUnreadForMsgs);
-    };
-
-    static isCollapsed = (props: Props) => {
-        return props.isCollapsed && !SidebarChannel.isUnread(props) && !props.isCurrentChannel;
     }
 
     setRef = (ref: HTMLDivElement) => {
