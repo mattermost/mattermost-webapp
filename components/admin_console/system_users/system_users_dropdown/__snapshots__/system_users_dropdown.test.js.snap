@@ -253,7 +253,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Demote User {username} to Guest"
+        defaultMessage="Demote user {username} to guest"
         id="demote_to_user_modal.title"
         values={
           Object {
@@ -520,7 +520,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Demote User {username} to Guest"
+        defaultMessage="Demote user {username} to guest"
         id="demote_to_user_modal.title"
         values={
           Object {
