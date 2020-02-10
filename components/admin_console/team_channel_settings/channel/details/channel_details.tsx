@@ -8,7 +8,7 @@ import {cloneDeep} from 'lodash';
 import {Groups} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {SyncablePatch, Group} from 'mattermost-redux/types/groups';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -24,7 +24,57 @@ import SaveChangesPanel from '../../save_changes_panel';
 import {ChannelModes} from './channel_modes';
 import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
-import {ChannelModeration} from './channel_moderation';
+import ChannelModeration from './channel_moderation';
+
+const getresponse: Array<ChannelPermissions> = [{
+    "name": "create_post",
+    "roles": {
+        "guests": {
+            "value": false,
+            "enabled": true
+        },
+        "members": {
+            "value": false,
+            "enabled": true
+        }
+    }
+},
+{
+    "name": "create_reactions",
+    "roles": {
+        "guests": {
+            "value": false,
+            "enabled": false
+        },
+        "members": {
+            "value": true,
+            "enabled": false
+        }
+    }
+},
+{
+    "name": "manage_members",
+    "roles": {
+        "members": {
+            "value": true,
+            "enabled": true
+        }
+    }
+}, 
+{
+    "name": "use_channel_mentions",
+    "roles": {
+        "guests": {
+            "value": false,
+            "enabled": false
+        },
+        "members": {
+            "value": true,
+            "enabled": false
+        }
+    }
+}
+]
 
 interface ChannelDetailsProps {
     channelID: string;
@@ -32,6 +82,7 @@ interface ChannelDetailsProps {
     team: Partial<Team>;
     groups: Group[];
     totalGroups: number;
+    channelPermissions?: Array<ChannelPermissions>,
     allGroups: {[gid: string]: Group}; // hashmap of groups
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
@@ -41,9 +92,11 @@ interface ChannelDetailsProps {
         setNavigationBlocked: (blocked: boolean) => any;
         getChannel: (channelId: string) => ActionFunc;
         getTeam: (teamId: string) => ActionFunc;
+        getChannelModerations: (channelId: string) => Promise<Array<ChannelPermissions>>;
         patchChannel: (channelId: string, patch: Channel) => ActionFunc;
         updateChannelPrivacy: (channelId: string, privacy: string) => Promise<ActionResult>;
         patchGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc;
+        patchChannelModerations: (channelID: string, patch: Array<ChannelModerationPatch>) => any;
     };
 }
 
@@ -61,6 +114,7 @@ interface ChannelDetailsState {
     showConvertConfirmModal: boolean;
     showRemoveConfirmModal: boolean;
     showConvertAndRemoveConfirmModal: boolean;
+    channelPermissions?: Array<ChannelPermissions>,
 }
 
 export default class ChannelDetails extends React.Component<ChannelDetailsProps, ChannelDetailsState> {
@@ -79,7 +133,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             usersToRemove: 0,
             groups: props.groups,
             saveNeeded: false,
-            serverError: null
+            serverError: null,
+            channelPermissions: props.channelPermissions,
         };
     }
     componentDidUpdate(prevProps: ChannelDetailsProps) {
@@ -101,10 +156,13 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
     }
     async componentDidMount() {
         const {channelID, channel, team, actions} = this.props;
-        actions.
+        await Promise.all([actions.
             getGroups(channelID).
             then(() => actions.getChannel(channelID)).
-            then(() => this.setState({groups: this.props.groups}));
+            then(() => this.setState({groups: this.props.groups})), 
+            actions.getChannelModerations(channelID).
+            then(() => this.setState({channelPermissions: this.props.channelPermissions}))
+        ]);
         if (!team.id && channel.team_id) {
             actions.getTeam(channel.team_id);
         }
@@ -173,6 +231,24 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.processGroupsChange(groups);
     }
 
+    private channelPermissionsChanged = (name: string, guestsOrMembers: "guests" | "members") => {
+        const currentValueIndex = this.state.channelPermissions!.findIndex(element => element.name === name);
+        const currentValue = this.state.channelPermissions![currentValueIndex].roles[guestsOrMembers]!.value;
+        const channelPermissions = [...this.state.channelPermissions!];
+        channelPermissions[currentValueIndex] = {
+            ...this.state.channelPermissions![currentValueIndex],
+                roles: {
+                    ...this.state.channelPermissions![currentValueIndex].roles,
+                    [guestsOrMembers]: {
+                        ...this.state.channelPermissions![currentValueIndex].roles[guestsOrMembers],
+                        value: !currentValue
+                    }
+                }
+        }
+        this.setState({channelPermissions, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
+    }
+
     private handleGroupChange = (groupIDs: string[]) => {
         const groups = [...this.state.groups, ...groupIDs.map((gid: string) => this.props.allGroups[gid])];
         this.setState({totalGroups: this.state.totalGroups + groupIDs.length});
@@ -219,7 +295,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
     };
     private handleSubmit = async () => {
         this.setState({showConvertConfirmModal: false, showRemoveConfirmModal: false, showConvertAndRemoveConfirmModal: false, saving: true});
-        const {groups, isSynced, isPublic, isPrivacyChanging} = this.state;
+        const {groups, isSynced, isPublic, isPrivacyChanging, channelPermissions} = this.state;
         let serverError = null;
         let saveNeeded = false;
         const {groups: origGroups, channelID, actions, channel} = this.props;
@@ -273,6 +349,22 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 await actions.getGroups(channelID);
             }
         }
+        
+        const patchChannelPermissionsArray: Array<ChannelModerationPatch> = [];
+        channelPermissions!.map((p) => {
+            patchChannelPermissionsArray.push({
+                name: p.name,
+                roles: {
+                    ...(p.roles.members && p.roles.members.enabled && {members: p.roles.members!.value}),
+                    ...(p.roles.guests && p.roles.guests.enabled && {guests: p.roles.guests!.value})
+                }
+            });
+        });
+        const result = await actions.patchChannelModerations(channelID, patchChannelPermissionsArray);
+        if (result.error) {
+            serverError = <FormError error={result.error.message}/>;
+        }
+
 
         this.setState({serverError, saving: false, saveNeeded});
         actions.setNavigationBlocked(saveNeeded);
@@ -291,12 +383,12 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             showConvertConfirmModal,
             showRemoveConfirmModal,
             showConvertAndRemoveConfirmModal,
-            usersToRemove
+            usersToRemove,
+            channelPermissions
         } = this.state;
         const {channel, team} = this.props;
         const missingGroup = (og: {id: string}) => !groups.find((g: Group) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
-
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -351,7 +443,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         />
 
                         <ChannelModeration
-
+                            channelPermissions={channelPermissions}
+                            onChannelPermissionsChanged={this.channelPermissionsChanged}
                         />
 
                         <ChannelGroups

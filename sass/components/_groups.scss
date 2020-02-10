@@ -453,35 +453,98 @@
     .channel-moderation--body {
         padding: 20px;
 
-        .channel-moderation--header {
-            display: flex;
-            padding: 13px 0px;
-            border-bottom: 1px solid rgba(204, 204, 204, 0.75);
-            .title {
-                width: 109px;
-                height: 20px;
-                font-family: "Open Sans";
-                font-style: normal;
-                font-weight: 600;
-                font-size: 13px;
-                line-height: 20px;
-                color: $black;
-                opacity: 0.72;
+        .channel-moderation--table {
+            width: 100%;
+
+            th {
+                border-bottom: solid 1px alpha-color(#CCCCCC, .75);
             }
 
-            .title:not(:first-child) {
-                justify-content: center;
+            tr {
+                &:not(:last-child){
+                    border-bottom: solid 1px alpha-color(#CCCCCC, .75);
+                }
+            }
+
+            td {
+                padding: 20px 0px;
+
+                &:first-child {
+                    padding-left: 0px;
+                }
+    
+            }
+    
+            th {
+                padding: 6px 20px;
+    
+                &:first-child {
+                    padding-left: 0px;
+                }
+            }
+
+            .checkbox {
+                align-items: center;
+                border-radius: 3px;
                 display: flex;
-            }
+                justify-content: space-around;
+                margin: 5px 5px 4px 14px;
+                min-height: 18px;
+                min-width: 18px;
 
-            .title-guests {
-                margin-left: auto;
+                border: 2px solid $dark-gray;
+                height: 18px;
+                width: 18px;
+                padding: 0;
+                background: none;
+
+                > * {
+                    pointer-events: none;
+                }
+
+                &.disabled {
+                    border-color: $light-gray;
+                }
+
+                &.checked {
+                    border: 0;
+
+                    svg {
+                        fill: #145DBF;
+                    }
+                }
             }
         }
+        
+        // .channel-moderation--header {
+        //     display: flex;
+        //     padding: 13px 0px;
+        //     border-bottom: 1px solid rgba(204, 204, 204, 0.75);
+        //     .title {
+        //         width: 109px;
+        //         height: 20px;
+        //         font-family: "Open Sans";
+        //         font-style: normal;
+        //         font-weight: 600;
+        //         font-size: 13px;
+        //         line-height: 20px;
+        //         color: $black;
+        //         opacity: 0.72;
+        //     }
 
-        .channel-moderation-item {
-            padding: 20px 0px;
-        }
+        //     .title:not(:first-child) {
+        //         justify-content: center;
+        //         display: flex;
+        //     }
+
+        //     .title-guests {
+        //         margin-left: auto;
+        //     }
+        // }
+
+        // .channel-moderation-item {
+        //     padding: 20px 0px;
+        // }
 
     }
 }
