@@ -41,7 +41,7 @@ type Props = {
         revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
         promoteGuestToUser: (id: string) => Promise<{error: Error}>;
         demoteUserToGuest: (id: string) => Promise<{error: Error}>;
-        loadBots: (page?: number, size?: number) => Promise<void>;
+        loadBots: (page?: number, size?: number) => Promise<{}>;
     };
     doPasswordReset: (user: UserProfile) => void;
     doEmailReset: (user: UserProfile) => void;
@@ -74,46 +74,46 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         };
     }
 
-    handleMakeActive = (e: Event) => {
+    handleMakeActive = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.props.actions.updateUserActive(this.props.user.id, true).
             then(this.onUpdateActiveResult);
     }
 
-    handleManageTeams = (e: Event) => {
+    handleManageTeams = (e: {preventDefault: () => void}) => {
         e.preventDefault();
 
         this.props.doManageTeams(this.props.user);
     }
 
-    handleManageRoles = (e: Event) => {
+    handleManageRoles = (e: {preventDefault: () => void}) => {
         e.preventDefault();
 
         this.props.doManageRoles(this.props.user);
     }
 
-    handleManageTokens = (e: Event) => {
+    handleManageTokens = (e: {preventDefault: () => void}) => {
         e.preventDefault();
 
         this.props.doManageTokens(this.props.user);
     }
 
-    handleResetPassword = (e: Event) => {
+    handleResetPassword = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.props.doPasswordReset(this.props.user);
     }
 
-    handleResetEmail = (e: Event) => {
+    handleResetEmail = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.props.doEmailReset(this.props.user);
     }
 
-    handleResetMfa = (e: Event) => {
+    handleResetMfa = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         adminResetMfa(this.props.user.id, null, this.props.onError);
     }
 
-    handleShowDeactivateMemberModal = async (e: Event) => {
+    handleShowDeactivateMemberModal = async (e: {preventDefault: () => void}) => {
         e.preventDefault();
         if (this.shouldDisableBotsWhenOwnerIsDeactivated()) {
             await this.props.actions.loadBots(
@@ -236,7 +236,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
             this.props.config.ServiceSettings.DisableBotsWhenOwnerIsDeactivated;
     }
 
-    handleShowRevokeSessionsModal = (e: Event) => {
+    handleShowRevokeSessionsModal = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.setState({showRevokeSessionsModal: true});
     }

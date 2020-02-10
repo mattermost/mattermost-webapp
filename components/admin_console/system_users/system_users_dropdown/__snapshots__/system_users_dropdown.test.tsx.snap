@@ -20,15 +20,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <strong>
-    <br />
-    <br />
-    <FormattedMessage
-      defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-      id="deactivate_member_modal.sso_warning"
-      values={Object {}}
-    />
-  </strong>
 </div>
 `;
 
@@ -52,15 +43,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <strong>
-    <br />
-    <br />
-    <FormattedMessage
-      defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-      id="deactivate_member_modal.sso_warning"
-      values={Object {}}
-    />
-  </strong>
 </div>
 `;
 
@@ -85,14 +67,5 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <strong>
-    <br />
-    <br />
-    <FormattedMessage
-      defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-      id="deactivate_member_modal.sso_warning"
-      values={Object {}}
-    />
-  </strong>
 </div>
 `;

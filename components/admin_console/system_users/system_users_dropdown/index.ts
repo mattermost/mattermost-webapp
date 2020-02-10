@@ -21,7 +21,7 @@ type Actions = {
     revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
     promoteGuestToUser: (id: string) => Promise<{error: Error}>;
     demoteUserToGuest: (id: string) => Promise<{error: Error}>;
-    loadBots: (page?: number, size?: number) => Promise<void>;
+    loadBots: (page?: number, size?: number) => Promise<{}>;
 }
 
 function mapStateToProps(state: GlobalState) {
