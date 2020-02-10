@@ -4,12 +4,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 type Props = {
     show: boolean;
-    onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onConfirm: (checked: boolean) => void;
+    onCancel: (checked: boolean) => void;
 }
 
 export default class DiscardChangesModal extends React.Component<Props> {

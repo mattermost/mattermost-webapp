@@ -79,6 +79,9 @@ export default class SchemaAdminSettings extends React.Component {
             serverError: null,
             errorTooltip: false,
             customComponentWrapperClass: '',
+            confirmNeededId: '',
+            showConfirmId: '',
+            clientWarning: '',
         };
     }
 
@@ -98,6 +101,13 @@ export default class SchemaAdminSettings extends React.Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (this.state.confirmNeededId) {
+            this.setState({
+                showConfirmId: this.state.confirmNeededId,
+            });
+            return;
+        }
 
         this.setState({
             saving: true,
@@ -134,7 +144,7 @@ export default class SchemaAdminSettings extends React.Component {
         }
 
         if (this.state.saveNeeded === 'both' || this.state.saveNeeded === 'config') {
-            this.doSubmit(null, SchemaAdminSettings.getStateFromConfig);
+            this.doSubmit(SchemaAdminSettings.getStateFromConfig);
         } else {
             this.setState({
                 saving: false,
@@ -621,15 +631,25 @@ export default class SchemaAdminSettings extends React.Component {
         this.handleChange(id, s.replace('+', '-').replace('/', '_'));
     }
 
-    handleChange = (id, value) => {
-        let saveNeeded = 'config';
-        if (this.state.saveNeeded === 'permissions') {
-            saveNeeded = 'both';
+    handleChange = (id, value, confirm = false, doSubmit = false, warning = false) => {
+        const saveNeeded = this.state.saveNeeded === 'permissions' ? 'both' : 'config';
+        const clientWarning = warning === false ? this.state.clientWarning : warning;
+
+        let confirmNeededId = confirm ? id : this.state.confirmNeededId;
+        if (id === this.state.confirmNeededId && !confirm) {
+            confirmNeededId = '';
         }
+
         this.setState({
             saveNeeded,
+            confirmNeededId,
+            clientWarning,
             [id]: value,
         });
+
+        if (doSubmit) {
+            this.doSubmit(SchemaAdminSettings.getStateFromConfig);
+        }
 
         this.props.setNavigationBlocked(true);
     }
@@ -781,6 +801,8 @@ export default class SchemaAdminSettings extends React.Component {
                 registerSaveAction={this.registerSaveAction}
                 setSaveNeeded={this.setSaveNeeded}
                 unRegisterSaveAction={this.unRegisterSaveAction}
+                cancelSubmit={this.cancelSubmit}
+                showConfirm={this.state.showConfirmId === setting.key}
             />);
 
         // Show the plugin custom setting title
@@ -870,12 +892,7 @@ export default class SchemaAdminSettings extends React.Component {
         this.setState({errorTooltip: isElipsis});
     }
 
-    doSubmit = async (callback, getStateFromConfig) => {
-        this.setState({
-            saving: true,
-            serverError: null,
-        });
-
+    doSubmit = async (getStateFromConfig) => {
         // clone config so that we aren't modifying data in the stores
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
@@ -888,10 +905,6 @@ export default class SchemaAdminSettings extends React.Component {
             });
         } else {
             this.setState(getStateFromConfig(config));
-        }
-
-        if (callback) {
-            callback();
         }
 
         if (this.handleSaved) {
@@ -909,9 +922,15 @@ export default class SchemaAdminSettings extends React.Component {
         if (hasError) {
             this.setState({saving: false});
         } else {
-            this.setState({saving: false, saveNeeded: false});
+            this.setState({saving: false, saveNeeded: false, confirmNeededId: '', showConfirmId: '', clientWarning: ''});
             this.props.setNavigationBlocked(false);
         }
+    };
+
+    cancelSubmit = () => {
+        this.setState({
+            showConfirmId: '',
+        });
     };
 
     // Some path parts may contain periods (e.g. plugin ids), but path walking the configuration
@@ -1039,6 +1058,12 @@ export default class SchemaAdminSettings extends React.Component {
                         onMouseOver={this.openTooltip}
                         onMouseOut={this.closeTooltip}
                     >
+                        <FormError
+                            iconClassName='fa-exclamation-triangle'
+                            textClassName='has-warning'
+                            error={this.state.clientWarning}
+                        />
+
                         <FormError error={this.state.serverError}/>
                     </div>
                     <Overlay

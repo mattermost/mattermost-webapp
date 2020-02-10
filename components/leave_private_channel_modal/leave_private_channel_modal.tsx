@@ -8,7 +8,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 type State = {
     show: boolean;

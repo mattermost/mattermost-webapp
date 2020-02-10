@@ -11,6 +11,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
 import {GlobalState} from 'mattermost-redux/types/store';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
@@ -26,7 +27,9 @@ type Actions = {
 
 function mapStateToProps(state: GlobalState) {
     const bots = getBotAccounts(state);
+    const license = getLicense(state);
     return {
+        isLicensed: license && license.IsLicensed === 'true',
         config: Selectors.getConfig(state),
         currentUser: getCurrentUser(state),
         bots,

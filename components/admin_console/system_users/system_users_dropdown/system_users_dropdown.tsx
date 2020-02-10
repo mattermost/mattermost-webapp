@@ -17,7 +17,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -36,6 +36,7 @@ type Props = {
     totalUsers: number;
     config: any;
     bots: Dictionary<Bot>;
+    isLicensed: boolean;
     actions: {
         updateUserActive: (id: string, active: boolean) => Promise<{error: Error}>;
         revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
@@ -442,7 +443,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         }
 
         return (
-            <div className='light margin-top half'>
+            <div className='light mt-1'>
                 <FormattedMessage
                     key='admin.user_item.userAccessToken'
                     id={messageId}
@@ -452,7 +453,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
     }
 
     render() {
-        const {currentUser, user} = this.props;
+        const {currentUser, user, isLicensed} = this.props;
         const isGuest = Utils.isGuest(user);
         if (!user) {
             return <div/>;
@@ -585,7 +586,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
                         />
                         <Menu.ItemAction
-                            show={!isGuest && user.id !== currentUser.id}
+                            show={!isGuest && user.id !== currentUser.id && isLicensed}
                             onClick={this.handleDemoteToGuest}
                             text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
                         />

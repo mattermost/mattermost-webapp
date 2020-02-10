@@ -12,9 +12,16 @@ import SystemUsersDropdown from './system_users_dropdown';
 describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown', () => {
     const user: UserProfile & {mfa_active: boolean} = Object.assign(TestHelper.getUserMock(), {mfa_active: true});
 
+    const otherUser = {
+        id: 'other_user_id',
+        roles: '',
+        username: 'other-user',
+    };
+
     const requiredProps = {
         user,
         mfaEnabled: true,
+        isLicensed: true,
         enableUserAccessTokens: true,
         experimentalEnableAuthenticationTransfer: true,
         doPasswordReset: jest.fn(),
@@ -23,7 +30,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         doManageRoles: jest.fn(),
         doManageTokens: jest.fn(),
         onError: jest.fn(),
-        currentUser: user,
+        currentUser: otherUser,
         teamUrl: 'teamUrl',
         index: 0,
         totalUsers: 10,
@@ -184,5 +191,15 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         const ConfirmModal = () => wrapper.instance().renderDeactivateMemberModal();
         const modal = shallow(<ConfirmModal/>);
         expect(modal.prop('message')).toMatchSnapshot();
+    });
+
+    test('should match snapshot with license', async () => {
+        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot without license', async () => {
+        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, isLicensed: false}}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 });
