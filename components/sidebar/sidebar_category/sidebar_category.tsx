@@ -33,7 +33,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             <SidebarChannel
                 channelId={channelId}
                 setChannelRef={this.props.setChannelRef}
-                isCollapsed={isCollapsed}
+                isCategoryCollapsed={isCollapsed}
             />
         );
     }

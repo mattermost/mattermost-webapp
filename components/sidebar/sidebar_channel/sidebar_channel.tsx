@@ -52,7 +52,7 @@ type Props = {
     /**
      * If category is collapsed
      */
-    isCollapsed: boolean;
+    isCategoryCollapsed: boolean;
 
     /**
      * Is the channel the currently focused channel
@@ -68,7 +68,7 @@ type State = {
 export default class SidebarChannel extends React.PureComponent<Props, State> {
     static getDerivedStateFromProps(nextProps: Props) {
         const isUnread = nextProps.unreadMentions > 0 || (nextProps.unreadMsgs > 0 && nextProps.showUnreadForMsgs);
-        const isCollapsed = nextProps.isCollapsed && !isUnread && !nextProps.isCurrentChannel;
+        const isCollapsed = nextProps.isCategoryCollapsed && !isUnread && !nextProps.isCurrentChannel;
 
         return {
             isUnread,
