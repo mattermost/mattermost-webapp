@@ -95,7 +95,7 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
-                atBottom: undefined, // eslint-disable-line no-undefined
+                atBottom: null,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);

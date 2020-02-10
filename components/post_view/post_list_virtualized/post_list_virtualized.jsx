@@ -126,8 +126,8 @@ class PostList extends React.PureComponent {
             isScrolling: false,
             isMobile,
 
-            /* Intentionally setting undefined so that toast can determine when the first time this state is defined */
-            atBottom: undefined, // eslint-disable-line no-undefined
+            /* Intentionally setting null so that toast can determine when the first time this state is defined */
+            atBottom: null,
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
