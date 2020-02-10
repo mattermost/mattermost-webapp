@@ -247,6 +247,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                         position: 'absolute',
                         top: '0px',
                         bottom: '0px',
+                        left: '0px',
+                        right: '0px',
                         overflowY: 'scroll', // TODO: this should only be on hover
                     }}
                     onScroll={this.onScroll}
