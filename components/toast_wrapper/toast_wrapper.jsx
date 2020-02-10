@@ -71,7 +71,7 @@ class ToastWrapper extends React.PureComponent {
 
         // show unread toast when a channel is remarked as unread using the change in lastViewedAt
         // lastViewedAt changes only if a channel is remarked as unread in channelMarkedAsUnread state
-        if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt) {
+        if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt && !props.atBottom) {
             showUnreadToast = true;
         }
 
