@@ -8,6 +8,7 @@ import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUs
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
@@ -15,7 +16,9 @@ import SystemUsersDropdown from './system_users_dropdown.jsx';
 
 function mapStateToProps(state) {
     const bots = getBotAccounts(state);
+    const license = getLicense(state);
     return {
+        isLicensed: license && license.IsLicensed === 'true',
         config: Selectors.getConfig(state),
         currentUser: getCurrentUser(state),
         bots,
