@@ -27,6 +27,7 @@ function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, 
         },
         ServiceSettings: {
             EnableEmailInvitations: emailInvitation,
+            IdleTimeout: 300,
         },
     });
 }
