@@ -27,10 +27,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     renderChannel = (channelId: string) => {
+        const {isCollapsed} = this.state;
+
         return (
             <SidebarChannel
                 channelId={channelId}
                 setChannelRef={this.props.setChannelRef}
+                isCollapsed={isCollapsed}
             />
         );
     }
@@ -52,11 +55,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const {category} = this.props;
         const {isCollapsed} = this.state;
 
-        const channels = (
-            <div style={{display: isCollapsed ? 'none' : 'inherit'}}>
-                {category.channel_ids.map(this.renderChannel)}
-            </div>
-        );
+        const channels = category.channel_ids.map(this.renderChannel);
 
         return (
             <div>

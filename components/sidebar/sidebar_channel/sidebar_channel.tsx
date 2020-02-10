@@ -48,6 +48,16 @@ type Props = {
      * Sets the ref for the sidebar channel div element, so that it can be used by parent components
      */
     setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
+
+    /**
+     * If category is collapsed
+     */
+    isCollapsed: boolean;
+
+    /**
+     * Is the channel the currently focused channel
+     */
+    isCurrentChannel: boolean;
 };
 
 type State = {
@@ -68,7 +78,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {channel, currentTeamName} = this.props;
+        const {channel, currentTeamName, isCollapsed, isCurrentChannel} = this.props;
 
         let ChannelComponent = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {
@@ -77,11 +87,13 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             ChannelComponent = SidebarGroupChannel;
         }
 
+        const collapsedHide = isCollapsed && !this.showChannelAsUnread() && !isCurrentChannel;
+
         return (
             <div
                 ref={this.setRef}
                 style={{
-                    display: 'flex',
+                    display: collapsedHide ? 'none' : 'flex',
                     fontWeight: this.showChannelAsUnread() ? 'bold' : 'inherit', // TODO temp styling
                 }}
             >

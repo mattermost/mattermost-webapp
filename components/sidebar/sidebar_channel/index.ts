@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {NotificationLevels} from 'utils/constants';
@@ -23,6 +23,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const channel = getChannel(state, {id: ownProps.channelId});
     const currentTeam = getCurrentTeam(state);
     const member = getMyChannelMemberships(state)[ownProps.channelId];
+    const currentChannelId = getCurrentChannelId(state);
 
     // Unread counts
     let unreadMentions = 0;
@@ -42,6 +43,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     return {
         channel,
+        isCurrentChannel: channel.id === currentChannelId,
         currentTeamName: currentTeam.name,
         unreadMentions,
         unreadMsgs,
