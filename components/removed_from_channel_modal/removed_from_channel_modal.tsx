@@ -8,8 +8,8 @@ import {FormattedMessage} from 'react-intl';
 type Props = {
     currentUserId: string;
     onHide: () => void;
-    channelName: string;
-    remover: string;
+    channelName?: string;
+    remover?: string;
 }
 
 type State = {
