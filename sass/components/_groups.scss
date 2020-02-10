@@ -449,6 +449,43 @@
 
 }
 
+.channel-moderation {
+    .channel-moderation--body {
+        padding: 20px;
+
+        .channel-moderation--header {
+            display: flex;
+            padding: 13px 0px;
+            border-bottom: 1px solid rgba(204, 204, 204, 0.75);
+            .title {
+                width: 109px;
+                height: 20px;
+                font-family: "Open Sans";
+                font-style: normal;
+                font-weight: 600;
+                font-size: 13px;
+                line-height: 20px;
+                color: $black;
+                opacity: 0.72;
+            }
+
+            .title:not(:first-child) {
+                justify-content: center;
+                display: flex;
+            }
+
+            .title-guests {
+                margin-left: auto;
+            }
+        }
+
+        .channel-moderation-item {
+            padding: 20px 0px;
+        }
+
+    }
+}
+
 .group-teams-and-channels {
     .group-teams-and-channels-loading {
         text-align: center;

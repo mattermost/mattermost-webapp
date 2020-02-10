@@ -24,6 +24,7 @@ import SaveChangesPanel from '../../save_changes_panel';
 import {ChannelModes} from './channel_modes';
 import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
+import {ChannelModeration} from './channel_moderation';
 
 interface ChannelDetailsProps {
     channelID: string;
@@ -347,6 +348,10 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             isSynced={isSynced}
                             isDefault={isDefault}
                             onToggle={this.setToggles}
+                        />
+
+                        <ChannelModeration
+
                         />
 
                         <ChannelGroups
