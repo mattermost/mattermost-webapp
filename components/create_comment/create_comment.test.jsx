@@ -48,6 +48,7 @@ describe('components/CreateComment', () => {
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
+        canPost: true,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -809,6 +810,15 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot read only channel', () => {
         const props = {...baseProps, readOnlyChannel: true};
+        const wrapper = shallowWithIntl(
+            <CreateComment {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when cannot post', () => {
+        const props = {...baseProps, canPost: false};
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );

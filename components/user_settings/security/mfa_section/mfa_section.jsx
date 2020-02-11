@@ -137,7 +137,7 @@ export default class MfaSection extends React.PureComponent {
         }
 
         return (
-            <div className='padding-top'>
+            <div className='pt-2'>
                 {content}
                 <br/>
             </div>
