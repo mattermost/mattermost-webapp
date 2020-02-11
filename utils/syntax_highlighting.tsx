@@ -138,13 +138,10 @@ const HighlightedLanguages: languageObject = Constants.HighlightedLanguages;
 // This function add line numbers to code
 function formatHighLight(code: string) {
     if (code) {
-        return code.split('\n').map((str, index) => {
+        return code.split('\n').map((str) => {
             if (str || str === '') {
                 return `
-                    <div>
-                        <span class='hljs-ln-numbers'>
-                            ${index + 1}
-                        </span>
+                    <div class='hljs-ln-numbers'>
                         <span class='hljs-code'>${str}</span>
                     </div>
                 `;
