@@ -190,7 +190,8 @@ class CreateComment extends React.PureComponent {
         /**
          * Function to set or unset emoji picker for last message
          */
-        emitShortcutReactToLastPostFrom: PropTypes.func
+        emitShortcutReactToLastPostFrom: PropTypes.func,
+        canPost: PropTypes.bool.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -811,7 +812,7 @@ class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
-        const {readOnlyChannel} = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
