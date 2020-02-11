@@ -7,6 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+function waitForImageUpload() {
+    // * Verify that the image exists in the post message footer
+    cy.get('#postCreateFooter').should('be.visible').find('div.post-image__column').
+        should('exist').
+        and('be.visible');
+}
+
 describe('Messaging', () => {
     before(() => {
         // # Login and go to /
@@ -24,6 +31,7 @@ describe('Messaging', () => {
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
         cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        waitForImageUpload();
 
         // # post it with a message
         const IMAGE_WITH_POST_TEXT = 'image in compact display setting';
@@ -55,6 +63,7 @@ describe('Messaging', () => {
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
         cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        waitForImageUpload();
 
         // # post it with a message
         const IMAGE_WITH_POST_TEXT = 'image in standard display setting';
