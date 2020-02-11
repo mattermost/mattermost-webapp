@@ -199,7 +199,7 @@ export function formatText(
         output = doFormatText(output, options, emojiMap);
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
-        output = Markdown.format(output, options);
+        output = Markdown.format(output, options, emojiMap);
         if (output.includes('class="markdown-inline-img"')) {
             /*
             ** remove p tag to allow other divs to be nested,
@@ -262,7 +262,7 @@ export function doFormatText(text: string, options: TextFormattingOptions, emoji
         output = highlightCurrentMentions(output, tokens, options.mentionKeys);
     }
 
-    if (!('emoticons' in options) || options.emoticon) {
+    if (!('emoticons' in options) || options.emoticons) {
         output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
 

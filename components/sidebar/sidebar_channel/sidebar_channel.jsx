@@ -262,7 +262,6 @@ class SidebarChannel extends React.PureComponent {
                     openLhs={this.props.actions.openLhs}
                 />
             );
-            this.props.actions.openLhs();
         }
 
         let link = '';

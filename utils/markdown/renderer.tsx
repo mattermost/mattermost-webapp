@@ -7,15 +7,22 @@ import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting';
 import {getScheme, isUrlSafe} from 'utils/url';
+import EmojiMap from 'utils/emoji_map';
 
 export default class Renderer extends marked.Renderer {
     private formattingOptions: TextFormatting.TextFormattingOptions;
-    public constructor(options: MarkedOptions, formattingOptions = {}) {
+    private emojiMap: EmojiMap;
+    public constructor(
+        options: MarkedOptions,
+        formattingOptions = {},
+        emojiMap = new EmojiMap(new Map())
+    ) {
         super(options);
 
         this.heading = this.heading.bind(this);
         this.paragraph = this.paragraph.bind(this);
         this.text = this.text.bind(this);
+        this.emojiMap = emojiMap;
 
         this.formattingOptions = formattingOptions;
     }
@@ -45,11 +52,10 @@ export default class Renderer extends marked.Renderer {
 
         let header = '';
         if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            header = (
-                '<span class="post-code__language">' +
-                    SyntaxHighlighting.getLanguageName(usedLanguage) +
-                '</span>'
-            );
+            header =
+        '<span class="post-code__language">' +
+        SyntaxHighlighting.getLanguageName(usedLanguage) +
+        '</span>';
         }
 
         // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
@@ -71,22 +77,23 @@ export default class Renderer extends marked.Renderer {
             if (tokens.size > 0) {
                 searched = TextFormatting.replaceTokens(searched, tokens);
 
-                searchedContent = (
-                    '<div class="post-code__search-highlighting">' +
-                        searched +
-                    '</div>'
-                );
+                searchedContent =
+          '<div class="post-code__search-highlighting">' + searched + '</div>';
             }
         }
 
         return (
-            '<div class="' + className + '">' +
-                header +
-                '<code class="' + codeClassName + '">' +
-                    searchedContent +
-                    content +
-                '</code>' +
-            '</div>'
+            '<div class="' +
+      className +
+      '">' +
+      header +
+      '<code class="' +
+      codeClassName +
+      '">' +
+      searchedContent +
+      content +
+      '</code>' +
+      '</div>'
         );
     }
 
@@ -105,10 +112,10 @@ export default class Renderer extends marked.Renderer {
 
         return (
             '<span class="codespan__pre-wrap">' +
-                '<code>' +
-                    output +
-                '</code>' +
-            '</span>'
+      '<code>' +
+      output +
+      '</code>' +
+      '</span>'
         );
     }
 
@@ -162,9 +169,10 @@ export default class Renderer extends marked.Renderer {
             if (!scheme) {
                 outHref = `http://${outHref}`;
             } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
-                const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(
-                    scheme.toLowerCase()
-                ) !== -1;
+                const isValidUrl =
+          this.formattingOptions.autolinkedUrlSchemes.indexOf(
+              scheme.toLowerCase()
+          ) !== -1;
 
                 if (!isValidUrl) {
                     return text;
@@ -222,9 +230,9 @@ export default class Renderer extends marked.Renderer {
             let result;
             if (text.includes('class="markdown-inline-img"')) {
                 /*
-                ** use a div tag instead of a p tag to allow other divs to be nested,
-                ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
-                */
+         ** use a div tag instead of a p tag to allow other divs to be nested,
+         ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
+         */
                 result = `<div class="markdown__paragraph-inline">${text}</div>`;
             } else {
                 result = `<p class="markdown__paragraph-inline">${text}</p>`;
@@ -283,7 +291,11 @@ export default class Renderer extends marked.Renderer {
     }
 
     public text(txt: string) {
-        return TextFormatting.doFormatText(txt, this.formattingOptions);
+        return TextFormatting.doFormatText(
+            txt,
+            this.formattingOptions,
+            this.emojiMap
+        );
     }
 }
 

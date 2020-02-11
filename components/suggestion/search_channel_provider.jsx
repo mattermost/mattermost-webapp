@@ -3,6 +3,8 @@
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
+import Constants from 'utils/constants';
+
 import Provider from './provider.jsx';
 import SearchChannelSuggestion from './search_channel_suggestion';
 

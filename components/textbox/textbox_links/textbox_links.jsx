@@ -6,8 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants';
-
 export default class TextboxLinks extends React.PureComponent {
     static propTypes = {
         showPreview: PropTypes.bool,
