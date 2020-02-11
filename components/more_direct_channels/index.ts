@@ -46,7 +46,6 @@ type State = GlobalState & {
 
 type OwnProps = {
     isExistingChannel: boolean;
-
 }
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
