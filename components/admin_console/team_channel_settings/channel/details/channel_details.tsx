@@ -26,63 +26,13 @@ import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
 import ChannelModeration from './channel_moderation';
 
-const getresponse: Array<ChannelPermissions> = [{
-    "name": "create_post",
-    "roles": {
-        "guests": {
-            "value": false,
-            "enabled": true
-        },
-        "members": {
-            "value": false,
-            "enabled": true
-        }
-    }
-},
-{
-    "name": "create_reactions",
-    "roles": {
-        "guests": {
-            "value": false,
-            "enabled": false
-        },
-        "members": {
-            "value": true,
-            "enabled": false
-        }
-    }
-},
-{
-    "name": "manage_members",
-    "roles": {
-        "members": {
-            "value": true,
-            "enabled": true
-        }
-    }
-}, 
-{
-    "name": "use_channel_mentions",
-    "roles": {
-        "guests": {
-            "value": false,
-            "enabled": false
-        },
-        "members": {
-            "value": true,
-            "enabled": false
-        }
-    }
-}
-]
-
 interface ChannelDetailsProps {
     channelID: string;
     channel: Channel;
     team: Partial<Team>;
     groups: Group[];
     totalGroups: number;
-    channelPermissions?: Array<ChannelPermissions>,
+    channelPermissions?: Array<ChannelPermissions>;
     allGroups: {[gid: string]: Group}; // hashmap of groups
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
@@ -114,7 +64,7 @@ interface ChannelDetailsState {
     showConvertConfirmModal: boolean;
     showRemoveConfirmModal: boolean;
     showConvertAndRemoveConfirmModal: boolean;
-    channelPermissions?: Array<ChannelPermissions>,
+    channelPermissions?: Array<ChannelPermissions>;
 }
 
 export default class ChannelDetails extends React.Component<ChannelDetailsProps, ChannelDetailsState> {
@@ -159,8 +109,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         await Promise.all([actions.
             getGroups(channelID).
             then(() => actions.getChannel(channelID)).
-            then(() => this.setState({groups: this.props.groups})), 
-            actions.getChannelModerations(channelID).
+            then(() => this.setState({groups: this.props.groups})),
+        actions.getChannelModerations(channelID).
             then(() => this.setState({channelPermissions: this.props.channelPermissions}))
         ]);
         if (!team.id && channel.team_id) {
@@ -231,20 +181,20 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.processGroupsChange(groups);
     }
 
-    private channelPermissionsChanged = (name: string, guestsOrMembers: "guests" | "members") => {
-        const currentValueIndex = this.state.channelPermissions!.findIndex(element => element.name === name);
+    private channelPermissionsChanged = (name: string, guestsOrMembers: 'guests' | 'members') => {
+        const currentValueIndex = this.state.channelPermissions!.findIndex((element) => element.name === name);
         const currentValue = this.state.channelPermissions![currentValueIndex].roles[guestsOrMembers]!.value;
         const channelPermissions = [...this.state.channelPermissions!];
         channelPermissions[currentValueIndex] = {
             ...this.state.channelPermissions![currentValueIndex],
-                roles: {
-                    ...this.state.channelPermissions![currentValueIndex].roles,
-                    [guestsOrMembers]: {
-                        ...this.state.channelPermissions![currentValueIndex].roles[guestsOrMembers],
-                        value: !currentValue
-                    }
+            roles: {
+                ...this.state.channelPermissions![currentValueIndex].roles,
+                [guestsOrMembers]: {
+                    ...this.state.channelPermissions![currentValueIndex].roles[guestsOrMembers],
+                    value: !currentValue
                 }
-        }
+            }
+        };
         this.setState({channelPermissions, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
@@ -349,7 +299,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 await actions.getGroups(channelID);
             }
         }
-        
+
         const patchChannelPermissionsArray: Array<ChannelModerationPatch> = [];
         channelPermissions!.map((p) => {
             patchChannelPermissionsArray.push({
@@ -359,12 +309,12 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                     ...(p.roles.guests && p.roles.guests.enabled && {guests: p.roles.guests!.value})
                 }
             });
+            return null;
         });
         const result = await actions.patchChannelModerations(channelID, patchChannelPermissionsArray);
         if (result.error) {
             serverError = <FormError error={result.error.message}/>;
         }
-
 
         this.setState({serverError, saving: false, saveNeeded});
         actions.setNavigationBlocked(saveNeeded);

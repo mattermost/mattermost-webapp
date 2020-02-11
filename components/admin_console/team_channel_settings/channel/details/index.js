@@ -6,10 +6,10 @@ import {bindActionCreators} from 'redux';
 import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {
-    getChannel as fetchChannel, 
-    membersMinusGroupMembers, 
-    patchChannel, 
-    updateChannelPrivacy, 
+    getChannel as fetchChannel,
+    membersMinusGroupMembers,
+    patchChannel,
+    updateChannelPrivacy,
     getChannelModerations as fetchChannelModerations,
     patchChannelModerations,
 } from 'mattermost-redux/actions/channels';
