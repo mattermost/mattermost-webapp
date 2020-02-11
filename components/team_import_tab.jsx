@@ -22,7 +22,7 @@ const holders = defineMessages({
     },
 });
 
-export default class TeamImportTab extends React.Component {
+class TeamImportTab extends React.Component {
     static propTypes = {
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,

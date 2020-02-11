@@ -44,7 +44,7 @@ class LocalStorageStoreClass {
     getPreviousChannelName(userId, teamId, state = store.getState()) {
         return this.getItem(getPreviousChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
     }
-    
+
     removeItem(key) {
         const state = store.getState();
         const basePath = getBasePath(state);

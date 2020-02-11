@@ -6,6 +6,19 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 import Provider from './provider.jsx';
 import SearchChannelSuggestion from './search_channel_suggestion';
 
+function itemToTerm(item) {
+    if (item.type === Constants.DM_CHANNEL) {
+        return '@' + item.display_name;
+    }
+    if (item.type === Constants.GM_CHANNEL) {
+        return '@' + item.display_name.replace(/ /g, '');
+    }
+    if (item.type === Constants.OPEN_CHANNEL || item.type === Constants.PRIVATE_CHANNEL) {
+        return item.name;
+    }
+    return item.name;
+}
+
 export default class SearchChannelProvider extends Provider {
     constructor(channelSearchFunc) {
         super();
