@@ -115,7 +115,7 @@ describe('toasts', () => {
             cy.get('div.toast').should('be.visible');
 
             // # Click on toast dismiss button to close the toast
-            cy.get('div.toast__dismiss').click();
+            cy.findByTestId('dismissToast').click();
             cy.get('div.toast').should('not.be.visible');
         });
     });
@@ -132,7 +132,7 @@ describe('toasts', () => {
 
         // # Post a new message
         cy.get('div.toast').should('be.visible');
-        cy.get('div.toast__dismiss').click();
+        cy.findByTestId('dismissToast').click();
         cy.get('div.toast').should('not.be.visible');
     });
 
@@ -153,7 +153,7 @@ describe('toasts', () => {
 
         cy.get('div.toast').should('be.visible');
         cy.get('div.toast__message>span').first().contains('1 new message');
-        cy.get('div.toast__dismiss').click();
+        cy.findByTestId('dismissToast').click();
         cy.get('div.toast').should('not.be.visible');
         cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
             cy.get('div.toast__message>span').first().contains('1 new message');
