@@ -232,7 +232,8 @@ class Sidebar extends React.PureComponent {
 
         // Scroll to selected channel so it's in view
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.scrollToChannel(this.props.currentChannel.id);
+            // This will be re-enabled after 5.20 when the weird scrolling behaviour when switching teams can be resolved
+            // this.scrollToChannel(this.props.currentChannel.id);
         }
 
         // close the LHS on mobile when you change channels
@@ -373,7 +374,12 @@ class Sidebar extends React.PureComponent {
             return;
         }
 
-        const top = element.position().top;
+        const position = element.position();
+        if (!position) {
+            return;
+        }
+
+        const top = position.top;
         const bottom = top + element.height();
 
         const scrollTop = this.refs.scrollbar.getScrollTop();
