@@ -227,10 +227,5 @@ function scrollUpAndPostAMessage() {
 
 function scrollUp() {
     // # Scroll up so bottom is not visible
-    cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000});
-
-    // # Wait until the loading icon is not visible
-    cy.waitUntil(() => cy.get('#postListContent').within(() => {
-        return cy.get('.loading-screen').should('not.be.visible');
-    }));
+    cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000}).wait(1000);
 }
