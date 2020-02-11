@@ -155,7 +155,7 @@ export default class ManageLanguage extends React.Component {
                 </label>
                 <div
                     ref={this.reactSelectContainer}
-                    className='padding-top'
+                    className='pt-2'
                 >
                     <ReactSelect
                         className='react-select react-select-top'

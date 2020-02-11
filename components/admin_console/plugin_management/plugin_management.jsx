@@ -250,7 +250,7 @@ const PluginItem = ({
     let description;
     if (pluginStatus.description) {
         description = (
-            <div className='padding-top'>
+            <div className='pt-2'>
                 {pluginStatus.description}
             </div>
         );
@@ -293,7 +293,7 @@ const PluginItem = ({
     let clusterSummary;
     if (showInstances) {
         clusterSummary = (
-            <div className='padding-top x2 padding-bottom'>
+            <div className='pt-3 pb-3'>
                 <div className='row'>
                     <div className='col-md-6'>
                         <strong>
@@ -351,7 +351,7 @@ const PluginItem = ({
                 {')'}
             </div>
             {description}
-            <div className='padding-top'>
+            <div className='pt-2'>
                 {activateButton}
                 {removeButton}
                 {settingsButton}
@@ -1021,7 +1021,7 @@ export default class PluginManagement extends AdminSettings {
                                 >
                                     {uploadButtonText}
                                 </button>
-                                <div className='help-text no-margin'>
+                                <div className='help-text m-0'>
                                     {fileName}
                                 </div>
                                 {serverError}

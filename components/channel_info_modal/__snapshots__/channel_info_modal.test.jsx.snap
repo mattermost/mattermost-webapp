@@ -75,7 +75,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       </div>
     </div>
     <div
-      className="about-modal__hash form-group padding-top x2"
+      className="about-modal__hash form-group pt-3"
     >
       <p>
         <FormattedMessage
@@ -213,7 +213,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       </div>
     </div>
     <div
-      className="about-modal__hash form-group padding-top x2"
+      className="about-modal__hash form-group pt-3"
     >
       <p>
         <FormattedMessage
