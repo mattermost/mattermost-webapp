@@ -1901,6 +1901,7 @@
   "bots.token.delete": "Delete Token",
   "center_panel.archived.closeChannel": "Close Channel",
   "center_panel.direct.closeDirectMessage": "Close Direct Message",
+  "center_panel.direct.closeGroupMessage": "Close Group Message",
   "center_panel.permalink.archivedChannel": "You are viewing an **archived channel**. ",
   "center_panel.recent": "Click here to jump to recent messages. ",
   "center_panel.recent.icon": "Jump to recent messages Icon",
