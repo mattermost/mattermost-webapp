@@ -129,7 +129,7 @@ describe('channel view actions', () => {
                 entities: {
                     ...initialState.entities,
                     channels: {
-                        ...initialState.entities.channels,
+                        ...initialState.entities,
                         myMembers: {
                             channelid1: {channel_id: 'channelid1', user_id: 'userid1'},
                         },
