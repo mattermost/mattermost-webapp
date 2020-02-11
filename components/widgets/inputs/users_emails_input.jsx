@@ -200,7 +200,7 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     handleInputChange = (inputValue, action) => {
-        if (action.action === 'input-blur') {
+        if (action.action === 'input-blur' && inputValue !== '') {
             const values = this.props.value.map((v) => {
                 if (v.id) {
                     return v;

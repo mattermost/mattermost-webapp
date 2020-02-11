@@ -57,7 +57,7 @@ exports[`MfaSection rendering when section is expanded and MFA is active and enf
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
@@ -101,7 +101,7 @@ exports[`MfaSection rendering when section is expanded and MFA is active but not
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
@@ -145,7 +145,7 @@ exports[`MfaSection rendering when section is expanded and MFA is not active 1`]
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
@@ -189,7 +189,7 @@ exports[`MfaSection rendering when section is expanded with a server error 1`] =
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
