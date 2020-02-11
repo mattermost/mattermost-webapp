@@ -113,23 +113,23 @@ class TeamButton extends React.Component {
 
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
         let orderIndicator;
-        if (this.props.order !== undefined) {
-            const toolTipHelp = isMac()
-                  ? `⌘ ⌥ ${this.props.order}`
-                  : `Ctrl + Alt + ${this.props.order}`;
+        if (typeof this.props.order !== 'undefined') {
+            const toolTipHelp = isMac() ?
+                `⌘ ⌥ ${this.props.order}` :
+                `Ctrl + Alt + ${this.props.order}`;
             toolTip = (
                 <>
-                  <div>{toolTip}</div>
-                  <div className="tooltip-help">{toolTipHelp}</div>
+                    <div>{toolTip}</div>
+                    <div className='tooltip-help'>{toolTipHelp}</div>
                 </>
             );
 
             if (this.props.showOrder) {
                 orderIndicator = (
-                    <div className="order-indicator">
-                      <p>{this.props.order}</p>
+                    <div className='order-indicator'>
+                        <p>{this.props.order}</p>
                     </div>
-                )
+                );
             }
         }
 

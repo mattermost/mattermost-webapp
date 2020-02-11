@@ -116,7 +116,7 @@ export default class TeamSidebar extends React.PureComponent {
 
     handleKeyUp = (e) => {
         if (!((e.ctrlKey || e.metaKey) && e.altKey)) {
-            this.setState({showOrder: false})
+            this.setState({showOrder: false});
         }
     }
 
