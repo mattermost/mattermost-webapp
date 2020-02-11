@@ -178,6 +178,7 @@ class CreatePost extends React.PureComponent {
         isTimezoneEnabled: PropTypes.bool.isRequired,
 
         canPost: PropTypes.bool.isRequired,
+
         /**
          * To determine if the current user can send special channel mentions
          */

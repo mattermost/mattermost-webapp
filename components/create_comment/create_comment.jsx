@@ -186,11 +186,11 @@ class CreateComment extends React.PureComponent {
         selectedPostFocussedAt: PropTypes.number.isRequired,
 
         canPost: PropTypes.bool.isRequired,
+
         /**
          * To determine if the current user can send special channel mentions
          */
         useChannelMentions: PropTypes.bool.isRequired,
-
     }
 
     static getDerivedStateFromProps(props, state) {
