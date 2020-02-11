@@ -472,7 +472,10 @@
                 &:first-child {
                     padding-left: 0px;
                 }
-    
+
+                &:not(:first-child) {
+                    text-align: center;
+                }
             }
     
             th {
@@ -484,19 +487,13 @@
             }
 
             .checkbox {
-                align-items: center;
                 border-radius: 3px;
-                display: flex;
-                justify-content: space-around;
-                margin: 5px 5px 4px 14px;
-                min-height: 18px;
-                min-width: 18px;
-
                 border: 2px solid $dark-gray;
                 height: 18px;
                 width: 18px;
                 padding: 0;
                 background: none;
+                display: inline-block;
 
                 > * {
                     pointer-events: none;
