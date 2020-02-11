@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
-import {Tabs, Tab, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tabs, Tab} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -18,7 +18,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import Constants from 'utils/constants.jsx';
 
 import MarketplaceItem from './marketplace_item';
 
@@ -40,10 +39,10 @@ export const Plugins = ({plugins}) => (
             name={p.manifest.name}
             description={p.manifest.description}
             version={p.manifest.version}
-            isPrepackaged={false}
             downloadUrl={p.download_url}
             homepageUrl={p.homepage_url}
             releaseNotesUrl={p.release_notes_url}
+            labels={p.labels}
             iconData={p.icon_data}
             installedVersion={p.installed_version}
         />
@@ -61,7 +60,7 @@ export const AllPlugins = ({plugins}) => {
             <div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <div className='margin-top x2 light'>
+                <div className='mt-3 light'>
                     <FormattedMessage
                         id='marketplace_modal.no_plugins'
                         defaultMessage='There are no plugins available at this time.'
@@ -85,14 +84,14 @@ export const InstalledPlugins = ({installedPlugins, changeTab}) => {
             <div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <div className='margin-top x2 light'>
+                <div className='mt-3 light'>
                     <FormattedMessage
                         id='marketplace_modal.no_plugins_installed'
                         defaultMessage='You do not have any plugins installed.'
                     />
                 </div>
                 <button
-                    className='margin-top x3 style--none color--link'
+                    className='mt-5 style--none color--link'
                     onClick={() => changeTab(MarketplaceTabs.ALL_PLUGINS)}
                     data-testid='Install-Plugins-button'
                 >
@@ -193,15 +192,6 @@ export class MarketplaceModal extends React.Component {
     debouncedSearch = debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS);
 
     render() {
-        const searchClearTooltip = (
-            <Tooltip id='searchClearTooltip'>
-                <FormattedMessage
-                    id='search_bar.clear'
-                    defaultMessage='Clear search query'
-                />
-            </Tooltip>
-        );
-
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
@@ -213,27 +203,9 @@ export class MarketplaceModal extends React.Component {
                         inputComponent={LocalizedInput}
                         onInput={this.onInput}
                         value={this.state.filter}
+                        clearable={true}
+                        onClear={this.handleClearSearch}
                     />
-                    {this.state.filter && this.state.filter.trim() !== '' &&
-                        <div
-                            id='searchClearButton'
-                            className='sidebar__search-clear visible'
-                            onClick={this.handleClearSearch}
-                        >
-                            <OverlayTrigger
-                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                placement='bottom'
-                                overlay={searchClearTooltip}
-                            >
-                                <span
-                                    className='sidebar__search-clear-x'
-                                    aria-hidden='true'
-                                >
-                                    {'×'}
-                                </span>
-                            </OverlayTrigger>
-                        </div>
-                    }
                 </div>
             </div>
         );
@@ -259,6 +231,7 @@ export class MarketplaceModal extends React.Component {
                 <FullScreenModal
                     show={this.props.show}
                     onClose={this.close}
+                    ariaLabel={localizeMessage('marketplace_modal.title', 'Plugin Marketplace')}
                 >
                     {errorBanner}
                     <div

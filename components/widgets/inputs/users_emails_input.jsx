@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 import AsyncSelect from 'react-select/lib/AsyncCreatable';
 import {components} from 'react-select';
 import classNames from 'classnames';
@@ -19,7 +20,6 @@ import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
-import {intlShape} from 'utils/react_intl';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
@@ -39,11 +39,8 @@ export default class UsersEmailsInput extends React.Component {
         validAddressMessageDefault: PropTypes.string,
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
+        emailInvitationsEnabled: PropTypes.bool,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
@@ -83,13 +80,12 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     loadingMessage = () => {
-        let text = 'Loading';
-        if (this.context.intl) {
-            text = this.context.intl.formatMessage({
-                id: this.props.loadingMessageId,
-                defaultMessage: this.props.loadingMessageDefault,
-            });
-        }
+        const text = (
+            <FormattedMessage
+                id={this.props.loadingMessageId}
+                defaultMessage={this.props.loadingMessageDefault}
+            />
+        );
 
         return (<LoadingSpinner text={text}/>);
     }
@@ -163,6 +159,7 @@ export default class UsersEmailsInput extends React.Component {
                 id={this.props.validAddressMessageId}
                 defaultMessage={this.props.validAddressMessageDefault}
                 values={{email: value}}
+                disableLinks={true}
             />
         </React.Fragment>
     );
@@ -178,6 +175,7 @@ export default class UsersEmailsInput extends React.Component {
                     id={this.props.noMatchMessageId}
                     defaultMessage={this.props.noMatchMessageDefault}
                     values={{text: inputValue}}
+                    disableLinks={true}
                 >
                     {(message) => (
                         <components.NoOptionsMessage {...props}>
@@ -202,7 +200,7 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     handleInputChange = (inputValue, action) => {
-        if (action.action === 'input-blur') {
+        if (action.action === 'input-blur' && inputValue !== '') {
             const values = this.props.value.map((v) => {
                 if (v.id) {
                     return v;
@@ -222,7 +220,7 @@ export default class UsersEmailsInput extends React.Component {
                 }
             }
 
-            if (isEmail(this.props.inputValue)) {
+            if (this.props.emailInvitationsEnabled && isEmail(this.props.inputValue)) {
                 const email = this.props.inputValue;
                 this.onChange([...values, {value: email, label: email}]);
                 this.props.onInputChange('');
@@ -245,7 +243,7 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     showAddEmail = (input, values, options) => {
-        return options.length === 0 && isEmail(input);
+        return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
     onFocus = () => {

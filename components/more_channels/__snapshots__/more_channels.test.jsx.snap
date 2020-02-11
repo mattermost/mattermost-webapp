@@ -63,7 +63,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
         type="button"
       >
         <FormattedMessage
-          defaultMessage="Create New Channel"
+          defaultMessage="Create Channel"
           id="more_channels.create"
           values={Object {}}
         />

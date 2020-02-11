@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {PostTypes} from 'utils/constants';
+import {Locations, PostTypes} from 'utils/constants';
 
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
@@ -25,6 +25,7 @@ describe('components/dot_menu/DotMenu', () => {
         handleDropdownOpened: jest.fn(),
         enableEmojiPicker: true,
         components: {},
+        channelIsArchived: false,
         actions: {
             flagPost: jest.fn(),
             unflagPost: jest.fn(),
@@ -131,5 +132,37 @@ describe('components/dot_menu/DotMenu', () => {
             },
         });
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
+    });
+
+    test('should show mark as unread when channel is not archived', () => {
+        const wrapper = shallow(
+            <DotMenu {...baseProps}/>
+        );
+
+        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(true);
+    });
+
+    test('should not show mark as unread when channel is archived', () => {
+        const props = {
+            ...baseProps,
+            channelIsArchived: true,
+        };
+        const wrapper = shallow(
+            <DotMenu {...props}/>
+        );
+
+        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
+    });
+
+    test('should not show mark as unread in search', () => {
+        const props = {
+            ...baseProps,
+            location: Locations.SEARCH,
+        };
+        const wrapper = shallow(
+            <DotMenu {...props}/>
+        );
+
+        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
     });
 });

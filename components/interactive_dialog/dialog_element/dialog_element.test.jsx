@@ -17,6 +17,7 @@ describe('components/interactive_dialog/DialogElement', () => {
         maxLength: 100,
         actions: {
             autocompleteChannels: jest.fn(),
+            autocompleteUsers: jest.fn(),
         },
     };
     const baseTextSettingProps = {

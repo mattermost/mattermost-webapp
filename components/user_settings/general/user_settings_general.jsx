@@ -483,6 +483,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     className='form-control'
                                     type='email'
                                     onChange={this.updateEmail}
+                                    maxLength={Constants.MAX_EMAIL_LENGTH}
                                     value={this.state.email}
                                     aria-label={formatMessage({id: 'user.settings.general.newEmail', defaultMessage: 'New Email'})}
                                 />
@@ -506,6 +507,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     className='form-control'
                                     type='email'
                                     onChange={this.updateConfirmEmail}
+                                    maxLength={Constants.MAX_EMAIL_LENGTH}
                                     value={this.state.confirmEmail}
                                     aria-label={formatMessage({id: 'user.settings.general.confirmEmail', defaultMessage: 'Confirm Email'})}
                                 />
@@ -545,7 +547,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint padding-bottom x2'>
+                        <div className='setting-list__hint pb-3'>
                             <FormattedMessage
                                 id='user.settings.general.emailGitlabCantUpdate'
                                 defaultMessage='Login occurs through GitLab. Email cannot be updated. Email address used for notifications is {email}.'
@@ -563,7 +565,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint padding-bottom x2'>
+                        <div className='setting-list__hint pb-3'>
                             <FormattedMessage
                                 id='user.settings.general.emailGoogleCantUpdate'
                                 defaultMessage='Login occurs through Google Apps. Email cannot be updated. Email address used for notifications is {email}.'
@@ -581,7 +583,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint padding-bottom x2'>
+                        <div className='setting-list__hint pb-3'>
                             <FormattedMessage
                                 id='user.settings.general.emailOffice365CantUpdate'
                                 defaultMessage='Login occurs through Office 365. Email cannot be updated. Email address used for notifications is {email}.'
@@ -597,9 +599,9 @@ class UserSettingsGeneralTab extends React.Component {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
-                        className='padding-bottom'
+                        className='pb-2'
                     >
-                        <div className='setting-list__hint padding-bottom x2'>
+                        <div className='setting-list__hint pb-3'>
                             <FormattedMessage
                                 id='user.settings.general.emailLdapCantUpdate'
                                 defaultMessage='Login occurs through AD/LDAP. Email cannot be updated. Email address used for notifications is {email}.'
@@ -614,9 +616,9 @@ class UserSettingsGeneralTab extends React.Component {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
-                        className='padding-bottom'
+                        className='pb-2'
                     >
-                        <div className='setting-list__hint padding-bottom x2'>
+                        <div className='setting-list__hint pb-3'>
                             <FormattedMessage
                                 id='user.settings.general.emailSamlCantUpdate'
                                 defaultMessage='Login occurs through SAML. Email cannot be updated. Email address used for notifications is {email}.'
@@ -772,6 +774,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateFirstName}
+                                maxLength={Constants.MAX_FIRSTNAME_LENGTH}
                                 value={this.state.firstName}
                                 onFocus={Utils.moveCursorToEnd}
                                 aria-label={formatMessage({id: 'user.settings.general.firstName', defaultMessage: 'First Name'})}
@@ -797,6 +800,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateLastName}
+                                maxLength={Constants.MAX_LASTNAME_LENGTH}
                                 value={this.state.lastName}
                                 aria-label={formatMessage({id: 'user.settings.general.lastName', defaultMessage: 'Last Name'})}
                             />

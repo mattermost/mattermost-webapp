@@ -12,7 +12,7 @@ import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
 
 export function focusPost(postId, returnTo = '', currentUserId) {
     return async (dispatch, getState) => {
-        const {data} = await dispatch(getPostThread(postId, false));
+        const {data} = await dispatch(getPostThread(postId));
 
         if (!data) {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);

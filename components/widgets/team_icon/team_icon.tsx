@@ -37,9 +37,6 @@ export class TeamIcon extends React.PureComponent<Props> {
 
     public render() {
         const {name, url, size, withHover} = this.props;
-        if (!name && !url) {
-            throw new Error('Either `url` or `name` prop is required ');
-        }
         const hoverCss = withHover ? '' : 'no-hover';
 
         // FIXME Nowhere does imageURLForTeam seem to check for display_name.
@@ -48,6 +45,7 @@ export class TeamIcon extends React.PureComponent<Props> {
         if (teamIconUrl) {
             icon = (
                 <div
+                    data-testid='teamIconImage'
                     className={`TeamIcon__image TeamIcon__${size}`}
                     aria-label={'Team Icon'}
                     style={{backgroundImage: `url('${teamIconUrl}')`}}
@@ -56,6 +54,7 @@ export class TeamIcon extends React.PureComponent<Props> {
         } else {
             icon = (
                 <div
+                    data-testid='teamIconInitial'
                     className={`TeamIcon__initials TeamIcon__initials__${size}`}
                     aria-label={'Team Initials'}
                 >
@@ -64,7 +63,6 @@ export class TeamIcon extends React.PureComponent<Props> {
             );
         }
         return (
-
             <div className={`TeamIcon ${hoverCss} TeamIcon__${size}`} >
                 <div className={`TeamIcon__content ${hoverCss}`}>
                     {icon}

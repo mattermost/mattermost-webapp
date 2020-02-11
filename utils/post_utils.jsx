@@ -227,7 +227,7 @@ export function isErrorInvalidSlashCommand(error) {
     return false;
 }
 
-function isIdNotPost(postId) {
+export function isIdNotPost(postId) {
     return (
         PostListUtils.isStartOfNewMessages(postId) ||
         PostListUtils.isDateLine(postId) ||
@@ -445,4 +445,10 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
     const firstPiece = message.substring(0, caretPosition);
     const lastPiece = message.substring(caretPosition, message.length);
     return {firstPiece, lastPiece};
+}
+
+export function getNewMessageIndex(postListIds) {
+    return postListIds.findIndex(
+        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+    );
 }

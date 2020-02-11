@@ -35,8 +35,10 @@ describe('components/widgets/admin_console/AdminPanel', () => {
           values={Object {}}
         />
       </h3>
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
+      <div
+        className="mt-2"
+      >
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
           values={
@@ -45,7 +47,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             }
           }
         />
-      </span>
+      </div>
     </div>
   </div>
   Test
@@ -78,8 +80,10 @@ describe('components/widgets/admin_console/AdminPanel', () => {
           values={Object {}}
         />
       </h3>
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
+      <div
+        className="mt-2"
+      >
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
           values={
@@ -88,7 +92,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             }
           }
         />
-      </span>
+      </div>
     </div>
     <div
       className="button"
@@ -129,8 +133,10 @@ describe('components/widgets/admin_console/AdminPanel', () => {
           values={Object {}}
         />
       </h3>
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
+      <div
+        className="mt-2"
+      >
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
           values={
@@ -139,7 +145,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             }
           }
         />
-      </span>
+      </div>
     </div>
   </div>
   Test

@@ -26,7 +26,7 @@ describe('components/audit_table/AuditTable', () => {
     test('should match snapshot with no audits', () => {
         const wrapper = shallowWithIntl(
             <AuditTable {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -56,7 +56,7 @@ describe('components/audit_table/AuditTable', () => {
         const props = {...baseProps, audits};
         const wrapper = shallowWithIntl(
             <AuditTable {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });

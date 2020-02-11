@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import {IntlProvider} from 'react-intl';
+import {createIntl} from 'react-intl';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import {PostListRowListIds} from 'utils/constants';
@@ -631,8 +631,7 @@ describe('PostUtils.getLatestPostId', () => {
 describe('PostUtils.createAriaLabelForPost', () => {
     const emojiMap = new EmojiMap(new Map());
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
         const testPost = {
             message: 'test_message',
@@ -661,8 +660,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf('message is flagged and pinned'));
     });
     test('Should show that message is a reply', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
         const testPost = {
             message: 'test_message',
@@ -677,8 +675,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf('reply'));
     });
     test('Should translate emoji into {emoji-name} emoji', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
         const testPost = {
             message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',

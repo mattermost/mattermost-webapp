@@ -134,12 +134,22 @@ function createPost({
             emojiMap={emojiMap}
             badConnection={false}
             isTimezoneEnabled={false}
+            canPost={true}
         />
     );
 }
 /* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
+    jest.useFakeTimers();
+    beforeEach(() => {
+        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+    });
+
+    afterEach(() => {
+        window.requestAnimationFrame.mockRestore();
+    });
+
     it('should match snapshot, init', () => {
         const wrapper = shallowWithIntl(createPost({}));
 
@@ -245,6 +255,8 @@ describe('components/create_post', () => {
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('change', {target: {value: 'change'}});
+        expect(setDraft).not.toHaveBeenCalled();
+        jest.runAllTimers();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
@@ -775,6 +787,11 @@ describe('components/create_post', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    it('should match snapshot when cannot post', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
     it('should match snapshot when file upload disabled', () => {
         const wrapper = shallowWithIntl(createPost({canUploadFiles: false}));
         expect(wrapper).toMatchSnapshot();
@@ -885,10 +902,10 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe(markdownTable);
     });
 
-    it('should be preserve message when pasting a markdown table', () => {
+    it('should preserve the original message after pasting a markdown table', () => {
         const wrapper = shallowWithIntl(createPost());
 
-        const message = 'message';
+        const message = 'original message';
         wrapper.setState({message});
 
         const event = {
@@ -910,6 +927,32 @@ describe('components/create_post', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(expectedMessage);
+    });
+
+    it('should be able to format a github codeblock (pasted as a table)', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/plain', 'text/html'],
+                getData: (type) => {
+                    if (type === 'text/plain') {
+                        return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
+                    }
+                    return '<table class="highlight tab-size js-file-line-container" data-tab-size="8"><tbody><tr><td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> a javascript codeblock example</span></td></tr><tr><td id="L2" class="blob-num js-line-number" data-line-number="2">&nbsp;</td><td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> (<span class="pl-c1">1</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {</td></tr><tr><td id="L3" class="blob-num js-line-number" data-line-number="3">&nbsp;</td><td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">\'</span>condition is true<span class="pl-pds">\'</span></span>);</td></tr><tr><td id="L4" class="blob-num js-line-number" data-line-number="4">&nbsp;</td><td id="LC4" class="blob-code blob-code-inner js-file-line">}</td></tr></tbody></table>';
+                },
+            },
+        };
+
+        const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(codeBlockMarkdown);
     });
 
     it('should not enable the save button when message empty', () => {

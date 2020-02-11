@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
@@ -15,9 +15,9 @@ import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
@@ -29,7 +29,7 @@ import TextboxLinks from 'components/textbox/textbox_links';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
-export default class CreateComment extends React.PureComponent {
+class CreateComment extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -88,11 +88,6 @@ export default class CreateComment extends React.PureComponent {
         locale: PropTypes.string.isRequired,
 
         /**
-         * A function returning a ref to the sidebar
-         */
-        getSidebarBody: PropTypes.func,
-
-        /**
          * Create post error id
          */
         createPostErrorId: PropTypes.string,
@@ -101,6 +96,8 @@ export default class CreateComment extends React.PureComponent {
          * Called to clear file uploads in progress
          */
         clearCommentDraftUploads: PropTypes.func.isRequired,
+
+        intl: intlShape.isRequired,
 
         /**
          * Called when comment draft needs to be updated
@@ -187,12 +184,11 @@ export default class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
-        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
-    }
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
+        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
+
+        canPost: PropTypes.bool.isRequired,
+    }
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {
@@ -226,6 +222,7 @@ export default class CreateComment extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
+            suggestionListStyle: 'top',
         };
 
         this.lastBlurAt = 0;
@@ -314,7 +311,13 @@ export default class CreateComment extends React.PureComponent {
         e.preventDefault();
 
         const {draft} = this.state;
-        const message = formatMarkdownTableMessage(table, draft.message.trim());
+        let message = '';
+        if (isGitHubCodeBlock(table.className)) {
+            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+        } else {
+            message = formatMarkdownTableMessage(table, draft.message.trim());
+        }
+
         const updatedDraft = {...draft, message};
 
         this.props.onUpdateCommentDraft(updatedDraft);
@@ -788,8 +791,8 @@ export default class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
-        const {readOnlyChannel} = this.props;
-        const {formatMessage} = this.context.intl;
+        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
+        const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
         const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
@@ -945,6 +948,16 @@ export default class CreateComment extends React.PureComponent {
             scrollbarClass = ' scroll';
         }
 
+        const textboxRef = this.refs.textbox;
+        if (textboxRef) {
+            const textboxPosTop = textboxRef.getWrappedInstance().getInputBox().getBoundingClientRect().top;
+            if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
+                this.setState({suggestionListStyle: 'bottom'});
+            } else {
+                this.setState({suggestionListStyle: 'top'});
+            }
+        }
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -982,6 +995,7 @@ export default class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.state.showPreview}
+                                suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -1015,7 +1029,7 @@ export default class CreateComment extends React.PureComponent {
                                 />
                             </div>
                         </div>
-                        <div className='text-right margin-top'>
+                        <div className='text-right mt-2'>
                             {uploadsInProgressText}
                             <input
                                 type='button'
@@ -1046,3 +1060,5 @@ export default class CreateComment extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(CreateComment);

@@ -3,7 +3,9 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
 import {copyToClipboard} from 'utils/utils.jsx';
@@ -47,7 +49,7 @@ export default class CopyText extends React.PureComponent<Props, {}> {
             >
                 <a
                     href='#'
-                    className='fa fa-copy margin-left'
+                    className='fa fa-copy ml-2'
                     onClick={this.copyText}
                 />
             </OverlayTrigger>

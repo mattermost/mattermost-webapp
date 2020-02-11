@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -86,7 +87,6 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
 /**
  * Change the message display setting
  * @param {String} setting - as 'STANDARD' or 'COMPACT'
- * @param {String} username - User to login as
  */
 Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
@@ -120,6 +120,11 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
     }
 
     cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
+});
+
+Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
+    const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
+    return cy.get(subject).type(`${cmdOrCtrl}${text}`);
 });
 
 function isMac() {
@@ -157,6 +162,13 @@ Cypress.Commands.add('getLastPostId', () => {
 
     cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+Cypress.Commands.add('getLastPostIdRHS', () => {
+    waitUntilPermanentPost();
+
+    cy.get('#rhsPostList > div').last().should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'rhsPost_', '');
 });
 
 /**
@@ -208,11 +220,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
-        cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
+        cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
+            cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
         });
     }
 }
@@ -437,4 +449,45 @@ Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png
             {subjectType: 'input', force: true},
         );
     });
+});
+
+/**
+ * Upload a file on target input in binary format -
+ * @param {String} targetInput - #LocatorID
+ * @param {String} fileName - Filename to upload from the fixture Ex: drawPlugin-binary.tar
+ * @param {String} fileType - application/gzip
+ */
+Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, fileType) => {
+    cy.log('Upload process started .FileName:' + fileName);
+    cy.fixture(fileName, 'binary').then((content) => {
+        return Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
+            const el = targetInput[0];
+            cy.log('el:' + el);
+            const testFile = new File([blob], fileName, {type: fileType});
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(testFile);
+            el.files = dataTransfer.files;
+            cy.wrap(targetInput).trigger('change', {force: true});
+        });
+    });
+});
+
+/**
+ * Navigate to system console-PluginManagement from account settings
+ */
+Cypress.Commands.add('systemConsolePluginManagement', () => {
+    cy.get('#lhsHeader').should('be.visible').within(() => {
+        // # Click hamburger main menu
+        cy.get('#sidebarHeaderDropdownButton').click();
+
+        // * Dropdown menu should be visible
+        cy.get('.dropdown-menu').should('be.visible').within(() => {
+            // * Plugin Marketplace button should be visible then click
+            cy.get('#systemConsole').should('be.visible').click();
+        });
+    });
+
+    //Search for plugin management in filter container
+    cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
+        wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
 });

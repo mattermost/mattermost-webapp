@@ -41,6 +41,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value=""
         />
         <span
@@ -75,7 +76,134 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
+      >
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
+    </div>
+  </div>
+  <PostDeletedModal
+    onHide={[Function]}
+    show={false}
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Confirm"
+        id="notify_all.confirm"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
+        id="notify_all.question"
+        values={
+          Object {
+            "totalMembers": 2,
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Confirm sending notifications to entire channel"
+        id="notify_all.title.confirm"
+        values={Object {}}
+      />
+    }
+  />
+</form>
+`;
+
+exports[`components/CreateComment should match snapshot when cannot post 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    aria-label="reply input region"
+    className="post-create a11y__region"
+    data-a11y-sort-order="4"
+    id="rhsFooter"
+    role="application"
+    tabIndex="-1"
+  >
+    <div
+      className="post-create-body comment-create-body"
+      id=""
+    >
+      <div
+        className="post-body__cell"
+      >
+        <Connect(Textbox)
+          badConnection={false}
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          characterLimit={4000}
+          createMessage="This channel is read-only. Only members with permission can post here."
+          disabled={true}
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="reply_textbox"
+          initialText=""
+          isRHS={true}
+          listenForMentionKeyClick={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onComposition={[Function]}
+          onHeightChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
+          popoverMentionKeyClick={true}
+          preview={false}
+          suggestionListStyle="top"
+          value=""
+        />
+        <span
+          className="post-body__actions"
+        />
+      </div>
+    </div>
+    <div
+      className="post-create-footer"
+    >
+      <div
+        className="d-flex justify-content-between"
+      >
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn"
@@ -168,12 +296,13 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -237,7 +366,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn"
@@ -330,12 +459,13 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(injectIntl(FileUpload))
             fileCount={3}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -375,7 +505,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn"
@@ -480,12 +610,13 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value=""
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -549,7 +680,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <input
           className="btn btn-primary comment-btn disabled"
@@ -642,12 +773,13 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(injectIntl(FileUpload))
             fileCount={4}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -711,7 +843,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         </div>
       </div>
       <div
-        className="text-right margin-top"
+        className="text-right mt-2"
       >
         <span
           className="post-right-comments-upload-in-progress"

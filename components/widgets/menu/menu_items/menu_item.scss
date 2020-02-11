@@ -13,6 +13,33 @@
             margin-right: 8px;
         }
 
+        span.icon {
+            width: 30px;
+            padding-right: 15px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        span.MenuItem__primary-text {
+            display: block;
+            white-space: normal;
+            line-height: 22px;
+            padding: 5px 0;
+        }
+
+        span.MenuItem__help-text {
+            @include opacity(.7);
+            display: block;
+            font-size: 12px;
+            line-height: 16px;
+            white-space: normal;
+            padding-bottom: 8px;
+
+            @media (max-width: 768px) {
+                margin: 0 0px 4px 38px;
+            }
+        }
+
         > a {
             text-decoration: none;
 
@@ -46,11 +73,21 @@
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 28px;
-            height: 28px;
 
-            &.MenuItem__help {
+            &.MenuItem__with-help {
                 height: auto;
-                padding: 3px 24px 9px;
+                padding: 0 24px;
+
+                .MenuItem__primary-text {
+                    padding: 7px 0 3px;
+                }
+
+                .icon {
+                    @media (max-width: 768px) {
+                        top: 10px;
+                        position: relative;
+                    }
+                }
             }
 
             .MenuItem__icon {
@@ -58,6 +95,7 @@
                 height: 20px;
                 display: inline-flex;
                 align-items: center;
+                justify-content: center;
                 margin-right: 8px;
                 top: 4px;
                 position: relative;
@@ -70,22 +108,6 @@
 
         &.MenuItem__dangerous {
             color: $red;
-        }
-
-        span.icon {
-            width: 30px;
-            padding-right: 15px;
-            display: inline-block;
-            text-align: center;
-        }
-
-        span.extra-text {
-            @include opacity(.7);
-            display: block;
-            font-size: 12px;
-            line-height: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
     }
 }

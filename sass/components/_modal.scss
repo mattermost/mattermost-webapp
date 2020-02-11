@@ -149,6 +149,10 @@
     .info__value {
         padding-left: 10px;
         word-break: break-word;
+
+        p {
+            white-space: pre-wrap;
+        }
     }
 
     .team-member-list {
@@ -514,6 +518,10 @@
     }
 
     .channel-switch__modal {
+        .suggestion-list {
+            position: relative;
+        }
+
         .modal-content {
             border-radius: 2px;
         }
@@ -784,6 +792,10 @@
                 opacity: 0.5;
                 font-weight: 500;
             }
+            .more-modal__name_count {
+                opacity: 0.6;
+                font-weight: 400;
+            }
         }
     }
 
@@ -838,7 +850,7 @@
             cursor: pointer;
         }
 
-        &:hover {
+        &.more-modal__row--selected  {
             background: v(center-channel-color-05);
 
             .more-modal__actions--round {
@@ -938,9 +950,6 @@
         border: 0px;
         &:nth-child(odd) {
             background: rgba(0, 0, 0, .03);
-        }
-        &:hover {
-            background: rgba(0, 0, 0, .05);
         }
         .team-name {
             padding-left: 5px;

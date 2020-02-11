@@ -111,12 +111,6 @@
         }
     }
 
-    .table {
-        &.table-margin--none {
-            margin-bottom: 0;
-        }
-    }
-
     .btn {
         &.btn-spacing--right {
             margin-right: 10px;
@@ -454,10 +448,15 @@
             overflow: hidden;
 
             .control-label {
-                padding: 0;
+                padding: 5px 0 0 0;
                 @include text-clamp(2, 20);
             }
+
+            div:nth-child(2) > .control-label {
+                padding: 0;
+            }
         }
+
         .reset-defaults-btn {
             position: absolute;
             right: 0;
@@ -582,7 +581,7 @@
                     border: 2px solid $primary-color;
                 }
             }
-            .sidebar__search-clear {
+            .input-clear {
                 color: $white;
                 font-weight: bold;
                 position: absolute;

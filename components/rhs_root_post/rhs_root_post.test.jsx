@@ -123,6 +123,23 @@ describe('components/RhsRootPost', () => {
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(true);
     });
 
+    test('should not show pointer when alt is held down, but channel is archived', () => {
+        const props = {
+            ...baseProps,
+            channelIsArchived: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...props}/>
+        );
+
+        expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
+
+        wrapper.setState({alt: true});
+
+        expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
+    });
+
     test('should call markPostAsUnread when post is alt+clicked on', () => {
         const wrapper = shallowWithIntl(
             <RhsRootPost {...baseProps}/>
@@ -135,5 +152,24 @@ describe('components/RhsRootPost', () => {
         wrapper.simulate('click', {altKey: true});
 
         expect(baseProps.actions.markPostAsUnread).toHaveBeenCalled();
+    });
+
+    test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {
+        const props = {
+            ...baseProps,
+            channelIsArchived: true
+        };
+
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...props}/>
+        );
+
+        wrapper.simulate('click', {altKey: false});
+
+        expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
+
+        wrapper.simulate('click', {altKey: true});
+
+        expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
     });
 });

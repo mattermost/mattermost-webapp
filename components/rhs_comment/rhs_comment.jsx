@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage, injectIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,
@@ -17,6 +17,7 @@ import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
+import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
@@ -30,7 +31,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsComment extends React.PureComponent {
+class RhsComment extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
@@ -52,13 +53,10 @@ export default class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
         }),
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -167,7 +165,7 @@ export default class RhsComment extends React.PureComponent {
             className += ' same--user';
         }
 
-        if (this.state.alt) {
+        if (this.state.alt && !this.props.channelIsArchived) {
             className += ' cursor--pointer';
         }
 
@@ -175,7 +173,9 @@ export default class RhsComment extends React.PureComponent {
     };
 
     handleAlt = (e) => {
-        this.setState({alt: e.altKey});
+        if (this.state.alt !== e.altKey) {
+            this.setState({alt: e.altKey});
+        }
     }
 
     handleDropdownOpened = (isOpened) => {
@@ -205,6 +205,10 @@ export default class RhsComment extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
+        if (this.props.channelIsArchived) {
+            return;
+        }
+
         if (e.altKey) {
             this.props.actions.markPostAsUnread(this.props.post);
         }
@@ -212,7 +216,7 @@ export default class RhsComment extends React.PureComponent {
 
     handlePostFocus = () => {
         const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
     }
 
     render() {
@@ -510,3 +514,5 @@ export default class RhsComment extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(RhsComment);

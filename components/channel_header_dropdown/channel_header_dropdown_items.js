@@ -30,6 +30,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
+import MenuItemCloseMessage from './menu_items/close_message';
 import MenuItemToggleMuteChannel from './menu_items/toggle_mute_channel';
 import MenuItemToggleFavoriteChannel from './menu_items/toggle_favorite_channel';
 import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
@@ -45,6 +46,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         isArchived: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         penultimateViewedChannelName: PropTypes.string.isRequired,
+        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensedForLDAPGroups: PropTypes.bool,
     }
 
@@ -76,6 +78,21 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                 </li>
             );
         }
+
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={() => {
+                        if (item.action) {
+                            item.action(this.props.channel.id);
+                        }
+                    }}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <React.Fragment>
@@ -269,7 +286,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>
-
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
                 <Menu.Group divider={divider}>
                     {isMobile &&
                         <MobileChannelHeaderPlug
@@ -281,6 +300,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         channel={channel}
                         isDefault={isDefault}
                         isGuestUser={isGuest(user)}
+                    />
+                    <MenuItemCloseMessage
+                        id='channelCloseMessage'
+                        channel={channel}
+                        currentUser={user}
                     />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'

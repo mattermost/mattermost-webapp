@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import {mountWithIntl as mount} from 'tests/helpers/intl-test-helper';
 
 import MarketplaceItem, {UpdateDetails, UpdateConfirmationModal} from './marketplace_item';
@@ -289,6 +289,61 @@ describe('components/MarketplaceItem', () => {
                 ...baseProps,
                 installedVersion: '0.9.9',
                 releaseNotesUrl: 'http://example.com/release',
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with empty list of labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with one labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [
+                    {
+                        name: 'someName',
+                        description: 'some description',
+                        url: 'http://example.com/info',
+                    }
+                ],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with two labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [
+                    {
+                        name: 'someName',
+                        description: 'some description',
+                        url: 'http://example.com/info',
+                    }, {
+                        name: 'someName2',
+                        description: 'some description2',
+                        url: 'http://example.com/info2',
+                    }
+                ],
             };
 
             const wrapper = shallow(
