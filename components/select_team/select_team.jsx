@@ -267,7 +267,7 @@ export default class SelectTeam extends React.Component {
         const teamSignUp = (
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div
-                    className='margin--extra mt-8'
+                    className='margin--extra'
                     style={{marginTop: '0.5em'}}
                 >
                     <Link
