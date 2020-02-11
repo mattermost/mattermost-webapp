@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Plugin Marketplace', () => {
     after(() => {
         // # Restore default configuration
@@ -95,16 +97,16 @@ describe('Plugin Marketplace', () => {
                 },
             };
             cy.apiUpdateConfig(newSettings);
-
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
         });
 
         beforeEach(() => {
+            // # Login as sysadmin
+            cy.apiLogin('sysadmin');
+
             // # Go to main channel
             cy.visit('/');
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -116,7 +118,7 @@ describe('Plugin Marketplace', () => {
             });
         });
 
-        after(() => {
+        afterEach(() => {
             // * cleanup installed plugins
             uninstallAllPlugins();
         });
@@ -180,7 +182,7 @@ describe('Plugin Marketplace', () => {
             cy.apiLogin('sysadmin');
             cy.visit('/');
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -207,7 +209,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-tab-installed').should('be.visible');
         });
 
-        after(() => {
+        afterEach(() => {
             // * cleanup installed plugins
             uninstallAllPlugins();
         });
@@ -344,11 +346,6 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
 
-        after(() => {
-            // # uninstall all user`s plugins
-            uninstallAllPlugins();
-        });
-
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
         it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
@@ -403,7 +400,7 @@ describe('Plugin Marketplace', () => {
             cy.visit('/');
 
             // # Click hamburger main menu
-            cy.get('#sidebarHeaderDropdownButton').click();
+            cy.wait(TIMEOUTS.TINY).get('#sidebarHeaderDropdownButton').click();
 
             // # Open up marketplace modal
             cy.get('#marketplaceModal').click();
@@ -428,6 +425,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
     });
+
     function uninstallAllPlugins() {
         cy.getAllPlugins().then((response) => {
             const {active, inactive} = response.body;

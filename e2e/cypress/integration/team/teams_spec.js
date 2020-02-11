@@ -82,7 +82,7 @@ describe('Teams Suite', () => {
         // # Click hamburger menu > Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').and('contain', 'Invite People').
-            find('.extra-text').should('have.text', 'Add or invite people to the team');
+            find('.MenuItem__help-text').should('have.text', 'Add or invite people to the team');
 
         cy.get('#invitePeople').click();
 
