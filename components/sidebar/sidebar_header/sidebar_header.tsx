@@ -18,7 +18,10 @@ export default class SidebarHeader extends React.PureComponent<Props, State> {
         // TODO: temp use of dropdown
 
         return (
-            <div className='SidebarHeader'>
+            <div
+                className='SidebarHeader a11y__region'
+                data-a11y-sort-order='5'
+            >
                 {'Sidebar Header'}
                 <SidebarHeaderDropdown/>
             </div>
