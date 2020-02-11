@@ -30,6 +30,7 @@ function mapStateToProps(state) {
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
+    const enableBotAccountCreation = config.EnableBotAccountCreation === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
     const enableEmailInvitations = config.EnableEmailInvitations === 'true';
     const enablePluginMarketplace = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
@@ -59,6 +60,7 @@ function mapStateToProps(state) {
         enableIncomingWebhooks,
         enableOAuthServiceProvider,
         enableOutgoingWebhooks,
+        enableBotAccountCreation,
         enableUserCreation,
         enableEmailInvitations,
         enablePluginMarketplace,

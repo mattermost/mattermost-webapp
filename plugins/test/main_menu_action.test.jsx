@@ -22,6 +22,7 @@ describe('plugins/MainMenuActions', () => {
             enableIncomingWebhooks: true,
             enableOutgoingWebhooks: true,
             enableOAuthServiceProvider: true,
+            enableBotAccountCreation: true,
             enableUserCreation: true,
             enableEmailInvitations: false,
             enablePluginMarketplace: true,

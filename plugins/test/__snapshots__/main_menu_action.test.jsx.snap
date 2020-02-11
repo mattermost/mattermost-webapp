@@ -197,6 +197,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="someteamid"

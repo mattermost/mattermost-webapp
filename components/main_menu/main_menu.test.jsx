@@ -23,6 +23,7 @@ describe('components/Menu', () => {
         enableIncomingWebhooks: false,
         enableOAuthServiceProvider: false,
         enableOutgoingWebhooks: false,
+        enableBotAccountCreation: false,
         enableUserCreation: false,
         enableEmailInvitations: false,
         enablePluginMarketplace: false,
@@ -146,5 +147,49 @@ describe('components/Menu', () => {
         wrapper.setProps({experimentalPrimaryTeam: 'other_name'});
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);
         expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
+    });
+
+    describe('should show integrations', () => {
+        it('when incoming webhooks enabled', () => {
+            const props = {...defaultProps, enableIncomingWebhooks: true};
+            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+            expect(wrapper.find('#integrations').prop('show')).toBe(true);
+        });
+
+        it('when outgoing webhooks enabled', () => {
+            const props = {...defaultProps, enableOutgoingWebhooks: true};
+            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+            expect(wrapper.find('#integrations').prop('show')).toBe(true);
+        });
+
+        it('when slash commands enabled', () => {
+            const props = {...defaultProps, enableCommands: true};
+            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+            expect(wrapper.find('#integrations').prop('show')).toBe(true);
+        });
+
+        it('when oauth providers enabled', () => {
+            const props = {...defaultProps, enableOAuthServiceProvider: true};
+            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+            expect(wrapper.find('#integrations').prop('show')).toBe(true);
+        });
+
+        it('when bot accounts enabled', () => {
+            const props = {...defaultProps, enableBotAccountCreation: true};
+            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+            expect(wrapper.find('#integrations').prop('show')).toBe(true);
+        });
+
+        it('unless mobile', () => {
+            const props = {...defaultProps, mobile: true, enableBotAccountCreation: true};
+            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+            expect(wrapper.find('#integrations').prop('show')).toBe(false);
+        });
     });
 });

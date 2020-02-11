@@ -189,6 +189,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="team-id"
@@ -477,6 +478,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="team-id"
@@ -811,6 +813,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="team-id"
@@ -1123,6 +1126,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="team-id"
@@ -1457,6 +1461,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="team-id"
@@ -1786,6 +1791,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="team-id"
@@ -2137,6 +2143,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           "manage_oauth",
           "manage_incoming_webhooks",
           "manage_outgoing_webhooks",
+          "manage_system",
         ]
       }
       teamId="team-id"
