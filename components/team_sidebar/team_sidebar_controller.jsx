@@ -56,6 +56,14 @@ export default class TeamSidebar extends React.PureComponent {
         }).isRequired,
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showOrder: false,
+        };
+    }
+
     handleKeyDown = (e) => {
         if ((e.ctrlKey || e.metaKey) && e.altKey) {
             const {currentTeamId} = this.props;
@@ -101,16 +109,26 @@ export default class TeamSidebar extends React.PureComponent {
                     return;
                 }
             }
+
+            this.setState({showOrder: true});
+        }
+    }
+
+    handleKeyUp = (e) => {
+        if (!((e.ctrlKey || e.metaKey) && e.altKey)) {
+            this.setState({showOrder: false})
         }
     }
 
     componentDidMount() {
         this.props.actions.getTeams(0, 200);
         document.addEventListener('keydown', this.handleKeyDown);
+        document.addEventListener('keyup', this.handleKeyUp);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.changeTeam);
+        document.removeEventListener('keyup', this.handleKeyUp);
     }
 
     render() {
@@ -129,6 +147,7 @@ export default class TeamSidebar extends React.PureComponent {
                     <TeamButton
                         key={'switch_team_' + team.name}
                         order={idx + 1}
+                        showOrder={this.state.showOrder}
                         url={`/${team.name}`}
                         tip={team.display_name}
                         active={team.id === this.props.currentTeamId}

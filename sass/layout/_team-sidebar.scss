@@ -104,6 +104,27 @@
             .team-btn {
                 color: var(--sidebar-header-text-color);
             }
+
+            .order-indicator {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                left: 10px;
+                top: 30px;
+                background: #000000;
+                border-radius: 4px;
+
+                display: flex;
+                justify-content: center;
+                text-align: center;
+
+                p {
+                    color: #FFFFFF;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 12px;
+                }
+            }
         }
 
         .scrollbar--view {

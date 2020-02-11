@@ -25,6 +25,7 @@ class TeamButton extends React.Component {
         content: PropTypes.node,
         tip: PropTypes.node.isRequired,
         order: PropTypes.number,
+        showOrder: PropTypes.bool.isRequired,
         active: PropTypes.bool,
         disabled: PropTypes.bool,
         unread: PropTypes.bool,
@@ -38,6 +39,7 @@ class TeamButton extends React.Component {
     static defaultProps = {
         btnClass: '',
         tip: '',
+        showOrder: false,
         placement: 'right',
         active: false,
         disabled: false,
@@ -110,6 +112,7 @@ class TeamButton extends React.Component {
         );
 
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let orderIndicator;
         if (this.props.order !== undefined) {
             const toolTipHelp = isMac()
                   ? `⌘ ⌥ ${this.props.order}`
@@ -120,6 +123,14 @@ class TeamButton extends React.Component {
                   <div className="tooltip-help">{toolTipHelp}</div>
                 </>
             );
+
+            if (this.props.showOrder) {
+                orderIndicator = (
+                    <div className="order-indicator">
+                      <p>{this.props.order}</p>
+                    </div>
+                )
+            }
         }
 
         const btn = (
@@ -180,6 +191,7 @@ class TeamButton extends React.Component {
                 className={`team-container ${teamClass}`}
             >
                 {teamButton}
+                {orderIndicator}
             </div>
         );
     }
