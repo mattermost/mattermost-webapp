@@ -111,7 +111,7 @@ Cypress.Commands.add('oktaDeleteSession', (userId = '') => {
 Cypress.Commands.add('oktaAssignUserToApplication', (userId = '', user = {}) => {
     cy.task('oktaRequest', {
         baseUrl: Cypress.env('oktaApiUrl'),
-        urlSuffix: '/apps/' + Cypress.env('oktaMMAppInstanceId') + '/users',
+        urlSuffix: '/apps/' + Cypress.env('oktaMMAppId') + '/users',
         method: 'post',
         token,
         data: {

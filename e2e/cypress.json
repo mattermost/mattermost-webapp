@@ -10,7 +10,6 @@
     "env": {
         "storybookUrl": "http://localhost:6006/",
         "webhookBaseUrl": "http://localhost:3000",
-        "oktaRootUrl": "http://www.okta.com",
         "setChromeWebSecurity": false
     }
 }
