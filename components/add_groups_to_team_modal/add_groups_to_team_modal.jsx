@@ -260,7 +260,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     <Modal.Title componentClass='h1'>
                         <FormattedMessage
                             id='add_groups_to_team.title'
-                            defaultMessage='Add New Groups To {teamName} Team'
+                            defaultMessage='Add New Groups to {teamName} Team'
                             values={{
                                 teamName: (
                                     <strong>{this.props.currentTeamName}</strong>

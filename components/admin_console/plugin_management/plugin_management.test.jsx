@@ -151,6 +151,21 @@ describe('components/PluginManagement', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when `Enable Marketplace` is false', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
+                    EnableMarketplace: false,
+                },
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot when `Enable Remote Marketplace` is false', () => {
         const props = {
             ...defaultProps,

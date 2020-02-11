@@ -137,7 +137,7 @@ export default class EmailToOAuth extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='claim.email_to_oauth.switchTo'
-                            defaultMessage='Switch account to {uiType}'
+                            defaultMessage='Switch Account to {uiType}'
                             values={{
                                 uiType,
                             }}

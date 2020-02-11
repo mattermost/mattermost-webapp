@@ -10,7 +10,7 @@ import Constants, {ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -255,7 +255,7 @@ export default class TeamSelectorModal extends React.Component {
                     >
                         <FormattedMarkdownMessage
                             id='add_teams_to_scheme.title'
-                            defaultMessage='Add Teams To **Team Selection** List'
+                            defaultMessage='Add Teams to **Team Selection** List'
                         />
                     </Modal.Title>
                 </Modal.Header>

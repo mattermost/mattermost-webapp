@@ -267,7 +267,7 @@ export default class SelectTeam extends React.Component {
         const teamSignUp = (
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div
-                    className='margin--extra'
+                    className='margin--extra mt-8'
                     style={{marginTop: '0.5em'}}
                 >
                     <Link
@@ -288,7 +288,7 @@ export default class SelectTeam extends React.Component {
         if (!UserAgent.isMobileApp()) {
             adminConsoleLink = (
                 <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
-                    <div className='margin--extra hidden-xs'>
+                    <div className='mt-8 hidden-xs'>
                         <Link
                             to='/admin_console'
                             className='signup-team-login'

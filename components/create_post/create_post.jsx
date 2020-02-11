@@ -23,7 +23,7 @@ import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -176,6 +176,8 @@ class CreatePost extends React.PureComponent {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        canPost: PropTypes.bool.isRequired,
 
         intl: intlShape.isRequired,
 
@@ -484,6 +486,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
+        cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
@@ -1093,8 +1096,9 @@ class CreatePost extends React.PureComponent {
             draft,
             fullWidthTextBox,
             showTutorialTip,
-            readOnlyChannel,
+            canPost,
         } = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !canPost;
         const {formatMessage} = this.props.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
@@ -1103,7 +1107,7 @@ class CreatePost extends React.PureComponent {
         const notifyAllTitle = (
             <FormattedMessage
                 id='notify_all.title.confirm'
-                defaultMessage='Confirm sending notifications to entire channel'
+                defaultMessage='Confirm Sending Notifications to Entire Channel'
             />
         );
 

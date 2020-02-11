@@ -12,7 +12,7 @@ import PluginState from 'mattermost-redux/constants/plugins';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import AdminSettings from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
@@ -250,7 +250,7 @@ const PluginItem = ({
     let description;
     if (pluginStatus.description) {
         description = (
-            <div className='padding-top'>
+            <div className='pt-2'>
                 {pluginStatus.description}
             </div>
         );
@@ -293,7 +293,7 @@ const PluginItem = ({
     let clusterSummary;
     if (showInstances) {
         clusterSummary = (
-            <div className='padding-top x2 padding-bottom'>
+            <div className='pt-3 pb-3'>
                 <div className='row'>
                     <div className='col-md-6'>
                         <strong>
@@ -351,7 +351,7 @@ const PluginItem = ({
                 {')'}
             </div>
             {description}
-            <div className='padding-top'>
+            <div className='pt-2'>
                 {activateButton}
                 {removeButton}
                 {settingsButton}
@@ -966,7 +966,25 @@ export default class PluginManagement extends AdminSettings {
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.RequirePluginSignature')}
                         />
-
+                        <BooleanSetting
+                            id='automaticPrepackagedPlugins'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.automaticPrepackagedPlugins'
+                                    defaultMessage='Enable Automatic Prepackaged Plugins:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.automaticPrepackagedPluginsDesc'
+                                    defaultMessage='When true, automatically installs any prepackaged plugin found to be enabled in the server configuration.'
+                                />
+                            }
+                            value={this.state.automaticPrepackagedPlugins}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
+                        />
                         <div className='form-group'>
                             <label
                                 className='control-label col-sm-4'
@@ -1003,7 +1021,7 @@ export default class PluginManagement extends AdminSettings {
                                 >
                                     {uploadButtonText}
                                 </button>
-                                <div className='help-text no-margin'>
+                                <div className='help-text m-0'>
                                     {fileName}
                                 </div>
                                 {serverError}
@@ -1033,25 +1051,6 @@ export default class PluginManagement extends AdminSettings {
                             setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
                         />
                         <BooleanSetting
-                            id='automaticPrepackagedPlugins'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.automaticPrepackagedPlugins'
-                                    defaultMessage='Enable Automatic Prepackaged Plugins:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.automaticPrepackagedPluginsDesc'
-                                    defaultMessage='When true, the server will detect previously enabled plugins on the server and will automatically install them.'
-                                />
-                            }
-                            value={this.state.automaticPrepackagedPlugins}
-                            disabled={!this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
-                        />
-                        <BooleanSetting
                             id='enableRemoteMarketplace'
                             label={
                                 <FormattedMessage
@@ -1066,7 +1065,7 @@ export default class PluginManagement extends AdminSettings {
                                 />
                             }
                             value={this.state.enableRemoteMarketplace}
-                            disabled={!this.state.enable}
+                            disabled={!this.state.enable || !this.state.enableMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
                         />

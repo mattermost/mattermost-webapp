@@ -24,6 +24,7 @@ import {
     toggleMenu,
     openMenu,
     closeMenu,
+    openAtPrevious,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants';
@@ -35,6 +36,11 @@ const currentChannelId = '123';
 const currentTeamId = '321';
 const currentUserId = 'user123';
 const pluginId = 'pluginId';
+const previousSelectedPost = {
+    id: 'post123',
+    channel_id: 'channel123',
+    root_id: 'root123',
+};
 
 const UserSelectors = require('mattermost-redux/selectors/entities/users');
 UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [{key: '@here'}, {key: '@mattermost'}, {key: '@channel'}, {key: '@all'}]);
@@ -50,6 +56,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('mattermost-redux/actions/search', () => ({
     searchPostsWithParams: (...args) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    clearSearch: (...args) => ({type: 'MOCK_CLEAR_SEARCH', args}),
     getFlaggedPosts: jest.fn(),
     getPinnedPosts: jest.fn(),
 }));
@@ -84,6 +91,12 @@ describe('rhs view actions', () => {
                     },
                 },
             },
+            posts: {
+                posts: {
+                    [previousSelectedPost.id]: previousSelectedPost,
+                }
+            },
+            preferences: {myPreferences: {}},
         },
         views: {
             rhs: {
@@ -547,6 +560,198 @@ describe('rhs view actions', () => {
 
                 expect(store.getActions()).toEqual(compareStore.getActions());
             });
+        });
+    });
+
+    describe('openAtPrevious', () => {
+        const batchingReducerBatch = {
+            type: 'BATCHING_REDUCER.BATCH',
+            meta: {
+                batch: true,
+            },
+            payload: [
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: 'data',
+                },
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_TERM,
+                    data: {
+                        teamId: currentTeamId,
+                        terms: null,
+                        isOrSearch: false,
+                    },
+                },
+            ],
+        };
+
+        function actionsForEmptySearch() {
+            const compareStore = mockStore(initialState);
+
+            compareStore.dispatch(SearchActions.clearSearch());
+            compareStore.dispatch(updateSearchTerms(''));
+            compareStore.dispatch({
+                type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
+                terms: '',
+            });
+            compareStore.dispatch(updateRhsState(RHSStates.SEARCH));
+
+            return compareStore.getActions();
+        }
+
+        it('opens to empty search when not previously opened', () => {
+            store.dispatch(openAtPrevious(null));
+
+            expect(store.getActions()).toEqual(actionsForEmptySearch());
+        });
+
+        it('opens a mention search', () => {
+            store.dispatch(openAtPrevious({isMentionSearch: true}));
+            const compareStore = mockStore(initialState);
+
+            compareStore.dispatch(performSearch('@mattermost ', true));
+            compareStore.dispatch(batchActions([
+                {
+                    type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                    terms: '@mattermost ',
+                },
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.MENTION,
+                },
+            ]));
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+
+        it('opens pinned posts', async () => {
+            SearchActions.getPinnedPosts.mockReturnValue((dispatch) => {
+                dispatch({type: 'MOCK_GET_PINNED_POSTS'});
+                return {data: 'data'};
+            });
+
+            await store.dispatch(openAtPrevious({isPinnedPosts: true}));
+
+            expect(SearchActions.getPinnedPosts).toHaveBeenCalledWith(currentChannelId);
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: 'BATCHING_REDUCER.BATCH',
+                    meta: {
+                        batch: true,
+                    },
+                    payload: [
+                        {
+                            type: ActionTypes.UPDATE_RHS_STATE,
+                            channelId: currentChannelId,
+                            state: RHSStates.PIN,
+                        },
+                    ],
+                },
+                {
+                    type: 'MOCK_GET_PINNED_POSTS',
+                },
+                batchingReducerBatch,
+            ]);
+        });
+
+        it('opens flagged posts', async () => {
+            SearchActions.getFlaggedPosts.mockReturnValue((dispatch) => {
+                dispatch({type: 'MOCK_GET_FLAGGED_POSTS'});
+
+                return {data: 'data'};
+            });
+
+            await store.dispatch(openAtPrevious({isFlaggedPosts: true}));
+
+            expect(SearchActions.getFlaggedPosts).toHaveBeenCalled();
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.FLAG,
+                },
+                {
+                    type: 'MOCK_GET_FLAGGED_POSTS',
+                },
+                batchingReducerBatch,
+            ]);
+        });
+
+        it('opens selected post', async () => {
+            const previousState = 'flag';
+            await store.dispatch(openAtPrevious({selectedPostId: previousSelectedPost.id, previousRhsState: previousState}));
+
+            const compareStore = mockStore(initialState);
+            compareStore.dispatch(PostActions.getPostThread(previousSelectedPost.root_id));
+            compareStore.dispatch({
+                type: ActionTypes.SELECT_POST,
+                postId: previousSelectedPost.root_id,
+                channelId: previousSelectedPost.channel_id,
+                previousRhsState: previousState,
+                timestamp: POST_CREATED_TIME,
+            });
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+
+        it('opens empty search when selected post does not exist', async () => {
+            await store.dispatch(openAtPrevious({selectedPostId: 'postxyz'}));
+
+            expect(store.getActions()).toEqual(actionsForEmptySearch());
+        });
+
+        it('opens selected post card', async () => {
+            const previousState = 'flag';
+            await store.dispatch(openAtPrevious({selectedPostCardId: previousSelectedPost.id, previousRhsState: previousState}));
+
+            const compareStore = mockStore(initialState);
+            compareStore.dispatch({
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: previousSelectedPost.id,
+                channelId: previousSelectedPost.channel_id,
+                previousRhsState: previousState,
+            });
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+
+        it('opens empty search when selected post card does not exist', async () => {
+            await store.dispatch(openAtPrevious({selectedPostCardId: 'postxyz'}));
+
+            expect(store.getActions()).toEqual(actionsForEmptySearch());
+        });
+
+        it('opens search results', async () => {
+            const terms = '@here test search';
+
+            const searchInitialState = {
+                ...initialState,
+                views: {
+                    rhs: {
+                        searchTerms: terms,
+                    },
+                },
+            };
+
+            store = mockStore(searchInitialState);
+            await store.dispatch(openAtPrevious({searchVisible: true}));
+
+            const compareStore = mockStore(searchInitialState);
+            compareStore.dispatch(updateRhsState(RHSStates.SEARCH));
+            compareStore.dispatch({
+                type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
+                terms,
+            });
+            compareStore.dispatch(performSearch(terms));
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+
+        it('opens empty search when no other options set', () => {
+            store.dispatch(openAtPrevious({}));
+
+            expect(store.getActions()).toEqual(actionsForEmptySearch());
         });
     });
 });
