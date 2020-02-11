@@ -382,7 +382,7 @@ export default class UserAccessTokenSection extends React.Component {
                             />
                         </a>
                     </div>
-                    <hr className='margin-bottom margin-top x2'/>
+                    <hr className='mb-3 mt-3'/>
                 </div>
             );
         });
@@ -422,9 +422,9 @@ export default class UserAccessTokenSection extends React.Component {
         let newTokenSection;
         if (this.state.tokenCreationState === TOKEN_CREATING) {
             newTokenSection = (
-                <div className='padding-left x2'>
+                <div className='pl-3'>
                     <div className='row'>
-                        <label className='col-sm-auto control-label padding-right x2'>
+                        <label className='col-sm-auto control-label pr-3'>
                             <FormattedMessage
                                 id='user.settings.tokens.name'
                                 defaultMessage='Token Description: '
@@ -442,7 +442,7 @@ export default class UserAccessTokenSection extends React.Component {
                         </div>
                     </div>
                     <div>
-                        <div className='padding-top x2'>
+                        <div className='pt-3'>
                             <FormattedMessage
                                 id='user.settings.tokens.nameHelp'
                                 defaultMessage='Enter a description for your token to remember what it does.'
@@ -451,7 +451,7 @@ export default class UserAccessTokenSection extends React.Component {
                         <div>
                             <label
                                 id='clientError'
-                                className='has-error margin-top margin-bottom'
+                                className='has-error mt-2 mb-2'
                             >
                                 {this.state.tokenError}
                             </label>
@@ -488,7 +488,7 @@ export default class UserAccessTokenSection extends React.Component {
                 <div
                     className='alert alert-warning'
                 >
-                    <WarningIcon additionalClassName='margin-right'/>
+                    <WarningIcon additionalClassName='mr-2'/>
                     <FormattedMessage
                         id='user.settings.tokens.copy'
                         defaultMessage="Please copy the access token below. You won't be able to see it again!"
@@ -537,7 +537,7 @@ export default class UserAccessTokenSection extends React.Component {
         inputs.push(
             <div
                 key='tokensSetting'
-                className='padding-top'
+                className='pt-2'
             >
                 <div key='tokenList'>
                     <div className={'alert alert-transparent' + tokenListClass}>

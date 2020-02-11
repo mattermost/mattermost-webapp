@@ -185,7 +185,7 @@ describe('Post Header', () => {
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
 
             // # Pin the post.
-            cy.getPostMenu(postId, 'Pin to channel').click();
+            cy.getPostMenu(postId, 'Pin to Channel').click();
 
             // # Click the center flag icon of a post
             cy.clickPostFlagIcon(postId);
@@ -202,7 +202,7 @@ describe('Post Header', () => {
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
 
             // # unpin the post
-            cy.getPostMenu(postId, 'Un-pin from channel').click();
+            cy.getPostMenu(postId, 'Unpin from Channel').click();
 
             // * Check that message exists in RHS flagged posts list
             // * Check that post is not be pinned in center
@@ -212,7 +212,7 @@ describe('Post Header', () => {
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('not.exist');
 
             // # Pin the post again.
-            cy.getPostMenu(postId, 'Pin to channel').click();
+            cy.getPostMenu(postId, 'Pin to Channel').click();
 
             // * Check that post is be pinned in center
             // * Check that post is be pinned in RHS
