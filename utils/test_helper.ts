@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {UserProfile} from 'mattermost-redux/types/users';
-import { Bot } from 'mattermost-redux/types/bots';
+import {Bot} from 'mattermost-redux/types/bots';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
