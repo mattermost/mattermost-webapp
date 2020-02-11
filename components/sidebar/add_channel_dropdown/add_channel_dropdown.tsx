@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 type Props = {
     showMoreChannelsModal: () => void;
@@ -21,7 +22,10 @@ export default class AddChannelDropdown extends React.PureComponent<Props, State
                         href='#'
                         onClick={this.props.showMoreChannelsModal}
                     >
-                        {'Browse Channels'}
+                        <FormattedMessage
+                            id={t('sidebar_left.add_channel_dropdown.browseChannels')}
+                            defaultMessage={'Browse Channels'}
+                        />
                     </a>
                 </div>
                 <div>
@@ -29,7 +33,10 @@ export default class AddChannelDropdown extends React.PureComponent<Props, State
                         href='#'
                         onClick={this.props.showNewChannelModal}
                     >
-                        {'Create New Channel'}
+                        <FormattedMessage
+                            id={t('sidebar_left.add_channel_dropdown.createNewChannel')}
+                            defaultMessage={'Create New Channel'}
+                        />
                     </a>
                 </div>
             </div>
