@@ -80,7 +80,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             </label>
           </div>
           <div
-            className="margin-top x3"
+            className="mt-5"
           >
             <FormattedMessage
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
@@ -143,7 +143,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             <br />
           </div>
           <div
-            className="margin-top x3"
+            className="mt-5"
           >
             <FormattedMessage
               defaultMessage="Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps."
@@ -244,7 +244,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             </label>
           </div>
           <div
-            className="margin-top x3"
+            className="mt-5"
           >
             <FormattedMessage
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
@@ -378,7 +378,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             </label>
           </div>
           <div
-            className="margin-top x3"
+            className="mt-5"
           >
             <FormattedMessage
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
@@ -441,7 +441,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             <br />
           </div>
           <div
-            className="margin-top x3"
+            className="mt-5"
           >
             <FormattedMessage
               defaultMessage="Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps."

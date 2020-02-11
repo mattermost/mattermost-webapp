@@ -125,7 +125,7 @@ export default class DialogElement extends React.PureComponent {
             helpTextContent = (
                 <React.Fragment>
                     {helpText}
-                    <div className='error-text margin-top x2'>
+                    <div className='error-text mt-3'>
                         {errorText}
                     </div>
                 </React.Fragment>

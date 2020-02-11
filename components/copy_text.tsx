@@ -49,7 +49,7 @@ export default class CopyText extends React.PureComponent<Props, {}> {
             >
                 <a
                     href='#'
-                    className='fa fa-copy margin-left'
+                    className='fa fa-copy ml-2'
                     onClick={this.copyText}
                 />
             </OverlayTrigger>

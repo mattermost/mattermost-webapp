@@ -29,7 +29,7 @@ describe('Profile popover', () => {
 
                 const message = `Testing ${Date.now()}`;
                 cy.get('@currentChannelId').then((currentChannelId) => {
-                    cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.TINY);
+                    cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.SMALL);
                 });
 
                 cy.waitUntil(() => cy.getLastPost().then((el) => {
