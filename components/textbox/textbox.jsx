@@ -46,6 +46,7 @@ export default class Textbox extends React.PureComponent {
             autocompleteUsersInChannel: PropTypes.func.isRequired,
             autocompleteChannels: PropTypes.func.isRequired,
         }),
+        useChannelMentions: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -63,6 +64,7 @@ export default class Textbox extends React.PureComponent {
                 profilesInChannel: this.props.profilesInChannel,
                 profilesNotInChannel: this.props.profilesNotInChannel,
                 autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
+                useChannelMentions: this.props.useChannelMentions,
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -94,6 +96,7 @@ export default class Textbox extends React.PureComponent {
                         profilesInChannel: this.props.profilesInChannel,
                         profilesNotInChannel: this.props.profilesNotInChannel,
                         autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
+                        useChannelMentions: this.props.useChannelMentions,
                     });
                 }
             }
