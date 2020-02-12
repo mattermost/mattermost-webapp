@@ -71,6 +71,7 @@ export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUs
                         </div>
                         <div className='col-sm-10'>
                             <div className='row'>
+                                {/* eslint-disable react/jsx-no-literals */}
                                 <b>{'@' + user.username}&nbsp;</b>
                                 {'-'}&nbsp;{displayName}
                             </div>
