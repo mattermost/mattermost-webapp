@@ -17,7 +17,7 @@ import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
 import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
@@ -184,6 +184,8 @@ class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+
+        canPost: PropTypes.bool.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -710,8 +712,8 @@ class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
@@ -787,7 +789,7 @@ class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
-        const {readOnlyChannel} = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
@@ -1024,7 +1026,7 @@ class CreateComment extends React.PureComponent {
                                 />
                             </div>
                         </div>
-                        <div className='text-right margin-top'>
+                        <div className='text-right mt-2'>
                             {uploadsInProgressText}
                             <input
                                 type='button'

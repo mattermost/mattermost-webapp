@@ -22,24 +22,6 @@ export default class Toast extends React.PureComponent {
         show: PropTypes.bool.isRequired,
         showActions: PropTypes.bool, //used for showing jump actions
         width: PropTypes.number,
-        toastTimer: PropTypes.number,
-    }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            show: props.show,
-        };
-    }
-
-    static getDerivedStateFromProps(props) {
-        const {show} = props;
-        if (show) {
-            return {
-                show,
-            };
-        }
-        return null;
     }
 
     componentDidMount() {
@@ -48,18 +30,6 @@ export default class Toast extends React.PureComponent {
 
     componentWillUnmount() {
         this.mounted = false;
-        clearTimeout(this.toastTimer);
-    }
-
-    componentDidUpdate(prevProps) {
-        const {show, toastTimer} = this.props;
-        if (prevProps.show && !show) {
-            this.toastTimer = setTimeout(() => {
-                if (this.mounted) {
-                    this.setState({show});
-                }
-            }, toastTimer);
-        }
     }
 
     handleDismiss = () => {
@@ -70,7 +40,7 @@ export default class Toast extends React.PureComponent {
 
     render() {
         let toastClass = 'toast';
-        const {show} = this.state;
+        const {show} = this.props;
         if (show) {
             toastClass += ' toast__visible';
         }
@@ -121,6 +91,7 @@ export default class Toast extends React.PureComponent {
                 <div
                     className='toast__dismiss'
                     onClick={this.handleDismiss}
+                    data-testid='dismissToast'
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}

@@ -56,7 +56,7 @@ const SECTION_STARTTLS = (
 
 export const CONNECTION_SECURITY_HELP_TEXT_EMAIL = (
     <table
-        className='table table-bordered table-margin--none'
+        className='table table-bordered'
         cellPadding='5'
     >
         <tbody>
@@ -69,7 +69,7 @@ export const CONNECTION_SECURITY_HELP_TEXT_EMAIL = (
 
 export const CONNECTION_SECURITY_HELP_TEXT_LDAP = (
     <table
-        className='table table-bordered table-margin--none'
+        className='table table-bordered'
         cellPadding='5'
     >
         <tbody>
@@ -82,7 +82,7 @@ export const CONNECTION_SECURITY_HELP_TEXT_LDAP = (
 
 export const CONNECTION_SECURITY_HELP_TEXT_WEBSERVER = (
     <table
-        className='table table-bordered table-margin--none'
+        className='table table-bordered'
         cellPadding='5'
     >
         <tbody>
@@ -95,7 +95,7 @@ export const CONNECTION_SECURITY_HELP_TEXT_WEBSERVER = (
 export const WEBSERVER_MODE_HELP_TEXT = (
     <div>
         <table
-            className='table table-bordered table-margin--none'
+            className='table table-bordered'
             cellPadding='5'
         >
             <tbody>

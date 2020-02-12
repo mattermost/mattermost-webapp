@@ -45,42 +45,42 @@ export default class UserList extends React.Component {
     render() {
         const users = this.props.users;
         const RowComponentType = this.props.rowComponentType;
+        let content;
 
         if (users == null) {
             return <LoadingScreen/>;
-        } else if (!users.length && !this.props.loading) {
-            return (
-                <div ref='container'>
-                    <div
-                        key='no-users-found'
-                        className='more-modal__placeholder-row'
-                    >
-                        <p>
-                            <FormattedMessage
-                                id='user_list.notFound'
-                                defaultMessage='No users found'
-                            />
-                        </p>
-                    </div>
+        } else if (users.length > 0) {
+            content = users.map((user, index) => {
+                return (
+                    <RowComponentType
+                        key={user.id}
+                        user={user}
+                        extraInfo={this.props.extraInfo[user.id]}
+                        actions={this.props.actions}
+                        actionProps={this.props.actionProps}
+                        actionUserProps={this.props.actionUserProps[user.id]}
+                        index={index}
+                        totalUsers={users.length}
+                        userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+                    />
+                );
+            });
+        } else {
+            content = (
+                <div
+                    key='no-users-found'
+                    className='more-modal__placeholder-row'
+                    data-testid='noUsersFound'
+                >
+                    <p>
+                        <FormattedMessage
+                            id='user_list.notFound'
+                            defaultMessage='No users found'
+                        />
+                    </p>
                 </div>
             );
         }
-
-        const content = users.map((user, index) => {
-            return (
-                <RowComponentType
-                    key={user.id}
-                    user={user}
-                    extraInfo={this.props.extraInfo[user.id]}
-                    actions={this.props.actions}
-                    actionProps={this.props.actionProps}
-                    actionUserProps={this.props.actionUserProps[user.id]}
-                    index={index}
-                    totalUsers={users.length}
-                    userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
-                />
-            );
-        });
 
         const loadingMore = (
             <div className='loading-screen row'>

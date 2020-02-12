@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
@@ -11,7 +11,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n';
 
-export default class SearchableUserList extends React.Component {
+class SearchableUserList extends React.Component {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,
@@ -27,10 +27,10 @@ export default class SearchableUserList extends React.Component {
         renderCount: PropTypes.func,
         filter: PropTypes.string,
         renderFilterRow: PropTypes.func,
-
         page: PropTypes.number.isRequired,
         term: PropTypes.string.isRequired,
         onTermChange: PropTypes.func.isRequired,
+        intl: PropTypes.any,
 
         // the type of user list row to render
         rowComponentType: PropTypes.func,
@@ -116,6 +116,7 @@ export default class SearchableUserList extends React.Component {
     render() {
         let usersToDisplay;
         let hasMore;
+        const {formatMessage} = this.props.intl;
 
         if (this.props.term || !this.props.users) {
             usersToDisplay = this.props.users;
@@ -135,6 +136,7 @@ export default class SearchableUserList extends React.Component {
         if (this.props.renderFilterRow) {
             filterRow = this.props.renderFilterRow(this.handleInput);
         } else {
+            const searchUsersPlaceholder = {id: t('filtered_user_list.search'), defaultMessage: 'Search users'};
             filterRow = (
                 <div className='col-xs-12'>
                     <label
@@ -150,10 +152,11 @@ export default class SearchableUserList extends React.Component {
                         id='searchUsersInput'
                         ref='filter'
                         className='form-control filter-textbox'
-                        placeholder={{id: t('filtered_user_list.search'), defaultMessage: 'Search users'}}
+                        placeholder={searchUsersPlaceholder}
                         inputComponent={LocalizedInput}
                         value={this.props.term}
                         onInput={this.handleInput}
+                        aria-label={formatMessage(searchUsersPlaceholder).toLowerCase()}
                     />
                 </div>
             );
@@ -191,3 +194,5 @@ export default class SearchableUserList extends React.Component {
         );
     }
 }
+
+export default injectIntl(SearchableUserList);

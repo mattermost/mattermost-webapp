@@ -87,7 +87,6 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
 /**
  * Change the message display setting
  * @param {String} setting - as 'STANDARD' or 'COMPACT'
- * @param {String} username - User to login as
  */
 Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
@@ -221,11 +220,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
-        cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
+        cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
+            cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
         });
     }
 }

@@ -1,9 +1,47 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// This dummy component will be replaced by a functional one when react-intl is upgrade. For now, it just exists
-// to reduce the size of eventual diff of that upgrade.
+import React from 'react';
+import {OverlayTrigger as BaseOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
+import {IntlContext, IntlShape} from 'react-intl';
 
-import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
+export {BaseOverlayTrigger};
 
-export default BaseOverlayTrigger;
+type Props = OverlayTriggerProps;
+
+const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
+    const {overlay, ...otherProps} = props;
+
+    // The overlay is rendered outside of the regular React context, and our version react-bootstrap can't forward
+    // that context itself, so we have to manually forward the react-intl context to this component's child.
+    const OverlayWrapper = ({intl, ...overlayProps}: {intl: IntlShape}) => (
+        <IntlContext.Provider value={intl}>
+            {React.cloneElement(overlay, overlayProps)}
+        </IntlContext.Provider>
+    );
+
+    return (
+        <IntlContext.Consumer>
+            {(intl): React.ReactNode => (
+                <BaseOverlayTrigger
+                    {...otherProps}
+                    ref={ref}
+                    overlay={
+                        <OverlayWrapper
+                            {...overlay.props}
+                            intl={intl}
+                        />
+                    }
+                />
+            )}
+        </IntlContext.Consumer>
+    );
+});
+
+OverlayTrigger.defaultProps = {
+    defaultOverlayShown: false,
+    trigger: ['hover', 'focus']
+};
+OverlayTrigger.displayName = 'OverlayTrigger';
+
+export default OverlayTrigger;

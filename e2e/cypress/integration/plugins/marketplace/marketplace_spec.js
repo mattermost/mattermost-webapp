@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Plugin Marketplace', () => {
     after(() => {
         // # Restore default configuration
@@ -95,16 +97,16 @@ describe('Plugin Marketplace', () => {
                 },
             };
             cy.apiUpdateConfig(newSettings);
-
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
         });
 
         beforeEach(() => {
+            // # Login as sysadmin
+            cy.apiLogin('sysadmin');
+
             // # Go to main channel
             cy.visit('/');
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -116,9 +118,9 @@ describe('Plugin Marketplace', () => {
             });
         });
 
-        after(() => {
+        afterEach(() => {
             // * cleanup installed plugins
-            cy.uninstallPluginById('github');
+            uninstallAllPlugins();
         });
 
         it('render an error bar', () => {
@@ -180,7 +182,7 @@ describe('Plugin Marketplace', () => {
             cy.apiLogin('sysadmin');
             cy.visit('/');
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -207,10 +209,9 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-tab-installed').should('be.visible');
         });
 
-        after(() => {
+        afterEach(() => {
             // * cleanup installed plugins
-            cy.uninstallPluginById('github');
-            cy.uninstallPluginById('com.mattermost.webex');
+            uninstallAllPlugins();
         });
 
         it('autofocus on search plugin input box', () => {
@@ -399,7 +400,7 @@ describe('Plugin Marketplace', () => {
             cy.visit('/');
 
             // # Click hamburger main menu
-            cy.get('#sidebarHeaderDropdownButton').click();
+            cy.wait(TIMEOUTS.TINY).get('#sidebarHeaderDropdownButton').click();
 
             // # Open up marketplace modal
             cy.get('#marketplaceModal').click();
@@ -424,4 +425,12 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
     });
+
+    function uninstallAllPlugins() {
+        cy.getAllPlugins().then((response) => {
+            const {active, inactive} = response.body;
+            inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+        });
+    }
 });

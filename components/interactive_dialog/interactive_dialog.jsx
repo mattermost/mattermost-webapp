@@ -37,7 +37,11 @@ export default class InteractiveDialog extends React.Component {
         const values = {};
         if (props.elements != null) {
             props.elements.forEach((e) => {
-                values[e.name] = e.default || null;
+                if (e.type === 'bool') {
+                    values[e.name] = (e.default === true || String(e.default).toLowerCase() === 'true');
+                } else {
+                    values[e.name] = e.default || null;
+                }
             });
         }
 
