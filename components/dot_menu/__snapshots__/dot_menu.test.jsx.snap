@@ -18,7 +18,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="See more available actions"
+          defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
           values={Object {}}
         />
