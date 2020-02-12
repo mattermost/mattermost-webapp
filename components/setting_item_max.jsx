@@ -191,7 +191,7 @@ export default class SettingItemMax extends React.PureComponent {
         let extraInfo = null;
         let hintClass = 'setting-list__hint';
         if (this.props.infoPosition === 'top') {
-            hintClass = 'padding-bottom x2';
+            hintClass = 'pb-3';
         }
 
         if (this.props.extraInfo) {

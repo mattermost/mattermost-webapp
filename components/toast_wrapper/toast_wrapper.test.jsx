@@ -31,6 +31,7 @@ describe('components/ToastWrapper', () => {
         scrollToNewMessage: jest.fn(),
         scrollToLatestMessages: jest.fn(),
         updateLastViewedBottomAt: jest.fn(),
+        lastViewedAt: 12344,
     };
 
     describe('unread count logic', () => {
@@ -89,6 +90,20 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
+        test('Should set state of have unread toast when atBottom changes from undefined', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+                atBottom: null,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            wrapper.setProps({atBottom: false});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
         test('Should have unread toast channel is marked as unread', () => {
             const props = {
                 ...baseProps,
@@ -106,9 +121,64 @@ describe('components/ToastWrapper', () => {
                 atBottom: true,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
             expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
+        test('Should have unread toast channel is marked as unread again', () => {
+            const props = {
+                ...baseProps,
+                channelMarkedAsUnread: false,
+                atLatestPost: true,
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+
+            wrapper.setProps({
+                channelMarkedAsUnread: true,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            });
+
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+            wrapper.setProps({atBottom: true});
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+            wrapper.setProps({atBottom: false});
+            wrapper.setProps({lastViewedAt: 12342});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
+        test('Should not have unread toast if channel is marked as unread and at bottom', () => {
+            const props = {
+                ...baseProps,
+                channelMarkedAsUnread: false,
+                atLatestPost: true,
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+            wrapper.setProps({atBottom: true});
+            wrapper.setProps({
+                channelMarkedAsUnread: true,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            });
+
+            expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
         test('Should have showNewMessagesToast if there are unreads and lastViewedAt is less than latestPostTimeStamp', () => {
@@ -140,7 +210,6 @@ describe('components/ToastWrapper', () => {
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
-            wrapper.instance().forceUnreadEvenAtBottom = true;
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showUnreadToast')).toBe(false);
         });
