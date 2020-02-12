@@ -9,9 +9,9 @@
 
 function waitForImageUpload() {
     // * Verify that the image exists in the post message footer
-    cy.get('#postCreateFooter').should('be.visible').find('div.post-image__column').
-        should('exist').
-        and('be.visible');
+    cy.waitUntil(() => cy.get('#postCreateFooter').within(() => {
+        return cy.get('div.post-image.normal').then(image => Boolean(image));
+    }));
 }
 
 describe('Messaging', () => {
@@ -34,7 +34,7 @@ describe('Messaging', () => {
         waitForImageUpload();
 
         // # post it with a message
-        const IMAGE_WITH_POST_TEXT = 'image in compact display setting';
+        const IMAGE_WITH_POST_TEXT = `image in compact display setting ${Date.now()}`;
         cy.postMessage(IMAGE_WITH_POST_TEXT);
 
         cy.getLastPostId().then((lastPostId) => {
@@ -66,7 +66,7 @@ describe('Messaging', () => {
         waitForImageUpload();
 
         // # post it with a message
-        const IMAGE_WITH_POST_TEXT = 'image in standard display setting';
+        const IMAGE_WITH_POST_TEXT = `image in standard display setting ${Date.now()}`;
         cy.postMessage(IMAGE_WITH_POST_TEXT);
 
         cy.getLastPostId().then((lastPostId) => {
