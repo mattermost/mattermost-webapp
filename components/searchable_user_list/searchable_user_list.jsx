@@ -89,8 +89,11 @@ class SearchableUserList extends React.Component {
             return null;
         }
 
-        const count = users.length;
+        let count = users.length;
         const total = this.props.total;
+        if (count < total) {
+            count = Math.round(count / 30) * 30;
+        }
 
         if (this.props.renderCount) {
             return this.props.renderCount(count, this.props.total);

@@ -49,7 +49,22 @@ export default class UserList extends React.Component {
 
         if (users == null) {
             return <LoadingScreen/>;
-        } else if (users.length > 0) {
+        } else if (!users.length && !this.props.loading) {
+            content = (
+                <div
+                    key='no-users-found'
+                    className='more-modal__placeholder-row'
+                    data-testid='noUsersFound'
+                >
+                    <p>
+                        <FormattedMessage
+                            id='user_list.notFound'
+                            defaultMessage='No users found'
+                        />
+                    </p>
+                </div>
+            );
+        } else {
             content = users.map((user, index) => {
                 return (
                     <RowComponentType
@@ -65,21 +80,6 @@ export default class UserList extends React.Component {
                     />
                 );
             });
-        } else {
-            content = (
-                <div
-                    key='no-users-found'
-                    className='more-modal__placeholder-row'
-                    data-testid='noUsersFound'
-                >
-                    <p>
-                        <FormattedMessage
-                            id='user_list.notFound'
-                            defaultMessage='No users found'
-                        />
-                    </p>
-                </div>
-            );
         }
 
         const loadingMore = (
