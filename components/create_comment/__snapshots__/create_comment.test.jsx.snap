@@ -170,6 +170,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           popoverMentionKeyClick={true}
           preview={false}
           suggestionListStyle="top"
+          useChannelMentions={true}
           value=""
         />
         <span
