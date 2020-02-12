@@ -116,7 +116,7 @@ class TeamButton extends React.Component {
         if (typeof this.props.order !== 'undefined') {
             const toolTipHelp = isMac() ?
                 `⌘ ⌥ ${this.props.order}` :
-                `Ctrl + Alt + ${this.props.order}`;
+                `Ctrl+Alt+${this.props.order}`;
             toolTip = (
                 <>
                     <div>{toolTip}</div>
