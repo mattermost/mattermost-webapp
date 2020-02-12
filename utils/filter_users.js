@@ -2,23 +2,19 @@
 // See LICENSE.txt for license information.
 import {UserSearchOptions, UserListOptions, UserFilters} from 'utils/constants';
 
-export type FilterOptions = {
-    [key: string]: string | boolean
-}
-
 // userSelectorOptionsFromFilter will convert a string UI filter to an options object
 // for selecting users out of redux state
 // Note: this is currently the same as getUserOptionsFromFilter but wrapped to be clear
 // that there are separate purposes (this can be used with both getProfiles and searchProfiles
 // selectors)
-export function userSelectorOptionsFromFilter(filter: string | undefined) {
+export function userSelectorOptionsFromFilter(filter) {
     return getUserOptionsFromFilter(filter);
 }
 
 // getUserOptionsFromFilter will convert a string UI filter to an options objects
 // for an API request to the get users endpoint
-export function getUserOptionsFromFilter(filter: string | undefined): FilterOptions {
-    const options: FilterOptions = {};
+export function getUserOptionsFromFilter(filter) {
+    const options = {};
     if (filter === UserFilters.SYSTEM_ADMIN) {
         options[UserListOptions.ROLE] = UserFilters.SYSTEM_ADMIN;
     } else if (filter === UserFilters.SYSTEM_GUEST) {
@@ -31,8 +27,8 @@ export function getUserOptionsFromFilter(filter: string | undefined): FilterOpti
 
 // searchUserOptionsFromFilter will convert a string UI filter to an options objects
 // for an API request to the search users endpoint
-export function searchUserOptionsFromFilter(filter: string | undefined): FilterOptions {
-    const options: FilterOptions = {};
+export function searchUserOptionsFromFilter(filter) {
+    const options = {};
     if (filter === UserFilters.SYSTEM_ADMIN) {
         options[UserSearchOptions.ROLE] = UserFilters.SYSTEM_ADMIN;
     } else if (filter === UserFilters.SYSTEM_GUEST) {
