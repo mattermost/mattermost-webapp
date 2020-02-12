@@ -115,14 +115,14 @@ describe('Interactive Menu', () => {
             cy.get(`#messageAttachmentList_${postId}`).within(() => {
                 // # Select option 1 by typing exact text and press enter
                 cy.findByPlaceholderText('Select an option...').click().clear().type(`${options[0].text}{enter}`);
-    
+
                 // * Verify that the input is updated with the selected option
                 cy.findByDisplayValue(options[0].text).should('exist');
             });
         });
 
         // # Checking if we got the ephemeral message with the selection we made
-        verifyEphemeralMessage(/Ephemeral | select  option: option1/);
+        verifyEphemeralMessage('Ephemeral | select option: option1');
     });
 
     it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
@@ -378,7 +378,7 @@ describe('Interactive Menu', () => {
         });
 
         // # Get the emphemirical message from webhook, which is only visible to us
-        verifyEphemeralMessage(/Ephemeral | select option: mango/);
+        verifyEphemeralMessage('Ephemeral | select option: mango');
     });
 
     it('IM21035 - Long lists of selections are scrollable', () => {
@@ -461,8 +461,8 @@ describe('Interactive Menu', () => {
         });
 
         // # Checking if we got the ephemeral message with the selection we made
-        verifyEphemeralMessage(/Ephemeral | select option: banana/);
-        
+        verifyEphemeralMessage('Ephemeral | select option: banana');
+
         cy.getNthPostId(-2).then((webhookMessageId) => {
             // # Click on reply icon to open message in RHS
             cy.clickPostCommentIcon(webhookMessageId);
@@ -508,7 +508,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Checking if we got the ephemeral message with the selection we made
-            verifyEphemeralMessage(/Ephemeral | select option: banana/);
+            verifyEphemeralMessage('Ephemeral | select option: banana');
 
             // # Click on reply icon to original message with attachment message in RHS
             cy.clickPostCommentIcon(parentPostId);
@@ -538,7 +538,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Checking if we got updated ephemeral message with the new selection we made
-            verifyEphemeralMessage(/Ephemeral | select option: avacodo/);
+            verifyEphemeralMessage('Ephemeral | select option: avacodo');
 
             cy.closeRHS();
         });
