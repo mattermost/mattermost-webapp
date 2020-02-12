@@ -49,7 +49,7 @@ Cypress.Commands.add('oktaGetUser', (userId = '') => {
         method: 'get',
         token,
     }).then((response) => {
-        //expect(response.status).to.be.equal(200);
+        expect(response.status).to.be.equal(200);
         if (response.data.length > 0) {
             return response.data[0].id;
         }
@@ -105,6 +105,11 @@ Cypress.Commands.add('oktaDeleteSession', (userId = '') => {
     }).then((response) => {
         expect(response.status).to.equal(204);
         expect(response.data).is.empty;
+
+        // Ensure we clear out these specific cookies
+        ['JSESSIONID'].forEach((cookie) => {
+            cy.clearCookie(cookie);
+        });
     });
 });
 

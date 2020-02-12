@@ -3,17 +3,6 @@
 
 import users from '../../../fixtures/saml_users.json';
 
-//assumes that the SAML certificates+keys are already present in the config folder
-//assumes that Cypress.env.json is copied in the same folder with Cypress.json
-//assumes thet CYPRESS_* variables are set
-//In the Okta Applicaions->Okta MM App define attribute statements:
-//Name: UserType -> Value: user.userType
-//Name: IsAdmin -> Value: user.isAdmin
-//Name: IsGuest -> Value: user.isGuest
-//In the Okta Profile Editor, add following custom types:
-//- for Okta app: variablename: isAdmin(boolean, isGuest(boolean) (userType is already defined)
-//- for Okta MM app: variablename: UserType(string),IsGuest(boolean), IsAdmin(boolean)
-
 context('Okta', () => {
     const loginButtonText = 'SAML';
 
@@ -78,6 +67,7 @@ context('Okta', () => {
         it('Saml login new and existing MM regular user', () => {
             testSettings.user = regular1;
 
+            //login new user
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                 cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
@@ -91,6 +81,7 @@ context('Okta', () => {
                 });
             });
 
+            //login existing user
             cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                 cy.oktaDeleteSession(oktaUserId);
                 cy.doSamlLogin(testSettings).then(() => {
@@ -108,6 +99,7 @@ context('Okta', () => {
             newConfig.SamlSettings.GuestAttribute = 'UserType=Guest';
 
             cy.apiUpdateConfig(newConfig).then(() => {
+                //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
@@ -121,6 +113,7 @@ context('Okta', () => {
                     });
                 });
 
+                //login existing user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
@@ -134,11 +127,12 @@ context('Okta', () => {
             });
         });
 
-        it('Saml login new and existing MM admin(isGuest=true)', () => {
+        it('Saml login new and existing MM guest(isGuest=true)', () => {
             testSettings.user = guest2;
             newConfig.SamlSettings.GuestAttribute = 'IsGuest=true';
 
             cy.apiUpdateConfig(newConfig).then(() => {
+                //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
@@ -152,6 +146,7 @@ context('Okta', () => {
                     });
                 });
 
+                //login existing user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
@@ -171,6 +166,7 @@ context('Okta', () => {
             newConfig.SamlSettings.AdminAttribute = 'UserType=Admin';
 
             cy.apiUpdateConfig(newConfig).then(() => {
+                //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
@@ -184,6 +180,7 @@ context('Okta', () => {
                     });
                 });
 
+                //login existing user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
@@ -203,6 +200,7 @@ context('Okta', () => {
             newConfig.SamlSettings.AdminAttribute = 'IsAdmin=true';
 
             cy.apiUpdateConfig(newConfig).then(() => {
+                //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
@@ -263,10 +261,6 @@ context('Okta', () => {
                     });
                 });
             });
-        });
-
-        after(() => {
-            cy.oktaRemoveUsers(users);
         });
     });
 });

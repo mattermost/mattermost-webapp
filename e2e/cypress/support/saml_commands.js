@@ -21,7 +21,7 @@ Cypress.Commands.add('checkSignUpPageSection', () => {
     cy.findByText('Your guest account has no channels assigned. Please contact an administrator.').should('be.visible');
 });
 
-Cypress.Commands.add('checkChatSideBar', (settings = {}) => {
+Cypress.Commands.add('checklLeftSideBar', (settings = {}) => {
     if (settings.teamName != null && settings.teamName.length > 0) {
         cy.get('#headerTeamName').should('be.visible').and('contain', settings.teamName);
     }
@@ -54,9 +54,9 @@ Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
 
 Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
     if (settings.user.userType === 'Guest' || settings.user.isGuest) {
-        cy.findByText('Create a team').should('not.be.visible');
+        cy.findByText('Create a team').scrollIntoView().should('not.be.visible');
     } else {
-        cy.findByText('Create a team').should('be.visible');
+        cy.findByText('Create a team').scrollIntoView().should('be.visible');
     }
 });
 
@@ -71,7 +71,7 @@ Cypress.Commands.add('doSamlLogin', (settings = {}) => {
 });
 
 Cypress.Commands.add('doSamlLogout', (settings = {}) => {
-    cy.checkChatSideBar(settings);
+    cy.checklLeftSideBar(settings);
 
     // # Click hamburger main menu button
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
@@ -94,7 +94,7 @@ Cypress.Commands.add('skipOrCreateTeam', (settings, userId) => {
             cy.checkCreateTeamPage(settings);
 
             teamName = 't' + userId.substring(0, 14);
-            cy.findByText('Create a team').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+            cy.findByText('Create a team').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
                 cy.get('input[id="teamNameInput"]').should('be.visible').type(teamName, {force: true}).wait(TIMEOUTS.TINY).then(() => {
                     cy.findByText('Next').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
                         cy.findByText('Finish').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
@@ -109,7 +109,7 @@ Cypress.Commands.add('skipOrCreateTeam', (settings, userId) => {
 });
 
 Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
-    cy.checkChatSideBar(settings);
+    cy.checklLeftSideBar(settings);
 
     // # Click hamburger main menu button
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
