@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import AutosizeTextarea from 'components/autosize_textarea';
+import Editor from 'components/editor';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
@@ -42,6 +42,7 @@ export default class Textbox extends React.PureComponent {
         preview: PropTypes.bool,
         profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
+        emojiMap: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
             autocompleteChannels: PropTypes.func.isRequired,
@@ -242,7 +243,7 @@ export default class Textbox extends React.PureComponent {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
-                    inputComponent={AutosizeTextarea}
+                    inputComponent={Editor}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}
@@ -254,6 +255,7 @@ export default class Textbox extends React.PureComponent {
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                     wrapperHeight={wrapperHeight}
+                    emojiMap={this.props.emojiMap}
                 />
                 {preview}
             </div>

@@ -47,10 +47,11 @@ export function matchEmoticons(text: string): RegExpMatchArray | null {
 
 export function handleEmoticons(
     text: string,
-    tokens: Map<string, {value: string; originalText: string}>
+    tokens: Map<string, {value: string; originalText: string}>,
+    emojiRenderer?: (name: string, text: string) => string,
 ): string {
     let output = text;
-
+    const render = emojiRenderer || renderEmoji;
     function replaceEmoticonWithToken(
         fullMatch: string,
         prefix: string,
@@ -61,7 +62,7 @@ export function handleEmoticons(
         const alias = `$MM_EMOTICON${index}$`;
 
         tokens.set(alias, {
-            value: renderEmoji(name, matchText),
+            value: render(name, matchText),// renderEmoji(name, matchText),
             originalText: fullMatch,
         });
 

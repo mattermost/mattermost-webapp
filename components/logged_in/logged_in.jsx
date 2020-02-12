@@ -130,7 +130,7 @@ export default class LoggedIn extends React.PureComponent {
 
         // Prevent backspace from navigating back a page
         $(window).on('keydown.preventBackspace', (e) => {
-            if (e.which === BACKSPACE_CHAR && !$(e.target).is('input, textarea')) {
+            if (e.which === BACKSPACE_CHAR && !$(e.target).is('input, textarea') && $(e.target).attr('role') !== 'textbox') {
                 e.preventDefault();
             }
         });

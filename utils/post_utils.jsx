@@ -136,7 +136,7 @@ export function shouldFocusMainTextbox(e, activeElement) {
 
     // Do not focus if we're currently focused on a textarea or input
     const keepFocusTags = ['TEXTAREA', 'INPUT'];
-    if (!activeElement || keepFocusTags.includes(activeElement.tagName)) {
+    if (!activeElement || keepFocusTags.includes(activeElement.tagName) || activeElement.getAttribute('role') === 'textbox') {
         return false;
     }
 

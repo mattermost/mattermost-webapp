@@ -927,7 +927,8 @@ class CreatePost extends React.PureComponent {
     }
 
     handleMouseUpKeyUp = (e) => {
-        const caretPosition = Utils.getCaretPosition(e.target);
+        const getPositionOf = e.target.getAttribute('role') === 'textbox' ? this.refs.textbox.getWrappedInstance().getInputBox() : e.target;
+        const caretPosition = Utils.getCaretPosition(getPositionOf);
         this.setState({
             caretPosition,
         });

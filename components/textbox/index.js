@@ -8,6 +8,7 @@ import {getCurrentUserId, makeGetProfilesInChannel, makeGetProfilesNotInChannel}
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {autocompleteChannels} from 'actions/channel_actions';
+import {getEmojiMap} from 'selectors/emojis';
 
 import Textbox from './textbox.jsx';
 
@@ -19,6 +20,7 @@ const makeMapStateToProps = () => {
         currentUserId: getCurrentUserId(state),
         profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
         profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
+        emojiMap: getEmojiMap(state),
     });
 };
 
