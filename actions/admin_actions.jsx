@@ -78,7 +78,7 @@ export const adminResetPassword = (userId, currentPassword, password, success, e
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
-}
+};
 
 export async function adminResetEmail(user, success, error) {
     const {data, error: err} = await UserActions.patchUser(user)(dispatch, getState);
