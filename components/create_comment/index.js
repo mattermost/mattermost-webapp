@@ -11,6 +11,8 @@ import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/p
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
 import {Preferences, Posts} from 'mattermost-redux/constants';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -48,6 +50,14 @@ function makeMapStateToProps() {
         const enableGifPicker = config.EnableGifPicker === 'true';
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+        const canPost = haveIChannelPermission(
+            state,
+            {
+                channel: channel.id,
+                team: channel.team_id,
+                permission: Permissions.CREATE_POST,
+            }
+        );
 
         return {
             draft,
@@ -67,6 +77,7 @@ function makeMapStateToProps() {
             badConnection,
             isTimezoneEnabled,
             selectedPostFocussedAt: getSelectedPostFocussedAt(state),
+            canPost,
         };
     };
 }

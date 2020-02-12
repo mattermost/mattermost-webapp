@@ -13,9 +13,16 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         username: 'some-user',
     };
 
+    const otherUser = {
+        id: 'other_user_id',
+        roles: '',
+        username: 'other-user',
+    };
+
     const requiredProps = {
         user,
         mfaEnabled: true,
+        isLicensed: true,
         enableUserAccessTokens: true,
         experimentalEnableAuthenticationTransfer: true,
         doPasswordReset: jest.fn(),
@@ -24,7 +31,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         doManageRoles: jest.fn(),
         doManageTokens: jest.fn(),
         onError: jest.fn(),
-        currentUser: user,
+        currentUser: otherUser,
         teamUrl: 'teamUrl',
         index: 0,
         totalUsers: 10,
@@ -185,5 +192,15 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
 
         const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
         expect(modal.prop('message')).toMatchSnapshot();
+    });
+
+    test('should match snapshot with license', async () => {
+        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot without license', async () => {
+        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, isLicensed: false}}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 });
