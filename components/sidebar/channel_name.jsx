@@ -64,7 +64,7 @@ export default class ChannelName extends React.PureComponent {
                 >
                     <FormattedMessage
                         id='sidebar.browseChannelDirectChannel'
-                        defaultMessage='Browse channels and direct messages'
+                        defaultMessage='Browse Channels and Direct Messages'
                     />
                 </Tooltip>
             );
