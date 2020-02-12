@@ -518,6 +518,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           preview={false}
+          useChannelMentions={true}
           value=""
         />
         <span
