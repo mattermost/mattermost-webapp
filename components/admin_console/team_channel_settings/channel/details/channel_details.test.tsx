@@ -64,6 +64,8 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             membersMinusGroupMembers: jest.fn(),
             updateChannelPrivacy: jest.fn(),
             patchGroupSyncable: jest.fn(),
+            getChannelModerations: jest.fn().mockResolvedValue([]),
+            patchChannelModerations: jest.fn(),
         };
 
         if (!testChannel.id) {

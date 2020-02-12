@@ -148,7 +148,7 @@ export default class ChannelModeration extends React.Component<Props, State> {
                         >
                             <thead>
                                 <tr>
-                                    <th width='100%'>
+                                    <th>
                                         <FormattedMessage
                                             id='admin.channel_settings.channel_moderation.permissions'
                                             defaultMessage='Permissions'
