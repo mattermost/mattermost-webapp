@@ -2,16 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
 import {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
 
-import * as Utils from 'utils/utils'
+import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
 type Props = {
     actions: {
-        openModal: (modalData: any) => Promise<{data: boolean}>,
-    }
+        openModal: (modalData: any) => Promise<{data: boolean}>;
+    };
 };
 
 type State = {
@@ -40,22 +42,18 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
         }
 
         let historyArrows;
-        //if (isDesktopApp()) {
+        if (isDesktopApp()) {
             historyArrows = (
                 <React.Fragment>
-                    <button
-                        onClick={this.goBack}
-                    >
+                    <button onClick={this.goBack}>
                         {'<='}
                     </button>
-                    <button
-                        onClick={this.goForward}
-                    >
+                    <button onClick={this.goForward}>
                         {'=>'}
                     </button>
                 </React.Fragment>
             );
-        //}
+        }
 
         return (
             <div style={{display: 'flex'}}>
@@ -63,7 +61,10 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                     onClick={this.openQuickSwitcher}
                     style={{display: 'flex', width: '100%'}}
                 >
-                    {'Jump to...'}
+                    <FormattedMessage
+                        id='sidebar_left.channel_navigator.jumpTo'
+                        defaultMessage='Jump to...'
+                    />
                     <div>
                         {channelSwitchTextShortcutDefault}
                     </div>
