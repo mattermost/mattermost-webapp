@@ -1,5 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens Step should match snapshot, updated supportEmail 1`] = `
+<div
+  className="tutorial-steps__container"
+>
+  <div
+    className="tutorial__content"
+    id="tutorialIntroContent"
+  >
+    <div
+      className="tutorial__steps"
+    >
+      <div
+        id="tutorialIntroThree"
+      >
+        <h3>
+          <FormattedMessage
+            defaultMessage="You're all set"
+            id="tutorial_intro.allSet"
+            values={Object {}}
+          />
+        </h3>
+        <p>
+          <Connect(injectIntl(ModalToggleButtonRedux))
+            className="intro-links color--link style--none"
+            dialogType={[Function]}
+            id="tutorialIntroInvite"
+            modalId="invitation"
+          >
+            <FormattedMessage
+              defaultMessage="Invite teammates"
+              id="tutorial_intro.invite"
+              values={Object {}}
+            />
+          </Connect(injectIntl(ModalToggleButtonRedux))>
+          <FormattedMessage
+            defaultMessage=" when you're ready."
+            id="tutorial_intro.whenReady"
+            values={Object {}}
+          />
+        </p>
+        <p
+          id="supportInfo"
+        >
+          <FormattedMessage
+            defaultMessage="Need anything, just email us at "
+            id="tutorial_intro.support"
+            values={Object {}}
+          />
+          <a
+            href="mailto:supportEmail"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            supportEmail
+          </a>
+          .
+        </p>
+        <FormattedMessage
+          defaultMessage="Click \\"Next\\" to enter {channel}. This is the first channel teammates see when they sign up. Use it for posting updates everyone needs to know."
+          id="tutorial_intro.end"
+          values={
+            Object {
+              "channel": "townSquareDisplayName",
+            }
+          }
+        />
+        <div
+          className="tutorial__circles"
+        >
+          <a
+            className="circle"
+            data-screen={0}
+            href="#"
+            id="tutorialIntroCircle0"
+            key="circle0"
+            onClick={[Function]}
+          />
+          <a
+            className="circle"
+            data-screen={1}
+            href="#"
+            id="tutorialIntroCircle1"
+            key="circle1"
+            onClick={[Function]}
+          />
+          <a
+            className="circle active"
+            data-screen={2}
+            href="#"
+            id="tutorialIntroCircle2"
+            key="circle2"
+            onClick={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="tutorial__footer"
+      >
+        <button
+          className="btn btn-primary"
+          id="tutorialNextButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Next"
+            id="tutorial_intro.next"
+            values={Object {}}
+          />
+        </button>
+        <a
+          className="tutorial-skip"
+          href="#"
+          id="tutorialSkipLink"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Skip tutorial"
+            id="tutorial_intro.skip"
+            values={Object {}}
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should match snapshot 1`] = `
 <div
   className="tutorial-steps__container"
@@ -93,6 +220,116 @@ exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should 
         >
           <FormattedMessage
             defaultMessage="Skip Tutorial"
+            id="tutorial_intro.skip"
+            values={Object {}}
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should match snapshot, default supportEmail 1`] = `
+<div
+  className="tutorial-steps__container"
+>
+  <div
+    className="tutorial__content"
+    id="tutorialIntroContent"
+  >
+    <div
+      className="tutorial__steps"
+    >
+      <div
+        id="tutorialIntroThree"
+      >
+        <h3>
+          <FormattedMessage
+            defaultMessage="You're all set"
+            id="tutorial_intro.allSet"
+            values={Object {}}
+          />
+        </h3>
+        <p>
+          <Connect(injectIntl(ModalToggleButtonRedux))
+            className="intro-links color--link style--none"
+            dialogType={[Function]}
+            id="tutorialIntroInvite"
+            modalId="invitation"
+          >
+            <FormattedMessage
+              defaultMessage="Invite teammates"
+              id="tutorial_intro.invite"
+              values={Object {}}
+            />
+          </Connect(injectIntl(ModalToggleButtonRedux))>
+          <FormattedMessage
+            defaultMessage=" when you're ready."
+            id="tutorial_intro.whenReady"
+            values={Object {}}
+          />
+        </p>
+        <FormattedMessage
+          defaultMessage="Click \\"Next\\" to enter {channel}. This is the first channel teammates see when they sign up. Use it for posting updates everyone needs to know."
+          id="tutorial_intro.end"
+          values={
+            Object {
+              "channel": "townSquareDisplayName",
+            }
+          }
+        />
+        <div
+          className="tutorial__circles"
+        >
+          <a
+            className="circle"
+            data-screen={0}
+            href="#"
+            id="tutorialIntroCircle0"
+            key="circle0"
+            onClick={[Function]}
+          />
+          <a
+            className="circle"
+            data-screen={1}
+            href="#"
+            id="tutorialIntroCircle1"
+            key="circle1"
+            onClick={[Function]}
+          />
+          <a
+            className="circle active"
+            data-screen={2}
+            href="#"
+            id="tutorialIntroCircle2"
+            key="circle2"
+            onClick={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="tutorial__footer"
+      >
+        <button
+          className="btn btn-primary"
+          id="tutorialNextButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Next"
+            id="tutorial_intro.next"
+            values={Object {}}
+          />
+        </button>
+        <a
+          className="tutorial-skip"
+          href="#"
+          id="tutorialSkipLink"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Skip tutorial"
             id="tutorial_intro.skip"
             values={Object {}}
           />

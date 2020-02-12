@@ -94,4 +94,20 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
         expect(savePreferences).toHaveBeenCalledTimes(1);
         expect(savePreferences).toHaveBeenCalledWith(currentUserId, expectedPref);
     });
+
+    test('Step should match snapshot, updated supportEmail', () => {
+        const props = {...requiredProps};
+        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
+        wrapper.instance().handleNext();
+        wrapper.instance().handleNext();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, default supportEmail', () => {
+        const props = {...requiredProps, supportEmail: 'feedback@mattermost.com'};
+        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
+        wrapper.instance().handleNext();
+        wrapper.instance().handleNext();
+        expect(wrapper).toMatchSnapshot();
+    });
 });
