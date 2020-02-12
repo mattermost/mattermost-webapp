@@ -30,6 +30,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
+import MenuItemCloseMessage from './menu_items/close_message';
 import MenuItemToggleMuteChannel from './menu_items/toggle_mute_channel';
 import MenuItemToggleFavoriteChannel from './menu_items/toggle_favorite_channel';
 import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
@@ -299,6 +300,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         channel={channel}
                         isDefault={isDefault}
                         isGuestUser={isGuest(user)}
+                    />
+                    <MenuItemCloseMessage
+                        id='channelCloseMessage'
+                        channel={channel}
+                        currentUser={user}
                     />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'

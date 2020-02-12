@@ -98,14 +98,14 @@ export default class RhsThread extends React.Component {
         const curPostsArray = this.props.posts || [];
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
-            this.props.actions.getPostThread(this.props.selected.id, true);
+            this.props.actions.getPostThread(this.props.selected.id);
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
             return;
         }
 
-        const curLastPost = curPostsArray[curPostsArray.length - 1];
+        const curLastPost = curPostsArray[0];
 
         if (curLastPost.user_id === this.props.currentUserId) {
             this.scrollToBottom();

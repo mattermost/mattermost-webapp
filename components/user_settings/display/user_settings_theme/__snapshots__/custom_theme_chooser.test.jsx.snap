@@ -2,7 +2,7 @@
 
 exports[`components/user_settings/display/CustomThemeChooser should match, init 1`] = `
 <div
-  className="appearance-section padding-top"
+  className="appearance-section pt-2"
 >
   <div
     className="theme-elements row"
@@ -593,7 +593,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
     </div>
   </div>
   <div
-    className="row margin-top x2"
+    className="row mt-3"
   >
     <div
       className="col-sm-12"
@@ -602,7 +602,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         className="custom-label"
       >
         <FormattedMessage
-          defaultMessage="Copy and paste to share theme colors:"
+          defaultMessage="Copy to share or paste theme colors here:"
           id="user.settings.custom_theme.copyPaste"
           values={Object {}}
         />
@@ -612,9 +612,39 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         id="pasteBox"
         onChange={[Function]}
         onClick={[Function]}
+        onCopy={[Function]}
         onPaste={[Function]}
         value="{\\"sidebarBg\\":\\"#145dbf\\",\\"sidebarText\\":\\"#ffffff\\",\\"sidebarUnreadText\\":\\"#ffffff\\",\\"sidebarTextHoverBg\\":\\"#4578bf\\",\\"sidebarTextActiveBorder\\":\\"#579eff\\",\\"sidebarTextActiveColor\\":\\"#ffffff\\",\\"sidebarHeaderBg\\":\\"#1153ab\\",\\"sidebarHeaderTextColor\\":\\"#ffffff\\",\\"onlineIndicator\\":\\"#06d6a0\\",\\"awayIndicator\\":\\"#ffbc42\\",\\"dndIndicator\\":\\"#f74343\\",\\"mentionBg\\":\\"#ffffff\\",\\"mentionBj\\":\\"#ffffff\\",\\"mentionColor\\":\\"#145dbf\\",\\"centerChannelBg\\":\\"#ffffff\\",\\"centerChannelColor\\":\\"#3d3c40\\",\\"newMessageSeparator\\":\\"#ff8800\\",\\"linkColor\\":\\"#2389d7\\",\\"buttonBg\\":\\"#166de0\\",\\"buttonColor\\":\\"#ffffff\\",\\"errorTextColor\\":\\"#fd5960\\",\\"mentionHighlightBg\\":\\"#ffe577\\",\\"mentionHighlightLink\\":\\"#166de0\\",\\"codeTheme\\":\\"github\\"}"
       />
+      <div
+        className="mt-3"
+      >
+        <button
+          className="btn btn-link copy-theme-button"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Copy Theme Colors"
+            id="user.settings.custom_theme.copyThemeColors"
+            values={Object {}}
+          />
+        </button>
+        <span
+          className="alert alert-success copy-theme-success"
+          role="alert"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <FormattedMessage
+            defaultMessage="✔ Copied"
+            id="user.settings.custom_theme.copied"
+            values={Object {}}
+          />
+        </span>
+      </div>
     </div>
   </div>
 </div>

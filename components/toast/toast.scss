@@ -1,0 +1,96 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+@import 'utils/variables';
+
+.toast {
+    position: absolute;
+    margin: 10px 15px 0px;
+    width: calc(100% - 30px);
+    font-size: 13px;
+    @include border-radius(4px);
+    cursor: default;
+    opacity: 0;
+    visibility: hidden;
+    background-color: var(--button-bg);
+    color: var(--button-color);
+    height: 32px;
+    font-weight: bold;
+    z-index: 1;
+    svg {
+        fill: var(--button-color);
+        vertical-align: middle;
+    }
+
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration(0s);
+        @include transition-timing-function(ease-in-out);
+    }
+
+    .toast__jump {
+        position: absolute;
+        svg {
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    }
+
+    .toast__dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0px;
+        padding: 0px 8px;
+        &:hover {
+           background-color: rgba(0,0,0,0.2);
+        }
+        height: 32px;
+        span {
+          line-height: 31px;
+        }
+    }
+
+    .toast__message {
+        text-align: center;
+        position: absolute;
+        width: calc(100% - 40px);
+        padding-left: 10px;
+        z-index: -1;
+        height: 32px;
+        line-height: 31px;
+        &.toast__pointer {
+            cursor: pointer;
+            &:hover {
+               background-color: rgba(0,0,0,0.2);
+            }
+        }
+    }
+}
+.toast__visible {
+        opacity: 1;
+        visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration(0s);
+            @include transition-timing-function(ease-in-out);
+        }
+}
+.toast__history {
+    background-color: rgb(216, 216, 216);
+    color: rgb(61, 60, 64);
+    svg {
+        fill: rgb(61, 60, 64);
+    }
+}
+.toast__red {
+    background-color: $red;
+}
+@media screen and (max-width: 768px) {
+    .toast .toast__message {
+        display: inline-block;
+    }
+}
+
+.tooltip__shortcut--txt {
+    opacity: 0.6;
+}

@@ -290,7 +290,7 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-position'
                 >
                     <div
-                        className='overflow--ellipsis text-nowrap padding-bottom padding-top half'
+                        className='overflow--ellipsis text-nowrap pt-1 pb-1'
                     >
                         {position}
                     </div>
@@ -315,7 +315,7 @@ class ProfilePopover extends React.PureComponent {
                 >
                     <a
                         href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email padding-bottom half'
+                        className='text-nowrap text-lowercase user-popover__email pb-1'
                     >
                         {email}
                     </a>
@@ -337,7 +337,7 @@ class ProfilePopover extends React.PureComponent {
             dataContent.push(
                 <div
                     key='user-popover-local-time'
-                    className='padding-bottom half'
+                    className='pb-1'
                 >
                     <FormattedMessage
                         id='user_profile.account.localTime'

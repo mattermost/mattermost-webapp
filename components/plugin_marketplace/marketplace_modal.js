@@ -39,10 +39,10 @@ export const Plugins = ({plugins}) => (
             name={p.manifest.name}
             description={p.manifest.description}
             version={p.manifest.version}
-            isPrepackaged={false}
             downloadUrl={p.download_url}
             homepageUrl={p.homepage_url}
             releaseNotesUrl={p.release_notes_url}
+            labels={p.labels}
             iconData={p.icon_data}
             installedVersion={p.installed_version}
         />
@@ -60,7 +60,7 @@ export const AllPlugins = ({plugins}) => {
             <div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <div className='margin-top x2 light'>
+                <div className='mt-3 light'>
                     <FormattedMessage
                         id='marketplace_modal.no_plugins'
                         defaultMessage='There are no plugins available at this time.'
@@ -84,14 +84,14 @@ export const InstalledPlugins = ({installedPlugins, changeTab}) => {
             <div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <div className='margin-top x2 light'>
+                <div className='mt-3 light'>
                     <FormattedMessage
                         id='marketplace_modal.no_plugins_installed'
                         defaultMessage='You do not have any plugins installed.'
                     />
                 </div>
                 <button
-                    className='margin-top x3 style--none color--link'
+                    className='mt-5 style--none color--link'
                     onClick={() => changeTab(MarketplaceTabs.ALL_PLUGINS)}
                     data-testid='Install-Plugins-button'
                 >
