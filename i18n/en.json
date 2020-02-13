@@ -2249,6 +2249,7 @@
   "error.not_found.title": "Page Not Found",
   "error.oauth_access_denied": "You must authorize Mattermost to log in with {service}.",
   "error.oauth_access_denied.title": "Authorization Error",
+  "error.oauth_invalid_param.title": "OAuth Parameter Error",
   "error.oauth_missing_code": "The service provider {service} did not provide an authorization code in the redirect URL.",
   "error.oauth_missing_code.forum": "If you reviewed the above and are still having trouble with configuration, you may post in our {link} where we'll be happy to help with issues during setup.",
   "error.oauth_missing_code.forum.link": "Troubleshooting forum",
