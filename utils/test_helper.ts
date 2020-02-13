@@ -23,6 +23,8 @@ export class TestHelper {
             terms_of_service_create_at: 0,
             terms_of_service_id: '',
             update_at: 0,
+            is_bot: false,
+            last_picture_update: 0,
             notify_props: {
                 channel: 'false',
                 comments: 'never',
