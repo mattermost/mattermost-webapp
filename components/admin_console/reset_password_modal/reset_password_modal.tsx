@@ -33,7 +33,7 @@ type Props = {
     onModalDismissed: () => void;
     passwordConfig: PasswordConfig;
     actions: {
-        adminResetPassword: (userId: string, currentPassword: string, password: string, success: () => void, error: (err: Error) => void) => void;
+        updateUserPassword: (userId: string, currentPassword: string, password: string) => ActionFunc;
     };
 }
 
@@ -58,7 +58,7 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
         });
     }
 
-    private doSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         if (!this.props.user) {
             return;
@@ -89,17 +89,13 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
 
         this.setState({serverErrorNewPass: null});
 
-        this.props.actions.adminResetPassword(
-            this.props.user.id,
-            currentPassword,
-            password,
-            () => {
-                this.props.onModalSubmit(this.props.user);
-            },
-            (err: Error) => {
-                this.setState({serverErrorCurrentPass: err.message});
-            }
-        );
+        const {data, error: err} = await this.props.actions.updateUserPassword(this.props.user.id, currentPassword, password);
+        console.log(data, err);
+        if (data) {
+            this.props.onModalSubmit(this.props.user);
+        } else if (err) {
+            this.setState({serverErrorCurrentPass: err.message});
+        }
     }
 
     private doCancel = (): void => {
