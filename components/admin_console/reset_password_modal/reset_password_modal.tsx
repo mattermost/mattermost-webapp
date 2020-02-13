@@ -5,6 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -58,7 +59,7 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
         });
     }
 
-    private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<T> => {
         e.preventDefault();
         if (!this.props.user) {
             return;
