@@ -134,12 +134,23 @@ function createPost({
             emojiMap={emojiMap}
             badConnection={false}
             isTimezoneEnabled={false}
+            canPost={true}
+            useChannelMentions={true}
         />
     );
 }
 /* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
+    jest.useFakeTimers();
+    beforeEach(() => {
+        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+    });
+
+    afterEach(() => {
+        window.requestAnimationFrame.mockRestore();
+    });
+
     it('should match snapshot, init', () => {
         const wrapper = shallowWithIntl(createPost({}));
 
@@ -245,6 +256,8 @@ describe('components/create_post', () => {
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('change', {target: {value: 'change'}});
+        expect(setDraft).not.toHaveBeenCalled();
+        jest.runAllTimers();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
@@ -772,6 +785,11 @@ describe('components/create_post', () => {
 
     it('should match snapshot for read only channel', () => {
         const wrapper = shallowWithIntl(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot when cannot post', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false}));
         expect(wrapper).toMatchSnapshot();
     });
 

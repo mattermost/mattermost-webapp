@@ -153,6 +153,7 @@ export const ActionTypes = keyMirror({
     MODAL_CLOSE: null,
 
     SELECT_CHANNEL_WITH_MEMBER: null,
+    UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
 
@@ -1324,7 +1325,6 @@ export const Constants = {
     MAX_CUSTOM_BRAND_TEXT_LENGTH: 500,
     MAX_TERMS_OF_SERVICE_TEXT_LENGTH: 16383,
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
-    CHANNEL_SCROLL_ADJUSTMENT: 130,
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,

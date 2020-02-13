@@ -119,4 +119,39 @@ describe('stores/LocalStorageStore', () => {
             assert.deepEqual(LocalStorageStore.getRecentEmojis(userId), recentEmojis1);
         });
     });
+
+    describe('testing previous channel', () => {
+        test('should remove previous channel without subpath', () => {
+            const userId1 = 'userId1';
+            const teamId1 = 'teamId1';
+            const channel1 = 'channel1';
+            const channel2 = 'channel2';
+
+            LocalStorageStore.setPreviousChannelName(userId1, teamId1, channel1);
+            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
+
+            LocalStorageStore.setPenultimateChannelName(userId1, teamId1, channel2);
+            assert.equal(LocalStorageStore.getPenultimateChannelName(userId1, teamId1), channel2);
+
+            LocalStorageStore.removePreviousChannelName(userId1, teamId1);
+            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel2);
+        });
+
+        test('should remove previous channel using subpath', () => {
+            const userId1 = 'userId1';
+            const teamId1 = 'teamId1';
+            const channel1 = 'channel1';
+            const channel2 = 'channel2';
+
+            window.basename = '/subpath';
+            LocalStorageStore.setPreviousChannelName(userId1, teamId1, channel1);
+            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
+
+            LocalStorageStore.setPenultimateChannelName(userId1, teamId1, channel2);
+            assert.equal(LocalStorageStore.getPenultimateChannelName(userId1, teamId1), channel2);
+
+            LocalStorageStore.removePreviousChannelName(userId1, teamId1);
+            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel2);
+        });
+    });
 });

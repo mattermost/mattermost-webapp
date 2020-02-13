@@ -4,33 +4,6 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
 <DateSeparator
   date={2018-01-12T20:15:13.000Z}
   enableTimezone={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   timeZone="Australia/Sydney"
 >
   <BasicSeparator>
@@ -44,7 +17,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
       <div
         className="separator__text"
       >
-        <InjectIntl(RecentDate)
+        <injectIntl(RecentDate)
           day="2-digit"
           month="short"
           timeZone="Australia/Sydney"
@@ -59,23 +32,27 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
                 "defaultFormats": Object {},
                 "defaultLocale": "en",
                 "formatDate": [Function],
+                "formatDateToParts": [Function],
                 "formatHTMLMessage": [Function],
+                "formatList": [Function],
                 "formatMessage": [Function],
                 "formatNumber": [Function],
+                "formatNumberToParts": [Function],
                 "formatPlural": [Function],
-                "formatRelative": [Function],
+                "formatRelativeTime": [Function],
                 "formatTime": [Function],
+                "formatTimeToParts": [Function],
                 "formats": Object {},
                 "formatters": Object {
                   "getDateTimeFormat": [Function],
+                  "getListFormat": [Function],
                   "getMessageFormat": [Function],
                   "getNumberFormat": [Function],
-                  "getPluralFormat": [Function],
-                  "getRelativeFormat": [Function],
+                  "getPluralRules": [Function],
+                  "getRelativeTimeFormat": [Function],
                 },
                 "locale": "en",
                 "messages": Object {},
-                "now": [Function],
                 "onError": [Function],
                 "textComponent": "span",
                 "timeZone": "Etc/UTC",
@@ -89,7 +66,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
           >
             Sat, Jan 13, 2018
           </RecentDate>
-        </InjectIntl(RecentDate)>
+        </injectIntl(RecentDate)>
       </div>
     </div>
   </BasicSeparator>
@@ -98,34 +75,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
 
 exports[`components/post_view/DateSeparator should render date without timezone 1`] = `
 <DateSeparator
-  date={2018-01-12T12:15:13.000Z}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
+  date={2018-01-12T08:15:13.000Z}
 >
   <BasicSeparator>
     <div
@@ -138,10 +88,10 @@ exports[`components/post_view/DateSeparator should render date without timezone 
       <div
         className="separator__text"
       >
-        <InjectIntl(RecentDate)
+        <injectIntl(RecentDate)
           day="2-digit"
           month="short"
-          value={2018-01-12T12:15:13.000Z}
+          value={2018-01-12T08:15:13.000Z}
           weekday="short"
           year="numeric"
         >
@@ -152,36 +102,40 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "defaultFormats": Object {},
                 "defaultLocale": "en",
                 "formatDate": [Function],
+                "formatDateToParts": [Function],
                 "formatHTMLMessage": [Function],
+                "formatList": [Function],
                 "formatMessage": [Function],
                 "formatNumber": [Function],
+                "formatNumberToParts": [Function],
                 "formatPlural": [Function],
-                "formatRelative": [Function],
+                "formatRelativeTime": [Function],
                 "formatTime": [Function],
+                "formatTimeToParts": [Function],
                 "formats": Object {},
                 "formatters": Object {
                   "getDateTimeFormat": [Function],
+                  "getListFormat": [Function],
                   "getMessageFormat": [Function],
                   "getNumberFormat": [Function],
-                  "getPluralFormat": [Function],
-                  "getRelativeFormat": [Function],
+                  "getPluralRules": [Function],
+                  "getRelativeTimeFormat": [Function],
                 },
                 "locale": "en",
                 "messages": Object {},
-                "now": [Function],
                 "onError": [Function],
                 "textComponent": "span",
                 "timeZone": "Etc/UTC",
               }
             }
             month="short"
-            value={2018-01-12T12:15:13.000Z}
+            value={2018-01-12T08:15:13.000Z}
             weekday="short"
             year="numeric"
           >
             Fri, Jan 12, 2018
           </RecentDate>
-        </InjectIntl(RecentDate)>
+        </injectIntl(RecentDate)>
       </div>
     </div>
   </BasicSeparator>
@@ -190,36 +144,9 @@ exports[`components/post_view/DateSeparator should render date without timezone 
 
 exports[`components/post_view/DateSeparator should render date without timezone enabled 1`] = `
 <DateSeparator
-  date={2018-01-12T12:15:13.000Z}
+  date={2018-01-12T08:15:13.000Z}
   enableTimezone={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
-  timeZone="Australia/Sydney"
+  timeZone="New Zealand/Auckland"
 >
   <BasicSeparator>
     <div
@@ -232,10 +159,10 @@ exports[`components/post_view/DateSeparator should render date without timezone 
       <div
         className="separator__text"
       >
-        <InjectIntl(RecentDate)
+        <injectIntl(RecentDate)
           day="2-digit"
           month="short"
-          value={2018-01-12T12:15:13.000Z}
+          value={2018-01-12T08:15:13.000Z}
           weekday="short"
           year="numeric"
         >
@@ -246,36 +173,40 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "defaultFormats": Object {},
                 "defaultLocale": "en",
                 "formatDate": [Function],
+                "formatDateToParts": [Function],
                 "formatHTMLMessage": [Function],
+                "formatList": [Function],
                 "formatMessage": [Function],
                 "formatNumber": [Function],
+                "formatNumberToParts": [Function],
                 "formatPlural": [Function],
-                "formatRelative": [Function],
+                "formatRelativeTime": [Function],
                 "formatTime": [Function],
+                "formatTimeToParts": [Function],
                 "formats": Object {},
                 "formatters": Object {
                   "getDateTimeFormat": [Function],
+                  "getListFormat": [Function],
                   "getMessageFormat": [Function],
                   "getNumberFormat": [Function],
-                  "getPluralFormat": [Function],
-                  "getRelativeFormat": [Function],
+                  "getPluralRules": [Function],
+                  "getRelativeTimeFormat": [Function],
                 },
                 "locale": "en",
                 "messages": Object {},
-                "now": [Function],
                 "onError": [Function],
                 "textComponent": "span",
                 "timeZone": "Etc/UTC",
               }
             }
             month="short"
-            value={2018-01-12T12:15:13.000Z}
+            value={2018-01-12T08:15:13.000Z}
             weekday="short"
             year="numeric"
           >
             Fri, Jan 12, 2018
           </RecentDate>
-        </InjectIntl(RecentDate)>
+        </injectIntl(RecentDate)>
       </div>
     </div>
   </BasicSeparator>

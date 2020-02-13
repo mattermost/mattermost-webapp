@@ -59,7 +59,7 @@ export default class PostListRow extends React.PureComponent {
                 >
                     <FormattedMessage
                         id='posts_view.loadMore'
-                        defaultMessage='Load more messages'
+                        defaultMessage='Load More Messages'
                     />
                 </button>
             );

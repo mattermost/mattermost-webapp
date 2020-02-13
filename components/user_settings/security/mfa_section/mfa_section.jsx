@@ -100,14 +100,14 @@ export default class MfaSection extends React.PureComponent {
                 buttonText = (
                     <FormattedMessage
                         id='user.settings.mfa.reset'
-                        defaultMessage='Reset MFA on your account'
+                        defaultMessage='Reset MFA on Account'
                     />
                 );
             } else {
                 buttonText = (
                     <FormattedMessage
                         id='user.settings.mfa.remove'
-                        defaultMessage='Remove MFA from your account'
+                        defaultMessage='Remove MFA from Account'
                     />
                 );
             }
@@ -130,14 +130,14 @@ export default class MfaSection extends React.PureComponent {
                 >
                     <FormattedMessage
                         id='user.settings.mfa.add'
-                        defaultMessage='Add MFA to your account'
+                        defaultMessage='Add MFA to Account'
                     />
                 </a>
             );
         }
 
         return (
-            <div className='padding-top'>
+            <div className='pt-2'>
                 {content}
                 <br/>
             </div>

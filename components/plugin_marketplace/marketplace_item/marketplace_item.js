@@ -11,7 +11,7 @@ import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 import {Link} from 'react-router-dom';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
@@ -351,7 +351,7 @@ export default class MarketplaceItem extends React.Component {
             <button
                 onClick={this.onInstall}
                 className='btn btn-primary'
-                disabled={this.props.installing || this.props.downloadUrl === ''}
+                disabled={this.props.installing}
             >
                 <LoadingWrapper
                     loading={this.props.installing}

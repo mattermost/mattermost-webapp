@@ -310,6 +310,19 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       isDefault={false}
       isGuestUser={false}
     />
+    <Connect(CloseMessage)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      currentUser={
+        Object {
+          "id": "test-user-id",
+        }
+      }
+      id="channelCloseMessage"
+    />
     <Connect(CloseChannel)
       id="channelCloseChannel"
       isArchived={false}
@@ -642,6 +655,19 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       id="channelLeaveChannel"
       isDefault={false}
       isGuestUser={false}
+    />
+    <Connect(CloseMessage)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      currentUser={
+        Object {
+          "id": "test-user-id",
+        }
+      }
+      id="channelCloseMessage"
     />
     <Connect(CloseChannel)
       id="channelCloseChannel"
