@@ -303,7 +303,7 @@ export default class DotMenu extends React.PureComponent {
                 <Menu
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
-                    openUp={this.state.openUp}
+                    openUp={this.props.location === 'RHS_COMMENT' ? false : this.state.openUp}
                     ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
