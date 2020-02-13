@@ -43,7 +43,10 @@ Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
         url: '/api/v4/users/login',
         method: 'POST',
         body: {login_id: loginId, password: pw},
-    }).its('status').should('equal', 200);
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
 });
 
 /**
