@@ -15,7 +15,6 @@ import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
-
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 
