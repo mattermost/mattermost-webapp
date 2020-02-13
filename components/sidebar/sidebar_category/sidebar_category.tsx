@@ -102,7 +102,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     {isCollapsed ? '+' : '-'}
                     {category.display_name}
                 </div>
-                {category.display_name}
                 {channels}
             </div>
         );
