@@ -83,7 +83,7 @@ export default class Editor extends React.PureComponent<Props> {
         this.selection = {start, end};
     }
 
-    private updateSelection = () => {
+    private setSelectionInEditor = () => {
         if (!this.selection) {
             return;
         }
@@ -120,6 +120,7 @@ export default class Editor extends React.PureComponent<Props> {
     set value(value) {
         this.selection = {start: value.length, end: value.length};
         this.updateEditorHtml(value);
+        this.setSelectionInEditor();
     }
 
     get selectionStart() {
@@ -133,7 +134,7 @@ export default class Editor extends React.PureComponent<Props> {
     set selectionStart(selectionStart) {
         this.selection = this.selection ? {...this.selection, start: selectionStart} : {start: selectionStart, end: selectionStart};
         if (document.activeElement === this.refs.editor) {
-            this.updateSelection();
+            this.setSelectionInEditor();
         }
     }
 
@@ -148,7 +149,7 @@ export default class Editor extends React.PureComponent<Props> {
     set selectionEnd(selectionEnd) {
         this.selection = this.selection ? {...this.selection, end: selectionEnd} : {start: selectionEnd, end: selectionEnd};
         if (document.activeElement === this.refs.editor) {
-            this.updateSelection();
+            this.setSelectionInEditor();
         }
     }
 
@@ -157,14 +158,14 @@ export default class Editor extends React.PureComponent<Props> {
     setSelectionRange(selectionStart: number, selectionEnd: number) {
         this.selection = {start: selectionStart, end: selectionEnd};
         if (document.activeElement === this.refs.editor) {
-            this.updateSelection();
+            this.setSelectionInEditor();
         }
     }
 
     focus() {
         (this.refs.editor as HTMLDivElement).focus();
         if (this.selection) {
-            this.updateSelection();
+            this.setSelectionInEditor();
         }
     }
 
