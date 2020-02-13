@@ -7,6 +7,7 @@ import {cloneDeep} from 'lodash';
 
 import {Groups} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {Scheme} from 'mattermost-redux/types/schemes';
 import {SyncablePatch, Group} from 'mattermost-redux/types/groups';
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
@@ -34,7 +35,7 @@ interface ChannelDetailsProps {
     totalGroups: number;
     channelPermissions?: Array<ChannelPermissions>;
     allGroups: {[gid: string]: Group}; // hashmap of groups
-    teamSchemeName?: string;
+    teamScheme?: Scheme;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -42,12 +43,13 @@ interface ChannelDetailsProps {
         membersMinusGroupMembers: (channelID: string, groupIDs: Array<string>, page?: number, perPage?: number) => ActionFunc|ActionResult;
         setNavigationBlocked: (blocked: boolean) => any;
         getChannel: (channelId: string) => ActionFunc;
-        getTeam: (teamId: string) => ActionFunc;
+        getTeam: (teamId: string) => any;
         getChannelModerations: (channelId: string) => Promise<Array<ChannelPermissions>>;
         patchChannel: (channelId: string, patch: Channel) => ActionFunc;
         updateChannelPrivacy: (channelId: string, privacy: string) => Promise<ActionResult>;
         patchGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc;
         patchChannelModerations: (channelID: string, patch: Array<ChannelModerationPatch>) => any;
+        loadScheme: (schemeID: string) => Promise<ActionResult>;
     };
 }
 
@@ -99,24 +101,27 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 isDefault: channel.name === Constants.DEFAULT_CHANNEL
             });
         }
-
         // If we don't have the team and channel on mount, we need to request the team after we load the channel
         if (!prevProps.team.id && !prevProps.channel.team_id && channel.team_id) {
-            this.props.actions.getTeam(channel.team_id);
+            this.props.actions.getTeam(channel.team_id).
+            then((data: any) => this.props.actions.loadScheme(data.data.scheme_id));
         }
     }
     async componentDidMount() {
-        const {channelID, channel, team, actions} = this.props;
+        const {channelID, channel, actions} = this.props;
         await Promise.all([actions.
             getGroups(channelID).
             then(() => actions.getChannel(channelID)).
             then(() => this.setState({groups: this.props.groups})),
-        actions.getChannelModerations(channelID).
-            then(() => this.setState({channelPermissions: this.props.channelPermissions}))
+            actions.getChannelModerations(channelID).
+                then(() => this.setState({channelPermissions: this.props.channelPermissions})),
+            actions.getTeam(channel.team_id).
+                then((data: any) => {
+                    if (data.data) {
+                        this.props.actions.loadScheme(data.data.scheme_id);
+                    }
+                }),
         ]);
-        if (!team.id && channel.team_id) {
-            actions.getTeam(channel.team_id);
-        }
     }
     private setToggles = (isSynced: boolean, isPublic: boolean) => {
         const {channel} = this.props;
@@ -337,7 +342,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             usersToRemove,
             channelPermissions
         } = this.state;
-        const {channel, team, teamSchemeName} = this.props;
+        const {channel, team} = this.props;
         const missingGroup = (og: {id: string}) => !groups.find((g: Group) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
         return (
@@ -396,8 +401,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         <ChannelModeration
                             channelPermissions={channelPermissions}
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
-                            teamSchemeName={teamSchemeName}
-                            teamSchemeID={team.scheme_id}
+                            teamScheme={this.props.teamScheme}
                         />
 
                         <ChannelGroups

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {Scheme} from 'mattermost-redux/types/schemes';
 import {FormattedMessage} from 'react-intl';
 import {isNil} from 'lodash';
 import classNames from 'classnames';
@@ -103,8 +104,31 @@ const formattedMessages: any = {
         disabled_both: {
             id: 'admin.channel_settings.channel_moderation.channelMentions.disabledBoth',
             defaultMessage: 'Channel mentions for members and guests is disabled in'
+        },
+
+        disabled_guests_due_to_create_posts: {
+            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledGuestsDueToCreatePosts',
+            defaultMessage: 'Guests can not use channel mentions without the ability to create posts.'
+        },
+        disabled_members_due_to_create_posts: {
+            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledMemberDueToCreatePosts',
+            defaultMessage: 'Members can not use channel mentions without the ability to create posts.'
+        },
+        disabled_both_due_to_create_posts: {
+            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledBothDueToCreatePosts',
+            defaultMessage: 'Guests and members can not use channel mentions without the ability to create posts.'
         }
     },
+    system_scheme: {
+        link: '/admin_console/user_management/permissions/system_scheme',
+        id: 'admin.channel_settings.channel_moderation.systemScheme',
+        defaultMessage: 'System Scheme',
+    },
+    team_scheme: {
+        link: '/admin_console/user_management/permissions/team_override_scheme/',
+        id: 'admin.channel_settings.channel_moderation.teamScheme',
+        defaultMessage: 'Team Scheme',
+    }
 };
 
 interface State {
@@ -114,8 +138,7 @@ interface State {
 interface Props {
     channelPermissions?: Array<ChannelPermissions>;
     onChannelPermissionsChanged: (name: string, guestsOrMembers: 'guests' | 'members') => void;
-    teamSchemeName?: string;
-    teamSchemeID?: string;
+    teamScheme?: Scheme;
 }
 
 interface RowProps {
@@ -123,12 +146,14 @@ interface RowProps {
     guests?: any;
     members?: any;
     onClick: (name: string, guestsOrMembers: 'guests' | 'members') => void;
+    teamScheme?: Scheme;
+    createPostsObject?: ChannelPermissions;
 }
 
 const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
     let disabledKey;
-    const isGuestsDisabled = props.guests && !props.guests.enabled;
-    const isMembersDisabled = props.members && !props.members.enabled;
+    let isGuestsDisabled = props.guests && !props.guests.enabled;
+    let isMembersDisabled = props.members && !props.members.enabled;
     if (isGuestsDisabled && isMembersDisabled) {
         disabledKey = 'disabled_both'
     } else if (isGuestsDisabled) {
@@ -136,6 +161,31 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
     } else if (isMembersDisabled) {
         disabledKey = 'disabled_members'
     }
+
+    let disabledLinkKey = '';
+    if (disabledKey && props.teamScheme) {
+        disabledLinkKey = 'team_scheme'; 
+    } else if (disabledKey) {
+        disabledLinkKey = 'system_scheme';
+    }
+
+    let disabledDueToCreatePosts;
+    if (props.createPostsObject) {
+        if (!props.createPostsObject.roles.guests?.value && !props.createPostsObject.roles.members?.value) {
+            disabledDueToCreatePosts = 'disabled_both_due_to_create_posts';
+            disabledKey = '';
+            isGuestsDisabled = true;
+            isMembersDisabled = true;
+        } else if (!props.createPostsObject.roles.guests?.value) {
+            disabledDueToCreatePosts = 'disabled_guests_due_to_create_posts';
+            isGuestsDisabled = true;
+        } else if (!props.createPostsObject.roles.members?.value) {
+            disabledDueToCreatePosts = 'disabled_members_due_to_create_posts';
+            isMembersDisabled = true;
+        }
+    }
+
+
     return (
         <tr>
             <td>
@@ -150,19 +200,34 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                         id={formattedMessages[props.name].description.id}
                         defaultMessage={formattedMessages[props.name].description.defaultMessage}
                     />
-                    {/* <Link
-                        to={'/admin_console/user_management/groups/' + this.props.mattermost_group_id}
-                    >
-
-                </Link> */}
                 </div>
                 <div>
-                {disabledKey && 
+                {disabledDueToCreatePosts &&
+                        <FormattedMessage
+                            id={formattedMessages[props.name][disabledDueToCreatePosts].id}
+                            defaultMessage={formattedMessages[props.name][disabledDueToCreatePosts].defaultMessage}
+                        />
+                }
+                </div>
+                <div>
+                {disabledKey &&
                         <FormattedMessage
                             id={formattedMessages[props.name][disabledKey].id}
                             defaultMessage={formattedMessages[props.name][disabledKey].defaultMessage}
                         />
-                    }
+                }
+                {' '}
+                {disabledKey &&
+                    <Link
+                        to={`${formattedMessages[disabledLinkKey].link}${disabledLinkKey === 'team_scheme' ? props.teamScheme?.id : ''}`}
+                    >
+                        {disabledLinkKey === 'team_scheme' && `${props.teamScheme?.display_name} `}
+                        <FormattedMessage
+                            id={`${formattedMessages[disabledLinkKey].id}`}
+                            defaultMessage={`${formattedMessages[disabledLinkKey].defaultMessage}`}
+                        />
+                    </Link>
+                }
                 </div>
             </td>
             <td>
@@ -171,14 +236,14 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                         className={classNames(
                             'checkbox',
                             {
-                                checked: props.guests.value && props.guests.enabled,
-                                disabled: !props.guests.enabled,
+                                checked: props.guests.value && !isGuestsDisabled,
+                                disabled: isGuestsDisabled,
                             }
                         )}
                         onClick={() => props.onClick(props.name, 'guests')}
-                        disabled={!props.guests.enabled}
+                        disabled={isGuestsDisabled}
                     >
-                        {props.guests.value && props.guests.enabled && <CheckboxCheckedIcon/>}
+                        {props.guests.value && !isGuestsDisabled && <CheckboxCheckedIcon/>}
                     </button>
                 }
             </td>
@@ -188,14 +253,14 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                         className={classNames(
                             'checkbox',
                             {
-                                checked: props.members.value && props.members.enabled,
-                                disabled: !props.members.enabled,
+                                checked: props.members.value && !isMembersDisabled,
+                                disabled: isMembersDisabled,
                             }
                         )}
                         onClick={() => props.onClick(props.name, 'members')}
-                        disabled={!props.members.enabled}
+                        disabled={isMembersDisabled}
                     >
-                        {props.members.value && props.members.enabled && <CheckboxCheckedIcon/>}
+                        {props.members.value && !isMembersDisabled && <CheckboxCheckedIcon/>}
                     </button>
                 }
             </td>
@@ -205,7 +270,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
 
 export default class ChannelModeration extends React.Component<Props, State> {
     render = (): JSX.Element => {
-        console.log(this.props)
+        const createPostsObject = this.props.channelPermissions?.filter((permission) => permission.name === 'create_post')[0];
         return (
             <AdminPanel
                 id='channel_moderation'
@@ -252,6 +317,8 @@ export default class ChannelModeration extends React.Component<Props, State> {
                                             guests={entry.roles.guests}
                                             members={entry.roles.members}
                                             onClick={this.props.onChannelPermissionsChanged}
+                                            teamScheme={this.props.teamScheme}
+                                            createPostsObject={entry.name === 'use_channel_mentions' ? createPostsObject : undefined}
                                         />
                                     );
                                 })}

@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getScheme} from 'mattermost-redux/selectors/entities/schemes';
+import {getScheme as loadScheme} from 'mattermost-redux/actions/schemes';
 import {
     getChannel as fetchChannel,
     membersMinusGroupMembers,
@@ -55,6 +56,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            loadScheme,
             patchChannelModerations,
             getChannelModerations: fetchChannelModerations,
             getChannel: fetchChannel,
