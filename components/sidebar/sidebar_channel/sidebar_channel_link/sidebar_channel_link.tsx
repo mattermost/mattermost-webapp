@@ -164,24 +164,22 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         let element;
         if (isDesktopApp()) {
             element = (
-                <div>
-                    <CopyUrlContextMenu
-                        link={this.props.link}
-                        menuId={channel.id}
+                <CopyUrlContextMenu
+                    link={this.props.link}
+                    menuId={channel.id}
+                >
+                    <button
+                        className={'btn btn-link '}// TODO + rowClass}
+                        aria-label={this.getAriaLabel()}
+                        onClick={this.handleClick}
+                        style={{
+                            display: 'flex',
+                            fontWeight: this.showChannelAsUnread() ? 'bold' : 'inherit', // TODO temp styling
+                        }}
                     >
-                        <button
-                            className={'btn btn-link '}// TODO + rowClass}
-                            aria-label={this.getAriaLabel()}
-                            onClick={this.handleClick}
-                            style={{
-                                display: 'flex',
-                                fontWeight: this.showChannelAsUnread() ? 'bold' : 'inherit', // TODO temp styling
-                            }}
-                        >
-                            {content}
-                        </button>
-                    </CopyUrlContextMenu>
-                </div>
+                        {content}
+                    </button>
+                </CopyUrlContextMenu>
             );
         } else {
             element = (
@@ -218,9 +216,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     placement='top'
                     overlay={displayNameToolTip}
                 >
-                    <div>
-                        {element}
-                    </div>
+                    {element}
                 </OverlayTrigger>
             );
         }

@@ -40,8 +40,7 @@ export default class SidebarDirectChannel extends React.PureComponent<Props, Sta
         const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
 
         const currentUserId = this.props.currentUserId;
-        this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id!, value: 'false'}]).then(
-            () => callback);
+        this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id!, value: 'false'}]).then(callback);
 
         trackEvent('ui', 'ui_direct_channel_x_button_clicked');
 

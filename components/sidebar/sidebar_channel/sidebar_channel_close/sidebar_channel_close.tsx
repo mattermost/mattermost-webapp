@@ -44,44 +44,45 @@ export default class SidebarChannelClose extends React.PureComponent<Props, Stat
     render() {
         const {channel, closeHandler} = this.props;
 
-        let closeButton = null;
+        if (!(this.props.show && closeHandler)) {
+            return null;
+        }
 
-        if (this.props.show && closeHandler) {
-            let removeTooltip = (
-                <Tooltip id='remove-dm-tooltip'>
-                    <FormattedMessage
-                        id='sidebar.removeList'
-                        defaultMessage='Remove from list'
-                    />
-                </Tooltip>
-            );
+        let removeTooltipMessage = (
+            <FormattedMessage
+                id='sidebar.removeList'
+                defaultMessage='Remove from list'
+            />
+        );
 
-            if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-                removeTooltip = (
-                    <Tooltip id='remove-dm-tooltip'>
-                        <FormattedMessage
-                            id='sidebar.leave'
-                            defaultMessage='Leave channel'
-                        />
-                    </Tooltip>
-                );
-            }
-
-            closeButton = (
-                <OverlayTrigger
-                    delayShow={1000}
-                    placement='top'
-                    overlay={removeTooltip}
-                >
-                    <span
-                        onClick={this.handleLeaveChannel}
-                        className='btn-close'
-                    >
-                        {'×'}
-                    </span>
-                </OverlayTrigger>
+        if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
+            removeTooltipMessage = (
+                <FormattedMessage
+                    id='sidebar.leave'
+                    defaultMessage='Leave channel'
+                />
             );
         }
+
+        const closeButton = (
+            <OverlayTrigger
+                delayShow={1000}
+                placement='top'
+                overlay={(
+                    <Tooltip id='remove-dm-tooltip'>
+                        {removeTooltipMessage}
+                    </Tooltip>
+                )}
+            >
+                <span
+                    onClick={this.handleLeaveChannel}
+                    className='btn-close'
+                >
+                    {'×'}
+                </span>
+            </OverlayTrigger>
+        );
+
         return closeButton;
     }
 }
