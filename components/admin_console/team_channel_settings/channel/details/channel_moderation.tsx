@@ -176,14 +176,26 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
             disabledKey = '';
             isGuestsDisabled = true;
             isMembersDisabled = true;
+            if (props.members.value === true) {
+                props.onClick(props.name, 'members');
+            }
+            if (props.guests.value === true) {
+                props.onClick(props.name, 'guests');
+            }
         } else if (!props.createPostsObject.roles.guests!.value) {
             disabledDueToCreatePosts = 'disabled_guests_due_to_create_posts';
             isGuestsDisabled = true;
             disabledKey = disabledKey === 'disabled_guests' ? null : disabledKey;
+            if (props.guests.value === true) {
+                props.onClick(props.name, 'guests');
+            }
         } else if (!props.createPostsObject.roles.members!.value) {
             disabledDueToCreatePosts = 'disabled_members_due_to_create_posts';
             isMembersDisabled = true;
             disabledKey = disabledKey === 'disabled_members' ? null : disabledKey;
+            if (props.members.value === true) {
+                props.onClick(props.name, 'members');
+            }
         }
     }
 
