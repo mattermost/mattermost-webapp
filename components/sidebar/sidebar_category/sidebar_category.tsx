@@ -29,7 +29,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const channels = category.channel_ids.map(this.renderChannel);
 
         return (
-            <div>
+            <div className='a11y__section'>
                 {category.display_name}
                 {channels}
             </div>

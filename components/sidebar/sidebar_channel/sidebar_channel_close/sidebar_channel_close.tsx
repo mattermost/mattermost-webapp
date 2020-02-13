@@ -45,7 +45,7 @@ export default class SidebarChannelClose extends React.PureComponent<Props, Stat
         const {channel, closeHandler} = this.props;
 
         if (!(this.props.show && closeHandler)) {
-            return;
+            return null;
         }
 
         let removeTooltipMessage = (

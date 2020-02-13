@@ -84,7 +84,6 @@ export default class NeedsTeam extends React.Component {
             team,
             finishedFetchingChannels: false,
             prevTeam: this.props.match.params.team,
-            teamsList: this.props.teamsList
         };
 
         if (!team) {
@@ -94,8 +93,8 @@ export default class NeedsTeam extends React.Component {
 
     static getDerivedStateFromProps(nextProps, state) {
         if (state.prevTeam !== nextProps.match.params.team) {
-            const team = state.teamsList ?
-                state.teamsList.find((teamObj) =>
+            const team = nextProps.teamsList ?
+                nextProps.teamsList.find((teamObj) =>
                     teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
