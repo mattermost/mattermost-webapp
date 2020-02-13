@@ -90,7 +90,6 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
         this.setState({serverErrorNewPass: null});
 
         const {data, error: err} = await this.props.actions.updateUserPassword(this.props.user.id, currentPassword, password);
-        console.log(data, err);
         if (data) {
             this.props.onModalSubmit(this.props.user);
         } else if (err) {
