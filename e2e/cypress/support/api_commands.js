@@ -906,14 +906,14 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
 
     // # Create a New Team for Guest User
     return cy.apiCreateTeam('guest-team', 'Guest Team').then((createResponse) => {
-        const teamId = createResponse.body.id;
+        const team = createResponse.body;
         cy.getCookie('MMUSERID').then((cookie) => {
             // #Assign Sysadmin user to the newly created team
-            cy.apiAddUserToTeam(teamId, cookie.value);
+            cy.apiAddUserToTeam(team.id, cookie.value);
         });
 
         // #Create New User
-        return cy.createNewUser(user, [teamId], bypassTutorial).then((newUser) => {
+        return cy.createNewUser(user, [team.id], bypassTutorial).then((newUser) => {
             // # Demote Regular Member to Guest User
             cy.demoteUser(newUser.id);
             cy.request({
@@ -922,7 +922,7 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
                 method: 'POST',
                 body: {login_id: newUser.username, password: newUser.password},
             }).then(() => {
-                cy.visit('/ad-1/channels/town-square');
+                cy.visit(`/${team.name}`);
                 return cy.wrap(newUser);
             });
         });
