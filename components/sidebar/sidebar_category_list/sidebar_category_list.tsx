@@ -9,6 +9,10 @@ import {Spring, SpringSystem, util as MathUtil} from 'rebound';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
+import {Constants} from 'utils/constants';
+import * as Utils from 'utils/utils';
+import * as ChannelUtils from 'utils/channel_utils.jsx';
+
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 
@@ -17,6 +21,9 @@ type Props = {
     currentChannel: Channel | undefined;
     categories: any[];
     unreadChannelIds: string[];
+    actions: {
+        switchToChannelById: (channelId: string) => void;
+    };
 };
 
 type State = {
@@ -51,6 +58,16 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.scrollAnimation = this.animate.createSpring();
         this.scrollAnimation.setOvershootClampingEnabled(true); // disables the spring action at the end of animation
         this.scrollAnimation.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.navigateChannelShortcut);
+        document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.navigateChannelShortcut);
+        document.removeEventListener('keydown', this.navigateUnreadChannelShortcut);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -194,6 +211,63 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             allChannelIds.push(...section.channel_ids);
             return allChannelIds;
         }, []);
+    }
+
+    navigateChannelShortcut = (e: KeyboardEvent) => {
+        if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+            e.preventDefault();
+
+            const allChannelIds = this.getDisplayedChannels();
+            const curChannelId = this.props.currentChannel!.id;
+            let curIndex = -1;
+            for (let i = 0; i < allChannelIds.length; i++) {
+                if (allChannelIds[i] === curChannelId) {
+                    curIndex = i;
+                }
+            }
+            let nextIndex = curIndex;
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+                nextIndex = curIndex + 1;
+            } else {
+                nextIndex = curIndex - 1;
+            }
+            const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
+            this.props.actions.switchToChannelById(nextChannelId);
+            this.scrollToChannel(nextChannelId);
+        }
+
+        // TODO: handle when doing modals
+        // } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+        //     this.handleOpenMoreDirectChannelsModal(e);
+        // }
+    };
+
+    navigateUnreadChannelShortcut = (e: KeyboardEvent) => {
+        if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+            e.preventDefault();
+
+            const allChannelIds = this.getDisplayedChannels();
+
+            let direction = 0;
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+                direction = -1;
+            } else {
+                direction = 1;
+            }
+
+            const nextIndex = ChannelUtils.findNextUnreadChannelId(
+                this.props.currentChannel!.id,
+                allChannelIds,
+                this.props.unreadChannelIds,
+                direction
+            );
+
+            if (nextIndex !== -1) {
+                const nextChannelId = allChannelIds[nextIndex];
+                this.props.actions.switchToChannelById(nextChannelId);
+                this.scrollToChannel(nextChannelId);
+            }
+        }
     };
 
     renderCategory = (category: any) => {

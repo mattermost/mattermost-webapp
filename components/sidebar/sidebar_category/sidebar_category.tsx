@@ -102,6 +102,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     {isCollapsed ? '+' : '-'}
                     {category.display_name}
                 </div>
+            <div className='a11y__section'>
+                {category.display_name}
                 {channels}
             </div>
         );
