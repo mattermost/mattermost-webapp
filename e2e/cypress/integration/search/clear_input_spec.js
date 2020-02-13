@@ -13,7 +13,7 @@ describe('Search', () => {
     before(() => {
         // # Login as the sysadmin.
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('QuickInput clear X', () => {

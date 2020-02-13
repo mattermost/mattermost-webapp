@@ -17,7 +17,7 @@ describe('Test channel public/private toggle', () => {
 
     it('Verify that System Admin can change channel privacy using toggle', () => {
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.getCurrentTeamId().then((teamId) => {
             return cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel');
         }).then((res) => {
@@ -46,7 +46,7 @@ describe('Test channel public/private toggle', () => {
 
     it('Verify that resetting sync toggle doesn\'t alter channel privacy toggle', () => {
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.getCurrentTeamId().then((teamId) => {
             return cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel');
         }).then((res) => {
@@ -66,7 +66,7 @@ describe('Test channel public/private toggle', () => {
 
     it('Verify that toggles are disabled for default channel', () => {
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.get('#sidebarItem_town-square').scrollIntoView().click({force: true});
         cy.getCurrentChannelId().then((id) => {
             cy.visit(`/admin_console/user_management/channels/${id}`);

@@ -747,7 +747,7 @@ Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial 
             body: {login_id: newUser.username, password: newUser.password},
         }).then((response) => {
             expect(response.status).to.equal(200);
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             return cy.wrap(newUser);
         });
@@ -922,7 +922,7 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
                 method: 'POST',
                 body: {login_id: newUser.username, password: newUser.password},
             }).then(() => {
-                cy.visit('/');
+                cy.visit('/ad-1/channels/town-square');
                 return cy.wrap(newUser);
             });
         });

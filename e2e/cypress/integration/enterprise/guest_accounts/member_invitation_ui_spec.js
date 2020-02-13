@@ -92,7 +92,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             testTeam = response.body;
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
             cy.visit(`/${testTeam.name}`);
         });
     });
@@ -190,7 +190,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.createNewUser().then((newUser) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id);
             cy.apiLogin(newUser.username, newUser.password);
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
             cy.visit(`/${testTeam.name}`);
         });
 

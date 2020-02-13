@@ -23,7 +23,7 @@ describe('Draw Plugin - Upload', () => {
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // #If draw plugin is already enabled , unInstall it
         cy.uninstallPluginById(pluginId);

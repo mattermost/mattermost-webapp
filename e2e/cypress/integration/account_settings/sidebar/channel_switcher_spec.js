@@ -16,7 +16,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
         // # Login and visit "/"
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Create a test team and channels
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
