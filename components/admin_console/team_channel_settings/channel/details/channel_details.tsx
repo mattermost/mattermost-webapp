@@ -101,10 +101,11 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 isDefault: channel.name === Constants.DEFAULT_CHANNEL
             });
         }
+
         // If we don't have the team and channel on mount, we need to request the team after we load the channel
         if (!prevProps.team.id && !prevProps.channel.team_id && channel.team_id) {
             this.props.actions.getTeam(channel.team_id).
-            then((data: any) => this.props.actions.loadScheme(data.data.scheme_id));
+                then((data: any) => this.props.actions.loadScheme(data.data.scheme_id));
         }
     }
     async componentDidMount() {
@@ -113,14 +114,14 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             getGroups(channelID).
             then(() => actions.getChannel(channelID)).
             then(() => this.setState({groups: this.props.groups})),
-            actions.getChannelModerations(channelID).
-                then(() => this.setState({channelPermissions: this.props.channelPermissions})),
-            actions.getTeam(channel.team_id).
-                then((data: any) => {
-                    if (data.data) {
-                        this.props.actions.loadScheme(data.data.scheme_id);
-                    }
-                }),
+        actions.getChannelModerations(channelID).
+            then(() => this.setState({channelPermissions: this.props.channelPermissions})),
+        actions.getTeam(channel.team_id).
+            then((data: any) => {
+                if (data.data) {
+                    this.props.actions.loadScheme(data.data.scheme_id);
+                }
+            }),
         ]);
     }
     private setToggles = (isSynced: boolean, isPublic: boolean) => {

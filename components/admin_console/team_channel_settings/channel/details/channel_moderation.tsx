@@ -147,7 +147,7 @@ interface RowProps {
     members?: any;
     onClick: (name: string, guestsOrMembers: 'guests' | 'members') => void;
     teamScheme?: Scheme;
-    createPostsObject?: ChannelPermissions;
+    createPostsObject?: ChannelPermissions | null;
 }
 
 const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
@@ -155,36 +155,37 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
     let isGuestsDisabled = props.guests && !props.guests.enabled;
     let isMembersDisabled = props.members && !props.members.enabled;
     if (isGuestsDisabled && isMembersDisabled) {
-        disabledKey = 'disabled_both'
+        disabledKey = 'disabled_both';
     } else if (isGuestsDisabled) {
-        disabledKey = 'disabled_guests'
+        disabledKey = 'disabled_guests';
     } else if (isMembersDisabled) {
-        disabledKey = 'disabled_members'
+        disabledKey = 'disabled_members';
     }
 
     let disabledLinkKey = '';
     if (disabledKey && props.teamScheme) {
-        disabledLinkKey = 'team_scheme'; 
+        disabledLinkKey = 'team_scheme';
     } else if (disabledKey) {
         disabledLinkKey = 'system_scheme';
     }
 
     let disabledDueToCreatePosts;
     if (props.createPostsObject) {
-        if (!props.createPostsObject.roles.guests?.value && !props.createPostsObject.roles.members?.value) {
+        if (!props.createPostsObject.roles.guests!.value && !props.createPostsObject.roles.members!.value) {
             disabledDueToCreatePosts = 'disabled_both_due_to_create_posts';
             disabledKey = '';
             isGuestsDisabled = true;
             isMembersDisabled = true;
-        } else if (!props.createPostsObject.roles.guests?.value) {
+        } else if (!props.createPostsObject.roles.guests!.value) {
             disabledDueToCreatePosts = 'disabled_guests_due_to_create_posts';
             isGuestsDisabled = true;
-        } else if (!props.createPostsObject.roles.members?.value) {
+            disabledKey = disabledKey === 'disabled_guests' ? null : disabledKey;
+        } else if (!props.createPostsObject.roles.members!.value) {
             disabledDueToCreatePosts = 'disabled_members_due_to_create_posts';
             isMembersDisabled = true;
+            disabledKey = disabledKey === 'disabled_members' ? null : disabledKey;
         }
     }
-
 
     return (
         <tr>
@@ -202,32 +203,32 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                     />
                 </div>
                 <div>
-                {disabledDueToCreatePosts &&
-                        <FormattedMessage
-                            id={formattedMessages[props.name][disabledDueToCreatePosts].id}
-                            defaultMessage={formattedMessages[props.name][disabledDueToCreatePosts].defaultMessage}
-                        />
-                }
+                    {disabledDueToCreatePosts &&
+                    <FormattedMessage
+                        id={formattedMessages[props.name][disabledDueToCreatePosts].id}
+                        defaultMessage={formattedMessages[props.name][disabledDueToCreatePosts].defaultMessage}
+                    />
+                    }
                 </div>
                 <div>
-                {disabledKey &&
-                        <FormattedMessage
-                            id={formattedMessages[props.name][disabledKey].id}
-                            defaultMessage={formattedMessages[props.name][disabledKey].defaultMessage}
-                        />
-                }
-                {' '}
-                {disabledKey &&
+                    {disabledKey &&
+                    <FormattedMessage
+                        id={formattedMessages[props.name][disabledKey].id}
+                        defaultMessage={formattedMessages[props.name][disabledKey].defaultMessage}
+                    />
+                    }
+                    {' '}
+                    {disabledKey &&
                     <Link
-                        to={`${formattedMessages[disabledLinkKey].link}${disabledLinkKey === 'team_scheme' ? props.teamScheme?.id : ''}`}
+                        to={`${formattedMessages[disabledLinkKey].link}${disabledLinkKey === 'team_scheme' ? props.teamScheme!.id : ''}`}
                     >
-                        {disabledLinkKey === 'team_scheme' && `${props.teamScheme?.display_name} `}
+                        {disabledLinkKey === 'team_scheme' && `${props.teamScheme!.display_name} `}
                         <FormattedMessage
                             id={`${formattedMessages[disabledLinkKey].id}`}
                             defaultMessage={`${formattedMessages[disabledLinkKey].defaultMessage}`}
                         />
                     </Link>
-                }
+                    }
                 </div>
             </td>
             <td>
@@ -270,7 +271,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
 
 export default class ChannelModeration extends React.Component<Props, State> {
     render = (): JSX.Element => {
-        const createPostsObject = this.props.channelPermissions?.filter((permission) => permission.name === 'create_post')[0];
+        const createPostsObject = this.props.channelPermissions!.filter((permission) => permission.name === 'create_post')[0];
         return (
             <AdminPanel
                 id='channel_moderation'
@@ -318,7 +319,7 @@ export default class ChannelModeration extends React.Component<Props, State> {
                                             members={entry.roles.members}
                                             onClick={this.props.onChannelPermissionsChanged}
                                             teamScheme={this.props.teamScheme}
-                                            createPostsObject={entry.name === 'use_channel_mentions' ? createPostsObject : undefined}
+                                            createPostsObject={entry.name === 'use_channel_mentions' ? createPostsObject : null}
                                         />
                                     );
                                 })}
