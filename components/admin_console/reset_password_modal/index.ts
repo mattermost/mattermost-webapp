@@ -7,8 +7,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {bindActionCreators, Dispatch} from 'redux';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {updateUserPassword} from 'mattermost-redux/actions/users';
 
-import {adminResetPassword} from 'actions/admin_actions.jsx';
 import {getPasswordConfig} from 'utils/utils.jsx';
 
 import ResetPasswordModal from './reset_password_modal';
@@ -25,7 +25,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            adminResetPassword,
+            updateUserPassword,
         }, dispatch),
     };
 }
