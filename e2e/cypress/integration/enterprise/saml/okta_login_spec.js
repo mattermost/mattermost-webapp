@@ -3,6 +3,7 @@
 
 import users from '../../../fixtures/saml_users.json';
 
+//Manual Setup required: Follow the instructions mentioned in the mattermost/platform-private/config/saml-okta-setup.txt file
 context('Okta', () => {
     const loginButtonText = 'SAML';
 
@@ -53,7 +54,6 @@ context('Okta', () => {
     let testSettings;
 
     //Note: the assumption is that this test suite runs on a clean setup (empty DB) which would ensure that the users are not present in the Mattermost instance beforehand
-
     describe('SAML Login flow', () => {
         before(() => {
             cy.oktaAddUsers(users);
