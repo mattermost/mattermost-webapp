@@ -361,12 +361,14 @@ export default class MultiSelect extends React.Component<Props, State> {
 
         let memberCount;
         if (users && users.length && totalCount) {
+            let memberOptions = optionsToDisplay.length;
+            memberOptions = totalCount < memberOptions ? totalCount : memberOptions;
             memberCount = (
                 <FormattedMessage
                     id='multiselect.numMembers'
                     defaultMessage='{memberOptions, number} of {totalCount, number} members'
                     values={{
-                        memberOptions: optionsToDisplay.length,
+                        memberOptions,
                         totalCount,
                     }}
                 />
