@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import {isNil} from 'lodash';
 import classNames from 'classnames';
@@ -21,6 +22,18 @@ const formattedMessages: any = {
         description: {
             id: 'admin.channel_settings.channel_moderation.createPostsDesc',
             defaultMessage: 'The ability for members and guests to create posts in the channel.'
+        },
+        disabled_guests: {
+            id: 'admin.channel_settings.channel_moderation.createPosts.disabledGuest',
+            defaultMessage: 'Create posts for guests is disabled in'
+        },
+        disabled_members: {
+            id: 'admin.channel_settings.channel_moderation.createPosts.disabledMember',
+            defaultMessage: 'Create posts for members is disabled in'
+        },
+        disabled_both: {
+            id: 'admin.channel_settings.channel_moderation.createPosts.disabledBoth',
+            defaultMessage: 'Create posts for members and guests is disabled in'
         }
     },
 
@@ -32,6 +45,18 @@ const formattedMessages: any = {
         description: {
             id: 'admin.channel_settings.channel_moderation.postReactionsDesc',
             defaultMessage: 'The ability for members and guests to post reactions.'
+        },
+        disabled_guests: {
+            id: 'admin.channel_settings.channel_moderation.postReactions.disabledGuest',
+            defaultMessage: 'Post reactions for guests is disabled in'
+        },
+        disabled_members: {
+            id: 'admin.channel_settings.channel_moderation.postReactions.disabledMember',
+            defaultMessage: 'Post reactions for members is disabled in'
+        },
+        disabled_both: {
+            id: 'admin.channel_settings.channel_moderation.postReactions.disabledBoth',
+            defaultMessage: 'Post reactions for members and guests is disabled in'
         }
     },
 
@@ -43,6 +68,18 @@ const formattedMessages: any = {
         description: {
             id: 'admin.channel_settings.channel_moderation.manageMembersDesc',
             defaultMessage: 'The ability for members to add and remove people.'
+        },
+        disabled_guests: {
+            id: 'admin.channel_settings.channel_moderation.manageMembers.disabledGuest',
+            defaultMessage: 'Manage members for guests is disabled in'
+        },
+        disabled_members: {
+            id: 'admin.channel_settings.channel_moderation.manageMembers.disabledMember',
+            defaultMessage: 'Manage members for members is disabled in'
+        },
+        disabled_both: {
+            id: 'admin.channel_settings.channel_moderation.manageMembers.disabledBoth',
+            defaultMessage: 'Manage members for members and guests is disabled in'
         }
     },
 
@@ -54,6 +91,18 @@ const formattedMessages: any = {
         description: {
             id: 'admin.channel_settings.channel_moderation.channelMentionsDesc',
             defaultMessage: 'The ability for members and guests to use @all, @here and @channel.'
+        },
+        disabled_guests: {
+            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledGuest',
+            defaultMessage: 'Channel mentions for guests is disabled in'
+        },
+        disabled_members: {
+            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledMember',
+            defaultMessage: 'Channel mentions for members is disabled in'
+        },
+        disabled_both: {
+            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledBoth',
+            defaultMessage: 'Channel mentions for members and guests is disabled in'
         }
     },
 };
@@ -65,6 +114,8 @@ interface State {
 interface Props {
     channelPermissions?: Array<ChannelPermissions>;
     onChannelPermissionsChanged: (name: string, guestsOrMembers: 'guests' | 'members') => void;
+    teamSchemeName?: string;
+    teamSchemeID?: string;
 }
 
 interface RowProps {
@@ -75,6 +126,16 @@ interface RowProps {
 }
 
 const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
+    let disabledKey;
+    const isGuestsDisabled = props.guests && !props.guests.enabled;
+    const isMembersDisabled = props.members && !props.members.enabled;
+    if (isGuestsDisabled && isMembersDisabled) {
+        disabledKey = 'disabled_both'
+    } else if (isGuestsDisabled) {
+        disabledKey = 'disabled_guests'
+    } else if (isMembersDisabled) {
+        disabledKey = 'disabled_members'
+    }
     return (
         <tr>
             <td>
@@ -89,6 +150,19 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                         id={formattedMessages[props.name].description.id}
                         defaultMessage={formattedMessages[props.name].description.defaultMessage}
                     />
+                    {/* <Link
+                        to={'/admin_console/user_management/groups/' + this.props.mattermost_group_id}
+                    >
+
+                </Link> */}
+                </div>
+                <div>
+                {disabledKey && 
+                        <FormattedMessage
+                            id={formattedMessages[props.name][disabledKey].id}
+                            defaultMessage={formattedMessages[props.name][disabledKey].defaultMessage}
+                        />
+                    }
                 </div>
             </td>
             <td>
@@ -131,6 +205,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
 
 export default class ChannelModeration extends React.Component<Props, State> {
     render = (): JSX.Element => {
+        console.log(this.props)
         return (
             <AdminPanel
                 id='channel_moderation'

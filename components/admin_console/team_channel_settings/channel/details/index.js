@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
+import {getScheme} from 'mattermost-redux/selectors/entities/schemes';
 import {
     getChannel as fetchChannel,
     membersMinusGroupMembers,
@@ -38,7 +39,9 @@ function mapStateToProps(state, props) {
     const allGroups = getAllGroups(state, channel.team_id);
     const totalGroups = groups.length;
     const channelPermissions = getChannelModerations(state, channelID);
+    const teamScheme = team.scheme_id ? getScheme(state, team.scheme_id) : null;
     return {
+        teamScheme,
         channel,
         team,
         allGroups,

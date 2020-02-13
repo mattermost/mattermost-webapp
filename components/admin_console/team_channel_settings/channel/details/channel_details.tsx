@@ -34,6 +34,7 @@ interface ChannelDetailsProps {
     totalGroups: number;
     channelPermissions?: Array<ChannelPermissions>;
     allGroups: {[gid: string]: Group}; // hashmap of groups
+    teamSchemeName?: string;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -336,7 +337,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             usersToRemove,
             channelPermissions
         } = this.state;
-        const {channel, team} = this.props;
+        const {channel, team, teamSchemeName} = this.props;
         const missingGroup = (og: {id: string}) => !groups.find((g: Group) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
         return (
@@ -395,6 +396,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         <ChannelModeration
                             channelPermissions={channelPermissions}
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
+                            teamSchemeName={teamSchemeName}
+                            teamSchemeID={team.scheme_id}
                         />
 
                         <ChannelGroups
