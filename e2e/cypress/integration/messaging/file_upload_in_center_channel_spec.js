@@ -9,10 +9,8 @@
 
 function waitForImageUpload() {
     // * Verify that the image exists in the post message footer
-    cy.waitUntil(() => cy.get('#postCreateFooter').within(() => {
-        return cy.get('div.post-image.normal').then((image) => {
-            return Boolean(image);
-        });
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
     }));
 }
 
