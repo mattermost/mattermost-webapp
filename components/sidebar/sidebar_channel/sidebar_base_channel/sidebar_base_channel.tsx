@@ -50,7 +50,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
             }
         }
 
-        return undefined;
+        return null;
     }
 
     getIcon = () => {
@@ -85,7 +85,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
                 link={`/${currentTeamName}/channels/${channel.name}`}
                 label={channel.display_name}
                 ariaLabelPrefix={ariaLabelPrefix}
-                closeHandler={this.getCloseHandler()}
+                closeHandler={this.getCloseHandler()!}
                 icon={this.getIcon()!}
             />
         );
