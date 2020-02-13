@@ -394,10 +394,6 @@ describe('React to last message shortcut', () => {
         openMainMenuOptions('Manage Members');
         verifyShortcutReactToLastMessageIsBlocked();
 
-        // * Open invite people full modal and verify shortcut is blocked
-        // openMainMenuOptions('Invite People');
-        // verifyShortcutReactToLastMessageIsBlocked();
-
         // * Open about mattermost modal and verify shortcut is blocked
         openMainMenuOptions('About Mattermost');
         verifyShortcutReactToLastMessageIsBlocked();
@@ -427,12 +423,6 @@ describe('React to last message shortcut', () => {
         cy.findByLabelText('main menu').click();
         verifyShortcutReactToLastMessageIsBlocked();
         cy.get('body').type('{esc}');
-
-        // * Open the channel members dropdown, execute the shortcut and verify its is blocked
-        // Needs code Improve in app
-        // cy.findByLabelText('members').click();
-        // verifyShortcutReactToLastMessageIsBlocked();
-        // cy.get('body').type('{esc}');
     });
 
     it('Should not open the emoji picker RHS is full expanded', () => {
@@ -518,7 +508,7 @@ describe('React to last message shortcut', () => {
 });
 
 /**
- * Fires of shortcut "React to last message".
+ * Fires off shortcut "React to last message".
  * @param {String} from CENTER or RHS or If left blank then it defaults to on-Body.
  */
 function pressShortcutReactToLastMessage(from) {
