@@ -51,7 +51,7 @@ describe('components/error_page/ErrorMessage', () => {
     });
 
     test('should match snapshot, oauth_invalid_param type', () => {
-        const props = {...baseProps, type: ErrorPageTypes.OAUTH_INVALID_PARAM, message: 'error message' };
+        const props = {...baseProps, type: ErrorPageTypes.OAUTH_INVALID_PARAM, message: 'error message'};
         const wrapper = shallow(
             <ErrorMessage {...props}/>
         );
