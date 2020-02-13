@@ -66,6 +66,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             patchGroupSyncable: jest.fn(),
             getChannelModerations: jest.fn().mockResolvedValue([]),
             patchChannelModerations: jest.fn(),
+            loadScheme: jest.fn(),
         };
 
         if (!testChannel.id) {
