@@ -1,13 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from "redux";
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {connect} from 'react-redux';
 import {getGroupsAssociatedToChannel, unlinkGroupSyncable, patchGroupSyncable} from 'mattermost-redux/actions/groups';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
-import {GlobalState} from "mattermost-redux/types/store";
-import {ActionFunc} from "mattermost-redux/types/actions";
-import {GenericAction} from "mattermost-redux/types/actions";
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {closeModal, openModal} from 'actions/views/modals';
 
@@ -20,38 +19,38 @@ const mapStateToProps = (state: GlobalState, ownProps: any) => {
 };
 
 type Actions = {
-  getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, DEFAULT_NUM_PER_PAGE: number) =>  Promise<{
+    getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, DEFAULT_NUM_PER_PAGE: number) => Promise<{
         data: boolean;
     }>;
-  unlinkGroupSyncable: (itemId: string, channelId: string, type: any) =>  Promise<{
+    unlinkGroupSyncable: (itemId: string, channelId: string, type: any) => Promise<{
         data: boolean;
     }>;
-  patchGroupSyncable: (itemId: string, channelId: string, Groups_SYNCABLE_TYPE_CHANNEL: any, params: {scheme_admin: boolean}) =>  Promise<{
+    patchGroupSyncable: (itemId: string, channelId: string, GroupsSyncableTypeChannel: any, params: {scheme_admin: boolean}) => Promise<{
         data: boolean;
     }>;
-  getMyChannelMember: (channelId: string) =>  Promise<{
+    getMyChannelMember: (channelId: string) => Promise<{
         data: boolean;
     }>;
-  closeModal: (ModalIdentifiers_MANAGE_CHANNEL_GROUPS: any) =>  Promise<{
+    closeModal: (ModalIdentifiersManageChannelGroups: any) => Promise<{
         data: boolean;
     }>;
-  openModal: (params: {modalId: any, dialogType: any}) =>  Promise<{
+    openModal: (params: {modalId: any; dialogType: any}) => Promise<{
         data: boolean;
     }>;
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
-    {
-      getGroupsAssociatedToChannel,
-      closeModal,
-      openModal,
-      unlinkGroupSyncable,
-      patchGroupSyncable,
-      getMyChannelMember
-    },
-    dispatch
-  )
+    actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
+        {
+            getGroupsAssociatedToChannel,
+            closeModal,
+            openModal,
+            unlinkGroupSyncable,
+            patchGroupSyncable,
+            getMyChannelMember
+        },
+        dispatch
+    )
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelGroupsManageModal);

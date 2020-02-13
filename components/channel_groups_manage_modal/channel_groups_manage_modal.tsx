@@ -6,6 +6,8 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
+import {any} from 'prop-types';
+
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
@@ -21,19 +23,18 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
-import { any } from 'prop-types';
 
 type Props = {
-  channel: any,
-  intl: any,
-  actions: {
-    getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, DEFAULT_NUM_PER_PAGE: number) => any,
-    unlinkGroupSyncable: (itemId: string, channelId: string, type: any) => any,
-    patchGroupSyncable: (itemId: string, channelId: string, Groups_SYNCABLE_TYPE_CHANNEL: any, params: {scheme_admin: boolean}) => any,
-    getMyChannelMember: (channelId: string) => any,
-    closeModal: (ModalIdentifiers_MANAGE_CHANNEL_GROUPS: any) => any,
-    openModal: (params: {modalId: any, dialogType: any}) => any
-  };
+    channel: any;
+    intl: any;
+    actions: {
+        getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, DEFAULT_NUM_PER_PAGE: number) => any;
+        unlinkGroupSyncable: (itemId: string, channelId: string, type: any) => any;
+        patchGroupSyncable: (itemId: string, channelId: string, GroupsSyncableTypeChannel: any, params: {scheme_admin: boolean}) => any;
+        getMyChannelMember: (channelId: string) => any;
+        closeModal: (ModalIdentifiersManageChannelGroups: any) => any;
+        openModal: (params: {modalId: any; dialogType: any}) => any;
+    };
 };
 
 class ChannelGroupsManageModal extends React.PureComponent<Props> {
@@ -91,7 +92,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
                     height='32'
                 />
                 <div className='more-modal__details'>
-                    <div className='more-modal__name'>{item.display_name} {'-'}&nbsp;
+                    <div className='more-modal__name'>{item.display_name} {'-'}{' '}
                         <span className='more-modal__name_count'>
                             <FormattedMessage
                                 id='numMembers'
