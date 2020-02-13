@@ -271,7 +271,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
 
 export default class ChannelModeration extends React.Component<Props, State> {
     render = (): JSX.Element => {
-        const createPostsObject = this.props.channelPermissions!.filter((permission) => permission.name === 'create_post')[0];
+        const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.filter((permission) => permission.name === 'create_post')[0];
         return (
             <AdminPanel
                 id='channel_moderation'
