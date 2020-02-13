@@ -20,6 +20,7 @@ exports[`components/Toast should match snapshot for hiding toast 1`] = `
   </div>
   <div
     className="toast__dismiss"
+    data-testid="dismissToast"
     onClick={[Function]}
   >
     <OverlayTrigger
@@ -63,6 +64,7 @@ exports[`components/Toast should match snapshot for showing toast 1`] = `
   </div>
   <div
     className="toast__dismiss"
+    data-testid="dismissToast"
     onClick={[Function]}
   >
     <OverlayTrigger
@@ -127,6 +129,7 @@ exports[`components/Toast should match snapshot for toast width less than 780px 
   </div>
   <div
     className="toast__dismiss"
+    data-testid="dismissToast"
     onClick={[Function]}
   >
     <OverlayTrigger
@@ -185,6 +188,7 @@ exports[`components/Toast should match snapshot to not have actions 1`] = `
   </div>
   <div
     className="toast__dismiss"
+    data-testid="dismissToast"
     onClick={[Function]}
   >
     <OverlayTrigger
