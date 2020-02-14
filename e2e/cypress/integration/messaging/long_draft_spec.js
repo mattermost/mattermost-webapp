@@ -18,7 +18,7 @@ describe('Messaging', () => {
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/off-topic');
         cy.wait(TIMEOUTS.SMALL);
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18699-Leave a long draft in the main input box', () => {

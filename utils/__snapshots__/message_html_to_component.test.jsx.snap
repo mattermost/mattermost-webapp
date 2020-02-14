@@ -1,5 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`messageHtmlToComponent At mention 1`] = `
+<p>
+  <span
+    className="mention--highlight"
+  >
+    <span
+      data-mention="joram"
+    >
+      <Connect(AtMention)
+        disableHighlight={false}
+        hasMention={true}
+        isRHS={false}
+        mentionName="joram"
+      >
+        @joram
+      </Connect(AtMention)>
+    </span>
+  </span>
+</p>
+`;
+
+exports[`messageHtmlToComponent At mention 2`] = `
+<p>
+  <span
+    data-mention="joram"
+  >
+    <Connect(AtMention)
+      disableHighlight={true}
+      hasMention={true}
+      isRHS={false}
+      mentionName="joram"
+    >
+      @joram
+    </Connect(AtMention)>
+  </span>
+</p>
+`;
+
 exports[`messageHtmlToComponent Inline markdown image 1`] = `
 <div
   className="markdown-inline-img__container"
