@@ -747,7 +747,7 @@ Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial 
             body: {login_id: newUser.username, password: newUser.password},
         }).then((response) => {
             expect(response.status).to.equal(200);
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             return cy.wrap(newUser);
         });
@@ -906,14 +906,14 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
 
     // # Create a New Team for Guest User
     return cy.apiCreateTeam('guest-team', 'Guest Team').then((createResponse) => {
-        const teamId = createResponse.body.id;
+        const team = createResponse.body;
         cy.getCookie('MMUSERID').then((cookie) => {
             // #Assign Sysadmin user to the newly created team
-            cy.apiAddUserToTeam(teamId, cookie.value);
+            cy.apiAddUserToTeam(team.id, cookie.value);
         });
 
         // #Create New User
-        return cy.createNewUser(user, [teamId], bypassTutorial).then((newUser) => {
+        return cy.createNewUser(user, [team.id], bypassTutorial).then((newUser) => {
             // # Demote Regular Member to Guest User
             cy.demoteUser(newUser.id);
             cy.request({
@@ -922,7 +922,7 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
                 method: 'POST',
                 body: {login_id: newUser.username, password: newUser.password},
             }).then(() => {
-                cy.visit('/');
+                cy.visit(`/${team.name}`);
                 return cy.wrap(newUser);
             });
         });
@@ -1134,6 +1134,47 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response.body.token);
+    });
+});
+
+// *****************************************************************************
+// Roles
+// https://api.mattermost.com/#tag/roles
+// *****************************************************************************
+
+/**
+ * Get role by name.
+ *
+ * @param {String} roleName - Name of the role to get
+ */
+Cypress.Commands.add('getRoleByName', (roleName) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/roles/name/${roleName}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Patch a role.
+ *
+ * @param {String} roleID - ID of the role to patch
+ * @param {String} force - Set to 'true' to overwrite a previously installed plugin with the same ID, if any
+ */
+Cypress.Commands.add('patchRole', (roleID, patch) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/roles/${roleID}/patch`,
+        method: 'PUT',
+        timeout: 60000,
+        body: patch,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
     });
 });
 

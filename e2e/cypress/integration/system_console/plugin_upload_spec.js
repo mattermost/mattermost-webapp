@@ -23,7 +23,7 @@ describe('Draw Plugin - Upload', () => {
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // #If draw plugin is already enabled , unInstall it
         cy.uninstallPluginById(pluginId);
@@ -42,7 +42,7 @@ describe('Draw Plugin - Upload', () => {
         // # Draw plugin ID should be visible
         cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {
             // #Enable draw plugin and check plugin is running
-            cy.findByText('Enable').click();
+            cy.wait(TIMEOUTS.TINY).findByText('Enable').click();
             cy.findByText('This plugin is running.').should('be.visible');
 
             // #Disable draw plugin and check plugin is not enabled
@@ -59,7 +59,7 @@ describe('Draw Plugin - Upload', () => {
 
         cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {
             // * Click on remove
-            cy.findByText('Remove').click();
+            cy.wait(TIMEOUTS.TINY).findByText('Remove').click();
         });
 
         // #Remove plugin Id should not exist upon clicking remove in confirmation popup

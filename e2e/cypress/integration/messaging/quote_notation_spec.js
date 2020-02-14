@@ -11,7 +11,7 @@ describe('Compact view: Markdown quotation', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18704-Compact view: Markdown quotation', () => {
