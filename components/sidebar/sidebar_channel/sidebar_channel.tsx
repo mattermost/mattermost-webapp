@@ -67,40 +67,26 @@ type Props = {
 };
 
 type State = {
-    isUnread: boolean;
-    isCollapsed: boolean;
+
 };
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
-    static getDerivedStateFromProps(nextProps: Props) {
-        const isUnread = nextProps.unreadMentions > 0 || (nextProps.unreadMsgs > 0 && nextProps.showUnreadForMsgs);
-        const isCollapsed = nextProps.isCategoryCollapsed && !isUnread && !nextProps.isCurrentChannel;
-
-        return {
-            isUnread,
-            isCollapsed,
-        };
+    isUnread = () => {
+        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
     }
 
-    componentDidMount() {
-        const channelElement = this.getRef();
-        if (channelElement) {
-            channelElement.addEventListener('transitionend', this.removeAnimation);
-        }
+    isCollapsed = (props: Props) => {
+        return props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel;
     }
 
-    componentWillUnmount() {
-        const channelElement = this.getRef();
-        if (channelElement) {
-            channelElement.removeEventListener('transitionend', this.removeAnimation);
-        }
-    }
-
-    componentDidUpdate(_: Props, prevState: State) {
-        if (this.state.isCollapsed !== prevState.isCollapsed) {
+    componentDidUpdate(prevProps: Props) {
+        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps)) {
             const channelElement = this.getRef();
             if (channelElement) {
                 channelElement.classList.add('animating');
+                channelElement.addEventListener('transitionend', () => {
+                    channelElement.classList.remove('animating');
+                });
             }
         }
     }
@@ -122,7 +108,6 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
 
     render() {
         const {channel, currentTeamName} = this.props;
-        const {isUnread, isCollapsed} = this.state;
 
         let ChannelComponent = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {
@@ -135,12 +120,13 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             <div
                 ref={this.setRef}
                 className={classNames('SidebarChannel', {
-                    collapsed: isCollapsed,
+                    collapsed: this.isCollapsed(this.props),
                 })}
                 style={{
                     display: 'flex',
-                    fontWeight: isUnread ? 'bold' : 'inherit', // TODO temp styling
+                    fontWeight: this.isUnread() ? 'bold' : 'inherit', // TODO temp styling
                 }}
+                onTransitionEnd={this.removeAnimation}
             >
                 <ChannelComponent
                     channel={channel}
