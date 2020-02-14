@@ -49,6 +49,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             brandImageError: false,
             navigating: false,
         };
+
+        if (Utils.isMobile() && !BrowserStore.hasSeenLandingPage()) {
+            BrowserStore.setLandingPageSeen(true);
+        }
     }
 
     componentDidMount() {

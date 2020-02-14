@@ -20,6 +20,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         currentUserId: 'userid1',
         profilesInChannel: [userid10, userid3, userid1, userid2],
         autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
+        useChannelMentions: true,
     };
 
     it('should ignore pretexts that are not at-mentions', () => {
@@ -953,6 +954,33 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 ],
                 component: AtMentionSuggestion,
             });
+        });
+    });
+
+    it('should ignore channel mentions - @here, @channel and @all when useChannelMentions is false', () => {
+        const pretext = '@';
+        const matchedPretext = '@';
+        const params = {
+            ...baseParams,
+            useChannelMentions: false,
+            profilesInChannel: [],
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [],
+                    out_of_channel: [],
+                }});
+            })),
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [],
+            items: [],
+            component: AtMentionSuggestion,
         });
     });
 });
