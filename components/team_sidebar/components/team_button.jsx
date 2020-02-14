@@ -119,7 +119,7 @@ class TeamButton extends React.Component {
                 `Ctrl+Alt+${this.props.order}`;
             toolTip = (
                 <>
-                    <div>{toolTip}</div>
+                    {toolTip}
                     <div className='tooltip-help'>{toolTipHelp}</div>
                 </>
             );
@@ -127,7 +127,7 @@ class TeamButton extends React.Component {
             if (this.props.showOrder) {
                 orderIndicator = (
                     <div className='order-indicator'>
-                        <p>{this.props.order}</p>
+                        {this.props.order}
                     </div>
                 );
             }

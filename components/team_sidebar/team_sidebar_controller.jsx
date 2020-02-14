@@ -127,7 +127,7 @@ export default class TeamSidebar extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.changeTeam);
+        document.removeEventListener('keydown', this.handleKeyDown);
         document.removeEventListener('keyup', this.handleKeyUp);
     }
 
