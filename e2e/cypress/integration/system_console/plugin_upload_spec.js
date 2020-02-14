@@ -37,7 +37,16 @@ describe('Draw Plugin - Upload', () => {
         // * upload Draw plugin from the browser
         cy.get('input[type=file]').uploadFile(fileName, fileType).wait(TIMEOUTS.TINY);
         cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.TINY);
-        cy.wait(TIMEOUTS.TINY);
+
+        // * Verify that the button shows correct text while uploading
+        cy.findByText('Uploading...').should('be.visible');
+
+        // * Verify that the button shows correct text and is disabled after upload
+        cy.findByText('Upload').should('be.visible');
+        cy.get('#uploadPlugin').and('be.disabled');
+
+        // * Verify that the Draw Plugin is shown on successful upload
+        cy.findByText('Draw Plugin').should('be.visible');
 
         // # Draw plugin ID should be visible
         cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {

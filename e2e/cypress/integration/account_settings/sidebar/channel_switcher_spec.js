@@ -28,7 +28,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
             const numberOfChannels = 14;
             Cypress._.forEach(Array(numberOfChannels), (_, index) => {
                 cy.apiCreateChannel(teamId, 'channel-switcher', `Channel Switcher ${index.toString()}`).then((response) => {
-                    if (index === numberOfChannels - 1) {
+                    if (index === 0) {
                         testChannel = response.body;
                     }
                 });
