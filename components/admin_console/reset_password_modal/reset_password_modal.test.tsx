@@ -42,7 +42,9 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         terms_of_service_create_at: 0,
         terms_of_service_id: '',
         update_at: 0,
-        username: ''
+        username: '',
+        is_bot: false,
+        last_picture_update: 0,
     };
     const baseProps = {
         actions: {adminResetPassword: jest.fn(() => {})},
