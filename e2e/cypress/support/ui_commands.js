@@ -490,4 +490,6 @@ Cypress.Commands.add('systemConsolePluginManagement', () => {
     //Search for plugin management in filter container
     cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
         wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
+
+    cy.findByText('×').click();
 });
