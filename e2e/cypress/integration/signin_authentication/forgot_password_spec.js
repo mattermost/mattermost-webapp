@@ -66,7 +66,7 @@ function resetPasswordAndLogin(user, feedbackEmail, supportEmail) {
     const newPassword = 'newpasswd';
 
     // # Visit '/'
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
     // * Verify that it redirects to /login
     cy.url().should('contain', '/login');
