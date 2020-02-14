@@ -13,6 +13,9 @@ describe('Test channel public/private toggle', () => {
         cy.apiUpdateConfig({
             LdapSettings: {Enable: true},
         });
+
+        // # Check and run LDAP Sync job
+        cy.checkRunLDAPSync();
     });
 
     it('Verify that System Admin can change channel privacy using toggle', () => {
