@@ -9,6 +9,10 @@ import {Post} from 'mattermost-redux/src/types/posts';
 
 import RhsThread from './rhs_thread';
 
+beforeAll(() => {
+    global.Date.now = jest.fn(() => 1502715365009);
+});
+
 describe('components/RhsThread', () => {
     const post: Post = {
         edit_at: 0,
@@ -96,7 +100,7 @@ describe('components/RhsThread', () => {
     test('should scroll to the bottom when the current user makes a new post in the thread', () => {
         const scrollToBottom = jest.fn();
 
-        const wrapper = shallow<any>(
+        const wrapper = shallow(
             <RhsThread {...baseProps}/>
         );
         const instance = wrapper.instance() as RhsThread;

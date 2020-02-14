@@ -363,7 +363,7 @@ export default class RhsThread extends React.Component<Props, State> {
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
-                    createAt={new Date()}
+                    createAt={new Date(Date.now())}
                     isRhsPost={true}
                 />
                 <RhsHeaderPost

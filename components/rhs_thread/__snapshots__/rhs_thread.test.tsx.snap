@@ -6,7 +6,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
   id="rhsContainer"
 >
   <Connect(FloatingTimestamp)
-    createAt={2020-02-14T01:18:17.658Z}
+    createAt={2017-08-14T12:56:05.009Z}
     isMobile={false}
     isRhsPost={true}
     isScrolling={false}
