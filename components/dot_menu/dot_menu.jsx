@@ -218,16 +218,19 @@ export default class DotMenu extends React.PureComponent {
         </Tooltip>
     )
 
-    refCallback = (ref) => {
-        if (ref) {
-            const rect = ref.rect();
-            const y = rect.y || rect.top;
+    refCallback = (menuRef) => {
+        if (menuRef) {
+            const rect = menuRef.rect();
+            const buttonRef = this.buttonRef.current.getBoundingClientRect();
+            const y = buttonRef.y || buttonRef.top;
             const height = rect.height;
             const windowHeight = window.innerHeight;
 
-            if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
-                this.setState({openUp: true});
-            }
+            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+            const spaceOnTop = y;
+            const spaceOnBottom = (totalSpace - (spaceOnTop - height));
+
+            this.setState({openUp: (spaceOnTop > spaceOnBottom)});
 
             this.setState({width: rect.width});
         }
@@ -293,6 +296,7 @@ export default class DotMenu extends React.PureComponent {
                     rootClose={true}
                 >
                     <button
+                        ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
                         aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More Actions').toLowerCase()}
                         className='post__dropdown color--link style--none'
@@ -303,7 +307,7 @@ export default class DotMenu extends React.PureComponent {
                 <Menu
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
-                    openUp={this.props.location === 'RHS_COMMENT' ? false : this.state.openUp}
+                    openUp={this.state.openUp}
                     ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
