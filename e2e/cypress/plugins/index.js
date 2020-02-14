@@ -18,10 +18,6 @@ module.exports = (on, config) => {
         oktaRequest
     });
 
-    if (!config.env.setChromeWebSecurity) {
-        config.chromeWebSecurity = false;
-    }
-
     on('before:browser:launch', (browser = {}, args) => {
         if (browser.name === 'chrome') {
             args.push('--disable-notifications');

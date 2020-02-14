@@ -3,13 +3,99 @@
 
 /* eslint-disable no-await-in-loop, no-console */
 
+const argv = require('yargs').argv;
 const axios = require('axios');
 const cypress = require('cypress');
 const fse = require('fs-extra');
 const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 
-const MAX_FAILED_TITLES = 5;
+runTests();
+
+async function runTests() {
+    // Test directories that requires Cypress chromeWebSecurity disabled
+    const WITH_DISABLED_CHROME_WEB_SECURITY = ['enterprise_saml'];
+    const REPORT_DIR = 'results/mochawesome-report';
+
+    await fse.remove('results');
+    await fse.remove('screenshots');
+
+    const allDir = fse.readdirSync('cypress/integration/');
+
+    let testDir;
+    if (argv.dir) {
+        testDir = argv.dir.split(',').filter((d) => Boolean(d)).map((d) => d.trim());
+
+        const invalidDir = [];
+        testDir.forEach((dir) => {
+            if (!allDir.includes(dir)) {
+                invalidDir.push(dir);
+            }
+        });
+
+        if (invalidDir.length > 0) {
+            console.log(`Entered invalid directory: "${invalidDir}"`);
+            process.exit(1); // eslint-disable-line no-process-exit
+        }
+    } else {
+        testDir = allDir;
+    }
+
+    let failedTests = 0;
+
+    for (const dir of testDir) {
+        const disableChromeWebSecurity = WITH_DISABLED_CHROME_WEB_SECURITY.includes(dir);
+
+        const {totalFailed} = await cypress.run(getOptions({specDir: dir, disableChromeWebSecurity}));
+        failedTests += totalFailed;
+    }
+
+    // Merge all json reports into one single json report
+    const jsonReport = await merge({reportDir: REPORT_DIR});
+
+    // Generate short summary, write to file and then send report via webhook
+    const summary = generateShortSummary(jsonReport);
+    writeJsonToFile(summary, 'summary.json', REPORT_DIR);
+    await sendReport(summary);
+
+    // Generate the html report file
+    await generator.create(jsonReport, {reportDir: REPORT_DIR});
+
+    // eslint-disable-next-line
+    process.exit(failedTests); // exit with the number of failed tests
+}
+
+function getOptions({specDir, disableChromeWebSecurity}) {
+    const reporterDir = 'results/mochawesome-report';
+
+    const browser = disableChromeWebSecurity ? {browser: 'chrome'} : {};
+
+    return {
+        ...browser,
+        spec: `./cypress/integration/${specDir}/**/*`,
+        config: {
+            chromeWebSecurity: !disableChromeWebSecurity,
+            screenshotsFolder: `${reporterDir}/screenshots`,
+            trashAssetsBeforeRuns: false,
+        },
+        reporter: 'cypress-multi-reporters',
+        reporterOptions: {
+            reporterEnabled: 'mocha-junit-reporters, mochawesome',
+            mochaJunitReportersReporterOptions: {
+                mochaFile: 'results/junit/test_results[hash].xml',
+                toConsole: false,
+            },
+            mochawesomeReporterOptions: {
+                reportDir: reporterDir,
+                reportFilename: `mochawesome-${specDir}`,
+                quiet: true,
+                overwrite: false,
+                html: false,
+                json: true,
+            },
+        },
+    };
+}
 
 function getAllTests(results) {
     const tests = [];
@@ -25,6 +111,8 @@ function getAllTests(results) {
 }
 
 function generateStatsFieldValue(stats, failedFullTitles) {
+    const MAX_FAILED_TITLES = 5;
+
     let statsFieldValue = `
 | Key | Value |
 |:---|:---|
@@ -77,74 +165,21 @@ function writeJsonToFile(jsonObject, filename, dir) {
         catch((err) => console.error(err));
 }
 
-async function runTests() {
-    await fse.remove('results');
-    await fse.remove('screenshots');
-
-    const testDirs = fse.readdirSync('cypress/integration/');
-    let failedTests = 0;
-
-    const mochawesomeReportDir = 'results/mochawesome-report';
-
-    for (const dir of testDirs) {
-        const {totalFailed} = await cypress.run({
-            spec: `./cypress/integration/${dir}/**/*`,
-            config: {
-                screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
-                trashAssetsBeforeRuns: false,
-            },
-            reporter: 'cypress-multi-reporters',
-            reporterOptions:
-                {
-                    reporterEnabled: 'mocha-junit-reporters, mochawesome',
-                    mochaJunitReportersReporterOptions: {
-                        mochaFile: 'results/junit/test_results[hash].xml',
-                        toConsole: false,
-                    },
-                    mochawesomeReporterOptions: {
-                        reportDir: mochawesomeReportDir,
-                        reportFilename: `mochawesome-${dir}`,
-                        quiet: true,
-                        overwrite: false,
-                        html: false,
-                        json: true,
-                    },
-                },
-        });
-
-        failedTests += totalFailed;
-    }
-
-    // Merge all json reports into one single json report
-    const jsonReport = await merge({reportDir: mochawesomeReportDir});
-
-    // Generate short summary, write to file and then send report via webhook
-    const summary = generateShortSummary(jsonReport);
-    writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
-    await sendReport(summary);
-
-    // Generate the html report file
-    await generator.create(jsonReport, {reportDir: mochawesomeReportDir});
-
-    // eslint-disable-next-line
-    process.exit(failedTests); // exit with the number of failed tests
-}
-
-const result = [
-    {status: 'Passed', priority: 'none', cutOff: 100, color: '#43A047'},
-    {status: 'Failed', priority: 'low', cutOff: 98, color: '#FFEB3B'},
-    {status: 'Failed', priority: 'medium', cutOff: 95, color: '#FF9800'},
-    {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
-];
-
 function generateReport(summary) {
+    const RESULT = [
+        {status: 'Passed', priority: 'none', cutOff: 100, color: '#43A047'},
+        {status: 'Failed', priority: 'low', cutOff: 98, color: '#FFEB3B'},
+        {status: 'Failed', priority: 'medium', cutOff: 95, color: '#FF9800'},
+        {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
+    ];
+
     const {BRANCH, BUILD_ID} = process.env;
     const {statsFieldValue, stats} = summary;
 
     let testResult;
-    for (let i = 0; i < result.length; i++) {
-        if (stats.passPercent >= result[i].cutOff) {
-            testResult = result[i];
+    for (let i = 0; i < RESULT.length; i++) {
+        if (stats.passPercent >= RESULT[i].cutOff) {
+            testResult = RESULT[i];
             break;
         }
     }
@@ -195,5 +230,3 @@ async function sendReport(summary) {
 
     return response;
 }
-
-runTests();

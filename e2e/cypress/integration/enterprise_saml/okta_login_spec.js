@@ -1,9 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import users from '../../../fixtures/saml_users.json';
+import users from '../../fixtures/saml_users.json';
 
-//Manual Setup required: Follow the instructions mentioned in the mattermost/platform-private/config/saml-okta-setup.txt file
+/**
+ * Note:
+ * 1. Requires Cypress config for chromeWebSecurity to be false. Could be setup by `export CYPRESS_chromeWebSecurity=false`.
+ * 2. Follow the manual setup instructions mentioned in the mattermost/platform-private/config/saml-okta-setup.txt file.
+ */
+
 context('Okta', () => {
     const loginButtonText = 'SAML';
 
