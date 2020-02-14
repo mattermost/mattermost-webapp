@@ -33,7 +33,7 @@ function renderEditorEmoji(emojiMap: EmojiMap) {
         const image = `<img style="height: 18px" src="${imageUrl}" />`;
         const imageSpan = `<span alt="${text}" class="emoticon" title="${text} style="height: inherit; min-height: inherit">${image}</span>`;
         const textSpan = `<span style="display:none">${text}</span>`
-        return `<span data-emoticon="${name}" contenteditable="false">${imageSpan}${textSpan}</span>`;
+        return `<span data-emoticon="${name}" contenteditable="false">${imageSpan}${textSpan}</span><span></span>`;
     };
 }
 
@@ -41,15 +41,20 @@ function getSelectionNodes(nodes: NodeListOf<ChildNode>, selectionStart: number,
     let nodeOffset = 0;
     const start = {node: null as ChildNode | null, offset: 0};
     const end = {node: null as ChildNode | null, offset: 0};
+
     for (const node of nodes) {
         const nodeEndOffset = nodeOffset + (node.textContent ? node.textContent.length : 0);
-        if (!start.node && nodeEndOffset >= selectionStart) {
-            start.node = node;
-            start.offset = selectionStart - nodeOffset;
-        }
-        if (!end.node && nodeEndOffset >= selectionEnd) {
-            end.node = node;
-            end.offset = selectionEnd - nodeOffset;
+        const nodeCanBeSelected = (node as Element).tagName !== 'SPAN' || (node as Element).getAttribute('contenteditable') !== 'false';
+
+        if (nodeCanBeSelected) {
+            if (!start.node && nodeEndOffset >= selectionStart) {
+                start.node = node;
+                start.offset = selectionStart - nodeOffset;
+            }
+            if (!end.node && nodeEndOffset >= selectionEnd) {
+                end.node = node;
+                end.offset = selectionEnd - nodeOffset;
+            }
         }
 
         if (start.node && end.node) {
@@ -60,6 +65,30 @@ function getSelectionNodes(nodes: NodeListOf<ChildNode>, selectionStart: number,
     }
 
     return {start, end};
+}
+
+function replaceInParentElementHtml(replacement: string, node: Node) {
+    if (!node.parentNode || !node.textContent) {
+        return '';
+    }
+
+    let innerHTMLStartOffset = 0;
+    for (const childNode of node.parentNode.childNodes) {
+        if (childNode === node) {
+            break;
+        }
+
+        const outerHTML = (childNode as Element).outerHTML;
+        if (outerHTML) {
+            innerHTMLStartOffset += outerHTML.length;
+        } else {
+            innerHTMLStartOffset += childNode.textContent ? childNode.textContent.length : 0;
+        }
+    }
+
+    const innerHTMLEndOffset = innerHTMLStartOffset + node.textContent.length;
+    const html = (node.parentNode as Element).innerHTML;
+    return `${html.slice(0, innerHTMLStartOffset)}${replacement}${html.slice(innerHTMLEndOffset)}`;
 }
 
 export default class Editor extends React.PureComponent<Props> {
@@ -102,15 +131,46 @@ export default class Editor extends React.PureComponent<Props> {
         sel.addRange(range);
     }
 
+    private getEmoticons = (value: string) => {
+        const renderEmoji = renderEditorEmoji(this.props.emojiMap);
+        const tokens = new Map();
+        const withEmoticons = handleEmoticons(value, tokens, renderEmoji);
+
+        return {withEmoticons, tokens};
+    }
+
     private updateEditorHtml = (value: string) => {
         if (!this.refs.editor) {
             return;
         }
 
-        const renderEmoji = renderEditorEmoji(this.props.emojiMap);
-        const tokens = new Map();
-        const withEmojis = handleEmoticons(value, tokens, renderEmoji);
-        (this.refs.editor as HTMLDivElement).innerHTML = replaceTokens(withEmojis, tokens);
+        const {withEmoticons, tokens} = this.getEmoticons(value);
+        (this.refs.editor as Element).innerHTML = replaceTokens(withEmoticons, tokens);
+    }
+
+    private updateEditorHtmlOnInput = () => {
+        const selection = window.getSelection();
+        if (!selection) {
+            return;
+        }
+        const range = selection.getRangeAt(0);
+        const node = range.endContainer;
+        if (!node.textContent || !node.parentNode) {
+            return;
+        }
+
+        const {withEmoticons, tokens} = this.getEmoticons(node.textContent);
+        if (tokens.size === 0) {
+            return;
+        }
+
+        this.updateCurrentSelection();
+
+        const replaced = replaceTokens(withEmoticons, tokens);
+        (node.parentNode as Element).innerHTML =
+            replaceInParentElementHtml(replaced, node);
+
+        this.setSelectionInEditor();
     }
 
     get value() {
@@ -178,6 +238,7 @@ export default class Editor extends React.PureComponent<Props> {
     }
 
     onInput = () => {
+        this.updateEditorHtmlOnInput();
         this.currentSelectionInvalid = true;
         if (this.props.onInput) {
             const inputEvent = {
