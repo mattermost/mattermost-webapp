@@ -145,7 +145,7 @@ function verifyMoreChannelsModalWithArchivedSelection(isEnabled) {
 }
 
 function verifyMoreChannelsModal(isEnabled) {
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
     // # Select "More..." on the left hand side menu
     cy.get('#publicChannelList').should('be.visible').within(() => {

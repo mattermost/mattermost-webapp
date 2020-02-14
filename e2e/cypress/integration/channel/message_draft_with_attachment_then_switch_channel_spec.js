@@ -11,7 +11,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
     const channelName1 = `test-channel-1-${Date.now()}`;
     const channelName2 = `test-channel-2-${Date.now()}`;

@@ -14,13 +14,13 @@ Cypress.Commands.add('logout', () => {
 
 Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
     cy.apiLogin(username, password);
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
     cy.get('#post_textbox').should('be.visible');
 });
 
 Cypress.Commands.add('getSubpath', () => {
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
     cy.url().then((url) => {
         cy.location().its('origin').then((origin) => {
             if (url === origin) {
@@ -51,7 +51,7 @@ Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInA
         cy.apiLogin(username);
     }
 
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
     cy.get('#channel_view').should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
