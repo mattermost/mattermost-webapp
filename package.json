@@ -10,6 +10,7 @@
     "@formatjs/intl-relativetimeformat": "4.5.1",
     "@types/classnames": "2.2.6",
     "@types/highlight.js": "9.12.3",
+    "@types/react-custom-scrollbars": "^4.0.6",
     "@types/redux-mock-store": "1.0.1",
     "@typescript-eslint/parser": "2.6.0",
     "bootstrap": "3.4.1",
