@@ -9,8 +9,6 @@ import {Post} from 'mattermost-redux/src/types/posts';
 
 import RhsThread from './rhs_thread';
 
-// type h = Post & {type?: '' | string}
-
 describe('components/RhsThread', () => {
     const post: Post = {
         edit_at: 0,

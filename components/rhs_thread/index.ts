@@ -9,6 +9,7 @@ import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {Preferences} from 'utils/constants';
 import {getSelectedPost} from 'selectors/rhs.jsx';
@@ -25,7 +26,7 @@ function makeMapStateToProps() {
         const socketStatus = getSocketStatus(state);
 
         let channel = null;
-        let posts: any[] = [];
+        let posts: Post[] = [];
         if (selected) {
             posts = getPostsForThread(state, {rootId: selected.id});
             channel = getChannel(state, selected.channel_id);
