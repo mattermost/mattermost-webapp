@@ -1137,6 +1137,22 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
     });
 });
 
+/**
+ * Get LDAP Group Sync Job Status
+ *
+ */
+Cypress.Commands.add('apiGetLDAPSync', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/jobs/type/ldap_sync?page=0&per_page=50',
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Roles
 // https://api.mattermost.com/#tag/roles
@@ -1177,4 +1193,3 @@ Cypress.Commands.add('patchRole', (roleID, patch) => {
         return cy.wrap(response);
     });
 });
-

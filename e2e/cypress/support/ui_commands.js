@@ -491,3 +491,41 @@ Cypress.Commands.add('systemConsolePluginManagement', () => {
     cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
         wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
 });
+
+/**
+ * Navigate to system console-PluginManagement from account settings
+ */
+Cypress.Commands.add('checkRunLDAPSync', () => {
+    cy.apiLogin('sysadmin');
+    cy.apiGetLDAPSync().then((response) => {
+        var jobs = response.body;
+        var currentTime = new Date();
+
+        // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
+        if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
+            // # Go to system admin LDAP page and run the group sync
+            cy.visit('/admin_console/authentication/ldap');
+
+            // # Click on AD/LDAP Synchronize Now button
+            cy.findByText('AD/LDAP Synchronize Now').click().wait(1000);
+
+            // * Get the First row
+            cy.findByTestId('jobTable').
+                find('tbody > tr').
+                eq(0).
+                as('firstRow');
+
+            // * Wait until first row updates to say Success
+            cy.waitUntil(() => {
+                return cy.get('@firstRow').then((el) => {
+                    return el.find('.status-icon-success').length > 0;
+                });
+            }
+            , {
+                timeout: TIMEOUTS.FOUR_MINS,
+                interval: 2000,
+                errorMsg: 'AD/LDAP Sync Job did not finish',
+            });
+        }
+    });
+});
