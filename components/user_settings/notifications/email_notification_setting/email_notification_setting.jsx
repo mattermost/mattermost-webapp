@@ -219,7 +219,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
                     inputs={[
                         <div
                             key='oauthEmailInfo'
-                            className='padding-top'
+                            className='pt-2'
                         >
                             <FormattedMessage
                                 id='user.settings.notifications.email.disabled_long'
@@ -332,7 +332,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
                                 />
                             </label>
                         </div>
-                        <div className='margin-top x2'>
+                        <div className='mt-3'>
                             <FormattedMessage
                                 id='user.settings.notifications.emailInfo'
                                 defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.'

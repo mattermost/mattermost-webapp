@@ -28,7 +28,7 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 * @param {Object} data - payload on incoming webhook
 */
 Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
-    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200).wait(TIMEOUTS.TINY);
+    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200).wait(TIMEOUTS.MEDIUM);
 });
 
 /**
