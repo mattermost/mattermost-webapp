@@ -4,10 +4,27 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import RhsThread from './rhs_thread.jsx';
+import {Channel} from 'mattermost-redux/types/channels';
+import {Post} from 'mattermost-redux/src/types/posts';
+
+import RhsThread from './rhs_thread';
+
+// type h = Post & {type?: '' | string}
 
 describe('components/RhsThread', () => {
-    const post = {
+    const post: Post = {
+        edit_at: 0,
+        original_id: '',
+        hashtags: '',
+        pending_post_id: '',
+        reply_count: 0,
+        metadata: {
+            embeds: [],
+            emojis: [],
+            files: [],
+            images: {},
+            reactions: []
+        },
         channel_id: 'channel_id',
         create_at: 1502715365009,
         delete_at: 0,
@@ -17,12 +34,12 @@ describe('components/RhsThread', () => {
         parent_id: '',
         props: {},
         root_id: '',
-        type: '',
+        type: 'system_add_remove',
         update_at: 1502715372443,
         user_id: 'user_id',
     };
 
-    const channel = {
+    const channel: Partial<Channel> = {
         id: 'channel_id',
         team_id: 'team_id',
         delete_at: 0,
@@ -81,13 +98,13 @@ describe('components/RhsThread', () => {
     test('should scroll to the bottom when the current user makes a new post in the thread', () => {
         const scrollToBottom = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallow<any>(
             <RhsThread {...baseProps}/>
         );
-        wrapper.instance().scrollToBottom = scrollToBottom;
+        const instance = wrapper.instance() as RhsThread;
+        instance.scrollToBottom = scrollToBottom;
 
         expect(scrollToBottom).not.toHaveBeenCalled();
-
         wrapper.setProps({
             posts: [
                 {
@@ -108,7 +125,8 @@ describe('components/RhsThread', () => {
         const wrapper = shallow(
             <RhsThread {...baseProps}/>
         );
-        wrapper.instance().scrollToBottom = scrollToBottom;
+        const instance = wrapper.instance() as RhsThread;
+        instance.scrollToBottom = scrollToBottom;
 
         expect(scrollToBottom).not.toHaveBeenCalled();
 
