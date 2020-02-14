@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+
+import {GlobalState} from 'types/store';
 
 import {getSiteURL} from 'utils/url';
 

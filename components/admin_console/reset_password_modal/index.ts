@@ -5,10 +5,10 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {bindActionCreators, Dispatch} from 'redux';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {adminResetPassword} from 'actions/admin_actions.jsx';
+import {GlobalState} from 'types/store';
 import {getPasswordConfig} from 'utils/utils.jsx';
 
 import ResetPasswordModal from './reset_password_modal';
