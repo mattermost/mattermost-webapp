@@ -84,9 +84,6 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             const channelElement = this.getRef();
             if (channelElement) {
                 channelElement.classList.add('animating');
-                channelElement.addEventListener('transitionend', () => {
-                    channelElement.classList.remove('animating');
-                });
             }
         }
     }
