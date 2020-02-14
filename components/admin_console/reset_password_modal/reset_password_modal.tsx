@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -34,7 +34,7 @@ type Props = {
     onModalDismissed: () => void;
     passwordConfig: PasswordConfig;
     actions: {
-        updateUserPassword: (userId: string, currentPassword: string, password: string) => ActionFunc;
+        updateUserPassword: (userId: string, currentPassword: string, password: string) => ActionResult;
     };
 }
 
@@ -59,7 +59,7 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
         });
     }
 
-    private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<T> => {
+    private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (!this.props.user) {
             return;
@@ -90,12 +90,12 @@ export default class ResetPasswordModal extends React.Component<Props, State> {
 
         this.setState({serverErrorNewPass: null});
 
-        const {data, error: err} = await this.props.actions.updateUserPassword(this.props.user.id, currentPassword, password);
-        if (data) {
-            this.props.onModalSubmit(this.props.user);
-        } else if (err) {
-            this.setState({serverErrorCurrentPass: err.message});
+        const result = await this.props.actions.updateUserPassword(this.props.user.id, currentPassword, password);
+        if ('error' in result) {
+            this.setState({serverErrorCurrentPass: result.error.message});
+            return;
         }
+        this.props.onModalSubmit(this.props.user);
     }
 
     private doCancel = (): void => {

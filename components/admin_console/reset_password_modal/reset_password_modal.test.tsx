@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -45,7 +46,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         username: ''
     };
     const baseProps = {
-        actions: {updateUserPassword: jest.fn(() => {})},
+        actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
         currentUserId: '1',
         user,
         show: true,
@@ -76,7 +77,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     });
 
     test('should call updateUserPassword', () => {
-        const updateUserPassword = jest.fn(() => {});
+        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const oldPassword = 'oldPassword123!';
         const newPassword = 'newPassword123!';
         const props = {...baseProps, actions: {updateUserPassword}};
@@ -92,7 +93,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     });
 
     test('should not call updateUserPassword when the old password is not provided', () => {
-        const updateUserPassword = jest.fn(() => {});
+        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const newPassword = 'newPassword123!';
         const props = {...baseProps, actions: {updateUserPassword}};
         const wrapper = mountWithIntl(<ResetPasswordModal {...props}/>);
@@ -111,7 +112,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     });
 
     test('should call updateUserPassword', () => {
-        const updateUserPassword = jest.fn(() => {});
+        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const password = 'Password123!';
 
         const props = {...baseProps, currentUserId: '2', actions: {updateUserPassword}};
