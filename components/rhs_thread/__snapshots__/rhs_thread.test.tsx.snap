@@ -6,10 +6,10 @@ exports[`components/RhsThread should match snapshot 1`] = `
   id="rhsContainer"
 >
   <Connect(FloatingTimestamp)
+    createAt={2020-02-14T01:18:17.658Z}
     isMobile={false}
     isRhsPost={true}
     isScrolling={false}
-    postId={0}
   />
   <Connect(RhsHeaderPost) />
   <Scrollbars
@@ -54,13 +54,25 @@ exports[`components/RhsThread should match snapshot 1`] = `
               "channel_id": "channel_id",
               "create_at": 1502715365009,
               "delete_at": 0,
+              "edit_at": 0,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
+              "original_id": "",
               "parent_id": "",
+              "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
-              "type": "",
+              "type": "system_add_remove",
               "update_at": 1502715372443,
               "user_id": "user_id",
             }
