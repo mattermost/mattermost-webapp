@@ -13,7 +13,7 @@ describe('Message permalink', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M13675-Copy a permalink and paste into another channel', () => {
