@@ -41,7 +41,7 @@ describe('channel name tooltips', () => {
             loggedUser = user;
 
             // # Go to "/"
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
         });
     });
 
