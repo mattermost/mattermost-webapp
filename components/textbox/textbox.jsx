@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Editor from 'components/editor';
+import PostEditor from 'components/post_editor';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
@@ -243,7 +243,7 @@ export default class Textbox extends React.PureComponent {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
-                    inputComponent={Editor}
+                    inputComponent={PostEditor}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}

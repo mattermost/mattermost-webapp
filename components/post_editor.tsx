@@ -97,7 +97,7 @@ function addNewTextNode(element: Element) {
     return newNode;
 }
 
-export default class Editor extends React.PureComponent<Props, {showingPlaceholder: boolean}> {
+export default class PostEditor extends React.PureComponent<Props, {showingPlaceholder: boolean}> {
     state = {showingPlaceholder: true};
     private selection: null | {start: number; end: number} = null;
     private currentSelectionInvalid = false;
