@@ -106,6 +106,7 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
 
         this.state = {showingPlaceholder: (props.value || props.defaultValue || '') === ''};
     }
+
     private updateCurrentSelection = () => {
         const selection = window.getSelection();
         if (!selection || !this.refs.editor) {
@@ -161,6 +162,8 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
     }
 
     private rearrangeNodes = (range: Range, currentNode: Node) => {
+        // If we've continued typing after creating an emoji then we need to remove the emoji span and
+        // add all the text into the last text node so we can check if there's still a valid emoji there
         const nodeText = currentNode.textContent || '';
         if (range.endOffset !== 1 ||
             nodeText.length === 0 ||
@@ -205,6 +208,9 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
 
         this.updateCurrentSelection();
         const editorElement = this.refs.editor as Element;
+
+        // When deleting the last character before a span the parent div becomes selected for some reason
+        // this code adds the missing span back in to the html so it can be selected
         if (node === this.refs.editor) {
             editorElement.innerHTML = `${editorElement.innerHTML}<span></span>`;
             this.setSelectionInEditor();
@@ -221,6 +227,30 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
         const replaced = replaceTokens(withEmoticons, tokens);
         editorElement.innerHTML = replaceInParentElementHtml(replaced, nodeToUpdate);
         this.setSelectionInEditor();
+    }
+
+    private ensureCorrectNode = () => {
+        const selection = window.getSelection() as Selection;
+        const range = selection.getRangeAt(0);
+        const parentElement = (range.endContainer as Element).parentElement as Element;
+        if (parentElement.tagName === 'DIV') {
+            return;
+        }
+
+        // If the parent isn't the editor div then we've started typing in an emoji span
+        // so we need to either go into the next text node or, if there isn't one, create one
+        let nodeToSelect = parentElement.nextSibling;
+        if (!nodeToSelect) {
+            nodeToSelect = addNewTextNode(parentElement.parentElement as Element);
+        }
+
+        nodeToSelect.textContent = `${range.endContainer.textContent || ''}${nodeToSelect.textContent}`;
+        range.endContainer.textContent = '';
+        range.setStart(nodeToSelect, 1);
+        range.setEnd(nodeToSelect, 1);
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
     }
 
     get value() {
@@ -286,27 +316,6 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
 
     componentDidMount() {
         this.updateEditorHtml(this.props.value || this.props.defaultValue || '');
-    }
-
-    private ensureCorrectNode = () => {
-        const selection = window.getSelection() as Selection;
-        const range = selection.getRangeAt(0);
-        const parentElement = (range.endContainer as Element).parentElement as Element;
-        if (parentElement.tagName === 'DIV') {
-            return;
-        }
-        let nodeToSelect = parentElement.nextSibling;
-        if (!nodeToSelect) {
-            nodeToSelect = addNewTextNode(parentElement.parentElement as Element);
-        }
-
-        nodeToSelect.textContent = `${range.endContainer.textContent || ''}${nodeToSelect.textContent}`;
-        range.endContainer.textContent = '';
-        range.setStart(nodeToSelect, 1);
-        range.setEnd(nodeToSelect, 1);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
     }
 
     handleInput = () => {
