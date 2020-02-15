@@ -31,7 +31,7 @@ function renderEditorEmoji(emojiMap: EmojiMap) {
         }
 
         const image = `<img style="height: 18px" src="${imageUrl}" />`;
-        const imageSpan = `<span alt="${text}" class="emoticon" title="${text} style="height: inherit; min-height: inherit">${image}</span>`;
+        const imageSpan = `<span alt="${text}" class="emoticon" title="${text}" style="height: inherit; min-height: inherit">${image}</span>`;
         const textSpan = `<span style="display:none">${text}</span>`;
         return `<span data-emoticon="${name}" contenteditable="false">${imageSpan}${textSpan}</span><span></span>`;
     };
@@ -97,7 +97,8 @@ function addNewTextNode(element: Element) {
     return newNode;
 }
 
-export default class Editor extends React.PureComponent<Props> {
+export default class Editor extends React.PureComponent<Props, {showingPlaceholder: boolean}> {
+    state = {showingPlaceholder: true};
     private selection: null | {start: number; end: number} = null;
     private currentSelectionInvalid = false;
 
@@ -226,6 +227,7 @@ export default class Editor extends React.PureComponent<Props> {
         this.selection = {start: value.length, end: value.length};
         this.updateEditorHtml(value);
         this.setSelectionInEditor();
+        this.setState({showingPlaceholder: value === ''});
     }
 
     get selectionStart() {
@@ -307,6 +309,7 @@ export default class Editor extends React.PureComponent<Props> {
         this.ensureCorrectNode();
         this.updateEditorHtmlOnInput();
         this.currentSelectionInvalid = true;
+        this.setState({showingPlaceholder: ((this.refs.editor as Element).textContent || '') === ''});
         if (this.props.onInput) {
             const inputEvent = {
                 target: this,
@@ -341,23 +344,17 @@ export default class Editor extends React.PureComponent<Props> {
         Reflect.deleteProperty(props, 'onKeydown');
 
         const {placeholder} = props;
-
-        let textareaPlaceholder = null;
         const placeholderAriaLabel = placeholder ? placeholder.toLowerCase() : '';
-        if (this.refs.editor && (this.refs.editor as Element).textContent === '') {
-            textareaPlaceholder = (
-                <div
-                    {...props}
-                    style={style.placeholder}
-                >
-                    {placeholder}
-                </div>
-            );
-        }
 
         return (
             <>
-                {textareaPlaceholder}
+                {placeholder && this.state.showingPlaceholder && (
+                    <div
+                        {...props}
+                        style={style.placeholder}
+                    >
+                        {placeholder}
+                    </div>)}
                 <div
                     {...props}
                     ref='editor'
