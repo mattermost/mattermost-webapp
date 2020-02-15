@@ -190,57 +190,62 @@ describe('PostUtils.shouldFocusMainTextbox', () => {
             },
             {
                 event: {ctrlKey: true},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: false,
             },
             {
                 event: {metaKey: true},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: false,
             },
             {
                 event: {altKey: true},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: false,
             },
             {
                 event: {},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: false,
             },
             {
                 event: {key: 'a'},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: true,
             },
             {
                 event: {key: 'a'},
-                activeElement: {tagName: 'INPUT'},
+                activeElement: {tagName: 'INPUT', getAttribute: () => null},
                 expected: false,
             },
             {
                 event: {key: 'a'},
-                activeElement: {tagName: 'TEXTAREA'},
+                activeElement: {tagName: 'TEXTAREA', getAttribute: () => null},
                 expected: false,
             },
             {
                 event: {key: '0'},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: true,
             },
             {
                 event: {key: '!'},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: true,
             },
             {
                 event: {key: ' '},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
                 expected: true,
             },
             {
                 event: {key: 'BACKSPACE'},
-                activeElement: {tagName: 'BODY'},
+                activeElement: {tagName: 'BODY', getAttribute: () => null},
+                expected: false,
+            },
+            {
+                event: {key: 'a'},
+                activeElement: {tagName: 'DIV', getAttribute: () => 'textbox'},
                 expected: false,
             },
         ]) {
