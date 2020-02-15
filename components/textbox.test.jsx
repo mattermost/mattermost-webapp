@@ -22,6 +22,7 @@ describe('components/TextBox', () => {
             autocompleteChannels: jest.fn(),
         },
         useChannelMentions: true,
+        emojiMap: {},
     };
 
     test('should match snapshot with required props', () => {
