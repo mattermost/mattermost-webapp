@@ -91,6 +91,12 @@ function replaceInParentElementHtml(replacement: string, node: Node) {
     return `${html.slice(0, innerHTMLStartOffset)}${replacement}${html.slice(innerHTMLEndOffset)}`;
 }
 
+function addNewTextNode(element: Element) {
+    const newNode = document.createTextNode('');
+    element.appendChild(newNode);
+    return newNode;
+}
+
 export default class Editor extends React.PureComponent<Props> {
     private selection: null | {start: number; end: number} = null;
     private currentSelectionInvalid = false;
@@ -119,7 +125,8 @@ export default class Editor extends React.PureComponent<Props> {
 
         const range = document.createRange();
         const sel = window.getSelection();
-        const {start, end} = getSelectionNodes((this.refs.editor as Element).childNodes, this.selection.start, this.selection.end);
+        const childNodes = (this.refs.editor as Element).childNodes;
+        const {start, end} = getSelectionNodes(childNodes, this.selection.start, this.selection.end);
         if (!sel || !start.node || !end.node) {
             return;
         }
@@ -148,6 +155,38 @@ export default class Editor extends React.PureComponent<Props> {
         (this.refs.editor as Element).innerHTML = replaceTokens(withEmoticons, tokens);
     }
 
+    private rearrangeNodes = (range: Range, currentNode: Node) => {
+        const nodeText = currentNode.textContent || '';
+        if (range.endOffset !== 1 ||
+            nodeText.length === 0 ||
+            nodeText[0] === ' ' ||
+            !currentNode.previousSibling ||
+             (currentNode.previousSibling as Element).tagName !== 'SPAN') {
+            return currentNode;
+        }
+
+        const emojiNode = currentNode.previousSibling.previousSibling;
+        if (!emojiNode) {
+            return currentNode;
+        }
+
+        const editorElement = this.refs.editor as Element;
+        const newTextContent = `${emojiNode.textContent}${nodeText}`;
+
+        const addToPrevious = emojiNode.previousSibling && emojiNode.previousSibling.nodeType === emojiNode.previousSibling.TEXT_NODE;
+        editorElement.removeChild(currentNode.previousSibling);
+        editorElement.removeChild(currentNode);
+        const newNode = addToPrevious ? emojiNode.previousSibling as Node : document.createTextNode('');
+        newNode.textContent = `${newNode.textContent || ''}${newTextContent}`;
+        if (addToPrevious) {
+            editorElement.removeChild(emojiNode);
+        } else {
+            editorElement.replaceChild(newNode, emojiNode);
+        }
+
+        return newNode;
+    }
+
     private updateEditorHtmlOnInput = () => {
         const selection = window.getSelection();
         if (!selection) {
@@ -159,17 +198,23 @@ export default class Editor extends React.PureComponent<Props> {
             return;
         }
 
-        const {withEmoticons, tokens} = this.getEmoticons(node.textContent);
-        if (tokens.size === 0) {
+        this.updateCurrentSelection();
+        const editorElement = this.refs.editor as Element;
+        if (node === this.refs.editor) {
+            editorElement.innerHTML = `${editorElement.innerHTML}<span></span>`;
+            this.setSelectionInEditor();
             return;
         }
 
-        this.updateCurrentSelection();
+        const nodeToUpdate = this.rearrangeNodes(range, node);
+        const {withEmoticons, tokens} = this.getEmoticons(nodeToUpdate.textContent || '');
+        if (tokens.size === 0) {
+            this.setSelectionInEditor();
+            return;
+        }
 
         const replaced = replaceTokens(withEmoticons, tokens);
-        (node.parentNode as Element).innerHTML =
-            replaceInParentElementHtml(replaced, node);
-
+        editorElement.innerHTML = replaceInParentElementHtml(replaced, nodeToUpdate);
         this.setSelectionInEditor();
     }
 
@@ -237,7 +282,29 @@ export default class Editor extends React.PureComponent<Props> {
         this.updateEditorHtml(this.props.value || this.props.defaultValue || '');
     }
 
+    private ensureCorrectNode = () => {
+        const selection = window.getSelection() as Selection;
+        const range = selection.getRangeAt(0);
+        const parentElement = (range.endContainer as Element).parentElement as Element;
+        if (parentElement.tagName === 'DIV') {
+            return;
+        }
+        let nodeToSelect = parentElement.nextSibling;
+        if (!nodeToSelect) {
+            nodeToSelect = addNewTextNode(parentElement.parentElement as Element);
+        }
+
+        nodeToSelect.textContent = `${range.endContainer.textContent || ''}${nodeToSelect.textContent}`;
+        range.endContainer.textContent = '';
+        range.setStart(nodeToSelect, 1);
+        range.setEnd(nodeToSelect, 1);
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+
     onInput = () => {
+        this.ensureCorrectNode();
         this.updateEditorHtmlOnInput();
         this.currentSelectionInvalid = true;
         if (this.props.onInput) {
