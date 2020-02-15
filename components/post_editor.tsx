@@ -98,10 +98,14 @@ function addNewTextNode(element: Element) {
 }
 
 export default class PostEditor extends React.PureComponent<Props, {showingPlaceholder: boolean}> {
-    state = {showingPlaceholder: true};
     private selection: null | {start: number; end: number} = null;
     private currentSelectionInvalid = false;
 
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {showingPlaceholder: (props.value || props.defaultValue || '') === ''};
+    }
     private updateCurrentSelection = () => {
         const selection = window.getSelection();
         if (!selection || !this.refs.editor) {
@@ -305,7 +309,7 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
         selection.addRange(range);
     }
 
-    onInput = () => {
+    handleInput = () => {
         this.ensureCorrectNode();
         this.updateEditorHtmlOnInput();
         this.currentSelectionInvalid = true;
@@ -333,6 +337,7 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
 
     render() {
         const props = {...this.props};
+        const {placeholder} = props;
 
         Reflect.deleteProperty(props, 'onHeightChange');
         Reflect.deleteProperty(props, 'providers');
@@ -342,8 +347,8 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
         Reflect.deleteProperty(props, 'defaultValue');
         Reflect.deleteProperty(props, 'onInput');
         Reflect.deleteProperty(props, 'onKeydown');
+        Reflect.deleteProperty(props, 'placeholder');
 
-        const {placeholder} = props;
         const placeholderAriaLabel = placeholder ? placeholder.toLowerCase() : '';
 
         return (
@@ -359,7 +364,7 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
                     {...props}
                     ref='editor'
                     contentEditable={true}
-                    onInput={this.onInput}
+                    onInput={this.handleInput}
                     onKeyDown={this.handleKeyDown}
                     role='textbox'
                     aria-label={placeholderAriaLabel}
