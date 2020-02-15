@@ -32,7 +32,7 @@ function renderEditorEmoji(emojiMap: EmojiMap) {
 
         const image = `<img style="height: 18px" src="${imageUrl}" />`;
         const imageSpan = `<span alt="${text}" class="emoticon" title="${text} style="height: inherit; min-height: inherit">${image}</span>`;
-        const textSpan = `<span style="display:none">${text}</span>`
+        const textSpan = `<span style="display:none">${text}</span>`;
         return `<span data-emoticon="${name}" contenteditable="false">${imageSpan}${textSpan}</span><span></span>`;
     };
 }
