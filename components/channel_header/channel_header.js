@@ -78,6 +78,7 @@ class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
+        pinnedPostsCounts: PropTypes.number,
     };
 
     constructor(props) {
@@ -584,7 +585,7 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon';
+        let pinnedIconClass = 'channel-header__icon wide';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
         }
@@ -597,6 +598,11 @@ class ChannelHeader extends React.PureComponent {
         let flaggedIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.FLAG) {
             flaggedIconClass += ' active';
+        }
+        const count = this.props.pinnedPostsCounts;
+        let countText = '-';
+        if (count > 0) {
+            countText = count.toString();
         }
 
         let title = (
@@ -692,10 +698,18 @@ class ChannelHeader extends React.PureComponent {
                     />
                     <HeaderIconWrapper
                         iconComponent={
-                            <PinIcon
-                                className='icon icon__pin'
-                                aria-hidden='true'
-                            />
+                            <div className='flex-child'>
+                                <span
+                                    id='channelMemberCountText'
+                                    className='icon__text'
+                                >
+                                    {countText}
+                                </span>
+                                <PinIcon
+                                    className='icon icon__pin'
+                                    aria-hidden='true'
+                                />
+                            </div>
                         }
                         ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
@@ -703,6 +717,7 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
+
                     {this.state.showSearchBar ? (
                         <div
                             id='searchbarContainer'

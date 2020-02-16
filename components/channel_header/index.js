@@ -8,6 +8,7 @@ import {
     favoriteChannel,
     unfavoriteChannel,
     updateChannelNotifyProps,
+    getChannelStats
 } from 'mattermost-redux/actions/channels';
 import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General} from 'mattermost-redux/constants';
@@ -57,7 +58,7 @@ function makeMapStateToProps() {
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
-        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0};
+        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
 
         return {
             teamId: getCurrentTeamId(state),
@@ -73,6 +74,7 @@ function makeMapStateToProps() {
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
+            pinnedPostsCounts: stats.pinnedpost_count
         };
     };
 }
@@ -91,6 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
         goToLastViewedChannel,
         openModal,
         closeModal,
+        getChannelStats,
     }, dispatch),
 });
 
