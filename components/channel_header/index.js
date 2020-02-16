@@ -93,7 +93,6 @@ const mapDispatchToProps = (dispatch) => ({
         goToLastViewedChannel,
         openModal,
         closeModal,
-        getChannelStats,
     }, dispatch),
 });
 
