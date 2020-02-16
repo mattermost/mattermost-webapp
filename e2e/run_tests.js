@@ -168,6 +168,10 @@ function generateReport(summary) {
                 value: `[Link to the screenshots](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/artifact/mattermost-webapp/e2e/results/mochawesome-report/screenshots/)`,
             }, {
                 short: false,
+                title: 'New Commits',
+                value: `[Link to the new commits](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/changes)`,
+            }, {
+                short: false,
                 title: `Key metrics (required support: ${testResult.priority})`,
                 value: statsFieldValue,
             }],
