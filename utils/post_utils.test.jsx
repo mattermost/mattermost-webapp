@@ -169,8 +169,43 @@ describe('PostUtils.containsAtChannel', () => {
                 text: '@cha![](https://myimage)nnel',
                 result: false,
             },
+            {
+                text: '@here![](https://myimage)nnel',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@heree',
+                result: false,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '=@here=',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@HERE',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@here',
+                result: false,
+                options: {
+                    checkAllMentions: false,
+                },
+            },
         ]) {
-            const containsAtChannel = PostUtils.containsAtChannel(data.text);
+            const containsAtChannel = PostUtils.containsAtChannel(data.text, data.options);
 
             assert.equal(containsAtChannel, data.result, data.text);
         }

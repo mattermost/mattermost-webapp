@@ -45,6 +45,7 @@ export default class PostMarkdown extends React.PureComponent {
     static defaultProps = {
         isRHS: false,
         pluginHooks: [],
+        options: {},
     };
 
     render() {
@@ -60,7 +61,7 @@ export default class PostMarkdown extends React.PureComponent {
         const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
         let {message} = this.props;
-        const {post} = this.props;
+        const {post, options} = this.props;
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {
@@ -68,13 +69,17 @@ export default class PostMarkdown extends React.PureComponent {
             }
         });
 
+        if (post && post.props) {
+            options.mentionHighlight = !post.props.mentionHighlightDisabled;
+        }
+
         return (
             <Markdown
                 imageProps={this.props.imageProps}
                 isRHS={this.props.isRHS}
                 message={message}
                 proxyImages={proxyImages}
-                options={this.props.options}
+                options={options}
                 channelNamesMap={channelNamesMap}
                 hasPluginTooltips={this.props.hasPluginTooltips}
                 imagesMetadata={this.props.post && this.props.post.metadata && this.props.post.metadata.images}

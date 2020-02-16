@@ -482,10 +482,7 @@ function highlightCurrentMentions(
     for (const [alias, token] of tokens) {
         const tokenTextLower = token.originalText.toLowerCase();
 
-        if (
-            mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !==
-      -1
-        ) {
+        if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}$`;
 
