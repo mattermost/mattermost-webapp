@@ -90,6 +90,20 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
+        test('Should set state of have unread toast when atBottom changes from undefined', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+                atBottom: null,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            wrapper.setProps({atBottom: false});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
         test('Should have unread toast channel is marked as unread', () => {
             const props = {
                 ...baseProps,
@@ -107,7 +121,7 @@ describe('components/ToastWrapper', () => {
                 atBottom: true,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
@@ -196,7 +210,6 @@ describe('components/ToastWrapper', () => {
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
-            wrapper.instance().forceUnreadEvenAtBottom = true;
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showUnreadToast')).toBe(false);
         });

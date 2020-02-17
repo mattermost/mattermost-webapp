@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {
     getTeamsForUser,
@@ -11,17 +11,20 @@ import {
     updateTeamMemberSchemeRoles,
 } from 'mattermost-redux/actions/teams';
 
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'mattermost-redux/types/store';
+
 import {getCurrentLocale} from 'selectors/i18n';
 
-import TeamList from './team_list.jsx';
+import TeamList from './team_list';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         locale: getCurrentLocale(state),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getTeamsData: getTeamsForUser,

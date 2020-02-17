@@ -135,6 +135,7 @@ function createPost({
             badConnection={false}
             isTimezoneEnabled={false}
             canPost={true}
+            useChannelMentions={true}
         />
     );
 }

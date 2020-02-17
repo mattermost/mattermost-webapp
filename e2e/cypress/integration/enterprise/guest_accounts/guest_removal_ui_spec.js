@@ -50,7 +50,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
         // # Login as new user
         cy.loginAsNewUser().then((userResponse) => {
             guest = userResponse;
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             // # Get the Current Team Id
             cy.getCurrentTeamId().then((teamId) => {
