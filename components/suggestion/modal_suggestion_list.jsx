@@ -12,11 +12,9 @@ export default class ModalSuggestionList extends React.PureComponent {
         location: PropTypes.string.isRequired,
         open: PropTypes.bool.isRequired,
         cleared: PropTypes.bool.isRequired,
-        calculateInputRect: PropTypes.func.isRequired,
+        inputRef: PropTypes.object.isRequired,
         onLoseVisibility: PropTypes.func.isRequired,
     }
-
-    latestHeight = 0;
 
     constructor(props) {
         super(props);
@@ -30,6 +28,15 @@ export default class ModalSuggestionList extends React.PureComponent {
 
         this.container = React.createRef();
         this.suggestionList = React.createRef();
+        this.latestHeight = 0;
+    }
+
+    calculateInputRect = () => {
+        if (this.props.inputRef.current) {
+            const rect = this.props.inputRef.current.getInput().getBoundingClientRect();
+            return {top: rect.top, bottom: rect.bottom, width: rect.width};
+        }
+        return {top: 0, bottom: 0, width: 0};
     }
 
     onModalScroll = (e) => {
@@ -94,7 +101,7 @@ export default class ModalSuggestionList extends React.PureComponent {
     }
 
     updateInputBounds = () => {
-        const inputBounds = this.props.calculateInputRect();
+        const inputBounds = this.calculateInputRect();
         if (inputBounds.top !== this.state.inputBounds.top ||
             inputBounds.bottom !== this.state.inputBounds.bottom ||
             inputBounds.width !== this.state.inputBounds.width) {
@@ -147,7 +154,6 @@ export default class ModalSuggestionList extends React.PureComponent {
         } = this.props;
 
         Reflect.deleteProperty(props, 'onLoseVisibility');
-        Reflect.deleteProperty(props, 'calculateInputRect');
 
         let position = {};
         if (this.state.location === 'top') {

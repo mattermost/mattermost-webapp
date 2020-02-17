@@ -194,14 +194,6 @@ export default class SuggestionBox extends React.Component {
         EventEmitter.removeListener('mention_key_click', this.handleMentionKeyClick);
     }
 
-    calculateInputRect = () => {
-        if (this.inputRef.current) {
-            const rect = this.inputRef.current.getInput().getBoundingClientRect();
-            return {top: rect.top, bottom: rect.bottom, width: rect.width};
-        }
-        return {top: 0, bottom: 0, width: 0};
-    }
-
     componentDidUpdate(prevProps) {
         const {value} = this.props;
 
@@ -719,7 +711,7 @@ export default class SuggestionBox extends React.Component {
                             selection={this.state.selection}
                             components={this.state.components}
                             wrapperHeight={this.props.wrapperHeight}
-                            calculateInputRect={this.calculateInputRect}
+                            inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
                         />
                     </div>
