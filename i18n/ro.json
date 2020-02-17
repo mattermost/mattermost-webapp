@@ -2790,7 +2790,7 @@
   "members_popover.manageMembers": "Gestioneaza membri",
   "members_popover.title": "Am putut sa ma membrii canalului",
   "members_popover.viewMembers": "Vezi membrii",
-  "message_submit_error.invalidCommand": "Comanda cu declanșator de '{command}' nu a fost găsită. ",
+  "message_submit_error.invalidCommand": "Comanda cu un declanșator ''{command}'' nu a fost găsită. ",
   "message_submit_error.sendAsMessageLink": "Faceți clic aici pentru a trimite ca mesaj.",
   "mfa.confirm.complete": "**Configurarea completă!**",
   "mfa.confirm.okay": "Bine",
