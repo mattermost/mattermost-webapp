@@ -29,7 +29,6 @@ describe('Guest Account - Guest User Experience', () => {
         // # Login as a guest user and go to /
         cy.loginAsNewGuestUser().then((userResponse) => {
             guest = userResponse;
-            cy.visit('/');
         });
     });
 
