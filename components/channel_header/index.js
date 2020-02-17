@@ -8,7 +8,6 @@ import {
     favoriteChannel,
     unfavoriteChannel,
     updateChannelNotifyProps,
-    getChannelStats
 } from 'mattermost-redux/actions/channels';
 import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General} from 'mattermost-redux/constants';
