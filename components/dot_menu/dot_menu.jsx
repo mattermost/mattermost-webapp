@@ -221,8 +221,8 @@ export default class DotMenu extends React.PureComponent {
     refCallback = (menuRef) => {
         if (menuRef) {
             const rect = menuRef.rect();
-            const buttonRef = this.buttonRef.current.getBoundingClientRect();
-            const y = buttonRef.y || buttonRef.top;
+            const buttonRect = this.buttonRef.current.getBoundingClientRect();
+            const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
             const height = rect.height;
             const windowHeight = window.innerHeight;
 
@@ -230,9 +230,10 @@ export default class DotMenu extends React.PureComponent {
             const spaceOnTop = y;
             const spaceOnBottom = (totalSpace - (spaceOnTop - height));
 
-            this.setState({openUp: (spaceOnTop > spaceOnBottom)});
-
-            this.setState({width: rect.width});
+            this.setState({
+                openUp: (spaceOnTop > spaceOnBottom),
+                width: rect.width,
+            });
         }
     }
 
