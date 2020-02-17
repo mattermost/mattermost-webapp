@@ -35,7 +35,7 @@ describe('Message', () => {
     it('M15011 - Emojis show as jumbo in reply thread', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Post a message
         const messageText = 'This is a test message';

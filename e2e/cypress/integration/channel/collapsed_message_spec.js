@@ -27,7 +27,7 @@ describe('Long message', () => {
     it('M14321 will show more/less content correctly', () => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Post message with kitchen sink markdown text
         cy.postMessageFromFile('long_text_post.txt');

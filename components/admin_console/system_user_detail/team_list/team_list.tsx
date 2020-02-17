@@ -1,14 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {t} from 'utils/i18n';
 
-import AbstractList from './abstract_list.jsx';
-import TeamRow from './team_row.jsx';
+import AbstractList from './abstract_list';
+import TeamRow from './team_row';
 
 const headerLabels = [
     {
@@ -41,29 +42,34 @@ const headerLabels = [
     },
 ];
 
-export default class TeamList extends React.Component {
-    static propTypes = {
-        userId: PropTypes.string.isRequired,
-        locale: PropTypes.string.isRequired,
-        emptyListTextId: PropTypes.string.isRequired,
-        emptyListTextDefaultMessage: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            getTeamsData: PropTypes.func.isRequired,
-            getTeamMembersForUser: PropTypes.func.isRequired,
-            removeUserFromTeam: PropTypes.func.isRequired,
-            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
-        }).isRequired,
-        userDetailCallback: PropTypes.func.isRequired,
-        refreshTeams: PropTypes.bool.isRequired,
-    }
+type Props = {
+    userId: string;
+    locale: string;
+    emptyListTextId: string;
+    emptyListTextDefaultMessage: string;
+    actions: {
+        getTeamsData: (userId: string) => ActionFunc;
+        getTeamMembersForUser: (userId: string) => ActionFunc;
+        removeUserFromTeam: (teamId: string, userId: string) => ActionFunc & Partial<{error: Error}>;
+        updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => ActionFunc & Partial<{error: Error}>;
+    };
+    userDetailCallback: (teamsId: Record<string, any>) => void;
+    refreshTeams: boolean;
+}
 
-    static defaultProps = {
+type State = {
+    teamsWithMemberships: Record<string, any>[];
+    serverError: string | null;
+}
+
+export default class TeamList extends React.Component<Props, State> {
+    public static defaultProps = {
         emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
         emptyListTextDefaultMessage: 'No teams found',
         refreshTeams: false,
     }
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
         this.state = {
             teamsWithMemberships: [],
@@ -71,17 +77,17 @@ export default class TeamList extends React.Component {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.getTeamsAndMemberships();
     }
 
-    componentDidUpdate(prevProps) {
+    public componentDidUpdate(prevProps: Props) {
         if (prevProps.refreshTeams !== this.props.refreshTeams) {
             this.getTeamsAndMemberships();
         }
     }
 
-    getTeamsAndMemberships = async (userId = this.props.userId) => {
+    private getTeamsAndMemberships = async (userId = this.props.userId): Promise<void> => {
         const teams = await this.props.actions.getTeamsData(userId);
         const memberships = await this.props.actions.getTeamMembersForUser(userId);
         return Promise.all([teams, memberships]).
@@ -92,11 +98,12 @@ export default class TeamList extends React.Component {
             });
     }
 
-    mergeTeamsWithMemberships = (data) => {
+    // check this out
+    private mergeTeamsWithMemberships = (data: Record<string, any>[]): Record<string, any>[] => {
         const teams = data[0].data;
         const memberships = data[1].data;
-        let teamsWithMemberships = teams.map((object) => {
-            const results = memberships.filter((team) => team.team_id === object.id);
+        let teamsWithMemberships = teams.map((object: {[x: string]: string}) => {
+            const results = memberships.filter((team: {[x: string]: string}) => team.team_id === object.id);
             const team = {...object, ...results[0]};
             return team;
         });
@@ -104,7 +111,7 @@ export default class TeamList extends React.Component {
         return teamsWithMemberships;
     }
 
-    doRemoveUserFromTeam = async (teamId) => {
+    private doRemoveUserFromTeam = async (teamId: string): Promise<void> => {
         const {error} = await this.props.actions.removeUserFromTeam(teamId, this.props.userId);
         if (error) {
             this.setState({serverError: error.message});
@@ -113,7 +120,7 @@ export default class TeamList extends React.Component {
         }
     }
 
-    doMakeUserTeamAdmin = async (teamId) => {
+    private doMakeUserTeamAdmin = async (teamId: string) => {
         const {error} = await this.props.actions.updateTeamMemberSchemeRoles(teamId, this.props.userId, true, true);
         if (error) {
             this.setState({serverError: error.message});
@@ -122,7 +129,7 @@ export default class TeamList extends React.Component {
         }
     }
 
-    doMakeUserTeamMember = async (teamId) => {
+    private doMakeUserTeamMember = async (teamId: string) => {
         const {error} = await this.props.actions.updateTeamMemberSchemeRoles(teamId, this.props.userId, true, false);
         if (error) {
             this.setState({serverError: error.message});
@@ -131,7 +138,7 @@ export default class TeamList extends React.Component {
         }
     }
 
-    render() {
+    public render(): JSX.Element {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
@@ -157,7 +164,7 @@ export default class TeamList extends React.Component {
         );
     }
 
-    renderRow = (item) => {
+    private renderRow = (item: {[x: string]: string}): JSX.Element => {
         return (
             <TeamRow
                 key={item.id}

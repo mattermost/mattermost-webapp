@@ -43,7 +43,10 @@ Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
         url: '/api/v4/users/login',
         method: 'POST',
         body: {login_id: loginId, password: pw},
-    }).its('status').should('equal', 200);
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
 });
 
 /**
@@ -747,7 +750,7 @@ Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial 
             body: {login_id: newUser.username, password: newUser.password},
         }).then((response) => {
             expect(response.status).to.equal(200);
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             return cy.wrap(newUser);
         });
@@ -906,14 +909,14 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
 
     // # Create a New Team for Guest User
     return cy.apiCreateTeam('guest-team', 'Guest Team').then((createResponse) => {
-        const teamId = createResponse.body.id;
+        const team = createResponse.body;
         cy.getCookie('MMUSERID').then((cookie) => {
             // #Assign Sysadmin user to the newly created team
-            cy.apiAddUserToTeam(teamId, cookie.value);
+            cy.apiAddUserToTeam(team.id, cookie.value);
         });
 
         // #Create New User
-        return cy.createNewUser(user, [teamId], bypassTutorial).then((newUser) => {
+        return cy.createNewUser(user, [team.id], bypassTutorial).then((newUser) => {
             // # Demote Regular Member to Guest User
             cy.demoteUser(newUser.id);
             cy.request({
@@ -922,7 +925,7 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
                 method: 'POST',
                 body: {login_id: newUser.username, password: newUser.password},
             }).then(() => {
-                cy.visit('/');
+                cy.visit(`/${team.name}`);
                 return cy.wrap(newUser);
             });
         });
@@ -1137,6 +1140,22 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
     });
 });
 
+/**
+ * Get LDAP Group Sync Job Status
+ *
+ */
+Cypress.Commands.add('apiGetLDAPSync', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/jobs/type/ldap_sync?page=0&per_page=50',
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Roles
 // https://api.mattermost.com/#tag/roles
@@ -1177,4 +1196,3 @@ Cypress.Commands.add('patchRole', (roleID, patch) => {
         return cy.wrap(response);
     });
 });
-

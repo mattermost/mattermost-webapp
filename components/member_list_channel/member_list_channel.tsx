@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -10,28 +11,49 @@ import * as UserAgent from 'utils/user_agent';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import LoadingScreen from 'components/loading_screen';
+
 const USERS_PER_PAGE = 50;
 
-export default class MemberListChannel extends React.PureComponent {
-    static propTypes = {
-        currentTeamId: PropTypes.string.isRequired,
-        currentChannelId: PropTypes.string.isRequired,
-        searchTerm: PropTypes.string.isRequired,
-        usersToDisplay: PropTypes.arrayOf(PropTypes.object).isRequired,
-        actionUserProps: PropTypes.object.isRequired,
-        totalChannelMembers: PropTypes.number.isRequired,
-        channel: PropTypes.object.isRequired,
-        actions: PropTypes.shape({
-            searchProfiles: PropTypes.func.isRequired,
-            getChannelStats: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
-            loadProfilesAndTeamMembersAndChannelMembers: PropTypes.func.isRequired,
-            loadStatusesForProfilesList: PropTypes.func.isRequired,
-            loadTeamMembersAndChannelMembersForProfilesList: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    currentTeamId: string;
+    currentChannelId: string;
+    searchTerm: string;
+    usersToDisplay: Array<UserProfile>;
+    actionUserProps: {
+        [userId: string]: {
+            channel: Channel;
+            teamMember: any;
+            channelMember: ChannelMembership;
+        };
+    };
+    totalChannelMembers: number;
+    channel: Channel;
+    actions: {
+        searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+        getChannelStats: (channelId: string) => Promise<{data: {}}>;
+        setModalSearchTerm: (term: string) => Promise<{
+            data: boolean;
+        }>;
+        loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string) => Promise<{
+            data: boolean;
+        }>;
+        loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
+            data: boolean;
+        }>;
+        loadTeamMembersAndChannelMembersForProfilesList: (profiles: any, teamId: string, channelId: string) => Promise<{
+            data: boolean;
+        }>;
+    };
+}
 
-    constructor(props) {
+type State = {
+    loading: boolean;
+}
+
+export default class MemberListChannel extends React.PureComponent<Props, State> {
+    private searchTimeoutId: number;
+
+    constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
@@ -61,7 +83,7 @@ export default class MemberListChannel extends React.PureComponent {
         this.props.actions.setModalSearchTerm('');
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
             const searchTerm = this.props.searchTerm;
@@ -72,7 +94,7 @@ export default class MemberListChannel extends React.PureComponent {
                 return;
             }
 
-            const searchTimeoutId = setTimeout(
+            const searchTimeoutId = window.setTimeout(
                 async () => {
                     const {data} = await prevProps.actions.searchProfiles(searchTerm, {team_id: this.props.currentTeamId, in_channel_id: this.props.currentChannelId});
 
@@ -98,11 +120,11 @@ export default class MemberListChannel extends React.PureComponent {
         this.setState({loading: false});
     }
 
-    nextPage = (page) => {
+    nextPage = (page: number) => {
         this.props.actions.loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE);
     }
 
-    handleSearch = (term) => {
+    handleSearch = (term: string) => {
         this.props.actions.setModalSearchTerm(term);
     }
 

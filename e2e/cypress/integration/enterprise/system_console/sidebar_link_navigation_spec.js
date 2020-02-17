@@ -17,7 +17,7 @@ describe('System Console - Enterprise', () => {
         // # Login as System Admin
         cy.apiLogin('sysadmin');
 
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     const testCases = [
