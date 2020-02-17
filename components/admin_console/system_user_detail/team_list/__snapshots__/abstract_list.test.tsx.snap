@@ -551,7 +551,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     <button
       className="btn btn-link prev disabled"
       disabled={true}
-      onClick={null}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -666,7 +666,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     <button
       className="btn btn-link prev disabled"
       disabled={true}
-      onClick={null}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -675,7 +675,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     <button
       className="btn btn-link next disabled"
       disabled={true}
-      onClick={null}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
