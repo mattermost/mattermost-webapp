@@ -36,6 +36,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         isReadOnly: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool,
         creatorName: PropTypes.string.isRequired,
+        teammate: PropTypes.object.isRequired,
     };
 
     render() {
@@ -49,6 +50,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
             isReadOnly,
             channelProfiles,
             teamIsGroupConstrained,
+            teammate,
         } = this.props;
 
         let centeredIntro = '';
@@ -57,7 +59,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         }
 
         if (channel.type === Constants.DM_CHANNEL) {
-            return createDMIntroMessage(channel, centeredIntro);
+            return createDMIntroMessage(channel, centeredIntro, teammate);
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {

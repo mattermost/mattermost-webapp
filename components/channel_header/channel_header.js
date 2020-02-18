@@ -356,7 +356,7 @@ class ChannelHeader extends React.PureComponent {
                 membersMap[userDisplayName].push(user);
             }
 
-            const displayNames = channel.display_name.split(', ');
+            const displayNames = channel.display_name.split('');
 
             channelTitle = displayNames.map((displayName, index) => {
                 if (!membersMap[displayName]) {
