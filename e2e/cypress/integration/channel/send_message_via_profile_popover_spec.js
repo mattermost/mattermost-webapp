@@ -11,10 +11,12 @@ import TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
     let newUser;
+    const message = `Testing ${Date.now()}`;
 
     before(() => {
-        // # Login as "user-1" and go to main channel view
-        cy.toMainChannelView('user-1');
+        // # Login as "user-1" and visit '/ad-1/channels/town-square
+        cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Update user preferences
         cy.apiSaveTeammateNameDisplayPreference('username');
@@ -22,28 +24,28 @@ describe('Profile popover', () => {
 
         // # Create new user and have it post a message
         cy.getCurrentTeamId().then((teamId) => {
-            cy.getCurrentChannelId().as('currentChannelId');
-
             cy.createNewUser({}, [teamId]).then((user) => {
                 newUser = user;
 
-                const message = `Testing ${Date.now()}`;
-                cy.get('@currentChannelId').then((currentChannelId) => {
+                cy.visit('/ad-1/channels/town-square');
+                cy.getCurrentChannelId().then((currentChannelId) => {
                     cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.SMALL);
                 });
-
-                cy.waitUntil(() => cy.getLastPost().then((el) => {
-                    const postedMessageEl = el.find('.post-message__text > p')[0];
-                    return postedMessageEl && postedMessageEl.textContent.includes(message);
-                }));
-
-                cy.getLastPostId().as('lastPostId');
             });
         });
     });
 
     it('M19908 Send message in profile popover take to DM channel', () => {
-        cy.get('@lastPostId').then((lastPostId) => {
+        // # Login as "user-1" and visit '/ad-1/channels/town-square
+        cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
+
+        cy.waitUntil(() => cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text > p')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        }));
+
+        cy.getLastPostId().then((lastPostId) => {
             // # On default viewport width of 1300
             // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, '.status-wrapper', newUser);

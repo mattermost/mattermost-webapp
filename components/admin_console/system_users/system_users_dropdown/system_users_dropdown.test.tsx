@@ -3,21 +3,20 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {TestHelper} from '../../../../utils/test_helper';
 
 import SystemUsersDropdown from './system_users_dropdown';
 
-describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx', () => {
-    const user = {
-        id: 'user_id',
-        roles: '',
-        username: 'some-user',
-    };
+describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown', () => {
+    const user: UserProfile & {mfa_active: boolean} = Object.assign(TestHelper.getUserMock(), {mfa_active: true});
 
-    const otherUser = {
+    const otherUser = TestHelper.getUserMock({
         id: 'other_user_id',
         roles: '',
         username: 'other-user',
-    };
+    });
 
     const requiredProps = {
         user,
@@ -49,7 +48,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
     };
 
     test('handleMakeActive() should have called updateUserActive', async () => {
-        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...requiredProps}/>);
 
         const event = {preventDefault: jest.fn()};
         await wrapper.instance().handleMakeActive(event);
@@ -62,7 +61,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         const retVal = {error: {server_error_id: 'id', message: 'error'}};
         const updateUserActive = jest.fn().mockResolvedValue(retVal);
         const props = {...requiredProps, actions: {...requiredProps.actions, updateUserActive}};
-        const wrapper = shallow(<SystemUsersDropdown {...props}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...props}/>);
 
         const event = {preventDefault: jest.fn()};
         await wrapper.instance().handleMakeActive(event);
@@ -72,7 +71,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
     });
 
     test('handleDeactivateMember() should have called updateUserActive', async () => {
-        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...requiredProps}/>);
 
         await wrapper.instance().handleDeactivateMember();
 
@@ -84,7 +83,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         const retVal = {error: {server_error_id: 'id', message: 'error'}};
         const updateUserActive = jest.fn().mockResolvedValue(retVal);
         const props = {...requiredProps, actions: {...requiredProps.actions, updateUserActive}};
-        const wrapper = shallow(<SystemUsersDropdown {...props}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...props}/>);
 
         await wrapper.instance().handleDeactivateMember();
 
@@ -93,7 +92,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
     });
 
     test('handleRevokeSessions() should have called revokeAllSessions', async () => {
-        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...requiredProps}/>);
 
         await wrapper.instance().handleRevokeSessions();
 
@@ -105,7 +104,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         const revokeAllSessionsForUser = jest.fn().mockResolvedValue({error: {}});
         const onError = jest.fn();
         const props = {...requiredProps, onError, actions: {...requiredProps.actions, revokeAllSessionsForUser}};
-        const wrapper = shallow(<SystemUsersDropdown {...props}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...props}/>);
 
         await wrapper.instance().handleRevokeSessions();
 
@@ -113,7 +112,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
     });
 
     test('handleShowDeactivateMemberModal should not call the loadBots if the setting is not true', async () => {
-        const wrapper = shallow(<SystemUsersDropdown {...requiredProps}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...requiredProps}/>);
 
         const event = {preventDefault: jest.fn()};
         await wrapper.instance().handleShowDeactivateMemberModal(event);
@@ -127,7 +126,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
                 DisableBotsWhenOwnerIsDeactivated: true,
             },
         };
-        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, config: overrideConfig, bots: { }}}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, config: overrideConfig, bots: { }}}/>);
 
         const event = {preventDefault: jest.fn()};
         await wrapper.instance().handleShowDeactivateMemberModal(event);
@@ -143,14 +142,14 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
                 },
             },
             bots: {
-                1: {owner_id: '1'},
-                2: {owner_id: '1'},
-                3: {owner_id: '2'},
+                1: TestHelper.getBotMock({owner_id: '1'}),
+                2: TestHelper.getBotMock({owner_id: '1'}),
+                3: TestHelper.getBotMock({owner_id: '2'}),
             },
         };
-        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
-
-        const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+        const ConfirmModal = () => wrapper.instance().renderDeactivateMemberModal();
+        const modal = shallow(<ConfirmModal/>);
         expect(modal.prop('message')).toMatchSnapshot();
     });
 
@@ -162,15 +161,15 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
                 },
             },
             bots: {
-                1: {owner_id: '1', delete_at: 0},
-                2: {owner_id: '1', delete_at: 0},
-                3: {owner_id: 'user_id', delete_at: 0},
+                1: TestHelper.getBotMock({owner_id: '1', delete_at: 0}),
+                2: TestHelper.getBotMock({owner_id: '1', delete_at: 0}),
+                3: TestHelper.getBotMock({owner_id: 'user_id', delete_at: 0}),
             },
         };
-        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
         wrapper.setState({showDeactivateMemberModal: true});
-
-        const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
+        const ConfirmModal = () => wrapper.instance().renderDeactivateMemberModal();
+        const modal = shallow(<ConfirmModal/>);
         expect(modal.prop('message')).toMatchSnapshot();
     });
 
@@ -182,15 +181,15 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
                 },
             },
             bots: {
-                1: {owner_id: '1', delete_at: 0},
-                2: {owner_id: '1', delete_at: 0},
-                3: {owner_id: 'user_id', delete_at: 1234},
+                1: TestHelper.getBotMock({owner_id: '1', delete_at: 0}),
+                2: TestHelper.getBotMock({owner_id: '1', delete_at: 0}),
+                3: TestHelper.getBotMock({owner_id: 'user_id', delete_at: 1234}),
             },
         };
-        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
         wrapper.setState({showDeactivateMemberModal: true});
-
-        const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
+        const ConfirmModal = () => wrapper.instance().renderDeactivateMemberModal();
+        const modal = shallow(<ConfirmModal/>);
         expect(modal.prop('message')).toMatchSnapshot();
     });
 

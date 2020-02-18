@@ -11,7 +11,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M17444 - correctly parses "://///" as Markdown and does not break the channel', () => {

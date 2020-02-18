@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalIdentifiers} from 'utils/constants';
@@ -15,7 +16,20 @@ describe('components/ChannelMembersModal', () => {
         channel: {
             id: 'channel_id',
             display_name: 'channel_display_name',
+            create_at: 0,
+            update_at: 0,
             delete_at: 0,
+            team_id: '',
+            type: 'O' as ChannelType,
+            name: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         },
         canManageChannelMembers: true,
         onHide: jest.fn(),
@@ -38,7 +52,7 @@ describe('components/ChannelMembersModal', () => {
         );
 
         wrapper.setState({show: true});
-        wrapper.instance().handleHide();
+        (wrapper.instance() as ChannelMembersModal).handleHide();
         expect(wrapper.state('show')).toEqual(false);
     });
 
@@ -56,7 +70,7 @@ describe('components/ChannelMembersModal', () => {
             <ChannelMembersModal {...props}/>
         );
 
-        wrapper.instance().onAddNewMembersButton();
+        (wrapper.instance() as ChannelMembersModal).onAddNewMembersButton();
         expect(openModal).toHaveBeenCalledTimes(1);
         expect(onHide).toHaveBeenCalledTimes(1);
     });
@@ -117,7 +131,7 @@ describe('components/ChannelMembersModal', () => {
             <ChannelMembersModal {...newProps}/>
         );
         expect(openModal).not.toHaveBeenCalled();
-        wrapper.instance().onAddNewMembersButton();
+        (wrapper.instance() as ChannelMembersModal).onAddNewMembersButton();
         expect(openModal).toHaveBeenCalledWith({
             modalId: ModalIdentifiers.CHANNEL_INVITE,
             dialogType: ChannelInviteModal,

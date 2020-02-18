@@ -4,8 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AbstractList from './abstract_list.jsx';
-import TeamRow from './team_row.jsx';
+import AbstractList from './abstract_list';
+import TeamRow from './team_row';
 
 describe('admin_console/system_user_detail/team_list/AbstractList', () => {
     const renderRow = jest.fn((item) => {
