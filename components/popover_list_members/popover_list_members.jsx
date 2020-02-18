@@ -260,7 +260,7 @@ export default class PopoverListMembers extends React.Component {
                 >
                     <Popover
                         className='member-list__popover'
-                        id='member-list-popover'
+                        id='member-list-popover a11y__popup'
                     >
                         <div
                             className='more-modal__header'
