@@ -10,7 +10,7 @@ import './team_icon.scss';
 type Props = {
 
     /** Team icon URL (when available) */
-    url?: string;
+    url?: string | null;
 
     /** Team display name (used for the initials) if icon URL is not set */
     name: string;
