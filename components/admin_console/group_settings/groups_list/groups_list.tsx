@@ -2,44 +2,76 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
-import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
+import GroupRow from 'components/admin_console/group_settings/group_row';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
-import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
-
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import {Constants} from 'utils/constants';
+import { GroupSearchOpts } from 'mattermost-redux/types/groups';
+
+
 
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
-const FILTER_STATE_SEARCH_KEY_MAPPING = {
+type PropActions = {
+    getLdapGroups:(page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<{}>;
+    link: (key: string) => Promise<{}>;
+    unlink: (key: string) => Promise<{}>;
+}
+
+type Props = {
+    groups: any[];
+    total: number;
+    actions: PropActions;
+}
+
+type FilterOption = {
+    is_configured?:boolean;
+    is_linked?:boolean;
+}
+
+type FilterConfig = {
+    filter:string;
+    option :FilterOption;
+}
+
+type FilterSearchMap = {
+    filterIsConfigured:FilterConfig;
+    filterIsUnconfigured:FilterConfig;
+    filterIsLinked:FilterConfig;
+    filterIsUnlinked:FilterConfig;
+}
+
+type State = {
+    checked: any;
+    loading: boolean;
+    page: number;
+    showFilters: boolean;
+    searchString: string;
+    filterIsConfigured?:boolean;
+    filterIsUnconfigured?:boolean;
+    filterIsLinked?:boolean;
+    filterIsUnlinked?:boolean;
+}
+
+const FILTER_STATE_SEARCH_KEY_MAPPING: FilterSearchMap = {
     filterIsConfigured: {filter: 'is:configured', option: {is_configured: true}},
     filterIsUnconfigured: {filter: 'is:notconfigured', option: {is_configured: false}},
     filterIsLinked: {filter: 'is:linked', option: {is_linked: true}},
     filterIsUnlinked: {filter: 'is:notlinked', option: {is_linked: false}},
 };
 
-export default class GroupsList extends React.PureComponent {
-    static propTypes = {
-        groups: PropTypes.arrayOf(PropTypes.object),
-        total: PropTypes.number,
-        actions: PropTypes.shape({
-            getLdapGroups: PropTypes.func.isRequired,
-            link: PropTypes.func.isRequired,
-            unlink: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    static defaultProps = {
+export default class GroupsList extends React.PureComponent<Props,State> {
+    public static defaultProps: Partial<Props> = {
         groups: [],
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             checked: {},
@@ -49,7 +81,7 @@ export default class GroupsList extends React.PureComponent {
             searchString: '',
         };
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
-            this.state[key] = false;
+            (this.state as any)[key] = false;
         });
     }
 
@@ -63,21 +95,21 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
-    previousPage = async (e) => {
+  public previousPage = async (e: any): Promise<void> => {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({checked: {}, page, loading: true});
         this.searchGroups(page);
     }
 
-    nextPage = async (e) => {
+    public nextPage = async (e: any) => {
         e.preventDefault();
         const page = this.state.page + 1;
         this.setState({checked: {}, page, loading: true});
         this.searchGroups(page);
     }
 
-    onCheckToggle = (key) => {
+    onCheckToggle = (key: string) => {
         const newChecked = {...this.state.checked};
         newChecked[key] = !newChecked[key];
         this.setState({checked: newChecked});
@@ -100,7 +132,7 @@ export default class GroupsList extends React.PureComponent {
     }
 
     selectionActionButtonType = () => {
-        let hasSelectedLinked = false;
+        let hasSelectedLinked: boolean = false;
         for (const group of this.props.groups) {
             if (this.state.checked[group.primary_key]) {
                 if (!group.mattermost_group_id) {
@@ -197,11 +229,11 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
-    regex = (str) => {
+    regex = (str: string) => {
         return new RegExp(`(${str})`, 'i');
     }
 
-    searchGroups = (page) => {
+    searchGroups = (page?: number) => {
         let {searchString} = this.state;
 
         const newState = {...this.state};
@@ -214,10 +246,10 @@ export default class GroupsList extends React.PureComponent {
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key, value]) => {
             const re = this.regex(value.filter);
             if (re.test(searchString)) {
-                newState[key] = true;
+                (newState as any)[key] = true;
                 q = q.replace(re, '');
                 opts = Object.assign(opts, value.option);
-            } else if (this.state[key]) {
+            } else if ((this.state as any)[key]) {
                 searchString += ' ' + value.filter;
             }
         });
@@ -235,7 +267,7 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
-    handleGroupSearchKeyUp = (e) => {
+    handleGroupSearchKeyUp = (e: any) => {
         const {key} = e;
         const {searchString} = this.state;
         if (key === Constants.KeyCodes.ENTER[0]) {
@@ -245,15 +277,15 @@ export default class GroupsList extends React.PureComponent {
         const newState = {};
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([k, value]) => {
             if (!this.regex(value.filter).test(searchString)) {
-                newState[k] = false;
+                (newState as any)[k] = false;
             }
         });
         this.setState(newState);
     }
 
-    newSearchString = (searchString, stateKey, checked) => {
+    newSearchString = (searchString: string, stateKey: string, checked: boolean) => {
         let newSearchString = searchString;
-        const {filter} = FILTER_STATE_SEARCH_KEY_MAPPING[stateKey];
+        const {filter} = (FILTER_STATE_SEARCH_KEY_MAPPING as any)[stateKey];
         const re = this.regex(filter);
         const stringFilterPresent = re.test(searchString);
 
@@ -268,11 +300,11 @@ export default class GroupsList extends React.PureComponent {
         return newSearchString.replace(/\s{2,}/g, ' ');
     }
 
-    handleFilterCheck = (updates) => {
+    handleFilterCheck = (updates: any[]) => {
         let {searchString} = this.state;
-        updates.forEach((item) => {
+        updates.forEach((item: any) => {
             searchString = this.newSearchString(searchString, item[0], item[1]);
-            this.setState({[item[0]]: item[1]});
+            this.setState({[item[0]]: item[1]} as any);
         });
         this.setState({searchString});
     }
@@ -366,7 +398,7 @@ export default class GroupsList extends React.PureComponent {
             page: 0,
         };
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
-            newState[key] = false;
+            (newState as any)[key] = false;
         });
         this.setState(newState);
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, {q: ''}).then(() => {
@@ -450,14 +482,14 @@ export default class GroupsList extends React.PureComponent {
                         </div>
                         <button
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                            onClick={firstPage ? null : this.previousPage}
+                            onClick={firstPage ? undefined : this.previousPage}
                             disabled={firstPage}
                         >
                             <PreviousIcon/>
                         </button>
                         <button
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                            onClick={lastPage ? null : this.nextPage}
+                            onClick={lastPage ? undefined : this.nextPage}
                             disabled={lastPage}
                         >
                             <NextIcon/>

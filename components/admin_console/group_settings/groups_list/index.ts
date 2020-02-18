@@ -2,33 +2,42 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {createSelector} from 'reselect';
 
 import {linkLdapGroup, unlinkLdapGroup, getLdapGroups as fetchLdapGroups} from 'mattermost-redux/actions/admin';
 import {getLdapGroups, getLdapGroupsCount} from 'mattermost-redux/selectors/entities/admin';
 
-import GroupsList from './groups_list.jsx';
+import GroupsList from './groups_list';
+import { GlobalState } from 'mattermost-redux/types/store';
+import { ActionFunc } from 'mattermost-redux/types/actions';
+import { GroupSearchOpts } from 'mattermost-redux/types/groups';
+
+type Actions = {
+    getLdapGroups:(page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<{}>;
+    linkLdapGroup: (key: string) => Promise<{}>;
+    unlinkLdapGroup: (key: string) => Promise<{}>;
+}
 
 const getSortedListOfLdapGroups = createSelector(
     getLdapGroups,
     (ldapGroups) => {
-        const groups = Object.values(ldapGroups);
+        const groups: any[] = Object.values(ldapGroups);
         groups.sort((a, b) => a.name.localeCompare(b.name));
         return groups;
     }
 );
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         groups: getSortedListOfLdapGroups(state),
         total: getLdapGroupsCount(state),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getLdapGroups: fetchLdapGroups,
             link: linkLdapGroup,
             unlink: unlinkLdapGroup,
@@ -36,4 +45,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupsList);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsList as any);
