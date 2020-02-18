@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Group} from 'mattermost-redux/types/groups';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 
@@ -40,7 +41,7 @@ const Header = () => {
 
 interface Props {
     data?: Partial<Group>[];
-    onPageChangedCallback: () => void;
+    onPageChangedCallback?: () => void;
     total: number;
     emptyListTextId: string;
     emptyListTextDefaultMessage: string;
@@ -50,6 +51,7 @@ interface Props {
     removeGroup: (gid: string) => void;
     setNewGroupRole: (gid: string) => void;
     type: string;
+    channel?: Partial<Channel>;
 }
 
 export default class GroupList extends React.PureComponent<Props> {

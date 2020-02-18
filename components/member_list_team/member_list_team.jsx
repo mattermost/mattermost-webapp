@@ -27,6 +27,7 @@ export default class MemberListTeam extends React.Component {
             loadStatusesForProfilesList: PropTypes.func.isRequired,
             loadTeamMembersForProfilesList: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
+            getTeamMembers: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -40,14 +41,13 @@ export default class MemberListTeam extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId).then(({data}) => {
-            if (data) {
-                this.loadComplete();
-            }
-        });
-
-        this.props.actions.getTeamStats(this.props.currentTeamId);
+    async componentDidMount() {
+        await Promise.all([
+            this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId),
+            this.props.actions.getTeamMembers(this.props.currentTeamId),
+            this.props.actions.getTeamStats(this.props.currentTeamId),
+        ]);
+        this.loadComplete();
     }
 
     componentWillUnmount() {
