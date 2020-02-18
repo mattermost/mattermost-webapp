@@ -412,7 +412,7 @@ export default class GeneralTab extends React.Component {
                             </label>
                             <br/>
                         </div>
-                        <div className='margin-top x3'>
+                        <div className='mt-5'>
                             <FormattedMessage
                                 id='general_tab.openInviteDesc'
                                 defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'

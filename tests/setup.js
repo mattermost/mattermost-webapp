@@ -4,6 +4,7 @@
 import Adapter from 'enzyme-adapter-react-16';
 import {configure} from 'enzyme';
 import $ from 'jquery';
+import '@testing-library/jest-dom';
 
 global.$ = $;
 global.jQuery = $;

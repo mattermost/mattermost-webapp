@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 

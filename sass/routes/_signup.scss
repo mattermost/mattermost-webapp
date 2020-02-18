@@ -460,18 +460,6 @@ body {
     h4,
     h5,
     h6 {
-        &.margin--top-none {
-            margin-top: 0;
-        }
-
-        &.margin--bottom-none {
-            margin-bottom: 0;
-        }
-
-        &.margin--less {
-            margin-bottom: .3em;
-        }
-
         &.sub-heading {
             font-weight: 400;
             margin-bottom: 0;
@@ -483,14 +471,6 @@ body {
     }
 
     p {
-        &.margin--extra {
-            margin-bottom: 1.5em;
-        }
-
-        &.margin--less {
-            margin-bottom: .3em;
-        }
-
         .black,
         &.black {
             color: #000000;
@@ -500,14 +480,6 @@ body {
     .color--light {
         color: #777777;
     }
-
-    .margin--extra {
-        margin-top: 2.5em;
-    }
-
-    .margin--extra-2x {
-        margin-top: 5em;
-    }
 }
 
 .signup-team-all {
@@ -515,7 +487,7 @@ body {
     border: 1px solid #dddddd;
     margin: 0 0 20px;
     border-radius: 4px;
-    overflow: hidden;
+    max-height: calc(75vh - (108px + 89px));
 
     .signup-team-dir {
         @include legacy-pie-clearfix;
@@ -620,7 +592,6 @@ body {
         }
     }
 }
-
 
 .authorize-box {
     border: 1px solid $black;

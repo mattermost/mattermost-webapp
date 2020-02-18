@@ -24,16 +24,16 @@
             display: block;
             white-space: normal;
             line-height: 22px;
-            padding: 6px 0;
+            padding: 5px 0;
         }
 
         span.MenuItem__help-text {
             @include opacity(.7);
             display: block;
             font-size: 12px;
-            line-height: 17px;
+            line-height: 16px;
             white-space: normal;
-            padding-bottom: 6px;
+            padding-bottom: 8px;
 
             @media (max-width: 768px) {
                 margin: 0 0px 4px 38px;
@@ -76,9 +76,10 @@
 
             &.MenuItem__with-help {
                 height: auto;
-                padding: 2px 24px 5px;
+                padding: 0 24px;
+
                 .MenuItem__primary-text {
-                    padding-bottom: 4px;
+                    padding: 7px 0 3px;
                 }
 
                 .icon {

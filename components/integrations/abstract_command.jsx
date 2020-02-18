@@ -442,7 +442,7 @@ export default class AbstractCommand extends React.PureComponent {
                                                 >
                                                     <FormattedMessage
                                                         id='add_command.trigger.helpReservedLinkText'
-                                                        defaultMessage='see list of built-in slash commands'
+                                                        defaultMessage='See built-in slash commands'
                                                     />
                                                 </a>
                                             ),

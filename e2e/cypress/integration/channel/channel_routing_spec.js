@@ -10,7 +10,7 @@
 describe('Channel routing', () => {
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('should go to town square channel view', () => {
