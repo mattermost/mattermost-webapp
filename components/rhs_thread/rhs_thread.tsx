@@ -72,10 +72,12 @@ type State = {
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
-    public refs: any; // todo: check
+    public refs: {
+        [x: string]: any;
+    };
 
     public static getDerivedStateFromProps(props: Props, state: State) {
-        let updatedState: Record<string, any> = {selected: props.selected}; // todo: delete later
+        let updatedState: Record<string, any> = {selected: props.selected};
         if (state.selected && props.selected && state.selected.id !== props.selected.id) {
             updatedState = {...updatedState, openTime: (new Date()).getTime()};
         }
@@ -88,7 +90,7 @@ export default class RhsThread extends React.Component<Props, State> {
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
         const openTime = (new Date()).getTime();
-        this.refs = React.createRef();
+        this.refs = {};
 
         this.state = {
             windowWidth: Utils.windowWidth(),
@@ -143,7 +145,7 @@ export default class RhsThread extends React.Component<Props, State> {
             return true;
         }
 
-        if (nextState.isBusy !== this.state.isBusy) { // todo: confirm types
+        if (nextState.isBusy !== this.state.isBusy) {
             return true;
         }
 
@@ -164,7 +166,7 @@ export default class RhsThread extends React.Component<Props, State> {
             windowHeight: Utils.windowHeight(),
         });
 
-        if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') { // todo: confirm null check
+        if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
     }
@@ -190,7 +192,7 @@ export default class RhsThread extends React.Component<Props, State> {
     }
 
     private filterPosts = (posts: Record<string, any>[], selected: Record<string, any>, openTime: number): Record<string, any>[] => {
-        const postsArray: Record<string, any>[] = []; // todo: confirm type
+        const postsArray: Record<string, any>[] = [];
 
         posts.forEach((cpost) => {
             // Do not show empherals created before sidebar has been opened
@@ -219,8 +221,8 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         if (this.props.posts) {
-            const childNodes = this.refs.rhspostlist.childNodes; // todo: confirm types
-            const viewPort = this.refs.rhspostlist.getBoundingClientRect(); // todo: confirm types
+            const childNodes = this.refs.rhspostlist.childNodes;
+            const viewPort = this.refs.rhspostlist.getBoundingClientRect();
             let topRhsPostId = '';
             const offset = 100;
 
