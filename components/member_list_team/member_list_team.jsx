@@ -27,6 +27,7 @@ export default class MemberListTeam extends React.Component {
             loadStatusesForProfilesList: PropTypes.func.isRequired,
             loadTeamMembersForProfilesList: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
+            getTeamMembers: PropTypes.func.isRequired,
         }).isRequired,
     }
 
