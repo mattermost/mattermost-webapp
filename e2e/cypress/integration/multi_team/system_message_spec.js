@@ -29,7 +29,7 @@ describe('System message', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Post a regular message
         cy.postMessage('Test for no status of a system message');

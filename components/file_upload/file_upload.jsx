@@ -638,7 +638,7 @@ class FileUpload extends PureComponent {
                         }}
                     >
                         <a href='#'>
-                            <span className='margin-right'>
+                            <span className='mr-2'>
                                 {item.icon}
                             </span>
                             {item.text}
@@ -685,7 +685,7 @@ class FileUpload extends PureComponent {
                                     onClick={onClick}
                                     onTouchEnd={onTouchEnd}
                                 >
-                                    <span className='margin-right'>
+                                    <span className='mr-2'>
                                         <i className='fa fa-laptop'/>
                                     </span>
                                     <FormattedMessage

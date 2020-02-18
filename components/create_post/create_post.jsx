@@ -177,6 +177,13 @@ class CreatePost extends React.PureComponent {
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
 
+        canPost: PropTypes.bool.isRequired,
+
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
+
         intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
@@ -484,6 +491,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
+        cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
@@ -528,7 +536,7 @@ class CreatePost extends React.PureComponent {
         } = this.props;
 
         const currentMembersCount = this.props.currentChannelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
@@ -1093,8 +1101,9 @@ class CreatePost extends React.PureComponent {
             draft,
             fullWidthTextBox,
             showTutorialTip,
-            readOnlyChannel,
+            canPost,
         } = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !canPost;
         const {formatMessage} = this.props.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
@@ -1294,6 +1303,7 @@ class CreatePost extends React.PureComponent {
                                 preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createPostControls'

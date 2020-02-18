@@ -184,6 +184,13 @@ class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+
+        canPost: PropTypes.bool.isRequired,
+
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -424,7 +431,7 @@ class CreateComment extends React.PureComponent {
         this.updatePreview(false);
 
         const membersCount = this.props.channelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             membersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.draft.message)) {
@@ -787,7 +794,7 @@ class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
-        const {readOnlyChannel} = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
@@ -994,6 +1001,7 @@ class CreateComment extends React.PureComponent {
                                 suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createCommentControls'
@@ -1024,7 +1032,7 @@ class CreateComment extends React.PureComponent {
                                 />
                             </div>
                         </div>
-                        <div className='text-right margin-top'>
+                        <div className='text-right mt-2'>
                             {uploadsInProgressText}
                             <input
                                 type='button'
