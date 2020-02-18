@@ -102,13 +102,31 @@ describe('Messaging', () => {
         cy.get('#rhsContainer').should('not.be.visible');
     });
     it('MM-16734 Reply to an older bot post that has some attachment pretext', () => {
-        // # Post message with auth token
-        const message = 'Hello message from ' + botName;
-        const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
-        cy.postBotMessage({token: botToken, message, props, channelId: newChannel.id, createAt: yesterdaysDate}).
-            its('id').
-            should('exist').
-            as('yesterdaysPost');
+        // # Get yesterdays date in UTC
+        yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        botName = 'bot-' + Date.now();
+
+        // # Create a bot and get userID
+        cy.apiCreateBot(botName, 'Test Bot', 'test bot for E2E test replying to older bot post').then((response) => {
+            botsUserId = response.body.user_id;
+            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botsUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
+
+            // # Get token from bots id
+            cy.apiAccessToken(botsUserId, 'Create token').then((token) => {
+                botToken = token;
+
+                //# Add bot to team
+                cy.apiAddUserToTeam(newChannel.team_id, botsUserId);
+
+                // # Post message with auth token
+                const message = 'Hello message from ' + botName;
+                const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
+                cy.postBotMessage({token: botToken, message, props, channelId: newChannel.id, createAt: yesterdaysDate}).
+                    its('id').
+                    should('exist').
+                    as('yesterdaysPost');
+            });
+        });
 
         // # Add two subsequent posts
         cy.postMessage('First post');
