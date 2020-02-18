@@ -713,7 +713,7 @@ class ChannelHeader extends React.PureComponent {
                         >
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile() || (this.props.rhsOpen && this.props.rhsState)}
+                                isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
                             />
                         </div>
                     ) : (

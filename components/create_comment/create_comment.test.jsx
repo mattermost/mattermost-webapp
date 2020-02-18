@@ -50,6 +50,7 @@ describe('components/CreateComment', () => {
         selectedPostFocussedAt: 0,
         isMarkdownPreviewEnabled: true,
         canPost: true,
+        useChannelMentions: true,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -586,6 +587,30 @@ describe('components/CreateComment', () => {
                         ...baseProps,
                         draft: {
                             message: `Test message ${mention}`,
+                            uploadsInProgress: [],
+                            fileInfos: [{}, {}, {}],
+                        },
+                        onSubmit,
+                        channelMembersCount: 8,
+                        enableConfirmNotificationsToChannel: true,
+                    };
+
+                    const wrapper = shallowWithIntl(
+                        <CreateComment {...props}/>
+                    );
+
+                    wrapper.instance().handleSubmit({preventDefault});
+                    expect(onSubmit).toHaveBeenCalled();
+                    expect(preventDefault).toHaveBeenCalled();
+                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                });
+
+                it('when user has insufficient permissions', () => {
+                    const props = {
+                        ...baseProps,
+                        useChannelMentions: false,
+                        draft: {
+                            message: `Test message @${mention}`,
                             uploadsInProgress: [],
                             fileInfos: [{}, {}, {}],
                         },

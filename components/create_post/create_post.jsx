@@ -179,6 +179,11 @@ class CreatePost extends React.PureComponent {
 
         canPost: PropTypes.bool.isRequired,
 
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
+
         intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
@@ -531,7 +536,7 @@ class CreatePost extends React.PureComponent {
         } = this.props;
 
         const currentMembersCount = this.props.currentChannelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
@@ -1298,6 +1303,7 @@ class CreatePost extends React.PureComponent {
                                 preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createPostControls'

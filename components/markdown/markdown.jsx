@@ -129,6 +129,7 @@ export default class Markdown extends React.PureComponent {
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
             postType: this.props.postType,
+            mentionHighlight: this.props.options.mentionHighlight,
         });
     }
 }
