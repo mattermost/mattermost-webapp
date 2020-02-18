@@ -11,7 +11,7 @@ describe('M16738 - Use keyboard navigation in emoji picker', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     beforeEach(() => {
