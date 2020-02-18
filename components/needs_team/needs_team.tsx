@@ -35,7 +35,7 @@ declare global {
 }
 
 type Props = {
-    currentUser: {
+    currentUser?: {
         id: string;
     };
     currentChannelId?: string;
@@ -46,7 +46,7 @@ type Props = {
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{}>;
         getTeamByName: (teamName: string) => Promise<{data: Team}>;
-        addUserToTeam: (teamId: string, userId: string) => Promise<{data: TeamMembership; error?: any}>;
+        addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
         selectTeam: (team: Team) => Promise<{data: boolean}>;
         setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
         loadStatusesForChannelAndSidebar: () => Promise<{}>;
@@ -73,7 +73,7 @@ type State = {
 }
 
 export default class NeedsTeam extends React.Component<Props, State> {
-    public blurTime: number
+    public blurTime: number;
     constructor(props: Props) {
         super(props);
         this.blurTime = new Date().getTime();
