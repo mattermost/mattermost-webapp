@@ -40,7 +40,7 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
     <MenuItemAction
       onClick={[Function]}
       show={true}
-      text="Remove From Channel"
+      text="Remove from Channel"
     />
   </Menu>
 </MenuWrapper>
@@ -86,7 +86,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     <MenuItemAction
       onClick={[Function]}
       show={true}
-      text="Remove From Channel"
+      text="Remove from Channel"
     />
   </Menu>
 </MenuWrapper>
@@ -142,7 +142,7 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
     <MenuItemAction
       onClick={[Function]}
       show={true}
-      text="Remove From Channel"
+      text="Remove from Channel"
     />
   </Menu>
 </MenuWrapper>
@@ -188,7 +188,7 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
     <MenuItemAction
       onClick={[Function]}
       show={true}
-      text="Remove From Channel"
+      text="Remove from Channel"
     />
   </Menu>
 </MenuWrapper>

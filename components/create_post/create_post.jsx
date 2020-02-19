@@ -18,12 +18,12 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -52,7 +52,7 @@ function trimRight(str) {
     return str.replace(/\s*$/, '');
 }
 
-class CreatePost extends React.Component {
+class CreatePost extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -176,6 +176,13 @@ class CreatePost extends React.Component {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        canPost: PropTypes.bool.isRequired,
+
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
 
         intl: intlShape.isRequired,
 
@@ -328,6 +335,11 @@ class CreatePost extends React.Component {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
+        if (this.saveDraftFrame) {
+            const channelId = this.props.currentChannel.id;
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            cancelAnimationFrame(this.saveDraftFrame);
+        }
     }
 
     updatePreview = (newState) => {
@@ -479,6 +491,7 @@ class CreatePost extends React.Component {
             postError: null,
         });
 
+        cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
@@ -523,7 +536,7 @@ class CreatePost extends React.Component {
         } = this.props;
 
         const currentMembersCount = this.props.currentChannelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
@@ -706,8 +719,10 @@ class CreatePost extends React.Component {
             ...this.props.draft,
             message,
         };
-
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraftFrame = requestAnimationFrame(() => {
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        });
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -715,7 +730,6 @@ class CreatePost extends React.Component {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
-
         const table = getTable(e.clipboardData);
         if (!table) {
             return;
@@ -723,8 +737,12 @@ class CreatePost extends React.Component {
 
         e.preventDefault();
 
-        const message = formatMarkdownTableMessage(table, this.state.message.trim());
-
+        let message = '';
+        if (isGitHubCodeBlock(table.className)) {
+            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+        } else {
+            message = formatMarkdownTableMessage(table, this.state.message.trim());
+        }
         this.setState({message});
     }
 
@@ -824,8 +842,8 @@ class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
@@ -1083,8 +1101,9 @@ class CreatePost extends React.Component {
             draft,
             fullWidthTextBox,
             showTutorialTip,
-            readOnlyChannel,
+            canPost,
         } = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !canPost;
         const {formatMessage} = this.props.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
@@ -1093,7 +1112,7 @@ class CreatePost extends React.Component {
         const notifyAllTitle = (
             <FormattedMessage
                 id='notify_all.title.confirm'
-                defaultMessage='Confirm sending notifications to entire channel'
+                defaultMessage='Confirm Sending Notifications to Entire Channel'
             />
         );
 
@@ -1284,6 +1303,7 @@ class CreatePost extends React.Component {
                                 preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createPostControls'

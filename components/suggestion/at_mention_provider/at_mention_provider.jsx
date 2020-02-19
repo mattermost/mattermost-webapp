@@ -25,16 +25,17 @@ export default class AtMentionProvider extends Provider {
 
     // setProps gives the provider additional context for matching pretexts. Ideally this would
     // just be something akin to a connected component with access to the store itself.
-    setProps({currentUserId, profilesInChannel, profilesNotInChannel, autocompleteUsersInChannel}) {
+    setProps({currentUserId, profilesInChannel, profilesNotInChannel, autocompleteUsersInChannel, useChannelMentions}) {
         this.currentUserId = currentUserId;
         this.profilesInChannel = profilesInChannel;
         this.profilesNotInChannel = profilesNotInChannel;
         this.autocompleteUsersInChannel = autocompleteUsersInChannel;
+        this.useChannelMentions = useChannelMentions;
     }
 
     // specialMentions matches one of @here, @channel or @all, unless using /msg.
     specialMentions() {
-        if (this.latestPrefix.startsWith('/msg')) {
+        if (this.latestPrefix.startsWith('/msg') || !this.useChannelMentions) {
             return [];
         }
 
@@ -62,6 +63,7 @@ export default class AtMentionProvider extends Provider {
             const suggestions = getSuggestionsSplitBy(property.toLowerCase(), ' ');
             profileSuggestions.push(...suggestions);
         });
+        profileSuggestions.push(profile.first_name.toLowerCase() + ' ' + profile.last_name.toLowerCase());
 
         return profileSuggestions;
     }
@@ -69,10 +71,6 @@ export default class AtMentionProvider extends Provider {
     // filterProfile constrains profiles to those matching the latest prefix.
     filterProfile(profile) {
         if (!profile) {
-            return false;
-        }
-
-        if (profile.id === this.currentUserId) {
             return false;
         }
 
@@ -86,10 +84,7 @@ export default class AtMentionProvider extends Provider {
     localMembers() {
         const localMembers = this.profilesInChannel.
             filter((profile) => this.filterProfile(profile)).
-            map((profile) => ({
-                type: Constants.MENTION_MEMBERS,
-                ...profile,
-            })).
+            map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS)).
             sort((a, b) => a.username.localeCompare(b.username)).
             splice(0, 25);
 
@@ -104,10 +99,7 @@ export default class AtMentionProvider extends Provider {
 
         return (this.data.users || []).
             filter((profile) => this.filterProfile(profile)).
-            map((profile) => ({
-                type: Constants.MENTION_MEMBERS,
-                ...profile,
-            }));
+            map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS));
     }
 
     // remoteNonMembers matches users listed as not in the channel by the server.
@@ -182,7 +174,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
-        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_.]*)$', 'i').exec(pretext.toLowerCase());
+        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }
@@ -221,5 +213,20 @@ export default class AtMentionProvider extends Provider {
         });
 
         return true;
+    }
+
+    createFromProfile(profile, type) {
+        if (profile.id === this.currentUserId) {
+            return {
+                type,
+                ...profile,
+                isCurrentUser: true,
+            };
+        }
+
+        return {
+            type,
+            ...profile,
+        };
     }
 }

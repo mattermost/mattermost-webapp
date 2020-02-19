@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Toast should match snapshot for hiding toast 1`] = `
+<div
+  className="toast"
+>
+  <div
+    className="toast__message toast__pointer"
+    onClick={[MockFunction]}
+  >
+    <div
+      className="toast__jump"
+    >
+      <UnreadBelowIcon />
+      Jump to recents
+    </div>
+    <span>
+      child
+    </span>
+  </div>
+  <div
+    className="toast__dismiss"
+    data-testid="dismissToast"
+    onClick={[Function]}
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={<div />}
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <CloseIcon
+        className="close-btn"
+        id="dismissToast"
+      />
+    </OverlayTrigger>
+  </div>
+</div>
+`;
+
+exports[`components/Toast should match snapshot for showing toast 1`] = `
+<div
+  className="toast toast__visible"
+>
+  <div
+    className="toast__message toast__pointer"
+    onClick={[MockFunction]}
+  >
+    <div
+      className="toast__jump"
+    >
+      <UnreadBelowIcon />
+      Jump to recents
+    </div>
+    <span>
+      child
+    </span>
+  </div>
+  <div
+    className="toast__dismiss"
+    data-testid="dismissToast"
+    onClick={[Function]}
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="toast-close__tooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Close"
+            id="general_button.close"
+            values={Object {}}
+          />
+          <div
+            className="tooltip__shortcut--txt"
+          >
+            <FormattedMessage
+              defaultMessage="esc"
+              id="general_button.esc"
+              values={Object {}}
+            />
+          </div>
+        </Tooltip>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <CloseIcon
+        className="close-btn"
+        id="dismissToast"
+      />
+    </OverlayTrigger>
+  </div>
+</div>
+`;
+
+exports[`components/Toast should match snapshot for toast width less than 780px 1`] = `
+<div
+  className="toast toast__visible"
+>
+  <div
+    className="toast__message toast__pointer"
+    onClick={[MockFunction]}
+  >
+    <div
+      className="toast__jump"
+    >
+      <UnreadBelowIcon />
+      Jump to recents
+    </div>
+    <span>
+      child
+    </span>
+  </div>
+  <div
+    className="toast__dismiss"
+    data-testid="dismissToast"
+    onClick={[Function]}
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="toast-close__tooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Close"
+            id="general_button.close"
+            values={Object {}}
+          />
+          <div
+            className="tooltip__shortcut--txt"
+          >
+            <FormattedMessage
+              defaultMessage="esc"
+              id="general_button.esc"
+              values={Object {}}
+            />
+          </div>
+        </Tooltip>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <CloseIcon
+        className="close-btn"
+        id="dismissToast"
+      />
+    </OverlayTrigger>
+  </div>
+</div>
+`;
+
+exports[`components/Toast should match snapshot to not have actions 1`] = `
+<div
+  className="toast toast__visible"
+>
+  <div
+    className="toast__message"
+    onClick={null}
+  >
+    <span>
+      child
+    </span>
+  </div>
+  <div
+    className="toast__dismiss"
+    data-testid="dismissToast"
+    onClick={[Function]}
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={<div />}
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <CloseIcon
+        className="close-btn"
+        id="dismissToast"
+      />
+    </OverlayTrigger>
+  </div>
+</div>
+`;

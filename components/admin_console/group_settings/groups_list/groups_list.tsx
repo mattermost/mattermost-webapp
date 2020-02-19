@@ -462,7 +462,10 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                         <div className='group-actions'/>
                     </div>
                 </div>
-                <div className='groups-list--body'>
+                <div
+                    id='groups-list--body'
+                    className='groups-list--body'
+                >
                     {this.renderRows()}
                 </div>
                 {total > 0 &&

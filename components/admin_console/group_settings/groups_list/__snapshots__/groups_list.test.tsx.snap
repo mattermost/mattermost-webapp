@@ -78,6 +78,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <div
       className="groups-list-loading"
@@ -283,6 +284,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <div
       className="groups-list-loading"
@@ -374,6 +376,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <div
       className="groups-list-loading"
@@ -500,6 +503,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <div
       className="groups-list-loading"
@@ -626,6 +630,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <div
       className="groups-list-loading"
@@ -751,6 +756,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <GroupRow
       actions={
@@ -914,6 +920,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <GroupRow
       actions={
@@ -1182,6 +1189,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <GroupRow
       actions={
@@ -1451,6 +1459,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <GroupRow
       actions={
@@ -1615,6 +1624,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <div
       className="groups-list-empty"
@@ -1707,6 +1717,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
   </div>
   <div
     className="groups-list--body"
+    id="groups-list--body"
   >
     <div
       className="groups-list-loading"
