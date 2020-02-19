@@ -3,10 +3,12 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import {isNil} from 'lodash';
 import classNames from 'classnames';
 import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {t} from 'utils/i18n';
 
@@ -130,9 +132,9 @@ interface Props {
 interface RowProps {
     name: string;
     guests?: boolean;
-    members?: boolean;
+    members: boolean;
     guestsDisabled?: boolean;
-    membersDisabled?: boolean;
+    membersDisabled: boolean;
     onClick: (name: string, channelRole: 'guests' | 'members') => void;
     errorMessages?: any;
 }
@@ -196,8 +198,8 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
 export default class ChannelModeration extends React.Component<Props> {
     private errorMessagesToDisplay = (entry: ChannelPermissions): Array<any> => {
         const errorMessages: Array<any> = [];
-        const isGuestsDisabled = !entry.roles.guests?.enabled;
-        const isMembersDisabled = !entry.roles.members?.enabled;
+        const isGuestsDisabled = !entry.roles.guests!.enabled;
+        const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';
         if (entry.name === 'use_channel_mentions') {
             const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.filter((permission) => permission.name === 'create_post')[0];
@@ -229,7 +231,7 @@ export default class ChannelModeration extends React.Component<Props> {
             }
         }
 
-        let disabledKey
+        let disabledKey;
         if (isGuestsDisabled && isMembersDisabled) {
             disabledKey = 'disabled_both';
         } else if (isGuestsDisabled && createPostsKey !== 'disabled_guests_due_to_create_posts') {
@@ -303,10 +305,10 @@ export default class ChannelModeration extends React.Component<Props> {
                                     return (
                                         <ChannelModerationTableRow
                                             key={entry.name}
-                                            name={entry.name}
-                                            guests={entry.roles.guests?.value}
-                                            guestsDisabled={!entry.roles.guests?.enabled}
-                                            members={entry.roles.members?.value}
+                                            name={entry.name!}
+                                            guests={entry.roles.guests!.value}
+                                            guestsDisabled={!entry.roles.guests!.enabled}
+                                            members={entry.roles.members.value}
                                             membersDisabled={!entry.roles.members.enabled}
                                             onClick={this.props.onChannelPermissionsChanged}
                                             errorMessages={this.errorMessagesToDisplay(entry)}
