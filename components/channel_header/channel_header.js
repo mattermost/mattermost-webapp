@@ -440,7 +440,7 @@ class ChannelHeader extends React.PureComponent {
             );
             headerTextContainer = (
                 <OverlayTrigger
-                    trigger={'hover'}
+                    trigger={['hover', 'focus']}
                     placement='bottom'
                     rootClose={true}
                     overlay={popoverContent}

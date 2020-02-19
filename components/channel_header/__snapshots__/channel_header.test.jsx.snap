@@ -1261,6 +1261,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
         </div>
         <OverlayTrigger
           defaultOverlayShown={false}
+          onEntering={[Function]}
           overlay={
             <Popover
               className="channel-header__popover"
@@ -1270,6 +1271,11 @@ exports[`components/ChannelHeader should render properly when populated with cha
               placement="bottom"
               popoverSize="lg"
               popoverStyle="info"
+              style={
+                Object {
+                  "max-width": "0px",
+                }
+              }
             >
               <Connect(Markdown)
                 message="See ~test"
@@ -1290,7 +1296,12 @@ exports[`components/ChannelHeader should render properly when populated with cha
           }
           placement="bottom"
           rootClose={true}
-          trigger="click"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
         >
           <div
             className="channel-header__description"
