@@ -468,6 +468,12 @@
                 &:not(:last-child){
                     border-bottom: solid 1px alpha-color(#CCCCCC, .75);
                 }
+
+                &:last-child{
+                    td {
+                        padding-bottom: 0px;
+                    }                
+                }
             }
 
             td {
@@ -479,6 +485,7 @@
 
                 &:not(:first-child) {
                     text-align: center;
+                    vertical-align: middle;
                 }
             }
     

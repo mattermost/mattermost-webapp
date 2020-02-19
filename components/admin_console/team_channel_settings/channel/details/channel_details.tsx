@@ -43,7 +43,7 @@ interface ChannelDetailsProps {
         membersMinusGroupMembers: (channelID: string, groupIDs: Array<string>, page?: number, perPage?: number) => ActionFunc|ActionResult;
         setNavigationBlocked: (blocked: boolean) => any;
         getChannel: (channelId: string) => ActionFunc;
-        getTeam: (teamId: string) => any;
+        getTeam: (teamId: string) => Promise<ActionResult>;
         getChannelModerations: (channelId: string) => Promise<Array<ChannelPermissions>>;
         patchChannel: (channelId: string, patch: Channel) => ActionFunc;
         updateChannelPrivacy: (channelId: string, privacy: string) => Promise<ActionResult>;
@@ -188,17 +188,48 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.processGroupsChange(groups);
     }
 
-    private channelPermissionsChanged = (name: string, guestsOrMembers: 'guests' | 'members') => {
+    private channelPermissionsChanged = (name: string, channelRole: 'guests' | 'members') => {
         const currentValueIndex = this.state.channelPermissions!.findIndex((element) => element.name === name);
-        const currentValue = this.state.channelPermissions![currentValueIndex].roles[guestsOrMembers]!.value;
-        const channelPermissions = [...this.state.channelPermissions!];
+        const currentValue = this.state.channelPermissions![currentValueIndex].roles[channelRole]!.value;
+        const newValue = !currentValue;
+        let channelPermissions = [...this.state.channelPermissions!];
+
+        if (name === 'create_post') {
+            const originalValue = this.props.channelPermissions!.filter((element) => element.name === 'use_channel_mentions')[0].roles[channelRole]?.enabled;
+            channelPermissions = channelPermissions.map((permission) => {
+                if (permission.name === 'use_channel_mentions' && !newValue) {
+                    return {
+                        name: permission.name,
+                        roles: {
+                            ...permission.roles,
+                            [channelRole]: {
+                                value: false,
+                                enabled: false,
+                            }
+                        }
+                    }
+                } else if (permission.name === 'use_channel_mentions') {
+                    return {
+                        name: permission.name,
+                        roles: {
+                            ...permission.roles,
+                            [channelRole]: {
+                                value: false,
+                                enabled: originalValue,
+                            }
+                        }
+                    }
+                }
+                return permission;
+            })
+        }
         channelPermissions[currentValueIndex] = {
-            ...this.state.channelPermissions![currentValueIndex],
+            ...channelPermissions![currentValueIndex],
             roles: {
-                ...this.state.channelPermissions![currentValueIndex].roles,
-                [guestsOrMembers]: {
-                    ...this.state.channelPermissions![currentValueIndex].roles[guestsOrMembers],
-                    value: !currentValue
+                ...channelPermissions![currentValueIndex].roles,
+                [channelRole]: {
+                    ...channelPermissions![currentValueIndex].roles[channelRole],
+                    value: newValue
                 }
             }
         };
@@ -307,16 +338,14 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             }
         }
 
-        const patchChannelPermissionsArray: Array<ChannelModerationPatch> = [];
-        channelPermissions!.map((p) => {
-            patchChannelPermissionsArray.push({
-                name: p.name,
-                roles: {
-                    ...(p.roles.members && p.roles.members.enabled && {members: p.roles.members!.value}),
-                    ...(p.roles.guests && p.roles.guests.enabled && {guests: p.roles.guests!.value})
+        const patchChannelPermissionsArray: Array<ChannelModerationPatch> = channelPermissions!.map((p) => {
+                return {
+                    name: p.name,
+                    roles: {
+                        ...(p.roles.members && p.roles.members.enabled && {members: p.roles.members!.value}),
+                        ...(p.roles.guests && p.roles.guests.enabled && {guests: p.roles.guests!.value})
+                    }
                 }
-            });
-            return null;
         });
         const result = await actions.patchChannelModerations(channelID, patchChannelPermissionsArray);
         if (result.error) {
@@ -402,7 +431,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         <ChannelModeration
                             channelPermissions={channelPermissions}
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
-                            teamScheme={this.props.teamScheme}
+                            teamSchemeID={this.props.teamScheme?.id}
+                            teamSchemeDisplayName={this.props.teamScheme?.display_name}
                         />
 
                         <ChannelGroups

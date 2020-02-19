@@ -2,9 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {Scheme} from 'mattermost-redux/types/schemes';
 import {FormattedMessage} from 'react-intl';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {isNil} from 'lodash';
 import classNames from 'classnames';
 import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
@@ -26,15 +25,15 @@ const formattedMessages: any = {
         },
         disabled_guests: {
             id: 'admin.channel_settings.channel_moderation.createPosts.disabledGuest',
-            defaultMessage: 'Create posts for guests is disabled in'
+            defaultMessage: 'Create posts for guests are disabled in'
         },
         disabled_members: {
             id: 'admin.channel_settings.channel_moderation.createPosts.disabledMember',
-            defaultMessage: 'Create posts for members is disabled in'
+            defaultMessage: 'Create posts for members are disabled in'
         },
         disabled_both: {
             id: 'admin.channel_settings.channel_moderation.createPosts.disabledBoth',
-            defaultMessage: 'Create posts for members and guests is disabled in'
+            defaultMessage: 'Create posts for members and guests are disabled in'
         }
     },
 
@@ -49,15 +48,15 @@ const formattedMessages: any = {
         },
         disabled_guests: {
             id: 'admin.channel_settings.channel_moderation.postReactions.disabledGuest',
-            defaultMessage: 'Post reactions for guests is disabled in'
+            defaultMessage: 'Post reactions for guests are disabled in'
         },
         disabled_members: {
             id: 'admin.channel_settings.channel_moderation.postReactions.disabledMember',
-            defaultMessage: 'Post reactions for members is disabled in'
+            defaultMessage: 'Post reactions for members are disabled in'
         },
         disabled_both: {
             id: 'admin.channel_settings.channel_moderation.postReactions.disabledBoth',
-            defaultMessage: 'Post reactions for members and guests is disabled in'
+            defaultMessage: 'Post reactions for members and guests are disabled in'
         }
     },
 
@@ -72,15 +71,15 @@ const formattedMessages: any = {
         },
         disabled_guests: {
             id: 'admin.channel_settings.channel_moderation.manageMembers.disabledGuest',
-            defaultMessage: 'Manage members for guests is disabled in'
+            defaultMessage: 'Manage members for guests are disabled in'
         },
         disabled_members: {
             id: 'admin.channel_settings.channel_moderation.manageMembers.disabledMember',
-            defaultMessage: 'Manage members for members is disabled in'
+            defaultMessage: 'Manage members for members are disabled in'
         },
         disabled_both: {
             id: 'admin.channel_settings.channel_moderation.manageMembers.disabledBoth',
-            defaultMessage: 'Manage members for members and guests is disabled in'
+            defaultMessage: 'Manage members for members and guests are disabled in'
         }
     },
 
@@ -95,15 +94,15 @@ const formattedMessages: any = {
         },
         disabled_guests: {
             id: 'admin.channel_settings.channel_moderation.channelMentions.disabledGuest',
-            defaultMessage: 'Channel mentions for guests is disabled in'
+            defaultMessage: 'Channel mentions for guests are disabled in'
         },
         disabled_members: {
             id: 'admin.channel_settings.channel_moderation.channelMentions.disabledMember',
-            defaultMessage: 'Channel mentions for members is disabled in'
+            defaultMessage: 'Channel mentions for members are disabled in'
         },
         disabled_both: {
             id: 'admin.channel_settings.channel_moderation.channelMentions.disabledBoth',
-            defaultMessage: 'Channel mentions for members and guests is disabled in'
+            defaultMessage: 'Channel mentions for members and guests are disabled in'
         },
 
         disabled_guests_due_to_create_posts: {
@@ -119,86 +118,26 @@ const formattedMessages: any = {
             defaultMessage: 'Guests and members can not use channel mentions without the ability to create posts.'
         }
     },
-    system_scheme: {
-        link: '/admin_console/user_management/permissions/system_scheme',
-        id: 'admin.channel_settings.channel_moderation.systemScheme',
-        defaultMessage: 'System Scheme',
-    },
-    team_scheme: {
-        link: '/admin_console/user_management/permissions/team_override_scheme/',
-        id: 'admin.channel_settings.channel_moderation.teamScheme',
-        defaultMessage: 'Team Scheme',
-    }
 };
-
-interface State {
-    response: Array<ChannelPermissions>;
-}
 
 interface Props {
     channelPermissions?: Array<ChannelPermissions>;
-    onChannelPermissionsChanged: (name: string, guestsOrMembers: 'guests' | 'members') => void;
-    teamScheme?: Scheme;
+    onChannelPermissionsChanged: (name: string, channelRole: 'guests' | 'members') => void;
+    teamSchemeID?: string;
+    teamSchemeDisplayName?: string;
 }
 
 interface RowProps {
     name: string;
-    guests?: any;
-    members?: any;
-    onClick: (name: string, guestsOrMembers: 'guests' | 'members') => void;
-    teamScheme?: Scheme;
-    createPostsObject?: ChannelPermissions | null;
+    guests?: boolean;
+    members?: boolean;
+    guestsDisabled?: boolean;
+    membersDisabled?: boolean;
+    onClick: (name: string, channelRole: 'guests' | 'members') => void;
+    errorMessages?: any;
 }
 
 const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
-    let disabledKey;
-    let isGuestsDisabled = props.guests && !props.guests.enabled;
-    let isMembersDisabled = props.members && !props.members.enabled;
-    if (isGuestsDisabled && isMembersDisabled) {
-        disabledKey = 'disabled_both';
-    } else if (isGuestsDisabled) {
-        disabledKey = 'disabled_guests';
-    } else if (isMembersDisabled) {
-        disabledKey = 'disabled_members';
-    }
-
-    let disabledLinkKey = '';
-    if (disabledKey && props.teamScheme) {
-        disabledLinkKey = 'team_scheme';
-    } else if (disabledKey) {
-        disabledLinkKey = 'system_scheme';
-    }
-
-    let disabledDueToCreatePosts;
-    if (props.createPostsObject) {
-        if (!props.createPostsObject.roles.guests!.value && !props.createPostsObject.roles.members!.value) {
-            disabledDueToCreatePosts = 'disabled_both_due_to_create_posts';
-            disabledKey = '';
-            isGuestsDisabled = true;
-            isMembersDisabled = true;
-            if (props.members.value === true) {
-                props.onClick(props.name, 'members');
-            }
-            if (props.guests.value === true) {
-                props.onClick(props.name, 'guests');
-            }
-        } else if (!props.createPostsObject.roles.guests!.value) {
-            disabledDueToCreatePosts = 'disabled_guests_due_to_create_posts';
-            isGuestsDisabled = true;
-            disabledKey = disabledKey === 'disabled_guests' ? null : disabledKey;
-            if (props.guests.value === true) {
-                props.onClick(props.name, 'guests');
-            }
-        } else if (!props.createPostsObject.roles.members!.value) {
-            disabledDueToCreatePosts = 'disabled_members_due_to_create_posts';
-            isMembersDisabled = true;
-            disabledKey = disabledKey === 'disabled_members' ? null : disabledKey;
-            if (props.members.value === true) {
-                props.onClick(props.name, 'members');
-            }
-        }
-    }
-
     return (
         <tr>
             <td>
@@ -214,34 +153,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                         defaultMessage={formattedMessages[props.name].description.defaultMessage}
                     />
                 </div>
-                <div>
-                    {disabledDueToCreatePosts &&
-                    <FormattedMessage
-                        id={formattedMessages[props.name][disabledDueToCreatePosts].id}
-                        defaultMessage={formattedMessages[props.name][disabledDueToCreatePosts].defaultMessage}
-                    />
-                    }
-                </div>
-                <div>
-                    {disabledKey &&
-                    <FormattedMessage
-                        id={formattedMessages[props.name][disabledKey].id}
-                        defaultMessage={formattedMessages[props.name][disabledKey].defaultMessage}
-                    />
-                    }
-                    {' '}
-                    {disabledKey &&
-                    <Link
-                        to={`${formattedMessages[disabledLinkKey].link}${disabledLinkKey === 'team_scheme' ? props.teamScheme!.id : ''}`}
-                    >
-                        {disabledLinkKey === 'team_scheme' && `${props.teamScheme!.display_name} `}
-                        <FormattedMessage
-                            id={`${formattedMessages[disabledLinkKey].id}`}
-                            defaultMessage={`${formattedMessages[disabledLinkKey].defaultMessage}`}
-                        />
-                    </Link>
-                    }
-                </div>
+                {props.errorMessages}
             </td>
             <td>
                 {!isNil(props.guests) &&
@@ -249,14 +161,14 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                         className={classNames(
                             'checkbox',
                             {
-                                checked: props.guests.value && !isGuestsDisabled,
-                                disabled: isGuestsDisabled,
+                                checked: props.guests && !props.guestsDisabled,
+                                disabled: props.guestsDisabled,
                             }
                         )}
                         onClick={() => props.onClick(props.name, 'guests')}
-                        disabled={isGuestsDisabled}
+                        disabled={props.guestsDisabled}
                     >
-                        {props.guests.value && !isGuestsDisabled && <CheckboxCheckedIcon/>}
+                        {props.guests && !props.guestsDisabled && <CheckboxCheckedIcon/>}
                     </button>
                 }
             </td>
@@ -266,14 +178,14 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                         className={classNames(
                             'checkbox',
                             {
-                                checked: props.members.value && !isMembersDisabled,
-                                disabled: isMembersDisabled,
+                                checked: props.members && !props.membersDisabled,
+                                disabled: props.membersDisabled,
                             }
                         )}
                         onClick={() => props.onClick(props.name, 'members')}
-                        disabled={isMembersDisabled}
+                        disabled={props.membersDisabled}
                     >
-                        {props.members.value && !isMembersDisabled && <CheckboxCheckedIcon/>}
+                        {props.members && !props.membersDisabled && <CheckboxCheckedIcon/>}
                     </button>
                 }
             </td>
@@ -281,9 +193,74 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
     );
 };
 
-export default class ChannelModeration extends React.Component<Props, State> {
+export default class ChannelModeration extends React.Component<Props> {
+    private errorMessagesToDisplay = (entry: ChannelPermissions): Array<any> => {
+        const errorMessages: Array<any> = [];
+        const isGuestsDisabled = !entry.roles.guests?.enabled;
+        const isMembersDisabled = !entry.roles.members?.enabled;
+        let createPostsKey = '';
+        if (entry.name === 'use_channel_mentions') {
+            const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.filter((permission) => permission.name === 'create_post')[0];
+            if (!createPostsObject!.roles.guests!.value && !createPostsObject!.roles.members!.value) {
+                errorMessages.push(
+                    <div key={formattedMessages[entry.name].disabled_both_due_to_create_posts.id}>
+                        <FormattedMessage
+                            id={formattedMessages[entry.name].disabled_both_due_to_create_posts.id}
+                            defaultMessage={formattedMessages[entry.name].disabled_both_due_to_create_posts.defaultMessage}
+                        />
+                    </div>
+                );
+                return errorMessages;
+            } else if (!createPostsObject!.roles.guests!.value) {
+                createPostsKey = 'disabled_guests_due_to_create_posts';
+            } else if (!createPostsObject!.roles.members!.value) {
+                createPostsKey = 'disabled_members_due_to_create_posts';
+            }
+
+            if (createPostsKey !== '') {
+                errorMessages.push(
+                    <div key={formattedMessages[entry.name][createPostsKey].id}>
+                        <FormattedMessage
+                            id={formattedMessages[entry.name][createPostsKey].id}
+                            defaultMessage={formattedMessages[entry.name][createPostsKey].defaultMessage}
+                        />
+                    </div>
+                );
+            }
+        }
+
+        let disabledKey
+        if (isGuestsDisabled && isMembersDisabled) {
+            disabledKey = 'disabled_both';
+        } else if (isGuestsDisabled && createPostsKey !== 'disabled_guests_due_to_create_posts') {
+            disabledKey = 'disabled_guests';
+        } else if (isMembersDisabled && createPostsKey !== 'disabled_members_due_to_create_posts') {
+            disabledKey = 'disabled_members';
+        }
+        if (disabledKey) {
+            let schemeName = 'System Scheme';
+            let schemeLink = 'system_scheme';
+            if (this.props.teamSchemeID) {
+                schemeName = this.props.teamSchemeDisplayName + ' Team Scheme';
+                schemeLink = `team_override_scheme/${this.props.teamSchemeID}`;
+            }
+            errorMessages.push(
+                <div key={formattedMessages[entry.name][disabledKey].id}>
+                    <FormattedMarkdownMessage
+                        id={formattedMessages[entry.name][disabledKey].id}
+                        defaultMessage={formattedMessages[entry.name][disabledKey].defaultMessage + ' [{scheme_name}](../permissions/{scheme_link}).'}
+                        values={{
+                            scheme_name: schemeName,
+                            scheme_link: schemeLink
+                        }}
+                    />
+                </div>
+            );
+        }
+        return errorMessages;
+    }
+
     render = (): JSX.Element => {
-        const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.filter((permission) => permission.name === 'create_post')[0];
         return (
             <AdminPanel
                 id='channel_moderation'
@@ -327,11 +304,12 @@ export default class ChannelModeration extends React.Component<Props, State> {
                                         <ChannelModerationTableRow
                                             key={entry.name}
                                             name={entry.name}
-                                            guests={entry.roles.guests}
-                                            members={entry.roles.members}
+                                            guests={entry.roles.guests?.value}
+                                            guestsDisabled={!entry.roles.guests?.enabled}
+                                            members={entry.roles.members?.value}
+                                            membersDisabled={!entry.roles.members.enabled}
                                             onClick={this.props.onChannelPermissionsChanged}
-                                            teamScheme={this.props.teamScheme}
-                                            createPostsObject={entry.name === 'use_channel_mentions' ? createPostsObject : null}
+                                            errorMessages={this.errorMessagesToDisplay(entry)}
                                         />
                                     );
                                 })}
