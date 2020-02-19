@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TeamList from './team_list.jsx';
+import TeamList from './team_list';
 
 describe('admin_console/system_user_detail/team_list/TeamList', () => {
     const defaultProps = {

@@ -43,7 +43,7 @@ function createAndVerifyMessage(message, isCode) {
 describe('Messaging', () => {
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M17446 - Emojis preceded by 4 or more spaces are treated as Markdown', () => {
