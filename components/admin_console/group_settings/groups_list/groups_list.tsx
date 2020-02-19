@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {GroupSearchOpts} from 'mattermost-redux/types/groups';
 
 import * as Utils from 'utils/utils';
 
@@ -12,14 +13,11 @@ import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import {Constants} from 'utils/constants';
-import { GroupSearchOpts } from 'mattermost-redux/types/groups';
-
-
 
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
 type PropActions = {
-    getLdapGroups:(page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<{}>;
+    getLdapGroups: (page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<{}>;
     link: (key: string) => Promise<{}>;
     unlink: (key: string) => Promise<{}>;
 }
@@ -31,20 +29,20 @@ type Props = {
 }
 
 type FilterOption = {
-    is_configured?:boolean;
-    is_linked?:boolean;
+    is_configured?: boolean;
+    is_linked?: boolean;
 }
 
 type FilterConfig = {
-    filter:string;
-    option :FilterOption;
+    filter: string;
+    option: FilterOption;
 }
 
 type FilterSearchMap = {
-    filterIsConfigured:FilterConfig;
-    filterIsUnconfigured:FilterConfig;
-    filterIsLinked:FilterConfig;
-    filterIsUnlinked:FilterConfig;
+    filterIsConfigured: FilterConfig;
+    filterIsUnconfigured: FilterConfig;
+    filterIsLinked: FilterConfig;
+    filterIsUnlinked: FilterConfig;
 }
 
 type State = {
@@ -53,10 +51,10 @@ type State = {
     page: number;
     showFilters: boolean;
     searchString: string;
-    filterIsConfigured?:boolean;
-    filterIsUnconfigured?:boolean;
-    filterIsLinked?:boolean;
-    filterIsUnlinked?:boolean;
+    filterIsConfigured?: boolean;
+    filterIsUnconfigured?: boolean;
+    filterIsLinked?: boolean;
+    filterIsUnlinked?: boolean;
 }
 
 const FILTER_STATE_SEARCH_KEY_MAPPING: FilterSearchMap = {
@@ -66,7 +64,7 @@ const FILTER_STATE_SEARCH_KEY_MAPPING: FilterSearchMap = {
     filterIsUnlinked: {filter: 'is:notlinked', option: {is_linked: false}},
 };
 
-export default class GroupsList extends React.PureComponent<Props,State> {
+export default class GroupsList extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         groups: [],
     };
@@ -85,37 +83,37 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         });
     }
 
-    closeFilters = () => {
+    public closeFilters(): void {
         this.setState({showFilters: false});
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE).then(() => {
             this.setState({loading: false});
         });
     }
 
-  public previousPage = async (e: any): Promise<void> => {
+    public async previousPage(e: any): Promise<void> {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({checked: {}, page, loading: true});
         this.searchGroups(page);
     }
 
-    public nextPage = async (e: any) => {
+    public async nextPage(e: any): Promise<void> {
         e.preventDefault();
         const page = this.state.page + 1;
         this.setState({checked: {}, page, loading: true});
         this.searchGroups(page);
     }
 
-    onCheckToggle = (key: string) => {
+    public onCheckToggle(key: string): void {
         const newChecked = {...this.state.checked};
         newChecked[key] = !newChecked[key];
         this.setState({checked: newChecked});
     }
 
-    linkSelectedGroups = () => {
+    public linkSelectedGroups(): void {
         for (const group of this.props.groups) {
             if (this.state.checked[group.primary_key] && !group.mattermost_group_id) {
                 this.props.actions.link(group.primary_key);
@@ -123,7 +121,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         }
     }
 
-    unlinkSelectedGroups = () => {
+    public unlinkSelectedGroups(): void {
         for (const group of this.props.groups) {
             if (this.state.checked[group.primary_key] && group.mattermost_group_id) {
                 this.props.actions.unlink(group.primary_key);
@@ -131,8 +129,8 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         }
     }
 
-    selectionActionButtonType = () => {
-        let hasSelectedLinked: boolean = false;
+    public selectionActionButtonType(): string {
+        let hasSelectedLinked = false;
         for (const group of this.props.groups) {
             if (this.state.checked[group.primary_key]) {
                 if (!group.mattermost_group_id) {
@@ -148,7 +146,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         return 'disabled';
     }
 
-    renderSelectionActionButton = () => {
+    public renderSelectionActionButton(): JSX.Element {
         switch (this.selectionActionButtonType()) {
         case 'link':
             return (
@@ -191,7 +189,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         }
     }
 
-    renderRows = () => {
+    public renderRows(): JSX.Element | JSX.Element[] {
         if (this.state.loading) {
             return (
                 <div className='groups-list-loading'>
@@ -229,11 +227,11 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         });
     }
 
-    regex = (str: string) => {
+    public regex(str: string): RegExp {
         return new RegExp(`(${str})`, 'i');
     }
 
-    searchGroups = (page?: number) => {
+    public searchGroups(page?: number): void {
         let {searchString} = this.state;
 
         const newState = {...this.state};
@@ -267,7 +265,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         });
     }
 
-    handleGroupSearchKeyUp = (e: any) => {
+    public handleGroupSearchKeyUp(e: any): void {
         const {key} = e;
         const {searchString} = this.state;
         if (key === Constants.KeyCodes.ENTER[0]) {
@@ -283,7 +281,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         this.setState(newState);
     }
 
-    newSearchString = (searchString: string, stateKey: string, checked: boolean) => {
+    public newSearchString(searchString: string, stateKey: string, checked: boolean): string {
         let newSearchString = searchString;
         const {filter} = (FILTER_STATE_SEARCH_KEY_MAPPING as any)[stateKey];
         const re = this.regex(filter);
@@ -300,7 +298,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         return newSearchString.replace(/\s{2,}/g, ' ');
     }
 
-    handleFilterCheck = (updates: any[]) => {
+    public handleFilterCheck(updates: any[]): void {
         let {searchString} = this.state;
         updates.forEach((item: any) => {
             searchString = this.newSearchString(searchString, item[0], item[1]);
@@ -309,7 +307,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
         this.setState({searchString});
     }
 
-    renderSearchFilters = () => {
+    public renderSearchFilters(): JSX.Element {
         return (
             <div
                 id='group-filters'
@@ -391,22 +389,22 @@ export default class GroupsList extends React.PureComponent<Props,State> {
     }
 
     resetFiltersAndSearch = () => {
-        const newState = {
+        const newState: any = {
             showFilters: false,
             searchString: '',
             loading: true,
             page: 0,
         };
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
-            (newState as any)[key] = false;
+            newState[key] = false;
         });
         this.setState(newState);
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, {q: ''}).then(() => {
             this.setState({loading: false});
         });
-    };
+    }
 
-    render = () => {
+    public render(): JSX.Element {
         const startCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + 1;
         let endCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + LDAP_GROUPS_PAGE_SIZE;
         const total = this.props.total;
@@ -482,6 +480,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
                         </div>
                         <button
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                            // eslint-disable-next-line no-undefined
                             onClick={firstPage ? undefined : this.previousPage}
                             disabled={firstPage}
                         >
@@ -489,6 +488,7 @@ export default class GroupsList extends React.PureComponent<Props,State> {
                         </button>
                         <button
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                            // eslint-disable-next-line no-undefined
                             onClick={lastPage ? undefined : this.nextPage}
                             disabled={lastPage}
                         >

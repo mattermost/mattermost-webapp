@@ -8,13 +8,14 @@ import {createSelector} from 'reselect';
 import {linkLdapGroup, unlinkLdapGroup, getLdapGroups as fetchLdapGroups} from 'mattermost-redux/actions/admin';
 import {getLdapGroups, getLdapGroupsCount} from 'mattermost-redux/selectors/entities/admin';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {GroupSearchOpts} from 'mattermost-redux/types/groups';
+
 import GroupsList from './groups_list';
-import { GlobalState } from 'mattermost-redux/types/store';
-import { ActionFunc } from 'mattermost-redux/types/actions';
-import { GroupSearchOpts } from 'mattermost-redux/types/groups';
 
 type Actions = {
-    getLdapGroups:(page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<{}>;
+    getLdapGroups: (page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<{}>;
     linkLdapGroup: (key: string) => Promise<{}>;
     unlinkLdapGroup: (key: string) => Promise<{}>;
 }
@@ -22,6 +23,7 @@ type Actions = {
 const getSortedListOfLdapGroups = createSelector(
     getLdapGroups,
     (ldapGroups) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const groups: any[] = Object.values(ldapGroups);
         groups.sort((a, b) => a.name.localeCompare(b.name));
         return groups;
@@ -45,6 +47,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsList as any);

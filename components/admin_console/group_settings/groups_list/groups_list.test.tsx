@@ -2,28 +2,27 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import {shallow} from 'enzyme';
 
 import GroupsList from 'components/admin_console/group_settings/groups_list/groups_list';
 
 describe('components/admin_console/group_settings/GroupsList', () => {
-
     type State = {
         checked: any;
         loading: boolean;
         page: number;
         showFilters: boolean;
         searchString: string;
-        filterIsConfigured?:boolean;
-        filterIsUnconfigured?:boolean;
-        filterIsLinked?:boolean;
-        filterIsUnlinked?:boolean;
+        filterIsConfigured?: boolean;
+        filterIsUnconfigured?: boolean;
+        filterIsLinked?: boolean;
+        filterIsUnlinked?: boolean;
     }
 
     const baseProps = {
         groups: [
-            { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-            { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
+            {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+            {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
         ],
         total: 2,
         actions: {
@@ -38,7 +37,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 {...baseProps}
             />
         );
-        wrapper.setState({ loading: true });
+        wrapper.setState({loading: true});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -46,7 +45,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
         const wrapper = shallow(
             <GroupsList {...baseProps}/>
         );
-        wrapper.setState({ checked: { test2: true } });
+        wrapper.setState({checked: {test2: true}});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -54,7 +53,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
         const wrapper = shallow(
             <GroupsList {...baseProps}/>
         );
-        wrapper.setState({ checked: { test1: true } });
+        wrapper.setState({checked: {test1: true}});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -62,41 +61,41 @@ describe('components/admin_console/group_settings/GroupsList', () => {
         const wrapper = shallow(
             <GroupsList {...baseProps}/>
         );
-        wrapper.setState({ checked: { test1: true, test2: true } });
+        wrapper.setState({checked: {test1: true, test2: true}});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, without selection', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList {...baseProps}/>
         );
-        wrapper.setState({ checked: {} });
+        wrapper.setState({checked: {}});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('onCheckToggle must toggle the checked data', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList {...baseProps}/>
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
         instance.onCheckToggle('test1');
-        expect(wrapper.state().checked).toEqual({ test1: true });
+        expect(wrapper.state().checked).toEqual({test1: true});
         instance.onCheckToggle('test1');
-        expect(wrapper.state().checked).toEqual({ test1: false });
+        expect(wrapper.state().checked).toEqual({test1: false});
         instance.onCheckToggle('test2');
-        expect(wrapper.state().checked).toEqual({ test1: false, test2: true });
+        expect(wrapper.state().checked).toEqual({test1: false, test2: true});
         instance.onCheckToggle('test2');
-        expect(wrapper.state().checked).toEqual({ test1: false, test2: false });
+        expect(wrapper.state().checked).toEqual({test1: false, test2: false});
     });
 
     test('linkSelectedGroups must call link for unlinked selected groups', () => {
         const link = jest.fn();
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
                 ]}
                 total={2}
                 actions={{
@@ -117,13 +116,13 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('unlinkSelectedGroups must call unlink for linked selected groups', () => {
         const unlink = jest.fn();
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
                 ]}
                 total={4}
                 actions={{
@@ -143,7 +142,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, without results', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -154,17 +153,17 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ loading: false });
+        wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, with results', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
                 total={3}
                 actions={{
@@ -174,24 +173,24 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ loading: false });
+        wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, with results and next and previous', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true },
-                    { primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
                 ]}
                 total={33}
                 actions={{
@@ -201,24 +200,24 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ page: 1, loading: false });
+        wrapper.setState({page: 1, loading: false});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, with results and next', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true },
-                    { primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
                 ]}
                 total={13}
                 actions={{
@@ -228,17 +227,17 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ loading: false });
+        wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, with results and previous', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
                 total={13}
                 actions={{
@@ -248,18 +247,18 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ page: 1, loading: false });
+        wrapper.setState({page: 1, loading: false});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should change properly the state and call the getLdapGroups, on previousPage when page > 0', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
                 total={13}
                 actions={{
@@ -269,8 +268,8 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ page: 1, checked: { test1: true, test2: true } });
-        await wrapper.instance().previousPage({preventDefault:jest.fn()});
+        wrapper.setState({page: 1, checked: {test1: true, test2: true}});
+        await wrapper.instance().previousPage({preventDefault: jest.fn()});
 
         const state = wrapper.instance().state;
         expect(state.checked).toEqual({});
@@ -280,12 +279,12 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on previousPage when page == 0', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
                 ]}
                 total={3}
                 actions={{
@@ -295,9 +294,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ page: 0, checked: { test1: true, test2: true } });
+        wrapper.setState({page: 0, checked: {test1: true, test2: true}});
 
-        await wrapper.instance().previousPage({ preventDefault: jest.fn()});
+        await wrapper.instance().previousPage({preventDefault: jest.fn()});
 
         const state = wrapper.instance().state;
         expect(state.checked).toEqual({});
@@ -307,19 +306,19 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on nextPage clicked', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[
-                    { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false },
-                    { primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true },
-                    { primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null },
-                    { primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null },
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                    {primary_key: 'test3', name: 'test3', mattermost_group_id: 'group-id-2', has_syncables: true},
+                    {primary_key: 'test4', name: 'test4', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test5', name: 'test5', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test6', name: 'test6', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test7', name: 'test7', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test8', name: 'test8', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test9', name: 'test9', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test10', name: 'test10', mattermost_group_id: null, has_syncables: null},
                 ]}
                 total={20}
                 actions={{
@@ -329,9 +328,9 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ page: 0, checked: { test1: true, test2: true } });
+        wrapper.setState({page: 0, checked: {test1: true, test2: true}});
 
-        await wrapper.instance().nextPage({ preventDefault: jest.fn() });
+        await wrapper.instance().nextPage({preventDefault: jest.fn()});
         const state = wrapper.state();
         expect(state.checked).toEqual({});
         expect(state.page).toBe(1);
@@ -339,7 +338,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with filters open', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -350,12 +349,12 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ showFilters: true, filterIsLinked: true, filterIsUnlinked: true });
+        wrapper.setState({showFilters: true, filterIsLinked: true, filterIsUnlinked: true});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('clicking the clear icon clears searchString', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -366,13 +365,13 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ searchString: 'foo' });
+        wrapper.setState({searchString: 'foo'});
         wrapper.find('i.fa-times-circle').first().simulate('click');
-        expect(wrapper.state().searchString).toEqual('');
+        expect((wrapper.state() as State).searchString).toEqual('');
     });
 
     test('clicking the down arrow opens the filters', () => {
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -390,7 +389,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('clicking search invokes getLdapGroups', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -401,20 +400,20 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ showFilters: true, searchString: 'foo iS:ConfiGuReD is:notlinked' });
+        wrapper.setState({showFilters: true, searchString: 'foo iS:ConfiGuReD is:notlinked'});
         expect(wrapper.state().filterIsConfigured).toEqual(false);
         expect(wrapper.state().filterIsUnlinked).toEqual(false);
 
         wrapper.find('a.search-groups-btn').first().simulate('click');
         expect(getLdapGroups).toHaveBeenCalledTimes(2);
-        expect(getLdapGroups).toHaveBeenCalledWith(0, 200, { q: 'foo', is_configured: true, is_linked: false });
+        expect(getLdapGroups).toHaveBeenCalledWith(0, 200, {q: 'foo', is_configured: true, is_linked: false});
         expect(wrapper.state().filterIsConfigured).toEqual(true);
         expect(wrapper.state().filterIsUnlinked).toEqual(true);
     });
 
     test('checking a filter checkbox add the filter to the searchString', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -425,14 +424,14 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ showFilters: true, searchString: 'foo' });
+        wrapper.setState({showFilters: true, searchString: 'foo'});
         wrapper.find('span.filter-check').first().simulate('click');
         expect(wrapper.state().searchString).toEqual('foo is:linked');
     });
 
     test('unchecking a filter checkbox removes the filter from the searchString', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList,{},State>(
+        const wrapper = shallow<GroupsList, {}, State>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -443,7 +442,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
                 }}
             />
         );
-        wrapper.setState({ showFilters: true, searchString: 'foo is:linked', filterIsLinked: true });
+        wrapper.setState({showFilters: true, searchString: 'foo is:linked', filterIsLinked: true});
         wrapper.find('span.filter-check').first().simulate('click');
         expect(wrapper.state().searchString).toEqual('foo');
     });
