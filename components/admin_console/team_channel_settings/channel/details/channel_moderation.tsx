@@ -18,105 +18,105 @@ import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.
 const formattedMessages: any = {
     create_post: {
         title: {
-            id: 'admin.channel_settings.channel_moderation.createPosts',
+            id: t('admin.channel_settings.channel_moderation.createPosts'),
             defaultMessage: 'Create Posts'
         },
         description: {
-            id: 'admin.channel_settings.channel_moderation.createPostsDesc',
+            id: t('admin.channel_settings.channel_moderation.createPostsDesc'),
             defaultMessage: 'The ability for members and guests to create posts in the channel.'
         },
         disabled_guests: {
-            id: 'admin.channel_settings.channel_moderation.createPosts.disabledGuest',
+            id: t('admin.channel_settings.channel_moderation.createPosts.disabledGuest'),
             defaultMessage: 'Create posts for guests are disabled in'
         },
         disabled_members: {
-            id: 'admin.channel_settings.channel_moderation.createPosts.disabledMember',
+            id: t('admin.channel_settings.channel_moderation.createPosts.disabledMember'),
             defaultMessage: 'Create posts for members are disabled in'
         },
         disabled_both: {
-            id: 'admin.channel_settings.channel_moderation.createPosts.disabledBoth',
+            id: t('admin.channel_settings.channel_moderation.createPosts.disabledBoth'),
             defaultMessage: 'Create posts for members and guests are disabled in'
         }
     },
 
     create_reactions: {
         title: {
-            id: 'admin.channel_settings.channel_moderation.postReactions',
+            id: t('admin.channel_settings.channel_moderation.postReactions'),
             defaultMessage: 'Post Reactions'
         },
         description: {
-            id: 'admin.channel_settings.channel_moderation.postReactionsDesc',
+            id: t('admin.channel_settings.channel_moderation.postReactionsDesc'),
             defaultMessage: 'The ability for members and guests to post reactions.'
         },
         disabled_guests: {
-            id: 'admin.channel_settings.channel_moderation.postReactions.disabledGuest',
+            id: t('admin.channel_settings.channel_moderation.postReactions.disabledGuest'),
             defaultMessage: 'Post reactions for guests are disabled in'
         },
         disabled_members: {
-            id: 'admin.channel_settings.channel_moderation.postReactions.disabledMember',
+            id: t('admin.channel_settings.channel_moderation.postReactions.disabledMember'),
             defaultMessage: 'Post reactions for members are disabled in'
         },
         disabled_both: {
-            id: 'admin.channel_settings.channel_moderation.postReactions.disabledBoth',
+            id: t('admin.channel_settings.channel_moderation.postReactions.disabledBoth'),
             defaultMessage: 'Post reactions for members and guests are disabled in'
         }
     },
 
     manage_members: {
         title: {
-            id: 'admin.channel_settings.channel_moderation.manageMembers',
+            id: t('admin.channel_settings.channel_moderation.manageMembers'),
             defaultMessage: 'Manage Members'
         },
         description: {
-            id: 'admin.channel_settings.channel_moderation.manageMembersDesc',
+            id: t('admin.channel_settings.channel_moderation.manageMembersDesc'),
             defaultMessage: 'The ability for members to add and remove people.'
         },
         disabled_guests: {
-            id: 'admin.channel_settings.channel_moderation.manageMembers.disabledGuest',
+            id: t('admin.channel_settings.channel_moderation.manageMembers.disabledGuest'),
             defaultMessage: 'Manage members for guests are disabled in'
         },
         disabled_members: {
-            id: 'admin.channel_settings.channel_moderation.manageMembers.disabledMember',
+            id: t('admin.channel_settings.channel_moderation.manageMembers.disabledMember'),
             defaultMessage: 'Manage members for members are disabled in'
         },
         disabled_both: {
-            id: 'admin.channel_settings.channel_moderation.manageMembers.disabledBoth',
+            id: t('admin.channel_settings.channel_moderation.manageMembers.disabledBoth'),
             defaultMessage: 'Manage members for members and guests are disabled in'
         }
     },
 
     use_channel_mentions: {
         title: {
-            id: 'admin.channel_settings.channel_moderation.channelMentions',
+            id: t('admin.channel_settings.channel_moderation.channelMentions'),
             defaultMessage: 'Channel Mentions'
         },
         description: {
-            id: 'admin.channel_settings.channel_moderation.channelMentionsDesc',
+            id: t('admin.channel_settings.channel_moderation.channelMentionsDesc'),
             defaultMessage: 'The ability for members and guests to use @all, @here and @channel.'
         },
         disabled_guests: {
-            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledGuest',
+            id: t('admin.channel_settings.channel_moderation.channelMentions.disabledGuest'),
             defaultMessage: 'Channel mentions for guests are disabled in'
         },
         disabled_members: {
-            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledMember',
+            id: t('admin.channel_settings.channel_moderation.channelMentions.disabledMember'),
             defaultMessage: 'Channel mentions for members are disabled in'
         },
         disabled_both: {
-            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledBoth',
+            id: t('admin.channel_settings.channel_moderation.channelMentions.disabledBoth'),
             defaultMessage: 'Channel mentions for members and guests are disabled in'
         },
 
         disabled_guests_due_to_create_posts: {
-            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledGuestsDueToCreatePosts',
+            id: t('admin.channel_settings.channel_moderation.channelMentions.disabledGuestsDueToCreatePosts'),
             defaultMessage: 'Guests can not use channel mentions without the ability to create posts.'
         },
         disabled_members_due_to_create_posts: {
-            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledMemberDueToCreatePosts',
+            id: t('admin.channel_settings.channel_moderation.channelMentions.disabledMemberDueToCreatePosts'),
             defaultMessage: 'Members can not use channel mentions without the ability to create posts.'
         },
         disabled_both_due_to_create_posts: {
-            id: 'admin.channel_settings.channel_moderation.channelMentions.disabledBothDueToCreatePosts',
+            id: t('admin.channel_settings.channel_moderation.channelMentions.disabledBothDueToCreatePosts'),
             defaultMessage: 'Guests and members can not use channel mentions without the ability to create posts.'
         }
     },
