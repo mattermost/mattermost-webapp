@@ -83,8 +83,9 @@ class ChannelHeader extends React.PureComponent {
     constructor(props) {
         super(props);
         this.toggleFavoriteRef = React.createRef();
+        this.headerDescriptionRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props)};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -262,6 +263,11 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
+    setOverlayWidth = () => {
+        const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
+        this.setState({popoverOverlayWidth: headerDescriptionRect.width});
+    }
+
     render() {
         const {
             teamId,
@@ -421,6 +427,7 @@ class ChannelHeader extends React.PureComponent {
                     popoverStyle='info'
                     popoverSize='lg'
                     placement='bottom'
+                    style={{'max-width': `${this.state.popoverOverlayWidth}px`}}
                     className='channel-header__popover'
                     onMouseOver={this.handleOnMouseOver}
                     onMouseOut={this.handleOnMouseOut}
@@ -433,10 +440,11 @@ class ChannelHeader extends React.PureComponent {
             );
             headerTextContainer = (
                 <OverlayTrigger
-                    trigger={'click'}
+                    trigger={'hover'}
                     placement='bottom'
                     rootClose={true}
                     overlay={popoverContent}
+                    onEntering={this.setOverlayWidth}
                     ref='headerOverlay'
                 >
                     <div
@@ -671,6 +679,7 @@ class ChannelHeader extends React.PureComponent {
                         <div
                             id='channelHeaderInfo'
                             className='channel-header__info'
+                            ref={this.headerDescriptionRef}
                         >
                             <div
                                 className='channel-header__title dropdown'

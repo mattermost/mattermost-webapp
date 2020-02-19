@@ -1,6 +1,10 @@
 @charset 'UTF-8';
 @import 'compass/css3/transition';
 
+.app__body .popover.channel-header__popover {
+    box-shadow: none;
+}
+
 .popover {
     @include border-radius($border-rad * 2);
     color: lighten($black, 25%);
@@ -9,6 +13,25 @@
 
     &.channel-header__popover {
         z-index: 999;
+        margin-left: -4px;
+        font-size: em(12px);
+
+        .popover-content {
+            padding: 3px;
+
+            p {
+                white-space: normal;
+                word-break: break-all;
+    
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        &.bottom {
+            margin-top: -13px;
+        }
     }
 
     &.bottom,
