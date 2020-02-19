@@ -264,9 +264,6 @@ class CombinedSystemMessage extends React.PureComponent {
         const {currentUserId, currentUsername} = this.props;
         const usernames = this.getUsernamesByIds(userIds);
         let actor = actorId ? this.getUsernamesByIds([actorId])[0] : '';
-        if (actor && (actorId === currentUserId || actorId === currentUsername)) {
-            actor = actor.toLowerCase();
-        }
 
         const firstUser = usernames[0];
         const secondUser = usernames[1];
