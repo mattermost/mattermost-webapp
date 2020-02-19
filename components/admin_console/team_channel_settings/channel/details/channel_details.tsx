@@ -372,7 +372,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             usersToRemove,
             channelPermissions
         } = this.state;
-        const {channel, team} = this.props;
+        const {channel, team, teamScheme} = this.props;
         const missingGroup = (og: {id: string}) => !groups.find((g: Group) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
         return (
@@ -431,8 +431,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         <ChannelModeration
                             channelPermissions={channelPermissions}
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
-                            teamSchemeID={this.props.teamScheme!.id}
-                            teamSchemeDisplayName={this.props.teamScheme!.display_name}
+                            teamSchemeID={teamScheme?.id}
+                            teamSchemeDisplayName={teamScheme?.display_name}
                         />
 
                         <ChannelGroups
