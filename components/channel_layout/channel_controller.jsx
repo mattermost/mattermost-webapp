@@ -5,8 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 
-import GetPostLinkModal from 'components/get_post_link_modal';
-
 import AnnouncementBarController from 'components/announcement_bar';
 
 import Pluggable from 'plugins/pluggable';
