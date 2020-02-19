@@ -8,7 +8,6 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -42,6 +41,7 @@ export default class DotMenu extends React.PureComponent {
         postEditTimeLimit: PropTypes.string.isRequired,
         enableEmojiPicker: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
+        currentTeamUrl: PropTypes.string.isRequired,
 
         /*
          * Components for overriding provided by plugins
@@ -162,9 +162,22 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    handlePermalinkMenuItemActivated = (e) => {
+    copyLink = (e) => {
         e.preventDefault();
-        showGetPostLinkModal(this.props.post);
+        const postUrl = `${this.props.currentTeamUrl}/pl/${this.props.post.id}`;
+
+        const clipboard = navigator.clipboard;
+        if (clipboard) {
+            clipboard.writeText(postUrl);
+        } else {
+            const hiddenInput = document.createElement('textarea');
+            hiddenInput.value = postUrl;
+            document.body.appendChild(hiddenInput);
+            hiddenInput.focus();
+            hiddenInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(hiddenInput);
+        }
     }
 
     handlePinMenuItemActivated = () => {
@@ -333,7 +346,7 @@ export default class DotMenu extends React.PureComponent {
                         id={`permalink_${this.props.post.id}`}
                         show={!isSystemMessage}
                         text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
-                        onClick={this.handlePermalinkMenuItemActivated}
+                        onClick={this.copyLink}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}

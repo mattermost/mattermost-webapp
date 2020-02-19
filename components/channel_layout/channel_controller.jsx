@@ -5,12 +5,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 
+import GetPostLinkModal from 'components/get_post_link_modal';
+
 import AnnouncementBarController from 'components/announcement_bar';
 
 import Pluggable from 'plugins/pluggable';
 import SystemNotice from 'components/system_notice';
 import EditPostModal from 'components/edit_post_modal';
-import GetPostLinkModal from 'components/get_post_link_modal';
+
 import GetPublicLinkModal from 'components/get_public_link_modal';
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -76,7 +78,6 @@ export default class ChannelController extends React.Component {
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
-                    <GetPostLinkModal/>
                     <GetPublicLinkModal/>
                     <ImportThemeModal/>
                     <EditPostModal/>
