@@ -83,6 +83,8 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
       />
       <ChannelGroups
         channel={
@@ -222,6 +224,8 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
       />
       <ChannelGroups
         channel={

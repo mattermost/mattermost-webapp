@@ -65,7 +65,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             default_team_user_role: 'asdf',
             default_channel_admin_role: 'asdf',
             default_channel_user_role: 'asdf',
-        }
+        };
 
         const actions = {
             getChannel: jest.fn().mockResolvedValue([]),
