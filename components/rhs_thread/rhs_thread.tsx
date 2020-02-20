@@ -72,9 +72,6 @@ type State = {
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
-    public refs: {
-        [x: string]: any;
-    };
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Record<string, any> = {selected: props.selected};
@@ -90,7 +87,6 @@ export default class RhsThread extends React.Component<Props, State> {
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
         const openTime = (new Date()).getTime();
-        this.refs = {};
 
         this.state = {
             windowWidth: Utils.windowWidth(),
@@ -221,14 +217,14 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         if (this.props.posts) {
-            const childNodes = this.refs.rhspostlist.childNodes;
-            const viewPort = this.refs.rhspostlist.getBoundingClientRect();
+            const childNodes = (this.refs.rhspostlist as HTMLElement).childNodes;
+            const viewPort = (this.refs.rhspostlist as HTMLElement).getBoundingClientRect();
             let topRhsPostId = '';
             const offset = 100;
 
             // determine the top rhs comment assuming that childNodes and postsArray are of same length
             for (let i = 0; i < childNodes.length; i++) {
-                if ((childNodes[i].offsetTop + viewPort.top) - offset > 0) {
+                if (((childNodes[i] as HTMLElement).offsetTop + viewPort.top) - offset > 0) {
                     topRhsPostId = this.props.posts[i].id;
                     break;
                 }
