@@ -463,17 +463,9 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         // * Open the channel menu dropdown, execute the shortcut and verify it is blocked
         cy.findByLabelText('channel menu').click();
         verifyShortcutReactToLastMessageIsBlocked();
-        cy.get('body').type('{esc}');
 
         // * Open the channel menu dropdown, execute the shortcut and verify it is blocked
         cy.findByLabelText('main menu').click();
-        verifyShortcutReactToLastMessageIsBlocked();
-        cy.get('body').type('{esc}');
-
-        // * Open channel members dropdown, execute the shortcut and verify it is blocked
-        cy.findByLabelText('members').
-            should('be', 'button').
-            click();
         verifyShortcutReactToLastMessageIsBlocked();
     });
 
