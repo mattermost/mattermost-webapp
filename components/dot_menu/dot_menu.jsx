@@ -345,7 +345,7 @@ export default class DotMenu extends React.PureComponent {
                     <Menu.ItemAction
                         id={`permalink_${this.props.post.id}`}
                         show={!isSystemMessage}
-                        text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
+                        text={Utils.localizeMessage('post_info.permalink', 'Copy Link')}
                         onClick={this.copyLink}
                     />
                     <Menu.ItemAction
