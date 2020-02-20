@@ -436,8 +436,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         <ChannelModeration
                             channelPermissions={channelPermissions}
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
-                            teamSchemeID={teamScheme?.id}
-                            teamSchemeDisplayName={teamScheme?.display_name}
+                            teamSchemeID={teamScheme?.['id']}
+                            teamSchemeDisplayName={teamScheme?.['display_name']}
                         />
 
                         <ChannelGroups

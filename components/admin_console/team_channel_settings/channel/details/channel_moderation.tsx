@@ -202,7 +202,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
 export default class ChannelModeration extends React.Component<Props> {
     private errorMessagesToDisplay = (entry: ChannelPermissions): Array<any> => {
         const errorMessages: Array<any> = [];
-        const isGuestsDisabled = !isNil(entry.roles.guests?.enabled) && !entry.roles.guests?.enabled;
+        const isGuestsDisabled = !isNil(entry.roles.guests?.['enabled']) && !entry.roles.guests?.['enabled'];
         const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';
         if (entry.name === 'use_channel_mentions') {
@@ -310,8 +310,8 @@ export default class ChannelModeration extends React.Component<Props> {
                                         <ChannelModerationTableRow
                                             key={entry.name}
                                             name={entry.name}
-                                            guests={entry.roles.guests?.value}
-                                            guestsDisabled={!entry.roles.guests?.enabled}
+                                            guests={entry.roles.guests?.['value']}
+                                            guestsDisabled={!entry.roles.guests?.['enabled']}
                                             members={entry.roles.members.value}
                                             membersDisabled={!entry.roles.members.enabled}
                                             onClick={this.props.onChannelPermissionsChanged}
