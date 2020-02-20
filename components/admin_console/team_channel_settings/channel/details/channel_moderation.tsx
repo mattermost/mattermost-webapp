@@ -14,7 +14,11 @@ import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
-
+t('admin.channel_settings.channel_moderation.title');
+t('admin.channel_settings.channel_moderation.subtitle');
+t('admin.channel_settings.channel_moderation.permissions');
+t('admin.channel_settings.channel_moderation.guests');
+t('admin.channel_settings.channel_moderation.members');
 const formattedMessages: any = {
     create_post: {
         title: {
@@ -266,9 +270,9 @@ export default class ChannelModeration extends React.Component<Props> {
         return (
             <AdminPanel
                 id='channel_moderation'
-                titleId={t('admin.channel_settings.channel_moderation.title')}
+                titleId='admin.channel_settings.channel_moderation.title'
                 titleDefault='Channel Moderation'
-                subtitleId={t('admin.channel_settings.channel_moderation.subtitle')}
+                subtitleId='admin.channel_settings.channel_moderation.subtitle'
                 subtitleDefault='Manage the actions available to channel members and guests.'
             >
                 <div className='channel-moderation'>
