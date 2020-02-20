@@ -51,7 +51,7 @@ describe('Messaging', () => {
     });
 
     beforeEach(() => {
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M15406 - Focus move from Recent Mentions to main input box when a character key is selected', () => {

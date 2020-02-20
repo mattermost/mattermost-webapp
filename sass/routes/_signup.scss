@@ -487,7 +487,7 @@ body {
     border: 1px solid #dddddd;
     margin: 0 0 20px;
     border-radius: 4px;
-    overflow: hidden;
+    max-height: calc(75vh - (108px + 89px));
 
     .signup-team-dir {
         @include legacy-pie-clearfix;
@@ -592,7 +592,6 @@ body {
         }
     }
 }
-
 
 .authorize-box {
     border: 1px solid $black;

@@ -266,7 +266,8 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
             wrapper.setProps({atOldestPost: true});
-            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual(null);
+            wrapper.setState({atBottom: true});
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual(null);
         });
     });
 
