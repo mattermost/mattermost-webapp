@@ -218,18 +218,22 @@ export default class DotMenu extends React.PureComponent {
         </Tooltip>
     )
 
-    refCallback = (ref) => {
-        if (ref) {
-            const rect = ref.rect();
-            const y = rect.y || rect.top;
+    refCallback = (menuRef) => {
+        if (menuRef) {
+            const rect = menuRef.rect();
+            const buttonRect = this.buttonRef.current.getBoundingClientRect();
+            const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
             const height = rect.height;
             const windowHeight = window.innerHeight;
 
-            if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
-                this.setState({openUp: true});
-            }
+            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+            const spaceOnTop = y;
+            const spaceOnBottom = (totalSpace - (spaceOnTop - height));
 
-            this.setState({width: rect.width});
+            this.setState({
+                openUp: (spaceOnTop > spaceOnBottom),
+                width: rect.width,
+            });
         }
     }
 
@@ -293,6 +297,7 @@ export default class DotMenu extends React.PureComponent {
                     rootClose={true}
                 >
                     <button
+                        ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
                         aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More Actions').toLowerCase()}
                         className='post__dropdown color--link style--none'
