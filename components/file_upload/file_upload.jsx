@@ -44,6 +44,14 @@ const holders = defineMessages({
         id: t('file_upload.fileAbove'),
         defaultMessage: 'File above {max}MB could not be uploaded: {filename}',
     },
+    filesProhibited: {
+        id: t('file_upload.filesProhibited'),
+        defaultMessage: 'Unable to upload "{filenames}" because they are either a folder or a package. Please attach a Zip file instead.',
+    },
+    fileProhibited: {
+        id: t('file_upload.fileProhibited'),
+        defaultMessage: 'Unable to upload "{filename}" because it is a folder or a package. Please attach a Zip file instead.',
+    },
     zeroBytesFiles: {
         id: t('file_upload.zeroBytesFiles'),
         defaultMessage: 'You are uploading empty files: {filenames}',
@@ -242,15 +250,22 @@ class FileUpload extends PureComponent {
     uploadFiles = (sortedFiles) => {
         const {currentChannelId, rootId} = this.props;
 
+        // Prohibts user from uploading .app files
+        const prohibitedFileTypesRegex = /^.*\.(app)/g;
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
 
         // keep track of how many files have been too large
         const tooLargeFiles = [];
+        const prohibitedFileTypes = [];
         const zeroFiles = [];
         const clientIds = [];
 
         for (let i = 0; i < sortedFiles.length && numUploads < uploadsRemaining; i++) {
+            if (prohibitedFileTypesRegex.test(sortedFiles[i].name)) {
+                prohibitedFileTypes.push(sortedFiles[i]);
+                continue;
+            }
             if (sortedFiles[i].size > this.props.maxFileSize) {
                 tooLargeFiles.push(sortedFiles[i]);
                 continue;
@@ -308,6 +323,27 @@ class FileUpload extends PureComponent {
         const errors = [];
         if (sortedFiles.length > uploadsRemaining) {
             errors.push(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
+        }
+        if (prohibitedFileTypes.length > 1) {
+            const prohibitedFileNames = prohibitedFileTypes.map((file) => file.name).join(', ');
+
+            errors.push(
+                formatMessage(
+                    holders.filesProhibited, 
+                    {
+                        filenames: prohibitedFileNames
+                    }
+                )
+            );
+        } else if (prohibitedFileTypes.length > 0) {
+            errors.push(
+                formatMessage(
+                    holders.fileProhibited, 
+                    {
+                        filename: prohibitedFileTypes[0].name
+                    }
+                )
+            );
         }
 
         if (tooLargeFiles.length > 1) {
