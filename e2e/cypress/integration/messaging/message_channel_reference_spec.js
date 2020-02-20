@@ -12,7 +12,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Messaging', () => {
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18707 - Autocomplete should close if tildes are deleted using backspace', () => {

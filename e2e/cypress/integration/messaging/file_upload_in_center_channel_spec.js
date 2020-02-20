@@ -18,7 +18,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Set the default image preview setting to Expanded
         cy.apiSavePreviewCollapsedPreference('false');
