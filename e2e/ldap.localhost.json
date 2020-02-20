@@ -1,0 +1,6 @@
+{
+    "env": {
+        "ldapServer": "localhost",
+        "ldapPort": "389"
+    }
+}
