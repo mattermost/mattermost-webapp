@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx renderDeactivateMemberModal should not render the bot accounts warning in case the user do not have any bot accounts 1`] = `
+exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should not render the bot accounts warning in case the user do not have any bot accounts 1`] = `
 <div>
   <injectIntl(FormattedMarkdownMessage)
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
@@ -20,19 +20,10 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <strong>
-    <br />
-    <br />
-    <FormattedMessage
-      defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-      id="deactivate_member_modal.sso_warning"
-      values={Object {}}
-    />
-  </strong>
 </div>
 `;
 
-exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx renderDeactivateMemberModal should not render the bot accounts warning. owner_id has no enabled bot accounts 1`] = `
+exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should not render the bot accounts warning. owner_id has no enabled bot accounts 1`] = `
 <div>
   <injectIntl(FormattedMarkdownMessage)
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
@@ -52,19 +43,10 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <strong>
-    <br />
-    <br />
-    <FormattedMessage
-      defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-      id="deactivate_member_modal.sso_warning"
-      values={Object {}}
-    />
-  </strong>
 </div>
 `;
 
-exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx renderDeactivateMemberModal should render the bot accounts warning. owner_id has enabled bot accounts 1`] = `
+exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should render the bot accounts warning. owner_id has enabled bot accounts 1`] = `
 <div>
   <injectIntl(FormattedMarkdownMessage)
     defaultMessage="This action deactivates {username}.\\\\n \\\\n * They will be logged out and not have access to any teams or channels on this system.\\\\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\\\\n \\\\n \\\\n"
@@ -85,19 +67,10 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <strong>
-    <br />
-    <br />
-    <FormattedMessage
-      defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-      id="deactivate_member_modal.sso_warning"
-      values={Object {}}
-    />
-  </strong>
 </div>
 `;
 
-exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx should match snapshot with license 1`] = `
+exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown should match snapshot with license 1`] = `
 <Fragment>
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
@@ -128,15 +101,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             }
           }
         />
-        <strong>
-          <br />
-          <br />
-          <FormattedMessage
-            defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-            id="deactivate_member_modal.sso_warning"
-            values={Object {}}
-          />
-        </strong>
       </div>
     }
     modalClass=""
@@ -318,7 +282,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
       <MenuItemAction
         onClick={[Function]}
-        show={false}
+        show={true}
         text="Remove MFA"
       />
       <MenuItemAction
@@ -364,7 +328,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
 </Fragment>
 `;
 
-exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx should match snapshot without license 1`] = `
+exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown should match snapshot without license 1`] = `
 <Fragment>
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
@@ -395,15 +359,6 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             }
           }
         />
-        <strong>
-          <br />
-          <br />
-          <FormattedMessage
-            defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
-            id="deactivate_member_modal.sso_warning"
-            values={Object {}}
-          />
-        </strong>
       </div>
     }
     modalClass=""
@@ -585,7 +540,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
       <MenuItemAction
         onClick={[Function]}
-        show={false}
+        show={true}
         text="Remove MFA"
       />
       <MenuItemAction

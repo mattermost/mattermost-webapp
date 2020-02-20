@@ -14,6 +14,7 @@
 import users from '../../fixtures/users.json';
 import messageMenusOptions from '../../fixtures/interactive_message_menus_options.json';
 import {getMessageMenusPayload} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const options = [
     {text: 'Option 1', value: 'option1'},
@@ -111,23 +112,17 @@ describe('Interactive Menu', () => {
 
         // # Get message attachment from the last post
         cy.getLastPostId().then((postId) => {
-            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+            cy.get(`#messageAttachmentList_${postId}`).within(() => {
+                // # Select option 1 by typing exact text and press enter
+                cy.findByPlaceholderText('Select an option...').click().clear().type(`${options[0].text}{enter}`);
+
+                // * Verify that the input is updated with the selected option
+                cy.findByDisplayValue(options[0].text).should('exist');
+            });
         });
 
-        cy.get('@messageAttachmentList').within(() => {
-            // # Select option 1 by typing exact text and press enter
-            cy.findByPlaceholderText('Select an option...').click().clear().type(`${options[0].text}{enter}`);
-
-            // * Verify that the input is updated with the selected option
-            cy.findByDisplayValue(options[0].text).should('exist');
-        });
-
-        cy.getLastPostId().then((postId) => {
-            // * Verify that ephemeral message is posted, visible to observer and contains an exact message
-            cy.get(`#${postId}_message`).should('be.visible').and('have.class', 'post--ephemeral');
-            cy.get('.post__visibility').should('be.visible').and('have.text', '(Only visible to you)');
-            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', 'Ephemeral | select  option: option1');
-        });
+        // # Checking if we got the ephemeral message with the selection we made
+        verifyEphemeralMessage('Ephemeral | select option: option1');
     });
 
     it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
@@ -383,15 +378,7 @@ describe('Interactive Menu', () => {
         });
 
         // # Get the emphemirical message from webhook, which is only visible to us
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).within(() => {
-                // * Check if Bot message is the last message
-                cy.findByText('(Only visible to you)').should('exist');
-
-                // * Check if we got ephemeral message of our selection
-                cy.findByText(/Ephemeral | select option: mango/).should('exist');
-            });
-        });
+        verifyEphemeralMessage('Ephemeral | select option: mango');
     });
 
     it('IM21035 - Long lists of selections are scrollable', () => {
@@ -474,15 +461,7 @@ describe('Interactive Menu', () => {
         });
 
         // # Checking if we got the ephemeral message with the selection we made
-        cy.getLastPostId().then((botLastPostId) => {
-            cy.get(`#post_${botLastPostId}`).within(() => {
-                // * Check if Bot message is the last message
-                cy.findByText('(Only visible to you)').should('exist');
-
-                // * Check if we got ephemeral message of our selection
-                cy.findByText(/Ephemeral | select option: banana/).should('exist');
-            });
-        });
+        verifyEphemeralMessage('Ephemeral | select option: banana');
 
         cy.getNthPostId(-2).then((webhookMessageId) => {
             // # Click on reply icon to open message in RHS
@@ -529,15 +508,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Checking if we got the ephemeral message with the selection we made
-            cy.getLastPostId().then((botLastPostId) => {
-                cy.get(`#post_${botLastPostId}`).within(() => {
-                    // * Check if Bot message only visible to you
-                    cy.findByText('(Only visible to you)').should('exist');
-
-                    // * Check if we got ephemeral message of our selection ie. firstSelectedItem
-                    cy.findByText(/Ephemeral | select option: banana/).should('exist');
-                });
-            });
+            verifyEphemeralMessage('Ephemeral | select option: banana');
 
             // # Click on reply icon to original message with attachment message in RHS
             cy.clickPostCommentIcon(parentPostId);
@@ -567,15 +538,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Checking if we got updated ephemeral message with the new selection we made
-            cy.getLastPostId().then((secondBotLastPostId) => {
-                cy.get(`#post_${secondBotLastPostId}`).within(() => {
-                // * Check if Bot message only for you
-                    cy.findByText('(Only visible to you)').should('exist');
-
-                    // * Check if we got ephemeral message of second selection
-                    cy.findByText(/Ephemeral | select option: avacodo/).should('exist');
-                });
-            });
+            verifyEphemeralMessage('Ephemeral | select option: avacodo');
 
             cy.closeRHS();
         });
@@ -665,6 +628,19 @@ function verifyLastPost() {
 
             // # Close the RHS
             cy.closeRHS();
+        });
+    });
+}
+
+function verifyEphemeralMessage(message) {
+    // # Checking if we got the ephemeral message with the selection we made
+    cy.wait(TIMEOUTS.TINY).getLastPostId().then((botLastPostId) => {
+        cy.get(`#post_${botLastPostId}`).within(() => {
+            // * Check if Bot message only visible to you
+            cy.findByText('(Only visible to you)').should('exist');
+
+            // * Check if we got ephemeral message of our selection
+            cy.findByText(message).should('exist');
         });
     });
 }

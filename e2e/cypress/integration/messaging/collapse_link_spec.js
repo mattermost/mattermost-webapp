@@ -26,7 +26,7 @@ describe('Messaging', () => {
 
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18708-Link preview - Removing it from my view removes it from other user\'s view', () => {

@@ -73,9 +73,22 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
       <Connect(MemberListChannel)
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "",
             "delete_at": 0,
             "display_name": "channel_display_name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "",
             "id": "channel_id",
+            "last_post_at": 0,
+            "name": "",
+            "purpose": "",
+            "scheme_id": "",
+            "team_id": "",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
           }
         }
       />
@@ -145,9 +158,22 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
       <Connect(MemberListChannel)
         channel={
           Object {
+            "create_at": 0,
+            "creator_id": "",
             "delete_at": 1234,
             "display_name": "channel_display_name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "",
             "id": "channel_id",
+            "last_post_at": 0,
+            "name": "",
+            "purpose": "",
+            "scheme_id": "",
+            "team_id": "",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
           }
         }
       />

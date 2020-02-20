@@ -23,18 +23,21 @@ describe('Draw plugin : Post message', () => {
         });
 
         // # Login with admin access .upload Draw plugin & Enable the plugin
-        cy.apiLogin('sysadmin').visit('/');
+        cy.apiLogin('sysadmin');
+        cy.visit('/ad-1/channels/town-square');
         cy.uploadBinaryFileByName(fileName, fileType);
         cy.enablePluginById(pluginId);
 
         // # Login with user-1
-        cy.apiLogin('user-1').visit('/');
+        cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
         cy.get('#post_textbox').clear().type('This check is for draw plugin');
     });
 
     after(() => {
         // # UnInstall Draw plugin
-        cy.apiLogin('sysadmin').visit('/');
+        cy.apiLogin('sysadmin');
+        cy.visit('/ad-1/channels/town-square');
         cy.uninstallPluginById(pluginId);
     });
 

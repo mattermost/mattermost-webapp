@@ -1,39 +1,47 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import MemberListChannel from 'components/member_list_channel';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalIdentifiers} from 'utils/constants';
 
-export default class ChannelMembersModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * Bool whether user has permission to manage current channel
-         */
-        canManageChannelMembers: PropTypes.bool.isRequired,
+    /**
+     * Bool whether user has permission to manage current channel
+     */
+    canManageChannelMembers: boolean;
 
-        /**
-         * Object with info about current channel
-         */
-        channel: PropTypes.object.isRequired,
+    /**
+     * Object with info about current channel
+     */
+    channel: Channel;
 
-        /**
-         * Function that is called when modal is hidden
-         */
-        onHide: PropTypes.func.isRequired,
+    /**
+     * Function that is called when modal is hidden
+     */
+    onHide: () => void;
 
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+    actions: {
+        openModal: (modalData: {
+            modalId: string;
+            dialogProps: {};
+            dialogType: (props: {}) => React.ReactElement | null;
+        }) => Promise<{data: boolean}>;
+    };
+}
 
-    constructor(props) {
+type State = {
+    show: boolean;
+}
+
+export default class ChannelMembersModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {

@@ -47,7 +47,7 @@ describe('Change Roles', () => {
             userInfo = res.body;
 
             // # Visit Town square and go to view members modal
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
             cy.get('#sidebarItem_town-square').click({force: true});
 
             // # Get channel membership
