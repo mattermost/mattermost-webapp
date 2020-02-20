@@ -329,7 +329,7 @@ class FileUpload extends PureComponent {
 
             errors.push(
                 formatMessage(
-                    holders.filesProhibited, 
+                    holders.filesProhibited,
                     {
                         filenames: prohibitedFileNames
                     }
@@ -338,7 +338,7 @@ class FileUpload extends PureComponent {
         } else if (prohibitedFileTypes.length > 0) {
             errors.push(
                 formatMessage(
-                    holders.fileProhibited, 
+                    holders.fileProhibited,
                     {
                         filename: prohibitedFileTypes[0].name
                     }
