@@ -59,7 +59,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // * Verify the accessibility support in Channel Edit Header Dialog
         verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic', 'editChannelHeaderModalLabel');
 
-        // * Verify the accessibility support in Channel Edit Header Dialog
+        // * Verify the accessibility support in Channel Edit Purpose Dialog
         verifyChannelMenuModal('Edit Channel Purpose', 'Edit Purpose for Off-Topic', 'editChannelPurposeModalLabel');
 
         // * Verify the accessibility support in Rename Channel Dialog
@@ -94,7 +94,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                     expect(text).equal(selectedRowText);
                 });
 
-            // # Search for an invalid text and check if reader can read no results
+            // # Search for an invalid text
             cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(500);
 
             // * Check if reader can read no results
@@ -103,7 +103,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     });
 
     it('MM-22623 Accessibility Support in More Channels Dialog screen', () => {
-        // * Verify the aria-label in create direct message button
+        // * Verify the aria-label in more public channels button
         cy.get('#sidebarPublicChannelsMore').should('have.attr', 'aria-label', 'more public channels').click();
 
         // * Verify the accessibility support in More Channels Dialog`
