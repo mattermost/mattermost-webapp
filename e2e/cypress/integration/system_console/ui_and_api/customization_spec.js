@@ -36,7 +36,9 @@ describe('Customization', () => {
                 },
             };
         });
+    });
 
+    beforeEach(() => {
         // # Login as sysadmin and visit customization system console page
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/site_config/customization');

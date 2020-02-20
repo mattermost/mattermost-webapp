@@ -11,7 +11,7 @@ describe('Search', () => {
     before(() => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('S19944 Highlighting does not change to what is being typed in the search input box', () => {

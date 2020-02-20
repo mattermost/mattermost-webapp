@@ -16,7 +16,7 @@ describe('View Members modal', () => {
             // # Promote user-1 as a system admin
             // # Visit default channel and verify members modal
             promoteToSysAdmin(res.body);
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
             verifyMemberDropdownAction(true);
 
             // # Make user a regular member

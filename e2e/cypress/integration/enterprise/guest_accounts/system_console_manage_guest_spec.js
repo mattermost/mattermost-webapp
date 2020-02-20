@@ -155,14 +155,14 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // # Login as Guest User to verify if Revoke Session works
         cy.apiLogin(guest.username, guest.password);
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // # Issue a Request to Revoke All Sessions as SysAdmin
         const baseUrl = Cypress.config('baseUrl');
         cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${guest.id}/sessions/revoke/all`}).then(() => {
             // # Initiate browser activity like visit on "/"
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             // * Verify if the regular member is logged out and redirected to login page
             cy.url({timeout: TIMEOUTS.LARGE}).should('include', '/login');

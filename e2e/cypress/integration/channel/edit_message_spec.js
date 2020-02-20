@@ -17,7 +17,7 @@ describe('Edit Message', () => {
 
     it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {
         // # and go to /
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Post message "Hello"
         cy.postMessage('Hello World!');
@@ -70,7 +70,7 @@ describe('Edit Message', () => {
 
     it('M13482 Display correct timestamp for edited message', () => {
         // # and go to /
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Post a message
         cy.postMessage('Checking timestamp');
@@ -115,7 +115,7 @@ describe('Edit Message', () => {
 
     it('M15519 Open edit modal immediately after making a post when post is pending', () => {
         // # and go to /. We set fetch to null here so that we can intercept XHR network requests
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Enter first message
         cy.postMessage('Hello');
