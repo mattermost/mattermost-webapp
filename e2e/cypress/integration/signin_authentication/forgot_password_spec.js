@@ -66,14 +66,14 @@ function resetPasswordAndLogin(user, feedbackEmail, supportEmail) {
     const newPassword = 'newpasswd';
 
     // # Visit '/'
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
     // * Verify that it redirects to /login
     cy.url().should('contain', '/login');
 
     // * Verify that forgot password link is present
     // # Click forgot password link
-    cy.get('#login_forgot > a').should('be.visible').and('have.text', 'I forgot my password').click();
+    cy.get('#login_forgot > a').should('be.visible').and('have.text', 'I forgot my password.').click();
 
     // * Verify that it redirects to /reset_password
     cy.url().should('contain', '/reset_password');

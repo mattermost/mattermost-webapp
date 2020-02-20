@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import JoinLeaveSection from './join_leave_section';
@@ -306,7 +306,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                 </label>
                                 <br/>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.advance.formattingDesc'
                                     defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'

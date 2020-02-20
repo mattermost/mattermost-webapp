@@ -394,7 +394,7 @@ export default class NotificationsTab extends React.PureComponent {
                                     />
                                 </label>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.push_notification.info'
                                     defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
@@ -411,7 +411,7 @@ export default class NotificationsTab extends React.PureComponent {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
-                        className='padding-top'
+                        className='pt-2'
                     >
                         <FormattedMessage
                             id='user.settings.push_notification.disabled_long'

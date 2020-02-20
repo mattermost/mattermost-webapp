@@ -16,7 +16,7 @@ describe('Mark as Unread', () => {
 
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     beforeEach(() => {

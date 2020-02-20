@@ -18,7 +18,7 @@ describe('Messaging', () => {
 
         // # Login and go to /
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Get ChannelID to use later
         cy.getCurrentChannelId().then((id) => {
