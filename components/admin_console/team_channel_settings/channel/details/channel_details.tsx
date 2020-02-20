@@ -68,6 +68,7 @@ interface ChannelDetailsState {
     showRemoveConfirmModal: boolean;
     showConvertAndRemoveConfirmModal: boolean;
     channelPermissions?: Array<ChannelPermissions>;
+    teamScheme?: Scheme;
 }
 
 export default class ChannelDetails extends React.Component<ChannelDetailsProps, ChannelDetailsState> {
@@ -88,10 +89,11 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             saveNeeded: false,
             serverError: null,
             channelPermissions: props.channelPermissions,
+            teamScheme: props.teamScheme,
         };
     }
     componentDidUpdate(prevProps: ChannelDetailsProps) {
-        const {channel, totalGroups} = this.props;
+        const {channel, totalGroups, actions} = this.props;
         if (channel.id !== prevProps.channel.id || totalGroups !== prevProps.totalGroups) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
@@ -104,8 +106,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
 
         // If we don't have the team and channel on mount, we need to request the team after we load the channel
         if (!prevProps.team.id && !prevProps.channel.team_id && channel.team_id) {
-            this.props.actions.getTeam(channel.team_id).
-                then((data: any) => this.props.actions.loadScheme(data.data.scheme_id));
+            actions.getTeam(channel.team_id).
+                then((data: any) => actions.loadScheme(data.data.scheme_id)).
+                then(() => this.setState({teamScheme: this.props.teamScheme}));
         }
     }
     async componentDidMount() {
@@ -116,12 +119,13 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             then(() => this.setState({groups: this.props.groups})),
         actions.getChannelModerations(channelID).
             then(() => this.setState({channelPermissions: this.props.channelPermissions})),
-        actions.getTeam(channel.team_id).
-            then((data: any) => {
+        await actions.getTeam(channel.team_id).
+            then(async (data: any) => {
                 if (data.data) {
-                    this.props.actions.loadScheme(data.data.scheme_id);
+                    await actions.loadScheme(data.data.scheme_id);
                 }
-            }),
+            }).
+            then(() => this.setState({teamScheme: this.props.teamScheme})),
         ]);
     }
     private setToggles = (isSynced: boolean, isPublic: boolean) => {
@@ -370,9 +374,10 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             showRemoveConfirmModal,
             showConvertAndRemoveConfirmModal,
             usersToRemove,
-            channelPermissions
+            channelPermissions,
+            teamScheme
         } = this.state;
-        const {channel, team, teamScheme} = this.props;
+        const {channel, team} = this.props;
         const missingGroup = (og: {id: string}) => !groups.find((g: Group) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
         return (

@@ -40,9 +40,8 @@ function mapStateToProps(state, props) {
     const allGroups = getAllGroups(state, channel.team_id);
     const totalGroups = groups.length;
     const channelPermissions = getChannelModerations(state, channelID);
-    const teamScheme = team.scheme_id ? getScheme(state, team.scheme_id) : null;
+    const teamScheme = getScheme(state, team.scheme_id);
     return {
-        teamScheme,
         channel,
         team,
         allGroups,
@@ -50,6 +49,7 @@ function mapStateToProps(state, props) {
         groups,
         channelID,
         channelPermissions,
+        teamScheme,
     };
 }
 
