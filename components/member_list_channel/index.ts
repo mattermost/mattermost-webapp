@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {createSelector} from 'reselect';
 import {searchProfilesInCurrentChannel, getProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 import {getMembersInCurrentChannel, getCurrentChannelStats, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -10,6 +10,10 @@ import {getMembersInCurrentTeam} from 'mattermost-redux/selectors/entities/teams
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {searchProfiles} from 'mattermost-redux/actions/users';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {
     loadProfilesAndTeamMembersAndChannelMembers,
@@ -18,15 +22,21 @@ import {
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
-import MemberListChannel from './member_list_channel.jsx';
+import MemberListChannel from './member_list_channel';
 
 const getUsersAndActionsToDisplay = createSelector(
-    (state, users) => users,
+    (state: GlobalState, users: Array<UserProfile>) => users,
     getMembersInCurrentTeam,
     getMembersInCurrentChannel,
     getCurrentChannel,
-    (users = [], teamMembers = {}, channelMembers = {}, channel = {}) => {
-        const actionUserProps = {};
+    (users = [], teamMembers = {}, channelMembers = {}, channel) => {
+        const actionUserProps: {
+            [userId: string]: {
+                channel: Channel;
+                teamMember: any;
+                channelMember: ChannelMembership;
+            };
+        } = {};
         const usersToDisplay = [];
 
         for (let i = 0; i < users.length; i++) {
@@ -50,7 +60,15 @@ const getUsersAndActionsToDisplay = createSelector(
     }
 );
 
-function mapStateToProps(state) {
+interface State extends GlobalState {
+    views: {
+        search: {
+            modalSearch: string;
+        };
+    };
+}
+
+function mapStateToProps(state: State) {
     const searchTerm = state.views.search.modalSearch;
 
     let users;
@@ -71,9 +89,26 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+type Actions = {
+    searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+    getChannelStats: (channelId: string) => Promise<{data: {}}>;
+    setModalSearchTerm: (term: string) => Promise<{
+        data: boolean;
+    }>;
+    loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string) => Promise<{
+        data: boolean;
+    }>;
+    loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
+        data: boolean;
+    }>;
+    loadTeamMembersAndChannelMembersForProfilesList: (profiles: any, teamId: string, channelId: string) => Promise<{
+        data: boolean;
+    }>;
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             searchProfiles,
             getChannelStats,
             setModalSearchTerm,

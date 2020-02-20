@@ -1,11 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class TeamButton extends React.PureComponent {
-    render() {
+type Props = {
+    small: boolean;
+    teamIconUrl: string;
+    displayName: string;
+}
+
+export default class TeamButton extends React.PureComponent<Props, {}> {
+    public render(): JSX.Element {
         const {small, teamIconUrl} = this.props;
         const classModifier = small ? 'small' : 'large';
         let content;
@@ -42,9 +47,3 @@ export default class TeamButton extends React.PureComponent {
         );
     }
 }
-
-TeamButton.propTypes = {
-    small: PropTypes.bool,
-    teamIconUrl: PropTypes.string,
-    displayName: PropTypes.string,
-};
