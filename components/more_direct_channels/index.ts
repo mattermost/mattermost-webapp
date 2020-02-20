@@ -19,7 +19,7 @@ import {
     searchProfilesInCurrentTeam,
     getTotalUsersStats as getTotalUsersStatsSelector,
 } from 'mattermost-redux/selectors/entities/users';
-import {getChannelsWithUserProfiles} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc} from 'mattermost-redux/types/actions';
@@ -74,6 +74,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     }
 
     const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
+    const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
 
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
@@ -83,6 +84,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
         currentTeamName: team.name,
         searchTerm,
         users: users.sort(sortByUsername),
+        myDirectChannels,
         groupChannels: filteredGroupChannels,
         statuses: state.entities.users.statuses,
         currentChannelMembers,
@@ -96,6 +98,18 @@ const filterGroupChannels = memoizeResult((channels: Array<{profiles: Array<User
     return channels.filter((channel) => {
         const matches = filterProfilesMatchingTerm(channel.profiles, term);
         return matches.length > 0;
+    });
+});
+
+const filterDirectChannels = memoizeResult((channels: Channel[], userId: string) => {
+    return Object.values(channels).filter((channel) => {
+        if (channel.type !== 'D') {
+            return false;
+        }
+        if (channel.name && channel.name.indexOf(userId) < 0) {
+            return false;
+        }
+        return true;
     });
 });
 

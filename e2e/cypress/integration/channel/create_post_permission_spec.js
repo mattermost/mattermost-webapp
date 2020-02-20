@@ -15,7 +15,7 @@ function removeCreatePostPermission() {
         cy.patchRole(role.id, role);
     });
     cy.apiLogin('user-1');
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 }
 
 function addCreatePostPermission() {
@@ -28,7 +28,7 @@ function addCreatePostPermission() {
 
     // * Check that the post input is enabled again.
     cy.apiLogin('user-1');
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 }
 
 function openTheRHS() {
@@ -40,7 +40,7 @@ function openTheRHS() {
 describe('Message', () => {
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('MM-21924 Post input is disabled without create_post permission', () => {

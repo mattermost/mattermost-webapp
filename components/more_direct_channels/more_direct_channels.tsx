@@ -36,6 +36,7 @@ type Props = {
     searchTerm: string;
     users: UserProfile[];
     groupChannels: Array<{profiles: UserProfile[]} & Channel>;
+    myDirectChannels: Channel[];
     statuses: RelationOneToOne<UserProfile, string>;
     totalCount?: number;
 
@@ -444,6 +445,19 @@ export default class MoreDirectChannels extends React.Component<Props, State> {
             }
             users = active.concat(inactive);
         }
+
+        users = users.filter((user) => {
+            if (user.delete_at === 0) {
+                return true;
+            }
+            for (const channel of this.props.myDirectChannels) {
+                if (channel.name.indexOf(user.id) >= 0) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
         const usersValues = users.map((user) => {
             return {label: user.username, value: user.id, ...user};
         });
