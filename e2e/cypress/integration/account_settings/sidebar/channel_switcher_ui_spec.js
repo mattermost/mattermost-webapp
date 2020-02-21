@@ -10,7 +10,7 @@
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal(null, true);
