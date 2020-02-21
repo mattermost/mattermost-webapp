@@ -216,7 +216,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('.setting-list a.btn').should('have.class', 'a11y--active a11y--focused').tab();
         cy.get('#cancelSetting').should('have.class', 'a11y--active a11y--focused');
 
-        // * Check Tab behavior in Sign-In Method
+        // * Check Tab behavior in Sign-In Method if its available
         cy.get('.user-settings').then((el) => {
             if (el.find('#signinEdit').length) {
                 cy.get('#signinEdit').click();
