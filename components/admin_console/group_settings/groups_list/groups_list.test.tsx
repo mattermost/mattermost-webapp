@@ -6,35 +6,17 @@ import {shallow} from 'enzyme';
 
 import GroupsList from 'components/admin_console/group_settings/groups_list/groups_list';
 
-describe('components/admin_console/group_settings/GroupsList', () => {
-    type State = {
-        checked: any;
-        loading: boolean;
-        page: number;
-        showFilters: boolean;
-        searchString: string;
-        filterIsConfigured?: boolean;
-        filterIsUnconfigured?: boolean;
-        filterIsLinked?: boolean;
-        filterIsUnlinked?: boolean;
-    }
-
-    const baseProps = {
-        groups: [
-            {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
-            {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
-        ],
-        total: 2,
-        actions: {
-            getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
-            link: jest.fn(),
-            unlink: jest.fn(),
-        }
-    };
+describe('components/admin_console/group_settings/GroupsList.tsx', () => {
     test('should match snapshot, while loading', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
-                {...baseProps}
+                groups={[]}
+                total={0}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
             />
         );
         wrapper.setState({loading: true});
@@ -42,8 +24,19 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with only linked selected', () => {
-        const wrapper = shallow(
-            <GroupsList {...baseProps}/>
+        const wrapper = shallow<GroupsList>(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                ]}
+                total={2}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
         );
         wrapper.setState({checked: {test2: true}});
         expect(wrapper).toMatchSnapshot();
@@ -51,7 +44,18 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should match snapshot, with only not-linked selected', () => {
         const wrapper = shallow(
-            <GroupsList {...baseProps}/>
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                ]}
+                total={2}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
         );
         wrapper.setState({checked: {test1: true}});
         expect(wrapper).toMatchSnapshot();
@@ -59,23 +63,56 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should match snapshot, with mixed types selected', () => {
         const wrapper = shallow(
-            <GroupsList {...baseProps}/>
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                ]}
+                total={2}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
         );
         wrapper.setState({checked: {test1: true, test2: true}});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, without selection', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
-            <GroupsList {...baseProps}/>
+        const wrapper = shallow(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                ]}
+                total={2}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
         );
         wrapper.setState({checked: {}});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('onCheckToggle must toggle the checked data', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
-            <GroupsList {...baseProps}/>
+        const wrapper = shallow<GroupsList>(
+            <GroupsList
+                groups={[
+                    {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
+                    {primary_key: 'test2', name: 'test2', mattermost_group_id: 'group-id-1', has_syncables: false},
+                ]}
+                total={2}
+                actions={{
+                    getLdapGroups: jest.fn().mockReturnValue(Promise.resolve()),
+                    link: jest.fn(),
+                    unlink: jest.fn(),
+                }}
+            />
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
@@ -91,7 +128,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('linkSelectedGroups must call link for unlinked selected groups', () => {
         const link = jest.fn();
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -116,7 +153,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('unlinkSelectedGroups must call unlink for linked selected groups', () => {
         const unlink = jest.fn();
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -142,7 +179,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, without results', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -158,7 +195,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with results', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -178,7 +215,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with results and next and previous', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -205,7 +242,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with results and next', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -232,7 +269,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with results and previous', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -253,7 +290,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on previousPage when page > 0', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -269,6 +306,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
             />
         );
         wrapper.setState({page: 1, checked: {test1: true, test2: true}});
+
         await wrapper.instance().previousPage({preventDefault: jest.fn()});
 
         const state = wrapper.instance().state;
@@ -279,7 +317,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on previousPage when page == 0', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -306,7 +344,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on nextPage clicked', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -338,7 +376,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with filters open', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -354,7 +392,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('clicking the clear icon clears searchString', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -367,11 +405,11 @@ describe('components/admin_console/group_settings/GroupsList', () => {
         );
         wrapper.setState({searchString: 'foo'});
         wrapper.find('i.fa-times-circle').first().simulate('click');
-        expect((wrapper.state() as State).searchString).toEqual('');
+        expect(wrapper.state().searchString).toEqual('');
     });
 
     test('clicking the down arrow opens the filters', () => {
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -389,7 +427,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('clicking search invokes getLdapGroups', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -413,7 +451,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('checking a filter checkbox add the filter to the searchString', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -431,7 +469,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('unchecking a filter checkbox removes the filter from the searchString', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow<GroupsList, {}, State>(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
