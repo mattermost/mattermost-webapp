@@ -10,21 +10,13 @@ import {getLdapGroups, getLdapGroupsCount} from 'mattermost-redux/selectors/enti
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {GroupSearchOpts} from 'mattermost-redux/types/groups';
 
 import GroupsList from './groups_list';
-
-type Actions = {
-    getLdapGroups: (page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<{}>;
-    linkLdapGroup: (key: string) => Promise<{}>;
-    unlinkLdapGroup: (key: string) => Promise<{}>;
-}
 
 const getSortedListOfLdapGroups = createSelector(
     getLdapGroups,
     (ldapGroups) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const groups: any[] = Object.values(ldapGroups);
+        const groups = Object.values<any>(ldapGroups);
         groups.sort((a, b) => a.name.localeCompare(b.name));
         return groups;
     }
@@ -39,7 +31,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, any>({
             getLdapGroups: fetchLdapGroups,
             link: linkLdapGroup,
             unlink: unlinkLdapGroup,
@@ -47,5 +39,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default connect(mapStateToProps, mapDispatchToProps)(GroupsList as any);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsList);

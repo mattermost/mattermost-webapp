@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, while loading 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, while loading 1`] = `
 <div
   className="groups-list"
 >
@@ -88,45 +88,10 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
   </div>
-  <div
-    className="groups-list--footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.group_settings.groups_list.paginatorCount"
-        values={
-          Object {
-            "endCount": 2,
-            "startCount": 1,
-            "total": 2,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
-  </div>
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with filters open 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with filters open 1`] = `
 <div
   className="groups-list"
 >
@@ -297,7 +262,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with mixed types selected 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with mixed types selected 1`] = `
 <div
   className="groups-list"
 >
@@ -424,7 +389,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with only linked selected 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with only linked selected 1`] = `
 <div
   className="groups-list"
 >
@@ -551,7 +516,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with only not-linked selected 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with only not-linked selected 1`] = `
 <div
   className="groups-list"
 >
@@ -678,7 +643,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with results 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with results 1`] = `
 <div
   className="groups-list"
 >
@@ -842,7 +807,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with results and next 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with results and next 1`] = `
 <div
   className="groups-list"
 >
@@ -1111,7 +1076,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with results and next and previous 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with results and next and previous 1`] = `
 <div
   className="groups-list"
 >
@@ -1381,7 +1346,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, with results and previous 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, with results and previous 1`] = `
 <div
   className="groups-list"
 >
@@ -1546,7 +1511,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, without results 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, without results 1`] = `
 <div
   className="groups-list"
 >
@@ -1639,7 +1604,7 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
 </div>
 `;
 
-exports[`components/admin_console/group_settings/GroupsList should match snapshot, without selection 1`] = `
+exports[`components/admin_console/group_settings/GroupsList.tsx should match snapshot, without selection 1`] = `
 <div
   className="groups-list"
 >
