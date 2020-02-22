@@ -73,7 +73,7 @@ function makeMapStateToProps() {
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
-            pinnedPostsCounts: stats.pinnedpost_count
+            pinnedPostsCount: stats.pinnedpost_count
         };
     };
 }

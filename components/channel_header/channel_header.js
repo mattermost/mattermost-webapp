@@ -64,6 +64,7 @@ class ChannelHeader extends React.PureComponent {
         rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
         intl: intlShape.isRequired,
+        pinnedPostsCount: PropTypes.number,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -78,7 +79,6 @@ class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
-        pinnedPostsCounts: PropTypes.number,
     };
 
     constructor(props) {
@@ -599,11 +599,7 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.FLAG) {
             flaggedIconClass += ' active';
         }
-        const count = this.props.pinnedPostsCounts;
-        let countText = '-';
-        if (count > 0) {
-            countText = count.toString();
-        }
+        const countText = this.props.pinnedPostsCount ? this.props.pinnedPostsCount.toString() : '-';
 
         let title = (
             <React.Fragment>
@@ -700,7 +696,7 @@ class ChannelHeader extends React.PureComponent {
                         iconComponent={
                             <div className='flex-child'>
                                 <span
-                                    id='channelMemberCountText'
+                                    id='channelPinnedPostCountText'
                                     className='icon__text'
                                 >
                                     {countText}
