@@ -118,7 +118,29 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             then(() => actions.getChannel(channelID)).
             then(() => this.setState({groups: this.props.groups})),
         actions.getChannelModerations(channelID).
-            then(() => this.setState({channelPermissions: this.props.channelPermissions})),
+            then(() => {
+                const currentValueIndex = this.props.channelPermissions!.findIndex((element) => element.name === 'create_post');
+                const currentCreatePostRoles: any = this.props.channelPermissions![currentValueIndex].roles;
+                let channelPermissions = this.props.channelPermissions;
+                for (const channelRole of Object.keys(currentCreatePostRoles)) {
+                    channelPermissions = channelPermissions!.map((permission) => {
+                        if (permission.name === 'use_channel_mentions' && !currentCreatePostRoles[channelRole].value) {
+                            return {
+                                name: permission.name,
+                                roles: {
+                                    ...permission.roles,
+                                    [channelRole]: {
+                                        value: false,
+                                        enabled: false,
+                                    }
+                                }
+                            };
+                        }
+                        return permission;
+                    });
+                }
+                this.setState({channelPermissions});
+            }),
         await actions.getTeam(channel.team_id).
             then(async (data: any) => {
                 if (data.data) {
@@ -199,7 +221,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let channelPermissions = [...this.state.channelPermissions!];
 
         if (name === 'create_post') {
-            const originalValue = this.props.channelPermissions!.filter((element) => element.name === 'use_channel_mentions')[0].roles[channelRole]!.enabled;
+            const originalObj = this.props.channelPermissions!.filter((element) => element.name === 'use_channel_mentions')[0].roles[channelRole];
             channelPermissions = channelPermissions.map((permission) => {
                 if (permission.name === 'use_channel_mentions' && !newValue) {
                     return {
@@ -218,8 +240,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         roles: {
                             ...permission.roles,
                             [channelRole]: {
-                                value: false,
-                                enabled: originalValue,
+                                value: originalObj?.['value'],
+                                enabled: originalObj?.['enabled'],
                             }
                         }
                     };
