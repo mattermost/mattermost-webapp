@@ -124,7 +124,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 let channelPermissions = this.props.channelPermissions;
                 for (const channelRole of Object.keys(currentCreatePostRoles)) {
                     channelPermissions = channelPermissions!.map((permission) => {
-                        if (permission.name === 'use_channel_mentions' && !currentCreatePostRoles[channelRole].value) {
+                        if (permission.name === 'use_channel_mentions' && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
                             return {
                                 name: permission.name,
                                 roles: {
