@@ -46,14 +46,14 @@ describe('SC17020 - Revoke All Sessions from System Console', () => {
     it('Verify for Regular Member', () => {
         // # Login as a regular member and navigate to Town Square Chat channel
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // # Issue a Request to Revoke All Sessions as SysAdmin
         const baseUrl = Cypress.config('baseUrl');
         cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
             // # Initiate browser activity like visit on "/"
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             // * Verify if the regular member is logged out and redirected to login page
             cy.url({timeout: TIMEOUTS.LARGE}).should('include', '/login');
