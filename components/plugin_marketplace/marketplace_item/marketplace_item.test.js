@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import {mountWithIntl as mount} from 'tests/helpers/intl-test-helper';
 
 import MarketplaceItem, {UpdateDetails, UpdateConfirmationModal} from './marketplace_item';

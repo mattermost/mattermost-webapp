@@ -23,7 +23,7 @@ import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -176,6 +176,13 @@ class CreatePost extends React.PureComponent {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        canPost: PropTypes.bool.isRequired,
+
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
 
         intl: intlShape.isRequired,
 
@@ -492,6 +499,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
+        cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
@@ -536,7 +544,7 @@ class CreatePost extends React.PureComponent {
         } = this.props;
 
         const currentMembersCount = this.props.currentChannelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
@@ -1101,8 +1109,9 @@ class CreatePost extends React.PureComponent {
             draft,
             fullWidthTextBox,
             showTutorialTip,
-            readOnlyChannel,
+            canPost,
         } = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !canPost;
         const {formatMessage} = this.props.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
@@ -1302,6 +1311,7 @@ class CreatePost extends React.PureComponent {
                                 preview={this.props.shouldShowPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createPostControls'

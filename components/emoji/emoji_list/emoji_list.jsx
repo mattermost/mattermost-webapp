@@ -201,7 +201,7 @@ export default class EmojiList extends React.Component {
                             id='filtered_user_list.next'
                             defaultMessage='Next'
                         />
-                        <NextIcon additionalClassName='margin-left'/>
+                        <NextIcon additionalClassName='ml-2'/>
                     </span>
                 );
 
@@ -224,7 +224,7 @@ export default class EmojiList extends React.Component {
                         className='btn btn-link'
                         onClick={this.previousPage}
                     >
-                        <PreviousIcon additionalClassName='margin-right'/>
+                        <PreviousIcon additionalClassName='mr-2'/>
                         <FormattedMessage
                             id='filtered_user_list.prev'
                             defaultMessage='Previous'
@@ -297,7 +297,7 @@ export default class EmojiList extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div className='filter-controls padding-top x2'>
+                <div className='filter-controls pt-3'>
                     {previousButton}
                     {nextButton}
                 </div>

@@ -136,6 +136,8 @@ function createPost({
             badConnection={false}
             shouldShowPreview={false}
             isTimezoneEnabled={false}
+            canPost={true}
+            useChannelMentions={true}
         />
     );
 }
@@ -781,6 +783,11 @@ describe('components/create_post', () => {
 
     it('should match snapshot for read only channel', () => {
         const wrapper = shallowWithIntl(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot when cannot post', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false}));
         expect(wrapper).toMatchSnapshot();
     });
 

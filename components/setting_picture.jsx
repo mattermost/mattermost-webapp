@@ -302,7 +302,7 @@ export default class SettingPicture extends Component {
                         {imgRender}
                         <div
                             id='setting-picture__helptext'
-                            className='setting-list-item padding-top x2'
+                            className='setting-list-item pt-3'
                         >
                             {helpText}
                         </div>

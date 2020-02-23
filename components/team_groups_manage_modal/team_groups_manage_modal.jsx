@@ -7,7 +7,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
@@ -185,7 +185,7 @@ class TeamGroupsManageModal extends React.PureComponent {
                 <ConfirmModal
                     show={this.state.showConfirmModal}
                     title={formatMessage({id: 'remove_group_confirm_title', defaultMessage: 'Remove Group and {memberCount, number} {memberCount, plural, one {Member} other {Members}}'}, {memberCount})}
-                    message={formatMessage({id: 'remove_group_confirm_message', defaultMessage: '{memberCount, number} {memberCount, plural, one {member} other {members}} associated to this group will be removed from the team on the next scheduled AD/LDAP synchronization. Are you sure you wish to remove this group and {memberCount} {memberCount, plural, one {member} other {members}}?'}, {memberCount})}
+                    message={formatMessage({id: 'remove_group_confirm_message', defaultMessage: '{memberCount, number} {memberCount, plural, one {member} other {members}} associated to this group will be removed from the team. Are you sure you wish to remove this group and {memberCount} {memberCount, plural, one {member} other {members}}?'}, {memberCount})}
                     confirmButtonText={formatMessage({id: 'remove_group_confirm_button', defaultMessage: 'Yes, Remove Group and {memberCount, plural, one {Member} other {Members}}'}, {memberCount})}
                     onConfirm={this.handleDeleteConfirmed}
                     onCancel={this.handleDeleteCanceled}
