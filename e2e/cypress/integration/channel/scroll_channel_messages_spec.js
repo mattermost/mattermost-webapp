@@ -60,6 +60,6 @@ describe('Scroll channel`s messages in mobile view', () => {
         cy.findAllByTestId('postView').eq(4).scrollIntoView();
 
         // * check date on scroll is two days ago
-        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', twoDaysAgo.format('ddd, MMM D, YYYY'));
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', twoDaysAgo.format('ddd, MMM DD, YYYY'));
     });
 });
