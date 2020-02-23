@@ -113,7 +113,7 @@ class TeamButton extends React.Component {
 
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
         let orderIndicator;
-        if (typeof this.props.order !== 'undefined') {
+        if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
             const toolTipHelp = isMac() ?
                 `⌘ ⌥ ${this.props.order}` :
                 `Ctrl+Alt+${this.props.order}`;
