@@ -1285,6 +1285,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="reset_permissions_to_default"
       onClick={[Function]}
     >
       <FormattedMessage
