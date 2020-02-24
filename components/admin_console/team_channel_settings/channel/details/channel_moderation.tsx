@@ -180,6 +180,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
             <td>
                 {!isNil(props.guests) &&
                     <button
+                        data-testid={`${props.name}_guests`}
                         className={classNames(
                             'checkbox',
                             {
@@ -197,6 +198,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
             <td>
                 {!isNil(props.members) &&
                     <button
+                        data-testid={`${props.name}_members`}
                         className={classNames(
                             'checkbox',
                             {
