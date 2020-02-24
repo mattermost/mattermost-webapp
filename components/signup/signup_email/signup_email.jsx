@@ -31,6 +31,7 @@ export default class SignupEmail extends React.Component {
         privacyPolicyLink: PropTypes.string,
         customDescriptionText: PropTypes.string,
         passwordConfig: PropTypes.object,
+        noAccounts: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             createUser: PropTypes.func.isRequired,
             loginById: PropTypes.func.isRequired,
@@ -65,6 +66,10 @@ export default class SignupEmail extends React.Component {
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
+        }
+
+        if (this.props.noAccounts) {
+            document.body.classList.remove('sticky');
         }
     }
 
@@ -422,6 +427,7 @@ export default class SignupEmail extends React.Component {
             privacyPolicyLink,
             siteName,
             termsOfServiceLink,
+            noAccounts,
         } = this.props;
 
         let serverError = null;
@@ -470,7 +476,7 @@ export default class SignupEmail extends React.Component {
 
         return (
             <div>
-                <BackButton/>
+                {!noAccounts && <BackButton/>}
                 <div
                     id='signup_email_section'
                     className='col-sm-12'
