@@ -168,10 +168,6 @@ export default class NeedsTeam extends React.Component<Props, State> {
         window.removeEventListener('keydown', this.onShortcutKeyDown);
     }
 
-    shouldComponentUpdate() {
-        return false;
-    }
-
     handleBlur = () => {
         window.isActive = false;
         this.blurTime = new Date().getTime();
