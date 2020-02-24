@@ -599,7 +599,23 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.FLAG) {
             flaggedIconClass += ' active';
         }
-        const countText = this.props.pinnedPostsCount ? this.props.pinnedPostsCount.toString() : '-';
+        const pinnedIcon = (this.props.pinnedPostsCount ?
+            (<div className='flex-child'>
+                <span
+                    id='channelPinnedPostCountText'
+                    className='icon__text'
+                >
+                    {this.props.pinnedPostsCount}
+                </span>
+                <PinIcon
+                    className='icon icon__pin'
+                    aria-hidden='true'
+                />
+            </div>) : (
+                <PinIcon
+                    className='icon icon__pin'
+                    aria-hidden='true'
+                />));
 
         let title = (
             <React.Fragment>
@@ -693,20 +709,7 @@ class ChannelHeader extends React.PureComponent {
                         channelMember={channelMember}
                     />
                     <HeaderIconWrapper
-                        iconComponent={
-                            <div className='flex-child'>
-                                <span
-                                    id='channelPinnedPostCountText'
-                                    className='icon__text'
-                                >
-                                    {countText}
-                                </span>
-                                <PinIcon
-                                    className='icon icon__pin'
-                                    aria-hidden='true'
-                                />
-                            </div>
-                        }
+                        iconComponent={pinnedIcon}
                         ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
