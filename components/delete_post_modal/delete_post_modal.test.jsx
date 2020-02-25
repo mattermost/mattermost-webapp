@@ -116,26 +116,6 @@ describe('components/delete_post_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should call browserHistory.push on handleDelete with post.id === focusedPostId && channelName', async () => {
-        browserHistory.push = jest.fn();
-        const props = {
-            ...baseProps,
-            focusedPostId: '123',
-            channelName: 'channel_name',
-            teamName: 'team_name',
-            actions: {
-                deleteAndRemovePost: jest.fn().mockReturnValueOnce({data: true}),
-            },
-        };
-        const wrapper = shallow(
-            <DeletePostModal {...props}/>
-        );
-
-        await wrapper.instance().handleDelete();
-        expect(browserHistory.push).toHaveBeenCalledTimes(1);
-        expect(browserHistory.push).toHaveBeenCalledWith('/team_name/channels/channel_name');
-    });
-
     test('should have called props.onHide when Modal.onExited is called', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};

@@ -12,6 +12,7 @@ describe('components/channel_view', () => {
         deactivatedChannel: false,
         match: {
             url: '/team/channel/channelId',
+            params: {},
         },
         showTutorial: false,
         channelIsArchived: false,

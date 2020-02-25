@@ -13,7 +13,8 @@ describe('components/channel_layout/CenterChannel', () => {
             params: {
                 identifier: 'identifier',
                 team: 'team',
-            }
+            },
+            url: '/team/channel/identifier',
         },
 
         actions: {
@@ -31,7 +32,8 @@ describe('components/channel_layout/CenterChannel', () => {
                 params: {
                     identifier: 'identifier2',
                     team: 'team2',
-                }
+                },
+                url: '/team2/channel/identifier2',
             },
         };
         wrapper.setProps(props2);

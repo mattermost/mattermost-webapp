@@ -4,12 +4,13 @@
 import {getChannel, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
+import {getUserIdFromChannelId} from 'utils/utils';
 
 export function focusPost(postId, returnTo = '') {
     return async (dispatch, getState) => {
@@ -68,7 +69,11 @@ export function focusPost(postId, returnTo = '') {
 
         const team = getTeam(state, channel.team_id || teamId);
 
-        if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
+        if (channel.type === Constants.DM_CHANNEL) {
+            const userId = getUserIdFromChannelId(channel.name);
+            const user = getUser(state, userId);
+            browserHistory.replace(`/${team.name}/messages/@${user.username}/${postId}`);
+        } else if (channel.type === Constants.GM_CHANNEL) {
             browserHistory.replace(`/${team.name}/messages/${channel.name}/${postId}`);
         } else {
             browserHistory.replace(`/${team.name}/channels/${channel.name}/${postId}`);
