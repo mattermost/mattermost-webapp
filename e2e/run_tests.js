@@ -158,8 +158,12 @@ function generateReport(summary) {
             author_name: 'Cypress UI Test',
             author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             author_link: 'https://www.mattermost.com',
-            title: `[${BRANCH}] Cypress UI Test Automation #${BUILD_ID} ${testResult.status}!`,
+            title: `Cypress UI Test Automation #${BUILD_ID} ${testResult.status}!`,
             fields: [{
+                short: false,
+                title: 'Environment',
+                value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
+            }, {
                 short: false,
                 title: 'Test Report',
                 value: `[Link to the report](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/artifact/mattermost-webapp/e2e/results/mochawesome-report/mochawesome.html)`,
