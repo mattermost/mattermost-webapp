@@ -18,7 +18,7 @@ describe('Messaging', () => {
 
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (standard viewport)', () => {
         // # Upload file, add message, add mention, verify no overlap
-        uploadFile_addMessage_addMention_verifyNoOverlap();
+        addAutocompleteThenVerifyNoOverlap();
     });
 
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
@@ -26,11 +26,11 @@ describe('Messaging', () => {
         cy.viewport(1280, 900);
 
         // # Upload file, add message, add mention, verify no overlap
-        uploadFile_addMessage_addMention_verifyNoOverlap();
+        addAutocompleteThenVerifyNoOverlap();
     });
 });
 
-function uploadFile_addMessage_addMention_verifyNoOverlap() {
+function addAutocompleteThenVerifyNoOverlap() {
     // # Upload file
     cy.fileUpload('#fileUploadInput');
 
