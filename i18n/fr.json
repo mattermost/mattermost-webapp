@@ -2002,8 +2002,6 @@
   "get_link.clipboard": " Lien copié",
   "get_link.close": "Fermer",
   "get_link.copy": "Copier le lien",
-  "get_post_link_modal.help": "Le lien ci-dessous permet aux utilisateurs autorisés de voir votre message.",
-  "get_post_link_modal.title": "Copier le lien permanent",
   "get_public_link_modal.help": "Le lien ci-dessous permet à quiconque de voir ce fichier, sans être inscrit sur ce serveur.",
   "get_public_link_modal.title": "Obtenir le lien public",
   "get_team_invite_link_modal.help": "Envoyez à vos collègues le lien ci-dessous pour leur permettre de s'inscrire à votre équipe. Le lien d'invitation peut être partagé par plusieurs personnes et ne change pas tant qu'il n'a pas été regénéré dans les paramètres de l'équipe par un responsable d'équipe.",
