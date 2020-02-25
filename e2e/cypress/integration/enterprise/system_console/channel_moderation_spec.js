@@ -18,7 +18,7 @@ describe('Channel Moderation Test', () => {
         // Reset permissions in system scheme to defaults.
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/user_management/permissions/system_scheme');
-        cy.findByTestId('reset_permissions_to_default').click();
+        cy.findByTestId('resetPermissionsToDefault').click();
         cy.get('#confirmModalButton').click();
         cy.get('#saveSetting').click();
         waitUntilConfigSave();
@@ -38,10 +38,10 @@ describe('Channel Moderation Test', () => {
         cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Uncheck all the boxes currently checked (align with the system scheme permissions)
-        cy.findByTestId('create_post_guests').click();
-        cy.findByTestId('create_post_members').click();
-        cy.findByTestId('create_reactions_members').click();
-        cy.findByTestId('manage_members_members').click();
+        cy.findByTestId('create_post-guests').click();
+        cy.findByTestId('create_post-members').click();
+        cy.findByTestId('create_reactions-members').click();
+        cy.findByTestId('manage_members-members').click();
         cy.get('#saveSetting').click();
         waitUntilConfigSave();
 
@@ -52,18 +52,18 @@ describe('Channel Moderation Test', () => {
         cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // * Asset and make sure that the classes do not have class of checked (Create Posts, Post Reactions Members, Manage Members Members)
-        cy.findByTestId('create_post_members').should('not.have.class', 'checked');
-        cy.findByTestId('create_reactions_members').should('not.have.class', 'checked');
-        cy.findByTestId('manage_members_members').should('not.have.class', 'checked');
+        cy.findByTestId('create_post-members').should('not.have.class', 'checked');
+        cy.findByTestId('create_reactions-members').should('not.have.class', 'checked');
+        cy.findByTestId('manage_members-members').should('not.have.class', 'checked');
 
         // * Ensure the Post Reacts checkbox for guests is disabled
-        cy.findByTestId('create_reactions_guests').should('have.class', 'disabled');
-        cy.findByTestId('create_reactions_guests').should('be.disabled');
+        cy.findByTestId('create_reactions-guests').should('have.class', 'disabled');
+        cy.findByTestId('create_reactions-guests').should('be.disabled');
 
         // * Ensure the channel mentions checkboxes for both members and guests is disabled
-        cy.findByTestId('use_channel_mentions_guests').should('have.class', 'disabled');
-        cy.findByTestId('use_channel_mentions_guests').should('be.disabled');
-        cy.findByTestId('use_channel_mentions_members').should('have.class', 'disabled');
-        cy.findByTestId('use_channel_mentions_members').should('be.disabled');
+        cy.findByTestId('use_channel_mentions-guests').should('have.class', 'disabled');
+        cy.findByTestId('use_channel_mentions-guests').should('be.disabled');
+        cy.findByTestId('use_channel_mentions-members').should('have.class', 'disabled');
+        cy.findByTestId('use_channel_mentions-members').should('be.disabled');
     });
 });
