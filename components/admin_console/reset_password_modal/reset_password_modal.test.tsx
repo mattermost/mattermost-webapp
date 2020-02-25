@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -45,7 +46,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         username: ''
     };
     const baseProps = {
-        actions: {adminResetPassword: jest.fn(() => {})},
+        actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
         currentUserId: '1',
         user,
         show: true,
@@ -75,32 +76,32 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call adminResetPassword', () => {
-        const adminResetPassword = jest.fn(() => {});
+    test('should call updateUserPassword', () => {
+        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const oldPassword = 'oldPassword123!';
         const newPassword = 'newPassword123!';
-        const props = {...baseProps, actions: {adminResetPassword}};
+        const props = {...baseProps, actions: {updateUserPassword}};
         const wrapper = mountWithIntl(<ResetPasswordModal {...props}/>);
 
         (wrapper.find('input[type=\'password\']').first().instance() as unknown as HTMLInputElement).value = oldPassword;
         (wrapper.find('input[type=\'password\']').last().instance() as unknown as HTMLInputElement).value = newPassword;
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
-        expect(adminResetPassword.mock.calls.length).toBe(1);
+        expect(updateUserPassword.mock.calls.length).toBe(1);
         expect(wrapper.state('serverErrorCurrentPass')).toBeNull();
         expect(wrapper.state('serverErrorNewPass')).toBeNull();
     });
 
-    test('should not call adminResetPassword when the old password is not provided', () => {
-        const adminResetPassword = jest.fn(() => {});
+    test('should not call updateUserPassword when the old password is not provided', () => {
+        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const newPassword = 'newPassword123!';
-        const props = {...baseProps, actions: {adminResetPassword}};
+        const props = {...baseProps, actions: {updateUserPassword}};
         const wrapper = mountWithIntl(<ResetPasswordModal {...props}/>);
 
         (wrapper.find('input[type=\'password\']').last().instance() as unknown as HTMLInputElement).value = newPassword;
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
-        expect(adminResetPassword.mock.calls.length).toBe(0);
+        expect(updateUserPassword.mock.calls.length).toBe(0);
         expect(wrapper.state('serverErrorCurrentPass')).toStrictEqual(
             <FormattedMessage
                 defaultMessage='Please enter your current password.'
@@ -110,16 +111,16 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         expect(wrapper.state('serverErrorNewPass')).toBeNull();
     });
 
-    test('should call adminResetPassword', () => {
-        const adminResetPassword = jest.fn(() => {});
+    test('should call updateUserPassword', () => {
+        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
         const password = 'Password123!';
 
-        const props = {...baseProps, currentUserId: '2', actions: {adminResetPassword}};
+        const props = {...baseProps, currentUserId: '2', actions: {updateUserPassword}};
         const wrapper = mountWithIntl(<ResetPasswordModal {...props}/>);
 
         (wrapper.find('input[type=\'password\']').first().instance() as unknown as HTMLInputElement).value = password;
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
-        expect(adminResetPassword.mock.calls.length).toBe(1);
+        expect(updateUserPassword.mock.calls.length).toBe(1);
     });
 });

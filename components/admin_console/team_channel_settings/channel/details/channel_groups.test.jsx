@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ChannelGroups} from './channel_groups.jsx';
+import {ChannelGroups} from './channel_groups';
 
 describe('admin_console/team_channel_settings/channel/ChannelGroups', () => {
     test('should match snapshot', () => {
