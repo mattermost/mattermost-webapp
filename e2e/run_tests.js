@@ -81,6 +81,7 @@ async function runTests() {
     await fse.remove('results');
     await fse.remove('screenshots');
 
+    const {BROWSER} = process.env;
     const testDirs = fse.readdirSync('cypress/integration/');
     let failedTests = 0;
 
@@ -139,7 +140,7 @@ const result = [
 ];
 
 function generateReport(summary) {
-    const {BRANCH, BUILD_ID} = process.env;
+    const {BRANCH, BROWSER, BUILD_ID} = process.env;
     const {statsFieldValue, stats} = summary;
 
     let testResult;
