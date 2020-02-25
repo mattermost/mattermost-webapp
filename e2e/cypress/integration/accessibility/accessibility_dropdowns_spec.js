@@ -55,6 +55,10 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         // * Verify the accessibility support in the Channel Dropdown menu items
         const labels = ['View Info dialog', 'Notification Preferences dialog', '', 'Add Members dialog', 'Manage Members dialog', 'Edit Channel Header dialog', 'Edit Channel Purpose dialog', 'Rename Channel dialog', 'Convert to Private Channel dialog', 'Archive Channel dialog', ''];
         verifyMenuItems('#channelHeaderDropdownMenu', labels);
+
+        // * Verify if menu is closed when we press Escape
+        cy.get('body').type('{esc}', {force: true});
+        cy.get('#channelHeaderDropdownMenu').should('not.exist');
     });
 
     it('MM-22627 Accessibility Support in Main Menu Dropdown', () => {
@@ -80,6 +84,10 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.get('#sidebarDropdownMenu .MenuItem').each((el) => {
             cy.wrap(el).should('have.attr', 'role', 'menuitem');
         });
+
+        // * Verify if menu is closed when we press Escape
+        cy.get('body').type('{esc}', {force: true});
+        cy.get('#sidebarDropdownMenu').should('not.exist');
     });
 
     it('MM-22627 Accessibility Support in Status Dropdown', () => {
@@ -101,5 +109,9 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         // * Verify the accessibility support in the Status Dropdown menu items
         const labels = ['online', 'away', 'do not disturb. disables desktop, email and push notifications', 'offline'];
         verifyMenuItems('#statusDropdownMenu', labels);
+
+        // * Verify if menu is closed when we press Escape
+        cy.get('body').type('{esc}', {force: true});
+        cy.get('#statusDropdownMenu').should('not.exist');
     });
 });
