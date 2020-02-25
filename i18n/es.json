@@ -3012,7 +3012,7 @@
   "user.settings.notifications.sensitiveUsername": "Tu nombre de usuario sin distinción de mayúsculas \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Otras palabras sin distinción de mayúsculas, separadas por comas:",
   "user.settings.notifications.soundConfig": "Por favor configura los sonidos de notificación en los ajustes de tu navegador",
-  "user.settings.notifications.sounds_info": "Los sonidos de notificación están disponibles en IE11, Edge, Safari, Chrome y Aplicaciones de Escritorio de Mattermost.",
+  "user.settings.notifications.sounds_info": "Los sonidos de notificación están disponibles en Firefox, IE11, Edge, Safari, Chrome y Aplicaciones de Escritorio de Mattermost.",
   "user.settings.notifications.title": "Configuracón de Notificaciones",
   "user.settings.notifications.wordsTrigger": "Palabras que desencadenan menciones",
   "user.settings.push_notification.allActivity": "Para toda actividad",

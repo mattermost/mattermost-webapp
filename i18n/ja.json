@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "あなたのユーザー名は、大文字小文字を区別せず\"{username}\"です",
   "user.settings.notifications.sensitiveWords": "他の単語をカンマで区切って入力してください。大文字小文字は区別されません:",
   "user.settings.notifications.soundConfig": "ブラウザーの設定画面で、通知音について設定してください",
-  "user.settings.notifications.sounds_info": "通知音はIE11、Safari、Chrome、Mattermostデスクトップアプリで利用できます。",
+  "user.settings.notifications_info": "通知音はFirefox、IE11、Safari、Chrome、Mattermostデスクトップアプリで利用できます。",
   "user.settings.notifications.title": "通知の設定",
   "user.settings.notifications.wordsTrigger": "あなたについての投稿となる単語",
   "user.settings.push_notification.allActivity": "全てのアクティビティーについて",

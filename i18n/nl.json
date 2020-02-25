@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Uw niet-hoofdlettergevoelige gebruikersnaam \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Andere niet-hoofdlettergevoelige woorden, gescheiden door komma's:",
   "user.settings.notifications.soundConfig": "Configureer de meldings-geluiden in de instellingen van uw browser",
-  "user.settings.notifications.sounds_info": "Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps.",
+  "user.settings.notifications.sounds_info": "Notification sounds are available on Firefox, IE11, Safari, Chrome and Mattermost Desktop Apps.",
   "user.settings.notifications.title": "Meldings-instellingen",
   "user.settings.notifications.wordsTrigger": "Woorden die een vermelding triggeren",
   "user.settings.push_notification.allActivity": "Voor alle activiteiten",

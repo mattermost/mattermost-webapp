@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "내 사용자명 \"{username}\" (대소문자 구별 안함)",
   "user.settings.notifications.sensitiveWords": "다른 알림받을 단어들을 쉼표로 구분하여 입력: (대소문자 구별 안함)",
   "user.settings.notifications.soundConfig": "브라우저 설정에서 알림 소리를 변경하세요",
-  "user.settings.notifications.sounds_info": "알림 사운드는 IE11, Edge, Safari, Chrome 및 Mattermost 데스크탑 애플리케이션에서 사용할 수 있습니다.",
+  "user.settings.notifications.sounds_info": "알림 사운드는 Firefox, IE11, Edge, Safari, Chrome 및 Mattermost 데스크탑 애플리케이션에서 사용할 수 있습니다.",
   "user.settings.notifications.title": "알림 설정",
   "user.settings.notifications.wordsTrigger": "멘션 알림",
   "user.settings.push_notification.allActivity": "모든 활동",

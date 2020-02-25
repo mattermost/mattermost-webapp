@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Twoja nazwa użytkownika bez rozróżniania wielkości liter \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Inne słowa oddzielone przecinkami:",
   "user.settings.notifications.soundConfig": "Proszę skonfigurować dźwięki powiadomień w ustawieniach przeglądarki",
-  "user.settings.notifications.sounds_info": "Dźwięk powiadomień dostępny jest w IE11, Safari, Chrome i aplikacjach pulpitowych Mattermost.",
+  "user.settings.notifications.sounds_info": "Dźwięk powiadomień dostępny jest w Firefox, IE11, Safari, Chrome i aplikacjach pulpitowych Mattermost.",
   "user.settings.notifications.title": "Ustawienia Powiadomień",
   "user.settings.notifications.wordsTrigger": "Słowa, które uruchamiają wzmianki",
   "user.settings.push_notification.allActivity": "Dla wszystkich aktywności",

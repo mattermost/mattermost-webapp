@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Ваше незалежне ім'я користувача \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Інші не залежні від регістра слова, розділені комами:",
   "user.settings.notifications.soundConfig": "Будь-ласка, налаштуйте звукові повідомлення в налаштуваннях браузера",
-  "user.settings.notifications.sounds_info": "Звуки повідомлень доступні в IE11, Edge, Safari, Chrome і Mattermost Desktop.",
+  "user.settings.notifications.sounds_info": "Звуки повідомлень доступні в Firefox, IE11, Edge, Safari, Chrome і Mattermost Desktop.",
   "user.settings.notifications.title": "Налаштування повідомлень ",
   "user.settings.notifications.wordsTrigger": "Ключові слова для згадок",
   "user.settings.push_notification.allActivity": "При будь-якій активності ",

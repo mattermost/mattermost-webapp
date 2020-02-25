@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Numele dvs. de utilizator sensibil non-case \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Alte cuvinte sensibile, separate prin virgule:",
   "user.settings.notifications.soundConfig": "Configurați sunetele de notificare în setările browserului dvs",
-  "user.settings.notifications.sounds_info": "Sunetele de notificare sunt disponibile pe aplicațiile Desktop IE11, Safari, Chrome și Mattermost.",
+  "user.settings.notifications.sounds_info": "Sunetele de notificare sunt disponibile pe aplicațiile Desktop Firefox, IE11, Safari, Chrome și Mattermost.",
   "user.settings.notifications.title": "Setări Notificări",
   "user.settings.notifications.wordsTrigger": "Cuvintele care declanșează mențiunile",
   "user.settings.push_notification.allActivity": "Pentru toată activitatea",

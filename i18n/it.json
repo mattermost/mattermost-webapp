@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Nome (nessuna differenza tra maiuscolo e minuscole) \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Altre parole non sensibili a maiuscole e minuscole, separate da virgola:",
   "user.settings.notifications.soundConfig": "Configura i suoni di notifica nel tuo browser",
-  "user.settings.notifications.sounds_info": "I suoni di notifica sono disponibili in IE11, Edge, Safari, Chrome e l'app desktop di Mattermost.",
+  "user.settings.notifications.sounds_info": "I suoni di notifica sono disponibili in Firefox, IE11, Edge, Safari, Chrome e l'app desktop di Mattermost.",
   "user.settings.notifications.title": "Impostazioni delle notifiche",
   "user.settings.notifications.wordsTrigger": "Parole che attivano notifiche per citazione",
   "user.settings.push_notification.allActivity": "Per tutte le attività",

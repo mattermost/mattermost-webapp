@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Ваше независимое от регистра имя пользователя \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Другие независящие от регистра слова, разделенные запятыми:",
   "user.settings.notifications.soundConfig": "Пожалуйста, настройте звуковые уведомления в настройках браузера",
-  "user.settings.notifications.sounds_info": "Звуки уведомлений доступны в IE11, Edge, Safari, Chrome и Mattermost Desktop.",
+  "user.settings.notifications.sounds_info": "Звуки уведомлений доступны в Firefox, IE11, Edge, Safari, Chrome и Mattermost Desktop.",
   "user.settings.notifications.title": "Настройки уведомлений",
   "user.settings.notifications.wordsTrigger": "Ключевые слова для упоминаний",
   "user.settings.push_notification.allActivity": "При любой активности",

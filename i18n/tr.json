@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Büyük küçük harfe duyarsız adınız \"{username}\"",
   "user.settings.notifications.sensitiveWords": "Diğer büyük küçük harfe duyarsız sözcükler, virgül ile ayırarak yazın:",
   "user.settings.notifications.soundConfig": "Web tarayıcısı ayarlarınızdan bildirim sesi ayarlarını yapın",
-  "user.settings.notifications.sounds_info": "Bildirim sesleri IE11, Safari, Chrome ve Mattermost Masaüstü Uygulaması ile kullanılabilir.",
+  "user.settings.notifications.sounds_info": "Bildirim sesleri Firefox, IE11, Safari, Chrome ve Mattermost Masaüstü Uygulaması ile kullanılabilir.",
   "user.settings.notifications.title": "Bildirim Ayarları",
   "user.settings.notifications.wordsTrigger": "Anmaları Tetikleyecek Sözcükler",
   "user.settings.push_notification.allActivity": "Tüm işlemler için",

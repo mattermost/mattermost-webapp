@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "您的使用者名稱，不區分大小寫：\"{username}\"",
   "user.settings.notifications.sensitiveWords": "其他不區分大小寫的字，用逗號分隔：",
   "user.settings.notifications.soundConfig": "請在瀏覽器設置中設定通知聲音",
-  "user.settings.notifications.sounds_info": "通知音效支援 IE11、Safari、Chrome 跟 Mattermost 桌面應用程式。",
+  "user.settings.notifications.sounds_info": "通知音效支援 Firefox、IE11、Safari、Chrome 跟 Mattermost 桌面應用程式。",
   "user.settings.notifications.title": "通知設定",
   "user.settings.notifications.wordsTrigger": "觸發提及的字",
   "user.settings.push_notification.allActivity": "所有的活動",

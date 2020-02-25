@@ -3009,7 +3009,7 @@
   "user.settings.notifications.sensitiveUsername": "Votre nom d'utilisateur (insensible à la casse) « {username} »",
   "user.settings.notifications.sensitiveWords": "Autres mots insensibles à la casse, séparés par des virgules :",
   "user.settings.notifications.soundConfig": "Configurez les sons des notifications dans les paramètres de votre navigateur",
-  "user.settings.notifications.sounds_info": "Les sons de notification sont disponibles sur IE11, Edge, Safari, Chrome et les applications de bureau Mattermost.",
+  "user.settings.notifications.sounds_info": "Les sons de notification sont disponibles sur Firefox, IE11, Edge, Safari, Chrome et les applications de bureau Mattermost.",
   "user.settings.notifications.title": "Paramètres de notification",
   "user.settings.notifications.wordsTrigger": "Mots qui déclenchent des mentions",
   "user.settings.push_notification.allActivity": "Pour toute activité",
