@@ -88,6 +88,7 @@ async function runTests() {
 
     for (const dir of testDirs) {
         const {totalFailed} = await cypress.run({
+            browser: `${BROWSER}`,
             spec: `./cypress/integration/${dir}/**/*`,
             config: {
                 screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
