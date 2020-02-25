@@ -141,7 +141,7 @@ class RhsComment extends React.PureComponent {
             const isAutoRespondersPost = post && PostUtils.fromAutoResponder(post);
             const isFailedPost = post && post.failed;
 
-            // Checking if rhs comment is at scroll view of the user
+            // Checking if rhs comment is in scroll view of the user
             const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
             const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
                 boundingRectOfPostInfo.bottom < (window.innerHeight);
