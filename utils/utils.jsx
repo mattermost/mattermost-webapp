@@ -10,13 +10,12 @@ import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux} from 'mattermost-redux/selectors/entities/users';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
 } from 'mattermost-redux/utils/theme_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
@@ -1315,9 +1314,9 @@ export function getDisplayNameByUserId(userId) {
  */
 export function getDisplayNameByUser(user) {
     const state = store.getState();
-    const teammateNameDisplay = getTeammateNameDisplaySetting(state);
+    const getDisplayNameFromRedux = makeGetDisplayName();
     if (user) {
-        return displayUsername(user, teammateNameDisplay);
+        return getDisplayNameFromRedux(state, user.id);
     }
 
     return '';

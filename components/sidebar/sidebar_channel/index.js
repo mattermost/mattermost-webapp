@@ -16,12 +16,10 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getUserIdsInChannels, getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
-
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants';
 
@@ -33,6 +31,7 @@ import SidebarChannel from './sidebar_channel.jsx';
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
+    const getDisplayName = makeGetDisplayName();
 
     return (state, ownProps) => {
         const channelId = ownProps.channelId;
@@ -72,7 +71,6 @@ function makeMapStateToProps() {
             }
         }
 
-        const teammateNameDisplay = getTeammateNameDisplaySetting(state);
         let teammate = null;
         let channelTeammateId = '';
         let channelTeammateDeletedAt = 0;
@@ -96,7 +94,7 @@ function makeMapStateToProps() {
                     botIconUrl = botIconImageUrl(teammate);
                 }
             }
-            channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
+            channelDisplayName = getDisplayName(state, channel.teammate_id);
         }
 
         let shouldHideChannel = false;
