@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -21,6 +21,7 @@ import {
 import * as PostUtils from 'utils/post_utils.jsx';
 
 import {isArchivedChannel} from 'utils/channel_utils';
+import {getSiteURL} from 'utils/url';
 
 import DotMenu from './dot_menu.jsx';
 
@@ -31,6 +32,8 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const userId = getCurrentUserId(state);
     const channel = getChannel(state, ownProps.post.channel_id);
+    const currentTeam = getCurrentTeam(state) || {};
+    const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -42,6 +45,7 @@ function mapStateToProps(state, ownProps) {
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, post, channel),
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
+        currentTeamUrl,
     };
 }
 
