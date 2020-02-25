@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
@@ -45,9 +46,24 @@ type Props = {
     showUnreadForMsgs: boolean;
 
     /**
+     * Gets the ref for a given channel id
+     */
+    getChannelRef: (channelId: string) => HTMLDivElement | undefined;
+
+    /**
      * Sets the ref for the sidebar channel div element, so that it can be used by parent components
      */
     setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
+
+    /**
+     * If category is collapsed
+     */
+    isCategoryCollapsed: boolean;
+
+    /**
+     * Is the channel the currently focused channel
+     */
+    isCurrentChannel: boolean;
 };
 
 type State = {
@@ -55,13 +71,33 @@ type State = {
 };
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
-    /**
-     * Show as unread if you have unread mentions
-     * OR if you have unread messages and the channel can be marked unread by preferences
-     */
-    showChannelAsUnread = () => {
+    isUnread = () => {
         return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
-    };
+    }
+
+    isCollapsed = (props: Props) => {
+        return props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel;
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps)) {
+            const channelElement = this.getRef();
+            if (channelElement) {
+                channelElement.classList.add('animating');
+            }
+        }
+    }
+
+    removeAnimation = () => {
+        const channelElement = this.getRef();
+        if (channelElement) {
+            channelElement.classList.remove('animating');
+        }
+    }
+
+    getRef = () => {
+        return this.props.getChannelRef(this.props.channel.id);
+    }
 
     setRef = (ref: HTMLDivElement) => {
         this.props.setChannelRef(this.props.channel.id, ref);
@@ -80,10 +116,14 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return (
             <div
                 ref={this.setRef}
+                className={classNames('SidebarChannel', {
+                    collapsed: this.isCollapsed(this.props),
+                })}
                 style={{
                     display: 'flex',
-                    fontWeight: this.showChannelAsUnread() ? 'bold' : 'inherit', // TODO temp styling
+                    fontWeight: this.isUnread() ? 'bold' : 'inherit', // TODO temp styling
                 }}
+                onTransitionEnd={this.removeAnimation}
             >
                 <ChannelComponent
                     channel={channel}
