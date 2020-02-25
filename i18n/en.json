@@ -1903,6 +1903,7 @@
   "bots.token.delete": "Delete Token",
   "center_panel.archived.closeChannel": "Close Channel",
   "center_panel.direct.closeDirectMessage": "Close Direct Message",
+  "center_panel.direct.closeGroupMessage": "Close Group Message",
   "change_url.close": "Close",
   "change_url.endWithLetter": "URL must end with a letter or number.",
   "change_url.invalidUrl": "Invalid URL",
