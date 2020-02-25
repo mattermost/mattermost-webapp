@@ -63,7 +63,7 @@ export default class PostListRow extends React.PureComponent {
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
             shortcutReactToLastPostEmittedFrom === Locations.CENTER;
 
-        // If last message is non message type then we block the shortcut to react to last message, early on
+        // If last post is not a message then we block the shortcut to react to last message, early on
         if (isLastPost && shortcutReactToLastPostEmittedFromCenter) {
             this.blockShortcutReactToLastPostForNonMessages(listId);
         }
