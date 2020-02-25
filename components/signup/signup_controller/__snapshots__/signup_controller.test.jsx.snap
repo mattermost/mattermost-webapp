@@ -37,7 +37,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
           />
         </h4>
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <h5>
             <strong>
@@ -117,7 +117,7 @@ exports[`components/SignupController should match snapshot for all signup option
           />
         </h4>
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <h5>
             <strong>
@@ -225,7 +225,7 @@ exports[`components/SignupController should match snapshot for all signup option
           />
         </h4>
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <h5>
             <strong>

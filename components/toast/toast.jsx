@@ -96,6 +96,7 @@ export default class Toast extends React.PureComponent {
                 <div
                     className='toast__dismiss'
                     onClick={this.handleDismiss}
+                    data-testid='dismissToast'
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}

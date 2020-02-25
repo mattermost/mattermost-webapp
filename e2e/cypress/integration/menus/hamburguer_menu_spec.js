@@ -10,7 +10,7 @@
 describe('Hamburguer menu', () => {
     beforeEach(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('MM-20861 - Click on menu item should toggle the menu', () => {
