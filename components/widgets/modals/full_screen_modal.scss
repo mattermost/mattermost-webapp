@@ -17,6 +17,8 @@
         height: 40px;
         width: 40px;
         cursor: pointer;
+        z-index: 9;
+
         svg {
             fill: var(--center-channel-color-90);
             padding: 4px;
