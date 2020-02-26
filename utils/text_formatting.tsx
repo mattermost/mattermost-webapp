@@ -786,13 +786,27 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
-    output = output.replace(searchPattern, (emojiMatch) => {
+    output = output.replace(UNICODE_EMOJI_REGEX, (emojiMatch) => {
         // convert unicode character to hex string
-        const emojiCode = emojiMatch.codePointAt(0)!.toString(16);
+        const codePoints = [fixedCharCodeAt(emojiMatch, 0)];
+
+        if (emojiMatch.length > 2) {
+            for (let i = 2; i < emojiMatch.length; i++) {
+                const codePoint = fixedCharCodeAt(emojiMatch, i);
+                if (codePoint === -1) {
+                    // Not a complete character
+                    continue;
+                }
+
+                codePoints.push(codePoint);
+            }
+        }
+
+        const emojiCode = codePoints.map((codePoint) => codePoint.toString(16)).join('-');
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
         if (emojiMap.hasUnicode(emojiCode)) {
@@ -804,5 +818,35 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         // wrap unsupported unicode emoji in span to style as needed
         return `<span class="emoticon emoticon--unicode">${emojiMatch}</span>`;
     });
+
     return output;
+}
+
+// Gets the unicode character code of a character starting at the given index in the string
+// Adapted from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
+function fixedCharCodeAt(str: string, idx = 0) {
+    // ex. fixedCharCodeAt('\uD800\uDC00', 0); // 65536
+    // ex. fixedCharCodeAt('\uD800\uDC00', 1); // false
+    const code = str.charCodeAt(idx);
+
+    // High surrogate (could change last hex to 0xDB7F to treat high
+    // private surrogates as single characters)
+    if (code >= 0xD800 && code <= 0xDBFF) {
+        const hi = code;
+        const low = str.charCodeAt(idx + 1);
+
+        if (isNaN(low)) {
+            console.log('High surrogate not followed by low surrogate in fixedCharCodeAt()'); // eslint-disable-line
+        }
+
+        return ((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+    }
+
+    if (code >= 0xDC00 && code <= 0xDFFF) { // Low surrogate
+        // We return false to allow loops to skip this iteration since should have
+        // already handled high surrogate above in the previous iteration
+        return -1;
+    }
+
+    return code;
 }

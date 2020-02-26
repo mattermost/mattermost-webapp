@@ -133,6 +133,8 @@ export const ActionTypes = keyMirror({
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
+    EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
+
     BROWSER_CHANGE_FOCUS: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
@@ -686,6 +688,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
+    NO_WHERE: 'NO_WHERE'
 };
 
 export const PostListRowListIds = {

@@ -284,3 +284,16 @@ export function toggleEmbedVisibility(postId) {
 export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }
+
+/**
+ * It is called from either center or rhs text input when shortcut for react to last message is pressed
+ *
+ * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"
+ */
+
+export function emitShortcutReactToLastPostFrom(emittedFrom) {
+    return {
+        type: ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST,
+        payload: emittedFrom
+    };
+}
