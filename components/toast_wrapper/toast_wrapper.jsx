@@ -34,6 +34,10 @@ class ToastWrapper extends React.PureComponent {
         updateLastViewedBottomAt: PropTypes.func,
     };
 
+    static defaultProps = {
+        focusedPostId: '',
+    };
+
     constructor(props) {
         super(props);
         const showMessageHistoryToast = props.focusedPostId !== '' && (props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost);

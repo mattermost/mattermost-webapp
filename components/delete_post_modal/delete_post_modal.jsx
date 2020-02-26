@@ -5,11 +5,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {matchPath} from 'react-router-dom';
 
 import * as UserAgent from 'utils/user_agent';
+import {browserHistory} from 'utils/browser_history';
 
 export default class DeletePostModal extends React.PureComponent {
     static propTypes = {
+        channelName: PropTypes.string,
+        teamName: PropTypes.string,
         post: PropTypes.object.isRequired,
         commentCount: PropTypes.number.isRequired,
         isRHS: PropTypes.bool.isRequired,
@@ -32,7 +36,28 @@ export default class DeletePostModal extends React.PureComponent {
             post,
         } = this.props;
 
+        let permalinkPostId = '';
+
         const result = await actions.deleteAndRemovePost(post);
+
+        const matchUrlForDMGM = matchPath(this.props.location.pathname, {
+            path: '/:teamName/messages/:username/:postid',
+        });
+
+        const matchUrlForChannel = matchPath(this.props.location.pathname, {
+            path: '/:teamName/channels/:channelname/:postid',
+        });
+
+        if (matchUrlForDMGM) {
+            permalinkPostId = matchUrlForDMGM.params.postid;
+        } else if (matchUrlForChannel) {
+            permalinkPostId = matchUrlForChannel.params.postid;
+        }
+
+        if (permalinkPostId === post.id) {
+            const channelUrl = this.props.location.pathname.split('/').slice(0, -1).join('/');
+            browserHistory.replace(channelUrl);
+        }
 
         if (result.data) {
             this.onHide();

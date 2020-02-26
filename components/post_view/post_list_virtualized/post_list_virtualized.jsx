@@ -366,10 +366,9 @@ class PostList extends React.PureComponent {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
 
-            if (!this.state.initScrollCompleted && scrollHeight) {
+            if (!this.state.atBottom && scrollHeight) {
                 const initScrollOffsetFromBottom = scrollHeight - clientHeight - scrollOffset;
                 this.setState({
-                    initScrollCompleted: true,
                     initScrollOffsetFromBottom,
                 });
             }
@@ -565,7 +564,7 @@ class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.state.initScrollCompleted && this.renderToasts(width)}</div>
+                                        <div>{this.state.atBottom !== null && this.renderToasts(width)}</div>
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}

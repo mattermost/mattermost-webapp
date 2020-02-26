@@ -125,17 +125,30 @@ describe('components/PermalinkView', () => {
             entities: {
                 users: {
                     currentUserId: 'current_user_id',
+                    profiles: {
+                        dmchannel: {
+                            id: 'dmchannel',
+                            username: 'otherUser'
+                        }
+                    }
                 },
                 channels: {
                     channels: {
                         channelid1: {id: 'channelid1', name: 'channel1', type: 'O', team_id: 'current_team_id'},
-                        dmchannelid: {id: 'dmchannelid', name: 'dmchannel', type: 'D'},
-                        gmchannelid: {id: 'gmchannelid', name: 'gmchannel', type: 'G'},
+                        dmchannelid: {id: 'dmchannelid', name: 'dmchannel__current_user_id', type: 'D', team_id: ''},
+                        gmchannelid: {id: 'gmchannelid', name: 'gmchannel', type: 'G', team_id: ''},
                     },
                     myMembers: {channelid1: {channel_id: 'channelid1', user_id: 'current_user_id'}},
                 },
                 teams: {
                     currentTeamId: 'current_team_id',
+                    teams: {
+                        current_team_id: {
+                            id: 'current_team_id',
+                            display_name: 'currentteam',
+                            name: 'currentteam',
+                        }
+                    }
                 },
             },
         };
@@ -161,6 +174,77 @@ describe('components/PermalinkView', () => {
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {gmpostid1: {id: 'gmpostid1', message: 'some message', channel_id: 'gmchannelid'}}, order: ['gmpostid1']}},
                 ]);
                 expect(browserHistory.replace).toHaveBeenCalledWith(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=`);
+            });
+
+            test('should redirect to DM link with postId for permalink', async () => {
+                const modifiedState = {
+                    entities: {
+                        ...initialState.entities,
+                        channels: {
+                            ...initialState.entities.channels,
+                            myMembers: {
+                                channelid1: {channel_id: 'channelid1', user_id: 'current_user_id'},
+                                dmchannelid: {channel_id: 'dmchannelid', name: 'dmchannel', type: 'D', user_id: 'current_user_id'},
+                            },
+                        },
+                    },
+                };
+
+                const testStore = await mockStore(modifiedState);
+                await testStore.dispatch(focusPost('dmpostid1'));
+
+                expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
+                expect(testStore.getActions()).toEqual([
+                    {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
+                    {type: 'MOCK_SELECT_CHANNEL', args: ['dmchannelid']},
+                    {type: 'RECEIVED_FOCUSED_POST', channelId: 'dmchannelid', data: 'dmpostid1'},
+                    {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
+                    {type: 'MOCK_GET_CHANNEL_STATS', args: ['dmchannelid']},
+                ]);
+                expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/messages/@otherUser/dmpostid1');
+            });
+
+            test('should redirect to GM link with postId for permalink', async () => {
+                const modifiedState = {
+                    entities: {
+                        ...initialState.entities,
+                        channels: {
+                            ...initialState.entities.channels,
+                            myMembers: {
+                                channelid1: {channel_id: 'channelid1', user_id: 'current_user_id'},
+                                gmchannelid: {channel_id: 'gmchannelid', name: 'gmchannel', type: 'G', user_id: 'current_user_id'},
+                            },
+                        },
+                    },
+                };
+
+                const testStore = await mockStore(modifiedState);
+                await testStore.dispatch(focusPost('gmpostid1'));
+
+                expect(getPostThread).toHaveBeenCalledWith('gmpostid1');
+                expect(testStore.getActions()).toEqual([
+                    {type: 'MOCK_GET_POST_THREAD', data: {posts: {gmpostid1: {id: 'gmpostid1', message: 'some message', channel_id: 'gmchannelid'}}, order: ['gmpostid1']}},
+                    {type: 'MOCK_SELECT_CHANNEL', args: ['gmchannelid']},
+                    {type: 'RECEIVED_FOCUSED_POST', channelId: 'gmchannelid', data: 'gmpostid1'},
+                    {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
+                    {type: 'MOCK_GET_CHANNEL_STATS', args: ['gmchannelid']},
+                ]);
+                expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/messages/gmchannel/gmpostid1');
+            });
+
+            test('should redirect to channel link with postId for permalink', async () => {
+                const testStore = await mockStore(initialState);
+                await testStore.dispatch(focusPost('postid1'));
+
+                expect(getPostThread).toHaveBeenCalledWith('postid1');
+                expect(testStore.getActions()).toEqual([
+                    {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'}}, order: ['postid1']}},
+                    {type: 'MOCK_SELECT_CHANNEL', args: ['channelid1']},
+                    {type: 'RECEIVED_FOCUSED_POST', channelId: 'channelid1', data: 'postid1'},
+                    {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
+                    {type: 'MOCK_GET_CHANNEL_STATS', args: ['channelid1']},
+                ]);
+                expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/channels/channel1/postid1');
             });
         });
     });

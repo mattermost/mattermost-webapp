@@ -3,6 +3,7 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 import {deleteAndRemovePost} from 'actions/post_actions.jsx';
 
@@ -16,4 +17,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(DeletePostModal);
+export default withRouter(connect(null, mapDispatchToProps)(DeletePostModal));

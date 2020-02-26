@@ -31,7 +31,6 @@ describe('components/ToastWrapper', () => {
         scrollToNewMessage: jest.fn(),
         scrollToLatestMessages: jest.fn(),
         updateLastViewedBottomAt: jest.fn(),
-        focusedPostId: '',
         lastViewedAt: 12344,
     };
 

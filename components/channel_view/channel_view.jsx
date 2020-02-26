@@ -47,11 +47,12 @@ export default class ChannelView extends React.PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {};
+        const focusedPostId = props.match.params.postid;
+
         if (props.match.url !== state.url && props.channelId !== state.channelId) {
-            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url};
+            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url, focusedPostId};
         }
 
-        const focusedPostId = props.match.params.postid;
         if (props.channelId !== state.channelId) {
             updatedState = {...updatedState, channelId: props.channelId, prevChannelId: state.channelId, focusedPostId};
         }
