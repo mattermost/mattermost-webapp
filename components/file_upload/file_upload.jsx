@@ -249,6 +249,7 @@ class FileUpload extends PureComponent {
 
     uploadFiles = (sortedFiles) => {
         const {currentChannelId, rootId} = this.props;
+
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
 
