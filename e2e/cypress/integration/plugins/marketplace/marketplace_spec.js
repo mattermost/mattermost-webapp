@@ -50,7 +50,7 @@ describe('Plugin Marketplace', () => {
 
             // # Login as non admin user
             cy.apiLogin('user-1');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
         });
 
         it('when marketplace disabled', () => {
@@ -66,7 +66,7 @@ describe('Plugin Marketplace', () => {
 
             // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
         });
 
         it('when plugins disabled', () => {
@@ -82,7 +82,7 @@ describe('Plugin Marketplace', () => {
 
             // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
         });
     });
     describe('invalid marketplace, should', () => {
@@ -104,7 +104,7 @@ describe('Plugin Marketplace', () => {
             cy.apiLogin('sysadmin');
 
             // # Go to main channel
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -180,7 +180,7 @@ describe('Plugin Marketplace', () => {
 
             // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -397,7 +397,7 @@ describe('Plugin Marketplace', () => {
 
             // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             // # Click hamburger main menu
             cy.wait(TIMEOUTS.TINY).get('#sidebarHeaderDropdownButton').click();

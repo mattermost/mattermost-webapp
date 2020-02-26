@@ -3588,6 +3588,17 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.DirectoryId',
+                        label: t('admin.office365.directoryIdTitle'),
+                        label_default: 'Directory (tenant) ID:',
+                        help_text: t('admin.office365.directoryIdDescription'),
+                        help_text_default: 'The Directory (tenant) ID you received when registering your application with Microsoft.',
+                        placeholder: t('admin.office365.directoryIdExample'),
+                        placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'Office365Settings.UserApiEndpoint',
                         label: t('admin.office365.userTitle'),
                         label_default: 'User API Endpoint:',
@@ -3600,7 +3611,12 @@ const AdminDefinition = {
                         key: 'Office365Settings.AuthEndpoint',
                         label: t('admin.office365.authTitle'),
                         label_default: 'Auth Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/authorize';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/authorize';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
@@ -3609,7 +3625,12 @@ const AdminDefinition = {
                         key: 'Office365Settings.TokenEndpoint',
                         label: t('admin.office365.tokenTitle'),
                         label_default: 'Token Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/token';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/token';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
