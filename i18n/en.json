@@ -3117,6 +3117,8 @@
   "shortcuts.msgs.comp.channel": "Channel:\t~|[a-z]|Tab",
   "shortcuts.msgs.comp.emoji": "Emoji:\t:|[a-z]|Tab",
   "shortcuts.msgs.comp.header": "Autocomplete",
+  "shortcuts.msgs.comp.last_reaction": "React to last message: \tCtrl|Shift|⧵",
+  "shortcuts.msgs.comp.last_reaction.mac": "React to last message: \t⌘|Shift|⧵",
   "shortcuts.msgs.comp.username": "Username:\t@|[a-z]|Tab",
   "shortcuts.msgs.edit": "Edit last message in channel:\tUp",
   "shortcuts.msgs.header": "Messages",
