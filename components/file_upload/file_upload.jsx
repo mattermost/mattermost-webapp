@@ -249,9 +249,6 @@ class FileUpload extends PureComponent {
 
     uploadFiles = (sortedFiles) => {
         const {currentChannelId, rootId} = this.props;
-
-        // Prohibts user from uploading .app files
-        const prohibitedFileTypesRegex = /^.*\.(app)/g;
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
 
@@ -262,7 +259,7 @@ class FileUpload extends PureComponent {
         const clientIds = [];
 
         for (let i = 0; i < sortedFiles.length && numUploads < uploadsRemaining; i++) {
-            if (prohibitedFileTypesRegex.test(sortedFiles[i].name)) {
+            if (sortedFiles[i].name.endsWith('.app.zip')) {
                 prohibitedFileTypes.push(sortedFiles[i]);
                 continue;
             }
