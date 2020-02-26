@@ -169,48 +169,24 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <div
-    className="row"
-  >
-    <div
-      className="col-xs-2"
-    />
-    <div
-      className="col-xs-8"
-      style={
-        Object {
-          "color": "rgba(61,60,64,0.6)",
-        }
-      }
-    >
+  <Connect(NavigationRow)
+    countText={
       <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} {count, plural, one {plugin} other {plugins}} of {total, number} total"
+        defaultMessage="{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total"
         id="marketplace_list.countTotalPage"
         values={
           Object {
-            "count": 17,
             "endCount": 15,
             "startCount": 1,
             "total": 17,
           }
         }
       />
-    </div>
-    <div
-      className="col-xs-2"
-    >
-      <button
-        className="btn btn-link"
-        id="marketplaceModalNextButton"
-        onClick={[Function]}
-      >
-        <FormattedMessage
-          defaultMessage="Next"
-          id="more_channels.next"
-          values={Object {}}
-        />
-      </button>
-    </div>
-  </div>
+    }
+    onNextPageButtonClick={[Function]}
+    onPreviousPageButtonClick={[Function]}
+    showNextPageButton={true}
+    showPreviousPageButton={false}
+  />
 </div>
 `;

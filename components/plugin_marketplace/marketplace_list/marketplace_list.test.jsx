@@ -36,15 +36,9 @@ describe('components/marketplace/marketplace_list', () => {
 
         expect(wrapper.state('page')).toEqual(0);
         expect(wrapper.find('Connect(MarketplaceItem)')).toHaveLength(15);
-        expect(wrapper.find('#marketplaceModalNextButton')).toHaveLength(1);
-        expect(wrapper.find('#marketplaceModalPreviousButton')).toHaveLength(0);
-
-        wrapper.find('#marketplaceModalNextButton').simulate('click', {preventDefault: jest.fn});
-
-        expect(wrapper.state('page')).toEqual(1);
-        expect(wrapper.find('Connect(MarketplaceItem)')).toHaveLength(2);
-        expect(wrapper.find('#marketplaceModalNextButtXon')).toHaveLength(0);
-        expect(wrapper.find('#marketplaceModalPreviousButton')).toHaveLength(1);
+        expect(wrapper.find('Connect(NavigationRow)')).toHaveLength(1);
+        expect(wrapper.find('Connect(NavigationRow)').props().showNextPageButton).toBeTruthy();
+        expect(wrapper.find('Connect(NavigationRow)').props().showPreviousPageButton).toBeFalsy();
     });
 
     it('should set page to 0 when list of plugins changed', () => {

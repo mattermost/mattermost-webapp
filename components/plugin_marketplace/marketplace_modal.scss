@@ -17,20 +17,21 @@
         padding-right: 15px;
     }
 
-    div.row {
+    div.navigation-row {
         margin-top: 10px;
 
         div {
             font-size: 14px;
             text-align: center;
-            &:nth-child(2) {
-                padding-top: 8px;
-            }
 
             button {
                 font-weight: bold;
                 font-size: 14px;
             }
+        }
+
+        div.count {
+            padding-top: 8px;
         }
     }
 

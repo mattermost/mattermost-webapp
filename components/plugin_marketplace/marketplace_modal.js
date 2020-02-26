@@ -20,7 +20,7 @@ import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 
 import './marketplace_modal.scss';
-import MarketplaceList from './marketplace_list';
+import MarketplaceList from './marketplace_list/marketplace_list';
 
 const MarketplaceTabs = {
     ALL_PLUGINS: 'allPlugins',

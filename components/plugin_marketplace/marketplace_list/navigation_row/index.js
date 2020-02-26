@@ -4,7 +4,7 @@
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {connect} from 'react-redux';
 
-import MarketplaceList from './marketplace_list';
+import NavigationRow from './navigation_row';
 
 function mapStateToProps(state) {
     return {
@@ -12,4 +12,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(MarketplaceList);
+export default connect(mapStateToProps)(NavigationRow);
