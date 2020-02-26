@@ -51,7 +51,7 @@ export default class MarketplaceList extends React.PureComponent {
 
         return (
             <FormattedMessage
-                id='marketplace_list.countTotalPage'
+                id='marketplace_list.count_total_page'
                 defaultMessage='{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total'
                 values={{
                     startCount: startCount + 1,
