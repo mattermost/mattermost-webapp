@@ -39,6 +39,7 @@ export default class UsersEmailsInput extends React.Component {
         validAddressMessageDefault: PropTypes.string,
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
+        emailInvitationsEnabled: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -158,6 +159,7 @@ export default class UsersEmailsInput extends React.Component {
                 id={this.props.validAddressMessageId}
                 defaultMessage={this.props.validAddressMessageDefault}
                 values={{email: value}}
+                disableLinks={true}
             />
         </React.Fragment>
     );
@@ -173,6 +175,7 @@ export default class UsersEmailsInput extends React.Component {
                     id={this.props.noMatchMessageId}
                     defaultMessage={this.props.noMatchMessageDefault}
                     values={{text: inputValue}}
+                    disableLinks={true}
                 >
                     {(message) => (
                         <components.NoOptionsMessage {...props}>
@@ -197,7 +200,7 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     handleInputChange = (inputValue, action) => {
-        if (action.action === 'input-blur') {
+        if (action.action === 'input-blur' && inputValue !== '') {
             const values = this.props.value.map((v) => {
                 if (v.id) {
                     return v;
@@ -217,7 +220,7 @@ export default class UsersEmailsInput extends React.Component {
                 }
             }
 
-            if (isEmail(this.props.inputValue)) {
+            if (this.props.emailInvitationsEnabled && isEmail(this.props.inputValue)) {
                 const email = this.props.inputValue;
                 this.onChange([...values, {value: email, label: email}]);
                 this.props.onInputChange('');
@@ -240,7 +243,7 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     showAddEmail = (input, values, options) => {
-        return options.length === 0 && isEmail(input);
+        return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
     onFocus = () => {

@@ -4,10 +4,11 @@
 import {connect} from 'react-redux';
 
 import {getUnreadsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-import NotifyCounts from './notify_counts.jsx';
+import NotifyCounts from './notify_counts';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const {mentionCount, messageCount} = getUnreadsInCurrentTeam(state);
     return {
         mentionCount,

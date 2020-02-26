@@ -220,11 +220,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
-        cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
+        cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
+            cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
         });
     }
 }

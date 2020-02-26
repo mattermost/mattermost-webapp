@@ -14,13 +14,14 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-const ROWS_FROM_BOTTOM_TO_OPEN_UP = 5;
+const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
+const TOTAL_USERS_TO_OPEN_UP = 5;
 
 export default class SystemUsersDropdown extends React.PureComponent {
     static propTypes = {
@@ -34,6 +35,11 @@ export default class SystemUsersDropdown extends React.PureComponent {
          * Whether MFA is licensed and enabled.
          */
         mfaEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * The license is installed
+         */
+        isLicensed: PropTypes.bool.isRequired,
 
         /**
          * Whether or not user access tokens are enabled.
@@ -364,7 +370,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         const title = (
             <FormattedMessage
                 id='demote_to_user_modal.title'
-                defaultMessage='Demote user {username} to guest'
+                defaultMessage='Demote User {username} to Guest'
                 values={{
                     username: this.props.user.username,
                 }}
@@ -470,7 +476,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
         }
 
         return (
-            <div className='light margin-top half'>
+            <div className='light mt-1'>
                 <FormattedMessage
                     key='admin.user_item.userAccessToken'
                     id={messageId}
@@ -480,7 +486,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
     }
 
     render() {
-        const {currentUser, user} = this.props;
+        const {currentUser, user, isLicensed} = this.props;
         const isGuest = Utils.isGuest(user);
         if (!user) {
             return <div/>;
@@ -541,11 +547,6 @@ export default class SystemUsersDropdown extends React.PureComponent {
         const demoteToGuestModal = this.renderDemoteToGuestModal();
 
         const {index, totalUsers} = this.props;
-        let openUp = false;
-        if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
-            openUp = true;
-        }
-
         return (
             <React.Fragment>
                 {deactivateMemberModal}
@@ -562,7 +563,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
                     </div>
                     <Menu
                         openLeft={true}
-                        openUp={openUp}
+                        openUp={totalUsers > TOTAL_USERS_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
                         ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                     >
                         <Menu.ItemAction
@@ -618,7 +619,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
                             text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
                         />
                         <Menu.ItemAction
-                            show={!isGuest && user.id !== currentUser.id}
+                            show={!isGuest && user.id !== currentUser.id && isLicensed}
                             onClick={this.handleDemoteToGuest}
                             text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
                         />
