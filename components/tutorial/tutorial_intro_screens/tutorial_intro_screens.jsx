@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, Preferences, ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import AppIcons from 'images/appIcons.png';
 import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';

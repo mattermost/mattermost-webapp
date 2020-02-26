@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import ManageAutoResponder from 'components/user_settings/notifications/manage_auto_responder.jsx';
+import ManageAutoResponder from 'components/user_settings/notifications/manage_auto_responder';
 
 describe('components/user_settings/notifications/ManageAutoResponder', () => {
     const requiredProps = {

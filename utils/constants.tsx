@@ -30,16 +30,10 @@ import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
 
-import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
-
-// eslint-disable-line import/order
-import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
-
-// eslint-disable-line import/order
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
-
-// eslint-disable-line import/order
-import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
+import {githubCSS,
+    monokaiCSS,
+    solarizedDarkCSS,
+    solarizedLightCSS} from 'utils/css_themes';
 
 export const SettingsTypes = {
     TYPE_TEXT: 'text',
@@ -237,7 +231,7 @@ export const UserStatuses = {
     AWAY: 'away',
     ONLINE: 'online',
     DND: 'dnd',
-};
+} as const;
 
 export const EventTypes = Object.assign(
     {
@@ -515,7 +509,7 @@ export const NotificationLevels = {
     ALL: 'all',
     MENTION: 'mention',
     NONE: 'none',
-};
+} as const;
 
 export const IgnoreChannelMentions = {
     ON: 'on',
@@ -661,8 +655,8 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.DELETE_POST,
         Permissions.EDIT_POST,
-        Permissions.MANAGE_CREATE_EMOJIS,
-        Permissions.MANAGE_DELETE_EMOJIS,
+        Permissions.CREATE_EMOJIS,
+        Permissions.DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
     ],

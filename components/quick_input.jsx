@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs

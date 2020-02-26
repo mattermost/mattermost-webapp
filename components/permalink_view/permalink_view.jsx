@@ -11,7 +11,7 @@ import LocalizedIcon from 'components/localized_icon';
 import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 

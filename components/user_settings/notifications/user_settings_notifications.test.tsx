@@ -4,12 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import UserSettingsNotifications from './user_settings_notifications';
+import {UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
+
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import UserSettingsNotifications, {Props} from './user_settings_notifications';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
         id: 'user_id',
-    };
+    } as UserProfile;
 
     const requiredProps = {
         user,
@@ -18,20 +22,22 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
         actions: {
-            updateMe: jest.fn(() => Promise.resolve({})),
+            updateMe: jest.fn(() => Promise.resolve({}) as unknown as ActionFunc),
         },
+        sendPushNotifications: true,
+        enableAutoResponder: true,
     };
 
     test('should have called handleSubmit', async () => {
-        const props = {...requiredProps, actions: {...requiredProps.actions}};
-        const wrapper = shallow(<UserSettingsNotifications {...props}/>);
+        const props = {...requiredProps, actions: {...requiredProps.actions}} as Props;
+        const wrapper: ShallowWrapper<any, any, UserSettingsNotifications> = shallow(<UserSettingsNotifications {...props}/>);
 
         await wrapper.instance().handleSubmit();
         expect(requiredProps.actions.updateMe).toHaveBeenCalled();
     });
 
     test('should have called handleSubmit', async () => {
-        const updateMe = jest.fn(() => Promise.resolve({data: true}));
+        const updateMe = jest.fn(() => Promise.resolve({data: true}) as unknown as ActionFunc);
 
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
         const wrapper = shallow(<UserSettingsNotifications {...props}/>);
@@ -44,8 +50,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should reset state when handleUpdateSection is called', () => {
         const newUpdateSection = jest.fn();
         const updateArg = 'unreadChannels';
-        const props = {...requiredProps, updateSection: newUpdateSection, user: {...user, notify_props: {desktop: 'on'}}};
-        const wrapper = shallow(<UserSettingsNotifications {...props}/>);
+        const props = {...requiredProps, updateSection: newUpdateSection, user: {...user, notify_props: {desktop: 'on'} as unknown as UserNotifyProps}};
+        const wrapper: ShallowWrapper<any, any, UserSettingsNotifications> = shallow(<UserSettingsNotifications {...props}/>);
 
         wrapper.setState({isSaving: true, desktopActivity: 'off'});
         wrapper.instance().handleUpdateSection(updateArg);
