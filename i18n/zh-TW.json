@@ -2002,8 +2002,6 @@
   "get_link.clipboard": " 連結已複製",
   "get_link.close": "關閉",
   "get_link.copy": "複製連結",
-  "get_post_link_modal.help": "下面的連結讓已登入的使用者看您的發文。",
-  "get_post_link_modal.title": "複製永久連結",
   "get_public_link_modal.help": "底下的連結允許任何人不需要於本伺服器註冊即可觀看此檔案。",
   "get_public_link_modal.title": "取得公開連結",
   "get_team_invite_link_modal.help": "傳送下面的連結給團隊成員，讓他們註冊此團隊站台。此連結可以讓多個團隊成員共用，在團隊管理員到團隊設定當中重新產生之前，這連結都不會改變。",
