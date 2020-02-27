@@ -29,6 +29,14 @@ function verifyMenuItems(menuEl, labels) {
 describe('Verify Accessibility Support in Dropdown Menus', () => {
     before(() => {
         cy.apiLogin('sysadmin');
+
+        // # Ensure an open team is available to join
+        cy.getCurrentUserId().then((userId) => {
+            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                const teamId = response.body.id;
+                cy.removeUserFromTeam(teamId, userId);
+            });
+        });
     });
 
     beforeEach(() => {
