@@ -3,18 +3,20 @@
 
 import React from 'react';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import DraftIcon from 'components/widgets/icons/draft_icon';
 
 type Props = {
-    icon?: JSX.Element;
-    channelIsArchived: boolean;
+    icon: JSX.Element | null;
+    channel: Channel;
     hasDraft: boolean;
 };
 
 export default class SidebarChannelIcon extends React.PureComponent<Props> {
     render() {
-        if (this.props.channelIsArchived) {
+        if (this.props.channel.delete_at !== 0) {
             return (
                 <ArchiveIcon className='icon icon__archive'/>
             );

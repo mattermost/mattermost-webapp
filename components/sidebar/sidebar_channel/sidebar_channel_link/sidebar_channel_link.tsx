@@ -26,7 +26,7 @@ type Props = {
     label: string;
     ariaLabelPrefix?: string;
     closeHandler?: (callback: () => void) => void;
-    icon?: JSX.Element;
+    icon: JSX.Element | null;
 
     /**
      * Number of unread mentions in this channel

@@ -19,12 +19,12 @@ import SidebarChannelLink from '../sidebar_channel_link';
 
 type Props = {
     channel: Channel;
-    teammate: UserProfile;
+    teammate?: UserProfile;
     currentTeamName: string;
     currentUserId: string;
     redirectChannel: string;
     active: boolean;
-    botIconUrl: string;
+    botIconUrl: string | null;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     };
@@ -64,6 +64,10 @@ export default class SidebarDirectChannel extends React.PureComponent<Props, Sta
     getIcon = () => {
         const {channel, teammate} = this.props;
 
+        if (!teammate) {
+            return null;
+        }
+
         if (teammate.id && teammate.delete_at) {
             return (
                 <ArchiveIcon className='icon icon__archive'/>
@@ -98,6 +102,10 @@ export default class SidebarDirectChannel extends React.PureComponent<Props, Sta
 
     render() {
         const {channel, teammate, currentTeamName} = this.props;
+
+        if (!teammate) {
+            return null;
+        }
 
         return (
             <SidebarChannelLink
