@@ -11,8 +11,9 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import SidebarChannel from './sidebar_channel';
 import {NotificationLevels} from 'utils/constants';
+
+import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
     channelId: string;
@@ -46,6 +47,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         channel,
         isCurrentChannel: channel.id === currentChannelId,
         currentTeamName: currentTeam.name,
+        unreadMentions,
+        unreadMsgs,
+        showUnreadForMsgs,
     };
 }
 
