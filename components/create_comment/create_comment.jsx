@@ -691,7 +691,7 @@ class CreateComment extends React.PureComponent {
         }
     }
 
-    handleUploadError = (err, clientId = -1, rootId = -1) => {
+    handleUploadError = (err, clientId = -1, currentChannelId, rootId = -1) => {
         if (clientId !== -1) {
             const draft = {...this.draftsForPost[rootId]};
             const uploadsInProgress = [...draft.uploadsInProgress];
