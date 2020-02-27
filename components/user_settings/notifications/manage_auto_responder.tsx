@@ -8,6 +8,8 @@ import AutosizeTextarea from 'components/autosize_textarea';
 import SettingItemMax from 'components/setting_item_max';
 import {localizeMessage} from 'utils/utils';
 
+const MESSAGE_MAX_LENGTH = 200;
+
 type Props = {
     autoResponderActive: boolean;
     autoResponderMessage: string;
@@ -68,11 +70,13 @@ export default class ManageAutoResponder extends React.PureComponent<Props> {
             >
                 <div className='pt-2'>
                     <AutosizeTextarea
+                        style={{resize: 'none'}}
                         id='autoResponderMessageInput'
                         className='form-control'
                         rows='5'
                         placeholder={localizeMessage('user.settings.notifications.autoResponderPlaceholder', 'Message')}
                         value={autoResponderMessage}
+                        maxLength={MESSAGE_MAX_LENGTH}
                         onChange={this.onMessageChanged}
                     />
                     {serverError}
