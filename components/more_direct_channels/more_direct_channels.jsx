@@ -30,6 +30,7 @@ export default class MoreDirectChannels extends React.Component {
         searchTerm: PropTypes.string.isRequired,
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
         groupChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
+        myDirectChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
         statuses: PropTypes.object.isRequired,
         totalCount: PropTypes.number,
 
@@ -419,7 +420,19 @@ export default class MoreDirectChannels extends React.Component {
             }
             users = active.concat(inactive);
         }
-        users = users.map((user) => {
+        users = users.filter((user) => {
+            if (user.delete_at === 0) {
+                return true;
+            }
+            for (const channel of this.props.myDirectChannels) {
+                if (channel.name.indexOf(user.id) >= 0) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        users.map((user) => {
             return {label: user.username, value: user.id, ...user};
         });
 

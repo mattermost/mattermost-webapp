@@ -6,10 +6,13 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import SidebarChannel from './sidebar_channel';
+import {NotificationLevels} from 'utils/constants';
 
 type OwnProps = {
     channelId: string;
@@ -20,8 +23,28 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const channel = getChannel(state, {id: ownProps.channelId});
     const currentTeam = getCurrentTeam(state);
 
+    const member = getMyChannelMemberships(state)[ownProps.channelId];
+    const currentChannelId = getCurrentChannelId(state);
+
+    // Unread counts
+    let unreadMentions = 0;
+    let unreadMsgs = 0;
+    let showUnreadForMsgs = true;
+    if (member) {
+        unreadMentions = member.mention_count;
+
+        if (channel) {
+            unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
+        }
+
+        if (member.notify_props) {
+            showUnreadForMsgs = member.notify_props.mark_unread !== NotificationLevels.MENTION;
+        }
+    }
+
     return {
         channel,
+        isCurrentChannel: channel.id === currentChannelId,
         currentTeamName: currentTeam.name,
     };
 }
