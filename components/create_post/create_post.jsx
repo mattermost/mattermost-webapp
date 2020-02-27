@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
     containsAtChannel,
@@ -177,8 +177,14 @@ class CreatePost extends React.PureComponent {
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
 
-        intl: intlShape.isRequired,
+        canPost: PropTypes.bool.isRequired,
 
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
+
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -252,8 +258,12 @@ class CreatePost extends React.PureComponent {
              * Function to get the users timezones in the channel
              */
             getChannelTimezones: PropTypes.func.isRequired,
-
             scrollPostListToBottom: PropTypes.func.isRequired,
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }).isRequired,
     }
 
@@ -529,7 +539,7 @@ class CreatePost extends React.PureComponent {
         } = this.props;
 
         const currentMembersCount = this.props.currentChannelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
@@ -873,10 +883,17 @@ class CreatePost extends React.PureComponent {
     }
 
     documentKeyHandler = (e) => {
-        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+
+        if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
+            return;
+        } else if (lastMessageReactionKeyCombo) {
+            this.reactToLastMessage(e);
             return;
         }
 
@@ -978,6 +995,22 @@ class CreatePost extends React.PureComponent {
     loadNextMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+    }
+
+    reactToLastMessage = (e) => {
+        e.preventDefault();
+
+        const {rhsExpanded, actions: {emitShortcutReactToLastPostFrom}} = this.props;
+        const noModalsAreOpen = document.getElementsByClassName(A11yClassNames.MODAL).length === 0;
+        const noPopupsDropdownsAreOpen = document.getElementsByClassName(A11yClassNames.POPUP).length === 0;
+
+        // Block keyboard shortcut react to last message when :
+        // - RHS is completely expanded
+        // - Any dropdown/popups are open
+        // - Any modals are open
+        if (!rhsExpanded && noModalsAreOpen && noPopupsDropdownsAreOpen) {
+            emitShortcutReactToLastPostFrom(Locations.CENTER);
+        }
     }
 
     handleBlur = () => {
@@ -1094,8 +1127,9 @@ class CreatePost extends React.PureComponent {
             draft,
             fullWidthTextBox,
             showTutorialTip,
-            readOnlyChannel,
+            canPost,
         } = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !canPost;
         const {formatMessage} = this.props.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
@@ -1295,6 +1329,7 @@ class CreatePost extends React.PureComponent {
                                 preview={this.state.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createPostControls'

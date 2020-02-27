@@ -325,6 +325,10 @@ export function handleEvent(msg) {
         handleChannelDeletedEvent(msg);
         break;
 
+    case SocketEvents.CHANNEL_UNARCHIVED:
+        handleChannelUnarchivedEvent(msg);
+        break;
+
     case SocketEvents.CHANNEL_CONVERTED:
         handleChannelConvertedEvent(msg);
         break;
@@ -882,6 +886,14 @@ function handleChannelDeletedEvent(msg) {
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
+}
+
+function handleChannelUnarchivedEvent(msg) {
+    const state = getState();
+    const config = getConfig(state);
+    const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+
+    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_UNARCHIVED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels}});
 }
 
 function handlePreferenceChangedEvent(msg) {

@@ -11,7 +11,7 @@ describe('Post search display', () => {
     it('S14252 After clearing search query, search options display', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         const searchWord = 'Hello';
 
         // # post message

@@ -27,6 +27,7 @@ function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, 
         },
         ServiceSettings: {
             EnableEmailInvitations: emailInvitation,
+            IdleTimeout: 300,
         },
     });
 }
@@ -363,5 +364,20 @@ describe('Guest Account - Guest User Invitation Flow', () => {
                 cy.get('.close').click();
             });
         });
+    });
+
+    it('MM-22037 Invite Guest via Email containing upper case letters', () => {
+        // # Reset Guest Feature settings
+        changeGuestFeatureSettings();
+
+        // # Visit Team page
+        cy.visit(`/${testTeam.name}`);
+
+        // # Invite a email containing uppercase letters
+        const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(email.toLowerCase(), 'An invitation email has been sent.');
     });
 });
