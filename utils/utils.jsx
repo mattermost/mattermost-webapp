@@ -1011,6 +1011,7 @@ export function applyTheme(theme) {
             'button-color-05': changeOpacity(theme.buttonColor, 0.05),
             'error-text': theme.errorTextColor,
             'error-text-08': changeOpacity(theme.errorTextColor, 0.08),
+            'error-text-12': changeOpacity(theme.errorTextColor, 0.12),
             'mention-highlight-bg': theme.mentionHighlightBg,
             'mention-highlight-link': theme.mentionHighlightLink,
         },

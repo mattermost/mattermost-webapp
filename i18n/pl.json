@@ -2002,8 +2002,6 @@
   "get_link.clipboard": " Link skopiowany",
   "get_link.close": "Zamknij",
   "get_link.copy": "Kopiuj odnośnik",
-  "get_post_link_modal.help": "Link poniżej pozwala autoryzowanym użytkowników zobaczyć twoją wiadomość.",
-  "get_post_link_modal.title": "Kopiuj link bezpośredni ",
   "get_public_link_modal.help": "Link poniżej pozwala komukolwiek zobaczyć ten plik bez potrzeby rejestracji na tym serwerze.",
   "get_public_link_modal.title": "Kopiuj link publiczny",
   "get_team_invite_link_modal.help": "Wyślij członkom zespołu poniższy odnośnik aby umożliwić im rejestrację w zespole. Poniższy odnośnik może być dzielony z wieloma członkami zespołu, gdyż nie ulega zmianie, chyba że jest regenerowany w ustawieniach zespołu przez Administratora zespołu.",
