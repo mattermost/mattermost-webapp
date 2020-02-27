@@ -2,16 +2,22 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
+import {updateUserPassword} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {bindActionCreators, Dispatch} from 'redux';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {adminResetPassword} from 'actions/admin_actions.jsx';
 import {GlobalState} from 'types/store';
+
 import {getPasswordConfig} from 'utils/utils.jsx';
 
 import ResetPasswordModal from './reset_password_modal';
+
+type Actions = {
+    updateUserPassword: (userId: string, currentPassword: string, password: string) => ActionResult;
+}
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -22,10 +28,10 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
-            adminResetPassword,
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+            updateUserPassword,
         }, dispatch),
     };
 }

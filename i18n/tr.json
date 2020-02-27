@@ -2002,8 +2002,6 @@
   "get_link.clipboard": " Bağlantı kopyalandı",
   "get_link.close": "Kapat",
   "get_link.copy": "Bağlantıyı Kopyala",
-  "get_post_link_modal.help": "Aşağıdaki bağlantı izin verilmiş kullanıcıların iletinizi görüntülemesini sağlar.",
-  "get_post_link_modal.title": "Kalıcı Bağlantıyı Kopyala",
   "get_public_link_modal.help": "Aşağıdaki bağlantı tüm kullanıcıların sunucu üzerine kayıt olmadan bu dosyayı görüntülemesini sağlar.",
   "get_public_link_modal.title": "Herkese Açık Bağlantıyı Kopyala",
   "get_team_invite_link_modal.help": "Takım arkadaşlarınıza aşağıdaki bağlantıyı göndererek bu takım sitesine kayıt olmalarını sağlayabilirsiniz. Takım Çağırma Bağlantısı, bir Takım Yöneticisi tarafından Takım Ayarları bölümünden yeniden üretilerek değiştirilmedikçe birden çok takım arkadaşı ile paylaşılabilir.",
