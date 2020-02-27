@@ -37,9 +37,9 @@ describe('components/channel_view', () => {
         const wrapper = shallow(<ChannelView {...baseProps}/>);
         expect(wrapper.state('focusedPostId')).toEqual(undefined);
 
-        wrapper.setProps({channelId: 'newChannelId', match: {url:'/team/channel/channelId/postId', params: {postid: 'postid'}}});
+        wrapper.setProps({channelId: 'newChannelId', match: {url: '/team/channel/channelId/postId', params: {postid: 'postid'}}});
         expect(wrapper.state('focusedPostId')).toEqual('postid');
-        wrapper.setProps({channelId: 'newChannelId', match: {url:'/team/channel/channelId/postId1', params: {postid: 'postid1'}}});
+        wrapper.setProps({channelId: 'newChannelId', match: {url: '/team/channel/channelId/postId1', params: {postid: 'postid1'}}});
         expect(wrapper.state('focusedPostId')).toEqual('postid1');
     });
 });

@@ -194,7 +194,7 @@ exports[`components/Toast should match snapshot to have extraClasses 1`] = `
   </div>
   <div
     className="toast__dismiss"
-    data-testid="dismissToast"
+    data-testid="dismissToast-extraClasses"
     onClick={[Function]}
   >
     <OverlayTrigger

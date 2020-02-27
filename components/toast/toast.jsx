@@ -41,9 +41,9 @@ export default class Toast extends React.PureComponent {
 
     render() {
         let toastClass = 'toast';
-        const {show} = this.props;
-        if (this.props.extraClasses) {
-            toastClass += ` ${this.props.extraClasses}`;
+        const {show, extraClasses, showActions, width} = this.props;
+        if (extraClasses) {
+            toastClass += ` ${extraClasses}`;
         }
 
         if (show) {
@@ -51,7 +51,7 @@ export default class Toast extends React.PureComponent {
         }
 
         let toastActionClass = 'toast__message';
-        if (this.props.showActions) {
+        if (showActions) {
             toastActionClass += ' toast__pointer';
         }
 
@@ -61,13 +61,13 @@ export default class Toast extends React.PureComponent {
                     className='toast__jump'
                 >
                     <UnreadBelowIcon/>
-                    {this.props.width > Constants.MOBILE_SCREEN_WIDTH && this.props.onClickMessage}
+                    {width > Constants.MOBILE_SCREEN_WIDTH && this.props.onClickMessage}
                 </div>
             );
         };
 
         let closeTooltip = (<div/>);
-        if (this.props.showActions && show) {
+        if (showActions && show) {
             closeTooltip = (
                 <Tooltip id='toast-close__tooltip'>
                     <FormattedMessage
@@ -88,15 +88,15 @@ export default class Toast extends React.PureComponent {
             <div className={toastClass}>
                 <div
                     className={toastActionClass}
-                    onClick={this.props.showActions ? this.props.onClick : null}
+                    onClick={showActions ? this.props.onClick : null}
                 >
-                    {this.props.showActions && jumpSection()}
+                    {showActions && jumpSection()}
                     {this.props.children}
                 </div>
                 <div
                     className='toast__dismiss'
                     onClick={this.handleDismiss}
-                    data-testid='dismissToast'
+                    data-testid={extraClasses ? `dismissToast-${extraClasses}` : 'dismissToast'}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
