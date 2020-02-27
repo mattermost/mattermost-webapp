@@ -48,9 +48,24 @@ class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+
+        /**
+         * To Check if the current post is last in the list of RHS
+         */
+        isLastPost: PropTypes.bool,
+
+        /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }),
     };
 
@@ -68,6 +83,39 @@ class RhsRootPost extends React.PureComponent {
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+
+        this.postHeaderRef = React.createRef();
+    }
+
+    handleShortcutReactToLastPost = (isLastPost) => {
+        if (isLastPost) {
+            const {post, enableEmojiPicker, channelIsArchived,
+                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+
+            // Setting the last message emoji action to empty to clean up the redux state
+            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
+
+            // Following are the types of posts on which adding reaction is not possible
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
+            const isEphemeralPost = post && Utils.isPostEphemeral(post);
+            const isSystemMessage = post && PostUtils.isSystemMessage(post);
+            const isFailedPost = post && post.failed;
+            const isPostsFakeParentDeleted = post && post.type === Constants.PostTypes.FAKE_PARENT_DELETED;
+
+            // Checking if rhs root comment is at scroll view of the user
+            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
+            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight);
+
+            if (isPostHeaderVisibleToUser) {
+                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
+                    !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
+                    // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
+                    // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
+                    this.toggleEmojiPicker(isLastPost);
+                }
+            }
+        }
     }
 
     componentDidMount() {
@@ -78,6 +126,16 @@ class RhsRootPost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleAlt);
         document.removeEventListener('keyup', this.handleAlt);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+
+        const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
+        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+        if (shortcutReactToLastPostEmittedFromRHS) {
+            this.handleShortcutReactToLastPost(isLastPost);
+        }
     }
 
     renderPostTime = (isEphemeral) => {
@@ -375,7 +433,10 @@ class RhsRootPost extends React.PureComponent {
                         />
                     </div>
                     <div>
-                        <div className='post__header'>
+                        <div
+                            className='post__header'
+                            ref={this.postHeaderRef}
+                        >
                             <div className='col__name'>
                                 {userProfile}
                                 {botIndicator}
