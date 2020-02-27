@@ -295,6 +295,9 @@ class PostList extends React.PureComponent {
             }
         }
 
+        // Since the first in the list is the latest message
+        const isLastPost = itemId === this.state.postListIds[0];
+
         return (
             <div
                 style={style}
@@ -307,6 +310,7 @@ class PostList extends React.PureComponent {
                     loadOlderPosts={this.props.actions.loadOlderPosts}
                     loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
+                    isLastPost={isLastPost}
                 />
             </div>
         );
