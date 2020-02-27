@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip, Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -84,8 +84,9 @@ class ChannelHeader extends React.PureComponent {
         super(props);
         this.toggleFavoriteRef = React.createRef();
         this.headerDescriptionRef = React.createRef();
+        this.headerPopoverTextMeasurerRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -210,18 +211,6 @@ class ChannelHeader extends React.PureComponent {
         }
     };
 
-    handleOnMouseOver = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.show();
-        }
-    };
-
-    handleOnMouseOut = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
-        }
-    };
-
     handleQuickSwitchKeyPress = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             if (!e.altKey) {
@@ -263,9 +252,19 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
-    setOverlayWidth = () => {
+    showChannelHeaderPopover = () => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
-        this.setState({popoverOverlayWidth: headerDescriptionRect.width});
+        const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
+
+        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width) {
+            this.setState({showChannelHeaderPopover: true});
+        }
+    }
+
+    setPopoverOverlayWidth = () => {
+        const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
+        const ellipsisWidthAdjustment = 3;
+        this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
     }
 
     render() {
@@ -426,45 +425,58 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`}}
                     placement='bottom'
-                    style={{'max-width': `${this.state.popoverOverlayWidth}px`}}
                     className='channel-header__popover'
-                    onMouseOver={this.handleOnMouseOver}
-                    onMouseOut={this.handleOnMouseOut}
                 >
+
                     <Markdown
                         message={headerText}
                         options={this.getPopoverMarkdownOptions(channelNamesMap)}
                     />
                 </Popover>
             );
+
             headerTextContainer = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    placement='bottom'
-                    rootClose={true}
-                    overlay={popoverContent}
-                    onEntering={this.setOverlayWidth}
-                    ref='headerOverlay'
+                <div
+                    id='channelHeaderDescription'
+                    className='channel-header__description'
                 >
+                    {dmHeaderIconStatus}
+                    {dmHeaderTextStatus}
+                    {hasGuestsText}
                     <div
-                        id='channelHeaderDescription'
-                        className='channel-header__description'
+                        className='header-popover-text-measurer'
+                        ref={this.headerPopoverTextMeasurerRef}
                     >
-                        {dmHeaderIconStatus}
-                        {dmHeaderTextStatus}
-                        {hasGuestsText}
-                        <span
-                            className='header-description__text'
-                            onClick={Utils.handleFormattedTextClick}
-                        >
-                            <Markdown
-                                message={headerText}
-                                options={this.getHeaderMarkdownOptions(channelNamesMap)}
-                            />
-                        </span>
-                    </div>
-                </OverlayTrigger>
+                        <Markdown
+                            message={headerText}
+                            options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                        /></div>
+                    <span
+                        className='header-description__text'
+                        onClick={Utils.handleFormattedTextClick}
+                        onMouseOver={this.showChannelHeaderPopover}
+                        onMouseOut={() => this.setState({showChannelHeaderPopover: false})}
+                        ref={this.headerDescriptionRef}
+                    >
+
+                        <Overlay
+                            show={this.state.showChannelHeaderPopover}
+                            placement='bottom'
+                            rootClose={true}
+                            target={this.headerDescriptionRef.current}
+                            ref='headerOverlay'
+                            onEnter={this.setPopoverOverlayWidth}
+                        >{popoverContent}</Overlay>
+
+                        <Markdown
+                            message={headerText}
+                            options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                        />
+                    </span>
+
+                </div>
             );
         } else {
             let editMessage;
@@ -679,7 +691,6 @@ class ChannelHeader extends React.PureComponent {
                         <div
                             id='channelHeaderInfo'
                             className='channel-header__info'
-                            ref={this.headerDescriptionRef}
                         >
                             <div
                                 className='channel-header__title dropdown'
