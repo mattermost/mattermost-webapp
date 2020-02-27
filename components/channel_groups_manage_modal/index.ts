@@ -8,10 +8,11 @@ import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
+import {SyncableType} from 'mattermost-redux/types/groups';
+
 import {closeModal, openModal} from 'actions/views/modals';
 
 import ChannelGroupsManageModal from './channel_groups_manage_modal';
-import { SyncableType } from 'mattermost-redux/types/groups';
 
 const mapStateToProps = (state: GlobalState, ownProps: any) => {
     return {

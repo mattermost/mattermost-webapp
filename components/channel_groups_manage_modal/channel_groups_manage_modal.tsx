@@ -8,6 +8,8 @@ import Groups from 'mattermost-redux/constants/groups';
 
 import {Group, SyncableType} from 'mattermost-redux/types/groups';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
@@ -23,8 +25,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
-
-import {Channel} from 'mattermost-redux/types/channels';
 
 type Props = {
     channel: Channel;
