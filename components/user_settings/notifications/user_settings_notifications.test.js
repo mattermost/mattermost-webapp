@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import UserSettingsNotifications from './user_settings_notifications';
 
@@ -24,7 +24,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should have called handleSubmit', async () => {
         const props = {...requiredProps, actions: {...requiredProps.actions}};
-        const wrapper: ShallowWrapper<any, any, UserSettingsNotifications> = shallow(<UserSettingsNotifications {...props}/>);
+        const wrapper = shallow(<UserSettingsNotifications {...props}/>);
 
         await wrapper.instance().handleSubmit();
         expect(requiredProps.actions.updateMe).toHaveBeenCalled();
@@ -34,7 +34,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const updateMe = jest.fn(() => Promise.resolve({data: true}));
 
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
-        const wrapper: ShallowWrapper<any, any, UserSettingsNotifications> = shallow(<UserSettingsNotifications {...props}/>);
+        const wrapper = shallow(<UserSettingsNotifications {...props}/>);
 
         await wrapper.instance().handleSubmit();
         expect(requiredProps.updateSection).toHaveBeenCalled();
@@ -45,7 +45,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const newUpdateSection = jest.fn();
         const updateArg = 'unreadChannels';
         const props = {...requiredProps, updateSection: newUpdateSection, user: {...user, notify_props: {desktop: 'on'}}};
-        const wrapper: ShallowWrapper<any, any, UserSettingsNotifications> = shallow(<UserSettingsNotifications {...props}/>);
+        const wrapper = shallow(<UserSettingsNotifications {...props}/>);
 
         wrapper.setState({isSaving: true, desktopActivity: 'off'});
         wrapper.instance().handleUpdateSection(updateArg);
