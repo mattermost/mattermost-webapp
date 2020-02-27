@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Groups} from 'mattermost-redux/constants';
+import Groups from 'mattermost-redux/constants/groups';
 
-import {any} from 'prop-types';
+import {Group, SyncableType} from 'mattermost-redux/types/groups';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
@@ -24,16 +24,18 @@ import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 type Props = {
-    channel: any;
-    intl: any;
+    channel: Channel;
+    intl: IntlShape;
     actions: {
         getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, DEFAULT_NUM_PER_PAGE: number) => any;
-        unlinkGroupSyncable: (itemId: string, channelId: string, type: any) => any;
-        patchGroupSyncable: (itemId: string, channelId: string, GroupsSyncableTypeChannel: any, params: {scheme_admin: boolean}) => any;
+        unlinkGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string) => any;
+        patchGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string, params: {scheme_admin: boolean}) => any;
         getMyChannelMember: (channelId: string) => any;
-        closeModal: (ModalIdentifiersManageChannelGroups: any) => any;
-        openModal: (params: {modalId: any; dialogType: any}) => any;
+        closeModal: (modalIdentifiersManageChannelGroups: string) => any;
+        openModal: (params: {modalId: string; dialogType: any}) => any;
     };
 };
 
@@ -46,7 +48,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
         };
     };
 
-    public onClickRemoveGroup = (item: any, listModal: any) => this.props.actions.unlinkGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL).then(async () => {
+    public onClickRemoveGroup = (item: Group, listModal: any) => this.props.actions.unlinkGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL).then(async () => {
         listModal.setState({loading: true});
         const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
         listModal.setState({loading: false, items, totalCount});
@@ -61,7 +63,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
         this.props.actions.openModal({modalId: ModalIdentifiers.ADD_GROUPS_TO_TEAM, dialogType: AddGroupsToChannelModal});
     };
 
-    public setChannelMemberStatus = async (item: any, listModal: any, isChannelAdmin: boolean) => {
+    public setChannelMemberStatus = async (item: Group, listModal: any, isChannelAdmin: boolean) => {
         this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: isChannelAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
@@ -71,7 +73,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
         });
     };
 
-    public renderRow = (item: any, listModal: any) => {
+    public renderRow = (item: Group, listModal: any) => {
         let title;
         if (item.scheme_admin) {
             title = Utils.localizeMessage('channel_members_dropdown.channel_admins', 'Channel Admins');

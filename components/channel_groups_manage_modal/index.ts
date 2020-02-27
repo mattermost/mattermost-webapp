@@ -11,6 +11,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {closeModal, openModal} from 'actions/views/modals';
 
 import ChannelGroupsManageModal from './channel_groups_manage_modal';
+import { SyncableType } from 'mattermost-redux/types/groups';
 
 const mapStateToProps = (state: GlobalState, ownProps: any) => {
     return {
@@ -22,16 +23,16 @@ type Actions = {
     getGroupsAssociatedToChannel: (channelId: string, searchTerm: string, pageNumber: number, DEFAULT_NUM_PER_PAGE: number) => Promise<{
         data: boolean;
     }>;
-    unlinkGroupSyncable: (itemId: string, channelId: string, type: any) => Promise<{
+    unlinkGroupSyncable: (itemId: string, channelId: string, type: string) => Promise<{
         data: boolean;
     }>;
-    patchGroupSyncable: (itemId: string, channelId: string, GroupsSyncableTypeChannel: any, params: {scheme_admin: boolean}) => Promise<{
+    patchGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string, params: {scheme_admin: boolean}) => Promise<{
         data: boolean;
     }>;
     getMyChannelMember: (channelId: string) => Promise<{
         data: boolean;
     }>;
-    closeModal: (ModalIdentifiersManageChannelGroups: any) => Promise<{
+    closeModal: (modalIdentifiersManageChannelGroups: any) => Promise<{
         data: boolean;
     }>;
     openModal: (params: {modalId: any; dialogType: any}) => Promise<{
