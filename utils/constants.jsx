@@ -133,6 +133,8 @@ export const ActionTypes = keyMirror({
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
+    EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
+
     BROWSER_CHANGE_FOCUS: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
@@ -200,6 +202,7 @@ export const ModalIdentifiers = {
     TEAM_SETTINGS: 'team_settings',
     CHANNEL_INFO: 'channel_info',
     DELETE_CHANNEL: 'delete_channel',
+    UNARCHIVE_CHANNEL: 'unarchive_channel',
     CHANNEL_NOTIFICATIONS: 'channel_notifications',
     CHANNEL_INVITE: 'channel_invite',
     CHANNEL_MEMBERS: 'channel_members',
@@ -283,6 +286,7 @@ export const SocketEvents = {
     CHANNEL_CONVERTED: 'channel_converted',
     CHANNEL_CREATED: 'channel_created',
     CHANNEL_DELETED: 'channel_deleted',
+    CHANNEL_UNARCHIVED: 'channel_restored',
     CHANNEL_UPDATED: 'channel_updated',
     CHANNEL_VIEWED: 'channel_viewed',
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
@@ -343,6 +347,7 @@ export const PostTypes = {
     CONVERT_CHANNEL: 'system_convert_channel',
     PURPOSE_CHANGE: 'system_purpose_change',
     CHANNEL_DELETED: 'system_channel_deleted',
+    CHANNEL_UNARCHIVED: 'system_channel_restored',
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
@@ -686,6 +691,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
+    NO_WHERE: 'NO_WHERE'
 };
 
 export const PostListRowListIds = {
