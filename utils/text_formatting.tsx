@@ -786,11 +786,11 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
-    output = output.replace(UNICODE_EMOJI_REGEX, (emojiMatch) => {
+    output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
         const codePoints = [fixedCharCodeAt(emojiMatch, 0)];
 
