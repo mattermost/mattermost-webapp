@@ -21,8 +21,8 @@
   },
   "scripts": {
     "cypress:open": "cypress open",
-    "cypress:run:chrome": "cypress run --browser chrome --config ignoreTestFiles='**/enterprise/**/*.js'",
-    "cypress:run:chrome:enterprise": "cypress run --browser chrome --spec='cypress/integration/enterprise/**/*_spec.js'",
+    "cypress:run": "cypress run --browser chrome --config ignoreTestFiles='**/enterprise/**/*.js'",
+    "cypress:run:enterprise": "cypress run --browser chrome --spec='cypress/integration/enterprise/**/*_spec.js'",
     "cypress:run:firefox": "cypress run --browser firefox --config ignoreTestFiles='**/enterprise/**/*.js'",
     "cypress:run:firefox:enterprise": "cypress run --browser firefox --spec='cypress/integration/enterprise/**/*_spec.js'",
     "cypress:run:edge": "cypress run --browser edge --config ignoreTestFiles='**/enterprise/**/*.js'",
