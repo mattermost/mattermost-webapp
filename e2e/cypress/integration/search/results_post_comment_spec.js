@@ -11,7 +11,7 @@ describe('Search', () => {
     it('S14548 Search results Right-Hand-Side: Post a comment', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         const message = `asparagus${Date.now()}`;
         const comment = 'Replying to asparagus';
