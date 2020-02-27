@@ -336,7 +336,10 @@ class JobTable extends React.PureComponent {
                     </div>
                 </div>
                 <div className='job-table__table'>
-                    <table className='table'>
+                    <table
+                        className='table'
+                        data-testid='jobTable'
+                    >
                         <thead>
                             <tr>
                                 <th width='30px'/>

@@ -95,7 +95,6 @@ describe('Invite Members', () => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 testTeam = response.body;
-                cy.visit('/');
                 cy.visit(`/${testTeam.name}`);
             });
         });

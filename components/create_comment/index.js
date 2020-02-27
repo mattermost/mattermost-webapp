@@ -5,14 +5,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
-import {Preferences, Posts} from 'mattermost-redux/constants';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import Permissions from 'mattermost-redux/constants/permissions';
+import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -58,6 +57,10 @@ function makeMapStateToProps() {
                 permission: Permissions.CREATE_POST,
             }
         );
+        const useChannelMentions = haveIChannelPermission(state, {
+            channel: ownProps.channelId,
+            permission: Permissions.USE_CHANNEL_MENTIONS,
+        });
 
         return {
             draft,
@@ -78,6 +81,7 @@ function makeMapStateToProps() {
             isTimezoneEnabled,
             selectedPostFocussedAt: getSelectedPostFocussedAt(state),
             canPost,
+            useChannelMentions,
         };
     };
 }

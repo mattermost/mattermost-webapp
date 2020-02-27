@@ -17,7 +17,7 @@ describe('System Console', () => {
         // # Login as System Admin
         cy.apiLogin('sysadmin');
 
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('can go to admin console by clicking System Console', () => {
