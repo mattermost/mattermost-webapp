@@ -22,7 +22,7 @@ function mapStateToProps(state) {
     const termsOfServiceLink = config.TermsOfServiceLink;
     const privacyPolicyLink = config.PrivacyPolicyLink;
     const customDescriptionText = config.CustomDescriptionText;
-    const noAccounts = config.NoAccounts === 'true';
+    const hasAccounts = config.NoAccounts === 'false';
 
     return {
         enableSignUpWithEmail,
@@ -31,7 +31,7 @@ function mapStateToProps(state) {
         privacyPolicyLink,
         customDescriptionText,
         passwordConfig: getPasswordConfig(config),
-        noAccounts,
+        hasAccounts,
     };
 }
 
