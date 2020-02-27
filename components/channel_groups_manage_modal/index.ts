@@ -27,7 +27,7 @@ type Actions = {
     unlinkGroupSyncable: (itemId: string, channelId: string, type: string) => Promise<{
         data: boolean;
     }>;
-    patchGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string, params: {scheme_admin: boolean}) => Promise<{
+    patchGroupSyncable: (itemId: string, channelId: string, groupsSyncableTypeChannel: string, params: {schemeAdmin: boolean}) => Promise<{
         data: boolean;
     }>;
     getMyChannelMember: (channelId: string) => Promise<{
