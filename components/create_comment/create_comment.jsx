@@ -236,7 +236,7 @@ class CreateComment extends React.PureComponent {
             renderScrollbar: false,
             suggestionListStyle: 'top',
         };
-
+        this.props.setShowPreview(false);
         this.lastBlurAt = 0;
         this.draftsForPost = {};
         this.doInitialScrollToBottom = false;

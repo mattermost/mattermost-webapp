@@ -281,6 +281,8 @@ class CreatePost extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         let updatedState = {currentChannel: props.currentChannel};
         if (props.currentChannel.id !== state.currentChannel.id) {
+            props.actions.setShowPreview(false);
+
             updatedState = {
                 ...updatedState,
                 message: props.draft.message,
@@ -306,6 +308,7 @@ class CreatePost extends React.PureComponent {
             currentChannel: props.currentChannel,
         };
 
+        this.props.actions.setShowPreview(false);
         this.lastBlurAt = 0;
         this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
