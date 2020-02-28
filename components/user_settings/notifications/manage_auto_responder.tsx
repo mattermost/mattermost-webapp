@@ -1,36 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import AutosizeTextarea from 'components/autosize_textarea';
-import SettingItemMax from 'components/setting_item_max.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import SettingItemMax from 'components/setting_item_max';
+import {localizeMessage} from 'utils/utils';
 
 const MESSAGE_MAX_LENGTH = 200;
 
-export default class ManageAutoResponder extends React.PureComponent {
-    static propTypes = {
-        autoResponderActive: PropTypes.bool.isRequired,
-        autoResponderMessage: PropTypes.string.isRequired,
-        updateSection: PropTypes.func.isRequired,
-        setParentState: PropTypes.func.isRequired,
-        submit: PropTypes.func.isRequired,
-        saving: PropTypes.bool.isRequired,
-        error: PropTypes.string,
-    };
+type Props = {
+    autoResponderActive: boolean;
+    autoResponderMessage: string;
+    updateSection: (section: string) => void;
+    setParentState: (key: string | null, value: string | boolean | null) => void;
+    submit: () => void;
+    saving: boolean;
+    error?: string;
+};
 
-    handleAutoResponderChecked = (e) => {
+export default class ManageAutoResponder extends React.PureComponent<Props> {
+    handleAutoResponderChecked = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.props.setParentState('autoResponderActive', e.target.checked);
     };
 
-    onMessageChanged = (e) => {
+    onMessageChanged = (e: ChangeEvent<HTMLTextAreaElement>): void => {
         this.props.setParentState('autoResponderMessage', e.target.value);
     };
 
-    render() {
+    render(): JSX.Element {
         const {
             autoResponderActive,
             autoResponderMessage,
@@ -84,7 +83,6 @@ export default class ManageAutoResponder extends React.PureComponent {
                 </div>
             </div>
         );
-
         inputs.push(activeToggle);
         if (autoResponderActive) {
             inputs.push(message);

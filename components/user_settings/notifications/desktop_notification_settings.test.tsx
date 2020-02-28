@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import {NotificationLevels} from 'utils/constants';
 
-import DesktopNotificationSettings from 'components/user_settings/notifications/desktop_notification_settings';
+import DesktopNotificationSettings from './desktop_notification_settings';
 
 jest.mock('utils/utils.jsx', () => {
     const original = require.requireActual('utils/utils.jsx');
@@ -51,7 +51,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
 
     test('should call props.updateSection and props.cancel on handleMinUpdateSection', () => {
         const props = {...baseProps, updateSection: jest.fn(), cancel: jest.fn()};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DesktopNotificationSettings> = shallow(
             <DesktopNotificationSettings {...props}/>
         );
 
@@ -70,7 +70,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
 
     test('should call props.updateSection on handleMaxUpdateSection', () => {
         const props = {...baseProps, updateSection: jest.fn()};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DesktopNotificationSettings> = shallow(
             <DesktopNotificationSettings {...props}/>
         );
 
@@ -85,22 +85,22 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
 
     test('should call props.setParentState on handleOnChange', () => {
         const props = {...baseProps, setParentState: jest.fn()};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DesktopNotificationSettings> = shallow(
             <DesktopNotificationSettings {...props}/>
         );
 
         wrapper.instance().handleOnChange({
-            currentTarget: {getAttribute: (key) => {
+            currentTarget: {getAttribute: (key: 'data-key' | 'data-value') => {
                 return {'data-key': 'dataKey', 'data-value': 'dataValue'}[key];
             }},
-        });
+        } as React.ChangeEvent<HTMLInputElement>);
 
         expect(props.setParentState).toHaveBeenCalledTimes(1);
         expect(props.setParentState).toHaveBeenCalledWith('dataKey', 'dataValue');
     });
 
     test('should match snapshot, on buildMaximizedSetting', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DesktopNotificationSettings> = shallow(
             <DesktopNotificationSettings {...baseProps}/>
         );
 
@@ -111,7 +111,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
     });
 
     test('should match snapshot, on buildMinimizedSetting', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DesktopNotificationSettings> = shallow(
             <DesktopNotificationSettings {...baseProps}/>
         );
 

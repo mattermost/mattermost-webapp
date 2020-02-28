@@ -1,34 +1,47 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {NotificationLevels} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import * as Utils from 'utils/utils';
+import {t} from 'utils/i18n';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
-export default class DesktopNotificationSettings extends React.Component {
-    handleMinUpdateSection = (section) => {
+type Props = {
+    activity: string;
+    sound: string;
+    updateSection: (section: string) => void;
+    setParentState: (key: string | null, value: string | boolean | null) => void;
+    submit: () => void;
+    cancel: () => void;
+    error?: string;
+    active?: boolean;
+    saving?: boolean;
+    focused?: boolean;
+}
+
+// eslint-disable-next-line react/require-optimization
+export default class DesktopNotificationSettings extends React.Component<Props> {
+    handleMinUpdateSection = (section: string): void => {
         this.props.updateSection(section);
 
         this.props.cancel();
-    }
+    };
 
-    handleMaxUpdateSection = (section) => {
+    handleMaxUpdateSection = (section: string): void => {
         this.props.updateSection(section);
-    }
+    };
 
-    handleOnChange = (e) => {
+    handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const key = e.currentTarget.getAttribute('data-key');
         const value = e.currentTarget.getAttribute('data-value');
         this.props.setParentState(key, value);
-    }
+    };
 
-    buildMaximizedSetting = () => {
+    buildMaximizedSetting = (): JSX.Element => {
         const inputs = [];
 
         const activityRadio = [false, false, false];
@@ -205,9 +218,9 @@ export default class DesktopNotificationSettings extends React.Component {
                 updateSection={this.handleMaxUpdateSection}
             />
         );
-    }
+    };
 
-    buildMinimizedSetting = () => {
+    buildMinimizedSetting = (): JSX.Element => {
         let formattedMessageProps;
         const hasSoundOption = Utils.hasSoundOptions();
         if (this.props.activity === NotificationLevels.MENTION) {
@@ -260,9 +273,9 @@ export default class DesktopNotificationSettings extends React.Component {
                 updateSection={this.handleMinUpdateSection}
             />
         );
-    }
+    };
 
-    render() {
+    render(): JSX.Element {
         if (this.props.active) {
             return this.buildMaximizedSetting();
         }
@@ -270,16 +283,3 @@ export default class DesktopNotificationSettings extends React.Component {
         return this.buildMinimizedSetting();
     }
 }
-
-DesktopNotificationSettings.propTypes = {
-    activity: PropTypes.string.isRequired,
-    sound: PropTypes.string.isRequired,
-    updateSection: PropTypes.func,
-    setParentState: PropTypes.func,
-    submit: PropTypes.func,
-    cancel: PropTypes.func,
-    error: PropTypes.string,
-    active: PropTypes.bool,
-    saving: PropTypes.bool,
-    focused: PropTypes.bool,
-};
