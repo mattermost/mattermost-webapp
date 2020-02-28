@@ -2310,7 +2310,7 @@
   "general_tab.AllowedDomainsInfo": "Users can only join the team if their email matches a specific domain (e.g. \"mattermost.org\") or list of comma-separated domains (e.g. \"corp.mattermost.com, mattermost.org\").",
   "general_tab.chooseDescription": "Please choose a new description for your team",
   "general_tab.codeDesc": "Click 'Edit' to regenerate Invite Code.",
-  "general_tab.codeLongDesc": "The Invite Code is used as part of the URL in the team invitation link created by {getTeamInviteLink} in the main menu. Regenerating creates a new team invitation link and invalidates the previous link.",
+  "general_tab.codeLongDesc": "The Invite Code is part of the unique team invitation link which is sent to members you’re inviting to this team. Regenerating the code creates a new invitation link and invalidates the previous link.",
   "general_tab.codeTitle": "Invite Code",
   "general_tab.emptyDescription": "Click 'Edit' to add a team description.",
   "general_tab.getTeamInviteLink": "Get Team Invite Link",

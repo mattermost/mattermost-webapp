@@ -1,15 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import PropTypes from 'prop-types';
 import React from 'react';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {Value} from 'components/multiselect/multiselect';
 
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 
-export default class GroupMessageOption extends React.Component {
+type Props = {
+    channel: (Channel & Value & {profiles: UserProfile[]});
+    isSelected: boolean;
+    onAdd: (users: UserProfile[]) => void;
+}
+
+export default class GroupMessageOption extends React.Component<Props> {
     static propTypes = {
-        channel: PropTypes.object.isRequired,
-        isSelected: PropTypes.bool.isRequired,
-        onAdd: PropTypes.func.isRequired,
+
     };
 
     getStyle() {
