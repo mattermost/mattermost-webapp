@@ -121,7 +121,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         actions.getChannelModerations(channelID).
             then(() => {
                 // We are disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
-                const currentCreatePostRoles: any = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.roles;
+                const currentCreatePostRoles: any = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
                 let channelPermissions = this.props.channelPermissions;
                 for (const channelRole of Object.keys(currentCreatePostRoles)) {
                     channelPermissions = channelPermissions!.map((permission) => {
@@ -222,7 +222,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let channelPermissions = [...this.state.channelPermissions!];
 
         if (name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST) {
-            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.roles[channelRole];
+            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.['roles']![channelRole];
             channelPermissions = channelPermissions.map((permission) => {
                 if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && !newValue) {
                     return {
