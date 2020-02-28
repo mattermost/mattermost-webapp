@@ -11,7 +11,7 @@ import {compareEmojis} from 'utils/emoji_utils.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
-import EmojiPickerCategory from './components/emoji_picker_category';
+import EmojiPickerCategoryList from './components/emoji_picker_category_list';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
@@ -559,47 +559,6 @@ export default class EmojiPicker extends React.PureComponent {
         return currentCategoryName;
     }
 
-    emojiCategories() {
-        const categories = this.props.recentEmojis.length ? {...recentEmojiCategory, ...CATEGORIES} : CATEGORIES;
-        const categoryKeys = Object.keys(categories);
-        const currentCategoryName = this.state.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
-        const emojiPickerCategories = categoryKeys.map((categoryName) => {
-            const category = categories[categoryName];
-
-            return (
-                <EmojiPickerCategory
-                    key={'header-' + category.name}
-                    category={category.name}
-                    icon={
-                        <FormattedMessage
-                            id={category.id}
-                            defaultMessage={category.message}
-                        >
-                            {(title) => (
-                                <i
-                                    className={category.className}
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
-                    }
-                    onCategoryClick={this.handleCategoryClick}
-                    selected={currentCategoryName === category.name}
-                    enable={!this.state.filter}
-                />
-            );
-        });
-        return (
-            <div
-                id='emojiPickerCategories'
-                className='emoji-picker__categories'
-                onKeyDown={this.handleCategoryKeyDown}
-            >
-                {emojiPickerCategories}
-            </div>
-        );
-    }
-
     emojiCurrentResults() {
         const {filter} = this.state;
         const categories = filter ? [CATEGORY_SEARCH_RESULTS] : Object.keys(this.state.categories);
@@ -719,7 +678,7 @@ export default class EmojiPicker extends React.PureComponent {
                     onChange={this.handleFilterChange}
                     onKeyDown={this.handleKeyDown}
                 />
-                {this.emojiCategories()}
+                <EmojiPickerCategoryList/>
                 {this.emojiCurrentResults()}
                 <EmojiPickerPreview emoji={this.getCurrentEmojiByCursor(this.state.cursor)}/>
             </div>

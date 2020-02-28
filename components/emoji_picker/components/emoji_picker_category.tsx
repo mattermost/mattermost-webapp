@@ -3,46 +3,37 @@
 
 /* eslint-disable react/prop-types */
 
-import React, {useCallback, MouseEventHandler} from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import {EmojiCategory} from '../utils';
 
+import {useEmojiCategoryIconComponent} from './emoji_picker_category_icon';
+
 export interface EmojiPickerCategoryProps {
     category: EmojiCategory;
-    icon: React.ReactNode;
-    onCategoryClick: (category: EmojiCategory) => void;
-    selected: boolean;
-    enable: boolean;
+    selected?: boolean;
+    enable?: boolean;
 }
 
 const EmojiPickerCategory: React.FC<EmojiPickerCategoryProps> = ({
     category,
-    icon,
-    onCategoryClick,
-    selected,
-    enable,
+    selected = false,
+    enable = true,
 }) => {
-    // FIXME: category & onCategoryClick either is prop from parent.
-    // So this component shouldn't implement this here.
-    const handleClick = useCallback<MouseEventHandler<HTMLAnchorElement>>((e) => {
-        e.preventDefault();
-        onCategoryClick(category);
-    }, [category, onCategoryClick]);
+    const EmojiCategoryIcon = useEmojiCategoryIconComponent(category);
 
     return (
-        <a
+        <button
             className={cx(
                 'emoji-picker__category',
                 selected && 'emoji-picker__category--selected',
                 !enable && 'disable',
             )}
-            href='#'
-            onClick={handleClick}
             aria-label={category}
         >
-            {icon}
-        </a>
+            <EmojiCategoryIcon/>
+        </button>
     );
 };
 

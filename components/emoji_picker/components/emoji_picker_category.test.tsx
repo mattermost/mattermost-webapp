@@ -4,20 +4,36 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {EmojiCategory} from '../utils';
+
 import EmojiPickerCategory, {EmojiPickerCategoryProps} from './emoji_picker_category';
 
 describe('components/EmojiPicker/components/EmojiPickerCategory', () => {
     const baseProps: EmojiPickerCategoryProps = {
         category: 'people',
         // eslint-disable-next-line react/jsx-no-literals
-        icon: <span>ICON TEST</span>,
         selected: true,
         enable: true,
-        onCategoryClick: jest.fn(),
     };
 
-    it('should match snapshot', () => {
-        const wrapper = shallow(<EmojiPickerCategory {...baseProps}/>);
+    it.each([
+        'activity',
+        'custom',
+        'flags',
+        'foods',
+        'nature',
+        'objects',
+        'people',
+        'places',
+        'recent',
+        'symbols',
+    ])('should match snapshot for %s', (category) => {
+        const wrapper = shallow(
+            <EmojiPickerCategory
+                {...baseProps}
+                category={category as EmojiCategory}
+            />
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -39,22 +55,5 @@ describe('components/EmojiPicker/components/EmojiPickerCategory', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should calls onClickCategory with category', () => {
-        const expectedCategory = 'custom';
-        const mockOnClickCategory = jest.fn();
-        const mockEventObject = {preventDefault: jest.fn()};
-        const wrapper = shallow(
-            <EmojiPickerCategory
-                {...baseProps}
-                category={expectedCategory}
-                onCategoryClick={mockOnClickCategory}
-            />
-        );
-        wrapper.find('a').simulate('click', mockEventObject);
-
-        expect(mockEventObject.preventDefault).toHaveBeenCalled();
-        expect(mockOnClickCategory).toHaveBeenCalledWith(expectedCategory);
     });
 });

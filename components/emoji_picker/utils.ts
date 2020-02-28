@@ -12,7 +12,7 @@ import {
 } from 'utils/emoji';
 
 export type Emoji = _Emoji;
-export type EmojiCategory = _EmojiCategory;
+export type EmojiCategory = Exclude<_EmojiCategory, 'skintone'> | 'recent';
 
 export function isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
     return 'batch' in emoji;

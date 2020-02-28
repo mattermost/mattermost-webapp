@@ -1,40 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot 1`] = `
-<a
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for activity 1`] = `
+<button
+  aria-label="activity"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Activity />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for custom 1`] = `
+<button
+  aria-label="custom"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Custom />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for flags 1`] = `
+<button
+  aria-label="flags"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Flags />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for foods 1`] = `
+<button
+  aria-label="foods"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Foods />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for nature 1`] = `
+<button
+  aria-label="nature"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Nature />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for objects 1`] = `
+<button
+  aria-label="objects"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Objects />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for people 1`] = `
+<button
   aria-label="people"
   className="emoji-picker__category emoji-picker__category--selected"
-  href="#"
-  onClick={[Function]}
 >
-  <span>
-    ICON TEST
-  </span>
-</a>
+  <People />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for places 1`] = `
+<button
+  aria-label="places"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Places />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for recent 1`] = `
+<button
+  aria-label="recent"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Recent />
+</button>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot for symbols 1`] = `
+<button
+  aria-label="symbols"
+  className="emoji-picker__category emoji-picker__category--selected"
+>
+  <Symbols />
+</button>
 `;
 
 exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot when enable=false 1`] = `
-<a
+<button
   aria-label="people"
   className="emoji-picker__category emoji-picker__category--selected disable"
-  href="#"
-  onClick={[Function]}
 >
-  <span>
-    ICON TEST
-  </span>
-</a>
+  <People />
+</button>
 `;
 
 exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot when selected=false 1`] = `
-<a
+<button
   aria-label="people"
   className="emoji-picker__category"
-  href="#"
-  onClick={[Function]}
 >
-  <span>
-    ICON TEST
-  </span>
-</a>
+  <People />
+</button>
 `;
