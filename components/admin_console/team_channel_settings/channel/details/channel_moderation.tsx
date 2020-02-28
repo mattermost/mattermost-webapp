@@ -7,6 +7,8 @@ import {FormattedMessage, defineMessages} from 'react-intl';
 import {isNil} from 'lodash';
 import classNames from 'classnames';
 import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
+import {Permissions, Roles} from 'mattermost-redux/constants';
+import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -16,7 +18,7 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
 
 const formattedMessages: any = defineMessages({
-    create_post: {
+    [Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST]: {
         title: {
             id: t('admin.channel_settings.channel_moderation.createPosts'),
             defaultMessage: 'Create Posts'
@@ -39,7 +41,7 @@ const formattedMessages: any = defineMessages({
         }
     },
 
-    create_reactions: {
+    [Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_REACTIONS]: {
         title: {
             id: t('admin.channel_settings.channel_moderation.postReactions'),
             defaultMessage: 'Post Reactions'
@@ -62,7 +64,7 @@ const formattedMessages: any = defineMessages({
         }
     },
 
-    manage_members: {
+    [Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS]: {
         title: {
             id: t('admin.channel_settings.channel_moderation.manageMembers'),
             defaultMessage: 'Manage Members'
@@ -85,7 +87,7 @@ const formattedMessages: any = defineMessages({
         }
     },
 
-    use_channel_mentions: {
+    [Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS]: {
         title: {
             id: t('admin.channel_settings.channel_moderation.channelMentions'),
             defaultMessage: 'Channel Mentions'
@@ -144,7 +146,7 @@ const formattedMessages: any = defineMessages({
 
 interface Props {
     channelPermissions?: Array<ChannelPermissions>;
-    onChannelPermissionsChanged: (name: string, channelRole: 'guests' | 'members') => void;
+    onChannelPermissionsChanged: (name: string, channelRole: ChannelModerationRoles) => void;
     teamSchemeID?: string;
     teamSchemeDisplayName?: string;
 }
@@ -155,7 +157,7 @@ interface RowProps {
     members: boolean;
     guestsDisabled?: boolean;
     membersDisabled: boolean;
-    onClick: (name: string, channelRole: 'guests' | 'members') => void;
+    onClick: (name: string, channelRole: ChannelModerationRoles) => void;
     errorMessages?: any;
 }
 
@@ -180,7 +182,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
             <td>
                 {!isNil(props.guests) &&
                     <button
-                        data-testid={`${props.name}-guests`}
+                        data-testid={`${props.name}-${Roles.GUESTS}`}
                         className={classNames(
                             'checkbox',
                             {
@@ -188,7 +190,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                                 disabled: props.guestsDisabled,
                             }
                         )}
-                        onClick={() => props.onClick(props.name, 'guests')}
+                        onClick={() => props.onClick(props.name, Roles.GUESTS as ChannelModerationRoles)}
                         disabled={props.guestsDisabled}
                     >
                         {props.guests && !props.guestsDisabled && <CheckboxCheckedIcon/>}
@@ -198,7 +200,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
             <td>
                 {!isNil(props.members) &&
                     <button
-                        data-testid={`${props.name}-members`}
+                        data-testid={`${props.name}-${Roles.MEMBERS}`}
                         className={classNames(
                             'checkbox',
                             {
@@ -206,7 +208,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                                 disabled: props.membersDisabled,
                             }
                         )}
-                        onClick={() => props.onClick(props.name, 'members')}
+                        onClick={() => props.onClick(props.name, Roles.MEMBERS as ChannelModerationRoles)}
                         disabled={props.membersDisabled}
                     >
                         {props.members && !props.membersDisabled && <CheckboxCheckedIcon/>}
@@ -223,8 +225,8 @@ export default class ChannelModeration extends React.Component<Props> {
         const isGuestsDisabled = !isNil(entry.roles.guests?.['enabled']) && !entry.roles.guests?.['enabled'];
         const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';
-        if (entry.name === 'use_channel_mentions') {
-            const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.filter((permission) => permission.name === 'create_post')[0];
+        if (entry.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS) {
+            const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.find((permission) => permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST);
             if (!createPostsObject!.roles.guests!.value && !createPostsObject!.roles.members!.value) {
                 errorMessages.push(
                     <div key={formattedMessages[entry.name].disabledBothDueToCreatePosts.id}>
@@ -256,9 +258,9 @@ export default class ChannelModeration extends React.Component<Props> {
         let disabledKey;
         if (isGuestsDisabled && isMembersDisabled && errorMessages.length <= 0) {
             disabledKey = 'disabledBoth';
-        } else if (isGuestsDisabled && createPostsKey !== 'disabled_guests_due_to_create_posts') {
+        } else if (isGuestsDisabled && createPostsKey !== 'disabledGuestsDueToCreatePosts') {
             disabledKey = 'disabledGuests';
-        } else if (isMembersDisabled && createPostsKey !== 'disabled_members_due_to_create_posts') {
+        } else if (isMembersDisabled && createPostsKey !== 'disabledMembersDueToCreatePosts') {
             disabledKey = 'disabledMembers';
         }
         if (disabledKey) {

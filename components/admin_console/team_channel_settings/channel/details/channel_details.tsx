@@ -5,9 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {Groups} from 'mattermost-redux/constants';
+import {Groups, Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {Scheme} from 'mattermost-redux/types/schemes';
+import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
 import {SyncablePatch, Group} from 'mattermost-redux/types/groups';
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
@@ -119,12 +120,12 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             then(() => this.setState({groups: this.props.groups})),
         actions.getChannelModerations(channelID).
             then(() => {
-                const currentValueIndex = this.props.channelPermissions!.findIndex((element) => element.name === 'create_post');
-                const currentCreatePostRoles: any = this.props.channelPermissions![currentValueIndex].roles;
+                // We are disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
+                const currentCreatePostRoles: any = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.roles;
                 let channelPermissions = this.props.channelPermissions;
                 for (const channelRole of Object.keys(currentCreatePostRoles)) {
                     channelPermissions = channelPermissions!.map((permission) => {
-                        if (permission.name === 'use_channel_mentions' && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
+                        if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
                             return {
                                 name: permission.name,
                                 roles: {
@@ -214,16 +215,16 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.processGroupsChange(groups);
     }
 
-    private channelPermissionsChanged = (name: string, channelRole: 'guests' | 'members') => {
+    private channelPermissionsChanged = (name: string, channelRole: ChannelModerationRoles) => {
         const currentValueIndex = this.state.channelPermissions!.findIndex((element) => element.name === name);
         const currentValue = this.state.channelPermissions![currentValueIndex].roles[channelRole]!.value;
         const newValue = !currentValue;
         let channelPermissions = [...this.state.channelPermissions!];
 
-        if (name === 'create_post') {
-            const originalObj = this.props.channelPermissions!.filter((element) => element.name === 'use_channel_mentions')[0].roles[channelRole];
+        if (name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST) {
+            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.roles[channelRole];
             channelPermissions = channelPermissions.map((permission) => {
-                if (permission.name === 'use_channel_mentions' && !newValue) {
+                if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && !newValue) {
                     return {
                         name: permission.name,
                         roles: {
@@ -234,7 +235,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             }
                         }
                     };
-                } else if (permission.name === 'use_channel_mentions') {
+                } else if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS) {
                     return {
                         name: permission.name,
                         roles: {
