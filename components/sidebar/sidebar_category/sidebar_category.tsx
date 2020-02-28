@@ -10,6 +10,7 @@ import {isKeyPressed} from 'utils/utils';
 type Props = {
     category: any;
     setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
+    handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLDivElement | undefined;
     actions: {
         setCollapsedState: (categoryId: string, isCollapsed: boolean) => void;
@@ -91,6 +92,21 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         const channels = category.channel_ids.map(this.renderChannel);
 
+        // TODO: temporary button, need better way of opening modal
+        let directMessagesModalButton;
+        if (category.id === 'direct') {
+            directMessagesModalButton = (
+                <div style={{fontWeight: 'bold'}}>
+                    <a
+                        href='#'
+                        onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent)}
+                    >
+                        {'+'}
+                    </a>
+                </div>
+            );
+        }
+
         return (
             <div>
                 <div
@@ -100,7 +116,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     onClick={this.handleCollapse}
                 >
                     {isCollapsed ? '+' : '-'}
-                    {category.display_name}
+                    <div>
+                        {category.display_name}
+                    </div>
+                    {directMessagesModalButton}
                 </div>
                 {channels}
             </div>

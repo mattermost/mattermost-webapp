@@ -1,16 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
+import {Channel} from 'mattermost-redux/types/channels';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
-import MultiSelect from 'components/multiselect/multiselect';
+import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import ProfilePicture from 'components/profile_picture';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -21,57 +24,78 @@ import GroupMessageOption from './group_message_option';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
-export default class MoreDirectChannels extends React.Component {
-    static propTypes = {
+type UserProfileValue = (UserProfile & Value);
+type GroupChannelValue = (Channel & Value & {profiles: UserProfile[]});
 
-        currentUserId: PropTypes.string.isRequired,
-        currentTeamId: PropTypes.string.isRequired,
-        currentTeamName: PropTypes.string.isRequired,
-        searchTerm: PropTypes.string.isRequired,
-        users: PropTypes.arrayOf(PropTypes.object).isRequired,
-        groupChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
-        myDirectChannels: PropTypes.arrayOf(PropTypes.object).isRequired,
-        statuses: PropTypes.object.isRequired,
-        totalCount: PropTypes.number,
+type OptionType = UserProfileValue | GroupChannelValue;
 
-        /*
-         * List of current channel members of existing channel
-         */
-        currentChannelMembers: PropTypes.arrayOf(PropTypes.object),
+type Props = {
+    currentUserId: string;
+    currentTeamId: string;
+    currentTeamName: string;
+    searchTerm: string;
+    users: UserProfile[];
+    groupChannels: Array<{profiles: UserProfile[]} & Channel>;
+    myDirectChannels: Channel[];
+    statuses: RelationOneToOne<UserProfile, string>;
+    totalCount?: number;
 
-        /*
-         * Whether the modal is for existing channel or not
-         */
-        isExistingChannel: PropTypes.bool.isRequired,
+    /*
+    * List of current channel members of existing channel
+    */
+    currentChannelMembers: UserProfile[];
 
-        /*
-         * The mode by which direct messages are restricted, if at all.
-         */
-        restrictDirectMessage: PropTypes.string,
-        onModalDismissed: PropTypes.func,
-        onHide: PropTypes.func,
-        bodyOnly: PropTypes.bool,
-        actions: PropTypes.shape({
-            getProfiles: PropTypes.func.isRequired,
-            getProfilesInTeam: PropTypes.func.isRequired,
-            getStatusesByIds: PropTypes.func.isRequired,
-            getTotalUsersStats: PropTypes.func.isRequired,
-            loadStatusesForProfilesList: PropTypes.func.isRequired,
-            loadProfilesForGroupChannels: PropTypes.func.isRequired,
-            openDirectChannelToUserId: PropTypes.func.isRequired,
-            openGroupChannelToUserIds: PropTypes.func.isRequired,
-            searchProfiles: PropTypes.func.isRequired,
-            searchGroupChannels: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+    /*
+    * Whether the modal is for existing channel or not
+    */
+    isExistingChannel: boolean;
 
-    constructor(props) {
+    /*
+    * The mode by which direct messages are restricted, if at all.
+    */
+    restrictDirectMessage?: string;
+    onModalDismissed: () => void;
+    onHide?: () => void;
+    bodyOnly?: boolean;
+    actions: {
+        getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
+        getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
+        getStatusesByIds: (userIds: string[]) => void;
+        getTotalUsersStats: () => void;
+        loadStatusesForProfilesList: (users: any) => {
+            data: boolean;
+        };
+        loadProfilesForGroupChannels: (groupChannels: any) => void;
+        openDirectChannelToUserId: (userId: any) => Promise<any>;
+        openGroupChannelToUserIds: (userIds: any) => Promise<any>;
+        searchProfiles: (term: string, options?: any) => Promise<any>;
+        searchGroupChannels: (term: string) => Promise<any>;
+        setModalSearchTerm: (term: any) => Promise<{
+            data: boolean;
+        }>;
+    };
+}
+
+type State = {
+    values: OptionType[];
+    show: boolean;
+    search: boolean;
+    saving: boolean;
+    loadingUsers: boolean;
+}
+
+export default class MoreDirectChannels extends React.Component<Props, State> {
+    searchTimeoutId: any;
+    exitToChannel?: string;
+    multiselect: React.RefObject<MultiSelect<OptionType>>;
+
+    constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
+        this.multiselect = React.createRef();
 
-        const values = [];
+        const values: (OptionType | UserProfile)[] = [];
 
         if (props.currentChannelMembers) {
             for (let i = 0; i < props.currentChannelMembers.length; i++) {
@@ -86,7 +110,7 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         this.state = {
-            values,
+            values: values as OptionType[],
             show: true,
             search: false,
             saving: false,
@@ -100,7 +124,7 @@ export default class MoreDirectChannels extends React.Component {
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
     }
 
-    updateFromProps(prevProps) {
+    updateFromProps(prevProps: Props) {
         if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
@@ -139,11 +163,11 @@ export default class MoreDirectChannels extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         this.updateFromProps(prevProps);
     }
 
-    loadProfilesMissingStatus = (users = [], statuses = {}) => {
+    public loadProfilesMissingStatus = (users: UserProfile[] = [], statuses: RelationOneToOne<UserProfile, string> = {}) => {
         const missingStatusByIds = users.
             filter((user) => !statuses[user.id]).
             map((user) => user.id);
@@ -162,7 +186,7 @@ export default class MoreDirectChannels extends React.Component {
         }
     }
 
-    setUsersLoadingState = (loadingState) => {
+    setUsersLoadingState = (loadingState: boolean) => {
         this.setState({
             loadingUsers: loadingState,
         });
@@ -195,7 +219,7 @@ export default class MoreDirectChannels extends React.Component {
 
         this.setState({saving: true});
 
-        const done = (result) => {
+        const done = (result: any) => {
             const {data, error} = result;
             this.setState({saving: false});
 
@@ -212,7 +236,7 @@ export default class MoreDirectChannels extends React.Component {
         }
     };
 
-    addValue = (value) => {
+    addValue = (value: OptionType) => {
         if (Array.isArray(value)) {
             this.addUsers(value);
         } else if ('profiles' in value) {
@@ -228,20 +252,20 @@ export default class MoreDirectChannels extends React.Component {
         }
     };
 
-    addUsers = (users) => {
-        const values = Object.assign([], this.state.values);
+    addUsers = (users: UserProfile[]) => {
+        const values: OptionType[] = Object.assign([], this.state.values);
         const existingUserIds = values.map((user) => user.id);
         for (const user of users) {
             if (existingUserIds.indexOf(user.id) !== -1) {
                 continue;
             }
-            values.push(user);
+            values.push(user as OptionType);
         }
 
         this.setState({values});
     };
 
-    getUserProfiles = (page) => {
+    getUserProfiles = (page?: number) => {
         const pageNum = page ? page + 1 : 0;
         if (this.props.restrictDirectMessage === 'any') {
             this.props.actions.getProfiles(pageNum, USERS_PER_PAGE * 2).then(() => {
@@ -254,7 +278,7 @@ export default class MoreDirectChannels extends React.Component {
         }
     }
 
-    handlePageChange = (page, prevPage) => {
+    handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
             this.getUserProfiles(page);
@@ -262,41 +286,42 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     resetPaging = () => {
-        if (this.refs.multiselect) {
-            this.refs.multiselect.resetPaging();
+        if (this.multiselect.current) {
+            this.multiselect.current.resetPaging();
         }
     }
 
-    search = (term) => {
+    search = (term: string) => {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    handleDelete = (values) => {
+    handleDelete = (values: OptionType[]) => {
         this.setState({values});
     }
 
-    renderAriaLabel = (option) => {
+    renderAriaLabel = (option: OptionType) => {
         if (!option) {
-            return null;
+            return '';
         }
-        return option.username;
+        return (option as UserProfile).username;
     }
 
-    renderOption = (option, isSelected, onAdd, onMouseMove) => {
-        if (option.type && option.type === 'G') {
+    renderOption = (option: OptionType, isSelected: boolean, onAdd: (value: OptionType) => void, onMouseMove: (value: OptionType) => void) => {
+        // Special case typing for Group Channels
+        if ((option as GroupChannelValue).type && (option as GroupChannelValue).type === 'G') {
             return (
                 <GroupMessageOption
                     key={option.id}
-                    channel={option}
+                    channel={(option as GroupChannelValue)}
                     isSelected={isSelected}
-                    onAdd={onAdd}
+                    onAdd={(value: UserProfile[]) => onAdd(value as any)}
                 />
             );
         }
 
         const displayName = displayEntireNameForUser(option);
 
-        let modalName = displayName;
+        let modalName: string | React.ReactElement = displayName;
         if (option.id === this.props.currentUserId) {
             modalName = (
                 <FormattedMessage
@@ -319,13 +344,13 @@ export default class MoreDirectChannels extends React.Component {
             );
         }
 
-        var rowSelected = '';
+        let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
 
-        const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
-        const email = option.is_bot ? null : option.email;
+        const status = option.delete_at || (option as UserProfileValue).is_bot ? null : this.props.statuses[option.id];
+        const email = (option as UserProfileValue).is_bot ? null : (option as UserProfileValue).email;
 
         return (
             <div
@@ -336,8 +361,8 @@ export default class MoreDirectChannels extends React.Component {
                 onMouseMove={() => onMouseMove(option)}
             >
                 <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    status={status}
+                    src={Client4.getProfilePictureUrl(option.id, (option as UserProfileValue).last_picture_update)}
+                    status={status as string | undefined}
                     size='md'
                 />
                 <div
@@ -346,7 +371,7 @@ export default class MoreDirectChannels extends React.Component {
                     <div className='more-modal__name'>
                         {modalName}
                         <BotBadge
-                            show={Boolean(option.is_bot)}
+                            show={Boolean((option as UserProfileValue).is_bot)}
                             className='badge-popoverlist'
                         />
                         <GuestBadge
@@ -367,11 +392,11 @@ export default class MoreDirectChannels extends React.Component {
         );
     }
 
-    renderValue(props) {
-        return props.data.username;
+    renderValue(props: {data: OptionType}) {
+        return (props.data as UserProfileValue).username;
     }
 
-    handleSubmitImmediatelyOn = (value) => {
+    handleSubmitImmediatelyOn = (value: OptionType) => {
         return value.id === this.props.currentUserId || Boolean(value.delete_at);
     }
 
@@ -413,13 +438,14 @@ export default class MoreDirectChannels extends React.Component {
         if (this.state.values.length) {
             users = users.filter((user) => user.delete_at === 0 && user.id !== this.props.currentUserId);
         } else {
-            const active = [];
-            const inactive = [];
+            const active: UserProfile[] = [];
+            const inactive: UserProfile[] = [];
             for (const user of users) {
                 (user.delete_at ? inactive : active).push(user);
             }
             users = active.concat(inactive);
         }
+
         users = users.filter((user) => {
             if (user.delete_at === 0) {
                 return true;
@@ -432,20 +458,20 @@ export default class MoreDirectChannels extends React.Component {
             return false;
         });
 
-        users.map((user) => {
+        const usersValues = users.map((user) => {
             return {label: user.username, value: user.id, ...user};
         });
 
-        let groupChannels = this.props.groupChannels || [];
-        groupChannels = groupChannels.map((group) => {
+        const groupChannels = this.props.groupChannels || [];
+        const groupChannelsValues = groupChannels.map((group) => {
             return {label: group.display_name, value: group.id, ...group};
         });
 
-        const options = [...users, ...groupChannels];
+        const options: OptionType[] = [...usersValues, ...groupChannelsValues];
         const body = (
-            <MultiSelect
+            <MultiSelect<OptionType>
                 key='moreDirectChannelsList'
-                ref='multiselect'
+                ref={this.multiselect}
                 options={options}
                 optionRenderer={this.renderOption}
                 values={this.state.values}
