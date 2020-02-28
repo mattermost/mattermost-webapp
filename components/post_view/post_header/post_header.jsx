@@ -76,6 +76,11 @@ export default class PostHeader extends React.PureComponent {
         isGuest: PropTypes.bool.isRequired,
 
         /**
+         * To Check if the current post is last in the list
+         */
+        isLastPost: PropTypes.bool,
+
+        /**
          * Source of image that should be override current user profile.
          */
         overwriteIcon: PropTypes.string,
@@ -177,6 +182,7 @@ export default class PostHeader extends React.PureComponent {
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}
+                        isLastPost={this.props.isLastPost}
                     />
                 </div>
             </div>
