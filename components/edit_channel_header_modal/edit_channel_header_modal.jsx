@@ -246,7 +246,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 characterLimit={1024}
                                 showPreview={this.props.shouldShowPreview}
                                 ref={this.setTextboxLinksRef}
-                                setShowPreview={this.setShowPreview}
+                                updatePreview={this.setShowPreview}
                                 message={this.state.header}
                             />
                         </div>
