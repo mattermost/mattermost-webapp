@@ -23,7 +23,7 @@ export default class AddChannelDropdown extends React.PureComponent<Props, State
                         onClick={this.props.showMoreChannelsModal}
                     >
                         <FormattedMessage
-                            id={t('sidebar_left.add_channel_dropdown.browseChannels')}
+                            id={'sidebar_left.add_channel_dropdown.browseChannels'}
                             defaultMessage={'Browse Channels'}
                         />
                     </a>
@@ -34,7 +34,7 @@ export default class AddChannelDropdown extends React.PureComponent<Props, State
                         onClick={this.props.showNewChannelModal}
                     >
                         <FormattedMessage
-                            id={t('sidebar_left.add_channel_dropdown.createNewChannel')}
+                            id={'sidebar_left.add_channel_dropdown.createNewChannel'}
                             defaultMessage={'Create New Channel'}
                         />
                     </a>
