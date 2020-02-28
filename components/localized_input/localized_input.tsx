@@ -4,13 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-type Props = {
-    placeholder: {
-        id: string;
-        defaultMessage: string;
-        values?: {string: any};
-    };
-    value?: string;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type InferPropTypes<T> = T extends React.Component<infer P, any> ? P : never;
+
+type Props = Omit<JSX.IntrinsicElements['input'], 'placeholder'> & {
+    placeholder: InferPropTypes<FormattedMessage>;
 };
 
 const LocalizedInput = React.forwardRef((props: Props, ref?: React.Ref<HTMLInputElement>) => {
@@ -22,7 +20,7 @@ const LocalizedInput = React.forwardRef((props: Props, ref?: React.Ref<HTMLInput
             defaultMessage={placeholder.defaultMessage}
             values={placeholder.values}
         >
-            {(localizedPlaceholder: (string | JSX.Element)) => (
+            {(localizedPlaceholder) => (
                 <input
                     {...otherProps}
                     ref={ref}
