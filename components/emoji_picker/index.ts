@@ -2,16 +2,26 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';
 
-import {incrementEmojiPickerPage} from 'actions/emoji_actions.jsx';
+import {incrementEmojiPickerPage} from 'actions/emoji_actions';
 import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 
-import EmojiPicker from './emoji_picker.jsx';
+import EmojiPicker from './emoji_picker';
 
-function mapStateToProps(state) {
+interface State extends GlobalState {
+    views: {
+        emoji: {
+            emojiPickerCustomPage: number;
+        };
+    };
+}
+
+function mapStateToProps(state: State) {
     return {
         customEmojisEnabled: state.entities.general.config.EnableCustomEmoji === 'true',
         customEmojiPage: state.views.emoji.emojiPickerCustomPage,
@@ -20,7 +30,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getCustomEmojis,
