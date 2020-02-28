@@ -137,7 +137,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div

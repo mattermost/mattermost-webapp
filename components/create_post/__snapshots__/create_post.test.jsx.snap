@@ -586,6 +586,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
     <div
       className="post-create-footer"
       id="postCreateFooter"
+      role="form"
     >
       <div
         className="d-flex justify-content-between"
