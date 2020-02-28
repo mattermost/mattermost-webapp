@@ -207,7 +207,7 @@ export function ding() {
 }
 
 export function hasSoundOptions() {
-    return (!(UserAgent.isEdge()));
+    return (!UserAgent.isEdge());
 }
 
 export function getDateForUnixTicks(ticks) {
