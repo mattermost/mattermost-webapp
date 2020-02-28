@@ -73,7 +73,7 @@ export default class ManageAutoResponder extends React.PureComponent<Props> {
                         style={{resize: 'none'}}
                         id='autoResponderMessageInput'
                         className='form-control'
-                        rows='5'
+                        rows={5}
                         placeholder={localizeMessage('user.settings.notifications.autoResponderPlaceholder', 'Message')}
                         value={autoResponderMessage}
                         maxLength={MESSAGE_MAX_LENGTH}

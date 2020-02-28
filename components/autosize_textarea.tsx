@@ -12,6 +12,10 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     onInput?: (e: FormEvent<HTMLTextAreaElement>) => void;
     placeholder?: string;
+    style?: CSSProperties;
+    className?: string;
+    rows?: number;
+    maxLength?: number;
 }
 
 export default class AutosizeTextarea extends React.Component<Props> {

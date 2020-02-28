@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import {UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
 
@@ -40,7 +40,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const updateMe = jest.fn(() => Promise.resolve({data: true}) as unknown as ActionFunc);
 
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
-        const wrapper = shallow(<UserSettingsNotifications {...props}/>);
+        const wrapper: ShallowWrapper<any, any, UserSettingsNotifications> = shallow(<UserSettingsNotifications {...props}/>);
 
         await wrapper.instance().handleSubmit();
         expect(requiredProps.updateSection).toHaveBeenCalled();

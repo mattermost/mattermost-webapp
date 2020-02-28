@@ -253,7 +253,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               maxLength={200}
               onChange={[Function]}
               placeholder="Message"
-              rows="5"
+              rows={5}
               style={
                 Object {
                   "resize": "none",
@@ -352,7 +352,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   maxLength={200}
                   onChange={[Function]}
                   placeholder="Message"
-                  rows="5"
+                  rows={5}
                   style={
                     Object {
                       "resize": "none",
@@ -369,7 +369,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                       maxLength={200}
                       onChange={[Function]}
                       role="textbox"
-                      rows="5"
+                      rows={5}
                       style={
                         Object {
                           "resize": "none",
@@ -392,7 +392,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                         id="autoResponderMessageInput-reference"
                         maxLength={200}
                         onChange={[Function]}
-                        rows="5"
+                        rows={5}
                         style={
                           Object {
                             "resize": "none",
