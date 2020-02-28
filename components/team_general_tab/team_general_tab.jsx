@@ -476,7 +476,7 @@ export default class GeneralTab extends React.Component {
                     <div className='setting-list__hint'>
                         <FormattedMessage
                             id='general_tab.codeLongDesc'
-                            defaultMessage='The Invite Code is used as part of the URL in the team invitation link created by {getTeamInviteLink} in the main menu. Regenerating creates a new team invitation link and invalidates the previous link.'
+                            defaultMessage='The Invite Code is part of the unique team invitation link which is sent to members you’re inviting to this team. Regenerating the code creates a new invitation link and invalidates the previous link.'
                             values={{
                                 getTeamInviteLink: (
                                     <strong>

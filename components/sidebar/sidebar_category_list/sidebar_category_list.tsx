@@ -85,6 +85,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }
 
+    getChannelRef = (channelId: string) => {
+        return this.channelRefs.get(channelId);
+    }
+
     setChannelRef = (channelId: string, ref: HTMLDivElement) => {
         if (ref) {
             this.channelRefs.set(channelId, ref);
@@ -270,6 +274,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 category={category}
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
+                getChannelRef={this.getChannelRef}
             />
         );
     }
@@ -321,6 +326,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                         position: 'absolute',
                         top: '0px',
                         bottom: '0px',
+                        left: '0px',
+                        right: '0px',
                         overflowY: 'scroll', // TODO: this should only be on hover
                     }}
                     onScroll={this.onScroll}

@@ -48,6 +48,8 @@ describe('components/CreateComment', () => {
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
+        canPost: true,
+        useChannelMentions: true,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -219,7 +221,7 @@ describe('components/CreateComment', () => {
         const testError1 = 'test error 1';
         wrapper.setState({draft});
         instance.draftsForPost[props.rootId] = draft;
-        instance.handleUploadError(testError1, 1, props.rootId);
+        instance.handleUploadError(testError1, 1, null, props.rootId);
 
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
@@ -231,7 +233,7 @@ describe('components/CreateComment', () => {
 
         // clientId = -1
         const testError2 = 'test error 2';
-        instance.handleUploadError(testError2, -1, props.rootId);
+        instance.handleUploadError(testError2, -1, null, props.rootId);
 
         // should not call onUpdateCommentDraft
         expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
@@ -601,6 +603,30 @@ describe('components/CreateComment', () => {
                     expect(preventDefault).toHaveBeenCalled();
                     expect(wrapper.state('showConfirmModal')).toBe(false);
                 });
+
+                it('when user has insufficient permissions', () => {
+                    const props = {
+                        ...baseProps,
+                        useChannelMentions: false,
+                        draft: {
+                            message: `Test message @${mention}`,
+                            uploadsInProgress: [],
+                            fileInfos: [{}, {}, {}],
+                        },
+                        onSubmit,
+                        channelMembersCount: 8,
+                        enableConfirmNotificationsToChannel: true,
+                    };
+
+                    const wrapper = shallowWithIntl(
+                        <CreateComment {...props}/>
+                    );
+
+                    wrapper.instance().handleSubmit({preventDefault});
+                    expect(onSubmit).toHaveBeenCalled();
+                    expect(preventDefault).toHaveBeenCalled();
+                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                });
             });
 
             it(`should show Confirm Modal for @${mention} mentions when needed`, () => {
@@ -809,6 +835,15 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot read only channel', () => {
         const props = {...baseProps, readOnlyChannel: true};
+        const wrapper = shallowWithIntl(
+            <CreateComment {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when cannot post', () => {
+        const props = {...baseProps, canPost: false};
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
         );

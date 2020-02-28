@@ -43,17 +43,14 @@ describe('Account Settings > Sidebar > General', () => {
             // # type in user`s firstName substring
             cy.get('#post_textbox').clear().type(`@정트리나${uniqueNumber}`);
 
-            // * verify that suggestion list is visible and has value
-            cy.get('.suggestion-list__divider').
-                find('span').
-                last().
-                should('be.visible').
-                and('have.text', 'Channel Members');
-
-            // * verify that user listed in popup
-            cy.get('.mention--align').
-                should('be.visible').
-                and('have.text', `@${user.username}`);
+            cy.findByTestId(user.username, {exact: false}).within((name) => {
+                cy.wrap(name).prev('.suggestion-list__divider').
+                    should('have.text', 'Channel Members');
+                cy.wrap(name).find('.mention--align').
+                    should('have.text', `@${user.username}`);
+                cy.wrap(name).find('.mention__fullname').
+                    should('have.text', ` - 정트리나${uniqueNumber}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
+            });
 
             // # Press tab on text input
             cy.get('#post_textbox').tab();
@@ -61,7 +58,7 @@ describe('Account Settings > Sidebar > General', () => {
             // # verify that after enter user`s username match
             cy.get('#post_textbox').should('have.value', `@${user.username} `);
 
-            // # click enter in chat input
+            // # click enter in post textbox
             cy.get('#post_textbox').type('{enter}');
 
             // # verify that message has been post in chat
