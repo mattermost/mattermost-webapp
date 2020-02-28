@@ -7,19 +7,12 @@ import {
     CustomEmoji,
 } from 'mattermost-redux/types/emojis';
 
-export type EmojiCategory = (
-    | 'people'
-    | 'nature'
-    | 'foods'
-    | 'activity'
-    | 'places'
-    | 'objects'
-    | 'symbols'
-    | 'flags'
-    | 'custom'
-);
+import {
+    EmojiCategory as _EmojiCategory,
+} from 'utils/emoji';
 
 export type Emoji = _Emoji;
+export type EmojiCategory = _EmojiCategory;
 
 export function isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
     return 'batch' in emoji;

@@ -17,7 +17,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import {addReaction} from 'actions/post_actions.jsx';
 
-import * as Emoji from 'utils/emoji.jsx';
+import * as Emoji from 'utils/emoji';
 
 import Reaction from './reaction.jsx';
 
