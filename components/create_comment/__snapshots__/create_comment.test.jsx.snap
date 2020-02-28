@@ -9,7 +9,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -137,7 +137,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -265,7 +265,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -429,7 +429,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -581,7 +581,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
@@ -745,7 +745,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     id="rhsFooter"
-    role="application"
+    role="form"
     tabIndex="-1"
   >
     <div
