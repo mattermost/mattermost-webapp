@@ -44,6 +44,8 @@ interface Props {
      * Update the active section for focusing
      */
     actions: {updateActiveSection: (newActiveSection: string) => {type: string; data: string}};
+
+    focused?: boolean;
 }
 
 export default class SettingItemMin extends React.PureComponent<Props> {
