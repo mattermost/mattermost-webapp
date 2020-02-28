@@ -3160,6 +3160,8 @@
   "sidebar_header.tutorial.body2": "Team administrators can also access their **Team Settings** from this menu.",
   "sidebar_header.tutorial.body3": "System administrators will find a **System Console** option to administrate the entire system.",
   "sidebar_header.tutorial.title": "Main Menu",
+  "sidebar_left.add_channel_dropdown.browseChannels": "Browse Channels",
+  "sidebar_left.add_channel_dropdown.createNewChannel": "Create New Channel",
   "sidebar_right_menu.console": "System Console",
   "sidebar_right_menu.flagged": "Flagged Posts",
   "sidebar_right_menu.recentMentions": "Recent Mentions",
