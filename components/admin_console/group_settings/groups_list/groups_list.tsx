@@ -485,16 +485,14 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                         </div>
                         <button
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                            // eslint-disable-next-line no-undefined
-                            onClick={firstPage ? undefined : this.previousPage}
+                            onClick={this.previousPage}
                             disabled={firstPage}
                         >
                             <PreviousIcon/>
                         </button>
                         <button
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                            // eslint-disable-next-line no-undefined
-                            onClick={lastPage ? undefined : this.nextPage}
+                            onClick={this.nextPage}
                             disabled={lastPage}
                         >
                             <NextIcon/>
