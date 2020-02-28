@@ -1,15 +1,23 @@
-import React, {forwardRef, ChangeEventHandler, KeyboardEventHandler} from "react";
-import {FormattedMessage} from "react-intl";
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
-import {t} from "utils/i18n";
-import LocalizedInput from "components/localized_input/localized_input";
+/* eslint-disable react/prop-types */
+
+import React, {forwardRef, ChangeEventHandler, KeyboardEventHandler} from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {t} from 'utils/i18n';
+import LocalizedInput from 'components/localized_input/localized_input';
 
 interface EmojiPickerSearchInputProps {
     onChange?: ChangeEventHandler<HTMLInputElement>;
     onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
 }
 
-const placeholder = {id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'};
+const placeholder = {
+    id: t('emoji_picker.search') as string,
+    defaultMessage: 'Search Emoji',
+};
 
 const EmojiPickerSearchInput: React.RefForwardingComponent<HTMLInputElement, EmojiPickerSearchInputProps> = ({
     onChange,
@@ -21,8 +29,7 @@ const EmojiPickerSearchInput: React.RefForwardingComponent<HTMLInputElement, Emo
             id='emoji_picker.search_emoji'
             defaultMessage='Search for an emoji'
         >
-            {(ariaLabel) => (
-                // @ts-ignore
+            {(ariaLabel: string) => (
                 <LocalizedInput
                     id='emojiPickerSearch'
                     aria-label={ariaLabel}

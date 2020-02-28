@@ -9,6 +9,7 @@ import EmojiPickerCategory, {EmojiPickerCategoryProps} from './emoji_picker_cate
 describe('components/EmojiPicker/components/EmojiPickerCategory', () => {
     const baseProps: EmojiPickerCategoryProps = {
         category: 'people',
+        // eslint-disable-next-line react/jsx-no-literals
         icon: <span>ICON TEST</span>,
         selected: true,
         enable: true,
@@ -16,20 +17,26 @@ describe('components/EmojiPicker/components/EmojiPickerCategory', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(<EmojiPickerCategory {...baseProps} />);
+        const wrapper = shallow(<EmojiPickerCategory {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot when selected=false', () => {
         const wrapper = shallow(
-            <EmojiPickerCategory {...baseProps} selected={false} />
+            <EmojiPickerCategory
+                {...baseProps}
+                selected={false}
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot when enable=false', () => {
         const wrapper = shallow(
-            <EmojiPickerCategory {...baseProps} enable={false} />
+            <EmojiPickerCategory
+                {...baseProps}
+                enable={false}
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });

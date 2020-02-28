@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, MouseEventHandler} from 'react';
+/* eslint-disable react/prop-types */
+
+import React, {MouseEventHandler} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 interface EmojiPickerHeaderProps {
@@ -34,4 +36,4 @@ const EmojiPickerHeader: React.FC<EmojiPickerHeaderProps> = ({
     </div>
 );
 
-export default memo(EmojiPickerHeader);
+export default EmojiPickerHeader;

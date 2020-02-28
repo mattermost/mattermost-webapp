@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, MouseEventHandler} from 'react';
+/* eslint-disable react/prop-types */
+
+import React, {useCallback, MouseEventHandler} from 'react';
 import cx from 'classnames';
 
-import {EmojiCategory} from '../types';
+import {EmojiCategory} from '../utils';
 
 export interface EmojiPickerCategoryProps {
     category: EmojiCategory;
@@ -44,4 +46,4 @@ const EmojiPickerCategory: React.FC<EmojiPickerCategoryProps> = ({
     );
 };
 
-export default memo(EmojiPickerCategory);
+export default EmojiPickerCategory;

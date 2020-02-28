@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable react/prop-types */
+
 import React, {memo, useMemo, useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import cx from 'classnames';
-// @ts-ignore
+
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
-import {Emoji, isSystemEmoji, isCustomEmoji} from '../types';
+import {Emoji, isSystemEmoji, isCustomEmoji, getEmojiName} from '../utils';
 
 import imgTrans from 'images/img_trans.gif';
 
@@ -27,7 +29,7 @@ const EmojiPickerItem: React.FC<EmojiPickerItemProps> = ({
         id: 'emoji_picker_item.emoji_aria_label',
         defaultMessage: '{emojiName} emoji',
     }, {
-        emojiName: emoji.aliases[0].replace(/_/g, ' '),
+        emojiName: getEmojiName(emoji).replace(/_/g, ' '),
     }), [formatMessage, emoji]);
 
     // FIXME: This should implemented by parent.
@@ -69,7 +71,7 @@ const EmojiPickerItem: React.FC<EmojiPickerItemProps> = ({
                 )}
             </div>
         </div>
-    )
+    );
 };
 
-export default memo(EmojiPickerItem);
+export default EmojiPickerItem;

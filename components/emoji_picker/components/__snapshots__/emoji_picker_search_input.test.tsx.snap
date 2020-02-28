@@ -9,7 +9,6 @@ exports[`components/EmojiPicker/components/EmojiPickerSearchInput should match s
   messages={Object {}}
   onError={[Function]}
   textComponent={Symbol(react.fragment)}
-  timeZone="Etc/UTC"
 >
   <ForwardRef(EmojiPickerSearchInput)>
     <div
@@ -23,7 +22,8 @@ exports[`components/EmojiPicker/components/EmojiPickerSearchInput should match s
         id="emoji_picker.search_emoji"
         values={Object {}}
       >
-        <ForwardRef(LocalizedInput)
+        <LocalizedInput
+          aria-label="Search for an emoji"
           className="emoji-picker__search"
           data-testid="emojiInputSearch"
           id="emojiPickerSearch"
@@ -35,14 +35,21 @@ exports[`components/EmojiPicker/components/EmojiPickerSearchInput should match s
           }
           type="text"
         >
-          <input
-            className="emoji-picker__search"
-            data-testid="emojiInputSearch"
-            id="emojiPickerSearch"
-            placeholder="Search Emoji"
-            type="text"
-          />
-        </ForwardRef(LocalizedInput)>
+          <FormattedMessage
+            defaultMessage="Search Emoji"
+            id="emoji_picker.search"
+            values={Object {}}
+          >
+            <input
+              aria-label="Search for an emoji"
+              className="emoji-picker__search"
+              data-testid="emojiInputSearch"
+              id="emojiPickerSearch"
+              placeholder="Search Emoji"
+              type="text"
+            />
+          </FormattedMessage>
+        </LocalizedInput>
       </FormattedMessage>
     </div>
   </ForwardRef(EmojiPickerSearchInput)>
