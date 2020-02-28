@@ -600,7 +600,7 @@ export function handleLeaveTeamEvent(msg) {
     dispatch(batchActions(actions));
     const currentUser = getCurrentUser(state);
 
-    if (currentUser.Id === msg.data.user_id) {
+    if (currentUser.id === msg.data.user_id) {
         dispatch({type: TeamTypes.LEAVE_TEAM, data: {id: msg.data.team_id}});
 
         // if they are on the team being removed redirect them to default team
