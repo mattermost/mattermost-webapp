@@ -9,8 +9,6 @@ import GifPicker from 'components/gif_picker/gif_picker.jsx';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import GfycatIcon from 'components/widgets/icons/gfycat_icon';
 
-import EmojiPickerHeader from './components/emoji_picker_header';
-
 import EmojiPicker from './';
 
 export default class EmojiPickerTabs extends PureComponent {
@@ -88,7 +86,6 @@ export default class EmojiPickerTabs extends PureComponent {
                     className={pickerClass}
                     justified={true}
                 >
-                    <EmojiPickerHeader onClickClose={this.handleEmojiPickerClose}/>
                     <Tab
                         eventKey={1}
                         onEnter={this.handleEnterEmojiTab}
@@ -122,7 +119,6 @@ export default class EmojiPickerTabs extends PureComponent {
                 style={pickerStyle}
                 className={`a11y__popup ${pickerClass} emoji-picker--single`}
             >
-                <EmojiPickerHeader onClickClose={this.handleEmojiPickerClose}/>
                 <EmojiPicker
                     style={this.props.style}
                     onEmojiClose={this.props.onEmojiClose}
