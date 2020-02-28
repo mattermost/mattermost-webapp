@@ -789,6 +789,8 @@ class Sidebar extends React.PureComponent {
                 className={classNames('sidebar--left', {'move--right': this.props.isOpen && Utils.isMobile()})}
                 id='sidebar-left'
                 key='sidebar-left'
+                role='navigation'
+                aria-labelledby='sidebar-left'
             >
                 <NewChannelFlow
                     show={showChannelModal}
