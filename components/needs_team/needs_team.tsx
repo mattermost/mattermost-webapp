@@ -110,8 +110,8 @@ export default class NeedsTeam extends React.Component<Props, State> {
 
     static getDerivedStateFromProps(nextProps: Props, state: State) {
         if (state.prevTeam !== nextProps.match.params.team) {
-            const team = state.teamsList ?
-                state.teamsList.find((teamObj: Team) =>
+            const team = nextProps.teamsList ?
+                nextProps.teamsList.find((teamObj: Team) =>
                     teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
