@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {localizeMessage} from 'utils/utils.jsx';
@@ -10,15 +9,19 @@ import EllipsisHorizontalIcon from 'components/widgets/icons/ellipsis_h_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-export default class TeamListDropdown extends React.Component {
-    static propTypes = {
-        team: PropTypes.object.isRequired,
-        doRemoveUserFromTeam: PropTypes.func.isRequired,
-        doMakeUserTeamAdmin: PropTypes.func.isRequired,
-        doMakeUserTeamMember: PropTypes.func.isRequired,
-    }
+type Props = {
+    team: {[x: string]: string};
+    doRemoveUserFromTeam: (teamId: string) => void;
+    doMakeUserTeamAdmin: (teamId: string) => void;
+    doMakeUserTeamMember: (teamId: string) => void;
+}
 
-    constructor(props) {
+type State = {
+    serverError: string | null;
+}
+
+export default class TeamListDropdown extends React.Component<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -26,7 +29,7 @@ export default class TeamListDropdown extends React.Component {
         };
     }
 
-    render() {
+    public render(): JSX.Element {
         const {team} = this.props;
         const isAdmin = team.scheme_admin;
         const isMember = team.scheme_user && !team.scheme_admin;
