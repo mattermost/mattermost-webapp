@@ -12,7 +12,7 @@ import Constants from 'utils/constants';
 
 export default class SearchResultsHeader extends React.Component {
     static propTypes = {
-        children: PropTypes.element,
+        children: PropTypes.node,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
             toggleRhsExpanded: PropTypes.func.isRequired,

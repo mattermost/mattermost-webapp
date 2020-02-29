@@ -219,7 +219,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_oauth_app.url'
                         defaultMessage='**URL(s)**: {url}'
                         values={{
-                            url: oauthApp.callback_urls,
+                            url: oauthApp.callback_urls.join(', '),
                         }}
                     />
                 </p>

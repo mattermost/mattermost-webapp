@@ -127,5 +127,5 @@ HeaderIconWrapper.propTypes = {
     iconComponent: PropTypes.element.isRequired,
     onClick: PropTypes.func.isRequired,
     tooltipKey: PropTypes.string,
-    tooltipText: PropTypes.string,
+    tooltipText: PropTypes.node,
 };

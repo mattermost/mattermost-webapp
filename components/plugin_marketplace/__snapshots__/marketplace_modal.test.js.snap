@@ -9,7 +9,7 @@ exports[`components/marketplace/ AllPlugins should render with no plugins 1`] = 
     className="icon__plugin"
   />
   <div
-    className="margin-top x2 light"
+    className="mt-3 light"
   >
     <FormattedMessage
       defaultMessage="There are no plugins available at this time."
@@ -116,7 +116,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
     className="icon__plugin"
   />
   <div
-    className="margin-top x2 light"
+    className="mt-3 light"
   >
     <FormattedMessage
       defaultMessage="You do not have any plugins installed."
@@ -125,7 +125,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
     />
   </div>
   <button
-    className="margin-top x3 style--none color--link"
+    className="mt-5 style--none color--link"
     data-testid="Install-Plugins-button"
     onClick={[Function]}
   >
@@ -170,15 +170,19 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
       className="error-bar"
       id="error_bar"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
-        id="app.plugin.marketplace_plugins.app_error"
-        values={
-          Object {
-            "siteURL": "http://example.com",
+      <div
+        className="error-bar__content"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
+          id="app.plugin.marketplace_plugins.app_error"
+          values={
+            Object {
+              "siteURL": "http://example.com",
+            }
           }
-        }
-      />
+        />
+      </div>
     </div>
     <div
       className="modal-marketplace"

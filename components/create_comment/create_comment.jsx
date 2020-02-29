@@ -10,14 +10,14 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
-import Constants from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
 import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
@@ -28,6 +28,8 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+
+const KeyCodes = Constants.KeyCodes;
 
 class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -184,6 +186,17 @@ class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+
+        /**
+         * Function to set or unset emoji picker for last message
+         */
+        emitShortcutReactToLastPostFrom: PropTypes.func,
+        canPost: PropTypes.bool.isRequired,
+
+        /**
+         * To determine if the current user can send special channel mentions
+         */
+        useChannelMentions: PropTypes.bool.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -424,7 +437,7 @@ class CreateComment extends React.PureComponent {
         this.updatePreview(false);
 
         const membersCount = this.props.channelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
+        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         if (notificationsToChannel &&
             membersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.draft.message)) {
@@ -536,6 +549,16 @@ class CreateComment extends React.PureComponent {
         this.emitTypingEvent();
     }
 
+    reactToLastMessage = (e) => {
+        e.preventDefault();
+
+        const {emitShortcutReactToLastPostFrom} = this.props;
+
+        // Here we are not handling conditions such as check for modals,  popups etc as shortcut is only trigger on
+        // textbox input focus. Since all of them will already be closed as soon as they loose focus.
+        emitShortcutReactToLastPostFrom(Locations.RHS_ROOT);
+    }
+
     emitTypingEvent = () => {
         const {channelId, rootId} = this.props;
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
@@ -573,6 +596,9 @@ class CreateComment extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+
         if (
             (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
@@ -606,6 +632,10 @@ class CreateComment extends React.PureComponent {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             }
+        }
+
+        if (lastMessageReactionKeyCombo) {
+            this.reactToLastMessage(e);
         }
     }
 
@@ -661,7 +691,7 @@ class CreateComment extends React.PureComponent {
         }
     }
 
-    handleUploadError = (err, clientId = -1, rootId = -1) => {
+    handleUploadError = (err, clientId = -1, currentChannelId, rootId = -1) => {
         if (clientId !== -1) {
             const draft = {...this.draftsForPost[rootId]};
             const uploadsInProgress = [...draft.uploadsInProgress];
@@ -787,7 +817,7 @@ class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
-        const {readOnlyChannel} = this.props;
+        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
@@ -957,7 +987,7 @@ class CreateComment extends React.PureComponent {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
-                    role='application'
+                    role='form'
                     id='rhsFooter'
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
@@ -994,6 +1024,7 @@ class CreateComment extends React.PureComponent {
                                 suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
                                 ref='createCommentControls'
@@ -1024,7 +1055,7 @@ class CreateComment extends React.PureComponent {
                                 />
                             </div>
                         </div>
-                        <div className='text-right margin-top'>
+                        <div className='text-right mt-2'>
                             {uploadsInProgressText}
                             <input
                                 type='button'
