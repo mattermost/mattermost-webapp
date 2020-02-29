@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
+import {Team} from 'mattermost-redux/types/teams';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 
 import AboutBuildModal from 'components/about_build_modal';
 
@@ -17,19 +17,19 @@ import Menu from 'components/widgets/menu/menu';
 
 import MenuItemBlockableLink from './menu_item_blockable_link';
 
-class AdminNavbarDropdown extends React.Component {
-    static propTypes = {
-        intl: intlShape.isRequired,
-        locale: PropTypes.string.isRequired,
-        siteName: PropTypes.string,
-        navigationBlocked: PropTypes.bool,
-        teams: PropTypes.arrayOf(PropTypes.object).isRequired,
-        actions: PropTypes.shape({
-            deferNavigation: PropTypes.func,
-        }).isRequired,
-    }
+type Props = {
+    intl: IntlShape;
+    locale: string;
+    siteName?: string;
+    navigationBlocked?: boolean;
+    teams: Team[];
+    actions: {
+        deferNavigation: (onNavigationConfirmed: any) => any;
+    };
+};
 
-    handleLogout = (e) => {
+class AdminNavbarDropdown extends React.Component<Props, {}> {
+    private handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
             this.props.actions.deferNavigation(GlobalActions.emitUserLoggedOutEvent);
@@ -38,7 +38,7 @@ class AdminNavbarDropdown extends React.Component {
         }
     };
 
-    render() {
+    render(): JSX.Element {
         const {locale, teams, siteName} = this.props;
         const {formatMessage} = this.props.intl;
         const teamToRender = []; // Array of team components
@@ -65,12 +65,17 @@ class AdminNavbarDropdown extends React.Component {
                             id='select_team.icon'
                             defaultMessage='Select Team Icon'
                         >
-                            {(title) => (
-                                <i
-                                    className='fa fa-exchange'
-                                    title={title}
-                                />
-                            )}
+                            {(title) => {
+                                if (typeof title === 'string') {
+                                    return (
+                                        <i
+                                            className='fa fa-exchange'
+                                            title={title}
+                                        />
+                                    );
+                                }
+                                return title;
+                            }}
                         </FormattedMessage>
                     }
                     text={formatMessage({id: 'admin.nav.switch', defaultMessage: 'Team Selection'})}
