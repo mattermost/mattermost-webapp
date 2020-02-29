@@ -12,7 +12,6 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {t} from 'utils/i18n';
-import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants';
 
 import List from './channel_list';
@@ -30,13 +29,12 @@ const getSortedListOfChannels = createSelector(
         sort(compareByDisplayName)
 );
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+function mapStateToProps(state: GlobalState) {
     return {
         data: getSortedListOfChannels(state),
         total: state.entities.channels.totalCount,
         emptyListTextId: t('admin.channel_settings.channel_list.no_channels_found'),
         emptyListTextDefaultMessage: 'No channels found',
-        manageMembers: canManageMembers(state, ownProps.channel),
     };
 }
 
