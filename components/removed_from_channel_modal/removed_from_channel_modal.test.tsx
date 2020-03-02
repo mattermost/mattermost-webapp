@@ -43,8 +43,8 @@ describe('components/RemoveFromChannelModal', () => {
     });
 
     test('should fallback to default text on Modal.Body', () => {
-        baseProps.channelName = null;
-        baseProps.remover = null;
+        baseProps.channelName = '';
+        baseProps.remover = '';
 
         const wrapper = mountWithIntl(
             <RemovedFromChannelModal {...baseProps}/>
