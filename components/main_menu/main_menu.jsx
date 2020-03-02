@@ -43,10 +43,11 @@ class MainMenu extends React.PureComponent {
         enableCommands: PropTypes.bool.isRequired,
         enableCustomEmoji: PropTypes.bool.isRequired,
         canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
+        canManageIntegrations: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
-        enableBotAccountCreation: PropTypes.bool.isRequired,
+        canManageSystemBots: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
         enableEmailInvitations: PropTypes.bool.isRequired,
         enablePluginMarketplace: PropTypes.bool.isRequired,
@@ -282,17 +283,12 @@ class MainMenu extends React.PureComponent {
                     {pluginItems}
                 </Menu.Group>
                 <Menu.Group>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SYSTEM]}
-                    >
-                        <Menu.ItemLink
-                            id='integrations'
-                            show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.enableBotAccountCreation)}
-                            to={'/' + this.props.teamName + '/integrations'}
-                            text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
-                        />
-                    </TeamPermissionGate>
+                    <Menu.ItemLink
+                        id='integrations'
+                        show={!this.props.mobile && this.props.canManageIntegrations && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots)}
+                        to={'/' + this.props.teamName + '/integrations'}
+                        text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                    />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.MANAGE_SYSTEM]}

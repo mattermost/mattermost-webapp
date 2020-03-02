@@ -23,7 +23,7 @@ describe('components/Menu', () => {
         enableIncomingWebhooks: false,
         enableOAuthServiceProvider: false,
         enableOutgoingWebhooks: false,
-        enableBotAccountCreation: false,
+        canManageSystemBots: false,
         enableUserCreation: false,
         enableEmailInvitations: false,
         enablePluginMarketplace: false,
@@ -33,6 +33,7 @@ describe('components/Menu', () => {
         moreTeamsToJoin: false,
         pluginMenuItems: [],
         isMentionSearch: false,
+        canManageIntegrations: true,
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
@@ -178,15 +179,22 @@ describe('components/Menu', () => {
             expect(wrapper.find('#integrations').prop('show')).toBe(true);
         });
 
-        it('when bot accounts enabled', () => {
-            const props = {...defaultProps, enableBotAccountCreation: true};
+        it('when can manage system bots', () => {
+            const props = {...defaultProps, canManageSystemBots: true};
             const wrapper = shallowWithIntl(<MainMenu {...props}/>);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(true);
         });
 
         it('unless mobile', () => {
-            const props = {...defaultProps, mobile: true, enableBotAccountCreation: true};
+            const props = {...defaultProps, mobile: true, canManageSystemBots: true};
+            const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+            expect(wrapper.find('#integrations').prop('show')).toBe(false);
+        });
+
+        it('unless cannot manage integrations', () => {
+            const props = {...defaultProps, canManageIntegrations: false, enableCommands: true};
             const wrapper = shallowWithIntl(<MainMenu {...props}/>);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(false);

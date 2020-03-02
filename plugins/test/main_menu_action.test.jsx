@@ -22,7 +22,7 @@ describe('plugins/MainMenuActions', () => {
             enableIncomingWebhooks: true,
             enableOutgoingWebhooks: true,
             enableOAuthServiceProvider: true,
-            enableBotAccountCreation: true,
+            canManageSystemBots: true,
             enableUserCreation: true,
             enableEmailInvitations: false,
             enablePluginMarketplace: true,
@@ -32,6 +32,7 @@ describe('plugins/MainMenuActions', () => {
             canCreateOrDeleteCustomEmoji: true,
             moreTeamsToJoin: true,
             teamIsGroupConstrained: true,
+            canManageIntegrations: true,
             actions: {
                 openModal: jest.fn(),
                 showMentions: jest.fn(),

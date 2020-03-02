@@ -30,7 +30,6 @@ function mapStateToProps(state) {
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
-    const enableBotAccountCreation = config.EnableBotAccountCreation === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
     const enableEmailInvitations = config.EnableEmailInvitations === 'true';
     const enablePluginMarketplace = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
@@ -49,6 +48,10 @@ function mapStateToProps(state) {
         }
     }
 
+    const canManageTeamIntegrations = (haveITeamPermission(state, {permission: Permissions.MANAGE_SLASH_COMMANDS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OAUTH}) || haveITeamPermission(state, {permission: Permissions.MANAGE_INCOMING_WEBHOOKS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OUTGOING_WEBHOOKS}));
+    const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
+    const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
+
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
@@ -57,10 +60,12 @@ function mapStateToProps(state) {
         appDownloadLink,
         enableCommands,
         enableCustomEmoji,
+        canCreateOrDeleteCustomEmoji,
+        canManageIntegrations,
         enableIncomingWebhooks,
         enableOAuthServiceProvider,
         enableOutgoingWebhooks,
-        enableBotAccountCreation,
+        canManageSystemBots,
         enableUserCreation,
         enableEmailInvitations,
         enablePluginMarketplace,
@@ -68,7 +73,6 @@ function mapStateToProps(state) {
         helpLink,
         reportAProblemLink,
         pluginMenuItems: state.plugins.components.MainMenu,
-        canCreateOrDeleteCustomEmoji,
         moreTeamsToJoin,
         siteName,
         teamId: currentTeam.id,
