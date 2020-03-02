@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Tooltip, Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
+import classNames from 'classnames';
+
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
@@ -64,6 +66,7 @@ class ChannelHeader extends React.PureComponent {
         rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
         intl: intlShape.isRequired,
+        hasMoreThanOneTeam: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -252,11 +255,11 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
-    showChannelHeaderPopover = () => {
+    showChannelHeaderPopover = (headerText) => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
 
-        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width) {
+        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g, ' ')) {
             this.setState({showChannelHeaderPopover: true});
         }
     }
@@ -427,7 +430,7 @@ class ChannelHeader extends React.PureComponent {
                     popoverSize='lg'
                     style={{maxWidth: `${this.state.popoverOverlayWidth}px`}}
                     placement='bottom'
-                    className='channel-header__popover'
+                    className={classNames(['channel-header__popover', {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam}])}
                 >
 
                     <Markdown
@@ -450,13 +453,13 @@ class ChannelHeader extends React.PureComponent {
                         ref={this.headerPopoverTextMeasurerRef}
                     >
                         <Markdown
-                            message={headerText}
+                            message={headerText.replace(/\n{2,}/g, ' ')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         /></div>
                     <span
                         className='header-description__text'
                         onClick={Utils.handleFormattedTextClick}
-                        onMouseOver={this.showChannelHeaderPopover}
+                        onMouseOver={() => this.showChannelHeaderPopover(headerText)}
                         onMouseOut={() => this.setState({showChannelHeaderPopover: false})}
                         ref={this.headerDescriptionRef}
                     >

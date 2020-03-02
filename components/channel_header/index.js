@@ -19,7 +19,7 @@ import {
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getUser,
@@ -48,6 +48,8 @@ function makeMapStateToProps() {
     return function mapStateToProps(state) {
         const channel = getCurrentChannel(state) || {};
         const user = getCurrentUser(state);
+        const teams = getMyTeams(state);
+        const hasMoreThanOneTeam = teams.length > 1;
 
         let dmUser;
         let gmMembers;
@@ -73,6 +75,7 @@ function makeMapStateToProps() {
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
+            hasMoreThanOneTeam,
         };
     };
 }

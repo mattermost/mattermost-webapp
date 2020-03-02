@@ -13,6 +13,7 @@
     white-space: nowrap;
 }
 
+
 .popover {
     @include border-radius($border-rad * 2);
     color: lighten($black, 25%);
@@ -23,6 +24,10 @@
         z-index: 999;
         margin-left: -4px;
         font-size: em(12px);
+
+        &.chanel-header__popover--lhs_offset {
+            margin-left: 61px;
+        }
 
         .popover-content {
             padding: 1px 3px;
