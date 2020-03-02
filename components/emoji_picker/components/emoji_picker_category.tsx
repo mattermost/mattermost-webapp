@@ -5,8 +5,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-
-import {EmojiCategory} from '../utils';
+import {EmojiCategory} from 'mattermost-redux/types/emojis';
 
 import {useEmojiCategoryIconComponent} from './emoji_picker_category_icon';
 

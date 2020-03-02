@@ -15,8 +15,6 @@ describe.skip('components/EmojiPicker/components/EmojiPickerItem', () => {
 
     const baseProps: EmojiPickerItemProps = {
         emoji: {
-            id: '',
-            name: '',
             aliases: ['grinning'],
             category: 'people',
             batch: 1,

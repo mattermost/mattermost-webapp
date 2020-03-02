@@ -6,11 +6,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import cx from 'classnames';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
-
-import {Emoji, isSystemEmoji, getEmojiName} from '../utils';
+import {getEmojiName} from 'utils/emoji_utils';
 
 interface EmojiPickerPreviewProps {
     emoji?: Emoji;

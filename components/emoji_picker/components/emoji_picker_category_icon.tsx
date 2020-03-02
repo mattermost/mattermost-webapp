@@ -3,8 +3,7 @@
 
 import React, {useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
-
-import {EmojiCategory} from '../utils';
+import {EmojiCategory} from 'mattermost-redux/types/emojis';
 
 // eslint-disable-next-line consistent-return
 export const useEmojiCategoryIconComponent = (category: EmojiCategory) => useMemo(() => {

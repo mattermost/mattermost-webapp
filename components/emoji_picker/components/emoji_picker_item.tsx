@@ -3,15 +3,15 @@
 
 /* eslint-disable react/prop-types */
 
-import React, {memo, useMemo, useCallback} from 'react';
+import React, {useMemo, useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import cx from 'classnames';
 
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-
-import {Emoji, isSystemEmoji, isCustomEmoji, getEmojiName} from '../utils';
+import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
+import {getEmojiName} from 'utils/emoji_utils';
 
 export interface EmojiPickerItemProps {
     emoji: Emoji;
@@ -45,7 +45,7 @@ const EmojiPickerItem: React.FC<EmojiPickerItemProps> = ({
             )}
         >
             <div data-testid='emojiItem'>
-                {isSystemEmoji(emoji) && (
+                {isSystemEmoji(emoji) ? (
                     <img
                         id={`emoji-${emoji.filename}`}
                         className={cx(
@@ -60,8 +60,7 @@ const EmojiPickerItem: React.FC<EmojiPickerItemProps> = ({
                         onClick={handleClick}
                         data-testid={emoji.aliases}
                     />
-                )}
-                {isCustomEmoji(emoji) && (
+                ) : (
                     <img
                         className={'emoji-category--custom'}
                         alt={'custom emoji image'}
