@@ -372,6 +372,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link prev disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -380,6 +381,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
@@ -499,6 +501,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link prev disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -507,6 +510,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
@@ -626,6 +630,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link prev disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -634,6 +639,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
@@ -790,6 +796,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link prev disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -798,6 +805,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
@@ -1059,6 +1067,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link prev disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -1067,6 +1076,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
@@ -1337,6 +1347,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
@@ -1502,6 +1513,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
@@ -1713,6 +1725,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link prev disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <PreviousIcon
         additionalClassName={null}
@@ -1721,6 +1734,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <button
       className="btn btn-link next disabled"
       disabled={true}
+      onClick={[Function]}
     >
       <NextIcon
         additionalClassName={null}
