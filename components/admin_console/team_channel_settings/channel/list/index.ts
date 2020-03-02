@@ -8,11 +8,11 @@ import {createSelector} from 'reselect';
 import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
 
-import {t} from 'utils/i18n';
+import {GlobalState} from 'types/store';
 
 import {Constants} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 import List from './channel_list';
 

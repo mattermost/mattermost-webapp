@@ -10,7 +10,6 @@ import {getMembersInCurrentTeam} from 'mattermost-redux/selectors/entities/teams
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {searchProfiles} from 'mattermost-redux/actions/users';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {ActionFunc} from 'mattermost-redux/types/actions';
@@ -21,6 +20,8 @@ import {
 } from 'actions/user_actions.jsx';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
+
+import {GlobalState} from 'types/store';
 
 import MemberListChannel from './member_list_channel';
 
@@ -60,15 +61,7 @@ const getUsersAndActionsToDisplay = createSelector(
     }
 );
 
-interface State extends GlobalState {
-    views: {
-        search: {
-            modalSearch: string;
-        };
-    };
-}
-
-function mapStateToProps(state: State) {
+function mapStateToProps(state: GlobalState) {
     const searchTerm = state.views.search.modalSearch;
 
     let users;
