@@ -563,12 +563,18 @@ export default class AddBot extends React.Component {
                                     <option
                                         value={roleOptionMember}
                                     >
-                                        {roleOptionMember}
+                                        <FormattedMessage
+                                            id='bot.add.role.member'
+                                            defaultMessage='Member'
+                                        />
                                     </option>
                                     <option
                                         value={roleOptionSystemAdmin}
                                     >
-                                        {roleOptionSystemAdmin}
+                                        <FormattedMessage
+                                            id='bot.add.role.admin'
+                                            defaultMessage='System Admin'
+                                        />
                                     </option>
                                 </select>
                                 <div className='form__help'>

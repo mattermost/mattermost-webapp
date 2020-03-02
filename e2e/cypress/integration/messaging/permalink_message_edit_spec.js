@@ -11,7 +11,7 @@ describe('Permalink message edit', () => {
     it('M18717 - Edit a message in permalink view', () => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         const searchWord = `searchtest ${Date.now()}`;
 
@@ -44,7 +44,7 @@ describe('Permalink message edit', () => {
 
             // # Login as "user-2" and go to /
             cy.apiLogin('user-2');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             // # Find searchWord and verify edited post
             cy.get('#searchBox').type(searchWord).type('{enter}');
