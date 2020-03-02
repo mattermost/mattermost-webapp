@@ -14,7 +14,7 @@ function mapStateToProps(state, ownProps) {
         channel,
         pluginHooks: state.plugins.components.MessageWillFormat,
         hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
-        isUserCanManageMembers: canManageMembers(state, channel),
+        isUserCanManageMembers: channel && canManageMembers(state, channel),
     };
 }
 
