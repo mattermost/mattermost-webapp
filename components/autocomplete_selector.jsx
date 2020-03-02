@@ -20,7 +20,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         footer: PropTypes.node,
         disabled: PropTypes.bool,
         toggleFocus: PropTypes.func,
-        listComponent: PropTypes.func,
+        listComponent: PropTypes.elementType,
     };
 
     static defaultProps = {
