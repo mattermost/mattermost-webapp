@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 import {UserTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes} from 'utils/constants';
+import {ActionTypes, Locations} from 'utils/constants';
 
 function emojiPickerCustomPage(state = 0, action) {
     switch (action.type) {
@@ -17,6 +17,24 @@ function emojiPickerCustomPage(state = 0, action) {
     }
 }
 
+function shortcutReactToLastPostEmittedFrom(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST:
+        if (action.payload === Locations.CENTER) {
+            return Locations.CENTER;
+        } else if (action.payload === Locations.RHS_ROOT) {
+            return Locations.RHS_ROOT;
+        } else if (action.payload === Locations.NO_WHERE) {
+            return '';
+        }
+        return state;
+
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     emojiPickerCustomPage,
+    shortcutReactToLastPostEmittedFrom
 });
