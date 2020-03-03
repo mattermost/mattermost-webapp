@@ -73,6 +73,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
                   "display_name": "Test",
                 },
               },
+              "mentionHighlight": false,
               "singleline": true,
             }
           }
@@ -88,6 +89,7 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
                   "display_name": "Test",
                 },
               },
+              "mentionHighlight": false,
               "singleline": true,
             }
           }
