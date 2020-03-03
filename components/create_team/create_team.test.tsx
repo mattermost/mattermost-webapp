@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 
-import CreateTeam from 'components/create_team/create_team.jsx';
+import CreateTeam from 'components/create_team/create_team';
 
 jest.mock('components/announcement_bar');
 jest.mock('components/common/back_button');
@@ -27,7 +27,9 @@ describe('/components/create_team', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<CreateTeam {...defaultProps}/>);
+        const wrapper: ShallowWrapper<any, any, CreateTeam> = shallow(
+          <CreateTeam {...defaultProps}/>
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
