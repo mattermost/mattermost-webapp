@@ -178,6 +178,7 @@ function renderHeaderChangeMessage(post) {
     const headerOptions = {
         singleline: true,
         channelNamesMap: post.props && post.props.channel_mentions,
+        mentionHighlight: false,
     };
 
     const username = renderUsername(post.props.username);
