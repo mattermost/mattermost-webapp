@@ -132,7 +132,10 @@ export default class StatusDropdown extends React.Component {
                         {dropdownIcon}
                     </span>
                 </div>
-                <Menu ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'set status')}>
+                <Menu
+                    ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'set status')}
+                    id='statusDropdownMenu'
+                >
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}
