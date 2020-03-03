@@ -193,7 +193,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       key="add_oauth_app.doneHelp"
     >
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2.0 Applications](!https://docs.mattermost.com/developer/oauth-2-0-applications.html))."
+        defaultMessage="Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://docs.mattermost.com/developer/oauth-2-0-applications.html))."
         id="add_oauth_app.doneHelp"
       />
     </p>
@@ -309,7 +309,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
     </h4>
     <p>
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at  [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html))."
+        defaultMessage="Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html))."
         id="add_outgoing_webhook.doneHelp"
       />
     </p>

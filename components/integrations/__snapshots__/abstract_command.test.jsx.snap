@@ -289,7 +289,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Specify the name to use when posting responses for this slash command. Usernames can be up to 22 characters, and contain lowercase letters, numbers, and the symbols \"-\", \"_\", and \".\". If left blank, your Mattermost username is used."
+              defaultMessage="(Optional) Specify the name to use when posting responses for this slash command. Usernames can be up to 22 characters, and contain lowercase letters, numbers, and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, your Mattermost username is used."
               id="add_command.username.help"
               values={Object {}}
             />
@@ -363,7 +363,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Show your slash command on the autocomplete list when someone types '/' in the input box."
+              defaultMessage="(Optional) Show your slash command on the autocomplete list when someone types \\"/\\" in the input box."
               id="add_command.autocomplete.help"
               values={Object {}}
             />
@@ -785,7 +785,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Specify the name to use when posting responses for this slash command. Usernames can be up to 22 characters, and contain lowercase letters, numbers, and the symbols \"-\", \"_\", and \".\". If left blank, your Mattermost username is used."
+              defaultMessage="(Optional) Specify the name to use when posting responses for this slash command. Usernames can be up to 22 characters, and contain lowercase letters, numbers, and the symbols \\\\\\"-\\\\\\", \\\\\\"_\\\\\\", and \\\\\\".\\\\\\". If left blank, your Mattermost username is used."
               id="add_command.username.help"
               values={Object {}}
             />
@@ -859,7 +859,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="(Optional) Show your slash command on the autocomplete list when someone types '/' in the input box."
+              defaultMessage="(Optional) Show your slash command on the autocomplete list when someone types \\"/\\" in the input box."
               id="add_command.autocomplete.help"
               values={Object {}}
             />

@@ -28,7 +28,7 @@ describe('Messaging', () => {
 
     it('M18697 - Visual verification of tooltips on post hover menu', () => {
         cy.getLastPostId().then((postId) => {
-            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More Actions');
+            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More actions');
 
             verifyToolTip(postId, `#CENTER_reaction_${postId}`, 'Add Reaction');
 
