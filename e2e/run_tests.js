@@ -81,7 +81,7 @@ async function runTests() {
     await fse.remove('results');
     await fse.remove('screenshots');
 
-    const BROWSER = process.env.BROWSER ? process.env.BROWSER : "chrome";
+    const BROWSER = process.env.BROWSER ? process.env.BROWSER : 'chrome';
     const testDirs = fse.readdirSync('cypress/integration/');
     let failedTests = 0;
 
