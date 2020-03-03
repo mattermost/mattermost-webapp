@@ -28,7 +28,7 @@ describe('/components/create_team', () => {
 
     test('should match snapshot', () => {
         const wrapper: ShallowWrapper<any, any, CreateTeam> = shallow(
-          <CreateTeam {...defaultProps}/>
+            <CreateTeam {...defaultProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
