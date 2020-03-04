@@ -65,7 +65,7 @@ class TeamButton extends React.Component {
 
         let teamClass = this.props.active ? 'active' : '';
         const disabled = this.props.disabled ? 'team-disabled' : '';
-        const isNotSpecialButton = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
+        const isNotCreateTeamButton = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
         let badge;
 
@@ -80,7 +80,7 @@ class TeamButton extends React.Component {
         if (!teamClass) {
             if (unread) {
                 teamClass = 'unread';
-            } else if (isNotSpecialButton) {
+            } else if (isNotCreateTeamButton) {
                 teamClass = '';
             } else {
                 teamClass = 'special';
@@ -149,7 +149,7 @@ class TeamButton extends React.Component {
             );
 
             // if this is not a "special" team button, give it a context menu
-            if (isNotSpecialButton) {
+            if (isNotCreateTeamButton) {
                 teamButton = (
                     <CopyUrlContextMenu
                         link={this.props.url}

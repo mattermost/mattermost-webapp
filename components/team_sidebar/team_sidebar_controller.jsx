@@ -59,31 +59,6 @@ export default class TeamSidebar extends React.Component {
         userTeamsOrderPreference: PropTypes.string,
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            teamsOrder: filterAndSortTeamsByDisplayName(
-                this.props.myTeams,
-                this.props.locale,
-                this.props.userTeamsOrderPreference,
-            ),
-        };
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        const newTeamsOrder = filterAndSortTeamsByDisplayName(
-            nextProps.myTeams,
-            nextProps.locale,
-            nextProps.userTeamsOrderPreference
-        );
-        if (newTeamsOrder !== prevState.teamsOrder) {
-            return {
-                teamsOrder: newTeamsOrder,
-            };
-        }
-        return {};
-    }
-
     componentDidMount() {
         this.props.actions.getTeams(0, 200);
     }
@@ -97,7 +72,7 @@ export default class TeamSidebar extends React.Component {
             return;
         }
 
-        const teams = this.state.teamsOrder;
+        const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
         const sourceIndex = result.source.index;
         const destinationIndex = result.destination.index;
@@ -133,8 +108,9 @@ export default class TeamSidebar extends React.Component {
         root.classList.add('multi-teams');
 
         const plugins = [];
-        const teams = this.state.teamsOrder.
-            map((team, index) => {
+        const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
+
+        const teams = sortedTeams.map((team, index) => {
                 const member = this.props.myTeamMembers[team.id];
                 return (
                     <TeamButton
@@ -154,10 +130,10 @@ export default class TeamSidebar extends React.Component {
                 );
             });
 
-        const extraTeamsChoices = [];
+        const joinableTeams = [];
 
         if (this.props.moreTeamsToJoin && !this.props.experimentalPrimaryTeam) {
-            extraTeamsChoices.push(
+            joinableTeams.push(
                 <TeamButton
                     btnClass='team-btn__add'
                     key='more_teams'
@@ -173,7 +149,7 @@ export default class TeamSidebar extends React.Component {
                 />
             );
         } else {
-            extraTeamsChoices.push(
+            joinableTeams.push(
                 <SystemPermissionGate
                     permissions={[Permissions.CREATE_TEAM]}
                     key='more_teams'
@@ -242,7 +218,7 @@ export default class TeamSidebar extends React.Component {
                                 }}
                             </Droppable>
                         </DragDropContext>
-                        {extraTeamsChoices}
+                        {joinableTeams}
                     </Scrollbars>
                 </div>
                 {plugins}
