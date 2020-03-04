@@ -51,6 +51,7 @@ import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
 const getState = store.getState;
+const duplicateSuffix = '[dup]';
 
 class SwitchChannelSuggestion extends Suggestion {
     static get propTypes() {
@@ -362,6 +363,7 @@ export default class SwitchChannelProvider extends Provider {
         const config = getConfig(state);
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
+        let names = new Set();
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
 
@@ -424,6 +426,11 @@ export default class SwitchChannelProvider extends Provider {
                 }
 
                 completedChannels[channel.id] = true;
+
+                while(names.has(wrappedChannel.name)){
+                    wrappedChannel.name = wrappedChannel.name + duplicateSuffix;
+                }
+                names.add(wrappedChannel.name);
                 channels.push(wrappedChannel);
             }
         }
@@ -449,12 +456,17 @@ export default class SwitchChannelProvider extends Provider {
             }
 
             completedChannels[user.id] = true;
+            while(names.has(wrappedChannel.name)){
+                wrappedChannel.name = wrappedChannel.name + duplicateSuffix;
+            }
+            names.add(wrappedChannel.name);
+
             channels.push(wrappedChannel);
         }
 
         const channelNames = channels.
             sort(quickSwitchSorter).
-            map((wrappedChannel) => wrappedChannel.channel.name);
+            map((wrappedChannel) => wrappedChannel.name);
 
         if (skipNotInChannel) {
             channels.push({
