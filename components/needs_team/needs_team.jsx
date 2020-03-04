@@ -41,6 +41,8 @@ export default class NeedsTeam extends React.Component {
             setPreviousTeamId: PropTypes.func.isRequired,
             loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
             loadProfilesForDirect: PropTypes.func.isRequired,
+            getGroups: PropTypes.func.isRequired,
+            getGroupsAssociatedToTeam: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -204,6 +206,13 @@ export default class NeedsTeam extends React.Component {
 
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
+
+        //TODO(ctomai) - do it at channel scope if we are channel group_constrained?
+        if (team.group_constrained) {
+            this.props.actions.getGroupsAssociatedToTeam(team.id);
+        } else {
+            this.props.actions.getGroups();
+        }
 
         return team;
     }

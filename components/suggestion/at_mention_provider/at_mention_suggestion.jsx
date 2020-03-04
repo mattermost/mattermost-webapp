@@ -4,7 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
@@ -73,6 +75,22 @@ export default class AtMentionSuggestion extends Suggestion {
                 <FormattedMessage
                     id='generic_icons.member'
                     defaultMessage='Member Icon'
+                >
+                    {(title) => (
+                        <i
+                            className='mention__image fa fa-users fa-2x'
+                            title={title}
+                        />
+                    )}
+                </FormattedMessage>
+            );
+        } else if (user.type === Constants.MENTION_GROUPS) {
+            username = user.display_name;
+            description = `- (${user.display_name})`;
+            icon = (
+                <FormattedMessage
+                    id='generic_icons.member'
+                    defaultMessage='Group Icon'
                 >
                     {(title) => (
                         <i

@@ -42,6 +42,7 @@ export default class Textbox extends React.PureComponent {
         preview: PropTypes.bool,
         profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
+        autocompleteGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
             autocompleteChannels: PropTypes.func.isRequired,
@@ -63,6 +64,7 @@ export default class Textbox extends React.PureComponent {
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
                 profilesNotInChannel: this.props.profilesNotInChannel,
+                autocompleteGroups: this.props.autocompleteGroups,
                 autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
             }),
@@ -86,7 +88,8 @@ export default class Textbox extends React.PureComponent {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel) {
+            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel ||
+            this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;
             for (let i = 0; i < providers.length; i++) {
@@ -95,6 +98,7 @@ export default class Textbox extends React.PureComponent {
                         currentUserId: this.props.currentUserId,
                         profilesInChannel: this.props.profilesInChannel,
                         profilesNotInChannel: this.props.profilesNotInChannel,
+                        autocompleteGroups: this.props.autocompleteGroups,
                         autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
                     });

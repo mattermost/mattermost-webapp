@@ -25,10 +25,11 @@ export default class AtMentionProvider extends Provider {
 
     // setProps gives the provider additional context for matching pretexts. Ideally this would
     // just be something akin to a connected component with access to the store itself.
-    setProps({currentUserId, profilesInChannel, profilesNotInChannel, autocompleteUsersInChannel, useChannelMentions}) {
+    setProps({currentUserId, profilesInChannel, profilesNotInChannel, autocompleteGroups, autocompleteUsersInChannel, useChannelMentions}) {
         this.currentUserId = currentUserId;
         this.profilesInChannel = profilesInChannel;
         this.profilesNotInChannel = profilesNotInChannel;
+        this.autocompleteGroups = autocompleteGroups;
         this.autocompleteUsersInChannel = autocompleteUsersInChannel;
         this.useChannelMentions = useChannelMentions;
     }
@@ -68,6 +69,20 @@ export default class AtMentionProvider extends Provider {
         return profileSuggestions;
     }
 
+    getGroupSuggestions(group) {
+        const groupSuggestions = [];
+        if (!group) {
+            return groupSuggestions;
+        }
+
+        if (group.display_name) {
+            const displaynameSuggestions = getSuggestionsSplitByMultiple(group.display_name.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
+            groupSuggestions.push(...displaynameSuggestions);
+        }
+
+        return groupSuggestions;
+    }
+
     // filterProfile constrains profiles to those matching the latest prefix.
     filterProfile(profile) {
         if (!profile) {
@@ -80,6 +95,18 @@ export default class AtMentionProvider extends Provider {
         return profileSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
     }
 
+    // filterGroup constrains profiles to those matching the latest prefix.
+    filterGroup(group) {
+        if (!group) {
+            return false;
+        }
+
+        const prefixLower = this.latestPrefix.toLowerCase();
+        const groupSuggestions = this.getGroupSuggestions(group);
+
+        return groupSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
+    }
+
     // localMembers matches up to 25 local results from the store before the server has responded.
     localMembers() {
         const localMembers = this.profilesInChannel.
@@ -89,6 +116,17 @@ export default class AtMentionProvider extends Provider {
             splice(0, 25);
 
         return localMembers;
+    }
+
+    // localAutocompleteGroups matches up to 25 local results from the store before the server has responded.
+    localAutocompleteGroups() {
+        const localGroups = this.autocompleteGroups.
+            filter((group) => this.filterGroup(group)).
+            map((group) => this.createFromGroup(group, Constants.MENTION_GROUPS)).
+            sort((a, b) => a.display_name.localeCompare(b.display_name)).
+            splice(0, 25);
+
+        return localGroups;
     }
 
     // remoteMembers matches the users listed in the channel by the server.
@@ -122,6 +160,8 @@ export default class AtMentionProvider extends Provider {
 
         const localMembers = this.localMembers();
 
+        const localAutocompleteGroups = this.localAutocompleteGroups();
+
         const localUserIds = {};
         localMembers.forEach((item) => {
             localUserIds[item.id] = true;
@@ -153,7 +193,7 @@ export default class AtMentionProvider extends Provider {
             filter((item) => !localUserIds[item.id]).
             sort(orderUsers);
 
-        return localAndRemoteMembers.concat(specialMentions).concat(remoteNonMembers);
+        return localAndRemoteMembers.concat(specialMentions).concat(remoteNonMembers).concat(localAutocompleteGroups);
     }
 
     // updateMatches invokes the resultCallback with the metadata for rendering at mentions
@@ -161,6 +201,9 @@ export default class AtMentionProvider extends Provider {
         const mentions = users.map((user) => {
             if (user.username) {
                 return '@' + user.username;
+            }
+            if (user.display_name) {
+                return '@' + user.display_name;
             }
             return '';
         });
@@ -227,6 +270,13 @@ export default class AtMentionProvider extends Provider {
         return {
             type,
             ...profile,
+        };
+    }
+
+    createFromGroup(group, type) {
+        return {
+            type,
+            ...group,
         };
     }
 }
