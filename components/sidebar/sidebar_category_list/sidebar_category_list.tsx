@@ -42,7 +42,7 @@ const scrollMargin = 15;
 const scrollMarginWithUnread = 60;
 
 export default class SidebarCategoryList extends React.PureComponent<Props, State> {
-    channelRefs: Map<string, HTMLDivElement>;
+    channelRefs: Map<string, HTMLLIElement>;
     scrollbar: React.RefObject<HTMLDivElement>;
     animate: SpringSystem;
     scrollAnimation: Spring;
@@ -125,7 +125,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         return this.channelRefs.get(channelId);
     }
 
-    setChannelRef = (channelId: string, ref: HTMLDivElement) => {
+    setChannelRef = (channelId: string, ref: HTMLLIElement) => {
         if (ref) {
             this.channelRefs.set(channelId, ref);
         } else {
@@ -338,10 +338,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         );
 
         return (
-            <div
-                className='sidebar--left__list a11y__region'
-                data-a11y-sort-order='6'
-            >
+            <React.Fragment>
                 <UnreadChannelIndicator
                     name='Top'
                     show={this.state.showTopUnread}
@@ -357,20 +354,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     content={below}
                 />
                 <div
+                    className='SidebarNavContainer a11y__region'
+                    data-a11y-sort-order='6'
                     ref={this.scrollbar}
-                    style={{
-                        position: 'absolute',
-                        top: '0px',
-                        bottom: '0px',
-                        left: '0px',
-                        right: '0px',
-                        overflowY: 'scroll', // TODO: this should only be on hover
-                    }}
                     onScroll={this.onScroll}
                 >
                     {renderedCategories}
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

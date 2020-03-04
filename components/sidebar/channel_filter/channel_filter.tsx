@@ -14,8 +14,13 @@ type State = {
 export default class ChannelFilter extends React.PureComponent<Props, State> {
     render() {
         return (
-            <div>
-                {'Channel Filter'}
+            <div className='SidebarFilters'>
+                <a
+                    href='#'
+                    className='SidebarFilters_filterButton'
+                >
+                    <i className='icon icon-filter-variant'/>
+                </a>
             </div>
         );
     }

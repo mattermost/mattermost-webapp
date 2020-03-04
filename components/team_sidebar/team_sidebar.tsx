@@ -35,9 +35,11 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         root!.classList.add('multi-teams');
 
         return (
-            <div className='team-sidebar'>
-                {'Team Sidebar Placeholder'}
-                {renderedTeams}
+            <div id='TeamSidebar'>
+                <div className='TeamSidebarWrapper'>
+                    {'Team Sidebar Placeholder'}
+                    {renderedTeams}
+                </div>
             </div>
         );
     }

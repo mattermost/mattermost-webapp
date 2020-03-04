@@ -58,11 +58,11 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
 
         if (channel.type === Constants.OPEN_CHANNEL) {
             return (
-                <GlobeIcon className='icon icon__globe'/>
+                <i className='icon-globe'/>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             return (
-                <LockIcon className='icon icon__lock'/>
+                <i className='icon-lock-outline'/>
             );
         }
 

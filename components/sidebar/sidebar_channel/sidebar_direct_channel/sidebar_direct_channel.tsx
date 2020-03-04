@@ -13,7 +13,7 @@ import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
-import StatusIcon from 'components/status_icon.jsx';
+import StatusIconNew from 'components/status_icon_new';
 import BotIcon from 'components/widgets/icons/bot_icon.jsx';
 import SidebarChannelLink from '../sidebar_channel_link';
 
@@ -92,10 +92,19 @@ export default class SidebarDirectChannel extends React.PureComponent<Props, Sta
             return icon;
         }
 
+        let className = '';
+        if (channel.status === 'online') {
+            className = 'status-online';
+        } else if (channel.status === 'away') {
+            className = 'status-away';
+        } else if (channel.status === 'dnd') {
+            className = 'status-dnd';
+        }
+
         return (
-            <StatusIcon
-                type='avatar'
+            <StatusIconNew
                 status={channel.status}
+                className={className}
             />
         );
     }
