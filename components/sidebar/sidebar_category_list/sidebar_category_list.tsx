@@ -17,6 +17,31 @@ import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
+import Scrollbars from 'react-custom-scrollbars';
+
+export function renderView(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+}
+
+export function renderThumbHorizontal(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+}
+
+export function renderThumbVertical(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+}
 
 type Props = {
     currentTeam: Team;
@@ -43,7 +68,7 @@ const scrollMarginWithUnread = 60;
 
 export default class SidebarCategoryList extends React.PureComponent<Props, State> {
     channelRefs: Map<string, HTMLLIElement>;
-    scrollbar: React.RefObject<HTMLDivElement>;
+    scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
     scrollAnimation: Spring;
 
@@ -90,7 +115,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
-            this.scrollbar.current!.scrollTop = 0;
+            this.scrollbar.current!.scrollToTop();
         }
 
         // Scroll to selected channel so it's in view
@@ -145,7 +170,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     handleScrollAnimationUpdate = (spring: Spring) => {
         const val = spring.getCurrentValue();
-        this.scrollbar.current!.scrollTop = val;
+        this.scrollbar.current!.scrollTop(val);
     }
 
     scrollToFirstUnreadChannel = () => {
@@ -169,8 +194,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         const top = element.offsetTop;
         const bottom = top + element.offsetHeight;
 
-        const scrollTop = this.scrollbar.current!.scrollTop;
-        const scrollHeight = this.scrollbar.current!.clientHeight;
+        const scrollTop = this.scrollbar.current!.getScrollTop();
+        const scrollHeight = this.scrollbar.current!.getClientHeight();
 
         if (top < scrollTop) {
             // Scroll up to the item
@@ -197,7 +222,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     scrollToPosition = (scrollEnd: number) => {
         // Stop the current animation before scrolling
-        this.scrollAnimation.setCurrentValue(this.scrollbar.current!.scrollTop).setAtRest();
+        this.scrollAnimation.setCurrentValue(this.scrollbar.current!.getScrollTop()).setAtRest();
 
         this.scrollAnimation.setEndValue(scrollEnd);
     }
@@ -214,7 +239,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const firstUnreadElement = this.channelRefs.get(firstUnreadChannel);
             const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.offsetTop : null;
 
-            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin) < this.scrollbar.current!.scrollTop) {
+            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin) < this.scrollbar.current!.getScrollTop()) {
                 showTopUnread = true;
             }
         }
@@ -223,7 +248,9 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const lastUnreadElement = this.channelRefs.get(lastUnreadChannel);
             const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.offsetTop : null;
 
-            if (lastUnreadPosition && (lastUnreadPosition + scrollMargin) > (this.scrollbar.current!.scrollTop + this.scrollbar.current!.clientHeight)) {
+            console.log(`${lastUnreadPosition} ${scrollMargin} ${this.scrollbar.current!.getScrollTop()} ${this.scrollbar.current!.getClientHeight()}`);
+
+            if (lastUnreadPosition && (lastUnreadPosition + scrollMargin) > (this.scrollbar.current!.getScrollTop() + this.scrollbar.current!.getClientHeight())) {
                 showBottomUnread = true;
             }
         }
@@ -338,7 +365,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         );
 
         return (
-            <React.Fragment>
+            <div
+                className='SidebarNavContainer a11y__region'
+                data-a11y-sort-order='6'
+            >
                 <UnreadChannelIndicator
                     name='Top'
                     show={this.state.showTopUnread}
@@ -352,16 +382,21 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     onClick={this.scrollToLastUnreadChannel}
                     extraClass='nav-pills__unread-indicator-bottom'
                     content={below}
-                />
-                <div
-                    className='SidebarNavContainer a11y__region'
-                    data-a11y-sort-order='6'
+                /> 
+                <Scrollbars
                     ref={this.scrollbar}
+                    autoHide={true}
+                    autoHideTimeout={500}
+                    autoHideDuration={500}
+                    renderThumbHorizontal={renderThumbHorizontal}
+                    renderThumbVertical={renderThumbVertical}
+                    renderView={renderView}
                     onScroll={this.onScroll}
+                    style={{position: 'absolute'}}
                 >
                     {renderedCategories}
-                </div>
-            </React.Fragment>
+                </Scrollbars>
+            </div>
         );
     }
 }

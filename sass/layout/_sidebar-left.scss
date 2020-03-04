@@ -41,19 +41,14 @@
     }
 
     .SidebarHeader {
-        position: absolute;
-        top: 0;
         display: block;
         min-height: 64px;
         width: 240px;
         background-color: var(--sidebar-header-bg);
     }
     .SidebarFilters {
-        position: absolute;
         display: flex;
         flex-direction: row;
-        top: 64px;
-        height: 28px;
         width: 240px;
         padding: 7px 16px;
     }
@@ -77,25 +72,83 @@
         background-color: #fff;
     }
     
-    .SidebarNavContainer {
+    .nav-pills__unread-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
-        top: 106px;
-        bottom: 0;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        width: 240px;
-    }
-
-    .SidebarNavContainer::-webkit-scrollbar {
+        margin-left: 50%;
+        width: 188px;
+        font-size: 14px;
+        line-height: 28px;
+        text-align: center;
+        @include border-radius(14px);
+        z-index: 2;
+        cursor: pointer;
+        transform: translateX(-50%);
+        opacity: 0;
         visibility: hidden;
+        background: var(--mention-bg);
+        color: var(--mention-color);
+
+        .icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 5px;
+        }
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in, step-end);
+        }
+
+        svg {
+            fill: var(--mention-color);
+        }
     }
 
-    .SidebarNavContainer:hover::-webkit-scrollbar {
-        visibility: visible;
+    .nav-pills__unread-indicator-top {
+        top: 16px;
+
+        .icon {
+            svg {
+                @include transform(rotate(180deg));
+            }
+        }
     }
-    
-    .SidebarChannelGroup {
+
+    .nav-pills__unread-indicator-bottom {
+        bottom: 16px;
+    }
+
+    .nav-pills__unread-indicator--visible {
+        opacity: 1;
+        visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
+    }
+
+    .SidebarNavContainer {
+        width: 240px;
+        flex: 1 1 auto;
+        overflow: hidden;
         position: relative;
+
+        .scrollbar--view ~ div {
+            z-index: 2;
+
+            div {
+                z-index: 2;
+            }
+        }
     }
     
     .SidebarChannelGroup .SidebarChannelGroupHeader {
@@ -354,6 +407,7 @@
 
     .status.status--group {
         background: var(--sidebar-text-30);
+        margin: 0 6px 0 2px;
     }
 
     .status-away {
