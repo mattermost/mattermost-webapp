@@ -11,23 +11,23 @@ import {browserHistory} from 'utils/browser_history';
 const SECTION_MFA = 'mfa';
 
 type Props = {
-  active: boolean;
+    active: boolean;
 
-  // Whether or not the current user has MFA enabled
-  mfaActive: boolean;
+    // Whether or not the current user has MFA enabled
+    mfaActive: boolean;
 
-  // Whether or not the current user can enable MFA based on their authentication type and the server's settings
-  mfaAvailable: boolean;
+    // Whether or not the current user can enable MFA based on their authentication type and the server's settings
+    mfaAvailable: boolean;
 
-  // Whether or not this server enforces that all users have MFA
-  mfaEnforced: boolean;
+    // Whether or not this server enforces that all users have MFA
+    mfaEnforced: boolean;
 
-  updateSection: (section: string) => void;
-  actions: {deactivateMfa: () => any};
+    updateSection: (section: string) => void;
+    actions: {deactivateMfa: () => any};
 }
 
 type State = {
-   serverError: string|null;
+    serverError: string|null;
 }
 
 export default class MfaSection extends React.PureComponent<Props, State> {
