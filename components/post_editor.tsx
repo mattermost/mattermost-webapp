@@ -360,6 +360,15 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
         e.preventDefault();
     }
 
+    handleCopy = (e: React.ClipboardEvent<HTMLDivElement>) => {
+        if (!e.nativeEvent.clipboardData) {
+            return;
+        }
+
+        e.nativeEvent.clipboardData.setData('text', this.value);
+        e.preventDefault();
+    }
+
     render() {
         const props = {...this.props};
         const {placeholder} = props;
@@ -394,6 +403,7 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
                     role='textbox'
                     aria-label={placeholderAriaLabel}
                     onPaste={this.handlePaste}
+                    onCopy={this.handleCopy}
                 />
             </>);
     }
