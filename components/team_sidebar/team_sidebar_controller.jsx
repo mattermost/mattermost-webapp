@@ -111,24 +111,24 @@ export default class TeamSidebar extends React.Component {
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
         const teams = sortedTeams.map((team, index) => {
-                const member = this.props.myTeamMembers[team.id];
-                return (
-                    <TeamButton
-                        key={'switch_team_' + team.name}
-                        url={`/${team.name}`}
-                        tip={team.display_name}
-                        active={team.id === this.props.currentTeamId}
-                        displayName={team.display_name}
-                        unread={member.msg_count > 0}
-                        mentions={member.mention_count}
-                        teamIconUrl={Utils.imageURLForTeam(team)}
-                        switchTeam={this.props.actions.switchTeam}
-                        isDraggable={true}
-                        teamId={team.id}
-                        teamIndex={index}
-                    />
-                );
-            });
+            const member = this.props.myTeamMembers[team.id];
+            return (
+                <TeamButton
+                    key={'switch_team_' + team.name}
+                    url={`/${team.name}`}
+                    tip={team.display_name}
+                    active={team.id === this.props.currentTeamId}
+                    displayName={team.display_name}
+                    unread={member.msg_count > 0}
+                    mentions={member.mention_count}
+                    teamIconUrl={Utils.imageURLForTeam(team)}
+                    switchTeam={this.props.actions.switchTeam}
+                    isDraggable={true}
+                    teamId={team.id}
+                    teamIndex={index}
+                />
+            );
+        });
 
         const joinableTeams = [];
 
