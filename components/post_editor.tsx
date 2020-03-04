@@ -344,6 +344,21 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
         }
     }
 
+    handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+        if (!e.nativeEvent.clipboardData) {
+            return;
+        }
+
+        const pastedText = e.nativeEvent.clipboardData.getData('text');
+        const pasteStart = this.selectionStart;
+        const pasteEnd = this.selectionEnd;
+
+        this.value = `${this.value.slice(0, pasteStart)}${pastedText}${this.value.slice(pasteEnd)}`;
+        this.selectionEnd = pasteStart + pastedText.length;
+
+        e.preventDefault();
+    }
+
     render() {
         const props = {...this.props};
         const {placeholder} = props;
@@ -377,6 +392,7 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
                     onKeyDown={this.handleKeyDown}
                     role='textbox'
                     aria-label={placeholderAriaLabel}
+                    onPaste={this.handlePaste}
                 />
             </>);
     }
