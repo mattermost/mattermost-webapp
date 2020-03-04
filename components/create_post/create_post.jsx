@@ -281,7 +281,6 @@ class CreatePost extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         let updatedState = {currentChannel: props.currentChannel};
         if (props.currentChannel.id !== state.currentChannel.id) {
-            props.actions.setShowPreview(false);
 
             updatedState = {
                 ...updatedState,
@@ -308,7 +307,6 @@ class CreatePost extends React.PureComponent {
             currentChannel: props.currentChannel,
         };
 
-        this.props.actions.setShowPreview(false);
         this.lastBlurAt = 0;
         this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
@@ -317,6 +315,7 @@ class CreatePost extends React.PureComponent {
 
     componentDidMount() {
         this.onOrientationChange();
+        this.props.actions.setShowPreview(false);
         this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
@@ -334,6 +333,10 @@ class CreatePost extends React.PureComponent {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+        }
+
+        if (this.props.currentChannel.id !== prevState.currentChannel.id) {
+            this.props.actions.setShowPreview(false);
         }
 
         // Focus on textbox when emoji picker is closed

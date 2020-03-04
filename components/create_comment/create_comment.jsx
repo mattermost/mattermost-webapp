@@ -236,7 +236,6 @@ class CreateComment extends React.PureComponent {
             renderScrollbar: false,
             suggestionListStyle: 'top',
         };
-        this.props.setShowPreview(false);
         this.lastBlurAt = 0;
         this.draftsForPost = {};
         this.doInitialScrollToBottom = false;
@@ -245,6 +244,8 @@ class CreateComment extends React.PureComponent {
     componentDidMount() {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
+        this.props.setShowPreview(false);
+
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
