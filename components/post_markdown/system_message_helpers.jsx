@@ -330,6 +330,22 @@ function renderChannelDeletedMessage(post) {
     );
 }
 
+function renderChannelUnarchivedMessage(post) {
+    if (!post.props.username) {
+        return null;
+    }
+
+    const username = renderUsername(post.props.username);
+
+    return (
+        <FormattedMessage
+            id='api.channel.restore_channel.unarchived'
+            defaultMessage='{username} has unarchived the channel.'
+            values={{username}}
+        />
+    );
+}
+
 function renderMeMessage(post) {
     return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
 }
@@ -350,6 +366,7 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CONVERT_CHANNEL]: renderConvertChannelToPrivateMessage,
     [Posts.POST_TYPES.PURPOSE_CHANGE]: renderPurposeChangeMessage,
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
+    [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: renderChannelUnarchivedMessage,
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 

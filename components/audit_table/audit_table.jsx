@@ -76,7 +76,7 @@ const holders = defineMessages({
     },
     authenticated: {
         id: t('audit_table.authenticated'),
-        defauleMessage: 'Successfully authenticated',
+        defaultMessage: 'Successfully authenticated',
     },
     successfullLogin: {
         id: t('audit_table.successfullLogin'),

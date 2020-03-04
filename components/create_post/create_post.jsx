@@ -1361,6 +1361,7 @@ class CreatePost extends React.PureComponent {
                     </div>
                     <div
                         id='postCreateFooter'
+                        role='form'
                         className={postFooterClassName}
                     >
                         <div className='d-flex justify-content-between'>
