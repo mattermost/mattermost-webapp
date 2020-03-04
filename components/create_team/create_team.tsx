@@ -45,18 +45,18 @@ type Props = {
 };
 
 type State = {
-    team?: object;
-    wizard?: string;
+    team: object;
+    wizard: string;
 };
 
 export default class CreateTeam extends React.PureComponent<Props & RouteComponentProps<{}>, State> {
     public constructor(props: Props & RouteComponentProps<{}>) {
         super(props);
 
-        const state: State = {};
-        state.team = {};
-        state.wizard = 'display_name';
-        this.state = state;
+        this.state = {
+            team: {},
+            wizard: 'display_name',
+        };
     }
 
     public updateParent = (state: State) => {
