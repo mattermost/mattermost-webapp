@@ -108,48 +108,61 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         // If we don't have the team and channel on mount, we need to request the team after we load the channel
         if (!prevProps.team.id && !prevProps.channel.team_id && channel.team_id) {
             actions.getTeam(channel.team_id).
-                then((data: any) => actions.loadScheme(data.data.scheme_id)).
+                then(async (data: any) => {
+                    if (data.data && data.data.scheme_id) {
+                        await actions.loadScheme(data.data.scheme_id);
+                    }
+                }).
                 then(() => this.setState({teamScheme: this.props.teamScheme}));
         }
     }
     async componentDidMount() {
         const {channelID, channel, actions} = this.props;
-        await Promise.all([actions.
-            getGroups(channelID).
-            then(() => actions.getChannel(channelID)).
-            then(() => this.setState({groups: this.props.groups})),
-        actions.getChannelModerations(channelID).
-            then(() => {
-                // We are disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
-                const currentCreatePostRoles: any = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
-                let channelPermissions = this.props.channelPermissions;
-                for (const channelRole of Object.keys(currentCreatePostRoles)) {
-                    channelPermissions = channelPermissions!.map((permission) => {
-                        if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
-                            return {
-                                name: permission.name,
-                                roles: {
-                                    ...permission.roles,
-                                    [channelRole]: {
-                                        value: false,
-                                        enabled: false,
+        let actionsToAwait = [];
+        if (channelID) {
+            actionsToAwait.push(actions.getGroups(channelID).
+                then(() => actions.getChannel(channelID)).
+                then(() => this.setState({groups: this.props.groups}))
+            );
+            actionsToAwait.push(actions.getChannelModerations(channelID).
+                then(() => {
+                    // We are disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
+                    const currentCreatePostRoles: any = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
+                    let channelPermissions = this.props.channelPermissions;
+                    for (const channelRole of Object.keys(currentCreatePostRoles)) {
+                        channelPermissions = channelPermissions!.map((permission) => {
+                            if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
+                                return {
+                                    name: permission.name,
+                                    roles: {
+                                        ...permission.roles,
+                                        [channelRole]: {
+                                            value: false,
+                                            enabled: false,
+                                        }
                                     }
-                                }
-                            };
-                        }
-                        return permission;
-                    });
-                }
-                this.setState({channelPermissions});
-            }),
-        await actions.getTeam(channel.team_id).
-            then(async (data: any) => {
-                if (data.data) {
-                    await actions.loadScheme(data.data.scheme_id);
-                }
-            }).
-            then(() => this.setState({teamScheme: this.props.teamScheme})),
-        ]);
+                                };
+                            }
+                            return permission;
+                        });
+                    }
+                    this.setState({channelPermissions});
+                })
+            );
+        }
+
+        if (channel.team_id) {
+            actionsToAwait.push(actions.getTeam(channel.team_id).
+                then(async (data: any) => {
+                    if (data.data && data.data.scheme_id) {
+                        await actions.loadScheme(data.data.scheme_id);
+                    }
+                }).
+                then(() => this.setState({teamScheme: this.props.teamScheme}))
+            )
+        }
+
+        await Promise.all(actionsToAwait);
     }
     private setToggles = (isSynced: boolean, isPublic: boolean) => {
         const {channel} = this.props;
