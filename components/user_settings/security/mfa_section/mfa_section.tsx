@@ -1,46 +1,50 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import {browserHistory} from 'utils/browser_history';
 
 const SECTION_MFA = 'mfa';
 
-export default class MfaSection extends React.PureComponent {
-    static propTypes = {
-        active: PropTypes.bool.isRequired,
+type Props = {
+  active: boolean;
 
-        // Whether or not the current user has MFA enabled
-        mfaActive: PropTypes.bool.isRequired,
+  // Whether or not the current user has MFA enabled
+  mfaActive: boolean;
 
-        // Whether or not the current user can enable MFA based on their authentication type and the server's settings
-        mfaAvailable: PropTypes.bool.isRequired,
+  // Whether or not the current user can enable MFA based on their authentication type and the server's settings
+  mfaAvailable: boolean;
 
-        // Whether or not this server enforces that all users have MFA
-        mfaEnforced: PropTypes.bool.isRequired,
+  // Whether or not this server enforces that all users have MFA
+  mfaEnforced: boolean;
 
-        updateSection: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            deactivateMfa: PropTypes.func.isRequired,
-        }),
-    };
+  updateSection: (section: string) => void;
+  actions: {deactivateMfa: () => any};
+}
 
-    state = {
-        serverError: null,
-    };
+type State = {
+   serverError: string|null;
+}
 
-    setupMfa = (e) => {
+export default class MfaSection extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
+        super(props);
+        this.state = {
+            serverError: null,
+        };
+    }
+
+    public setupMfa = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
         browserHistory.push('/mfa/setup');
     };
 
-    removeMfa = async (e) => {
+    public removeMfa = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
         const {error} = await this.props.actions.deactivateMfa();
@@ -63,7 +67,7 @@ export default class MfaSection extends React.PureComponent {
         });
     };
 
-    renderTitle = () => {
+    private renderTitle = () => {
         return (
             <FormattedMessage
                 id='user.settings.mfa.title'
@@ -72,7 +76,7 @@ export default class MfaSection extends React.PureComponent {
         );
     };
 
-    renderDescription = () => {
+    private renderDescription = () => {
         if (this.props.mfaActive) {
             return (
                 <FormattedMessage
@@ -90,7 +94,7 @@ export default class MfaSection extends React.PureComponent {
         );
     };
 
-    renderContent = () => {
+    private renderContent = () => {
         let content;
 
         if (this.props.mfaActive) {
@@ -144,7 +148,7 @@ export default class MfaSection extends React.PureComponent {
         );
     };
 
-    renderHelpText = () => {
+    private renderHelpText = () => {
         if (this.props.mfaActive) {
             if (this.props.mfaEnforced) {
                 return (
@@ -171,7 +175,7 @@ export default class MfaSection extends React.PureComponent {
         );
     };
 
-    render() {
+    public render() {
         const title = this.renderTitle();
 
         if (!this.props.mfaAvailable) {
