@@ -266,7 +266,7 @@ class ChannelHeader extends React.PureComponent {
 
     setPopoverOverlayWidth = () => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
-        const ellipsisWidthAdjustment = 3;
+        const ellipsisWidthAdjustment = 10;
         this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
     }
 
