@@ -625,6 +625,9 @@ class CreatePost extends React.PureComponent {
         post.parent_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
+        if (!this.props.useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
+            post.props.mentionHighlightDisabled = true;
+        }
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
