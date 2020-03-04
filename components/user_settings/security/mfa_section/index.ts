@@ -8,8 +8,8 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {deactivateMfa} from 'actions/views/mfa';
 
+import {deactivateMfa} from 'actions/views/mfa';
 import Constants from 'utils/constants';
 import MfaSection from './mfa_section';
 
