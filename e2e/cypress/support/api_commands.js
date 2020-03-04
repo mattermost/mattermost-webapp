@@ -956,6 +956,18 @@ Cypress.Commands.add('removeUserFromChannel', (channelId, userId) => {
 });
 
 /**
+ * Remove a User from a Team directly via API
+ * @param {String} teamID - The team ID
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('removeUserFromTeam', (teamId, userId) => {
+    //Remove a User from a Channel
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
+});
+
+/**
  * Promote a Guest to a Member directly via API
  * @param {String} userId - The user ID
  * All parameter required

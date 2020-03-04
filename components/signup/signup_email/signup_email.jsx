@@ -31,6 +31,7 @@ export default class SignupEmail extends React.Component {
         privacyPolicyLink: PropTypes.string,
         customDescriptionText: PropTypes.string,
         passwordConfig: PropTypes.object,
+        hasAccounts: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             createUser: PropTypes.func.isRequired,
             loginById: PropTypes.func.isRequired,
@@ -65,6 +66,10 @@ export default class SignupEmail extends React.Component {
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
+        }
+
+        if (!this.props.hasAccounts) {
+            document.body.classList.remove('sticky');
         }
     }
 
@@ -422,6 +427,7 @@ export default class SignupEmail extends React.Component {
             privacyPolicyLink,
             siteName,
             termsOfServiceLink,
+            hasAccounts,
         } = this.props;
 
         let serverError = null;
@@ -456,8 +462,8 @@ export default class SignupEmail extends React.Component {
                         defaultMessage='By proceeding to create your account and use {siteName}, you agree to our [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}.'
                         values={{
                             siteName,
-                            TermsOfServiceLink: termsOfServiceLink,
-                            PrivacyPolicyLink: privacyPolicyLink,
+                            TermsOfServiceLink: `!${termsOfServiceLink}`,
+                            PrivacyPolicyLink: `!${privacyPolicyLink}`,
                         }}
                     />
                 </p>
@@ -470,7 +476,7 @@ export default class SignupEmail extends React.Component {
 
         return (
             <div>
-                <BackButton/>
+                {hasAccounts && <BackButton/>}
                 <div
                     id='signup_email_section'
                     className='col-sm-12'
