@@ -118,7 +118,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
     }
     async componentDidMount() {
         const {channelID, channel, actions} = this.props;
-        let actionsToAwait = [];
+        const actionsToAwait = [];
         if (channelID) {
             actionsToAwait.push(actions.getGroups(channelID).
                 then(() => actions.getChannel(channelID)).
@@ -159,7 +159,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                     }
                 }).
                 then(() => this.setState({teamScheme: this.props.teamScheme}))
-            )
+            );
         }
 
         await Promise.all(actionsToAwait);
