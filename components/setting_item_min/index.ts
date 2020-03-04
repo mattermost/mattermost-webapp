@@ -5,10 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getPreviousActiveSection} from 'selectors/views/settings';
 import {updateActiveSection} from 'actions/views/settings';
+
+import {GlobalState} from 'types/store';
 
 import SettingItemMin from './setting_item_min';
 
