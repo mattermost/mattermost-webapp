@@ -147,7 +147,11 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
     private getEmoticons = (value: string) => {
         const renderEmoji = renderEditorEmoji(this.props.emojiMap);
         const tokens = new Map();
-        const withEmoticons = handleEmoticons(value, tokens, renderEmoji);
+        const withEmoticons = handleEmoticons(
+            value,
+            tokens,
+            {spaceRequiredForTextEmoticons: true, emojiRenderer: renderEmoji}
+        );
 
         return {withEmoticons, tokens};
     }

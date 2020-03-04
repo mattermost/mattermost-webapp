@@ -48,7 +48,8 @@ describe('components/post_editor', () => {
             {description: 'with emoji at the end', value: 'hello world :smile:', expectedHtml: `hello world ${createEmojiHtml(':smile:', 'smile')}`},
             {description: 'with emoji at the beginning', value: ':smile: hello world', expectedHtml: `${createEmojiHtml(':smile:', 'smile')} hello world`},
             {description: 'with emoji in the middle', value: 'hello :smile: world', expectedHtml: `hello ${createEmojiHtml(':smile:', 'smile')} world`},
-            {description: 'with emoji from pattern', value: ':-)', expectedHtml: createEmojiHtml(':-)', 'slightly_smiling_face')},
+            {description: 'with emoji from pattern when followed by space', value: ':-) ', expectedHtml: `${createEmojiHtml(':-)', 'slightly_smiling_face')} `},
+            {description: 'with emoji from pattern when not followed by space', value: ':-)', expectedHtml: ':-)'},
             {description: 'with emoji text from pattern not surrounded by spaces', value: 'hello:-)world', expectedHtml: 'hello:-)world'},
         ].
             forEach(({description, value, expectedHtml}) => {
