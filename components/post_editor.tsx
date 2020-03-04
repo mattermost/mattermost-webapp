@@ -356,6 +356,7 @@ export default class PostEditor extends React.PureComponent<Props, {showingPlace
         this.value = `${this.value.slice(0, pasteStart)}${pastedText}${this.value.slice(pasteEnd)}`;
         this.selectionEnd = pasteStart + pastedText.length;
 
+        this.handleInput();
         e.preventDefault();
     }
 
