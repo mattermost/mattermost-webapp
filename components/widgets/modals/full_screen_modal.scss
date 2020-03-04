@@ -17,6 +17,8 @@
         height: 40px;
         width: 40px;
         cursor: pointer;
+        z-index: 9;
+
         svg {
             fill: var(--center-channel-color-90);
             padding: 4px;
@@ -51,5 +53,21 @@
     &-exit-active {
         opacity: 0;
         transition: opacity 100ms;
+    }
+}
+
+.FullScreenModal.FullScreenModal--compact {
+    .back {
+        top: 8px;
+        left: 16px;
+    }
+
+    .close-x {
+        top: 8px;
+        right: 16px;
+    }
+
+    .close-x, .back {
+        position: absolute;
     }
 }

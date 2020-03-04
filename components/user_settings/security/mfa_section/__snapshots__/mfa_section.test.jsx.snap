@@ -57,7 +57,7 @@ exports[`MfaSection rendering when section is expanded and MFA is active and enf
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
@@ -65,7 +65,7 @@ exports[`MfaSection rendering when section is expanded and MFA is active and enf
         onClick={[Function]}
       >
         <FormattedMessage
-          defaultMessage="Reset MFA on your account"
+          defaultMessage="Reset MFA on Account"
           id="user.settings.mfa.reset"
           values={Object {}}
         />
@@ -101,7 +101,7 @@ exports[`MfaSection rendering when section is expanded and MFA is active but not
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
@@ -109,7 +109,7 @@ exports[`MfaSection rendering when section is expanded and MFA is active but not
         onClick={[Function]}
       >
         <FormattedMessage
-          defaultMessage="Remove MFA from your account"
+          defaultMessage="Remove MFA from Account"
           id="user.settings.mfa.remove"
           values={Object {}}
         />
@@ -145,7 +145,7 @@ exports[`MfaSection rendering when section is expanded and MFA is not active 1`]
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
@@ -153,7 +153,7 @@ exports[`MfaSection rendering when section is expanded and MFA is not active 1`]
         onClick={[Function]}
       >
         <FormattedMessage
-          defaultMessage="Add MFA to your account"
+          defaultMessage="Add MFA to Account"
           id="user.settings.mfa.add"
           values={Object {}}
         />
@@ -189,7 +189,7 @@ exports[`MfaSection rendering when section is expanded with a server error 1`] =
   infoPosition="bottom"
   inputs={
     <div
-      className="padding-top"
+      className="pt-2"
     >
       <a
         className="btn btn-primary"
@@ -197,7 +197,7 @@ exports[`MfaSection rendering when section is expanded with a server error 1`] =
         onClick={[Function]}
       >
         <FormattedMessage
-          defaultMessage="Add MFA to your account"
+          defaultMessage="Add MFA to Account"
           id="user.settings.mfa.add"
           values={Object {}}
         />

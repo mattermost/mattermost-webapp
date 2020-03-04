@@ -13,7 +13,7 @@ describe('Recent Emoji', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin();
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M14014 Recently used emojis are shown 1st', async () => {

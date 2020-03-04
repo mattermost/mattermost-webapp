@@ -310,7 +310,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       isDefault={false}
       isGuestUser={false}
     />
-    <Connect(CloseDirectChannel)
+    <Connect(CloseMessage)
       channel={
         Object {
           "id": "test-channel-id",
@@ -321,12 +321,37 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           "id": "test-user-id",
         }
       }
-      id="channelDirectLevel"
+      id="channelCloseMessage"
     />
     <Connect(CloseChannel)
       id="channelCloseChannel"
       isArchived={false}
     />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelUnarchiveChannel"
+        modalId="unarchive_channel"
+        show={false}
+        text="Unarchive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
   </MenuGroup>
 </Fragment>
 `;
@@ -656,7 +681,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       isDefault={false}
       isGuestUser={false}
     />
-    <Connect(CloseDirectChannel)
+    <Connect(CloseMessage)
       channel={
         Object {
           "id": "test-channel-id",
@@ -667,12 +692,37 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           "id": "test-user-id",
         }
       }
-      id="channelDirectLevel"
+      id="channelCloseMessage"
     />
     <Connect(CloseChannel)
       id="channelCloseChannel"
       isArchived={false}
     />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelUnarchiveChannel"
+        modalId="unarchive_channel"
+        show={false}
+        text="Unarchive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
   </MenuGroup>
 </Fragment>
 `;

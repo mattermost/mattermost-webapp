@@ -660,7 +660,7 @@ class ChannelHeader extends React.PureComponent {
             <div
                 id='channel-header'
                 aria-label={ariaLabelChannelHeader}
-                role='application'
+                role='banner'
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
@@ -710,7 +710,7 @@ class ChannelHeader extends React.PureComponent {
                         >
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile() || (this.props.rhsOpen && this.props.rhsState)}
+                                isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
                             />
                         </div>
                     ) : (

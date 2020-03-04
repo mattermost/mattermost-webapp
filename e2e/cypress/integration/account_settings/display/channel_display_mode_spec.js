@@ -16,7 +16,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.apiSaveMessageDisplayPreference();
 
         // Post a message to a channel
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.postMessage('Test for channel display mode');
     });
 

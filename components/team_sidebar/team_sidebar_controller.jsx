@@ -184,7 +184,7 @@ export default class TeamSidebar extends React.Component {
                         tip={
                             <FormattedMessage
                                 id='navbar_dropdown.create'
-                                defaultMessage='Create a New Team'
+                                defaultMessage='Create a Team'
                             />
                         }
                         content={'+'}
@@ -206,6 +206,8 @@ export default class TeamSidebar extends React.Component {
         return (
             <div
                 className={classNames('team-sidebar', {'move--right': this.props.isOpen})}
+                role='navigation'
+                aria-labelledby='teamSidebarWrapper'
             >
                 <div
                     className='team-wrapper'

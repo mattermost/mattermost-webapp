@@ -68,7 +68,7 @@ export function addUserToTeam(teamId, userId) {
 
 export function addUsersToTeam(teamId, userIds) {
     return async (dispatch, getState) => {
-        const {data, error} = await dispatch(TeamActions.addUsersToTeam(teamId, userIds));
+        const {data, error} = await dispatch(TeamActions.addUsersToTeamGracefully(teamId, userIds));
 
         if (error) {
             return {error};

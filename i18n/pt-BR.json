@@ -2002,8 +2002,6 @@
   "get_link.clipboard": " Link copiado",
   "get_link.close": "Fechar",
   "get_link.copy": "Copiar Link",
-  "get_post_link_modal.help": "O link abaixo permite que usuários autorizados possam ver seus posts.",
-  "get_post_link_modal.title": "Copiar Permalink",
   "get_public_link_modal.help": "O link abaixo permite que qualquer pessoa veja este arquivo sem ser registrado neste servidor.",
   "get_public_link_modal.title": "Obter Link Público",
   "get_team_invite_link_modal.help": "Envie o link abaixo para sua equipe de trabalho para que eles se inscrevam nessa equipe. O Link de Convite de Equipe pode ser compartilhado com vários colegas de equipe, pois ele não muda a menos que seja re-gerado nas Configurações de Equipe por um Administrador da mesma.",

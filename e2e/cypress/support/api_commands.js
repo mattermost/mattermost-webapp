@@ -43,7 +43,10 @@ Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
         url: '/api/v4/users/login',
         method: 'POST',
         body: {login_id: loginId, password: pw},
-    }).its('status').should('equal', 200);
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
 });
 
 /**
@@ -66,6 +69,19 @@ Cypress.Commands.add('apiLogout', () => {
     cy.clearCookies();
 
     cy.getCookies({log: false}).should('be.empty');
+});
+
+/**
+ * Get a list of all the bots
+ * This API assumes that the user logged in has permission to read bots
+ */
+
+Cypress.Commands.add('apiGetBots', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots',
+        method: 'GET',
+    });
 });
 
 // *****************************************************************************
@@ -317,6 +333,19 @@ Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
+    });
+});
+
+/**
+ * Gets a list of all of the teams on the server
+ * This API assume that the user is logged in as sysadmin
+ */
+
+Cypress.Commands.add('apiGetAllTeams', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: 'api/v4/teams',
+        method: 'GET',
     });
 });
 
@@ -721,7 +750,7 @@ Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial 
             body: {login_id: newUser.username, password: newUser.password},
         }).then((response) => {
             expect(response.status).to.equal(200);
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             return cy.wrap(newUser);
         });
@@ -880,14 +909,14 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
 
     // # Create a New Team for Guest User
     return cy.apiCreateTeam('guest-team', 'Guest Team').then((createResponse) => {
-        const teamId = createResponse.body.id;
+        const team = createResponse.body;
         cy.getCookie('MMUSERID').then((cookie) => {
             // #Assign Sysadmin user to the newly created team
-            cy.apiAddUserToTeam(teamId, cookie.value);
+            cy.apiAddUserToTeam(team.id, cookie.value);
         });
 
         // #Create New User
-        return cy.createNewUser(user, [teamId], bypassTutorial).then((newUser) => {
+        return cy.createNewUser(user, [team.id], bypassTutorial).then((newUser) => {
             // # Demote Regular Member to Guest User
             cy.demoteUser(newUser.id);
             cy.request({
@@ -896,7 +925,7 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
                 method: 'POST',
                 body: {login_id: newUser.username, password: newUser.password},
             }).then(() => {
-                cy.visit('/');
+                cy.visit(`/${team.name}`);
                 return cy.wrap(newUser);
             });
         });
@@ -924,6 +953,18 @@ Cypress.Commands.add('removeUserFromChannel', (channelId, userId) => {
     //Remove a User from a Channel
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'delete', baseUrl, path: `channels/${channelId}/members/${userId}`});
+});
+
+/**
+ * Remove a User from a Team directly via API
+ * @param {String} teamID - The team ID
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('removeUserFromTeam', (teamId, userId) => {
+    //Remove a User from a Channel
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
 });
 
 /**
@@ -1111,3 +1152,59 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
     });
 });
 
+/**
+ * Get LDAP Group Sync Job Status
+ *
+ */
+Cypress.Commands.add('apiGetLDAPSync', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/jobs/type/ldap_sync?page=0&per_page=50',
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+// *****************************************************************************
+// Roles
+// https://api.mattermost.com/#tag/roles
+// *****************************************************************************
+
+/**
+ * Get role by name.
+ *
+ * @param {String} roleName - Name of the role to get
+ */
+Cypress.Commands.add('getRoleByName', (roleName) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/roles/name/${roleName}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Patch a role.
+ *
+ * @param {String} roleID - ID of the role to patch
+ * @param {String} force - Set to 'true' to overwrite a previously installed plugin with the same ID, if any
+ */
+Cypress.Commands.add('patchRole', (roleID, patch) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/roles/${roleID}/patch`,
+        method: 'PUT',
+        timeout: 60000,
+        body: patch,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
