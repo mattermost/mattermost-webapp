@@ -74,6 +74,7 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
+    onCopy={[Function]}
     tabIndex="0"
   >
     <Connect(PostMarkdown)

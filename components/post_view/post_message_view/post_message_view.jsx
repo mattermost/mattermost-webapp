@@ -122,6 +122,33 @@ export default class PostMessageView extends React.PureComponent {
         );
     }
 
+    handleCopy(e) {
+        const selection = window.getSelection();
+        if (!selection) {
+            return;
+        }
+
+        if (selection.anchorNode.nodeType === selection.anchorNode.TEXT_NODE && selection.focusNode === selection.anchorNode) {
+            return;
+        }
+
+        const {startContainer, startOffset, endContainer, endOffset} = selection.getRangeAt(0);
+        let node = startContainer.nextSibling;
+        let textToCopy =
+            startContainer.nodeType === startContainer.TEXT_NODE ? startContainer.textContent.substring(startOffset) : startContainer.textContent;
+        while (node && node !== endContainer) {
+            textToCopy = `${textToCopy}${node.textContent}`;
+            node = node.nextSibling;
+        }
+
+        const endContainerText =
+            endContainer.nodeType === endContainer.TEXT_NODE ? endContainer.textContent.substring(0, endOffset) : endContainer.textContent;
+        textToCopy = `${textToCopy}${endContainerText}`;
+
+        e.nativeEvent.clipboardData.setData('text', textToCopy);
+        e.preventDefault();
+    }
+
     render() {
         const {
             post,
@@ -175,6 +202,7 @@ export default class PostMessageView extends React.PureComponent {
                     id={id}
                     className='post-message__text'
                     onClick={Utils.handleFormattedTextClick}
+                    onCopy={this.handleCopy}
                 >
                     <PostMarkdown
                         message={message}
