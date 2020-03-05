@@ -12,6 +12,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {switchToChannelById} from 'actions/views/channel';
+import {close} from 'actions/views/lhs';
 
 import SidebarCategoryList from './sidebar_category_list';
 
@@ -60,6 +61,7 @@ function mapStateToProps(state: GlobalState & {views: any}) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            close,
             switchToChannelById,
         }, dispatch),
     };
