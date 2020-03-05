@@ -28,7 +28,7 @@ describe('TeamUtils.filterAndSortTeamsByDisplayName', () => {
     });
 
     test('should return correct sorted teams when teamsOrder is provided', () => {
-        const teamsOrder = 'team_id_d,team_id_b,team_id_a,team_id_c'
+        const teamsOrder = 'team_id_d,team_id_b,team_id_a,team_id_c';
 
         for (const data of [
             {teams: [teamG], result: []},
