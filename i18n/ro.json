@@ -2002,8 +2002,6 @@
   "get_link.clipboard": " Link copiat",
   "get_link.close": "Închide",
   "get_link.copy": "Copiază link",
-  "get_post_link_modal.help": "Linkul de mai jos permite utilizatorilor autorizați să vă vadă postarea.",
-  "get_post_link_modal.title": "Copiați Permalink",
   "get_public_link_modal.help": "Linkul de mai jos permite oricui să vadă acest fișier fără a fi înregistrat pe acest server.",
   "get_public_link_modal.title": "Copiați link-ul public",
   "get_team_invite_link_modal.help": "Trimite coechipierii link-ul de mai jos pentru a vă înscrie la acest site al echipei. Adresa de invitație în echipă  poate fi partajată cu mai mulți colegi, deoarece nu se schimbă dacă nu este regenerată în Setările echipei de către un administrator de echipă.",

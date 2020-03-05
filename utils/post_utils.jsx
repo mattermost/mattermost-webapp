@@ -118,13 +118,16 @@ export function shouldShowDotMenu(post) {
     return false;
 }
 
-export function containsAtChannel(text) {
+export function containsAtChannel(text, options = {}) {
     // Don't warn for slash commands
     if (!text || text.startsWith('/')) {
         return false;
     }
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    if (options.checkAllMentions === true) {
+        return (/\B@(all|channel|here)\b/i).test(mentionableText);
+    }
 
     return (/\B@(all|channel)\b/i).test(mentionableText);
 }

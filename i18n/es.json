@@ -2005,8 +2005,6 @@
   "get_link.clipboard": " Enlace copiado",
   "get_link.close": "Cerrar",
   "get_link.copy": "Copiar Enlace",
-  "get_post_link_modal.help": "En enlace de abajo permite a los usuarios autorizados a ver tu mensaje.",
-  "get_post_link_modal.title": "Copiar enlace Permanente",
   "get_public_link_modal.help": "El siguiente enlace permite a cualquier persona visualizar este archivo sin necesidad de estar registrado en este servidor.",
   "get_public_link_modal.title": "Copiar Enlace Público",
   "get_team_invite_link_modal.help": "Envía el siguiente enlace a tus compañeros para que se registren a este equipo. El enlace de invitación al equipo puede ser compartido con multiples compañeros y el mismo no cambiará a menos que sea regenerado en la Configuración del Equipo por un Administrador del Equipo.",
