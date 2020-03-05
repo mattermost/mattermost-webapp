@@ -78,23 +78,22 @@ export default class Renderer extends marked.Renderer {
             if (tokens.size > 0) {
                 searched = TextFormatting.replaceTokens(searched, tokens);
 
-                searchedContent =
-          '<div class="post-code__search-highlighting">' + searched + '</div>';
+                searchedContent = (
+                    '<div class="post-code__search-highlighting">' +
+                        searched +
+                    '</div>'
+                );
             }
         }
 
         return (
-            '<div class="' +
-      className +
-      '">' +
-      header +
-      '<code class="' +
-      codeClassName +
-      '">' +
-      searchedContent +
-      content +
-      '</code>' +
-      '</div>'
+            '<div class="' + className + '">' +
+                header +
+                '<code class="' + codeClassName + '">' +
+                    searchedContent +
+                    content +
+                '</code>' +
+            '</div>'
         );
     }
 
@@ -113,10 +112,10 @@ export default class Renderer extends marked.Renderer {
 
         return (
             '<span class="codespan__pre-wrap">' +
-      '<code>' +
-      output +
-      '</code>' +
-      '</span>'
+                '<code>' +
+                    output +
+                '</code>' +
+            '</span>'
         );
     }
 
