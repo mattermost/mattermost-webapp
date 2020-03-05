@@ -13,6 +13,28 @@ const waitUntilConfigSave = () => {
     }));
 };
 
+const checkBoxes = ['create_post-guests', 'create_post-members', 'create_reactions-members', 'create_reactions-guests', 'manage_members-members', 'use_channel_mentions-members', 'use_channel_mentions-guests'];
+
+const disableAllChannelModeratedPermissions = () => {
+    checkBoxes.forEach((buttonId) => {
+        cy.findByTestId(buttonId).then((btn) => {
+            if (btn.hasClass('checked')) {
+                btn.click();
+            }
+        });
+    });
+};
+
+const enableAllChannelModeratedPermissions = () => {
+    checkBoxes.forEach((buttonId) => {
+        cy.findByTestId(buttonId).then((btn) => {
+            if (!btn.hasClass('checked')) {
+                btn.click();
+            }
+        });
+    });
+};
+
 describe('Channel Moderation Test', () => {
     before(() => {
         // Reset permissions in system scheme to defaults.
@@ -24,7 +46,7 @@ describe('Channel Moderation Test', () => {
         waitUntilConfigSave();
     });
 
-    it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on channel configuration page', () => {
+    it('MM-22276 - Enable and Disable all channel moderated permissions', () => {
         const channelName = 'autem';
 
         // # Go to system admin page and to channel configuration page of channel "autem"
@@ -35,13 +57,34 @@ describe('Channel Moderation Test', () => {
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // # Uncheck all the boxes currently checked (align with the system scheme permissions)
-        cy.findByTestId('create_post-guests').click();
-        cy.findByTestId('create_post-members').click();
-        cy.findByTestId('create_reactions-members').click();
-        cy.findByTestId('manage_members-members').click();
+        // # Check all the boxes currently unchecked (align with the system scheme permissions)
+        enableAllChannelModeratedPermissions();
+
+        // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
+        cy.get('#saveSetting').then((btn) => {
+            if (!btn.disabled) {
+                btn.click();
+            }
+        });
+        waitUntilConfigSave();
+
+        // # Reload to ensure it's been saved
+        cy.reload();
+
+        // # Wait until the groups retrieved and show up
+        cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
+
+        // * Ensure all checkboxes are checked
+        checkBoxes.forEach((buttonId) => {
+            cy.findByTestId(buttonId).should('have.class', 'checked');
+        });
+
+        // # Uncheck all the boxes currently checked
+        disableAllChannelModeratedPermissions();
+
+        // # Save the page and wait till saving is done
         cy.get('#saveSetting').click();
         waitUntilConfigSave();
 
@@ -49,21 +92,21 @@ describe('Channel Moderation Test', () => {
         cy.reload();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(1000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // * Asset and make sure that the classes do not have class of checked (Create Posts, Post Reactions Members, Manage Members Members)
-        cy.findByTestId('create_post-members').should('not.have.class', 'checked');
-        cy.findByTestId('create_reactions-members').should('not.have.class', 'checked');
-        cy.findByTestId('manage_members-members').should('not.have.class', 'checked');
+        // * Ensure all checkboxes have the correct unchecked state
+        checkBoxes.forEach((buttonId) => {
+            // * Ensure all checkboxes are unchecked
+            cy.findByTestId(buttonId).should('not.have.class', 'checked');
 
-        // * Ensure the Post Reacts checkbox for guests is disabled
-        cy.findByTestId('create_reactions-guests').should('have.class', 'disabled');
-        cy.findByTestId('create_reactions-guests').should('be.disabled');
+            // * Ensure Channel Mentions are disabled due to Create Posts
+            if (buttonId.includes('use_channel_mentions')) {
+                cy.findByTestId(buttonId).should('be.disabled');
+                return;
+            }
 
-        // * Ensure the channel mentions checkboxes for both members and guests is disabled
-        cy.findByTestId('use_channel_mentions-guests').should('have.class', 'disabled');
-        cy.findByTestId('use_channel_mentions-guests').should('be.disabled');
-        cy.findByTestId('use_channel_mentions-members').should('have.class', 'disabled');
-        cy.findByTestId('use_channel_mentions-members').should('be.disabled');
+            // * Ensure all other check boxes are still enabled
+            cy.findByTestId(buttonId).should('not.be.disabled');
+        });
     });
 });
