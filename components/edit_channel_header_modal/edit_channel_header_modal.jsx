@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import Textbox from 'components/textbox';
-import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import TextboxLinks from 'components/textbox/textbox_links';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/user_agent';
