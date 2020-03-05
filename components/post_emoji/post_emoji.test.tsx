@@ -15,9 +15,18 @@ describe('PostEmoji', () => {
     test('should render image when imageUrl is provided', () => {
         const wrapper = shallow(<PostEmoji {...baseProps}/>);
 
-        expect(wrapper.find('span').prop('style')).toMatchObject({
+        expect(wrapper.find('span.emoticon').prop('style')).toMatchObject({
             backgroundImage: `url(${baseProps.imageUrl})`,
         });
+    });
+
+    test('should render a hidden text span when imageUrl is provided', () => {
+        const wrapper = shallow(<PostEmoji {...baseProps}/>);
+
+        const hiddenTextSpan = wrapper.find('span').last();
+
+        expect(hiddenTextSpan.prop('style')).toMatchObject({display: 'none'});
+        expect(hiddenTextSpan.text()).toBe(`:${baseProps.name}:`);
     });
 
     test('should render original text when imageUrl is empty', () => {

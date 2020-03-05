@@ -10,6 +10,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
+    onCopy={[Function]}
     tabIndex="0"
   >
     <Connect(PostMarkdown)
@@ -49,6 +50,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
+    onCopy={[Function]}
     tabIndex="0"
   >
     <Connect(PostMarkdown)
@@ -88,6 +90,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
+    onCopy={[Function]}
     tabIndex="0"
   >
     <Connect(PostMarkdown)
@@ -147,6 +150,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
+    onCopy={[Function]}
     tabIndex="0"
   >
     <Connect(PostMarkdown)
@@ -210,6 +214,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
+    onCopy={[Function]}
     tabIndex="0"
   >
     <Connect(PostMarkdown)

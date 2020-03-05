@@ -44,13 +44,19 @@ export function matchEmoticons(text: string): RegExpMatchArray | null {
 
     return emojis;
 }
+type HandleEmoticonOptions = {
+    emojiRenderer?: (name: string, text: string) => string;
+    spaceRequiredForTextEmoticons?: boolean;
+};
 
 export function handleEmoticons(
     text: string,
-    tokens: Map<string, {value: string; originalText: string}>
+    tokens: Map<string, {value: string; originalText: string}>,
+    options?: HandleEmoticonOptions,
 ): string {
+    const emojiRenderer = options && options.emojiRenderer ? options.emojiRenderer : renderEmoji;
+    const spaceRequiredForTextEmoticons = Boolean(options ? options.spaceRequiredForTextEmoticons : false);
     let output = text;
-
     function replaceEmoticonWithToken(
         fullMatch: string,
         prefix: string,
@@ -61,7 +67,7 @@ export function handleEmoticons(
         const alias = `$MM_EMOTICON${index}$`;
 
         tokens.set(alias, {
-            value: renderEmoji(name, matchText),
+            value: emojiRenderer(name, matchText),
             originalText: fullMatch,
         });
 
@@ -81,7 +87,18 @@ export function handleEmoticons(
 
         // this might look a bit funny, but since the name isn't contained in the actual match
         // like with the named emoticons, we need to add it in manually
-        output = output.replace(pattern, (fullMatch, prefix, matchText) => replaceEmoticonWithToken(fullMatch, prefix, matchText, name));
+        output = output.replace(pattern, (fullMatch, prefix, matchText, _, startIndex) => {
+            if (!spaceRequiredForTextEmoticons) {
+                return replaceEmoticonWithToken(fullMatch, prefix, matchText, name);
+            }
+
+            const matchPlusNextChar = text.slice(startIndex, startIndex + matchText.length + 1);
+            if (matchPlusNextChar[matchPlusNextChar.length - 1] === ' ') {
+                return replaceEmoticonWithToken(fullMatch, prefix, matchText, name);
+            }
+
+            return matchText;
+        });
     }
 
     return output;
