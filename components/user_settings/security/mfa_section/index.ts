@@ -11,6 +11,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {deactivateMfa} from 'actions/views/mfa';
 import Constants from 'utils/constants';
+
 import MfaSection from './mfa_section';
 
 function mapStateToProps(state: GlobalState) {
