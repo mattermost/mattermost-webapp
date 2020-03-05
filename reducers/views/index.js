@@ -18,6 +18,7 @@ import system from './system';
 import channelSelectorModal from './channel_selector_modal';
 import settings from './settings';
 import marketplace from './marketplace';
+import channelSidebar from './channel_sidebar';
 
 export default combineReducers({
     admin,
@@ -35,4 +36,5 @@ export default combineReducers({
     channelSelectorModal,
     settings,
     marketplace,
+    channelSidebar,
 });
