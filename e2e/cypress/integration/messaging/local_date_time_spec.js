@@ -13,6 +13,13 @@ const sysadmin = users.sysadmin;
 
 describe('Messaging', () => {
     before(() => {
+        // # Enable Timezone
+        cy.apiUpdateConfig({
+            DisplaySettings: {
+                ExperimentalTimezone: true,
+            },
+        });
+
         // # Login as user-1
         cy.apiLogin('user-1');
 
