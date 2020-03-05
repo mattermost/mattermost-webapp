@@ -189,18 +189,21 @@ function generateReport(summary) {
 
 async function sendReport(summary) {
     const data = generateReport(summary);
+    try {
+        const response = await axios({
+            method: 'post',
+            url: process.env.WEBHOOK_URL,
+            data,
+        });
 
-    const response = await axios({
-        method: 'post',
-        url: process.env.WEBHOOK_URL,
-        data,
-    });
-
-    if (response.data) {
-        console.log('Successfully sent report via webhook');
+        if (response.data) {
+            console.log('Successfully sent report via webhook');
+        }
+        return response;
+    } catch (er) {
+        console.log('Something went wrong while sending report via webhook', er);
+        return false;
     }
-
-    return response;
 }
 
 runTests();

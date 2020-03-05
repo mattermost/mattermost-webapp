@@ -7,6 +7,7 @@ import {createIntl} from 'react-intl';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import {PostListRowListIds} from 'utils/constants';
+import EmojiMap from 'utils/emoji_map';
 
 const enMessages = require('../i18n/en');
 
@@ -169,8 +170,43 @@ describe('PostUtils.containsAtChannel', () => {
                 text: '@cha![](https://myimage)nnel',
                 result: false,
             },
+            {
+                text: '@here![](https://myimage)nnel',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@heree',
+                result: false,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '=@here=',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@HERE',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@here',
+                result: false,
+                options: {
+                    checkAllMentions: false,
+                },
+            },
         ]) {
-            const containsAtChannel = PostUtils.containsAtChannel(data.text);
+            const containsAtChannel = PostUtils.containsAtChannel(data.text, data.options);
 
             assert.equal(containsAtChannel, data.result, data.text);
         }
@@ -628,6 +664,7 @@ describe('PostUtils.getLatestPostId', () => {
 });
 
 describe('PostUtils.createAriaLabelForPost', () => {
+    const emojiMap = new EmojiMap(new Map());
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
@@ -650,7 +687,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         };
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
         assert.ok(ariaLabel.indexOf(author) === 0);
         assert.ok(ariaLabel.indexOf(testPost.message));
         assert.ok(ariaLabel.indexOf('3 attachments'));
@@ -669,7 +706,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
         assert.ok(ariaLabel.indexOf('reply'));
     });
     test('Should translate emoji into {emoji-name} emoji', () => {
@@ -683,7 +720,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
         assert.ok(ariaLabel.indexOf('smile emoji'));
         assert.ok(ariaLabel.indexOf('+1 emoji'));
         assert.ok(ariaLabel.indexOf('non-potable water emoji'));
