@@ -242,9 +242,7 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
-    handleFormattedTextClick(e) {
-        handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
-    }
+    handleFormattedTextClick = (e) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {attachment, options} = this.props;
