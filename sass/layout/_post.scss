@@ -1501,7 +1501,7 @@
 
     .post__body {
         @include legacy-pie-clearfix;
-        padding: .2em .5em;
+        padding: 0 0 0.2em;
         width: 100%;
         word-wrap: break-word;
 
