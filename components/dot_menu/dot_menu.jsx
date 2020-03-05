@@ -242,9 +242,6 @@ export default class DotMenu extends React.PureComponent {
             const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
             const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
 
-            console.log(`Space on bottom ${spaceOnBottom}`);
-            console.log(`Space on top ${spaceOnTop}`);
-
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),
                 width: rect.width,
