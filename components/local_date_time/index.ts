@@ -7,10 +7,11 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {UserTimezone} from 'mattermost-redux/types/users';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
+
+import {GlobalState} from 'types/store';
 
 import {Preferences} from 'utils/constants';
 
