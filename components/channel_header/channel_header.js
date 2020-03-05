@@ -265,6 +265,10 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
+    handleFormattedTextClick(e) {
+        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    }
+
     render() {
         const {
             teamId,
@@ -278,6 +282,7 @@ class ChannelHeader extends React.PureComponent {
             dmUser,
             rhsState,
             hasGuests,
+            teammateNameDisplaySetting,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -325,12 +330,12 @@ class ChannelHeader extends React.PureComponent {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: displayUsername(dmUser, this.props.teammateNameDisplaySetting),
+                            displayname: displayUsername(dmUser, teammateNameDisplaySetting),
                         }}
                     />
                 );
             } else {
-                channelTitle = displayUsername(dmUser, this.props.teammateNameDisplaySetting) + ' ';
+                channelTitle = displayUsername(dmUser, teammateNameDisplaySetting) + ' ';
             }
             channelTitle = (
                 <React.Fragment>
@@ -451,7 +456,7 @@ class ChannelHeader extends React.PureComponent {
                         {hasGuestsText}
                         <span
                             className='header-description__text'
-                            onClick={(e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl)}
+                            onClick={this.handleFormattedTextClick}
                         >
                             <Markdown
                                 message={headerText}

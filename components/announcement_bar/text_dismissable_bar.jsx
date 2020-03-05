@@ -60,10 +60,10 @@ export default class TextDismissableBar extends React.PureComponent {
                 message={
                     <Markdown
                         message={text}
-                        options={
-                            {singleline: true,
-                                mentionHighlight: false}
-                        }
+                        options={{
+                            singleline: true,
+                            mentionHighlight: false
+                        }}
                     />
                 }
             />

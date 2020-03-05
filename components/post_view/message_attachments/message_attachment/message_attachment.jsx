@@ -242,6 +242,10 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
+    handleFormattedTextClick(e) {
+        handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    }
+
     render() {
         const {attachment, options} = this.props;
         let preTextClass = '';
@@ -449,7 +453,7 @@ export default class MessageAttachment extends React.PureComponent {
                         <div>
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                                onClick={(e) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl)}
+                                onClick={this.handleFormattedTextClick}
                             >
                                 {attachmentText}
                                 {image}

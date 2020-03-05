@@ -123,6 +123,10 @@ export default class PostMessageView extends React.PureComponent {
         );
     }
 
+    handleFormattedTextClick(e) {
+        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    }
+
     render() {
         const {
             post,
@@ -175,7 +179,7 @@ export default class PostMessageView extends React.PureComponent {
                     tabIndex='0'
                     id={id}
                     className='post-message__text'
-                    onClick={(e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl)}
+                    onClick={this.handleFormattedTextClick}
                 >
                     <PostMarkdown
                         message={message}

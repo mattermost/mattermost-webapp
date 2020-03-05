@@ -144,7 +144,7 @@ export function loadNewDMIfNeeded(channelId) {
         const currentUserId = Selectors.getCurrentUserId(state);
 
         function checkPreference(channel) {
-            const userId = Utils.getUserIdFromChannelName(currentUserId, channel.name);
+            const userId = Utils.getUserIdFromChannelName(currentUserId);
 
             if (!userId) {
                 return;
@@ -181,7 +181,7 @@ export async function loadNewGMIfNeeded(channelId) {
         function checkPreference() {
             const pref = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
             if (pref === false) {
-                savePreferencesRedux(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}])(dispatch, getState);
+                dispatch(savePreferencesRedux(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}]));
                 loadProfilesForGM();
             }
         }

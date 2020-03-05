@@ -32,12 +32,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(
-            {
-                submitInteractiveDialog
-            },
-            dispatch
-        )
+        actions: bindActionCreators({
+            submitInteractiveDialog
+        }, dispatch)
     };
 }
 

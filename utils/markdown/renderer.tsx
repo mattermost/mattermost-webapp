@@ -52,10 +52,11 @@ export default class Renderer extends marked.Renderer {
 
         let header = '';
         if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            header =
-        '<span class="post-code__language">' +
-        SyntaxHighlighting.getLanguageName(usedLanguage) +
-        '</span>';
+            header = (
+                '<span class="post-code__language">' +
+                    SyntaxHighlighting.getLanguageName(usedLanguage) +
+                '</span>'
+            );
         }
 
         // if we have to apply syntax highlighting AND highlighting of search terms, create two copies

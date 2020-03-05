@@ -66,7 +66,7 @@ export function executeCommand(message, args) {
                 let name;
                 let category;
                 if (channel.type === Constants.DM_CHANNEL) {
-                    name = getUserIdFromChannelName(channel, currentUserId);
+                    name = getUserIdFromChannelName(channel);
                     category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
                 } else {
                     name = channel.id;

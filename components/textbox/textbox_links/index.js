@@ -16,4 +16,4 @@ const mapStateToProps = (state) => {
     });
 };
 
-export default connect(mapStateToProps, null)(TextboxLinks);
+export default connect(mapStateToProps)(TextboxLinks);
