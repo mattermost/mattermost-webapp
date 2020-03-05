@@ -74,6 +74,7 @@ describe('components/PermalinkView', () => {
         actions: {
             focusPost: jest.fn(),
         },
+        currentUserId: 'current_user',
     };
 
     test('should match snapshot', () => {
@@ -95,7 +96,7 @@ describe('components/PermalinkView', () => {
         wrapper.setState({valid: false});
         await wrapper.instance().doPermalinkEvent(baseProps);
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
-        expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo);
+        expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo, baseProps.currentUserId);
     });
 
     test('should call baseProps.actions.focusPost when postid changes', async () => {
@@ -106,7 +107,7 @@ describe('components/PermalinkView', () => {
         await wrapper.setProps({...baseProps, match: {params: {postid: newPostid}}});
 
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
-        expect(baseProps.actions.focusPost).toBeCalledWith(newPostid, baseProps.returnTo);
+        expect(baseProps.actions.focusPost).toBeCalledWith(newPostid, baseProps.returnTo, baseProps.currentUserId);
     });
 
     test('should match snapshot with archived channel', () => {
@@ -158,7 +159,7 @@ describe('components/PermalinkView', () => {
             test('should focus post in not loaded channel', async () => {
                 const testStore = await mockStore(initialState);
 
-                await testStore.dispatch(focusPost('postid2'));
+                await testStore.dispatch(focusPost('postid2', '', 'current_user_id'));
 
                 expect(getPostThread).toHaveBeenCalledWith('postid2');
                 expect(testStore.getActions()).toEqual([

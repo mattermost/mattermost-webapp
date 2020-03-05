@@ -12,9 +12,10 @@ import {
 } from 'mattermost-redux/actions/teams';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getCurrentLocale} from 'selectors/i18n';
+
+import {GlobalState} from 'types/store';
 
 import TeamList from './team_list';
 
