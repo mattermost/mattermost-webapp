@@ -62,6 +62,7 @@ export function executeCommand(message, args) {
                 channel.type === Constants.DM_CHANNEL ||
                 channel.type === Constants.GM_CHANNEL
             ) {
+                const currentUserId = getCurrentUserId(state);
                 let name;
                 let category;
                 if (channel.type === Constants.DM_CHANNEL) {
@@ -71,7 +72,6 @@ export function executeCommand(message, args) {
                     name = channel.id;
                     category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
                 }
-                const currentUserId = getCurrentUserId(state);
                 const currentTeamId = getCurrentTeamId(state);
                 const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
                 const teamUrl = getCurrentRelativeTeamUrl(state);

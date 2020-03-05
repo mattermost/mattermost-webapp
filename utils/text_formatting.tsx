@@ -7,8 +7,6 @@ import emojiRegex from 'emoji-regex';
 import {Renderer} from 'marked';
 
 import {formatWithRenderer} from 'utils/markdown';
-import {getEmojiMap} from 'selectors/emojis';
-import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
@@ -177,7 +175,8 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 
 export function formatText(
     text: string,
-    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS
+    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS,
+    emojiMap: EmojiMap
 ) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -197,10 +196,10 @@ export function formatText(
 
     if (options.renderer) {
         output = formatWithRenderer(output, options.renderer);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
-        output = Markdown.format(output, options);
+        output = Markdown.format(output, options, emojiMap);
         if (output.includes('class="markdown-inline-img"')) {
             /*
             ** remove p tag to allow other divs to be nested,
@@ -213,7 +212,7 @@ export function formatText(
         }
     } else {
         output = sanitizeHtml(output);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     }
 
     // replace newlines with spaces if necessary
@@ -229,7 +228,7 @@ export function formatText(
 }
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
-export function doFormatText(text: string, options: TextFormattingOptions) {
+export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap) {
     let output = text;
 
     const tokens = new Map();
@@ -264,8 +263,7 @@ export function doFormatText(text: string, options: TextFormattingOptions) {
     }
 
     if (!('emoticons' in options) || options.emoticons) {
-        const emojiMap = getEmojiMap(store.getState());
-        output = handleUnicodeEmoji(output, emojiMap);
+        output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
 
     // reinsert tokens with formatted versions of the important words and phrases
@@ -482,10 +480,7 @@ function highlightCurrentMentions(
     for (const [alias, token] of tokens) {
         const tokenTextLower = token.originalText.toLowerCase();
 
-        if (
-            mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !==
-      -1
-        ) {
+        if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}$`;
 
@@ -788,11 +783,11 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
-    output = output.replace(UNICODE_EMOJI_REGEX, (emojiMatch) => {
+    output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
         const codePoints = [fixedCharCodeAt(emojiMatch, 0)];
 
