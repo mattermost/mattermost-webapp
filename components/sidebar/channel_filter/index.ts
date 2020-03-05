@@ -4,19 +4,24 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import ChannelFilter from './channel_filter';
 
+import {setUnreadFilterEnabled} from 'actions/views/channel_sidebar';
+import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
+
 function mapStateToProps(state: GlobalState) {
     return {
+        unreadFilterEnabled: isUnreadFilterEnabled(state),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            setUnreadFilterEnabled,
         }, dispatch),
     };
 }
