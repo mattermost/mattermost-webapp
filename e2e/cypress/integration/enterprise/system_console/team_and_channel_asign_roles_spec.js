@@ -31,7 +31,7 @@ describe('System Console', () => {
         cy.findByTestId(`${teamName}edit`).click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Remove all exisiting groups
         cy.get('#groups-list--body').then((el) => {
@@ -48,7 +48,7 @@ describe('System Console', () => {
 
         // # Add the first group in the group list then save
         cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList').first().click();
+        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
         cy.get('#saveSetting').click();
         waitUntilConfigSave();
@@ -128,7 +128,7 @@ describe('System Console', () => {
         cy.findByTestId(`${teamName}edit`).click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Remove all exisiting groups
         cy.get('#groups-list--body').then((el) => {
@@ -145,7 +145,7 @@ describe('System Console', () => {
 
         // # Add the first group in the group list then save
         cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList').first().click();
+        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
 
         // * Ensure default role is Member
@@ -180,7 +180,7 @@ describe('System Console', () => {
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Remove all exisiting groups
         cy.get('#groups-list--body').then((el) => {
@@ -197,7 +197,7 @@ describe('System Console', () => {
 
         // # Add the first group in the group list then save
         cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList').first().click();
+        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
         cy.get('#saveSetting').click();
         waitUntilConfigSave();
@@ -280,7 +280,7 @@ describe('System Console', () => {
         cy.findByTestId(`${channelName}edit`).click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Remove all exisiting groups
         cy.get('#groups-list--body').then((el) => {
@@ -297,7 +297,7 @@ describe('System Console', () => {
 
         // # Add the first group in the group list then save
         cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList').first().click();
+        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
 
         // * Ensure default role is Member
