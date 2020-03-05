@@ -129,13 +129,14 @@ describe('channel view actions', () => {
                 entities: {
                     ...initialState.entities,
                     channels: {
-                        ...initialState.channels,
+                        ...initialState.entities,
                         myMembers: {
                             channelid1: {channel_id: 'channelid1', user_id: 'userid1'},
                         },
                     },
                 },
             });
+
             await store.dispatch(Actions.leaveChannel('channelid1'));
             expect(browserHistory.push).toHaveBeenCalledWith('/');
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
