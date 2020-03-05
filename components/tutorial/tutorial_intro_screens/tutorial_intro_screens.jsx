@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
@@ -26,10 +26,6 @@ export default class TutorialIntroScreens extends React.Component {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -191,7 +187,7 @@ export default class TutorialIntroScreens extends React.Component {
                 <h3>
                     <FormattedMessage
                         id='tutorial_intro.screenTwo.title'
-                        defaultMessage='How Mattermost works:'
+                        defaultMessage='How Mattermost Works:'
                     />
                 </h3>
                 <p>
@@ -227,7 +223,7 @@ export default class TutorialIntroScreens extends React.Component {
                 >
                     <FormattedMessage
                         id='tutorial_intro.invite'
-                        defaultMessage='Invite teammates'
+                        defaultMessage='Invite Teammates'
                     />
                 </ModalToggleButtonRedux>
             );
@@ -334,7 +330,6 @@ export default class TutorialIntroScreens extends React.Component {
                             <button
                                 id='tutorialNextButton'
                                 className='btn btn-primary'
-                                tabIndex='1'
                                 onClick={this.handleNext}
                             >
                                 <FormattedMessage
@@ -350,7 +345,7 @@ export default class TutorialIntroScreens extends React.Component {
                             >
                                 <FormattedMessage
                                     id='tutorial_intro.skip'
-                                    defaultMessage='Skip tutorial'
+                                    defaultMessage='Skip Tutorial'
                                 />
                             </a>
                         </div>

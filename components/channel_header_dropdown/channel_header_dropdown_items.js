@@ -19,6 +19,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
+import UnarchiveChannelModal from 'components/unarchive_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelGroupsManageModal from 'components/channel_groups_manage_modal';
@@ -30,6 +31,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
+import MenuItemCloseMessage from './menu_items/close_message';
 import MenuItemToggleMuteChannel from './menu_items/toggle_mute_channel';
 import MenuItemToggleFavoriteChannel from './menu_items/toggle_favorite_channel';
 import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
@@ -45,6 +47,8 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         isArchived: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         penultimateViewedChannelName: PropTypes.string.isRequired,
+        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
+        isLicensedForLDAPGroups: PropTypes.bool,
     }
 
     render() {
@@ -58,6 +62,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
             isArchived,
             isMobile,
             penultimateViewedChannelName,
+            isLicensedForLDAPGroups,
         } = this.props;
 
         const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
@@ -65,6 +70,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         const channelMembersPermission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS;
         const channelPropertiesPermission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES;
         const channelDeletePermission = isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL;
+        const channelUnarchivePermission = Permissions.MANAGE_TEAM;
 
         let divider;
         if (isMobile) {
@@ -74,6 +80,21 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                 </li>
             );
         }
+
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={() => {
+                        if (item.action) {
+                            item.action(this.props.channel.id);
+                        }
+                    }}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <React.Fragment>
@@ -155,14 +176,14 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                     >
                         <Menu.ItemToggleModalRedux
                             id='channelAddGroups'
-                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained}
+                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.ADD_GROUPS_TO_CHANNEL}
                             dialogType={AddGroupsToChannelModal}
                             text={localizeMessage('navbar.addGroups', 'Add Groups')}
                         />
                         <Menu.ItemToggleModalRedux
                             id='channelManageGroups'
-                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained}
+                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.MANAGE_CHANNEL_GROUPS}
                             dialogType={ChannelGroupsManageModal}
                             dialogProps={{channelID: channel.id}}
@@ -267,7 +288,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>
-
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
                 <Menu.Group divider={divider}>
                     {isMobile &&
                         <MobileChannelHeaderPlug
@@ -280,10 +303,34 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         isDefault={isDefault}
                         isGuestUser={isGuest(user)}
                     />
+                    <MenuItemCloseMessage
+                        id='channelCloseMessage'
+                        channel={channel}
+                        currentUser={user}
+                    />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'
                         isArchived={isArchived}
                     />
+                </Menu.Group>
+
+                <Menu.Group divider={divider}>
+                    <ChannelPermissionGate
+                        channelId={channel.id}
+                        teamId={channel.team_id}
+                        permissions={[channelUnarchivePermission]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='channelUnarchiveChannel'
+                            show={isArchived && !isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
+                            modalId={ModalIdentifiers.UNARCHIVE_CHANNEL}
+                            dialogType={UnarchiveChannelModal}
+                            dialogProps={{
+                                channel,
+                            }}
+                            text={localizeMessage('channel_header.unarchive', 'Unarchive Channel')}
+                        />
+                    </ChannelPermissionGate>
                 </Menu.Group>
             </React.Fragment>
         );

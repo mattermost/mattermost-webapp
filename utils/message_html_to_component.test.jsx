@@ -1,8 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {shallow} from 'enzyme';
+
+import Constants from 'utils/constants.jsx';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting';
+import MarkdownImage from 'components/markdown_image';
+import AtMention from 'components/at_mention';
 
 describe('messageHtmlToComponent', () => {
     test('plain text', () => {
@@ -44,15 +49,42 @@ That was some latex!`;
 
     test('Inline markdown image', () => {
         const options = {markdown: true};
-        const html = TextFormatting.formatText('![Mattermost](/images/icon.png)', options);
+        const html = TextFormatting.formatText('![Mattermost](/images/icon.png) and a [link](link)', options);
 
-        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'})).toMatchSnapshot();
+        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+            postId: 'post_id',
+            postType: Constants.PostTypes.HEADER_CHANGE,
+        });
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(MarkdownImage).prop('imageIsLink')).toBe(false);
     });
 
     test('Inline markdown image where image is link', () => {
         const options = {markdown: true};
         const html = TextFormatting.formatText('[![Mattermost](images/icon.png)](images/icon.png)', options);
 
-        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'})).toMatchSnapshot();
+        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+            postId: 'post_id',
+            postType: Constants.PostTypes.HEADER_CHANGE,
+        });
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(MarkdownImage).prop('imageIsLink')).toBe(true);
+    });
+
+    test('At mention', () => {
+        const options = {mentionHighlight: true, atMentions: true, mentionKeys: [{key: '@joram'}]};
+        let html = TextFormatting.formatText('@joram', options);
+
+        let component = messageHtmlToComponent(html, false, {mentionHighlight: true});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(false);
+
+        options.mentionHighlight = false;
+
+        html = TextFormatting.formatText('@joram', options);
+
+        component = messageHtmlToComponent(html, false, {mentionHighlight: false});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(true);
     });
 });

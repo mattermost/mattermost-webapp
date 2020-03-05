@@ -45,10 +45,11 @@ exports[`components/RhsThread should match snapshot 1`] = `
         <Connect(DateSeparator)
           date={2017-08-14T12:56:05.009Z}
         />
-        <Connect(RhsRootPost)
+        <Connect(injectIntl(RhsRootPost))
           commentCount={0}
           currentUserId="user_id"
           handleCardClick={[Function]}
+          isLastPost={true}
           post={
             Object {
               "channel_id": "channel_id",
@@ -71,14 +72,14 @@ exports[`components/RhsThread should match snapshot 1`] = `
         />
         <div
           className="post-right-comments-container"
+          id="rhsPostList"
         />
       </div>
       <div
         className="post-create__container"
       >
-        <Connect(CreateComment)
+        <Connect(injectIntl(CreateComment))
           channelId="channel_id"
-          getSidebarBody={[Function]}
           latestPostId="id"
           rootDeleted={false}
           rootId="id"

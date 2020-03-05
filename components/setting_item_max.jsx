@@ -73,6 +73,11 @@ export default class SettingItemMax extends React.PureComponent {
         submit: PropTypes.func,
 
         /**
+         * Disable submit by enter key
+         */
+        disableEnterSubmit: PropTypes.bool,
+
+        /**
          * Extra information on submit
          */
         submitExtra: PropTypes.node,
@@ -134,7 +139,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
             return;
         }
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel') && this.settingList.current && this.settingList.current.contains(e.target)) {
+        if (this.props.disableEnterSubmit !== true && isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel') && this.settingList.current && this.settingList.current.contains(e.target)) {
             this.handleSubmit(e);
         }
     }
@@ -186,7 +191,7 @@ export default class SettingItemMax extends React.PureComponent {
         let extraInfo = null;
         let hintClass = 'setting-list__hint';
         if (this.props.infoPosition === 'top') {
-            hintClass = 'padding-bottom x2';
+            hintClass = 'pb-3';
         }
 
         if (this.props.extraInfo) {
@@ -225,31 +230,28 @@ export default class SettingItemMax extends React.PureComponent {
         let title;
         if (this.props.title) {
             title = (
-                <li
+                <h4
                     id='settingTitle'
                     className='col-sm-12 section-title'
                 >
                     {this.props.title}
-                </li>
+                </h4>
             );
         }
 
         let listContent = (
-            <li
-                className='setting-list-item'
-                role='presentation'
-            >
+            <div className='setting-list-item'>
                 {inputs}
                 {extraInfo}
-            </li>
+            </div>
         );
 
         if (this.props.infoPosition === 'top') {
             listContent = (
-                <li role='presentation'>
+                <div>
                     {extraInfo}
                     {inputs}
-                </li>
+                </div>
             );
         }
 
@@ -266,19 +268,18 @@ export default class SettingItemMax extends React.PureComponent {
         }
 
         return (
-            <ul
+            <section
                 className={`section-max form-horizontal ${this.props.containerStyle}`}
             >
                 {title}
-                <li className={widthClass}>
-                    <ul
+                <div className={widthClass}>
+                    <div
                         tabIndex='-1'
                         ref={this.settingList}
-                        role='presentation'
                         className='setting-list'
                     >
                         {listContent}
-                        <li className='setting-list-item'>
+                        <div className='setting-list-item'>
                             <hr/>
                             {this.props.submitExtra}
                             {serverError}
@@ -291,10 +292,10 @@ export default class SettingItemMax extends React.PureComponent {
                             >
                                 {cancelButtonText}
                             </button>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
         );
     }
 }

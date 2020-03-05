@@ -202,7 +202,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             setByEnv={false}
             value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
           />
-          <UserAutocompleteSetting
+          <Connect(UserAutocompleteSetting)
             disabled={false}
             helpText={
               <SchemaText
@@ -315,7 +315,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Nederlands (Alpha)",
+                  "text": "Nederlands (Beta)",
                   "value": "nl",
                 },
                 Object {
@@ -340,7 +340,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 10,
-                  "text": "Pусский (Alpha)",
+                  "text": "Pусский (Beta)",
                   "value": "ru",
                 },
                 Object {
@@ -429,7 +429,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Nederlands (Alpha)",
+                  "text": "Nederlands (Beta)",
                   "value": "nl",
                 },
                 Object {
@@ -454,7 +454,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 10,
-                  "text": "Pусский (Alpha)",
+                  "text": "Pусский (Beta)",
                   "value": "ru",
                 },
                 Object {
@@ -505,7 +505,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 textDefault="This is some help text for the button field."
               />
             }
-            id={null}
+            id="SecondSettings.settingk"
             includeDetailedError={true}
             key="Config_text_SecondSettings.settingk"
             requestAction={[Function]}
@@ -564,6 +564,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             value=""
           />
           <component
+            cancelSubmit={[Function]}
             config={
               Object {
                 "EscapedSettings": Object {
@@ -594,9 +595,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             registerSaveAction={[Function]}
             setByEnv={false}
             setSaveNeeded={[Function]}
+            showConfirm={false}
             unRegisterSaveAction={[Function]}
           />
-          <Connect(InjectIntl(JobTable))
+          <Connect(injectIntl(JobTable))
             createJobButtonText={
               <FormattedMessage
                 defaultMessage="Setting Twelve"
@@ -605,7 +607,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               />
             }
             createJobHelpText={
-              <InjectIntl(FormattedMarkdownMessage)
+              <injectIntl(FormattedMarkdownMessage)
                 defaultMessage="This is some help text for the jobs table field."
                 id="help-text-l"
               />
@@ -684,6 +686,13 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
   >
     <SaveButton
       btnClass="btn-primary"
+      defaultMessage={
+        <FormattedMessage
+          defaultMessage="Save"
+          id="save_button.save"
+          values={Object {}}
+        />
+      }
       disabled={true}
       extraClasses=""
       onClick={[Function]}
@@ -695,6 +704,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
+      <FormError
+        error=""
+        errors={Array []}
+        iconClassName="fa-exclamation-triangle"
+        textClassName="has-warning"
+      />
       <FormError
         error={null}
         errors={Array []}

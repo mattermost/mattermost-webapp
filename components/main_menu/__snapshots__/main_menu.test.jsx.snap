@@ -61,6 +61,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -159,7 +160,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -282,7 +283,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>
@@ -348,6 +349,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -446,7 +448,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -569,7 +571,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>
@@ -653,6 +655,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -775,7 +778,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         }
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -926,7 +929,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>
@@ -992,6 +995,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -1090,7 +1094,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -1213,7 +1217,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>
@@ -1297,6 +1301,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -1419,7 +1424,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         }
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -1570,7 +1575,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>
@@ -1636,6 +1641,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -1734,7 +1740,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -1874,7 +1880,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>
@@ -1958,6 +1964,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -2080,7 +2087,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         }
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -2248,7 +2255,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>

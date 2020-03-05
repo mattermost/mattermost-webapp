@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import {mountWithIntl as mount} from 'tests/helpers/intl-test-helper';
 
 import MarketplaceItem, {UpdateDetails, UpdateConfirmationModal} from './marketplace_item';
@@ -16,6 +16,7 @@ describe('components/MarketplaceItem', () => {
             releaseNotesUrl: 'http://example.com/release',
             installedVersion: '0.0.1',
             isInstalling: false,
+            isDefaultMarketplace: true,
             onUpdate: () => {},
         };
 
@@ -206,9 +207,11 @@ describe('components/MarketplaceItem', () => {
             iconUrl: '',
             iconData: 'icon',
             installing: false,
+            isDefaultMarketplace: true,
+            trackEvent: jest.fn(() => {}), // eslint-disable-line no-empty-function
             actions: {
-                installPlugin: () => {}, // eslint-disable-line no-empty-function
-                closeMarketplaceModal: () => {}, // eslint-disable-line no-empty-function
+                installPlugin: jest.fn(() => {}), // eslint-disable-line no-empty-function
+                closeMarketplaceModal: jest.fn(() => {}), // eslint-disable-line no-empty-function
             },
         };
 
@@ -295,6 +298,61 @@ describe('components/MarketplaceItem', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
+        test('should render with empty list of labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with one labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [
+                    {
+                        name: 'someName',
+                        description: 'some description',
+                        url: 'http://example.com/info',
+                    }
+                ],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with two labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [
+                    {
+                        name: 'someName',
+                        description: 'some description',
+                        url: 'http://example.com/info',
+                    }, {
+                        name: 'someName2',
+                        description: 'some description2',
+                        url: 'http://example.com/info2',
+                    }
+                ],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
         test('should render when not from the marketplace', () => {
             const props = {
                 ...baseProps,
@@ -306,6 +364,110 @@ describe('components/MarketplaceItem', () => {
             );
 
             expect(wrapper).toMatchSnapshot();
+        });
+
+        describe('should track detailed event with default marketplace', () => {
+            test('on install', () => {
+                const props = {
+                    ...baseProps,
+                    isDefaultMarketplace: true,
+                };
+
+                const wrapper = shallow(
+                    <MarketplaceItem {...props}/>
+                );
+
+                wrapper.instance().onInstall();
+                expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download', {
+                    plugin_id: 'id',
+                    version: '1.0.0',
+                    installed_version: '',
+                });
+            });
+
+            test('on update', () => {
+                const props = {
+                    ...baseProps,
+                    version: '2.0.0',
+                    installedVersion: '1.0.0',
+                    isDefaultMarketplace: true,
+                };
+
+                const wrapper = shallow(
+                    <MarketplaceItem {...props}/>
+                );
+
+                wrapper.instance().onUpdate();
+                expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update', {
+                    plugin_id: 'id',
+                    version: '2.0.0',
+                    installed_version: '1.0.0',
+                });
+            });
+
+            test('but not configure', () => {
+                const props = {
+                    ...baseProps,
+                    version: '2.0.0',
+                    installedVersion: '1.0.0',
+                    isDefaultMarketplace: true,
+                };
+
+                const wrapper = shallow(
+                    <MarketplaceItem {...props}/>
+                );
+
+                wrapper.instance().onConfigure();
+                expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_configure');
+            });
+        });
+
+        describe('should track limited event with non-default marketplace', () => {
+            test('on install', () => {
+                const props = {
+                    ...baseProps,
+                    isDefaultMarketplace: false,
+                };
+
+                const wrapper = shallow(
+                    <MarketplaceItem {...props}/>
+                );
+
+                wrapper.instance().onInstall();
+                expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download');
+            });
+
+            test('on update', () => {
+                const props = {
+                    ...baseProps,
+                    version: '2.0.0',
+                    installedVersion: '1.0.0',
+                    isDefaultMarketplace: false,
+                };
+
+                const wrapper = shallow(
+                    <MarketplaceItem {...props}/>
+                );
+
+                wrapper.instance().onUpdate();
+                expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update');
+            });
+
+            test('on configure', () => {
+                const props = {
+                    ...baseProps,
+                    version: '2.0.0',
+                    installedVersion: '1.0.0',
+                    isDefaultMarketplace: false,
+                };
+
+                const wrapper = shallow(
+                    <MarketplaceItem {...props}/>
+                );
+
+                wrapper.instance().onConfigure();
+                expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_configure');
+            });
         });
     });
 });

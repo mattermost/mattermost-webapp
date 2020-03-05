@@ -14,6 +14,7 @@ import PostEmoji from 'components/post_emoji';
  * Converts HTML to React components using html-to-react.
  * The following options can be specified:
  * - mentions - If specified, mentions are replaced with the AtMention component. Defaults to true.
+ * - mentionHighlight - If specified, mentions for the current user are highlighted. Defaults to true.
  * - emoji - If specified, emoji text is replaced with the PostEmoji component. Defaults to true.
  * - images - If specified, markdown images are replaced with the image component. Defaults to true.
  * - imageProps - If specified, any extra props that should be passed into the image component.
@@ -64,6 +65,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         });
     }
     if (!('mentions' in options) || options.mentions) {
+        const mentionHighlight = 'mentionHighlight' in options ? options.mentionHighlight : true;
         const mentionAttrib = 'data-mention';
         processingInstructions.push({
             replaceChildren: true,
@@ -75,6 +77,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                         mentionName={mentionName}
                         isRHS={isRHS}
                         hasMention={true}
+                        disableHighlight={!mentionHighlight}
                     >
                         {children}
                     </AtMention>
@@ -106,6 +109,16 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     ...attribs
                 } = node.attribs;
 
+                const imageIsLink = (parentNode) => {
+                    if (parentNode &&
+                        parentNode.type === 'tag' &&
+                        parentNode.name === 'a'
+                    ) {
+                        return true;
+                    }
+                    return false;
+                };
+
                 return (
                     <MarkdownImage
                         className={className}
@@ -113,7 +126,8 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                         {...attribs}
                         {...options.imageProps}
                         postId={options.postId}
-                        imageIsLink={html.includes('<a')}
+                        imageIsLink={imageIsLink(node.parentNode)}
+                        postType={options.postType}
                     />
                 );
             },

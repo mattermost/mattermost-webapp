@@ -73,7 +73,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='convert_channel.title'
-                            defaultMessage='Convert {display_name} to a private channel?'
+                            defaultMessage='Convert {display_name} to a Private Channel?'
                             values={{
                                 display_name: channelDisplayName,
                             }}
@@ -111,7 +111,6 @@ export default class ConvertChannelModal extends React.PureComponent {
                         type='button'
                         className='btn btn-link'
                         onClick={this.onHide}
-                        tabIndex='2'
                     >
                         <FormattedMessage
                             id='convert_channel.cancel'
@@ -124,7 +123,6 @@ export default class ConvertChannelModal extends React.PureComponent {
                         data-dismiss='modal'
                         onClick={this.handleConvert}
                         autoFocus={true}
-                        tabIndex='1'
                     >
                         <FormattedMessage
                             id='convert_channel.confirm'

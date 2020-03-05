@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Constants from 'utils/constants.jsx';
+
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import ViewImageModal from 'components/view_image';
@@ -19,11 +21,14 @@ export default class MarkdownImage extends React.PureComponent {
         alt: PropTypes.string,
         imageMetadata: PropTypes.object,
         src: PropTypes.string.isRequired,
+        height: PropTypes.number,
+        width: PropTypes.number,
         title: PropTypes.string,
         className: PropTypes.string.isRequired,
         postId: PropTypes.string.isRequired,
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
+        postType: PropTypes.string,
     }
 
     constructor(props) {
@@ -32,6 +37,7 @@ export default class MarkdownImage extends React.PureComponent {
         this.state = {
             showModal: false,
             loadFailed: false,
+            loaded: false,
         };
     }
 
@@ -50,14 +56,47 @@ export default class MarkdownImage extends React.PureComponent {
         this.setState({loadFailed: true});
     }
 
+    isHeaderChangeMessage = () => {
+        return this.props.postType &&
+            this.props.postType === Constants.PostTypes.HEADER_CHANGE;
+    }
+
+    componentDidUpdate(prevProps) {
+        this.onUpdated(prevProps.src);
+    }
+
+    onUpdated = (prevSrc) => {
+        if (this.props.src && this.props.src !== prevSrc) {
+            this.setState({loadFailed: false});
+        }
+    }
+
+    handleImageLoaded = ({height, width}) => {
+        this.setState({
+            loaded: true,
+        }, () => { // Call onImageLoaded prop only after state has already been set
+            if (this.props.onImageLoaded) {
+                this.props.onImageLoaded({height, width});
+            }
+        });
+    }
+
     render() {
         const {imageMetadata, src, alt, imageIsLink} = this.props;
         if (src === '' || this.state.loadFailed) {
+            let className = 'markdown-inline-img broken-image';
+            if (this.isHeaderChangeMessage()) {
+                className += ' broken-image--scaled-down';
+            }
+
             return (
-                <img
-                    alt={alt}
-                    src={brokenImageIcon}
-                />
+                <div style={{display: 'inline-block'}}>
+                    <img
+                        className={className}
+                        alt={alt}
+                        src={brokenImageIcon}
+                    />
+                </div>
             );
         }
         return (
@@ -80,27 +119,42 @@ export default class MarkdownImage extends React.PureComponent {
                         );
                     }
 
-                    const getFileExtentionFromUrl = (url) => {
+                    const getFileExtensionFromUrl = (url) => {
                         const index = url.lastIndexOf('.');
                         return index > 0 ? url.substring(index + 1) : null;
                     };
-                    const extension = getFileExtentionFromUrl(safeSrc);
+                    const extension = getFileExtensionFromUrl(safeSrc);
 
-                    const className = imageIsLink || !extension ?
-                        this.props.className :
-                        `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
+                    let className = '';
+                    if (this.state.loaded) {
+                        className = imageIsLink || !extension ?
+                            `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
+                            `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
 
+                        if (this.isHeaderChangeMessage()) {
+                            className += ' markdown-inline-img--scaled-down';
+                        }
+                    } else {
+                        const loadingClass = this.isHeaderChangeMessage() ?
+                            'markdown-inline-img--scaled-down-loading' : 'markdown-inline-img--loading';
+                        className = `${this.props.className} ${loadingClass}`;
+                    }
+
+                    const {height, width, title} = this.props;
                     return (
                         <>
                             <SizeAwareImage
                                 alt={alt}
                                 className={className}
                                 src={safeSrc}
+                                height={height}
+                                width={width}
+                                title={title}
                                 dimensions={imageMetadata}
-                                showLoader={true}
+                                showLoader={false}
                                 onClick={this.showModal}
                                 onImageLoadFail={this.handleLoadFail}
-                                onImageLoaded={this.props.onImageLoaded}
+                                onImageLoaded={this.handleImageLoaded}
                             />
                             {!imageIsLink && extension &&
                             <ViewImageModal

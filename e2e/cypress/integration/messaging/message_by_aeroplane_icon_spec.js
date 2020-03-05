@@ -10,7 +10,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # resize window to mobile view
         cy.viewport('iphone-6');
@@ -19,7 +19,7 @@ describe('Messaging', () => {
     it('M18677 - Clicking on airplane icon does not open file attachment modal but sends the message', () => {
         // # type some characters in the message box
         const message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
-        cy.get('#post_textbox').type(message);
+        cy.get('#post_textbox').clear().type(message);
 
         // # click send
         cy.get('.send-button').click();

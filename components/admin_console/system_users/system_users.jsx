@@ -17,7 +17,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 import SystemUsersList from './list';
@@ -222,7 +222,7 @@ export default class SystemUsers extends React.Component {
         }
 
         this.setState({loading: false});
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS, true);
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
 
     getUserById = async (id) => {
         if (this.props.users[id]) {
@@ -381,7 +381,7 @@ export default class SystemUsers extends React.Component {
                         </div>
                         <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
                             {revokeAllUsersModal}
-                            <div className='padding-top padding-bottom x2'>
+                            <div className='pt-3 pb-3'>
                                 <button
                                     id='revoke-all-users'
                                     className='btn btn-default'

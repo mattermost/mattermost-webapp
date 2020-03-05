@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
 
 import {InviteTypes} from 'utils/constants';
@@ -30,6 +30,7 @@ export default class InvitationModal extends React.Component {
         invitableChannels: PropTypes.array.isRequired,
         canInviteGuests: PropTypes.bool.isRequired,
         canAddUsers: PropTypes.bool.isRequired,
+        emailInvitationsEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             sendGuestsInvites: PropTypes.func.isRequired,
@@ -39,6 +40,8 @@ export default class InvitationModal extends React.Component {
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    modal = React.createRef();
 
     constructor(props) {
         super(props);
@@ -71,20 +74,41 @@ export default class InvitationModal extends React.Component {
         }
     }
 
+    goToFirstStep = () => {
+        if (this.props.canAddUsers && this.props.canInviteGuests) {
+            this.goToInitialStep();
+        } else if (this.props.canAddUsers) {
+            this.goToMembers();
+        } else if (this.props.canInviteGuests) {
+            this.goToGuests();
+        } else {
+            this.close();
+        }
+    }
+
     goToInitialStep = () => {
         if (this.state.hasChanges) {
             this.setState({confirmBack: true});
         } else {
             this.setState({step: STEPS_INITIAL, hasChanges: false, lastInviteChannels: [], lastInviteMesssage: '', prevStep: this.state.step});
         }
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
+        }
     }
 
     goToMembers = () => {
         this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
+        }
     }
 
     goToGuests = () => {
         this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
+        }
     }
 
     goToPrevStep = () => {
@@ -92,6 +116,9 @@ export default class InvitationModal extends React.Component {
             this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
         } else if (this.state.prevStep === STEPS_INVITE_MEMBERS) {
             this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
+        }
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
         }
     }
 
@@ -192,6 +219,8 @@ export default class InvitationModal extends React.Component {
                     show={Boolean(this.props.show)}
                     onClose={this.close}
                     onGoBack={this.getBackFunction()}
+                    ref={this.modal}
+                    ariaLabelledBy='invitation_modal_title'
                 >
                     <div
                         data-testid='invitationModal'
@@ -230,20 +259,24 @@ export default class InvitationModal extends React.Component {
                         }
                         {this.state.step === STEPS_INVITE_MEMBERS &&
                             <InvitationModalMembersStep
+                                teamName={this.props.currentTeam.display_name}
                                 inviteId={this.props.currentTeam.invite_id}
                                 searchProfiles={this.props.actions.searchProfiles}
+                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                                 onSubmit={this.onMembersSubmit}
                                 onEdit={this.onEdit}
                             />
                         }
                         {this.state.step === STEPS_INVITE_GUESTS &&
                             <InvitationModalGuestsStep
+                                teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
                                 myInvitableChannels={this.props.invitableChannels}
                                 searchProfiles={this.props.actions.searchProfiles}
                                 searchChannels={this.props.actions.searchChannels}
                                 defaultChannels={this.state.lastInviteChannels}
                                 defaultMessage={this.state.lastInviteMessage}
+                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                                 onSubmit={this.onGuestsSubmit}
                                 onEdit={this.onEdit}
                             />
@@ -253,6 +286,7 @@ export default class InvitationModal extends React.Component {
                                 teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
                                 onDone={this.close}
+                                onInviteMore={this.goToFirstStep}
                                 invitesType={this.state.invitesType}
                                 invitesSent={this.state.invitesSent}
                                 invitesNotSent={this.state.invitesNotSent}

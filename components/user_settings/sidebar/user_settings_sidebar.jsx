@@ -3,9 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
+import LocalizedIcon from 'components/localized_icon';
 
 import Constants from 'utils/constants';
 import {isMac} from 'utils/utils.jsx';
@@ -80,10 +82,6 @@ export default class UserSettingsSidebar extends React.Component {
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -253,7 +251,7 @@ export default class UserSettingsSidebar extends React.Component {
                                     />
                                 </label>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.sidebar.autoCloseDMDesc'
                                     defaultMessage='Direct Message conversations can be reopened with the “+” button in the sidebar or using the Channel Switcher (CTRL+K).'
@@ -441,7 +439,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.groupDesc'
                             defaultMessage='Group channels by type, or combine all types into a list.'
@@ -490,7 +488,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.sortDesc'
                             defaultMessage='Sort channels alphabetically, or by most recent post.'
@@ -517,7 +515,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.unreadsDesc'
                             defaultMessage='Group unread channels separately until read.'
@@ -559,7 +557,7 @@ export default class UserSettingsSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id='user.settings.sidebar.groupAndSortChannelsTitle'
-                            defaultMessage='Channel grouping and sorting'
+                            defaultMessage='Channel Grouping and Sorting'
                         />
                     }
                     inputs={inputs}
@@ -576,7 +574,7 @@ export default class UserSettingsSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id='user.settings.sidebar.groupAndSortChannelsTitle'
-                            defaultMessage='Channel grouping and sorting'
+                            defaultMessage='Channel Grouping and Sorting'
                         />
                     }
                     describe={this.renderOrganizationLabel()}
@@ -696,7 +694,6 @@ export default class UserSettingsSidebar extends React.Component {
 
     render() {
         const {showUnusedOption, showChannelOrganization} = this.props;
-        const {formatMessage} = this.context.intl;
 
         const channelOrganizationSection = showChannelOrganization ? this.renderChannelOrganizationSection() : null;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
@@ -720,10 +717,9 @@ export default class UserSettingsSidebar extends React.Component {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i
+                            <LocalizedIcon
                                 className='fa fa-angle-left'
-                                title={formatMessage({id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'})}
-                                onClick={this.props.collapseModal}
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
                             />
                         </div>
                         <FormattedMessage

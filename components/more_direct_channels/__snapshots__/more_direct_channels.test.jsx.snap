@@ -1,9 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/MoreDirectChannels should exclude deleted users if there is not direct channel between users 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="moreDmModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal more-modal more-direct-channels"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  id="moreDmModal"
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="moreDmModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Direct Messages"
+        id="more_direct_channels.title"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    role="application"
+  >
+    <MultiSelect
+      ariaLabelRenderer={[Function]}
+      buttonSubmitLoadingText="Loading.."
+      buttonSubmitText="Go"
+      handleAdd={[Function]}
+      handleDelete={[Function]}
+      handleInput={[Function]}
+      handlePageChange={[Function]}
+      handleSubmit={[Function]}
+      key="moreDirectChannelsList"
+      loading={true}
+      maxValues={7}
+      numRemainingText={
+        <FormattedMessage
+          defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
+          id="multiselect.numPeopleRemaining"
+          values={
+            Object {
+              "num": 7,
+            }
+          }
+        />
+      }
+      optionRenderer={[Function]}
+      options={
+        Array [
+          Object {
+            "delete_at": 0,
+            "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
+          },
+          Object {
+            "delete_at": 0,
+            "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
+          },
+          Object {
+            "delete_at": 1,
+            "id": "deleted_user_1",
+            "label": "deleted_user_id_1",
+            "value": "deleted_user_id_1",
+          },
+          Object {
+            "delete_at": 1,
+            "id": "deleted_user_2",
+            "label": "deleted_user_id_2",
+            "value": "deleted_user_id_2",
+          },
+        ]
+      }
+      perPage={50}
+      placeholderText="Search and add members"
+      saving={false}
+      submitImmediatelyOn={[Function]}
+      users={
+        Array [
+          Object {
+            "delete_at": 0,
+            "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
+          },
+          Object {
+            "delete_at": 0,
+            "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
+          },
+          Object {
+            "delete_at": 1,
+            "id": "deleted_user_1",
+            "label": "deleted_user_id_1",
+            "value": "deleted_user_id_1",
+          },
+          Object {
+            "delete_at": 1,
+            "id": "deleted_user_2",
+            "label": "deleted_user_id_2",
+            "value": "deleted_user_id_2",
+          },
+          Object {
+            "delete_at": 1,
+            "id": "deleted_user_3",
+            "label": "deleted_user_id_3",
+            "value": "deleted_user_id_3",
+          },
+        ]
+      }
+      valueRenderer={[Function]}
+      values={Array []}
+    />
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    className="modal-footer--invisible"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="closeModalButton"
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="general_button.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
+</Modal>
+`;
+
 exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = `
 <div
   className="more-modal__row clickable more-modal__row--selected"
   onClick={[Function]}
+  onMouseMove={[Function]}
 >
   <ProfilePicture
     hasMention={false}
@@ -222,6 +390,6 @@ exports[`components/MoreDirectChannels should render the group channel option 1`
     }
   }
   isSelected={false}
-  onAdd={[MockFunction]}
+  onAdd={[Function]}
 />
 `;

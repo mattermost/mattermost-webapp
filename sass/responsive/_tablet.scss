@@ -7,6 +7,10 @@
         z-index: 12;
         top: 0px !important;
 
+        .announcement-bar--fixed & {
+            top: 32px !important;
+        }
+
         &.move--left {
             -webkit-transform: translateX(0) !important;
             -moz-transform: translateX(0) !important;
@@ -116,7 +120,7 @@
                 }
 
                 .modal-image__content {
-                    max-height: 93vh;
+                    max-height: calc(100vh - 100px);
                 }
 
                 .modal-button-bar {
@@ -234,6 +238,10 @@
 
     .sidebar--right {
         top: 63px;
+
+        .announcement-bar--fixed & {
+            top: 95px;
+        }
 
         &.move--left {
             @include translateX(0);
@@ -448,7 +456,7 @@
             .sidebar--right & .flag-icon__container, .sidebar--right & .card-icon__container {
                 left: auto;
                 position: relative;
-                top: 1px;
+                top: 2px;
             }
 
             &.same--root {

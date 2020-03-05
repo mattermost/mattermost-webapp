@@ -1,0 +1,728 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelHeaderDropdown should match snapshot with no plugin items 1`] = `
+<Fragment>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelViewInfo"
+      modalId="channel_info"
+      show={true}
+      text="View Info"
+    />
+    <Connect(ToggleFavoriteChannel)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelToggleFavorite"
+      isFavorite={false}
+      show={false}
+    />
+    <Connect(ViewPinnedPosts)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelViewPinnedPosts"
+      show={false}
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+          "currentUser": Object {
+            "id": "test-user-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelNotificationPreferences"
+      modalId="channel_notifications"
+      show={true}
+      text="Notification Preferences"
+    />
+    <Connect(MenuItemToggleMuteChannel)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelToggleMuteChannel"
+      isArchived={false}
+      isMuted={false}
+      user={
+        Object {
+          "id": "test-user-id",
+        }
+      }
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_public_channel_members",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelAddMembers"
+        modalId="channel_invite"
+        show={true}
+        text="Add Members"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "isExistingChannel": true,
+          }
+        }
+        dialogType={[Function]}
+        id="channelAddMembers"
+        modalId="create_dm_channel"
+        show={false}
+        text="Add Members"
+      />
+    </Connect(ChannelPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelViewMembers"
+      modalId="channel_members"
+      show={false}
+      text="View Members"
+    />
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_public_channel_members",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="channelAddGroups"
+        modalId="add_groups_to_channel"
+        show={false}
+        text="Add Groups"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channelID": "test-channel-id",
+          }
+        }
+        dialogType={[Function]}
+        id="channelManageGroups"
+        modalId="manage_channel_groups"
+        show={false}
+        text="Manage Groups"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelManageMembers"
+        modalId="channel_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(ChannelPermissionGate)>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      invert={true}
+      permissions={
+        Array [
+          "manage_public_channel_members",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelViewMembers"
+        modalId="channel_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(ChannelPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelEditHeader"
+      modalId="edit_channel_header"
+      show={false}
+      text="Edit Channel Header"
+    />
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_public_channel_properties",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelEditHeader"
+        modalId="edit_channel_header"
+        show={true}
+        text="Edit Channel Header"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelEditPurpose"
+        modalId="edit_channel_purpose"
+        show={true}
+        text="Edit Channel Purpose"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelRename"
+        modalId="rename_channel"
+        show={true}
+        text="Rename Channel"
+      />
+    </Connect(ChannelPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channelDisplayName": undefined,
+            "channelId": "test-channel-id",
+          }
+        }
+        dialogType={[Function]}
+        id="channelCovertToPrivate"
+        modalId="convert_channel"
+        show={false}
+        text="Convert to Private Channel"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "delete_public_channel",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+            "penultimateViewedChannelName": "test-channel",
+          }
+        }
+        dialogType={[Function]}
+        id="channelArchiveChannel"
+        modalId="delete_channel"
+        show={true}
+        text="Archive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
+  </MenuGroup>
+  <MenuGroup />
+  <MenuGroup>
+    <Connect(LeaveChannel)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelLeaveChannel"
+      isDefault={false}
+      isGuestUser={false}
+    />
+    <Connect(CloseMessage)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      currentUser={
+        Object {
+          "id": "test-user-id",
+        }
+      }
+      id="channelCloseMessage"
+    />
+    <Connect(CloseChannel)
+      id="channelCloseChannel"
+      isArchived={false}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelUnarchiveChannel"
+        modalId="unarchive_channel"
+        show={false}
+        text="Unarchive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
+  </MenuGroup>
+</Fragment>
+`;
+
+exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`] = `
+<Fragment>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelViewInfo"
+      modalId="channel_info"
+      show={true}
+      text="View Info"
+    />
+    <Connect(ToggleFavoriteChannel)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelToggleFavorite"
+      isFavorite={false}
+      show={false}
+    />
+    <Connect(ViewPinnedPosts)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelViewPinnedPosts"
+      show={false}
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+          "currentUser": Object {
+            "id": "test-user-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelNotificationPreferences"
+      modalId="channel_notifications"
+      show={true}
+      text="Notification Preferences"
+    />
+    <Connect(MenuItemToggleMuteChannel)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelToggleMuteChannel"
+      isArchived={false}
+      isMuted={false}
+      user={
+        Object {
+          "id": "test-user-id",
+        }
+      }
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_public_channel_members",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelAddMembers"
+        modalId="channel_invite"
+        show={true}
+        text="Add Members"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "isExistingChannel": true,
+          }
+        }
+        dialogType={[Function]}
+        id="channelAddMembers"
+        modalId="create_dm_channel"
+        show={false}
+        text="Add Members"
+      />
+    </Connect(ChannelPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelViewMembers"
+      modalId="channel_members"
+      show={false}
+      text="View Members"
+    />
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_public_channel_members",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="channelAddGroups"
+        modalId="add_groups_to_channel"
+        show={false}
+        text="Add Groups"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channelID": "test-channel-id",
+          }
+        }
+        dialogType={[Function]}
+        id="channelManageGroups"
+        modalId="manage_channel_groups"
+        show={false}
+        text="Manage Groups"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelManageMembers"
+        modalId="channel_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(ChannelPermissionGate)>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      invert={true}
+      permissions={
+        Array [
+          "manage_public_channel_members",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelViewMembers"
+        modalId="channel_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(ChannelPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "channel": Object {
+            "id": "test-channel-id",
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="channelEditHeader"
+      modalId="edit_channel_header"
+      show={false}
+      text="Edit Channel Header"
+    />
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_public_channel_properties",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelEditHeader"
+        modalId="edit_channel_header"
+        show={true}
+        text="Edit Channel Header"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelEditPurpose"
+        modalId="edit_channel_purpose"
+        show={true}
+        text="Edit Channel Purpose"
+      />
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelRename"
+        modalId="rename_channel"
+        show={true}
+        text="Rename Channel"
+      />
+    </Connect(ChannelPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channelDisplayName": undefined,
+            "channelId": "test-channel-id",
+          }
+        }
+        dialogType={[Function]}
+        id="channelCovertToPrivate"
+        modalId="convert_channel"
+        show={false}
+        text="Convert to Private Channel"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "delete_public_channel",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+            "penultimateViewedChannelName": "test-channel",
+          }
+        }
+        dialogType={[Function]}
+        id="channelArchiveChannel"
+        modalId="delete_channel"
+        show={true}
+        text="Archive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      id="plugin-1_pluginmenuitem"
+      key="plugin-1_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-1-text"
+    />
+    <MenuItemAction
+      id="plugin-2_pluginmenuitem"
+      key="plugin-2_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-2-text"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(LeaveChannel)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      id="channelLeaveChannel"
+      isDefault={false}
+      isGuestUser={false}
+    />
+    <Connect(CloseMessage)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      currentUser={
+        Object {
+          "id": "test-user-id",
+        }
+      }
+      id="channelCloseMessage"
+    />
+    <Connect(CloseChannel)
+      id="channelCloseChannel"
+      isArchived={false}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelUnarchiveChannel"
+        modalId="unarchive_channel"
+        show={false}
+        text="Unarchive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
+  </MenuGroup>
+</Fragment>
+`;

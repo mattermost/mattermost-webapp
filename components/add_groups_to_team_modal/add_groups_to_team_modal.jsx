@@ -167,7 +167,7 @@ export default class AddGroupsToTeamModal extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd) {
+    renderOption(option, isSelected, onAdd, onMouseMove) {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
@@ -176,6 +176,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <img
                     className='more-modal__image'
@@ -243,6 +244,10 @@ export default class AddGroupsToTeamModal extends React.Component {
             groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
 
+        groupsToShow = groupsToShow.map((group) => {
+            return {label: group.display_name, value: group.id, ...group};
+        });
+
         return (
             <Modal
                 id='addGroupsToTeamModal'
@@ -255,7 +260,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     <Modal.Title componentClass='h1'>
                         <FormattedMessage
                             id='add_groups_to_team.title'
-                            defaultMessage='Add New Groups To {teamName} Team'
+                            defaultMessage='Add New Groups to {teamName} Team'
                             values={{
                                 teamName: (
                                     <strong>{this.props.currentTeamName}</strong>

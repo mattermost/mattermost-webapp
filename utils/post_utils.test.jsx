@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import {IntlProvider} from 'react-intl';
+import {createIntl} from 'react-intl';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import {PostListRowListIds} from 'utils/constants';
@@ -169,8 +169,43 @@ describe('PostUtils.containsAtChannel', () => {
                 text: '@cha![](https://myimage)nnel',
                 result: false,
             },
+            {
+                text: '@here![](https://myimage)nnel',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@heree',
+                result: false,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '=@here=',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@HERE',
+                result: true,
+                options: {
+                    checkAllMentions: true,
+                },
+            },
+            {
+                text: '@here',
+                result: false,
+                options: {
+                    checkAllMentions: false,
+                },
+            },
         ]) {
-            const containsAtChannel = PostUtils.containsAtChannel(data.text);
+            const containsAtChannel = PostUtils.containsAtChannel(data.text, data.options);
 
             assert.equal(containsAtChannel, data.result, data.text);
         }
@@ -276,7 +311,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -304,7 +342,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -384,7 +425,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -468,6 +512,14 @@ describe('PostUtils.postMessageOnKeyPress', () => {
         name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with inline opening backticks',
         input: {event: {keyCode: 13, ctrlKey: true}, message: '``` message', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
         expected: {allowSending: true},
+    }, {
+        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with cursor between backticks',
+        input: {event: {keyCode: 13, ctrlKey: false}, message: '``` message ```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: true, cursorPosition: 5},
+        expected: {allowSending: false},
+    }, {
+        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with cursor between backticks',
+        input: {event: {keyCode: 13, ctrlKey: true}, message: '``` message ```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: true, cursorPosition: 5},
+        expected: {allowSending: true},
     }];
 
     for (const testCase of sendCodeBlockOnCtrlEnterCases) {
@@ -476,7 +528,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.cursorPosition ? testCase.input.cursorPosition : testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -522,7 +577,8 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.sendMessageOnCtrlEnter,
                 testCase.input.sendCodeBlockOnCtrlEnter,
                 testCase.input.now,
-                testCase.input.lastChannelSwitch
+                testCase.input.lastChannelSwitch,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -608,8 +664,7 @@ describe('PostUtils.getLatestPostId', () => {
 
 describe('PostUtils.createAriaLabelForPost', () => {
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
         const testPost = {
             message: 'test_message',
@@ -638,8 +693,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf('message is flagged and pinned'));
     });
     test('Should show that message is a reply', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
         const testPost = {
             message: 'test_message',
@@ -654,8 +708,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf('reply'));
     });
     test('Should translate emoji into {emoji-name} emoji', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
         const testPost = {
             message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',

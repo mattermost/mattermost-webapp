@@ -11,7 +11,7 @@ describe('Post search display', () => {
     it('S14252 After clearing search query, search options display', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         const searchWord = 'Hello';
 
         // # post message
@@ -21,19 +21,17 @@ describe('Post search display', () => {
         cy.get('#searchBox').type(searchWord).type('{enter}').should('have.value', searchWord);
 
         // # click on "x" displayed on searchbox
-        cy.get('#searchClearButton').click();
+        cy.get('#searchbarContainer').should('be.visible').within(() => {
+            cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
+        });
 
         // # RHS should be visible with search results
         cy.get('#search-items-container').should('be.visible');
 
-        // # focused element searchbox should be visible
-        cy.get('#searchBox').should('be.visible');
-
         // # click on searchbox
-        cy.get('#searchBox').click();
-
-        // # search options menu is visible
-        cy.get('#searchbar-help-popup').should('be.visible');
+        cy.get('#searchbarContainer').should('be.visible').within(() => {
+            cy.get('#searchBox').click();
+        });
 
         // # check the contents in search options
         cy.get('#searchbar-help-popup').within(() => {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 
 export default class Markdown extends React.PureComponent {
     static propTypes = {
@@ -13,7 +13,7 @@ export default class Markdown extends React.PureComponent {
         /*
          * An object mapping channel names to channels for the current team
          */
-        channelNamesMap: PropTypes.object.isRequired,
+        channelNamesMap: PropTypes.object,
 
         /*
          * An array of URL schemes that should be turned into links. Anything that looks
@@ -24,7 +24,7 @@ export default class Markdown extends React.PureComponent {
         /*
          * Whether or not to do Markdown rendering
          */
-        enableFormatting: PropTypes.bool.isRequired,
+        enableFormatting: PropTypes.bool,
 
         /*
          * Whether or not this text is part of the RHS
@@ -34,7 +34,7 @@ export default class Markdown extends React.PureComponent {
         /*
          * An array of words that can be used to mention a user
          */
-        mentionKeys: PropTypes.arrayOf(PropTypes.object).isRequired,
+        mentionKeys: PropTypes.arrayOf(PropTypes.object),
 
         /*
          * The text to be rendered
@@ -49,17 +49,17 @@ export default class Markdown extends React.PureComponent {
         /*
          * The root Site URL for the page
          */
-        siteURL: PropTypes.string.isRequired,
+        siteURL: PropTypes.string,
 
         /*
          * The current team
          */
-        team: PropTypes.object.isRequired,
+        team: PropTypes.object,
 
         /**
          * If an image proxy is enabled.
          */
-        hasImageProxy: PropTypes.bool.isRequired,
+        hasImageProxy: PropTypes.bool,
 
         /**
          * Minimum number of characters in a hashtag.
@@ -90,6 +90,11 @@ export default class Markdown extends React.PureComponent {
          * Post id prop passed down to markdown image
          */
         postId: PropTypes.string,
+
+        /**
+         * Post id prop passed down to markdown image
+         */
+        postType: PropTypes.string,
     };
 
     static defaultProps = {
@@ -97,6 +102,7 @@ export default class Markdown extends React.PureComponent {
         isRHS: false,
         proxyImages: true,
         imagesMetadata: {},
+        postId: '', // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
     render() {
@@ -121,6 +127,8 @@ export default class Markdown extends React.PureComponent {
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
+            postType: this.props.postType,
+            mentionHighlight: this.props.options.mentionHighlight,
         });
     }
 }

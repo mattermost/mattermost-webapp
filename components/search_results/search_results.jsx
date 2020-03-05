@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {injectIntl, intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from 'components/search_results_header';
@@ -279,7 +280,7 @@ class SearchResults extends React.Component {
         } else if (this.props.isPinnedPosts) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title4',
-                defaultMessage: 'Pinned posts in {channelDisplayName}',
+                defaultMessage: 'Pinned Posts in {channelDisplayName}',
             }, {
                 channelDisplayName: this.props.channelDisplayName,
             });

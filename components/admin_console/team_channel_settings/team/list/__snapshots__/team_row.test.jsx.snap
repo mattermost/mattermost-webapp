@@ -2,7 +2,7 @@
 
 exports[`admin_console/team_channel_settings/team/TeamRow should match snapshot 1`] = `
 <div
-  className="group "
+  className="group"
   onClick={[Function]}
 >
   <div
@@ -17,33 +17,40 @@ exports[`admin_console/team_channel_settings/team/TeamRow should match snapshot 
         url={null}
       />
       <div>
-        <b>
+        <b
+          data-testid="team-display-name"
+        >
           team
         </b>
       </div>
     </div>
-    <span
-      className="group-description adjusted row-content"
+    <div
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Invite Only"
-        id="admin.team_settings.team_row.managementMethod.inviteOnly"
-        values={Object {}}
-      />
-    </span>
-    <span
-      className="group-actions"
-    >
-      <Link
-        to="/admin_console/user_management/teams/123"
+      <span
+        className="group-description adjusted row-content"
       >
         <FormattedMessage
-          defaultMessage="Edit"
-          id="admin.team_settings.team_row.configure"
+          defaultMessage="Invite Only"
+          id="admin.team_settings.team_row.managementMethod.inviteOnly"
           values={Object {}}
         />
-      </Link>
-    </span>
+      </span>
+      <span
+        className="group-actions"
+        data-testid="teamedit"
+      >
+        <Link
+          to="/admin_console/user_management/teams/123"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="admin.team_settings.team_row.configure"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
   </div>
 </div>
 `;

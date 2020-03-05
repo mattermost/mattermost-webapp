@@ -15,7 +15,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class Textbox extends React.Component {
+export default class Textbox extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         channelId: PropTypes.string,
@@ -46,6 +46,7 @@ export default class Textbox extends React.Component {
             autocompleteUsersInChannel: PropTypes.func.isRequired,
             autocompleteChannels: PropTypes.func.isRequired,
         }),
+        useChannelMentions: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -63,6 +64,7 @@ export default class Textbox extends React.Component {
                 profilesInChannel: this.props.profilesInChannel,
                 profilesNotInChannel: this.props.profilesNotInChannel,
                 autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
+                useChannelMentions: this.props.useChannelMentions,
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -73,6 +75,7 @@ export default class Textbox extends React.Component {
         }
 
         this.checkMessageLength(props.value);
+        this.wrapper = React.createRef();
     }
 
     handleChange = (e) => {
@@ -93,6 +96,7 @@ export default class Textbox extends React.Component {
                         profilesInChannel: this.props.profilesInChannel,
                         profilesNotInChannel: this.props.profilesNotInChannel,
                         autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
+                        useChannelMentions: this.props.useChannelMentions,
                     });
                 }
             }
@@ -187,11 +191,15 @@ export default class Textbox extends React.Component {
 
         let textboxClassName = 'form-control custom-textarea';
         let textWrapperClass = 'textarea-wrapper';
+        let wrapperHeight;
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
+        }
+        if (this.wrapper.current) {
+            wrapperHeight = this.getInputBox().clientHeight;
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
@@ -216,7 +224,7 @@ export default class Textbox extends React.Component {
 
         return (
             <div
-                ref='wrapper'
+                ref={this.wrapper}
                 className={textWrapperClass}
             >
                 <SuggestionBox
@@ -245,6 +253,7 @@ export default class Textbox extends React.Component {
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
+                    wrapperHeight={wrapperHeight}
                 />
                 {preview}
             </div>

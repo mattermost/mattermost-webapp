@@ -47,9 +47,15 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
       href="#"
       onClick={[Function]}
     >
-      <i
+      <LocalizedIcon
         className="fa fa-paper-plane"
-        title="Send Message Icon"
+        component="i"
+        title={
+          Object {
+            "defaultMessage": "Send Message Icon",
+            "id": "user_profile.send.dm.icon",
+          }
+        }
       />
       <FormattedMessage
         defaultMessage="Send Message"
@@ -120,9 +126,15 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <i
+      <LocalizedIcon
         className="fa fa-paper-plane"
-        title="Send Message Icon"
+        component="i"
+        title={
+          Object {
+            "defaultMessage": "Send Message Icon",
+            "id": "user_profile.send.dm.icon",
+          }
+        }
       />
       <FormattedMessage
         defaultMessage="Send Message"
@@ -140,7 +152,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       className="text-nowrap"
       href="#"
     >
-      <Connect(ModalToggleButtonRedux)
+      <Connect(injectIntl(ModalToggleButtonRedux))
         accessibilityLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -155,12 +167,18 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
         onClick={[MockFunction]}
         role="menuitem"
       >
-        <i
+        <LocalizedIcon
           className="fa fa-user-plus"
-          title="Add User to Channel Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Add User to Channel Icon",
+              "id": "user_profile.add_user_to_channel.icon",
+            }
+          }
         />
         Add to a Channel
-      </Connect(ModalToggleButtonRedux)>
+      </Connect(injectIntl(ModalToggleButtonRedux))>
     </a>
   </div>
   <Connect(Pluggable)

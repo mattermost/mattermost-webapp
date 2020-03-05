@@ -4,18 +4,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import semver from 'semver';
 
 import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 import {Link} from 'react-router-dom';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
+import OverlayTrigger from 'components/overlay_trigger';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
 
@@ -39,6 +39,61 @@ export const UpdateVersion = ({version, releaseNotesUrl}) => {
 UpdateVersion.propTypes = {
     version: PropTypes.string.isRequired,
     releaseNotesUrl: PropTypes.string,
+};
+
+// Label renders a tag showing a name and a description in a tooltip.
+// If a URL is provided, clicking on the tag will open the URL in a new tab.
+export const Label = ({name, description, url, color}) => {
+    const tag = (
+        <span
+            className='tag'
+            style={{backgroundColor: color || ''}}
+        >
+            {name.toUpperCase()}
+        </span>
+    );
+
+    let label;
+    if (description) {
+        label = (
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip id={'plugin-marketplace_label_' + name.toLowerCase() + '-tooltip'}>
+                        {description}
+                    </Tooltip>
+                }
+            >
+                {tag}
+            </OverlayTrigger>
+        );
+    } else {
+        label = tag;
+    }
+
+    if (url) {
+        return (
+            <a
+                aria-label={name.toLowerCase()}
+                className='style--none more-modal__row--link'
+                target='_blank'
+                rel='noopener noreferrer'
+                href={url}
+            >
+                {label}
+            </a>
+        );
+    }
+
+    return label;
+};
+
+Label.propTypes = {
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    url: PropTypes.string,
+    color: PropTypes.string,
 };
 
 // UpdateDetails renders an inline update prompt for plugins, when available.
@@ -217,10 +272,13 @@ export default class MarketplaceItem extends React.Component {
         downloadUrl: PropTypes.string,
         homepageUrl: PropTypes.string,
         releaseNotesUrl: PropTypes.string,
+        labels: PropTypes.array,
         iconData: PropTypes.string,
         installedVersion: PropTypes.string.isRequired,
         installing: PropTypes.bool.isRequired,
         error: PropTypes.string,
+        isDefaultMarketplace: PropTypes.bool.isRequired,
+        trackEvent: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             installPlugin: PropTypes.func.isRequired,
             closeMarketplaceModal: PropTypes.func.isRequired,
@@ -235,8 +293,20 @@ export default class MarketplaceItem extends React.Component {
         };
     }
 
+    trackEvent = (eventName, allowDetail = true) => {
+        if (this.props.isDefaultMarketplace && allowDetail) {
+            this.props.trackEvent('plugins', eventName, {
+                plugin_id: this.props.id,
+                version: this.props.version,
+                installed_version: this.props.installedVersion,
+            });
+        } else {
+            this.props.trackEvent('plugins', eventName);
+        }
+    }
+
     onInstall = () => {
-        trackEvent('plugins', 'ui_marketplace_download');
+        this.trackEvent('ui_marketplace_download');
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
@@ -249,13 +319,15 @@ export default class MarketplaceItem extends React.Component {
     }
 
     onUpdate = () => {
-        trackEvent('plugins', 'ui_marketplace_download_update');
+        this.trackEvent('ui_marketplace_download_update');
+
         this.hideUpdateConfirmationModal();
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
     onConfigure = () => {
-        trackEvent('plugins', 'ui_marketplace_configure');
+        this.trackEvent('ui_marketplace_configure', false);
+
         this.props.actions.closeMarketplaceModal();
     }
 
@@ -279,7 +351,7 @@ export default class MarketplaceItem extends React.Component {
             <button
                 onClick={this.onInstall}
                 className='btn btn-primary'
-                disabled={this.props.installing || this.props.downloadUrl === ''}
+                disabled={this.props.installing}
             >
                 <LoadingWrapper
                     loading={this.props.installing}
@@ -330,37 +402,25 @@ export default class MarketplaceItem extends React.Component {
             pluginIcon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
         }
 
-        let localTag;
-        if (!this.props.downloadUrl) {
-            const localTooltip = (
-                <Tooltip id='plugin-marketplace__local-tooltop'>
-                    <FormattedMessage
-                        id='marketplace_modal.list.local.tooltip'
-                        defaultMessage='This plugin is not listed in the marketplace but was installed manually.'
-                    />
-                </Tooltip>
-            );
-
-            localTag = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={localTooltip}
-                >
-                    <span className='tag'>
-                        <FormattedMessage
-                            id='marketplace_modal.list.local'
-                            defaultMessage='LOCAL'
-                        />
-                    </span>
-                </OverlayTrigger>
+        let labels;
+        if (this.props.labels && this.props.labels.length !== 0) {
+            labels = this.props.labels.map((label) => (
+                <Label
+                    key={label.name}
+                    name={label.name}
+                    description={label.description}
+                    url={label.url}
+                    color={label.color}
+                />
+            )
             );
         }
 
         const pluginDetailsInner = (
             <>
-                {this.props.name} <span className='light subtitle'>{versionLabel}</span>
-                {localTag}
+                {this.props.name}
+                <span className='light subtitle'>{versionLabel}</span>
+                {labels}
                 <p className={classNames('more-modal__description', {error_text: this.props.error})}>
                     {this.props.error ? this.props.error : this.props.description}
                 </p>

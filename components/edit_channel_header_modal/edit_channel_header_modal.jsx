@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import Constants, {ModalIdentifiers} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/user_agent';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -33,6 +35,11 @@ class EditChannelHeaderModal extends React.PureComponent {
          * Object with info about current channel ,
          */
         channel: PropTypes.object.isRequired,
+
+        /**
+         * Set whether to show the modal or not
+         */
+        show: PropTypes.bool.isRequired,
 
         /*
          * boolean should be `ctrl` button pressed to send
@@ -182,7 +189,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='a11y__modal'
-                show={true}
+                show={this.props.show}
                 keyboard={false}
                 onKeyDown={this.handleModalKeyDown}
                 onHide={this.hideModal}

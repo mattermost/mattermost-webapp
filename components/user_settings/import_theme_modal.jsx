@@ -5,6 +5,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 
@@ -66,18 +68,8 @@ export default class ImportThemeModal extends React.Component {
         theme.sidebarHeaderBg = colors[1];
         theme.sidebarHeaderTextColor = colors[5];
         theme.onlineIndicator = colors[6];
-        theme.awayIndicator = '#E0B333';
         theme.mentionBg = colors[7];
-        theme.mentionColor = '#ffffff';
-        theme.centerChannelBg = '#ffffff';
-        theme.centerChannelColor = '#333333';
-        theme.newMessageSeparator = '#F80';
-        theme.linkColor = '#2389d7';
-        theme.buttonBg = '#26a970';
-        theme.buttonColor = '#ffffff';
-        theme.mentionHighlightBg = '#fff2bb';
-        theme.mentionHighlightLink = '#2f81b7';
-        theme.codeTheme = 'github';
+        setThemeDefaults(theme);
 
         this.state.callback(theme);
         this.setState({
@@ -206,7 +198,6 @@ export default class ImportThemeModal extends React.Component {
                                 onClick={this.handleSubmit}
                                 type='submit'
                                 className='btn btn-primary'
-                                tabIndex='3'
                             >
                                 <FormattedMessage
                                     id='user.settings.import_theme.submit'

@@ -4,7 +4,7 @@
 import assert from 'assert';
 
 import * as Markdown from 'utils/markdown';
-import {formatText} from 'utils/text_formatting.jsx';
+import {formatText} from 'utils/text_formatting';
 
 describe('Markdown.Imgs', () => {
     it('Inline mage', (done) => {
@@ -60,7 +60,7 @@ describe('Text-formatted inline markdown images', () => {
 
         assert.equal(
             output,
-            '<div className="style--none"><img src="/images/icon.png" alt="Mattermost" class="markdown-inline-img"></div>'
+            '<div className="markdown-inline-img__container"><img src="/images/icon.png" alt="Mattermost" class="markdown-inline-img"></div>'
         );
 
         done();

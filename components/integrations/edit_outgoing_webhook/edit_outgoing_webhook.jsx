@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook.jsx';
 import LoadingScreen from 'components/loading_screen';
 
@@ -31,11 +31,6 @@ export default class EditOutgoingWebhook extends React.PureComponent {
          * The id of the outgoing webhook to edit
          */
         hookId: PropTypes.string.isRequired,
-
-        /**
-         * The request state for updateOutgoingHook action. Contains status and error
-         */
-        updateOutgoingHookRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
 
@@ -117,7 +112,7 @@ export default class EditOutgoingWebhook extends React.PureComponent {
     submitHook = async () => {
         this.setState({serverError: ''});
 
-        const {data} = await this.props.actions.updateOutgoingHook(this.newHook);
+        const {data, error} = await this.props.actions.updateOutgoingHook(this.newHook);
 
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/outgoing_webhooks`);
@@ -126,8 +121,8 @@ export default class EditOutgoingWebhook extends React.PureComponent {
 
         this.setState({showConfirmModal: false});
 
-        if (this.props.updateOutgoingHookRequest.error) {
-            this.setState({serverError: this.props.updateOutgoingHookRequest.error.message});
+        if (error) {
+            this.setState({serverError: error.message});
         }
     }
 

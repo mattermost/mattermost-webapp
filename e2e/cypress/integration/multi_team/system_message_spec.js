@@ -8,6 +8,8 @@
 // ***************************************************************
 /* eslint max-nested-callbacks: ["error", 4] */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function verifySystemMessage(post) {
     cy.get(post).
         invoke('attr', 'class').
@@ -27,7 +29,7 @@ describe('System message', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Post a regular message
         cy.postMessage('Test for no status of a system message');
@@ -39,6 +41,9 @@ describe('System message', () => {
                 {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))}
             );
         });
+
+        // # Added to wait for the system message to get posted
+        cy.wait(TIMEOUTS.TINY);
     });
 
     const displayTypes = ['compact', 'clean'];

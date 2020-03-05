@@ -57,13 +57,14 @@ h6 {
         -moz-force-broken-image-icon: 1;
         margin: 5px 2px;
         max-height: 500px;
+        @include border-radius(4px);
     }
 
     div.markdown-inline-img {
         min-width: 50px;
         display: inline-block;
         width: 100%;
-        vertical-align: middle;
+        vertical-align: top;
     }
 
     .post {
@@ -75,16 +76,92 @@ h6 {
         }
     }
 
-    .markdown-inline-img--hover {
-        max-width: calc(100% - 5px);
-        border: 1px solid transparent;
+    .markdown-inline-img__container {
+        display: inline-block;
+        width: calc(100% - 5px);
+    }
 
+    .markdown-inline-img--loading {
+        visibility: hidden;
+    }
+
+    .markdown-inline-img--hover {
+        border: 1px solid transparent;
         &:hover {
-            @include border-radius(4px);
             @include single-transition(all, .1s, linear);
             @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
             z-index: 2;
         }
+    }
+
+    .markdown-inline-img--no-border {
+        border: unset;
+    }
+
+    .markdown-inline-img--scaled-down {
+        max-height: 18px;
+        margin: 2px;
+        @include border-radius(2px);
+
+        &:hover {
+            @include single-transition(all, .1s, linear);
+            @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
+            z-index: 2;
+        }
+    }
+
+    .markdown-inline-img--scaled-down-loading {
+        margin: 2px;
+        height: 18px;
+        visibility: hidden;
+    }
+
+    .broken-image {
+        border-radius: unset;
+    }
+
+    .broken-image--scaled-down {
+        max-height: 18px;
+        margin: 2px;
+    }
+}
+
+#channelHeaderDescription,
+#header-popover {
+    .markdown-inline-img {
+        -moz-force-broken-image-icon: 1;
+        margin: 2px;
+        max-height: 18px;
+        @include border-radius(2px);
+    }
+
+    .markdown-inline-img--loading {
+        height: 18px;
+        visibility: hidden;
+    }
+
+    .markdown-inline-img--hover {
+        border: 1px solid transparent;
+
+        &:hover {
+            @include single-transition(all, .1s, linear);
+            @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
+            z-index: 2;
+        }
+    }
+
+    .markdown-inline-img--no-border {
+        border: unset;
+    }
+
+    div.markdown__paragraph-inline {
+        display: inline-block;
+        line-height: 22px;
+    }
+
+    .broken-image {
+        border-radius: unset;
+        max-height: 18px;
     }
 }
 
@@ -129,24 +206,20 @@ h6 {
         >div {
             display: flex;
         }
-
-        /* for block of numbers */
-        .hljs-ln-numbers {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            color: #ccc;
-            border-right: 1px solid #CCC;
-            vertical-align: top;
-            padding-right: 5px;
-            vertical-align: top;
-            padding-right: 4px;
-            margin-right: 12px;
-            min-width: 36px;
-        }
+              
+    /* for block of numbers */
+    .hljs-ln-numbers:before {
+        content: counter(code-counter);
+        counter-increment: code-counter;
+        color: #ccc;
+        border-right: 1px solid #CCC;
+        vertical-align: top;
+        padding-right: 5px;
+        vertical-align: top;
+        padding-right: 4px;
+        margin-right: 12px;
+        min-width: 36px;
+    }
 
         .hljs-code {
             white-space: pre;
@@ -160,6 +233,7 @@ h6 {
 
     .hljs-ln {
         white-space: unset;
+        counter-reset: code-counter;
 
         .post-code__search-highlighting {
             left: 54.5px;
@@ -227,6 +301,7 @@ h6 {
     td {
         border: 1px solid #ddd;
         padding: 6px 13px;
+        white-space: nowrap;
     }
 
     tbody tr {
@@ -234,6 +309,24 @@ h6 {
 
         &:nth-child(2n) {
             background-color: #f8f8f8;
+        }
+    }
+}
+
+ol.markdown__list {
+    counter-reset: list;
+    display: table;
+    padding: 0;
+
+    > li {
+        counter-increment: list;
+        display: table-row;
+
+        &::before {
+            content: counter(list) ".";
+            padding-right: 8px;
+            display: table-cell;
+            text-align: right;
         }
     }
 }

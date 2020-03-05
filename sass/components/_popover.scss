@@ -199,6 +199,7 @@
         display: block;
 
         .popover-content {
+            max-height: 60vh;
             padding: 10px;
             position: relative;
             -webkit-overflow-scrolling: touch;
@@ -244,10 +245,6 @@
         padding: 6px 8px;
         text-overflow: ellipsis;
         white-space: nowrap;
-
-        &:hover {
-            background: alpha-color($black, .1);
-        }
 
         &.selected {
             background: alpha-color($black, .2);

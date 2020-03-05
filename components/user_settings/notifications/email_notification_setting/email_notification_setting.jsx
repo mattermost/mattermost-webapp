@@ -14,7 +14,7 @@ import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
 
-export default class EmailNotificationSetting extends React.Component {
+export default class EmailNotificationSetting extends React.PureComponent {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         activeSection: PropTypes.string.isRequired,
@@ -29,7 +29,6 @@ export default class EmailNotificationSetting extends React.Component {
         focused: PropTypes.bool,
         sendEmailNotifications: PropTypes.bool,
         enableEmailBatching: PropTypes.bool,
-        siteName: PropTypes.string,
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
@@ -49,6 +48,7 @@ export default class EmailNotificationSetting extends React.Component {
         this.state = {
             activeSection,
             emailInterval,
+            enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
             newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -69,6 +69,7 @@ export default class EmailNotificationSetting extends React.Component {
             return {
                 activeSection,
                 emailInterval,
+                enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
                 newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -83,6 +84,7 @@ export default class EmailNotificationSetting extends React.Component {
             return {
                 activeSection,
                 emailInterval,
+                enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
                 newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -105,7 +107,7 @@ export default class EmailNotificationSetting extends React.Component {
 
     handleSubmit = async () => {
         const {newInterval} = this.state;
-        if (this.props.emailInterval === newInterval) {
+        if (this.props.emailInterval === newInterval && this.props.enableEmail === this.state.enableEmail) {
             this.props.updateSection('');
         } else {
             // until the rest of the notification settings are moved to preferences, we have to do this separately
@@ -200,7 +202,7 @@ export default class EmailNotificationSetting extends React.Component {
 
         return (
             <SettingItemMin
-                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 describe={description}
                 focused={focused}
                 section={'email'}
@@ -213,11 +215,11 @@ export default class EmailNotificationSetting extends React.Component {
         if (!this.props.sendEmailNotifications) {
             return (
                 <SettingItemMax
-                    title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                    title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                     inputs={[
                         <div
                             key='oauthEmailInfo'
-                            className='padding-top'
+                            className='pt-2'
                         >
                             <FormattedMessage
                                 id='user.settings.notifications.email.disabled_long'
@@ -286,7 +288,7 @@ export default class EmailNotificationSetting extends React.Component {
 
         return (
             <SettingItemMax
-                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 inputs={[
                     <fieldset key='userNotificationEmailOptions'>
                         <legend className='form-legend'>
@@ -330,13 +332,10 @@ export default class EmailNotificationSetting extends React.Component {
                                 />
                             </label>
                         </div>
-                        <div className='margin-top x2'>
+                        <div className='mt-3'>
                             <FormattedMessage
                                 id='user.settings.notifications.emailInfo'
-                                defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes.'
-                                values={{
-                                    siteName: this.props.siteName,
-                                }}
+                                defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.'
                             />
                             {' '}
                             {batchingInfo}

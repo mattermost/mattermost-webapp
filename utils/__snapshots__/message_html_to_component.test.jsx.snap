@@ -1,8 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`messageHtmlToComponent At mention 1`] = `
+<p>
+  <span
+    className="mention--highlight"
+  >
+    <span
+      data-mention="joram"
+    >
+      <Connect(AtMention)
+        disableHighlight={false}
+        hasMention={true}
+        isRHS={false}
+        mentionName="joram"
+      >
+        @joram
+      </Connect(AtMention)>
+    </span>
+  </span>
+</p>
+`;
+
+exports[`messageHtmlToComponent At mention 2`] = `
+<p>
+  <span
+    data-mention="joram"
+  >
+    <Connect(AtMention)
+      disableHighlight={true}
+      hasMention={true}
+      isRHS={false}
+      mentionName="joram"
+    >
+      @joram
+    </Connect(AtMention)>
+  </span>
+</p>
+`;
+
 exports[`messageHtmlToComponent Inline markdown image 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img__container"
 >
   <MarkdownImage
     alt="Mattermost"
@@ -10,14 +48,24 @@ exports[`messageHtmlToComponent Inline markdown image 1`] = `
     imageIsLink={false}
     imageMetadata={Object {}}
     postId="post_id"
+    postType="system_header_change"
     src="/images/icon.png"
   />
+   and a 
+  <a
+    className="theme markdown__link"
+    href="http://link"
+    rel="noreferrer"
+    target="_blank"
+  >
+    link
+  </a>
 </div>
 `;
 
 exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img__container"
 >
   <a
     className="theme markdown__link"
@@ -31,6 +79,7 @@ exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = 
       imageIsLink={true}
       imageMetadata={Object {}}
       postId="post_id"
+      postType="system_header_change"
       src="images/icon.png"
     />
   </a>

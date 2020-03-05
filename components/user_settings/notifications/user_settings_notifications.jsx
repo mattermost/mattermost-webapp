@@ -107,14 +107,13 @@ function getNotificationsStateFromProps(props) {
     };
 }
 
-export default class NotificationsTab extends React.Component {
+export default class NotificationsTab extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-        siteName: PropTypes.string,
         sendPushNotifications: PropTypes.bool,
         enableAutoResponder: PropTypes.bool,
         actions: PropTypes.shape({
@@ -395,7 +394,7 @@ export default class NotificationsTab extends React.Component {
                                     />
                                 </label>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.push_notification.info'
                                     defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
@@ -412,7 +411,7 @@ export default class NotificationsTab extends React.Component {
                 inputs.push(
                     <div
                         key='oauthEmailInfo'
-                        className='padding-top'
+                        className='pt-2'
                     >
                         <FormattedMessage
                             id='user.settings.push_notification.disabled_long'
@@ -424,7 +423,7 @@ export default class NotificationsTab extends React.Component {
 
             return (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
+                    title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                     extraInfo={extraInfo}
                     inputs={inputs}
                     submit={submit}
@@ -499,7 +498,7 @@ export default class NotificationsTab extends React.Component {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
+                title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                 describe={describe}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
@@ -634,7 +633,7 @@ export default class NotificationsTab extends React.Component {
 
             keysSection = (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
@@ -681,7 +680,7 @@ export default class NotificationsTab extends React.Component {
 
             keysSection = (
                 <SettingItemMin
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     describe={describe}
                     section={'keys'}
                     updateSection={this.handleUpdateSection}
@@ -932,7 +931,6 @@ export default class NotificationsTab extends React.Component {
                         onChange={this.handleEmailRadio}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
-                        siteName={this.props.siteName}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}
