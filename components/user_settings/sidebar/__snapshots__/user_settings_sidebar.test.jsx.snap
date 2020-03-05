@@ -24,6 +24,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     >
       <div
         className="modal-back"
+        onClick={[Function]}
       >
         <LocalizedIcon
           className="fa fa-angle-left"
