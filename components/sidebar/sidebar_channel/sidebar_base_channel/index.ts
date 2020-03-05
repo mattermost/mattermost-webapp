@@ -3,21 +3,38 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import {leaveChannel} from 'actions/views/channel';
 
 import SidebarBaseChannel from './sidebar_base_channel';
 
 function mapStateToProps(state: GlobalState) {
+    const config = getConfig(state);
+
     return {
+        enableXToLeaveChannelsFromLHS: config.EnableXToLeaveChannelsFromLHS,
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+type Actions = {
+    leaveChannel: (channelId: any) => Promise<{
+        error: any;
+        data?: undefined;
+    } | {
+        data: boolean;
+        error?: undefined;
+    }>;
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+            leaveChannel,
         }, dispatch),
     };
 }

@@ -4,28 +4,21 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {Channel} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-
 import {NotificationLevels} from 'utils/constants';
 
-import SidebarChannel from './sidebar_channel';
+import SidebarChannelLink from './sidebar_channel_link';
 
 type OwnProps = {
-    channelId: string;
+    channel: Channel;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const getChannel = makeGetChannel();
-    const channel = getChannel(state, {id: ownProps.channelId});
-    const currentTeam = getCurrentTeam(state);
-
-    const member = getMyChannelMemberships(state)[ownProps.channelId];
-    const currentChannelId = getCurrentChannelId(state);
+    const member = getMyChannelMemberships(state)[ownProps.channel.id];
 
     // Unread counts
     let unreadMentions = 0;
@@ -34,8 +27,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     if (member) {
         unreadMentions = member.mention_count;
 
-        if (channel) {
-            unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
+        if (ownProps.channel) {
+            unreadMsgs = Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
         }
 
         if (member.notify_props) {
@@ -44,9 +37,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     }
 
     return {
-        channel,
-        isCurrentChannel: channel.id === currentChannelId,
-        currentTeamName: currentTeam.name,
         unreadMentions,
         unreadMsgs,
         showUnreadForMsgs,
@@ -60,4 +50,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelLink);

@@ -123,7 +123,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     showNewChannelModal={this.showNewChannelModal}
                     showMoreChannelsModal={this.showMoreChannelsModal}
                 />
-                <Pluggable/>
+                <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}/>
                 {this.renderModals()}
             </div>
