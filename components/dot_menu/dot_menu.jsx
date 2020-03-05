@@ -375,20 +375,6 @@ export default class DotMenu extends React.PureComponent {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    <Menu.ItemAction
-                        id={`delete_post_${this.props.post.id}`}
-                        show={this.state.canDelete}
-                        text={Utils.localizeMessage('post_info.del', 'Delete')}
-                        onClick={this.handleDeleteMenuItemActivated}
-                        isDangerous={true}
-                    />
-                    <Menu.ItemAction
-                        id={`delete_post_${this.props.post.id}`}
-                        show={this.state.canDelete}
-                        text={Utils.localizeMessage('post_info.del', 'Delete')}
-                        onClick={this.handleDeleteMenuItemActivated}
-                        isDangerous={true}
-                    />
                     {(pluginItems.length > 0 || this.props.components[PLUGGABLE_COMPONENT]) && this.renderDivider('plugins')}
                     {pluginItems}
                     <Pluggable
