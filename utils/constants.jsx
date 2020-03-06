@@ -1376,6 +1376,15 @@ export const Constants = {
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
+export const STATUS_COLORS = {
+    good: '#00c100',
+    warning: '#dede01',
+    danger: Constants.THEMES.default.errorTextColor,
+    default: Constants.THEMES.default.centerChannelColor,
+    primary: Constants.THEMES.default.buttonBg,
+    success: Constants.THEMES.default.onlineIndicator,
+};
+
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
