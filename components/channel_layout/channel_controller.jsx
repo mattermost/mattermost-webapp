@@ -64,7 +64,7 @@ export default class ChannelController extends React.Component {
     }
 
     render() {
-        const PreferredTeamSidebar = this.props.useLegacyLHS ? LegacyTeamSidebar : TeamSidebar;
+        const PreferredTeamSidebar = LegacyTeamSidebar; // TODO: Replace with switch when we rewrite team sidebar
         const PreferredSidebar = this.props.useLegacyLHS ? LegacySidebar : Sidebar;
 
         return (

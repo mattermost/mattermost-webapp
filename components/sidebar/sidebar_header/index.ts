@@ -2,23 +2,28 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
+import {Preferences, TutorialSteps} from 'utils/constants';
+import * as Utils from 'utils/utils.jsx';
 
 import SidebarHeader from './sidebar_header';
 
 function mapStateToProps(state: GlobalState) {
+    const config = getConfig(state);
+    const currentUser = getCurrentUser(state);
+
+    const enableTutorial = config.EnableTutorial === 'true';
+
+    const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
+
     return {
+        enableTutorial,
+        showTutorialTip,
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators({
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarHeader);
+export default connect(mapStateToProps)(SidebarHeader);

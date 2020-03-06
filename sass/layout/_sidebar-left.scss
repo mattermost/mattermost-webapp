@@ -40,12 +40,40 @@
         min-width: 16px;
     }
 
-    .SidebarHeader {
-        display: block;
-        min-height: 64px;
-        width: 240px;
-        background-color: var(--sidebar-header-bg);
+    .a11y--focused {
+        box-shadow: inset 0 0 1px 3px var(--sidebar-text-50), inset 0 0 0 1px var(--sidebar-text);
     }
+
+    .SidebarHeader {
+        background-color: var(--sidebar-header-bg);
+
+        .status-wrapper {
+            height: 36px;
+            width: 36px;
+        
+            .status {
+                bottom: -5px;
+                height: 19px;
+                right: -6px;
+                width: 19px;
+
+                .offline--icon {
+                    fill: var(--sidebar-text);
+                }
+
+                svg {
+                    height: 13px;
+                    left: 0;
+                    max-height: initial;
+                    position: relative;
+                    top: 0;
+                    width: 13px;
+                    z-index: 1;
+                }
+            }
+        }
+    }
+
     .SidebarFilters {
         display: flex;
         flex-direction: row;
