@@ -25,5 +25,6 @@ export function closeModal(modalId) {
         };
 
         dispatch(action);
+        return {data: true};
     };
 }

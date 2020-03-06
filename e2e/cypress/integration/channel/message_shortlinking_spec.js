@@ -5,7 +5,7 @@ describe('Message', () => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
 
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M17451 Channel shortlinking still works when placed in brackets', () => {

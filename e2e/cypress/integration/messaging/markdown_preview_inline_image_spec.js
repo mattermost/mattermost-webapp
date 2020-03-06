@@ -12,7 +12,7 @@ describe('Messaging', () => {
         // # Login, set the Show Markdown Preview preference, then go to /
         cy.apiLogin('user-1');
         cy.apiSaveShowMarkdownPreviewPreference();
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18714-Markdown preview: inline image', () => {

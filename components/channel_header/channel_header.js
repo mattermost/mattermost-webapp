@@ -7,6 +7,7 @@ import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import 'bootstrap';
 
@@ -78,6 +79,8 @@ class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
+        teammateNameDisplaySetting: PropTypes.string.isRequired,
+        currentRelativeTeamUrl: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -262,6 +265,10 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
+    handleFormattedTextClick(e) {
+        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    }
+
     render() {
         const {
             teamId,
@@ -275,6 +282,7 @@ class ChannelHeader extends React.PureComponent {
             dmUser,
             rhsState,
             hasGuests,
+            teammateNameDisplaySetting,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -322,12 +330,12 @@ class ChannelHeader extends React.PureComponent {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: Utils.getDisplayNameByUserId(teammateId),
+                            displayname: displayUsername(dmUser, teammateNameDisplaySetting),
                         }}
                     />
                 );
             } else {
-                channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
+                channelTitle = displayUsername(dmUser, teammateNameDisplaySetting) + ' ';
             }
             channelTitle = (
                 <React.Fragment>
@@ -344,7 +352,7 @@ class ChannelHeader extends React.PureComponent {
                 if (user.id === currentUser.id) {
                     continue;
                 }
-                const userDisplayName = Utils.getDisplayNameByUserId(user.id);
+                const userDisplayName = displayUsername(user.id, this.props.teammateNameDisplaySetting);
 
                 if (!membersMap[userDisplayName]) {
                     membersMap[userDisplayName] = []; //Create an array for cases with same display name
@@ -353,7 +361,7 @@ class ChannelHeader extends React.PureComponent {
                 membersMap[userDisplayName].push(user);
             }
 
-            const displayNames = channel.display_name.split(', ');
+            const displayNames = channel.display_name.split('');
 
             channelTitle = displayNames.map((displayName, index) => {
                 if (!membersMap[displayName]) {
@@ -448,7 +456,7 @@ class ChannelHeader extends React.PureComponent {
                         {hasGuestsText}
                         <span
                             className='header-description__text'
-                            onClick={Utils.handleFormattedTextClick}
+                            onClick={this.handleFormattedTextClick}
                         >
                             <Markdown
                                 message={headerText}
@@ -660,7 +668,7 @@ class ChannelHeader extends React.PureComponent {
             <div
                 id='channel-header'
                 aria-label={ariaLabelChannelHeader}
-                role='application'
+                role='banner'
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
@@ -710,7 +718,7 @@ class ChannelHeader extends React.PureComponent {
                         >
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile() || (this.props.rhsOpen && this.props.rhsState)}
+                                isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
                             />
                         </div>
                     ) : (

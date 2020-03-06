@@ -10,10 +10,11 @@ import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUs
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
+
+import {GlobalState} from 'types/store';
 
 import SystemUsersDropdown from './system_users_dropdown';
 
