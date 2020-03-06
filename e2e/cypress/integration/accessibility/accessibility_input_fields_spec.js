@@ -102,22 +102,28 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').focus();
         cy.get('#searchbar-help-popup').should('be.visible').and('have.attr', 'role', 'tooltip');
 
-        // # Type the from: filter
-        cy.get('#searchBox').type('from:').wait(TIMEOUTS.TINY).type('{downarrow}');
+        // # Ensure User list is cached once in UI
+        cy.get('#searchBox').type('from:').wait(TIMEOUTS.SMALL).type('{downarrow}');
+
+        // # Trigger the user autocomplete again
+        cy.get('#searchBox').clear().type('from:').wait(TIMEOUTS.TINY).type('{downarrow}');
 
         // * Verify Accessibility Support in search autocomplete
-        verifySearchAutocomplete(1);
+        verifySearchAutocomplete(2);
 
         // # Press Down arrow twice and verify if focus changes
         cy.focused().type('{downarrow}{downarrow}');
-        verifySearchAutocomplete(3);
+        verifySearchAutocomplete(4);
 
         // # Press Up arrow and verify if focus changes
         cy.focused().type('{uparrow}');
-        verifySearchAutocomplete(2);
+        verifySearchAutocomplete(3);
 
-        // # Type the in: filter
-        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.TINY).type('{downarrow}{downarrow}');
+        // # Type the in: filter and ensure channel list is cached once
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.SMALL).type('{downarrow}');
+
+        // # Trigger the channel autocomplete again
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.TINY).type('{downarrow}');
 
         // * Verify Accessibility Support in search autocomplete
         verifySearchAutocomplete(2, 'channel');
@@ -132,7 +138,14 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#post_textbox').should('have.attr', 'aria-label', 'write to town square').clear().focus();
 
         // # Ensure User list is cached once in UI
-        cy.get('#post_textbox').type('@').wait(TIMEOUTS.SMALL).type('{downarrow}');
+        cy.get('#post_textbox').type('@').wait(TIMEOUTS.SMALL);
+
+        // # Select the first user in the list
+        cy.get('#suggestionList .mentions__name').eq(0).within((el) => {
+            cy.get('.mention--align').invoke('text').then((text) => {
+                cy.wrap(el).parents('body').find('#post_textbox').clear().type(text);
+            });
+        });
 
         // # Trigger the user autocomplete again
         cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.TINY).type('{downarrow}');
@@ -146,8 +159,11 @@ describe('Verify Accessibility Support in different input fields', () => {
         // * Verify Accessibility Support in message autocomplete
         verifyMessageAutocomplete(0);
 
-        // # Trigger the channel autocomplete filter
-        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.TINY).type('{downarrow}{downarrow}');
+        // # Trigger the channel autocomplete filter and ensure channel list is cached once
+        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.SMALL).type('{downarrow}');
+
+        // # Trigger the channel autocomplete again
+        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.TINY).type('{downarrow}');
 
         // * Verify Accessibility Support in message autocomplete
         verifyMessageAutocomplete(2, 'channel');
@@ -176,8 +192,12 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     it('MM-22625 Verify Accessibility Support in RHS Input', () => {
+        // # Wait till page is loaded
+        cy.get('#post_textbox').should('be.visible').clear();
+
         // # Post a message and open RHS
-        cy.postMessage('testing');
+        const message = `hello${Date.now()}`;
+        cy.postMessage(message);
         cy.getLastPostId().then((postId) => {
             // # Mouseover the post and click post comment icon.
             cy.clickPostCommentIcon(postId);
