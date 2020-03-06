@@ -81,7 +81,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -92,7 +92,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -191,7 +191,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -202,7 +202,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -310,7 +310,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -321,7 +321,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -420,7 +420,7 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -431,7 +431,7 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}

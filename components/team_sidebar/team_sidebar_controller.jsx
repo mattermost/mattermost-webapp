@@ -135,7 +135,11 @@ export default class TeamSidebar extends React.PureComponent {
         );
 
         return (
-            <div className={classNames('team-sidebar', {'move--right': this.props.isOpen})}>
+            <div
+                className={classNames('team-sidebar', {'move--right': this.props.isOpen})}
+                role='navigation'
+                aria-labelledby='teamSidebarWrapper'
+            >
                 <div
                     className='team-wrapper'
                     id='teamSidebarWrapper'

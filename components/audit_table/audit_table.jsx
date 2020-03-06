@@ -7,7 +7,7 @@ import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIn
 
 import {t} from 'utils/i18n';
 import {intlShape} from 'utils/react_intl';
-import {getDirectTeammate, isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
+import {isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
 
 const holders = defineMessages({
     sessionRevoked: {
@@ -76,7 +76,7 @@ const holders = defineMessages({
     },
     authenticated: {
         id: t('audit_table.authenticated'),
-        defauleMessage: 'Successfully authenticated',
+        defaultMessage: 'Successfully authenticated',
     },
     successfullLogin: {
         id: t('audit_table.successfullLogin'),
@@ -226,6 +226,8 @@ export class AuditTable extends React.PureComponent {
         actions: PropTypes.shape({
             getMissingProfilesByIds: PropTypes.func.isRequired,
         }).isRequired,
+
+        getDirectTeammate: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
@@ -370,7 +372,7 @@ export class AuditTable extends React.PureComponent {
                 auditDesc = formatMessage(holders.channelCreated, {channelName});
                 break;
             case '/channels/create_direct':
-                auditDesc = formatMessage(holders.establishedDM, {username: getDirectTeammate(channelObj.id).username});
+                auditDesc = formatMessage(holders.establishedDM, {username: this.props.getDirectTeammate(channelObj.id).username});
                 break;
             case '/channels/update':
                 auditDesc = formatMessage(holders.nameUpdated, {channelName});

@@ -6,8 +6,8 @@ import moment from 'moment-timezone';
 
 import store from 'stores/redux_store.jsx';
 
-export function getSupportedTimezones() {
-    return getTimezones(store.getState());
+export function getSupportedTimezones(state = store.getState()) {
+    return getTimezones(state);
 }
 
 export function getBrowserTimezone() {
