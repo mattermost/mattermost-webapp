@@ -113,7 +113,7 @@ export function goToChannelByChannelId(match, history) {
         }
 
         if (channel.type === Constants.DM_CHANNEL) {
-            dispatch(goToDirectChannelByUserId(match, history, Utils.getUserIdFromChannelId(channel.name)));
+            dispatch(goToDirectChannelByUserId(match, history, Utils.getUserIdFromChannelId(channel.name, getCurrentUserId(state))));
         } else if (channel.type === Constants.GM_CHANNEL) {
             history.replace(`/${team}/messages/${channel.name}`);
         } else {

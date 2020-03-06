@@ -22,17 +22,17 @@ module.exports = (on, config) => {
         config.chromeWebSecurity = false;
     }
 
-    on('before:browser:launch', (browser = {}, args) => {
+    on('before:browser:launch', (browser = {}, launchOptions) => {
         if (browser.name === 'chrome') {
-            args.push('--disable-notifications');
+            launchOptions.args.push('--disable-notifications');
         }
 
         if (browser.name === 'chrome' && !config.chromeWebSecurity) {
-            args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
-            args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');
+            launchOptions.args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
+            launchOptions.args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');
         }
 
-        return args;
+        return launchOptions;
     });
 
     return config;
