@@ -1571,7 +1571,7 @@
             display: block;
         }
 
-        .NavGroupContent {
+        .SidebarChannelGroup {
             li {
                 &.dropdown.open {
                     padding-bottom: 25px;
@@ -1595,7 +1595,7 @@
                     padding: 12px 0 12px 17px;
                 }
 
-                .sidebar-item {
+                .SidebarChannel {
                     height: 45px;
 
                     &.has-close {
@@ -1798,6 +1798,10 @@
     .multi-teams {
 
         .app__content {
+            margin-left: 0;
+        }
+
+        #SidebarContainer + .inner-wrap #app-content {
             margin-left: 0;
         }
 

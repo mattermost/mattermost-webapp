@@ -77,7 +77,6 @@
     .SidebarFilters {
         display: flex;
         flex-direction: row;
-        width: 240px;
         padding: 7px 16px;
     }
     .SidebarFilters .SidebarFilters_filterButton {
@@ -165,7 +164,6 @@
     }
 
     .SidebarNavContainer {
-        width: 240px;
         flex: 1 1 auto;
         overflow: hidden;
         position: relative;
@@ -183,7 +181,6 @@
         height: 32px;
         font-family: 'Open Sans', sans-serif;
         text-transform: uppercase;
-        width: 240px;
         text-overflow: ellipsis;
         text-align: left;
         border: none;
@@ -201,7 +198,6 @@
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
         text-transform: uppercase;
-        width: 240px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -214,6 +210,12 @@
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
+        display: flex;
+        width: 100%;
+
+        > div {
+            flex: 1 1 auto;
+        }
     }
     .SidebarChannelGroup .SidebarChannelGroupHeader.stuck {
         /* box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.33);
@@ -241,10 +243,8 @@
     }
     
     .SidebarChannelGroupHeader_addButton {
-        position: absolute;
         padding: 0;
-        top: 6px;
-        right: 19px;
+        margin-right: 19px;
         z-index: 1;
         background: transparent;
         border: none;
@@ -275,7 +275,6 @@
         display: block;
         height: 31px; /* height required for transition animation */
         list-style-type: none;
-        width: 240px;
         /* border: solid 2px transparent; */
         overflow: hidden;
         color: var(--sidebar-text-60);
@@ -338,7 +337,6 @@
         font-size: 14px;
         text-decoration: none;
         padding: 7px 5px 7px 15px;
-        width: 240px;
         display: block;
         color: var(--sidebar-text-60);
     }

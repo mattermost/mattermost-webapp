@@ -115,7 +115,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     <button
                         ref={this.categoryTitleRef}
                         className='SidebarChannelGroupHeader_groupButton a11y__section'
-                        style={{display: 'flex'}}
                         onClick={this.handleCollapse}
                     >
                         <i className={`icon icon-chevron-down ${isCollapsed ? 'icon-rotate-minus-90' : ''}`}/>
