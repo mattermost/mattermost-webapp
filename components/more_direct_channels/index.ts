@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
 import {
     getProfiles,
     getProfilesInTeam,
@@ -22,19 +22,28 @@ import {
 import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
-import {loadProfilesForGroupChannels} from 'actions/user_actions';
+import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
-import MoreDirectChannels from './more_direct_channels.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state, ownProps) {
+import MoreDirectChannels from './more_direct_channels';
+
+type OwnProps = {
+    isExistingChannel: boolean;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUserId = getCurrentUserId(state);
-    let currentChannelMembers = [];
+    let currentChannelMembers: UserProfile[] = [];
     if (ownProps.isExistingChannel) {
         currentChannelMembers = getProfilesInCurrentChannel(state);
     }
@@ -52,7 +61,7 @@ function mapStateToProps(state, ownProps) {
             users = searchProfilesInCurrentTeam(state, searchTerm, false);
         }
     } else if (restrictDirectMessage === 'any') {
-        users = selectProfiles(state);
+        users = selectProfiles(state, {});
     } else {
         users = getProfilesInCurrentTeam(state);
     }
@@ -78,14 +87,14 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-const filterGroupChannels = memoizeResult((channels, term) => {
+const filterGroupChannels = memoizeResult((channels: Array<{profiles: Array<UserProfile>} & Channel>, term: string) => {
     return channels.filter((channel) => {
         const matches = filterProfilesMatchingTerm(channel.profiles, term);
         return matches.length > 0;
     });
 });
 
-const filterDirectChannels = memoizeResult((channels, userId) => {
+const filterDirectChannels = memoizeResult((channels: Channel[], userId: string) => {
     return Object.values(channels).filter((channel) => {
         if (channel.type !== 'D') {
             return false;
@@ -97,9 +106,27 @@ const filterDirectChannels = memoizeResult((channels, userId) => {
     });
 });
 
-function mapDispatchToProps(dispatch) {
+type Actions = {
+    getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
+    getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
+    getStatusesByIds: (userIds: string[]) => ActionFunc;
+    getTotalUsersStats: () => ActionFunc;
+    loadStatusesForProfilesList: (users: any) => {
+        data: boolean;
+    };
+    loadProfilesForGroupChannels: (groupChannels: any) => Promise<any>;
+    openDirectChannelToUserId: (userId: any) => Promise<any>;
+    openGroupChannelToUserIds: (userIds: any) => Promise<any>;
+    searchProfiles: (term: string, options?: any) => Promise<any>;
+    searchGroupChannels: (term: string) => Promise<any>;
+    setModalSearchTerm: (term: any) => Promise<{
+        data: boolean;
+    }>;
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getProfiles,
             getProfilesInTeam,
             getStatusesByIds,

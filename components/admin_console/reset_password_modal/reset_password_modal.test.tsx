@@ -34,7 +34,9 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         email_verified: false,
         first_name: '',
         id: '1',
+        is_bot: false,
         last_name: '',
+        last_picture_update: 0,
         locale: '',
         nickname: '',
         notify_props: notifyProps,
@@ -44,8 +46,6 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         terms_of_service_id: '',
         update_at: 0,
         username: '',
-        is_bot: false,
-        last_picture_update: 0,
     };
     const baseProps = {
         actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
