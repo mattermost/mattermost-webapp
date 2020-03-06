@@ -8,13 +8,17 @@ import {createSelector} from 'reselect';
 import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
 
-import {GlobalState} from 'types/store';
-
-import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {GlobalState} from 'types/store';
+import {Constants} from 'utils/constants';
 
 import List from './channel_list';
+
+type Props = {
+    channel: Partial<Channel>;
+};
 
 const compareByDisplayName = (a: {display_name: string}, b: {display_name: string}) => a.display_name.localeCompare(b.display_name);
 

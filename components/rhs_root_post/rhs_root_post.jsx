@@ -67,6 +67,7 @@ class RhsRootPost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func
         }),
+        emojiMap: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -219,8 +220,8 @@ class RhsRootPost extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
+        const {post, author, reactions, isFlagged, emojiMap} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap)});
     }
 
     getDotMenuRef = () => {
