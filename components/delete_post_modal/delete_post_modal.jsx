@@ -10,6 +10,9 @@ import {matchPath} from 'react-router-dom';
 import * as UserAgent from 'utils/user_agent';
 import {browserHistory} from 'utils/browser_history';
 
+const urlFormatForDMGMPermalink = '/:teamName/messages/:username/:postid';
+const urlFormatForChannelPermalink = '/:teamName/channels/:channelname/:postid';
+
 export default class DeletePostModal extends React.PureComponent {
     static propTypes = {
         channelName: PropTypes.string,
@@ -41,11 +44,11 @@ export default class DeletePostModal extends React.PureComponent {
         const result = await actions.deleteAndRemovePost(post);
 
         const matchUrlForDMGM = matchPath(this.props.location.pathname, {
-            path: '/:teamName/messages/:username/:postid',
+            path: urlFormatForDMGMPermalink,
         });
 
         const matchUrlForChannel = matchPath(this.props.location.pathname, {
-            path: '/:teamName/channels/:channelname/:postid',
+            path: urlFormatForChannelPermalink,
         });
 
         if (matchUrlForDMGM) {
