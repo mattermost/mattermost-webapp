@@ -4,24 +4,28 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
+
+import {setCategoryCollapsed} from 'actions/views/channel_sidebar';
+import {isCategoryCollapsed} from 'selectors/views/channel_sidebar';
+import {GlobalState} from 'types/store';
 
 import SidebarCategory from './sidebar_category';
 
-function mockSetCollapsedState(categoryId: string, isCollapsed: boolean) {
-    return (dispatch: any, getState: any) => {};
+type OwnProps = {
+    category: any;
 }
 
-function mapStateToProps(state: GlobalState) {
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
+        isCollapsed: isCategoryCollapsed(state, ownProps.category.id),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            setCollapsedState: mockSetCollapsedState,
+            setCategoryCollapsed,
         }, dispatch),
     };
 }

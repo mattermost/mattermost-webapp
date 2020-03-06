@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 type Props = {
     unreadFilterEnabled: boolean;
     actions: {
         setUnreadFilterEnabled: (enabled: boolean) => void;
-    }
+    };
 };
 
 type State = {

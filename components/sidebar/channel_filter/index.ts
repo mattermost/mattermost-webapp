@@ -4,13 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
-
-import ChannelFilter from './channel_filter';
 
 import {setUnreadFilterEnabled} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
+import {GlobalState} from 'types/store';
+
+import ChannelFilter from './channel_filter';
 
 function mapStateToProps(state: GlobalState) {
     return {

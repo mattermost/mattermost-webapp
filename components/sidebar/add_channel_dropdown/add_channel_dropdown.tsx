@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
@@ -17,46 +18,12 @@ type State = {
 };
 
 class AddChannelDropdown extends React.PureComponent<Props, State> {
-    handleOpenDropdown = () => {
-
-    }
-
     render() {
-        let albajsd = (
-            <div>
-                <div>
-                    <a
-                        href='#'
-                        onClick={this.props.showMoreChannelsModal}
-                    >
-                        <FormattedMessage
-                            id={'sidebar_left.add_channel_dropdown.browseChannels'}
-                            defaultMessage={'Browse Channels'}
-                        />
-                    </a>
-                </div>
-                <div>
-                    <a
-                        href='#'
-                        onClick={this.props.showNewChannelModal}
-                    >
-                        <FormattedMessage
-                            id={'sidebar_left.add_channel_dropdown.createNewChannel'}
-                            defaultMessage={'Create New Channel'}
-                        />
-                    </a>
-                </div>
-            </div>
-        );
-
         const {formatMessage} = this.props.intl;
 
         return (
             <MenuWrapper className='AddChannelDropdown'>
-                <button
-                    className='AddChannelDropdown_dropdownButton'
-                    onClick={this.handleOpenDropdown}
-                >
+                <button className='AddChannelDropdown_dropdownButton'>
                     <i className='icon-plus'/>
                 </button>
                 <Menu
@@ -79,7 +46,6 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     </Menu.Group>
                 </Menu>
             </MenuWrapper>
-            
         );
     }
 }
