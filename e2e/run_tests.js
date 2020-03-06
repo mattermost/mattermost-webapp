@@ -119,7 +119,7 @@ async function runTests() {
     }
 
     // Merge all json reports into one single json report
-    const jsonReport = await merge({reportDir: mochawesomeReportDir});
+    const jsonReport = await merge({files: [`${mochawesomeReportDir}/*.json`]});
 
     // Generate short summary, write to file and then send report via webhook
     const summary = generateShortSummary(jsonReport);

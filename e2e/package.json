@@ -15,7 +15,7 @@
     "mocha-junit-reporters": "1.23.6",
     "mocha-multi-reporters": "1.1.7",
     "mochawesome": "4.1.0",
-    "mochawesome-merge": "4.0.1",
+    "mochawesome-merge": "4.0.2",
     "mochawesome-report-generator": "4.1.0",
     "start-server-and-test": "1.10.8"
   },
