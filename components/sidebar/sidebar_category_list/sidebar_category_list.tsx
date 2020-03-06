@@ -3,21 +3,19 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
+import Scrollbars from 'react-custom-scrollbars';
 import {Spring, SpringSystem, util as MathUtil} from 'rebound';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
-
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
-import UnreadChannelIndicator from 'components/unread_channel_indicator';
-import Scrollbars from 'react-custom-scrollbars';
 
 export function renderView(props: any) {
     return (
@@ -252,8 +250,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const lastUnreadElement = this.channelRefs.get(lastUnreadChannel);
             const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.offsetTop : null;
 
-            console.log(`${lastUnreadPosition} ${scrollMargin} ${this.scrollbar.current!.getScrollTop()} ${this.scrollbar.current!.getClientHeight()}`);
-
             if (lastUnreadPosition && (lastUnreadPosition + scrollMargin) > (this.scrollbar.current!.getScrollTop() + this.scrollbar.current!.getClientHeight())) {
                 showBottomUnread = true;
             }
@@ -386,7 +382,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     onClick={this.scrollToLastUnreadChannel}
                     extraClass='nav-pills__unread-indicator-bottom'
                     content={below}
-                /> 
+                />
                 <Scrollbars
                     ref={this.scrollbar}
                     autoHide={true}
