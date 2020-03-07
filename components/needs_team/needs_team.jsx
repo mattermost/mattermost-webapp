@@ -41,8 +41,8 @@ export default class NeedsTeam extends React.Component {
             setPreviousTeamId: PropTypes.func.isRequired,
             loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
             loadProfilesForDirect: PropTypes.func.isRequired,
-            getGroups: PropTypes.func.isRequired,
-            getGroupsAssociatedToTeam: PropTypes.func.isRequired,
+            getAllGroupsAssociatedToChannelsInTeam: PropTypes.func.isRequired,
+            getAllGroupsAssociatedToTeam: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -207,11 +207,14 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
-        //TODO(ctomai) - do it at channel scope if we are channel group_constrained?
+        //team doesn't have to be group-constrained to have channels group-constrained
+        console.log('get groups for group-constrained channels if any');
+        this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id);
+
+        //if the team is group-constrained, get all the groups associated to it
         if (team.group_constrained) {
-            this.props.actions.getGroupsAssociatedToTeam(team.id);
-        } else {
-            this.props.actions.getGroups();
+            console.log('get groups for group-constrained team');
+            this.props.actions.getAllGroupsAssociatedToTeam(team.id);
         }
 
         return team;

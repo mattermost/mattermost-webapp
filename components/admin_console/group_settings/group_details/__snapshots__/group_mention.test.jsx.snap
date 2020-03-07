@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/group_settings/group_details/GroupMention should match snapshot 1`] = `
+<div
+  className="group-profile"
+>
+  <div
+    className="group-profile-field"
+  >
+    <label>
+      <FormattedMessage
+        defaultMessage="Mention:"
+        id="admin.group_settings.group_details.group_profile_and_settings.groupname.label"
+        values={Object {}}
+      />
+    </label>
+    <label>
+      <FormattedMessage
+        defaultMessage="@{groupname}"
+        id="admin.group_settings.group_details.group_profile_and_settings.groupname"
+        values={
+          Object {
+            "groupname": "Test",
+          }
+        }
+      />
+    </label>
+  </div>
+</div>
+`;

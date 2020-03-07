@@ -18,7 +18,7 @@ import ChannelSelectorModal from 'components/channel_selector_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import {GroupProfileAndSettings} from './group_profile_settings';
+import {GroupProfileAndSettings} from './group_profile_and_settings';
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
         groupID: PropTypes.string.isRequired,
@@ -60,11 +60,13 @@ export default class GroupDetails extends React.PureComponent {
     componentDidMount() {
         const {groupID, actions} = this.props;
         actions.getGroup(groupID);
+
         Promise.all([
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM),
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
         ]).then(() => {
             this.setState({loadingTeamsAndChannels: false});
+            this.setState({group: this.props.group, allowReference: Boolean(this.props.group.allow_reference)});
         });
     }
 

@@ -13,7 +13,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getGroups, getGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
+import {getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
 
 import {setPreviousTeamId} from 'actions/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
@@ -51,8 +51,8 @@ function mapDispatchToProps(dispatch) {
             selectTeam,
             loadStatusesForChannelAndSidebar,
             loadProfilesForDirect,
-            getGroups,
-            getGroupsAssociatedToTeam
+            getAllGroupsAssociatedToChannelsInTeam,
+            getAllGroupsAssociatedToTeam
         }, dispatch),
     };
 }

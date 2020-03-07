@@ -320,12 +320,12 @@
 }
 
 .group-profile {
-    padding: 15px;
+    padding: 20px;
 
     .group-profile-field {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
 
         label {
             flex-grow: 1;
@@ -515,7 +515,7 @@
                 color: #454448;
                 opacity: 50%;
             }
-            
+
             .name-no-arrow{
                 margin-left: 16px;
             }
@@ -564,6 +564,14 @@
                 justify-content: space-between;
             }
         }
+    }
+}
+
+.group-settings {
+    margin-top: -20px;
+
+    .group-settings--body {
+        padding: 20px;
     }
 }
 

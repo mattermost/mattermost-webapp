@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
+import GroupMention from 'components/admin_console/group_settings/group_details/group_mention';
 
 import {t} from 'utils/i18n';
 
@@ -24,17 +25,17 @@ const GroupSettingsToggle = ({isDefault, allowReference, onToggle}) => (
             }
             onToggle(!allowReference);
         }}
-        singleLine={true}
+        singleLine={false}
         title={(
             <FormattedMessage
                 id='admin.team_settings.team_details.groupDetailsToggle'
-                defaultMessage='Enable Mentions and Invites'
+                defaultMessage='Enable Group Mention'
             />
         )}
         subTitle={(
             <FormattedMarkdownMessage
                 id='admin.team_settings.team_details.groupDetailsToggleDescr'
-                defaultMessage='When enabled, the group will be visible and accessible to user mention or invite this group and its memb ers by the name below'
+                defaultMessage='When enabled, the group will be visible and accessible to either mention or invite this group and its members by the name below. The membership of this group will become visible.'
             />
         )}
     />);
@@ -56,11 +57,21 @@ export const GroupProfileAndSettings = ({name, allowReference, onToggle}) => (
         <GroupProfile
             name={name}
         />
-        <GroupSettingsToggle
-            isDefault={false}
-            allowReference={allowReference}
-            onToggle={onToggle}
-        />
+        <div className='group-settings'>
+            <div className='group-settings--body'>
+                <div className='section-separator'><hr className='separator__hr'/></div>
+                <GroupSettingsToggle
+                    isDefault={false}
+                    allowReference={allowReference}
+                    onToggle={onToggle}
+                />
+            </div>
+        </div>
+        {allowReference &&
+            <GroupMention
+                name={name}
+            />
+        }
     </AdminPanel>);
 
 GroupProfileAndSettings.propTypes = {
