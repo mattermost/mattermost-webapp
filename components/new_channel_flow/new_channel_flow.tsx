@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ChannelType, Channel} from 'mattermost-redux/types/channels';
+import {Error} from 'mattermost-redux/types/errors';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -46,11 +47,6 @@ export type Props = {
     onModalDismissed: () => void;
 
     /**
-     * The current user ID
-     */
-    currentUserId: string;
-
-    /**
      * The current team ID
      */
     currentTeamId: string;
@@ -66,8 +62,8 @@ export type Props = {
     canCreatePrivateChannel: boolean;
 
     actions: {
-        createChannel: (channel: Channel, userId: string) => Promise<{data: {id: string; name: string}; error?: any}>;
-        switchToChannel: (channel: any) => Promise<{}>;
+        createChannel: (channel: Channel) => Promise<{data: Channel; error?: Error}>;
+        switchToChannel: (channel: Channel) => Promise<{}>;
     };
 };
 
@@ -141,7 +137,7 @@ export default class NewChannelFlow extends React.Component<Props, State> {
             return;
         }
 
-        const {actions, currentUserId, currentTeamId} = this.props;
+        const {actions, currentTeamId} = this.props;
         const channel: Channel = {
             team_id: currentTeamId,
             name: this.state.channelName,
@@ -161,7 +157,7 @@ export default class NewChannelFlow extends React.Component<Props, State> {
             update_at: 0,
         };
 
-        actions.createChannel(channel, currentUserId).then((result: {data: any; error?: any}) => {
+        actions.createChannel(channel).then((result: {data: Channel; error?: Error}) => {
             if (result.error) {
                 this.onCreateChannelError(result.error);
                 return;
@@ -172,8 +168,8 @@ export default class NewChannelFlow extends React.Component<Props, State> {
         });
     };
 
-    onCreateChannelError = (err: {id: string; message: string}) => {
-        if (err.id === 'model.channel.is_valid.2_or_more.app_error') {
+    onCreateChannelError = (err: Error) => {
+        if (err.server_error_id === 'model.channel.is_valid.2_or_more.app_error') {
             this.setState({
                 flowState: SHOW_EDIT_URL_THEN_COMPLETE,
                 serverError: (
@@ -183,7 +179,7 @@ export default class NewChannelFlow extends React.Component<Props, State> {
                     />
                 ),
             });
-        } else if (err.id === 'store.sql_channel.update.exists.app_error') {
+        } else if (err.server_error_id === 'store.sql_channel.update.exists.app_error') {
             this.setState({serverError: Utils.localizeMessage('channel_flow.alreadyExist', 'A channel with that URL already exists')});
         } else {
             this.setState({serverError: err.message});
@@ -227,7 +223,7 @@ export default class NewChannelFlow extends React.Component<Props, State> {
         }
     };
 
-    render = (): JSX.Element => {
+    render() {
         const channelData = {
             name: this.state.channelName,
             displayName: this.state.channelDisplayName,

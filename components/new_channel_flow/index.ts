@@ -6,8 +6,8 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
+import {Error} from 'mattermost-redux/types/errors';
 import {createChannel} from 'mattermost-redux/actions/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 
@@ -16,13 +16,12 @@ import {switchToChannel} from 'actions/views/channel';
 import NewChannelFlow from './new_channel_flow';
 
 type Actions = {
-    createChannel: (channel: Channel, userId: string) => Promise<{data: {id: string; name: string}; error?: any}>;
-    switchToChannel: (channel: any) => Promise<{}>;
+    createChannel: (channel: Channel) => Promise<{data: Channel; error?: Error}>;
+    switchToChannel: (channel: Channel) => Promise<{}>;
 }
 
 function mapStateToProps(state: GlobalState) {
     return {
-        currentUserId: getCurrentUserId(state),
         currentTeamId: getCurrentTeamId(state),
     };
 }

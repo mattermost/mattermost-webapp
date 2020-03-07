@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 import assert from 'assert';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType, Channel} from 'mattermost-redux/types/channels';
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
@@ -24,7 +24,7 @@ describe('components/NewChannelFlow', () => {
                 const data = {
                     id: 'new-channel-id',
                     name: 'newChannel',
-                };
+                } as Channel;
                 return Promise.resolve({data});
             }),
             switchToChannel: jest.fn(),
@@ -35,7 +35,6 @@ describe('components/NewChannelFlow', () => {
         canCreatePrivateChannel: true,
         onModalDismissed: jest.fn(),
         currentTeamId: 'garbage',
-        currentUserId: 'test1',
     };
 
     test('should match snapshot, with base props', () => {
@@ -241,7 +240,6 @@ describe('components/NewChannelFlow', () => {
                 switchToChannel: jest.fn(),
             },
             currentTeamId: '',
-            currentUserId: '',
             onModalDismissed: jest.fn(),
             show: false,
             channelType: Constants.OPEN_CHANNEL as ChannelType,
