@@ -120,6 +120,8 @@ export default class PostInfo extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func
         }).isRequired,
+
+        shouldShowDotMenu: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -169,7 +171,7 @@ export default class PostInfo extends React.PureComponent {
     };
 
     buildOptions = (post, isSystemMessage, fromAutoResponder) => {
-        if (!PostUtils.shouldShowDotMenu(post)) {
+        if (!this.props.shouldShowDotMenu) {
             return null;
         }
 

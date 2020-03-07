@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import 'bootstrap';
 
@@ -81,6 +82,8 @@ class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
+        teammateNameDisplaySetting: PropTypes.string.isRequired,
+        currentRelativeTeamUrl: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -270,6 +273,10 @@ class ChannelHeader extends React.PureComponent {
         this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
     }
 
+    handleFormattedTextClick(e) {
+        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    }
+
     render() {
         const {
             teamId,
@@ -283,6 +290,7 @@ class ChannelHeader extends React.PureComponent {
             dmUser,
             rhsState,
             hasGuests,
+            teammateNameDisplaySetting,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -330,12 +338,12 @@ class ChannelHeader extends React.PureComponent {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: Utils.getDisplayNameByUserId(teammateId),
+                            displayname: displayUsername(dmUser, teammateNameDisplaySetting),
                         }}
                     />
                 );
             } else {
-                channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
+                channelTitle = displayUsername(dmUser, teammateNameDisplaySetting) + ' ';
             }
             channelTitle = (
                 <React.Fragment>
@@ -352,7 +360,7 @@ class ChannelHeader extends React.PureComponent {
                 if (user.id === currentUser.id) {
                     continue;
                 }
-                const userDisplayName = Utils.getDisplayNameByUserId(user.id);
+                const userDisplayName = displayUsername(user.id, this.props.teammateNameDisplaySetting);
 
                 if (!membersMap[userDisplayName]) {
                     membersMap[userDisplayName] = []; //Create an array for cases with same display name
@@ -361,7 +369,7 @@ class ChannelHeader extends React.PureComponent {
                 membersMap[userDisplayName].push(user);
             }
 
-            const displayNames = channel.display_name.split(', ');
+            const displayNames = channel.display_name.split('');
 
             channelTitle = displayNames.map((displayName, index) => {
                 if (!membersMap[displayName]) {
@@ -458,7 +466,7 @@ class ChannelHeader extends React.PureComponent {
                         /></div>
                     <span
                         className='header-description__text'
-                        onClick={Utils.handleFormattedTextClick}
+                        onClick={this.handleFormattedTextClick}
                         onMouseOver={() => this.showChannelHeaderPopover(headerText)}
                         onMouseOut={() => this.setState({showChannelHeaderPopover: false})}
                         ref={this.headerDescriptionRef}
@@ -478,7 +486,6 @@ class ChannelHeader extends React.PureComponent {
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         />
                     </span>
-
                 </div>
             );
         } else {
