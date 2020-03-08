@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {General, Posts} from 'mattermost-redux/constants';
 
-import {canManageMembers} from 'utils/channel_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import Markdown from 'components/markdown';
@@ -178,6 +177,7 @@ function renderHeaderChangeMessage(post) {
     const headerOptions = {
         singleline: true,
         channelNamesMap: post.props && post.props.channel_mentions,
+        mentionHighlight: false,
     };
 
     const username = renderUsername(post.props.username);
@@ -331,6 +331,22 @@ function renderChannelDeletedMessage(post) {
     );
 }
 
+function renderChannelUnarchivedMessage(post) {
+    if (!post.props.username) {
+        return null;
+    }
+
+    const username = renderUsername(post.props.username);
+
+    return (
+        <FormattedMessage
+            id='api.channel.restore_channel.unarchived'
+            defaultMessage='{username} has unarchived the channel.'
+            values={{username}}
+        />
+    );
+}
+
 function renderMeMessage(post) {
     return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
 }
@@ -351,12 +367,12 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CONVERT_CHANNEL]: renderConvertChannelToPrivateMessage,
     [Posts.POST_TYPES.PURPOSE_CHANGE]: renderPurposeChangeMessage,
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
+    [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: renderChannelUnarchivedMessage,
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post, channel) {
+export function renderSystemMessage(post, channel, isUserCanManageMembers) {
     if (post.props && post.props.add_channel_member) {
-        const isUserCanManageMembers = canManageMembers(channel);
         const isEphemeral = Utils.isPostEphemeral(post);
 
         if ((channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
