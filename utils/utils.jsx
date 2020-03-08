@@ -577,7 +577,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
         changeCss('.app__body .modal-tabs .nav-tabs > li', `background:${theme.centerChannelBg}`);
         changeCss('.app__body .modal-tabs .nav-tabs > li > a', `background:${theme.centerChannelBg}`);
 
@@ -675,10 +674,9 @@ export function applyTheme(theme) {
         changeCss('.app__body .post.post--comment.other--root.current--user .post-comment, .app__body pre, .app__body .post-right__container .post.post--root', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
         changeCss('.app__body .post.post--comment.other--root.current--user .post-comment, .app__body .more-modal__list .more-modal__row, .app__body .member-div:first-child, .app__body .member-div, .app__body .access-history__table .access__report, .app__body .activity-log__table', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(max-width: 1800px){.app__body .inner-wrap.move--left .post.post--comment.same--root', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
-        changeCss('.app__body .post.post--hovered', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
         changeCss('.app__body .attachment__body__wrap.btn-close', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
         changeCss('.app__body .attachment__body__wrap.btn-close', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('@media(min-width: 768px){.app__body .post:hover, .app__body .post.a11y--active, .app__body .modal .settings-modal .settings-table .settings-content .section-min:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
+        changeCss('@media(min-width: 768px){.app__body .post.a11y--active, .app__body .modal .settings-modal .settings-table .settings-content .section-min:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
         changeCss('@media(min-width: 768px){.app__body .post.current--user:hover .post__body ', 'background: transparent;');
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
@@ -715,7 +713,7 @@ export function applyTheme(theme) {
 
         if (theme.centerChannelBg) {
             const ownPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
-            const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.08);
+            const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
             const hoveredPostBgLight = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.05);
 
             // Fade out effect for collapsed posts made by the current user
@@ -723,7 +721,7 @@ export function applyTheme(theme) {
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__gradient, ' +
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__gradient, ' +
                 '.app__body .post--root .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${ownPostBg})`,
+                `background:linear-gradient(${changeOpacity(ownPostBg, 0)}, ${theme.centerChannelBg})`,
             );
             changeCss(
                 '@media(max-width: 768px){.app__body .post-list__table .post.current--user:hover .post-collapse__gradient',
@@ -733,7 +731,7 @@ export function applyTheme(theme) {
                 '.app__body .post-list__table .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
                 '.app__body .sidebar-right__body .post.current--user:not(.post--compact):not(:hover):not(.post--hovered):not(.post--highlight) .post-collapse__show-more, ' +
                 '.app__body .post--root .post-collapse__show-more',
-                `background:${ownPostBg}`,
+                `background:${theme.centerChannelBg}`,
             );
 
             // Fade out effect for collapsed posts that are being hovered over
@@ -760,34 +758,6 @@ export function applyTheme(theme) {
                 '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
                 '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
-            );
-
-            // Apply a background behind the file attachments to cover any overflowing text in a collapsed post
-            changeCss(
-                '.app__body .post.current--user:not(.post--compact) .post-image__columns, ' +
-                '.app__body .post.current--user:not(.post--compact) .file-view--single, ' +
-                '.app__body .post--root.post--thread .post-image__columns, ' +
-                '.app__body .post--root.post--thread .file-view--single',
-                `background:${ownPostBg}`
-            );
-
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-image__columns, ' +
-                '.app__body .post-list__table .post:hover .file-view--single, ' +
-                '.app__body .post-right-comments-container .post:hover .post-image__columns, ' +
-                '.app__body .post-right-comments-container .post:hover .file-view--single, ' +
-                '.app__body .search-items-container .post:hover .post-image__columns, ' +
-                '.app__body .search-items-container .post:hover .file-view--single',
-                `background:${hoveredPostBg}`
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-image__columns, ' +
-                '.app__body .post-list__table .post.post--hovered .file-view--single, ' +
-                '.app__body .post-right-comments-container .post.post--hovered .post-image__columns, ' +
-                '.app__body .post-right-comments-container .post.post--hovered .file-view--single, ' +
-                '.app__body .search-items-container .post.post--hovered .post-image__columns, ' +
-                '.app__body .search-items-container .post.post--hovered .file-view--single',
-                `background:${hoveredPostBg}`
             );
 
             // Fade out effect for permalinked posts

@@ -699,6 +699,10 @@
     position: relative;
     word-wrap: break-word;
 
+    &:hover {
+        background-color: v(center-channel-color-05);
+    }
+
     .browser--ie & {
         .post__header {
             .col__reply {
