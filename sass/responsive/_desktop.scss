@@ -2,7 +2,7 @@
 
 @media screen and (min-width: 1680px) {
     .sidebar--right {
-        width: 28%;
+        width: 500px;
         @include translateX(100%);
 
         &.move--left {
@@ -12,13 +12,17 @@
 
     .inner-wrap {
         &.move--left {
+            .search__form {
+                width: 260px;
+            }
+
             .app__content {
                 > #post-list {
-                    margin-right: calc(28% + 80px) !important;
+                    margin-right: 500px !important;
                 }
 
                 > #post-create {
-                    width: calc(100% - 28% - 80px) !important;
+                    width: calc(100% - 500px) !important;
                 }
             }
         }
