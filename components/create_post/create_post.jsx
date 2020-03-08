@@ -281,7 +281,6 @@ class CreatePost extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         let updatedState = {currentChannel: props.currentChannel};
         if (props.currentChannel.id !== state.currentChannel.id) {
-
             updatedState = {
                 ...updatedState,
                 message: props.draft.message,
@@ -335,7 +334,7 @@ class CreatePost extends React.PureComponent {
             this.focusTextbox();
         }
 
-        if (this.props.currentChannel.id !== prevState.currentChannel.id) {
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
             this.props.actions.setShowPreview(false);
         }
 
