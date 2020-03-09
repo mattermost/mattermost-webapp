@@ -122,19 +122,20 @@ export function leaveChannel(channelId) {
         }
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
-        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
+        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
             return {error};
         }
-        const prevChannelName = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id);
+        const prevChannelName = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
         const prevChannel = getChannelByName(channelsInTeam, prevChannelName);
-        if (!prevChannel || !getMyChannelMemberships(getState())[prevChannel.id]) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
+        if (!prevChannel || !getMyChannelMemberships(state)[prevChannel.id]) {
+            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
         }
+
         if (getMyChannels(getState()).filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).length === 0) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
+            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});
             browserHistory.push('/');

@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious} from 'actions/views/rhs';
 import {
@@ -29,16 +28,6 @@ function mapStateToProps(state) {
     let channel = null;
     if (channelId) {
         channel = getChannel(state, channelId);
-        if (channel == null) {
-            // the permalink view is not really tied to a particular channel but still needs it
-            const {focusedPostId} = state.views.channel;
-            const post = getPost(state, focusedPostId);
-
-            // the post take some time before being available on page load
-            if (post != null) {
-                channel = getChannel(state, post.channel_id);
-            }
-        }
     }
 
     const selectedPostId = getSelectedPostId(state);

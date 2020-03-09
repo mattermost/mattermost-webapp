@@ -6,11 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-
 export default class TextboxLinks extends React.PureComponent {
     static propTypes = {
         showPreview: PropTypes.bool,
@@ -18,6 +13,7 @@ export default class TextboxLinks extends React.PureComponent {
         previewMessageLink: PropTypes.string,
         updatePreview: PropTypes.func,
         message: PropTypes.string.isRequired,
+        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -30,6 +26,7 @@ export default class TextboxLinks extends React.PureComponent {
     }
 
     render() {
+        const {isMarkdownPreviewEnabled} = this.props;
         const hasText = this.props.message && this.props.message.length > 0;
         let editHeader;
 
@@ -55,7 +52,7 @@ export default class TextboxLinks extends React.PureComponent {
         }
 
         let previewLink = null;
-        if (Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW)) {
+        if (isMarkdownPreviewEnabled) {
             previewLink = (
                 <button
                     id='previewLink'

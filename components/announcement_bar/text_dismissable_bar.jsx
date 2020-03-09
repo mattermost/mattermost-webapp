@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as TextFormatting from 'utils/text_formatting';
+import Markdown from 'components/markdown';
 
 import AnnouncementBar from './announcement_bar.jsx';
 
@@ -14,7 +14,6 @@ export default class TextDismissableBar extends React.PureComponent {
     static propTypes = {
         allowDismissal: PropTypes.bool.isRequired,
         text: PropTypes.string.isRequired,
-        siteURL: PropTypes.string,
         onDismissal: PropTypes.func,
 
         // Any props that AnnouncementBar supports
@@ -52,15 +51,19 @@ export default class TextDismissableBar extends React.PureComponent {
         if (this.state.dismissed) {
             return null;
         }
-        const {allowDismissal, text, siteURL, ...extraProps} = this.props;
+        const {allowDismissal, text, ...extraProps} = this.props;
         return (
             <AnnouncementBar
                 {...extraProps}
                 showCloseButton={allowDismissal}
                 handleClose={this.handleDismiss}
                 message={
-                    <span
-                        dangerouslySetInnerHTML={{__html: TextFormatting.formatText(text, {singleline: true, mentionHighlight: false, siteURL})}}
+                    <Markdown
+                        message={text}
+                        options={{
+                            singleline: true,
+                            mentionHighlight: false
+                        }}
                     />
                 }
             />

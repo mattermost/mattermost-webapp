@@ -95,6 +95,7 @@ export default class Markdown extends React.PureComponent {
          * Post id prop passed down to markdown image
          */
         postType: PropTypes.string,
+        emojiMap: PropTypes.object,
     };
 
     static defaultProps = {
@@ -121,7 +122,7 @@ export default class Markdown extends React.PureComponent {
             minimumHashtagLength: this.props.minimumHashtagLength,
         }, this.props.options);
 
-        const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
+        const htmlFormattedText = TextFormatting.formatText(this.props.message, options, this.props.emojiMap);
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,
             imagesMetadata: this.props.imagesMetadata,
