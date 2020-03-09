@@ -273,9 +273,7 @@ class ChannelHeader extends React.PureComponent {
         this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
     }
 
-    handleFormattedTextClick(e) {
-        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
-    }
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {
