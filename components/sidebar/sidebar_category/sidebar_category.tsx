@@ -83,11 +83,6 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
     }
 
-    handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.stopPropagation();
-        this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
-    }
-
     render() {
         const {category, isCollapsed} = this.props;
 
