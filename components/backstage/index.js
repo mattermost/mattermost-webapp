@@ -44,12 +44,12 @@ function mapStateToProps(state) {
         team,
         siteName,
         enableCustomEmoji,
-        canManageIntegrations,
         enableIncomingWebhooks,
         enableOutgoingWebhooks,
         enableCommands,
         enableOAuthServiceProvider,
         canCreateOrDeleteCustomEmoji,
+        canManageIntegrations,
     };
 }
 

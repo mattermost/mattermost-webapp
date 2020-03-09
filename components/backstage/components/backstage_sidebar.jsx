@@ -19,12 +19,12 @@ export default class BackstageSidebar extends React.Component {
             team: PropTypes.object.isRequired,
             user: PropTypes.object.isRequired,
             enableCustomEmoji: PropTypes.bool.isRequired,
-            canManageIntegrations: PropTypes.bool.isRequired,
             enableIncomingWebhooks: PropTypes.bool.isRequired,
             enableOutgoingWebhooks: PropTypes.bool.isRequired,
             enableCommands: PropTypes.bool.isRequired,
             enableOAuthServiceProvider: PropTypes.bool.isRequired,
             canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
+            canManageIntegrations: PropTypes.bool.isRequired,
         };
     }
 

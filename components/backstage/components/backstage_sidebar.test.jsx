@@ -15,12 +15,12 @@ describe('components/backstage/components/BackstageSidebar', () => {
         },
         user: {},
         enableCustomEmoji: false,
-        canManageIntegrations: false,
         enableIncomingWebhooks: false,
         enableOutgoingWebhooks: false,
         enableCommands: false,
         enableOAuthServiceProvider: false,
         canCreateOrDeleteCustomEmoji: false,
+        canManageIntegrations: false,
     };
 
     describe('custom emoji', () => {
@@ -163,11 +163,11 @@ describe('components/backstage/components/BackstageSidebar', () => {
         it('can manage integrations', () => {
             const props = {
                 ...defaultProps,
-                canManageIntegrations: true,
                 enableIncomingWebhooks: true,
                 enableOutgoingWebhooks: true,
                 enableCommands: true,
                 enableOAuthServiceProvider: true,
+                canManageIntegrations: true,
             };
             const wrapper = shallow(
                 <BackstageSidebar {...props}/>
@@ -183,11 +183,11 @@ describe('components/backstage/components/BackstageSidebar', () => {
         it('cannot manage integrations', () => {
             const props = {
                 ...defaultProps,
-                canManageIntegrations: false,
                 enableIncomingWebhooks: true,
                 enableOutgoingWebhooks: true,
                 enableCommands: true,
                 enableOAuthServiceProvider: true,
+                canManageIntegrations: false,
             };
             const wrapper = shallow(
                 <BackstageSidebar {...props}/>

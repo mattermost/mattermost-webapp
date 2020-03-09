@@ -63,12 +63,12 @@ export default class BackstageController extends React.Component {
 
         siteName: PropTypes.string,
         enableCustomEmoji: PropTypes.bool.isRequired,
-        canManageIntegrations: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableCommands: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
+        canManageIntegrations: PropTypes.bool.isRequired,
     }
 
     scrollToTop = () => {
@@ -107,12 +107,12 @@ export default class BackstageController extends React.Component {
                         team={this.props.team}
                         user={this.props.user}
                         enableCustomEmoji={this.props.enableCustomEmoji}
-                        canManageIntegrations={this.props.canManageIntegrations}
                         enableIncomingWebhooks={this.props.enableIncomingWebhooks}
                         enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
                         enableCommands={this.props.enableCommands}
                         enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
                         canCreateOrDeleteCustomEmoji={this.props.canCreateOrDeleteCustomEmoji}
+                        canManageIntegrations={this.props.canManageIntegrations}
                     />
                     <Switch>
                         <BackstageRoute
