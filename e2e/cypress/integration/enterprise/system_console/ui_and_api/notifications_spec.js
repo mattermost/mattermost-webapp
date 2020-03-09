@@ -9,6 +9,9 @@
 
 describe('System Console', () => {
     before(() => {
+        // * Check if server has license for ID Loaded Push Notifications
+        cy.requireLicenseForFeature('IDLoadedPushNotifications');
+
         // # Update to default config
         cy.apiUpdateConfig({
             EmailSettings: {
