@@ -3009,7 +3009,7 @@
   "reaction.usersReacted": "{users} と {lastUser}",
   "reaction.you": "あなた",
   "remove_group_confirm_button": "はい、グループと {memberCount, plural, one {Member} other {Members}}を削除します",
-  "remove_group_confirm_message": "このグループに関連づけられた {memberCount, number} {memberCount, plural, one {member} other {members}} は次にスケジュールされたAD/LDAP同期の際にチームから削除されます。本当に {memberCount} {memberCount, plural, one {member} other {members}} をこのグループから削除しますか？",
+  "remove_group_confirm_message": "このグループに関連づけられた {memberCount, number} {memberCount, plural, one {member} other {members}} は次にスケジュールされたAD/LDAP同期の際にチームから削除されます。本当に{memberCount} {memberCount, plural, one {member} other {members}} をこのグループから削除しますか？",
   "remove_group_confirm_title": "グループと{memberCount, number} {memberCount, plural, one {メンバー} other {メンバー}} を削除します",
   "removed_channel.channelName": "チャンネル",
   "removed_channel.from": "以下から削除する ",
