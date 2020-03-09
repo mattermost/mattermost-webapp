@@ -5,21 +5,22 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 
 import ChannelNavigator from './channel_navigator';
 
-function mockGoBack() {
+// TODO: For Phase 1. Will revisit history in Phase 2
+function goBack() {
     return (dispatch: any, getState: any) => {
         browserHistory.goBack();
         return {data: null};
     };
 }
 
-function mockGoForward() {
+function goForward() {
     return (dispatch: any, getState: any) => {
         browserHistory.goForward();
         return {data: null};
@@ -28,8 +29,8 @@ function mockGoForward() {
 
 function mapStateToProps(state: GlobalState) {
     return {
-        canGoBack: true, // TODO: temporary
-        canGoForward: false,
+        canGoBack: true, // TODO: Phase 1 only
+        canGoForward: true,
     };
 }
 
@@ -43,8 +44,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             openModal,
-            goBack: mockGoBack,
-            goForward: mockGoForward,
+            goBack,
+            goForward,
         }, dispatch),
     };
 }
