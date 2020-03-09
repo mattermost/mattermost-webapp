@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {setCategoryCollapsed} from 'actions/views/channel_sidebar';
 import {isCategoryCollapsed} from 'selectors/views/channel_sidebar';
@@ -13,7 +14,7 @@ import {GlobalState} from 'types/store';
 import SidebarCategory from './sidebar_category';
 
 type OwnProps = {
-    category: any;
+    category: ChannelCategory;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
