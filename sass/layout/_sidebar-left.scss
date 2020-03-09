@@ -27,7 +27,7 @@
     display: flex;
     flex-direction: column;
     position: fixed;
-    left: 65px;
+    left: 0;
     // TODO: Devin changed
     height: 100%;
     z-index: 12;
@@ -483,8 +483,12 @@
 }
 
 .multi-teams {
-    #SidebarContainer + .inner-wrap #app-content {
-        margin-left: 305px;
+    #SidebarContainer {
+        left: 65px;
+        
+        + .inner-wrap #app-content {
+            margin-left: 305px;
+        }
     }
 }
 
