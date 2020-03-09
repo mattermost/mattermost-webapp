@@ -48,6 +48,7 @@ describe('components/CreateComment', () => {
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
+        isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
     };
@@ -767,6 +768,70 @@ describe('components/CreateComment', () => {
 
             await submitPromise;
             expect(props.onUpdateCommentDraft).toHaveBeenCalledWith(props.draft);
+        });
+        ['channel', 'all', 'here'].forEach((mention) => {
+            it(`should set mentionHighlightDisabled when user does not have permission and message contains channel @${mention}`, async () => {
+                const props = {
+                    ...baseProps,
+                    useChannelMentions: false,
+                    draft: {
+                        message: `Test message @${mention}`,
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                };
+
+                const wrapper = shallowWithIntl(
+                    <CreateComment {...props}/>
+                );
+
+                wrapper.instance().handleSubmit({preventDefault});
+                expect(onSubmit).toHaveBeenCalled();
+                expect(wrapper.state('draft').props.mentionHighlightDisabled).toBe(true);
+            });
+
+            it(`should not set mentionHighlightDisabled when user does have permission and message contains channel channel @${mention}`, async () => {
+                const props = {
+                    ...baseProps,
+                    useChannelMentions: true,
+                    draft: {
+                        message: `Test message @${mention}`,
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                };
+
+                const wrapper = shallowWithIntl(
+                    <CreateComment {...props}/>
+                );
+
+                wrapper.instance().handleSubmit({preventDefault});
+                expect(onSubmit).toHaveBeenCalled();
+                expect(wrapper.state('draft').props).toBe(undefined);
+            });
+        });
+
+        it('should not set mentionHighlightDisabled when user does not have useChannelMentions permission and message contains no mention', async () => {
+            const props = {
+                ...baseProps,
+                useChannelMentions: false,
+                draft: {
+                    message: 'Test message',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                onSubmit,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            wrapper.instance().handleSubmit({preventDefault});
+            expect(onSubmit).toHaveBeenCalled();
+            expect(wrapper.state('draft').props).toBe(undefined);
         });
     });
 

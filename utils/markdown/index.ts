@@ -7,12 +7,14 @@ import {convertEntityToCharacter} from 'utils/text_formatting';
 
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
 
+import EmojiMap from 'utils/emoji_map';
+
 import Renderer from './renderer';
 
 const removeMarkdown = new RemoveMarkdown();
 
-export function format(text: string, options = {}) {
-    return formatWithRenderer(text, new Renderer({}, options));
+export function format(text: string, options = {}, emojiMap: EmojiMap) {
+    return formatWithRenderer(text, new Renderer({}, options, emojiMap));
 }
 
 export function formatWithRenderer(text: string, renderer: marked.Renderer) {
@@ -21,7 +23,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
         sanitize: true,
         gfm: true,
         tables: true,
-        mangle: false,
+        mangle: false
     };
 
     return marked(text, markdownOptions).trim();
