@@ -36,7 +36,6 @@ function getCategoryFromChannel(channelCategories: ChannelCategory[]) {
 }
 const categoriesFunc = memoizeResult(getCategoryFromChannel);
 
-// TODO: temp typing until we fix redux
 function mapStateToProps(state: GlobalState) {
     // TODO: temp
     const sidebarPrefs = getSidebarPreferences(state);
