@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {removeItem, setItem} from 'actions/storage';
+import {setItem} from 'actions/storage';
 
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
 
@@ -10,7 +10,8 @@ export function collapseCategory(categoryId: string) {
 }
 
 export function expandCategory(categoryId: string) {
-    return removeItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId);
+    // This would ideally remove the item, but that doesn't work for some reason
+    return setItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, false);
 }
 
 export function setCategoryCollapsed(categoryId: string, collapsed: boolean) {
