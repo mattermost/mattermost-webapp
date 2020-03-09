@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -18,7 +19,6 @@ import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
 import SidebarCategoryList from './sidebar_category_list';
-import classNames from 'classnames';
 
 type Props = {
     canCreatePublicChannel: boolean;
@@ -118,11 +118,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     render() {
         return (
-            <div 
+            <div
                 id='SidebarContainer'
                 className={classNames({
                     'move--right': this.props.isOpen && Utils.isMobile(),
-                })}>
+                })}
+            >
                 <SidebarHeader/>
                 <ChannelNavigator/>
                 <ChannelFilter/>

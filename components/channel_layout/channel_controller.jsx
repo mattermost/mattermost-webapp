@@ -21,7 +21,6 @@ import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
 import ModalController from 'components/modal_controller';
 import LegacyTeamSidebar from 'components/legacy_team_sidebar';
 import LegacySidebar from 'components/legacy_sidebar';
-import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
