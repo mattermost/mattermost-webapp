@@ -138,6 +138,9 @@ class MainMenu extends React.PureComponent {
             );
         });
 
+        const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
+        const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
+
         const {formatMessage} = this.props.intl;
 
         return (
@@ -285,7 +288,7 @@ class MainMenu extends React.PureComponent {
                 <Menu.Group>
                     <Menu.ItemLink
                         id='integrations'
-                        show={!this.props.mobile && this.props.canManageIntegrations && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots)}
+                        show={showIntegrations}
                         to={'/' + this.props.teamName + '/integrations'}
                         text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
                     />
