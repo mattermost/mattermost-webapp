@@ -347,7 +347,7 @@ export default class SwitchChannelProvider extends Provider {
     }
 
     formatChannelsAndDispatch(channelPrefix, resultsCallback, allChannels, users, skipNotInChannel = false) {
-        const channels = [];
+        const channels = new Map();
 
         const members = getMyChannelMemberships(getState());
 
@@ -363,7 +363,6 @@ export default class SwitchChannelProvider extends Provider {
         const config = getConfig(state);
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
-        let names = new Set();
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
 
@@ -427,11 +426,10 @@ export default class SwitchChannelProvider extends Provider {
 
                 completedChannels[channel.id] = true;
 
-                while(names.has(wrappedChannel.name)){
+                while(channels.has(wrappedChannel.name)){
                     wrappedChannel.name = wrappedChannel.name + duplicateSuffix;
                 }
-                names.add(wrappedChannel.name);
-                channels.push(wrappedChannel);
+                channels.set(wrappedChannel.name, wrappedChannel);
             }
         }
 
@@ -456,20 +454,17 @@ export default class SwitchChannelProvider extends Provider {
             }
 
             completedChannels[user.id] = true;
-            while(names.has(wrappedChannel.name)){
+            while(channels.has(wrappedChannel.name)){
                 wrappedChannel.name = wrappedChannel.name + duplicateSuffix;
             }
-            names.add(wrappedChannel.name);
-
-            channels.push(wrappedChannel);
+            channels.set(wrappedChannel.name, wrappedChannel);
         }
 
-        const channelNames = channels.
-            sort(quickSwitchSorter).
-            map((wrappedChannel) => wrappedChannel.name);
+        const channelNames = Array.from(channels.values()).sort(quickSwitchSorter).map(o => o.name);
+        const channelValues = Array.from(channels.values());
 
         if (skipNotInChannel) {
-            channels.push({
+            channelValues.put({
                 type: Constants.MENTION_MORE_CHANNELS,
                 loading: true,
             });
@@ -478,7 +473,7 @@ export default class SwitchChannelProvider extends Provider {
         resultsCallback({
             matchedPretext: channelPrefix,
             terms: channelNames,
-            items: channels,
+            items: channelValues,
             component: ConnectedSwitchChannelSuggestion,
         });
     }
