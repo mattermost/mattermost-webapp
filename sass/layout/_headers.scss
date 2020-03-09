@@ -18,6 +18,12 @@
         flex: 1 1 0;
         min-width: 0;
 
+        &:hover {
+            .header-dropdown__icon {
+                opacity: 1;
+            }
+        }
+
         .heading span {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -323,6 +329,7 @@
     }
 
     .header-dropdown__icon {
+        opacity: .6;
         flex: 0 0 auto;
         color: $dark-gray;
     }
