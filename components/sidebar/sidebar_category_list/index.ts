@@ -7,12 +7,14 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getOrderedChannelIds, getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {switchToChannelById} from 'actions/views/channel';
 import {close} from 'actions/views/lhs';
+import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
+import {GlobalState} from 'types/store';
 
 import SidebarCategoryList from './sidebar_category_list';
 
@@ -35,7 +37,7 @@ function getCategoryFromChannel(channelCategories: ChannelCategory[]) {
 const categoriesFunc = memoizeResult(getCategoryFromChannel);
 
 // TODO: temp typing until we fix redux
-function mapStateToProps(state: GlobalState & {views: any}) {
+function mapStateToProps(state: GlobalState) {
     // TODO: temp
     const sidebarPrefs = getSidebarPreferences(state);
     const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
@@ -54,6 +56,7 @@ function mapStateToProps(state: GlobalState & {views: any}) {
         currentTeam: getCurrentTeam(state),
         currentChannel: getCurrentChannel(state),
         categories,
+        isUnreadFilterEnabled: isUnreadFilterEnabled(state),
         unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'), // This function call doesn't need to be 5 arguments does it?
     };
 }
