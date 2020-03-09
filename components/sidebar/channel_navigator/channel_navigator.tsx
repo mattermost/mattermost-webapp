@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -11,8 +12,12 @@ import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
 type Props = {
+    canGoForward: boolean;
+    canGoBack: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
+        goBack: () => void;
+        goForward: () => void;
     };
 };
 
@@ -30,9 +35,11 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
     }
 
     goBack = () => {
+        this.props.actions.goBack();
     }
 
     goForward = () => {
+        this.props.actions.goForward();
     }
 
     render() {
@@ -45,27 +52,35 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
         if (isDesktopApp()) {
             historyArrows = (
                 <React.Fragment>
-                    <button onClick={this.goBack}>
-                        {'<='}
+                    <button
+                        className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
+                        disabled={!this.props.canGoBack}
+                        onClick={this.goBack}
+                    >
+                        <i className='icon icon-arrow-left'/>
                     </button>
-                    <button onClick={this.goForward}>
-                        {'=>'}
+                    <button
+                        className={classNames('SidebarChannelNavigator_forwardButton', {disabled: !this.props.canGoForward})}
+                        disabled={!this.props.canGoForward}
+                        onClick={this.goForward}
+                    >
+                        <i className='icon icon-arrow-left icon-flip'/>
                     </button>
                 </React.Fragment>
             );
         }
 
         return (
-            <div style={{display: 'flex'}}>
+            <div className={'SidebarChannelNavigator'}>
                 <button
+                    className={'SidebarChannelNavigator_jumpToButton'}
                     onClick={this.openQuickSwitcher}
-                    style={{display: 'flex', width: '100%'}}
                 >
                     <FormattedMessage
                         id='sidebar_left.channel_navigator.jumpTo'
                         defaultMessage='Jump to...'
                     />
-                    <div>
+                    <div className={'SidebarChannelNavigator_shortcutText'}>
                         {channelSwitchTextShortcutDefault}
                     </div>
                 </button>
