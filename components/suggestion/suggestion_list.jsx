@@ -28,6 +28,7 @@ export default class SuggestionList extends React.PureComponent {
         items: PropTypes.array.isRequired,
         terms: PropTypes.array.isRequired,
         selection: PropTypes.string.isRequired,
+        selectionIndex: PropTypes.number.isRequired,
         components: PropTypes.array.isRequired,
         wrapperHeight: PropTypes.number,
     };
@@ -49,7 +50,7 @@ export default class SuggestionList extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.selection !== prevProps.selection && this.props.selection) {
-            this.scrollToItem(this.props.selection);
+            this.scrollToItem(this.props.selection, this.props.selectionIndex);
         }
 
         if (!isEmptyObject(this.currentItem)) {
@@ -99,7 +100,7 @@ export default class SuggestionList extends React.PureComponent {
         return $(this.contentRef.current);
     }
 
-    scrollToItem = (term) => {
+    scrollToItem = (term, index) => {
         const content = this.getContent();
         if (!content || content.length === 0) {
             return;
@@ -113,7 +114,7 @@ export default class SuggestionList extends React.PureComponent {
             const contentTopPadding = parseInt(content.css('padding-top'), 10);
             const contentBottomPadding = parseInt(content.css('padding-top'), 10);
 
-            const item = $(ReactDOM.findDOMNode(this.itemRefs.get(term)));
+            const item = $(ReactDOM.findDOMNode(this.itemRefs.get(term + index)));
             if (item.length === 0) {
                 return;
             }
@@ -201,8 +202,8 @@ export default class SuggestionList extends React.PureComponent {
 
             items.push(
                 <Component
-                    key={term}
-                    ref={(ref) => this.itemRefs.set(term, ref)}
+                    key={`${term}${i}`}
+                    ref={(ref) => this.itemRefs.set(term+i, ref)}
                     item={this.props.items[i]}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}

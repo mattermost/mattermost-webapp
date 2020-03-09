@@ -179,6 +179,7 @@ export default class SuggestionBox extends React.Component {
             selection: '',
             allowDividers: true,
             presentationType: 'text',
+            selectionIndex: 0,
         };
 
         this.inputRef = React.createRef();
@@ -458,8 +459,7 @@ export default class SuggestionBox extends React.Component {
     }
 
     setSelectionByDelta = (delta) => {
-        let selectionIndex = this.state.terms.indexOf(this.state.selection);
-
+        let selectionIndex = this.state.selectionIndex;
         if (selectionIndex === -1) {
             this.setState({
                 selection: '',
@@ -477,6 +477,7 @@ export default class SuggestionBox extends React.Component {
 
         this.setState({
             selection: this.state.terms[selectionIndex],
+            selectionIndex
         });
     }
 
@@ -568,6 +569,7 @@ export default class SuggestionBox extends React.Component {
             cleared: false,
             selection,
             terms,
+            selectionIndex: terms.indexOf(selection),
             items,
             components: newComponents,
             matchedPretext: newPretext,
@@ -708,6 +710,7 @@ export default class SuggestionBox extends React.Component {
                         items={this.state.items}
                         terms={this.state.terms}
                         selection={this.state.selection}
+                        selectionIndex={this.state.selectionIndex}
                         components={this.state.components}
                         wrapperHeight={this.props.wrapperHeight}
                     />
