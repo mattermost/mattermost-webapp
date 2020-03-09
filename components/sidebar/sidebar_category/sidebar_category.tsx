@@ -9,9 +9,9 @@ import {isKeyPressed} from 'utils/utils';
 
 type Props = {
     category: any;
-    setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
+    setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
-    getChannelRef: (channelId: string) => HTMLDivElement | undefined;
+    getChannelRef: (channelId: string) => HTMLLIElement | undefined;
     actions: {
         setCollapsedState: (categoryId: string, isCollapsed: boolean) => void;
     };
@@ -22,7 +22,7 @@ type State = {
 };
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
-    categoryTitleRef: React.RefObject<HTMLDivElement>;
+    categoryTitleRef: React.RefObject<HTMLButtonElement>;
 
     constructor(props: Props) {
         super(props);
@@ -86,42 +86,53 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.setState({isCollapsed: !isCollapsed}); // TODO: Won't be necessary after it's in redux
     }
 
+    handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.stopPropagation();
+        this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
+    }
+
     render() {
         const {category} = this.props;
         const {isCollapsed} = this.state;
 
         const channels = category.channel_ids.map(this.renderChannel);
 
-        // TODO: temporary button, need better way of opening modal
         let directMessagesModalButton;
         if (category.id === 'direct') {
             directMessagesModalButton = (
-                <div style={{fontWeight: 'bold'}}>
-                    <a
-                        href='#'
-                        onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent)}
-                    >
-                        {'+'}
-                    </a>
-                </div>
+                <button
+                    className='SidebarChannelGroupHeader_addButton'
+                    onClick={this.handleOpenDirectMessagesModal}
+                >
+                    <i className='icon-plus'/>
+                </button>
             );
         }
 
         return (
-            <div>
-                <div
-                    ref={this.categoryTitleRef}
-                    className='a11y__section'
-                    style={{display: 'flex'}}
-                    onClick={this.handleCollapse}
-                >
-                    {isCollapsed ? '+' : '-'}
-                    <div>
-                        {category.display_name}
-                    </div>
-                    {directMessagesModalButton}
+            <div className='SidebarChannelGroup'>
+                <div className='SidebarChannelGroupHeader'>
+                    <button
+                        ref={this.categoryTitleRef}
+                        className='SidebarChannelGroupHeader_groupButton a11y__section'
+                        style={{display: 'flex'}}
+                        onClick={this.handleCollapse}
+                    >
+                        <i className={`icon icon-chevron-down ${isCollapsed ? 'icon-rotate-minus-90' : ''}`}/>
+                        <div>
+                            {category.display_name}
+                        </div>
+                        {directMessagesModalButton}
+                    </button>
                 </div>
-                {channels}
+                <div className='SidebarChannelGroup_content'>
+                    <ul
+                        role='list'
+                        className='NavGroupContent'
+                    >
+                        {channels}
+                    </ul>
+                </div>
             </div>
         );
     }

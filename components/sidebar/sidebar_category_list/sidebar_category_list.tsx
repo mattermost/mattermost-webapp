@@ -3,20 +3,43 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
+import Scrollbars from 'react-custom-scrollbars';
 import {Spring, SpringSystem, util as MathUtil} from 'rebound';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
-
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
-import UnreadChannelIndicator from 'components/unread_channel_indicator';
+
+export function renderView(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+}
+
+export function renderThumbHorizontal(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+}
+
+export function renderThumbVertical(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+}
 
 type Props = {
     currentTeam: Team;
@@ -43,8 +66,8 @@ const scrollMargin = 15;
 const scrollMarginWithUnread = 60;
 
 export default class SidebarCategoryList extends React.PureComponent<Props, State> {
-    channelRefs: Map<string, HTMLDivElement>;
-    scrollbar: React.RefObject<HTMLDivElement>;
+    channelRefs: Map<string, HTMLLIElement>;
+    scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
     scrollAnimation: Spring;
     closedDirectChannel: boolean;
@@ -94,7 +117,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
-            this.scrollbar.current!.scrollTop = 0;
+            this.scrollbar.current!.scrollToTop();
         }
 
         // Scroll to selected channel so it's in view
@@ -129,7 +152,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         return this.channelRefs.get(channelId);
     }
 
-    setChannelRef = (channelId: string, ref: HTMLDivElement) => {
+    setChannelRef = (channelId: string, ref: HTMLLIElement) => {
         if (ref) {
             this.channelRefs.set(channelId, ref);
         } else {
@@ -149,7 +172,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     handleScrollAnimationUpdate = (spring: Spring) => {
         const val = spring.getCurrentValue();
-        this.scrollbar.current!.scrollTop = val;
+        this.scrollbar.current!.scrollTop(val);
     }
 
     scrollToFirstUnreadChannel = () => {
@@ -173,8 +196,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         const top = element.offsetTop;
         const bottom = top + element.offsetHeight;
 
-        const scrollTop = this.scrollbar.current!.scrollTop;
-        const scrollHeight = this.scrollbar.current!.clientHeight;
+        const scrollTop = this.scrollbar.current!.getScrollTop();
+        const scrollHeight = this.scrollbar.current!.getClientHeight();
 
         if (top < scrollTop) {
             // Scroll up to the item
@@ -201,7 +224,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     scrollToPosition = (scrollEnd: number) => {
         // Stop the current animation before scrolling
-        this.scrollAnimation.setCurrentValue(this.scrollbar.current!.scrollTop).setAtRest();
+        this.scrollAnimation.setCurrentValue(this.scrollbar.current!.getScrollTop()).setAtRest();
 
         this.scrollAnimation.setEndValue(scrollEnd);
     }
@@ -218,7 +241,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const firstUnreadElement = this.channelRefs.get(firstUnreadChannel);
             const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.offsetTop : null;
 
-            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin) < this.scrollbar.current!.scrollTop) {
+            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin) < this.scrollbar.current!.getScrollTop()) {
                 showTopUnread = true;
             }
         }
@@ -227,7 +250,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const lastUnreadElement = this.channelRefs.get(lastUnreadChannel);
             const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.offsetTop : null;
 
-            if (lastUnreadPosition && (lastUnreadPosition + scrollMargin) > (this.scrollbar.current!.scrollTop + this.scrollbar.current!.clientHeight)) {
+            if (lastUnreadPosition && (lastUnreadPosition + scrollMargin) > (this.scrollbar.current!.getScrollTop() + this.scrollbar.current!.getClientHeight())) {
                 showBottomUnread = true;
             }
         }
@@ -343,7 +366,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         return (
             <div
-                className='sidebar--left__list a11y__region'
+                className='SidebarNavContainer a11y__region'
                 data-a11y-sort-order='6'
             >
                 <UnreadChannelIndicator
@@ -360,20 +383,19 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     extraClass='nav-pills__unread-indicator-bottom'
                     content={below}
                 />
-                <div
+                <Scrollbars
                     ref={this.scrollbar}
-                    style={{
-                        position: 'absolute',
-                        top: '0px',
-                        bottom: '0px',
-                        left: '0px',
-                        right: '0px',
-                        overflowY: 'scroll', // TODO: this should only be on hover
-                    }}
+                    autoHide={true}
+                    autoHideTimeout={500}
+                    autoHideDuration={500}
+                    renderThumbHorizontal={renderThumbHorizontal}
+                    renderThumbVertical={renderThumbVertical}
+                    renderView={renderView}
                     onScroll={this.onScroll}
+                    style={{position: 'absolute'}}
                 >
                     {renderedCategories}
-                </div>
+                </Scrollbars>
             </div>
         );
     }

@@ -8,7 +8,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import Constants from 'utils/constants';
 
-import ChannelMentionBadge from './channel_mention_badge';
 import SidebarBaseChannel from './sidebar_base_channel';
 import SidebarDirectChannel from './sidebar_direct_channel';
 import SidebarGroupChannel from './sidebar_group_channel';
@@ -48,12 +47,12 @@ type Props = {
     /**
      * Gets the ref for a given channel id
      */
-    getChannelRef: (channelId: string) => HTMLDivElement | undefined;
+    getChannelRef: (channelId: string) => HTMLLIElement | undefined;
 
     /**
      * Sets the ref for the sidebar channel div element, so that it can be used by parent components
      */
-    setChannelRef: (channelId: string, ref: HTMLDivElement) => void;
+    setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
 
     /**
      * If category is collapsed
@@ -99,7 +98,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return this.props.getChannelRef(this.props.channel.id);
     }
 
-    setRef = (ref: HTMLDivElement) => {
+    setRef = (ref: HTMLLIElement) => {
         this.props.setChannelRef(this.props.channel.id, ref);
     }
 
@@ -114,22 +113,22 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         }
 
         return (
-            <div
+            <li
+                role='listitem'
+                draggable='false'
                 ref={this.setRef}
                 className={classNames('SidebarChannel', {
                     collapsed: this.isCollapsed(this.props),
+                    unread: this.isUnread(),
+                    active: this.props.isCurrentChannel,
                 })}
-                style={{
-                    display: 'flex',
-                    fontWeight: this.isUnread() ? 'bold' : 'inherit', // TODO temp styling
-                }}
                 onTransitionEnd={this.removeAnimation}
             >
                 <ChannelComponent
                     channel={channel}
                     currentTeamName={currentTeamName}
                 />
-            </div>
+            </li>
         );
     }
 }

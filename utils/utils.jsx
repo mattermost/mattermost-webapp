@@ -913,6 +913,7 @@ export function applyTheme(theme) {
         variables: {
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
+            'sidebar-text-30': changeOpacity(theme.sidebarText, 0.3),
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
             'sidebar-text-80': changeOpacity(theme.sidebarText, 0.8),
             'sidebar-unread-text': theme.sidebarUnreadText,

@@ -115,7 +115,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     render() {
         return (
-            <div className='sidebar--left'>
+            <div id='SidebarContainer'>
                 <SidebarHeader/>
                 <ChannelNavigator/>
                 <ChannelFilter/>

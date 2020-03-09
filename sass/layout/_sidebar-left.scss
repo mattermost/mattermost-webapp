@@ -1,20 +1,434 @@
 @charset 'UTF-8';
 
-.SidebarChannel {
-    height: 31px; /* height required for transition animation */
+#TeamSidebar {
+    display: flex;
+    width: 65px;
+    background-color: var(--sidebar-header-bg);
+    position: fixed;
+    flex-direction: column;
+    left: 0;
+    text-align: center;
+    z-index: 13;
+    height: 100%;
+
+    .TeamSidebarWrapper {
+        -webkit-overflow-scrolling: touch;
+        background-color: rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        height: 100%;
+        flex: 1 1 auto;
+        position: relative;
+    }
+}
+    
+#SidebarContainer {
+    background-color: var(--sidebar-bg);
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 65px;
+    // TODO: Devin changed
+    height: 100%;
+    z-index: 12;
+
+    .badge {
+        background: var(--mention-bg);
+        color: var(--mention-color);
+        margin-right: 10px;
+        height: 16px;
+        min-width: 16px;
+    }
+
+    .SidebarHeader {
+        display: block;
+        min-height: 64px;
+        width: 240px;
+        background-color: var(--sidebar-header-bg);
+    }
+    .SidebarFilters {
+        display: flex;
+        flex-direction: row;
+        width: 240px;
+        padding: 7px 16px;
+    }
+    .SidebarFilters .SidebarFilters_filterButton {
+        display: block;
+        line-height: 28px;
+        height: 28px;
+        width: 28px;
+        background-color: #3E6ABA;
+        text-align: center;
+        border-radius: 4px;
+        color: #B7C9E5;
+        font-size: 16px;
+    }
+    .SidebarFilters .SidebarFilters_filterButton:hover {
+        color: #ECF2F9;
+        background-color: #5A81C4;
+    }
+    .SidebarFilters .SidebarFilters_filterButton:active {
+        color: #234FAE;
+        background-color: #fff;
+    }
+    
+    .nav-pills__unread-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        margin-left: 50%;
+        width: 188px;
+        font-size: 14px;
+        line-height: 28px;
+        text-align: center;
+        @include border-radius(14px);
+        z-index: 2;
+        cursor: pointer;
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
+        background: var(--mention-bg);
+        color: var(--mention-color);
+
+        .icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 5px;
+        }
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in, step-end);
+        }
+
+        svg {
+            fill: var(--mention-color);
+        }
+    }
+
+    .nav-pills__unread-indicator-top {
+        top: 16px;
+
+        .icon {
+            svg {
+                @include transform(rotate(180deg));
+            }
+        }
+    }
+
+    .nav-pills__unread-indicator-bottom {
+        bottom: 16px;
+    }
+
+    .nav-pills__unread-indicator--visible {
+        opacity: 1;
+        visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
+    }
+
+    .SidebarNavContainer {
+        width: 240px;
+        flex: 1 1 auto;
+        overflow: hidden;
+        position: relative;
+
+        .scrollbar--view ~ div {
+            z-index: 2;
+
+            div {
+                z-index: 2;
+            }
+        }
+    }
+    
+    .SidebarChannelGroup .SidebarChannelGroupHeader {
+        height: 32px;
+        font-family: 'Open Sans', sans-serif;
+        text-transform: uppercase;
+        width: 240px;
+        text-overflow: ellipsis;
+        text-align: left;
+        border: none;
+        color: var(--sidebar-text-60);
+        position: sticky;
+        top: 0;
+        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
+        transition: box-shadow 0.25s ease-in-out;
+        z-index: 1;
+    }
+    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+        height: 32px;
+        padding: 0 2px;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        text-transform: uppercase;
+        width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+        border: none;
+        color: var(--sidebar-text-60);
+        background-color: var(--sidebar-bg);
+        position: sticky;
+        top: 0;
+        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
+        transition: box-shadow 0.25s ease-in-out;
+        z-index: 1;
+    }
+    .SidebarChannelGroup .SidebarChannelGroupHeader.stuck {
+        /* box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.33);
+        transition: box-shadow 0.25s ease-in-out; */
+    }
+    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
+        color: var(--sidebar-text);
+        cursor: pointer;
+    }
+    
+    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:focus {
+        /* box-shadow: inset 0 0 0 2px orange; */
+        outline-style: none;
+    }
+    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton.directMessages {
+        width: 208px;
+    }
+    .SidebarChannelGroup .SidebarChannelGroupHeader > i {
+        font-size: 12px;
+    }
+    .SidebarChannelGroup__is-collapsed {
+        animation-name: menuAnimation;
+        animation-duration: 0.25s;
+        animation-timing-function: linear;
+    }
+    
+    .SidebarChannelGroupHeader_addButton {
+        position: absolute;
+        padding: 0;
+        top: 6px;
+        right: 19px;
+        z-index: 1;
+        background: transparent;
+        border: none;
+        color: var(--sidebar-text-80);
+        font-size: 18px;
+        line-height: 18px;
+    }
+    .SidebarChannelGroupHeader_addButton:hover {
+        cursor: pointer;
+        color: var(--sidebar-text);
+    }
+    .SidebarChannelGroupHeader_addButton:focus {
+        outline-style: none;
+    }
+    
+    /* Content */
+    .SidebarChannelGroup_content {
+        padding-bottom: 14px;
+    }
+    
+    .SidebarChannelGroup_content ul {
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Channels */
+    .SidebarChannel {
+        display: block;
+        height: 31px; /* height required for transition animation */
+        list-style-type: none;
+        width: 240px;
+        /* border: solid 2px transparent; */
+        overflow: hidden;
+        color: var(--sidebar-text-60);
+
+        &:hover {
+            .btn-close {
+                @include opacity(.8);
+                visibility: visible;
+            }
+        }
+
+        .btn-close {
+            @include opacity(0);
+            visibility: hidden;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            position: relative;
+            width: 24px;
+            height: 20px;
+            line-height: 20px;
+            margin-right: 7px;
+            text-align: center;
+
+            &:hover {
+                @include opacity(1);
+            }
+        }
+    }
+    
+    .SidebarChannel:hover {
+        /* background: rgba(255, 255, 255, 0.16); */
+    }
+    
+    
+    .SidebarChannel.animating {
+        transition-property: height, padding, color;
+        transition-duration: 0.15s; /* collapse animation speed */
+        transition-timing-function: ease-out;
+    }
+    
+    .SidebarChannel.collapsed {
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-top: none;
+        border-bottom: none;
+        overflow-y: hidden;
+    }
+    
+    /* fade out collapsing list item */
+    .SidebarChannel.animating a {
+        transition-property: color;
+        transition-duration: 0.15s; /* speed should match collapse animation speed */
+        transition-timing-function: ease-out;
+    }
+    
+    .SidebarChannel > a {
+        position: relative;
+        font-size: 14px;
+        text-decoration: none;
+        padding: 7px 5px 7px 15px;
+        width: 240px;
+        display: block;
+        color: var(--sidebar-text-60);
+    }
+    .SidebarChannel > a:focus {
+        /* box-shadow: inset 0 0 0 2px orange; */
+        outline-style: none;
+    }
+    
+    .SidebarChannel > a:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+    .SidebarChannel.active > a {
+        background: rgba(255, 255, 255, 0.16);
+        color: var(--sidebar-text);
+    }
+
+    .SidebarChannel.active > a::before {
+        content: '';
+        height: 33px;
+        position: absolute;
+        left: -2px;
+        top: 0;
+        width: 4px;
+        background: var(--sidebar-text);
+        border-radius: 4px;
+    }
+    
+    .SidebarChannel.unread > a,
+    .SidebarChannel.unread > a:hover {
+        font-weight: bold;
+        color: var(--sidebar-unread-text);
+    }
+    .SidebarChannel > a > i {
+        font-size: 12px;
+        margin-right: 2px;
+    }
+    .SidebarChannel.dragging {
+        opacity: 0;
+    }
+
+    .SidebarChannel span.SidebarChannelLinkLabel {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100%;
+        white-space: nowrap;
+        padding-right: 10px;
+        line-height: 16px;
+    }
+    
+    /* .SidebarChannel__absolute {
+        height: 44px;
+        list-style-type: none;
+        width: 100%;
+        position: relative;
+    }
+    
+    .SidebarChannel__absolute:hover {
+        background: rgba(255, 255, 255, 0.16);
+    }
+    
+    .SidebarChannel__absolute > a {
+        text-decoration: none;
+        position: absolute;
+        line-height: 44px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 24px;
+        color: #BCCDE7;
+    }
+    
+    .SidebarChannel__absolute > a:hover {
+        color: #BCCDE7;
+    } */
+    
+    .icon {
+        display: inline-block;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition: transform 0.15s ease-out; /* should match collapse animation speed */
+    }
+    .icon-rotate-minus-90 {
+        -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=-1)";
+        -webkit-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        transition: transform 0.15s ease-out; /* should match collapse animation speed */
+    }
+    :root .icon-rotate-180 {
+        filter: none;
+    }
+
+    .status.status--group {
+        background: var(--sidebar-text-30);
+        margin: 0 6px 0 2px;
+    }
+
+    .status-away {
+        color: var(--away-indicator);
+    }
+    .status-online {
+        color: var(--online-indicator);
+    }
+    .status-dnd {
+        color: var(--dnd-indicator);
+    }
+
+    + .inner-wrap #app-content {
+        margin-left: 240px;
+    }
 }
 
-.SidebarChannel.animating {
-    transition-property: height, padding, color;
-    transition-duration: .3s;
-    transition-timing-function: ease-out;
+.multi-teams {
+    #SidebarContainer + .inner-wrap #app-content {
+        margin-left: 305px;
+    }
 }
 
-.SidebarChannel.collapsed {
-    height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    border-top: none;
-    border-bottom: none;
-    overflow-y: hidden;
-}
+
