@@ -69,9 +69,13 @@
 
     .search-bar__container & {
         @include border-radius(50px);
-        border: 1px solid $light-gray;
+        border: 1px solid v(center-channel-color-15);
         margin: 16px 0 0;
         width: 180px;
+
+        &:hover {
+            border: 1px solid v(center-channel-color-40);
+        }
     }
 
     body.enable-animations .search-bar__container & {
