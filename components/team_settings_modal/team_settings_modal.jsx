@@ -76,6 +76,7 @@ export default class TeamSettingsModal extends React.Component {
                 onExited={this.handleHidden}
                 role='dialog'
                 aria-labelledby='teamSettingsModalLabel'
+                id='teamSettingsModal'
             >
                 <Modal.Header
                     id='teamSettingsModalLabel'
