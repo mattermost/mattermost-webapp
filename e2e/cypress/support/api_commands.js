@@ -712,6 +712,14 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
                     forEach((teamId) => {
                         cy.apiAddUserToTeam(teamId, userId);
                     });
+
+                // Also add the user to the default team ad-1
+                teamsResponse.body.
+                    filter((t) => t.name === 'ad-1').
+                    map((t) => t.id).
+                    forEach((teamId) => {
+                        cy.apiAddUserToTeam(teamId, userId);
+                    });
             });
         }
 

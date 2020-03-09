@@ -1,65 +1,82 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+
 import {makeAsyncComponent} from 'components/async_load';
 const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
-let wakeUpInterval;
+let wakeUpInterval: number;
 let lastTime = Date.now();
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
 const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
 
-export default class NeedsTeam extends React.Component {
-    static propTypes = {
-        params: PropTypes.object,
-        currentUser: PropTypes.object,
-        currentChannelId: PropTypes.string,
-        currentTeamId: PropTypes.string,
-        useLegacyLHS: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            fetchMyChannelsAndMembers: PropTypes.func.isRequired,
-            getMyTeamUnreads: PropTypes.func.isRequired,
-            viewChannel: PropTypes.func.isRequired,
-            markChannelAsReadOnFocus: PropTypes.func.isRequired,
-            getTeamByName: PropTypes.func.isRequired,
-            addUserToTeam: PropTypes.func.isRequired,
-            selectTeam: PropTypes.func.isRequired,
-            setPreviousTeamId: PropTypes.func.isRequired,
-            loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
-            loadProfilesForDirect: PropTypes.func.isRequired,
-        }).isRequired,
-        theme: PropTypes.object.isRequired,
-        mfaRequired: PropTypes.bool.isRequired,
+declare global {
+    interface Window {
+        isActive: boolean;
+    }
+}
 
-        /*
-         * Object from react-router
-         */
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                team: PropTypes.string.isRequired,
-            }).isRequired,
-        }).isRequired,
-        history: PropTypes.object.isRequired,
-        teamsList: PropTypes.arrayOf(PropTypes.object),
+type Props = {
+    currentUser?: {
+        id: string;
     };
+    currentChannelId?: string;
+    currentTeamId?: string;
+    useLegacyLHS: boolean;
+    actions: {
+        fetchMyChannelsAndMembers: (teamId: string) => Promise<{data: {channels: Channel[]; members: ChannelMembership[]}}>;
+        getMyTeamUnreads: () => Promise<{}>;
+        viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
+        markChannelAsReadOnFocus: (channelId: string) => Promise<{}>;
+        getTeamByName: (teamName: string) => Promise<{data: Team}>;
+        addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
+        selectTeam: (team: Team) => Promise<{data: boolean}>;
+        setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
+        loadStatusesForChannelAndSidebar: () => Promise<{}>;
+        loadProfilesForDirect: () => Promise<{}>;
+    };
+    mfaRequired: boolean;
+    match: {
+        params: {
+            team: string;
+        };
+    };
+    history: {
+        push(path: string): void;
+    };
+    teamsList: Team[];
+    theme: any;
+}
 
-    constructor(params) {
-        super(params);
+type State = {
+    team: Team | null;
+    finishedFetchingChannels: boolean;
+    prevTeam: string;
+    teamsList: Team[];
+}
+
+export default class NeedsTeam extends React.Component<Props, State> {
+    public blurTime: number;
+    constructor(props: Props) {
+        super(props);
         this.blurTime = new Date().getTime();
 
         if (this.props.mfaRequired) {
@@ -69,7 +86,7 @@ export default class NeedsTeam extends React.Component {
 
         clearInterval(wakeUpInterval);
 
-        wakeUpInterval = setInterval(() => {
+        wakeUpInterval = window.setInterval(() => {
             const currentTime = (new Date()).getTime();
             if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
@@ -84,6 +101,7 @@ export default class NeedsTeam extends React.Component {
             team,
             finishedFetchingChannels: false,
             prevTeam: this.props.match.params.team,
+            teamsList: this.props.teamsList
         };
 
         if (!team) {
@@ -91,10 +109,10 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
-    static getDerivedStateFromProps(nextProps, state) {
+    static getDerivedStateFromProps(nextProps: Props, state: State) {
         if (state.prevTeam !== nextProps.match.params.team) {
             const team = nextProps.teamsList ?
-                nextProps.teamsList.find((teamObj) =>
+                nextProps.teamsList.find((teamObj: Team) =>
                     teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
@@ -104,7 +122,7 @@ export default class NeedsTeam extends React.Component {
         return {prevTeam: nextProps.match.params.team};
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         startPeriodicStatusUpdates();
         startPeriodicSync();
 
@@ -122,7 +140,7 @@ export default class NeedsTeam extends React.Component {
         window.addEventListener('keydown', this.onShortcutKeyDown);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const {theme} = this.props;
         if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
             Utils.applyTheme(theme);
@@ -160,16 +178,17 @@ export default class NeedsTeam extends React.Component {
     }
 
     handleFocus = () => {
-        this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
-        window.isActive = true;
-
-        if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
+        if (this.props.currentChannelId) {
+            this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
+            window.isActive = true;
+        }
+        if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
             this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
             this.props.actions.loadProfilesForDirect();
         }
     }
 
-    joinTeam = async (props) => {
+    joinTeam = async (props: Props) => {
         const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
         if (team) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
@@ -184,7 +203,7 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
-    initTeam = (team) => {
+    initTeam = (team: Team) => {
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
         this.props.actions.getMyTeamUnreads();
@@ -209,7 +228,7 @@ export default class NeedsTeam extends React.Component {
         return team;
     }
 
-    updateCurrentTeam = (props) => {
+    updateCurrentTeam = (props: Props) => {
         // First check to make sure you're in the current team
         // for the current url.
         const team = props.teamsList ? props.teamsList.find((teamObj) => teamObj.name === props.match.params.team) : null;
@@ -220,7 +239,7 @@ export default class NeedsTeam extends React.Component {
         return null;
     }
 
-    onShortcutKeyDown = (e) => {
+    onShortcutKeyDown = (e: KeyboardEvent) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
             const sidebar = document.getElementById('sidebar-right');
             if (sidebar) {
