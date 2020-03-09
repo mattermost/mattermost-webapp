@@ -40,7 +40,7 @@ type Props = {
         cancelNavigation: () => void;
         loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
         resetCurrentChannelId: () => void;
-        editRole: (role: Role) => void; 
+        editRole: (role: Role) => void;
         updateConfig?: (config: Record<string, any>) => ActionFunc;
     };
 }
