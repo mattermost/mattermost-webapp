@@ -163,7 +163,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
             cancelText = (
                 <FormattedMessage
                     id='confirm_modal.cancel'
-                    defaultMessage='Cancel'
+                    defaultMessage='Cance'
                 />
             );
         }
