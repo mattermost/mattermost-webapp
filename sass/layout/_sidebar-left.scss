@@ -44,6 +44,12 @@
         box-shadow: inset 0 0 1px 3px var(--sidebar-text-50), inset 0 0 0 1px var(--sidebar-text);
     }
 
+    .SidebarContainer_filterAddChannel {
+        display: flex;
+        flex-direction: row;
+        width: 240px;
+    }
+
     .SidebarHeader {
         background-color: var(--sidebar-header-bg);
 
@@ -75,8 +81,10 @@
     }
 
     .SidebarFilters {
+        flex: 1 1 auto;
         display: flex;
         flex-direction: row;
+        width: 100%;
         padding: 7px 16px;
     }
     .SidebarFilters .SidebarFilters_filterButton {
@@ -84,19 +92,64 @@
         line-height: 28px;
         height: 28px;
         width: 28px;
-        background-color: #3E6ABA;
+        background: rgba(255, 255, 255, 0.16);
         text-align: center;
         border-radius: 4px;
-        color: #B7C9E5;
+        color: var(--sidebar-text-60);
         font-size: 16px;
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
-        color: #ECF2F9;
-        background-color: #5A81C4;
+        color: var(--sidebar-text-80);
+        background: rgba(255, 255, 255, 0.4);
     }
-    .SidebarFilters .SidebarFilters_filterButton:active {
-        color: #234FAE;
-        background-color: #fff;
+    .SidebarFilters .SidebarFilters_filterButton.active {
+        color: var(--sidebar-bg);
+        background: var(--sidebar-text);
+    }
+
+    .SidebarFilters .SidebarFilters_filterTitle {
+        color: var(--sidebar-text-80);
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 12px;
+        margin-left: 8px;
+    }
+
+    .SidebarFilters .SidebarFilters_filterDescription {
+        color: var(--sidebar-text);
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 14px;
+        margin-left: 8px;
+    }
+
+    .AddChannelDropdown {
+        height: 30px;
+
+        .dropdown-menu {
+            button {
+                padding: 0 16px;
+            }
+        }
+    }
+
+    .AddChannelDropdown_dropdownButton {
+        padding: 0;
+        margin-right: 19px;
+        margin-top: 10px;
+        z-index: 1;
+        background: transparent;
+        border: none;
+        color: var(--sidebar-text-80);
+        font-size: 18px;
+        line-height: 18px;
+    }
+    .AddChannelDropdown_dropdownButton:hover {
+        cursor: pointer;
+        color: var(--sidebar-text);
+    }
+    .AddChannelDropdown_dropdownButton:focus {
+        outline-style: none;
     }
     
     .nav-pills__unread-indicator {
@@ -217,11 +270,16 @@
             flex: 1 1 auto;
         }
     }
+
+    .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton i {
+        visibility: hidden;
+    }
+
     .SidebarChannelGroup .SidebarChannelGroupHeader.stuck {
         /* box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out; */
     }
-    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
         color: var(--sidebar-text);
         cursor: pointer;
     }

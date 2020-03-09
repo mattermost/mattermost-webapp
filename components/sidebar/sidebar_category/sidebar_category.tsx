@@ -12,25 +12,19 @@ type Props = {
     setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
+    isCollapsed: boolean;
     actions: {
-        setCollapsedState: (categoryId: string, isCollapsed: boolean) => void;
+        setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
     };
 };
 
-type State = {
-    isCollapsed: boolean;
-};
-
-export default class SidebarCategory extends React.PureComponent<Props, State> {
+export default class SidebarCategory extends React.PureComponent<Props> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
 
     constructor(props: Props) {
         super(props);
 
         this.categoryTitleRef = React.createRef();
-        this.state = {
-            isCollapsed: props.category.collapsed,
-        };
     }
 
     componentDidMount() {
@@ -67,7 +61,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     renderChannel = (channelId: string) => {
-        const {isCollapsed} = this.state;
+        const {isCollapsed} = this.props;
 
         return (
             <SidebarChannel
@@ -80,10 +74,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     handleCollapse = () => {
-        const {category} = this.props;
-        const {isCollapsed} = this.state;
-        this.props.actions.setCollapsedState(category.id, !isCollapsed);
-        this.setState({isCollapsed: !isCollapsed}); // TODO: Won't be necessary after it's in redux
+        const {category, isCollapsed} = this.props;
+        this.props.actions.setCategoryCollapsed(category.id, !isCollapsed);
     }
 
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -92,8 +84,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category} = this.props;
-        const {isCollapsed} = this.state;
+        const {category, isCollapsed} = this.props;
 
         const channels = category.channel_ids.map(this.renderChannel);
 

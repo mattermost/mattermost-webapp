@@ -37,10 +37,7 @@ export type GlobalState = BaseGlobalState & {
             };
             focusedPostId: string;
             mobileView: boolean;
-            keepChannelIdAsUnread: {
-                id: string;
-                hadMentions: boolean;
-            } | null;
+            keepChannelIdAsUnread: Channel | null;
             lastGetPosts: {
                 [channelId: string]: number;
             };
