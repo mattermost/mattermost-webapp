@@ -37,6 +37,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         teamIsGroupConstrained: PropTypes.bool,
         creatorName: PropTypes.string.isRequired,
         teammate: PropTypes.object.isRequired,
+        teammateName: PropTypes.string,
     };
 
     render() {
@@ -129,9 +130,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
 
 function createDMIntroMessage(channel, centeredIntro, teammate, teammateName) {
     const channelIntroId = 'channelIntro';
-
     if (teammate) {
-
         return (
             <div
                 id={channelIntroId}
