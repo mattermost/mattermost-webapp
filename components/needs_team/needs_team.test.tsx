@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
+import {TeamType} from 'mattermost-redux/types/teams';
 
-import NeedsTeam from 'components/needs_team/needs_team.jsx';
+import NeedsTeam from 'components/needs_team/needs_team';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitCloseRightHandSide: jest.fn(),
@@ -33,11 +34,23 @@ describe('components/needs_team', () => {
     const history = {
         push: jest.fn(),
     };
-
+    const teamType: TeamType = 'I';
     const teamsList = [{
         id: 'kemjcpu9bi877yegqjs18ndp4r',
         invite_id: 'ojsnudhqzbfzpk6e4n6ip1hwae',
         name: 'test',
+        create_at: 123,
+        update_at: 123,
+        delete_at: 123,
+        display_name: 'test',
+        description: 'test',
+        email: 'test',
+        type: teamType,
+        company_name: 'test',
+        allowed_domains: 'test',
+        allow_open_invite: false,
+        scheme_id: 'test',
+        group_constrained: false,
     }];
 
     const match = {
@@ -50,6 +63,18 @@ describe('components/needs_team', () => {
         id: 'kemjcpu9bi877yegqjs18ndp4d',
         invite_id: 'kemjcpu9bi877yegqjs18ndp4a',
         name: 'new',
+        create_at: 123,
+        update_at: 123,
+        delete_at: 123,
+        display_name: 'test',
+        description: 'test',
+        email: 'test',
+        type: teamType,
+        company_name: 'test',
+        allowed_domains: 'test',
+        allow_open_invite: false,
+        scheme_id: 'test',
+        group_constrained: false,
     };
 
     const actions = {
@@ -88,7 +113,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, fetchMyChannelsAndMembers};
         const props = {...baseProps, actions: newActions, match: existingTeamMatch};
 
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
             <NeedsTeam {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -103,7 +128,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
             <NeedsTeam {...props}/>
         );
         expect(wrapper.state().team).toEqual(null);
@@ -116,7 +141,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
             <NeedsTeam {...props}/>
         );
 
@@ -135,7 +160,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, getMyTeamUnreads, addUserToTeam, selectTeam, setPreviousTeamId};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
             <NeedsTeam {...props}/>
         );
 

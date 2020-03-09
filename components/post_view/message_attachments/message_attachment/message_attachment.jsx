@@ -7,7 +7,7 @@ import truncate from 'lodash/truncate';
 
 import {isUrlSafe} from 'utils/url';
 import {Constants} from 'utils/constants';
-import {handleFormattedTextClick} from 'utils/utils';
+import * as Utils from 'utils/utils';
 
 import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
@@ -242,9 +242,7 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
-    handleFormattedTextClick(e) {
-        handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
-    }
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {attachment, options} = this.props;
