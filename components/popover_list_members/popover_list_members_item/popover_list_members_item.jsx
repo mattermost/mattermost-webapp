@@ -19,6 +19,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
         onItemClick: PropTypes.func.isRequired,
         status: PropTypes.string.isRequired,
         user: PropTypes.object.isRequired,
+        displayName: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
@@ -34,8 +35,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
             return null;
         }
 
-        const name = Utils.getDisplayNameByUser(this.props.user);
-        if (!name) {
+        if (!this.props.displayName) {
             return null;
         }
 
@@ -54,7 +54,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
             <div
                 data-testid='popoverListMembersItem'
                 tabIndex='0'
-                aria-label={name.toLowerCase()}
+                aria-label={this.props.displayName.toLowerCase()}
                 className={'more-modal__row' + botClass}
                 onClick={this.handleClick}
             >
@@ -65,7 +65,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
                 />
                 <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>
-                        {name}
+                        {this.props.displayName}
                     </div>
                     <BotBadge
                         show={Boolean(this.props.user.is_bot)}

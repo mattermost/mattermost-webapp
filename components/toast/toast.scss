@@ -15,7 +15,7 @@
     color: var(--button-color);
     height: 32px;
     font-weight: bold;
-    z-index: 1;
+    z-index: 2;
     svg {
         fill: var(--button-color);
         vertical-align: middle;
@@ -93,4 +93,13 @@
 
 .tooltip__shortcut--txt {
     opacity: 0.6;
+}
+
+.toast__history {
+	  color: #3D3C40;
+    svg {
+        fill: rgba(61, 60, 64, 0.90);
+    }
+
+    z-index: 1;
 }
