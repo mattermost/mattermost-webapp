@@ -251,7 +251,7 @@ export default class UserSettingsSidebar extends React.Component {
                                     />
                                 </label>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.sidebar.autoCloseDMDesc'
                                     defaultMessage='Direct Message conversations can be reopened with the “+” button in the sidebar or using the Channel Switcher (CTRL+K).'
@@ -439,7 +439,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.groupDesc'
                             defaultMessage='Group channels by type, or combine all types into a list.'
@@ -488,7 +488,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.sortDesc'
                             defaultMessage='Sort channels alphabetically, or by most recent post.'
@@ -515,7 +515,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.unreadsDesc'
                             defaultMessage='Group unread channels separately until read.'
@@ -716,7 +716,10 @@ export default class UserSettingsSidebar extends React.Component {
                         className='modal-title'
                         ref='title'
                     >
-                        <div className='modal-back'>
+                        <div
+                            className='modal-back'
+                            onClick={this.props.collapseModal}
+                        >
                             <LocalizedIcon
                                 className='fa fa-angle-left'
                                 title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}

@@ -134,6 +134,8 @@ function createPost({
             emojiMap={emojiMap}
             badConnection={false}
             isTimezoneEnabled={false}
+            canPost={true}
+            useChannelMentions={true}
         />
     );
 }
@@ -291,6 +293,66 @@ describe('components/create_post', () => {
 
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
+    it('Should set mentionHighlightDisabled prop when useChannelMentions disabled before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: false,
+        });
+
+        const post = {message: 'message with @here mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual({...post, props: {mentionHighlightDisabled: true}});
+    });
+
+    it('Should not set mentionHighlightDisabled prop when useChannelMentions enabled before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: true,
+        });
+
+        const post = {message: 'message with @here mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
+    });
+
+    it('Should not set mentionHighlightDisabled prop when useChannelMentions disabled but message does not contain channel metion before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: false,
+        });
+
+        const post = {message: 'message without mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
     });
 
     it('onSubmit test for @all with timezones', () => {
@@ -783,6 +845,11 @@ describe('components/create_post', () => {
 
     it('should match snapshot for read only channel', () => {
         const wrapper = shallowWithIntl(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot when cannot post', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false}));
         expect(wrapper).toMatchSnapshot();
     });
 

@@ -11,7 +11,7 @@ describe('Identical Message Drafts', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Clear channel textbox
         cy.clearPostTextbox('town-square');

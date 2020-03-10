@@ -20,7 +20,7 @@ import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import AdminButtonOutline from 'components/admin_console/admin_button_outline/admin_button_outline';
 import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';
@@ -278,7 +278,7 @@ export default class SystemUserDetail extends React.PureComponent {
                     onClick={this.handleResetMfa}
                     className='admin-btn-default'
                 >
-                    {'Remove MFA'}
+                    {Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
                 </AdminButtonOutline>
             );
         }
@@ -405,7 +405,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                         onClick={this.doPasswordReset}
                                         className='admin-btn-default'
                                     >
-                                        {'Reset Password'}
+                                        {Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                                     </AdminButtonOutline>
                                     {this.renderActivateDeactivate()}
                                     {this.renderRemoveMFA()}
