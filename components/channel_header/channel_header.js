@@ -265,9 +265,7 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
-    handleFormattedTextClick(e) {
-        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
-    }
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {

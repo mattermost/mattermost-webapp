@@ -86,8 +86,11 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Main Menu Dropdown items
-        const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', 'About Mattermost dialog', ''];
-        verifyMenuItems('#sidebarDropdownMenu', labels);
+        cy.apiGetConfig().then((response) => {
+            const siteName = response.body.TeamSettings.SiteName;
+            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
+            verifyMenuItems('#sidebarDropdownMenu', labels);
+        });
 
         cy.get('#sidebarDropdownMenu .MenuItem').each((el) => {
             cy.wrap(el).should('have.attr', 'role', 'menuitem');

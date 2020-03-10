@@ -123,9 +123,7 @@ export default class PostMessageView extends React.PureComponent {
         );
     }
 
-    handleFormattedTextClick(e) {
-        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
-    }
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {
