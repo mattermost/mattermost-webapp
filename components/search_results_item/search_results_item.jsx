@@ -315,7 +315,7 @@ class SearchResultsItem extends React.PureComponent {
                         commentCount={this.props.replyCount}
                         postId={post.id}
                         searchStyle={'search-item__comment'}
-                        extraClass={'icon--visible'}
+                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
                     />
                     <a
                         href='#'
