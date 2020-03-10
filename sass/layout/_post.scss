@@ -770,10 +770,6 @@
         }
     }
 
-    &.post--highlight {
-        background-color: beige;
-    }
-
     &.post--hide-controls {
         .post__header {
             .col__reply {
@@ -1507,6 +1503,10 @@
             }
 
             li {
+                p {
+                    display: inline;
+                }
+
                 ul {
                     font-size: 1em;
                     margin: 0;
@@ -2097,4 +2097,17 @@
     .emoji-picker--active & {
         pointer-events: none;
     }
+}
+
+@keyframes postHighlight {
+    100% {
+      background: initial;
+    }
+}
+
+.app__body .app__content .post.post--highlight {
+    animation-duration: 1s;
+    animation-name: postHighlight;
+    animation-delay: 5s;
+    animation-fill-mode: forwards;
 }
