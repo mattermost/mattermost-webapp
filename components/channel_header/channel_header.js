@@ -478,6 +478,12 @@ class ChannelHeader extends React.PureComponent {
                                     id='channel_header.addChannelHeader'
                                     defaultMessage='Add a channel description'
                                 />
+                                <span className='button__edit ml-1'>
+                                    <FormattedMessage
+                                        id='channel_header.editLink'
+                                        defaultMessage='(Edit)'
+                                    />
+                                </span>
                             </button>
                         );
                     }
@@ -496,6 +502,12 @@ class ChannelHeader extends React.PureComponent {
                                     id='channel_header.addChannelHeader'
                                     defaultMessage='Add a channel description'
                                 />
+                                <span className='button__edit ml-1'>
+                                    <FormattedMessage
+                                        id='channel_header.editLink'
+                                        defaultMessage='(Edit)'
+                                    />
+                                </span>
                             </button>
                         </ChannelPermissionGate>
                     );

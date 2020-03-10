@@ -113,6 +113,15 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <span
+                className="button__edit ml-1"
+              >
+                <FormattedMessage
+                  defaultMessage="(Edit)"
+                  id="channel_header.editLink"
+                  values={Object {}}
+                />
+              </span>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -315,6 +324,15 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <span
+                className="button__edit ml-1"
+              >
+                <FormattedMessage
+                  defaultMessage="(Edit)"
+                  id="channel_header.editLink"
+                  values={Object {}}
+                />
+              </span>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -517,6 +535,15 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <span
+                className="button__edit ml-1"
+              >
+                <FormattedMessage
+                  defaultMessage="(Edit)"
+                  id="channel_header.editLink"
+                  values={Object {}}
+                />
+              </span>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -903,6 +930,15 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <span
+                className="button__edit ml-1"
+              >
+                <FormattedMessage
+                  defaultMessage="(Edit)"
+                  id="channel_header.editLink"
+                  values={Object {}}
+                />
+              </span>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -1111,6 +1147,15 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <span
+                className="button__edit ml-1"
+              >
+                <FormattedMessage
+                  defaultMessage="(Edit)"
+                  id="channel_header.editLink"
+                  values={Object {}}
+                />
+              </span>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>

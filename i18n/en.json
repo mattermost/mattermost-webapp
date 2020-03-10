@@ -2203,6 +2203,7 @@
   "edit_channel_header_modal.title": "Edit Header for {channel}",
   "edit_channel_header_modal.title_dm": "Edit Header",
   "edit_channel_header.editHeader": "Edit the Channel Header...",
+  "channel_header.editLink": "(Edit)",
   "edit_channel_header.previewHeader": "Edit Header",
   "edit_channel_private_purpose_modal.body": "This text appears in the \"View Info\" modal of the private channel.",
   "edit_channel_purpose_modal.body": "Describe how this channel should be used. This text appears in the channel list in the \"More...\" menu and helps others decide whether to join.",
