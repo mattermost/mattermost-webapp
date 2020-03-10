@@ -1271,21 +1271,25 @@ exports[`components/ChannelHeader should render properly when populated with cha
               popoverSize="lg"
               popoverStyle="info"
             >
-              <Connect(Markdown)
-                message="See ~test"
-                options={
-                  Object {
-                    "atMentions": true,
-                    "channelNamesMap": Object {
-                      "test": Object {
-                        "display_name": "Test",
+              <span
+                onClick={[Function]}
+              >
+                <Connect(Markdown)
+                  message="See ~test"
+                  options={
+                    Object {
+                      "atMentions": true,
+                      "channelNamesMap": Object {
+                        "test": Object {
+                          "display_name": "Test",
+                        },
                       },
-                    },
-                    "mentionHighlight": false,
-                    "singleline": false,
+                      "mentionHighlight": false,
+                      "singleline": false,
+                    }
                   }
-                }
-              />
+                />
+              </span>
             </Popover>
           }
           placement="bottom"
