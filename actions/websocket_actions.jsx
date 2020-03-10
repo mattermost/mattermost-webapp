@@ -43,6 +43,7 @@ import {
     getStatusesByIds,
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
+import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -609,6 +610,9 @@ export function handleLeaveTeamEvent(msg) {
                 redirectUserToDefaultTeam();
             }
         }
+        if (isGuest(currentUser)) {
+            dispatch(removeNotVisibleUsers());
+        }
     } else {
         const team = getTeam(state, msg.data.team_id);
         const members = getChannelMembersInChannels(state);
@@ -724,9 +728,9 @@ function handleUserAddedEvent(msg) {
 export function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
-    const currentUserId = getCurrentUserId(state);
+    const currentUser = getCurrentUser(state);
 
-    if (msg.broadcast.user_id === currentUserId) {
+    if (msg.broadcast.user_id === currentUser.id) {
         dispatch(loadChannelsForCurrentUser());
 
         const rhsChannelId = getSelectedChannelId(state);
@@ -759,6 +763,9 @@ export function handleUserRemovedEvent(msg) {
             type: ChannelTypes.LEAVE_CHANNEL,
             data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
         });
+        if (isGuest(currentUser)) {
+            dispatch(removeNotVisibleUsers());
+        }
     } else if (msg.broadcast.channel_id === currentChannel.id) {
         dispatch(getChannelStats(currentChannel.id));
         dispatch({
@@ -767,8 +774,7 @@ export function handleUserRemovedEvent(msg) {
         });
     }
 
-    if (msg.broadcast.user_id !== currentUserId) {
-        const currentUser = getCurrentUser(state);
+    if (msg.broadcast.user_id !== currentUser.id) {
         const channel = getChannel(state, msg.broadcast.channel_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
