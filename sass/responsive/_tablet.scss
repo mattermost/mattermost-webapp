@@ -44,7 +44,7 @@
                 > #post-list {
                     margin-right: 0 !important;
                 }
-                > #post-create {
+                > .post-create__container {
                     width: 100% !important;
                 }
             }
@@ -58,7 +58,7 @@
                 > #post-list {
                     margin-right: 0 !important;
                 }
-                > #post-create {
+                > .post-create__container {
                     width: 100% !important;
                 }
             }
@@ -297,7 +297,7 @@
                 > #post-list {
                     margin-right: 400px;
                 }
-                > #post-create {
+                > .post-create__container {
                     width: calc(100% - 400px);
                 }
             }

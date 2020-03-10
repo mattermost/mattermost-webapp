@@ -18,11 +18,11 @@
 
             .app__content {
                 > #post-list {
-                    margin-right: 500px !important;
+                    margin-right: 500px;
                 }
 
-                > #post-create {
-                    width: calc(100% - 500px) !important;
+                > .post-create__container {
+                    width: calc(100% - 500px);
                 }
             }
         }
