@@ -37,7 +37,7 @@ export default class ChannelController extends React.Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName || this.props.fetchingChannels !== nextProps.fetchingChannels;
+        return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName || this.props.fetchingChannels !== nextProps.fetchingChannels || this.props.useLegacyLHS !== nextProps.useLegacyLHS;
     }
 
     componentDidMount() {

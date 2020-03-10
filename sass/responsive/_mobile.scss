@@ -1538,6 +1538,10 @@
         border: none;
         width: 290px;
 
+        + .inner-wrap #app-content {
+            margin-left: 0;
+        }
+
         &.move--right {
             @include translate3d(0, 0, 0);
         }
