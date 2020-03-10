@@ -181,7 +181,7 @@ export default class SuggestionList extends React.PureComponent {
         for (let i = 0; i < this.props.items.length; i++) {
             const item = this.props.items[i];
             const term = this.props.terms[i];
-            const isSelection = term === this.props.selection;
+            const isSelection = term+i === this.props.selection+this.props.selectionIndex;
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
