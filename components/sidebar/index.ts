@@ -11,6 +11,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {getIsLhsOpen} from 'selectors/lhs';
+
 import Sidebar from './sidebar';
 
 function mapStateToProps(state: GlobalState) {
@@ -27,6 +29,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         canCreatePrivateChannel,
         canCreatePublicChannel,
+        isOpen: getIsLhsOpen(state),
     };
 }
 

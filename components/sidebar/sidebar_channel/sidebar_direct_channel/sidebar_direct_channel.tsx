@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {IntlShape, injectIntl} from 'react-intl';
 import Svg from 'react-inlinesvg';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -18,6 +19,7 @@ import BotIcon from 'components/widgets/icons/bot_icon.jsx';
 import SidebarChannelLink from '../sidebar_channel_link';
 
 type Props = {
+    intl: IntlShape;
     channel: Channel;
     teammate?: UserProfile;
     currentTeamName: string;
@@ -34,7 +36,7 @@ type State = {
     svgErrorUrl: string | null;
 };
 
-export default class SidebarDirectChannel extends React.PureComponent<Props, State> {
+class SidebarDirectChannel extends React.PureComponent<Props, State> {
     handleLeaveChannel = (callback: () => void) => {
         const id = this.props.channel.teammate_id;
         const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
@@ -116,14 +118,26 @@ export default class SidebarDirectChannel extends React.PureComponent<Props, Sta
             return null;
         }
 
+        let displayName = channel.display_name;
+        if (this.props.currentUserId === teammate.id) {
+            displayName = this.props.intl.formatMessage({
+                id: 'sidebar.directchannel.you',
+                defaultMessage: '{displayname} (you)',
+            }, {
+                displayname: channel.display_name,
+            });
+        }
+
         return (
             <SidebarChannelLink
                 channel={channel}
                 link={`/${currentTeamName}/messages/@${teammate.username}`}
-                label={channel.display_name}
+                label={displayName}
                 closeHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
             />
         );
     }
 }
+
+export default injectIntl(SidebarDirectChannel);
