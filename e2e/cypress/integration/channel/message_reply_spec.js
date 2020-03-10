@@ -17,6 +17,7 @@ describe('Message Reply', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {

@@ -27,6 +27,7 @@ describe('Messaging', () => {
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {
