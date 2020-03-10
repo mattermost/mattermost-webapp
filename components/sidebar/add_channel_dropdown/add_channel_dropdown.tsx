@@ -2,9 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
+
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
 
 type Props = {
+    intl: IntlShape;
     showMoreChannelsModal: () => void;
     showNewChannelModal: () => void;
 };
@@ -13,33 +17,37 @@ type State = {
 
 };
 
-export default class AddChannelDropdown extends React.PureComponent<Props, State> {
+class AddChannelDropdown extends React.PureComponent<Props, State> {
     render() {
+        const {formatMessage} = this.props.intl;
+
         return (
-            <div>
-                <div>
-                    <a
-                        href='#'
-                        onClick={this.props.showMoreChannelsModal}
-                    >
-                        <FormattedMessage
-                            id={'sidebar_left.add_channel_dropdown.browseChannels'}
-                            defaultMessage={'Browse Channels'}
+            <MenuWrapper className='AddChannelDropdown'>
+                <button className='AddChannelDropdown_dropdownButton'>
+                    <i className='icon-plus'/>
+                </button>
+                <Menu
+                    id='AddChannelDropdown'
+                    ariaLabel={formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+                >
+                    <Menu.Group>
+                        <Menu.ItemAction
+                            id='showMoreChannels'
+                            onClick={this.props.showMoreChannelsModal}
+                            icon={<i className='icon-globe'/>}
+                            text={formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'})}
                         />
-                    </a>
-                </div>
-                <div>
-                    <a
-                        href='#'
-                        onClick={this.props.showNewChannelModal}
-                    >
-                        <FormattedMessage
-                            id={'sidebar_left.add_channel_dropdown.createNewChannel'}
-                            defaultMessage={'Create New Channel'}
+                        <Menu.ItemAction
+                            id='showNewChannel'
+                            onClick={this.props.showNewChannelModal}
+                            icon={<i className='icon-plus'/>}
+                            text={formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
                         />
-                    </a>
-                </div>
-            </div>
+                    </Menu.Group>
+                </Menu>
+            </MenuWrapper>
         );
     }
 }
+
+export default injectIntl(AddChannelDropdown);
