@@ -461,7 +461,6 @@
         transition: transform 0.15s ease-out; /* should match collapse animation speed */
     }
     .icon-rotate-minus-90 {
-        -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=-1)";
         -webkit-transform: rotate(-90deg);
         -ms-transform: rotate(-90deg);
         transform: rotate(-90deg);
@@ -469,7 +468,6 @@
     }
 
     .icon-flip {
-        -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=-1)";
         -webkit-transform: rotate(-180deg);
         -ms-transform: rotate(-180deg);
         transform: rotate(-180deg);
