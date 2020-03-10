@@ -431,10 +431,15 @@ class ChannelHeader extends React.PureComponent {
                     onMouseOver={this.handleOnMouseOver}
                     onMouseOut={this.handleOnMouseOut}
                 >
-                    <Markdown
-                        message={headerText}
-                        options={this.getPopoverMarkdownOptions(channelNamesMap)}
-                    />
+                    <span
+                        onClick={this.handleFormattedTextClick}
+                    >
+                        <Markdown
+                            message={headerText}
+                            options={this.getPopoverMarkdownOptions(channelNamesMap)}
+                        />
+                    </span>
+
                 </Popover>
             );
             headerTextContainer = (
