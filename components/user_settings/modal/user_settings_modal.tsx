@@ -1,21 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
-import React from 'react';
+import React, {RefObject} from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
-import PropTypes from 'prop-types';
+import {
+    defineMessages,
+    FormattedMessage,
+    injectIntl,
+    IntlShape
+} from 'react-intl';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal';
 
 const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'components/user_settings'));
-const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar.tsx'));
+const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar'));
 
 const holders = defineMessages({
     general: {
@@ -60,17 +63,29 @@ const holders = defineMessages({
     },
 });
 
-class UserSettingsModal extends React.Component {
-    static propTypes = {
-        currentUser: PropTypes.object.isRequired,
-        onHide: PropTypes.func.isRequired,
-        intl: intlShape.isRequired,
-        actions: PropTypes.shape({
-            sendVerificationEmail: PropTypes.func.isRequred,
-        }).isRequired,
-    }
+type Props = {
+    currentUser: UserProfile;
+    onHide: () => void;
+    intl: IntlShape;
+    actions: {sendVerificationEmail: (email: string) => any;};
+}
 
-    constructor(props) {
+type State = {
+    active_tab: string;
+    active_section: string;
+    showConfirmModal: boolean;
+    enforceFocus: boolean;
+    show: boolean;
+    resendStatus: string;
+}
+
+class UserSettingsModal extends React.Component<Props, State> {
+    private requireConfirm: boolean;
+    private customConfirmAction: any;
+    private modalBodyRef: React.RefObject<Modal>;
+    private afterConfirm: any;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -79,6 +94,7 @@ class UserSettingsModal extends React.Component {
             showConfirmModal: false,
             enforceFocus: true,
             show: true,
+            resendStatus: ''
         };
 
         this.requireConfirm = false;
@@ -91,10 +107,10 @@ class UserSettingsModal extends React.Component {
         this.modalBodyRef = React.createRef();
     }
 
-    handleResend = (email) => {
+    handleResend = (email: string) => {
         this.setState({resendStatus: 'sending'});
 
-        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
+        this.props.actions.sendVerificationEmail(email).toPromise().then(({data, err} : {data: any, err: any}) => {
             if (data) {
                 this.setState({resendStatus: 'success'});
             } else if (err) {
@@ -111,13 +127,14 @@ class UserSettingsModal extends React.Component {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.active_tab !== prevState.active_tab) {
-            $(ReactDOM.findDOMNode(this.modalBodyRef.current)).scrollTop(0);
+            const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as any;
+            el.scrollTop(0);
         }
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: any) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
             this.handleHide();
         }
@@ -146,7 +163,8 @@ class UserSettingsModal extends React.Component {
 
     // Called to hide the settings pane when on mobile
     handleCollapse = () => {
-        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content');
+        const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as any;
+        el.closest('.modal-dialog').removeClass('display--content');
 
         this.setState({
             active_tab: '',
@@ -178,7 +196,7 @@ class UserSettingsModal extends React.Component {
         this.afterConfirm = null;
     }
 
-    showConfirmModal = (afterConfirm) => {
+    showConfirmModal = (afterConfirm: any) => {
         if (afterConfirm) {
             this.afterConfirm = afterConfirm;
         }
@@ -212,7 +230,7 @@ class UserSettingsModal extends React.Component {
         }
     }
 
-    updateTab = (tab, skipConfirm) => {
+    updateTab = (tab: string, skipConfirm: boolean) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateTab(tab, true));
         } else {
@@ -223,7 +241,7 @@ class UserSettingsModal extends React.Component {
         }
     }
 
-    updateSection = (section, skipConfirm) => {
+    updateSection = (section: any, skipConfirm: any) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
@@ -292,9 +310,9 @@ class UserSettingsModal extends React.Component {
                                     updateTab={this.updateTab}
                                     closeModal={this.closeModal}
                                     collapseModal={this.collapseModal}
-                                    setEnforceFocus={(enforceFocus) => this.setState({enforceFocus})}
+                                    setEnforceFocus={(enforceFocus: any) => this.setState({enforceFocus})}
                                     setRequireConfirm={
-                                        (requireConfirm, customConfirmAction) => {
+                                        (requireConfirm: any, customConfirmAction: any) => {
                                             this.requireConfirm = requireConfirm;
                                             this.customConfirmAction = customConfirmAction;
                                         }
