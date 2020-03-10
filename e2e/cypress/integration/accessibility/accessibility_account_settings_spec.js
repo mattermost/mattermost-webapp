@@ -10,6 +10,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import accountSettingSections from '../../fixtures/account_setting_sections.json';
 
+let origConfig;
+
 function verifySections(sections) {
     // * Verify Accessibility support in the specified sections
     sections.forEach((section, index) => {
@@ -30,10 +32,32 @@ describe('Verify Accessibility Support in different sections in Account Settings
     before(() => {
         cy.apiLogin('sysadmin');
 
-        // # Enable MFA
+        // Get config
+        cy.apiGetConfig().then((response) => {
+            const config = response.body;
+            origConfig = {
+                DisplaySettings: {
+                    ExperimentalTimezone: config.DisplaySettings.ExperimentalTimezone,
+                },
+                SamlSettings: {
+                    Enable: config.SamlSettings.Enable,
+                },
+                ServiceSettings: {
+                    EnableMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication,
+                },
+            };
+        });
+
+        // # Update Configs
         cy.apiUpdateConfigBasic({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
+            },
+            DisplaySettings: {
+                ExperimentalTimezone: true,
+            },
+            SamlSettings: {
+                Enable: false,
             },
         });
 
@@ -50,12 +74,8 @@ describe('Verify Accessibility Support in different sections in Account Settings
     });
 
     after(() => {
-        // # Disable MFA
-        cy.apiUpdateConfigBasic({
-            ServiceSettings: {
-                EnableMultifactorAuthentication: false,
-            },
-        });
+        // # Revert Config
+        cy.apiUpdateConfig(origConfig);
     });
 
     it('MM-22628 Verify Label & Tab behavior in section links', () => {

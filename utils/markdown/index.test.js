@@ -54,6 +54,17 @@ describe('format', () => {
             expect(output).toBe(expected);
         });
 
+        test('ordered lists starting at 0 should include a start index', () => {
+            const input = `0. a
+1. b
+2. c`;
+            const expected = `<ol className="markdown__list" style="counter-reset: list -1">
+<li><span>a</span></li><li><span>b</span></li><li><span>c</span></li></ol>`;
+
+            const output = format(input);
+            expect(output).toBe(expected);
+        });
+
         test('ordered lists starting at any other number should include a start index', () => {
             const input = `999. a
 1. b

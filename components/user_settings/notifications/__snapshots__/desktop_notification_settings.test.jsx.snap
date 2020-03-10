@@ -146,7 +146,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             className="mt-5"
           >
             <FormattedMessage
-              defaultMessage="Notification sounds are available on Edge, Safari, Chrome and Mattermost Desktop Apps."
+              defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.sounds_info"
               values={Object {}}
             />
@@ -444,7 +444,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
             className="mt-5"
           >
             <FormattedMessage
-              defaultMessage="Notification sounds are available on Edge, Safari, Chrome and Mattermost Desktop Apps."
+              defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.sounds_info"
               values={Object {}}
             />

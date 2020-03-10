@@ -48,6 +48,7 @@ describe('components/CreateComment', () => {
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
+        isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
     };
