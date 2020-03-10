@@ -29,7 +29,7 @@ function verifyMessageAutocomplete(index, type = 'user') {
     cy.get('#suggestionList .mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
             cy.wrap(el).invoke('text').then((text) => {
-                const username = text.replace('- ', '').replace('@', '').replace('(', '').replace(')', '').toLowerCase();
+                const username = text.replace('- ', '').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
                 cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', username);
             });
         } else if (type === 'channel') {
@@ -98,6 +98,19 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     it('MM-22625 Verify Accessibility Support in Search Autocomplete', () => {
+        // # Adding at least five other users in the channel
+        cy.getCurrentChannelId().then((channelId) => {
+            cy.getCurrentTeamId().then((teamId) => {
+                for (let i = 0; i < 5; i++) {
+                    cy.createNewUser({}, [teamId]).then((user) => {
+                        cy.apiAddUserToChannel(channelId, user.id);
+                    });
+                }
+            });
+        });
+        cy.apiLogin('sysadmin');
+        cy.visit('/ad-1/channels/town-square');
+
         // * Verify Accessibility support in search input
         cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').focus();
         cy.get('#searchbar-help-popup').should('be.visible').and('have.attr', 'role', 'tooltip');
