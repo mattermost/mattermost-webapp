@@ -19,6 +19,7 @@ describe('Message permalink', () => {
     it('M13675-Copy a permalink and paste into another channel', () => {
         const message = 'Hello' + Date.now();
         const channelName = 'test-message-channel-1';
+        let permalinkPostId = '';
 
         // # Create new DM channel with user's email
         cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
@@ -31,6 +32,8 @@ describe('Message permalink', () => {
                 cy.postMessage(message);
 
                 cy.getLastPostId().then((postId) => {
+                    permalinkPostId = postId;
+
                     // # check if ... button is visible in last post right side
                     cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
 
@@ -66,16 +69,42 @@ describe('Message permalink', () => {
                 const testChannel = response.body;
 
                 cy.apiSaveMessageDisplayPreference('compact');
-                verifyPermalink(message, testChannel);
+                verifyPermalink(message, testChannel, permalinkPostId);
 
                 cy.apiSaveMessageDisplayPreference('clean');
-                verifyPermalink(message, testChannel);
+                verifyPermalink(message, testChannel, permalinkPostId);
+            });
+        });
+    });
+
+    it('Permalink highlight should fade after timeout and change to channel url', () => {
+        const message = 'Hello' + Date.now();
+
+        // # Create new DM channel with user's email
+        cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
+            const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
+
+            cy.apiCreateDirectChannel(userEmailArray).then(() => {
+                cy.visit('/ad-1/messages/@sysadmin');
+
+                // # Post message to use
+                cy.postMessage(message);
+
+                cy.getLastPostId().then((postId) => {
+                    cy.visit(`/ad-1/messages/@sysadmin/${postId}`);
+                    cy.url().should('include', `/ad-1/messages/@sysadmin/${postId}`);
+                    cy.get(`#post_${postId}`).should('have.class', 'post--highlight');
+                    cy.clock();
+                    cy.tick(6000);
+                    cy.get(`#post_${postId}`).should('not.have.class', 'post--highlight');
+                    cy.url().should('not.include', postId);
+                });
             });
         });
     });
 });
 
-function verifyPermalink(message, testChannel) {
+function verifyPermalink(message, testChannel, permalinkPostId) {
     // # click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
     cy.wait(TIMEOUTS.TINY);
@@ -87,10 +116,14 @@ function verifyPermalink(message, testChannel) {
         // # Get last post id from that postlist area
         cy.getLastPostId().then((postId) => {
             // # Click on permalink
-            cy.get(`#postMessageText_${postId} > p > .markdown__link`).scrollIntoView().click();
+            cy.get(`#postMessageText_${postId} > p > .markdown__link`).click();
+            cy.get('div.post-list__dynamic');
 
             // # Check if url include the permalink
-            cy.url().should('include', linkText);
+
+            // This should have been `/ad-1/messages/@sysadmin/${postId}`
+            // but cypress is failing for this assertion as there is another redirect after this
+            cy.url().should('include', `/ad-1/messages/@sysadmin/${permalinkPostId}`);
         });
 
         // # Get last post id from open channel

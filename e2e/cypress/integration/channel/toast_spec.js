@@ -19,6 +19,7 @@ describe('toasts', () => {
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });
+        cy.apiSaveMessageDisplayPreference();
     });
 
     beforeEach(() => {
@@ -206,6 +207,35 @@ describe('toasts', () => {
                 // * The new messages line should have moved to the last post
                 cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
             });
+        });
+    });
+
+    it('Archive toast is not show when visiting a permalink at the bottom', () => {
+        // # Add one message
+        cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
+            visitTownSquareAndWaitForPageToLoad();
+            cy.visit(`/ad-1/pl/${id}`);
+
+            // * Toast should not be present
+            cy.get('div.toast').should('not.be.visible');
+        });
+    });
+
+    it('Archive toast should be show when visiting a post which is not at bottom', () => {
+        // # Add one message
+        cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
+            visitTownSquareAndWaitForPageToLoad();
+
+            // # Add 29 posts to create enough space from bottom for showing archive toast
+            for (let index = 0; index < 25; index++) {
+                cy.postMessageAs({sender: otherUser, message: `# This is an old message [${index}]`, channelId: townsquareChannelId});
+            }
+
+            cy.visit('/ad-1/channels/off-topic');
+            cy.visit(`/ad-1/pl/${id}`);
+
+            // * Toast should not be present
+            cy.get('div.toast').should('be.visible');
         });
     });
 });

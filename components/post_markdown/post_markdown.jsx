@@ -40,16 +40,19 @@ export default class PostMarkdown extends React.PureComponent {
          * Whether or not to place the LinkTooltip component inside links
          */
         hasPluginTooltips: PropTypes.bool,
+
+        isUserCanManageMembers: PropTypes.bool,
     };
 
     static defaultProps = {
         isRHS: false,
         pluginHooks: [],
+        options: {},
     };
 
     render() {
         if (this.props.post) {
-            const renderedSystemMessage = renderSystemMessage(this.props.post, this.props.channel);
+            const renderedSystemMessage = renderSystemMessage(this.props.post, this.props.channel, this.props.isUserCanManageMembers);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
@@ -60,7 +63,7 @@ export default class PostMarkdown extends React.PureComponent {
         const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
         let {message} = this.props;
-        const {post} = this.props;
+        const {post, options} = this.props;
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {
@@ -68,13 +71,17 @@ export default class PostMarkdown extends React.PureComponent {
             }
         });
 
+        if (post && post.props) {
+            options.mentionHighlight = !post.props.mentionHighlightDisabled;
+        }
+
         return (
             <Markdown
                 imageProps={this.props.imageProps}
                 isRHS={this.props.isRHS}
                 message={message}
                 proxyImages={proxyImages}
-                options={this.props.options}
+                options={options}
                 channelNamesMap={channelNamesMap}
                 hasPluginTooltips={this.props.hasPluginTooltips}
                 imagesMetadata={this.props.post && this.props.post.metadata && this.props.post.metadata.images}
