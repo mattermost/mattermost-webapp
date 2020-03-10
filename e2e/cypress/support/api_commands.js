@@ -712,6 +712,14 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
                     forEach((teamId) => {
                         cy.apiAddUserToTeam(teamId, userId);
                     });
+
+                // Also add the user to the default team ad-1
+                teamsResponse.body.
+                    filter((t) => t.name === 'ad-1').
+                    map((t) => t.id).
+                    forEach((teamId) => {
+                        cy.apiAddUserToTeam(teamId, userId);
+                    });
             });
         }
 
@@ -953,6 +961,18 @@ Cypress.Commands.add('removeUserFromChannel', (channelId, userId) => {
     //Remove a User from a Channel
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'delete', baseUrl, path: `channels/${channelId}/members/${userId}`});
+});
+
+/**
+ * Remove a User from a Team directly via API
+ * @param {String} teamID - The team ID
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('removeUserFromTeam', (teamId, userId) => {
+    //Remove a User from a Channel
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
 });
 
 /**
