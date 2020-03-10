@@ -4469,9 +4469,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
                         label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
-                        label_default: 'Sidebar Organization - TODO DEVIN:',
+                        label_default: 'Experimental Sidebar Features',
                         help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
-                        help_text_default: 'Enables new Channel Sidebar Organization 2020 - TODO DEVIN',
+                        help_text_default: 'When enabled, access experimental channel sidebar features, including collapsible sections and unreads filtering. [Learn more or give us feedback](!https://about.mattermost.com/default-sidebar/)',
                         help_text_markdown: true,
                         options: [
                             {

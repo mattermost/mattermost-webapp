@@ -16,6 +16,8 @@ import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 export default class UserSettingsSidebar extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
@@ -410,9 +412,9 @@ export default class UserSettingsSidebar extends React.Component {
 
     renderChannelSidebarOrganizationSection = () => {
         const helpChannelSidebarOrganizationText = (
-            <FormattedMessage
+            <FormattedMarkdownMessage
                 id={t('user.settings.sidebar.channelSidebarOrganizationSection.desc')}
-                defaultMessage={'Enables or disables the new experimental channel sidebar.'}
+                defaultMessage={'When enabled, access experimental channel sidebar features, including collapsible sections and unreads filtering. [Learn more or give us feedback](!https://about.mattermost.com/default-sidebar/)'}
             />
         );
 
@@ -421,7 +423,7 @@ export default class UserSettingsSidebar extends React.Component {
                 title={
                     <FormattedMessage
                         id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
-                        defaultMessage='Channel Sidebar Organization'
+                        defaultMessage='Experimental Sidebar Features'
                     />
                 }
                 describe={this.renderChannelSwitcherLabel(this.props.channelSidebarOrganizationOption)}
@@ -436,7 +438,7 @@ export default class UserSettingsSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
-                            defaultMessage='Channel Sidebar Organization'
+                            defaultMessage='Experimental Sidebar Features'
                         />
                     }
                     inputs={[
@@ -444,7 +446,7 @@ export default class UserSettingsSidebar extends React.Component {
                             <legend className='form-legend hidden-label'>
                                 <FormattedMessage
                                     id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
-                                    defaultMessage='Channel Sidebar Organization'
+                                    defaultMessage='Experimental Sidebar Features'
                                 />
                             </legend>
                             <div
