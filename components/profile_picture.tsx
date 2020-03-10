@@ -21,6 +21,7 @@ type Props = {
     size: string;
     src: string;
     status?: string;
+    statusHidden?: boolean;
     userId?: string;
     username?: string;
     wrapperClass?: string;
@@ -51,6 +52,11 @@ export default class ProfilePicture extends React.PureComponent<Props> {
             this.props.src;
 
         const profileIconClass = `profile-icon ${this.props.isEmoji ? 'emoji' : ''}`;
+        let statusIcon = <StatusIcon status={this.props.status}/>;
+
+        if (this.props.statusHidden) {
+            statusIcon = <></>;
+        }
 
         if (this.props.userId) {
             return (
@@ -82,7 +88,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                                 url={this.props.src}
                             />
                         </span>
-                        <StatusIcon status={this.props.status}/>
+                        {statusIcon}
                     </button>
                 </OverlayTrigger>
             );
@@ -95,7 +101,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                         url={this.props.src}
                     />
                 </span>
-                <StatusIcon status={this.props.status}/>
+                {statusIcon}
             </span>
         );
     }

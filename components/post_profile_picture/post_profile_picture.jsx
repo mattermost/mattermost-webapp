@@ -20,6 +20,7 @@ export default class PostProfilePicture extends React.PureComponent {
         isRHS: PropTypes.bool,
         post: PropTypes.object.isRequired,
         status: PropTypes.string,
+        statusHidden: PropTypes.bool,
         user: PropTypes.object,
         isBot: PropTypes.bool,
         postIconOverrideURL: PropTypes.string,
@@ -80,6 +81,7 @@ export default class PostProfilePicture extends React.PureComponent {
             isBusy,
             isRHS,
             post,
+            statusHidden,
             user,
             isBot,
         } = this.props;
@@ -110,6 +112,7 @@ export default class PostProfilePicture extends React.PureComponent {
                 profileSrc={profileSrc}
                 isEmoji={isEmoji}
                 status={status}
+                statusHidden={statusHidden}
                 userId={user ? user.id : null}
                 username={user ? user.username : null}
             />

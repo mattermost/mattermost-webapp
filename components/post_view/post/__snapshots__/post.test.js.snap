@@ -38,6 +38,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "id": "post1",
             }
           }
+          statusHidden={true}
         />
       </div>
       <div>
@@ -111,6 +112,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "id": "post1",
             }
           }
+          statusHidden={true}
         />
       </div>
       <div>
