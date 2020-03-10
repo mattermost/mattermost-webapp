@@ -81,6 +81,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         isSynced={false}
         onToggle={[Function]}
       />
+      <ChannelModeration
+        onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
+      />
       <ChannelGroups
         channel={
           Object {
@@ -216,6 +221,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
+      />
+      <ChannelModeration
+        onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
       />
       <ChannelGroups
         channel={
