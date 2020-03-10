@@ -3,27 +3,20 @@
 @media screen and (min-width: 1680px) {
     .sidebar--right {
         width: 500px;
-        @include translateX(100%);
-
-        &.move--left {
-            @include translateX(0);
-        }
     }
 
-    .inner-wrap {
-        &.move--left {
-            .search__form {
-                width: 260px;
-            }
+    .move--left {
+        .search__form {
+            width: 260px;
+        }
 
-            .app__content {
-                > #post-list {
-                    margin-right: 500px;
-                }
+        #post-list {
+            margin-right: 500px;
+        }
 
-                > .post-create__container {
-                    width: calc(100% - 500px);
-                }
+        .app__content {
+            > .post-create__container {
+                width: calc(100% - 500px);
             }
         }
     }
