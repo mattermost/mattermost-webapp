@@ -16,15 +16,6 @@ jest.mock('utils/utils', () => {
     };
 });
 
-jest.mock('utils/post_utils', () => {
-    const original = require.requireActual('utils/post_utils');
-    return {
-        ...original,
-        canEditPost: jest.fn(() => true),
-        canDeletePost: jest.fn(() => false),
-    };
-});
-
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
         post: {id: 'post_id_1', is_pinned: false, type: ''},
@@ -45,11 +36,17 @@ describe('components/dot_menu/DotMenu', () => {
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
         },
+        canEdit: false,
+        canDelete: false,
     };
 
     test('should match snapshot, on Center', () => {
+        const props = {
+            ...baseProps,
+            canEdit: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -62,20 +59,28 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should match snapshot, canDelete', () => {
-        const utils = require('utils/post_utils'); //eslint-disable-line global-require
-        utils.canDeletePost.mockReturnValue(true);
-
+        const props = {
+            ...baseProps,
+            canEdit: true,
+            canDelete: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should have divider when able to edit or delete post', () => {
+        const props = {
+            ...baseProps,
+            canEdit: true,
+            canDelete: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
+
         expect(wrapper.state('canEdit')).toBe(true);
         expect(wrapper.state('canDelete')).toBe(true);
         expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(true);

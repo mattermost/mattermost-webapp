@@ -115,7 +115,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -274,7 +274,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message="new message"
           showPreview={false}
@@ -433,7 +433,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -567,7 +567,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -726,7 +726,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message="new message"
           showPreview={false}
@@ -885,7 +885,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -1044,7 +1044,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -1203,7 +1203,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -1362,7 +1362,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
       <div
         className="post-create-footer"
       >
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}

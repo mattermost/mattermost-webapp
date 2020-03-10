@@ -86,4 +86,20 @@ describe('Post', () => {
             expect(wrapper.instance().getClassName(baseProps.post, false, false, false, false, false)).not.toContain('cursor--pointer');
         });
     });
+
+    test('should not remove post--highlight class after timeout so the classes for permalink are not applied', () => {
+        jest.useFakeTimers();
+
+        const props = {
+            ...baseProps,
+            shouldHighlight: true,
+        };
+
+        const wrapper = shallowWithIntl(<Post {...props}/>);
+        expect(wrapper.state('fadeOutHighlight')).toBe(false);
+        expect(wrapper).toMatchSnapshot();
+        jest.runAllTimers();
+        expect(wrapper.state('fadeOutHighlight')).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    });
 });

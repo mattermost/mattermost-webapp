@@ -42,7 +42,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         // System administrators
         if (this.props.canViewSystemErrors) {
             const renewalLink = RENEWAL_LINK + '?id=' + this.props.license.id + '&user_count=' + this.props.totalUsers;
-            if (isLicensePastGracePeriod()) {
+            if (isLicensePastGracePeriod(this.props.license)) {
                 return (
                     <AnnouncementBar
                         type={AnnouncementBarTypes.CRITICAL}
@@ -59,7 +59,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 );
             }
 
-            if (isLicenseExpired()) {
+            if (isLicenseExpired(this.props.license)) {
                 return (
                     <AnnouncementBar
                         type={AnnouncementBarTypes.CRITICAL}
@@ -76,7 +76,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 );
             }
 
-            if (isLicenseExpiring() && !this.props.dismissedExpiringLicense) {
+            if (isLicenseExpiring(this.props.license) && !this.props.dismissedExpiringLicense) {
                 return (
                     <AnnouncementBar
                         showCloseButton={true}
@@ -97,7 +97,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             }
         } else {
             // Regular users
-            if (isLicensePastGracePeriod()) { //eslint-disable-line no-lonely-if
+            if (isLicensePastGracePeriod(this.props.license)) { //eslint-disable-line no-lonely-if
                 return (
                     <AnnouncementBar
                         type={AnnouncementBarTypes.CRITICAL}
@@ -149,7 +149,6 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 <TextDismissableBar
                     allowDismissal={true}
                     text={siteURLMessage}
-                    siteURL={this.props.siteURL}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
                 />
             );
