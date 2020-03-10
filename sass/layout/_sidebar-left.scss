@@ -80,6 +80,71 @@
         }
     }
 
+    .SidebarChannelNavigator {
+        display: flex;
+        margin: 18px 16px 11px 16px;
+
+        button {
+            font-size: 16px;
+            line-height: 16px;
+            height: 28px;
+            min-width: 28px;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(255, 255, 255, 0.16); // TODO themeing?
+            color: var(--sidebar-text-80);
+
+            &:hover:not(.disabled) {
+                color: var(--sidebar-text);
+                background: rgba(255, 255, 255, 0.4); // TODO themeing?
+            }
+
+            &.disabled {
+                background: rgba(255, 255, 255, 0.08); // TODO themeing?
+            }
+        }
+
+        .SidebarChannelNavigator_jumpToButton {
+            display: flex;
+            flex: 1 1 auto;
+            border-radius: 4px;
+            font-family: 'Open Sans';
+            font-size: 14px;
+            line-height: 19px;
+            margin-right: 4px;
+
+            .SidebarChannelNavigator_shortcutText {
+                margin-left: auto;
+                display: none;
+            }
+
+            &:hover {
+                .SidebarChannelNavigator_shortcutText {
+                    display: inherit;
+                }
+            }
+        }
+
+        .SidebarChannelNavigator_backButton {
+            border-radius: 4px 0px 0px 4px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .SidebarChannelNavigator_forwardButton {
+            border-radius: 0px 4px 4px 0px;
+            padding-left: 0;
+            padding-right: 0;
+            padding-top: 3px;
+        }
+
+        i {
+            font-size: 16px;
+            line-height: 16px;
+            margin: 0;
+        }
+    }
+
     .SidebarFilters {
         flex: 1 1 auto;
         display: flex;
@@ -497,12 +562,18 @@
         transition: transform 0.15s ease-out; /* should match collapse animation speed */
     }
     .icon-rotate-minus-90 {
-        -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=-1)";
         -webkit-transform: rotate(-90deg);
         -ms-transform: rotate(-90deg);
         transform: rotate(-90deg);
         transition: transform 0.15s ease-out; /* should match collapse animation speed */
     }
+
+    .icon-flip {
+        -webkit-transform: rotate(-180deg);
+        -ms-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+    }
+
     :root .icon-rotate-180 {
         filter: none;
     }

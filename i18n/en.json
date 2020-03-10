@@ -3193,6 +3193,7 @@
   "sidebar_left.channel_filter.filteredBy": "FILTERED BY:",
   "sidebar_left.channel_filter.unread": "Unread",
   "sidebar_left.channel_filter.viewing": "VIEWING:",
+  "sidebar_left.channel_navigator.jumpTo": "Jump to...",
   "sidebar_right_menu.console": "System Console",
   "sidebar_right_menu.flagged": "Flagged Posts",
   "sidebar_right_menu.recentMentions": "Recent Mentions",
