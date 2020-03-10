@@ -14,9 +14,9 @@ jest.mock('stores/redux_store', () => ({
 
 jest.mock('mattermost-redux/utils/channel_utils', () => ({
     ...jest.requireActual('mattermost-redux/utils/channel_utils'),
-    isGroupChannelVisible: jest.fn(() => {return true;}),
-    isDirectChannelVisible: jest.fn(() => {return true;}),
-    isUnreadChannel: jest.fn(() => {return false;}),
+    isGroupChannelVisible: jest.fn(() => true),
+    isDirectChannelVisible: jest.fn(() => true),
+    isUnreadChannel: jest.fn(() => false),
 }));
 
 const latestPost = {
@@ -54,7 +54,7 @@ describe('components/SwitchChannelProvider', () => {
                 },
             },
             users: {
-                profiles: {                
+                profiles: {
                     current_user_id: {roles: 'system_role'},
                 },
                 currentUserId: 'current_user_id',
@@ -76,9 +76,9 @@ describe('components/SwitchChannelProvider', () => {
         },
     };
 
-    let switchProvider = new SwitchChannelProvider();
-    let mockStore = configureStore();
-    let resultsCallback = jest.fn();
+    const switchProvider = new SwitchChannelProvider();
+    const mockStore = configureStore();
+    const resultsCallback = jest.fn();
     const store = mockStore(defaultState);
 
     getState.mockImplementation(store.getState);
@@ -86,68 +86,68 @@ describe('components/SwitchChannelProvider', () => {
     it('should change name on wrapper to be unique with same name user channel and public channel', () => {
         const users = [
             {
-                id: "other_user",
-                display_name:"other_user",
-                username: "other_user"
+                id: 'other_user',
+                display_name: 'other_user',
+                username: 'other_user'
             }
         ];
         const channels = [{
-                id: "channel_other_user",
-                type: 'O',
-                name: 'other_user',
-                display_name: 'other_user',
-                delete_at: 0,
-            },
-            {
-                id: "direct_other_user",
-                type: 'D',
-                name: 'current_user_id__other_user',
-                display_name: 'other_user',
-                delete_at: 0,
-            }];
+            id: 'channel_other_user',
+            type: 'O',
+            name: 'other_user',
+            display_name: 'other_user',
+            delete_at: 0,
+        },
+        {
+            id: 'direct_other_user',
+            type: 'D',
+            name: 'current_user_id__other_user',
+            display_name: 'other_user',
+            delete_at: 0,
+        }];
         const searchText = 'other';
 
         switchProvider.startNewRequest();
         switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
 
         expect(resultsCallback).toHaveBeenCalled();
-        
-        let wrappers = resultsCallback.mock.calls[0][0];
+
+        const wrappers = resultsCallback.mock.calls[0][0];
         var set = new Set(wrappers.terms);
         expect(set.size).toEqual(wrappers.items.length);
 
-        var set2 = new Set(wrappers.items.map(o => o.channel.name));
+        var set2 = new Set(wrappers.items.map((o) => o.channel.name));
         expect(set2.size).toEqual(1);
         expect(wrappers.items.length).toEqual(2);
     });
 
     it('should change name on wrapper to be unique with same name user in channel and public channel', () => {
         const users = [{
-                id: "other_user",
-                display_name:"other_user",
-                username:"other_user"
-            },
+            id: 'other_user',
+            display_name: 'other_user',
+            username: 'other_user'
+        },
         ];
         const channels = [{
-                id: "channel_other_user",
-                type: 'O',
-                name: 'other_user',
-                display_name: 'other_user',
-                delete_at: 0,
-            },
+            id: 'channel_other_user',
+            type: 'O',
+            name: 'other_user',
+            display_name: 'other_user',
+            delete_at: 0,
+        },
         ];
         const searchText = 'other';
 
         switchProvider.startNewRequest();
         switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
-        
+
         expect(resultsCallback).toHaveBeenCalled();
 
-        let wrappers = resultsCallback.mock.calls[0][0];
+        const wrappers = resultsCallback.mock.calls[0][0];
         var set = new Set(wrappers.terms);
         expect(set.size).toEqual(wrappers.items.length);
 
-        var set2 = new Set(wrappers.items.map(o => o.channel.name));
+        var set2 = new Set(wrappers.items.map((o) => o.channel.name));
         expect(set2.size).toEqual(1);
         expect(wrappers.items.length).toEqual(2);
     });
@@ -155,28 +155,27 @@ describe('components/SwitchChannelProvider', () => {
     it('should not fail if nothing matches', () => {
         const users = [];
         const channels = [{
-                id: "channel_other_user",
-                type: 'O',
-                name: 'other_user',
-                display_name: 'other_user',
-                delete_at: 0,
-            },
-            {
-                id: "direct_other_user",
-                type: 'D',
-                name: 'current_user_id__other_user',
-                display_name: 'other_user',
-                delete_at: 0,
-            }];
+            id: 'channel_other_user',
+            type: 'O',
+            name: 'other_user',
+            display_name: 'other_user',
+            delete_at: 0,
+        },
+        {
+            id: 'direct_other_user',
+            type: 'D',
+            name: 'current_user_id__other_user',
+            display_name: 'other_user',
+            delete_at: 0,
+        }];
         const searchText = 'something else';
 
         switchProvider.startNewRequest();
         switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
-        
+
         expect(resultsCallback).toHaveBeenCalled();
-        let wrappers = resultsCallback.mock.calls[0][0];
+        const wrappers = resultsCallback.mock.calls[0][0];
         expect(wrappers.terms.length).toEqual(0);
         expect(wrappers.items.length).toEqual(0);
     });
-
 });
