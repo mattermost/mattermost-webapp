@@ -108,7 +108,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       section="channelSidebarOrganization"
       title={
         <FormattedMessage
-          defaultMessage="Channel Sidebar Organization"
+          defaultMessage="Experimental Sidebar Features"
           id="user.settings.sidebar.channelSidebarOrganizationSectionTitle"
           values={Object {}}
         />
