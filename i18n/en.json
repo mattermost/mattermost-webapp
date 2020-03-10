@@ -1605,7 +1605,7 @@
   "admin.team_settings.team_details.anyoneCanJoinDescr": "This team can be discovered allowing anyone with an account to join this team.",
   "admin.team_settings.team_details.csvDomains": "Comma Separated Email Domain List",
   "admin.team_settings.team_details.groupDetailsToggle": "Enable Group Mention",
-  "admin.team_settings.team_details.groupDetailsToggleDescr": "When enabled, the group will be visible and accessible to users to either mention or invite this group and its members by the name below. The membership of this group will become visible.",
+  "admin.team_settings.team_details.groupDetailsToggleDescr": "When enabled, the group will be visible and accessible to users to mention by the name below. The membership of this group will become visible.",
   "admin.team_settings.team_details.specificDomains": "Only specific email domains can join this team",
   "admin.team_settings.team_details.specificDomainsDescr": "Users can only join the team if their email matches one of the specified domains",
   "admin.team_settings.team_details.syncGroupMembers": "Sync Group Members",

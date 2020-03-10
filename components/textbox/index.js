@@ -27,24 +27,17 @@ const makeMapStateToProps = (state, ownProps) => {
     let autocompleteGroups;
 
     if(team && team.group_constrained && channel && channel.group_constrained) {
-        console.log('teamId: ' + team.id);
-        console.log('channelId: ' + channel.id);
-        autocompleteGroups = getGroupsAssociatedToChannelForReference(state, channel.id).concat(getGroupsAssociatedToTeamForReference(state, team.id));
+        let groupsFromChannel = getGroupsAssociatedToChannelForReference(state, channel.id);
+        let groupsFromTeam = getGroupsAssociatedToTeamForReference(state, team.id);
+        autocompleteGroups = groupsFromChannel.concat(groupsFromTeam.filter((item) => groupsFromChannel.indexOf(item) < 0));
     } else if(team && team.group_constrained) {
-        console.log('team: ' + team);
         autocompleteGroups = getGroupsAssociatedToTeamForReference(state, team.id);
     } else if(channel && channel.group_constrained) {
-        console.log('channel: ' + channel);
         autocompleteGroups = getGroupsAssociatedToChannelForReference(state, channel.id);
     } else {
-        console.log('get all groups');
         autocompleteGroups = getGroupsForReference(state);
     }
 
-    if(autocompleteGroups) {
-        console.log('autocompleteGroups: ' + autocompleteGroups);
-        console.log('len: ' + autocompleteGroups.length);
-    }
     return {
         currentUserId: getCurrentUserId(state),
         profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),

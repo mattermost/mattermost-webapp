@@ -35,7 +35,7 @@ const GroupSettingsToggle = ({isDefault, allowReference, onToggle}) => (
         subTitle={(
             <FormattedMarkdownMessage
                 id='admin.team_settings.team_details.groupDetailsToggleDescr'
-                defaultMessage='When enabled, the group will be visible and accessible to either mention or invite this group and its members by the name below. The membership of this group will become visible.'
+                defaultMessage='When enabled, the group will be visible and accessible to users to mention by the name below. The membership of this group will become visible.'
             />
         )}
     />);

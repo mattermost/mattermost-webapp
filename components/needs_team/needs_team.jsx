@@ -207,13 +207,8 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
-        //team doesn't have to be group-constrained to have channels group-constrained
-        console.log('get groups for group-constrained channels if any');
         this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id);
-
-        //if the team is group-constrained, get all the groups associated to it
         if (team.group_constrained) {
-            console.log('get groups for group-constrained team');
             this.props.actions.getAllGroupsAssociatedToTeam(team.id);
         }
 
