@@ -108,16 +108,20 @@
     .AddChannelDropdown_dropdownButton {
         padding: 0;
         margin-right: 19px;
-        margin-top: 10px;
+        margin-top: 6px;
         z-index: 1;
         background: transparent;
         border: none;
         color: var(--sidebar-text-80);
         font-size: 18px;
         line-height: 18px;
+        height: 28px;
+        width: 28px;
+        border-radius: 4px;
     }
     .AddChannelDropdown_dropdownButton:hover {
         cursor: pointer;
+        background: rgba(255, 255, 255, 0.24);
         color: var(--sidebar-text);
     }
     .AddChannelDropdown_dropdownButton:focus {
@@ -238,9 +242,15 @@
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
+        display: flex;
+        align-items: center;
+
+        i.icon-chevron-down.hide-arrow {
+            visibility: hidden;
+        }
     }
 
-    .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton i {
+    .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton i.icon-chevron-down {
         visibility: hidden;
     }
 
@@ -270,19 +280,22 @@
     }
     
     .SidebarChannelGroupHeader_addButton {
-        position: absolute;
         padding: 0;
-        top: 6px;
-        right: 19px;
         z-index: 1;
         background: transparent;
         border: none;
         color: var(--sidebar-text-80);
         font-size: 18px;
         line-height: 18px;
+        height: 28px;
+        width: 28px;
+        border-radius: 4px;
+        margin-left: auto;
+        margin-right: 19px;
     }
     .SidebarChannelGroupHeader_addButton:hover {
         cursor: pointer;
+        background: rgba(255, 255, 255, 0.24);
         color: var(--sidebar-text);
     }
     .SidebarChannelGroupHeader_addButton:focus {
@@ -485,7 +498,7 @@
 .multi-teams {
     #SidebarContainer {
         left: 65px;
-        
+
         + .inner-wrap #app-content {
             margin-left: 305px;
         }

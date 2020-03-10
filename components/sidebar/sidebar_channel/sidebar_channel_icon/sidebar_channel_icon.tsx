@@ -18,11 +18,11 @@ export default class SidebarChannelIcon extends React.PureComponent<Props> {
     render() {
         if (this.props.channel.delete_at !== 0) {
             return (
-                <ArchiveIcon className='icon icon__archive'/>
+                <i className='icon icon-archive-outline'/>
             );
         } else if (this.props.hasDraft) {
             return (
-                <DraftIcon className='icon icon__draft'/>
+                <i className='icon icon-pencil-outline'/>
             );
         }
 
