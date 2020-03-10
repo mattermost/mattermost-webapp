@@ -3,27 +3,54 @@
 
 import React from 'react';
 
+import * as Utils from 'utils/utils.jsx';
+import StatusDropdown from 'components/status_dropdown/index.jsx';
+
 import SidebarHeaderDropdown from 'components/legacy_sidebar/header/dropdown';
 
-type Props = {
-
-};
-
 type State = {
+    isMobile: boolean;
+}
 
-};
+export default class SidebarHeader extends React.PureComponent<any, State> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            isMobile: Utils.isMobile(),
+        };
+    }
 
-export default class SidebarHeader extends React.PureComponent<Props, State> {
+    componentDidMount() {
+        window.addEventListener('resize', this.handleResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    handleResize = () => {
+        const isMobile = Utils.isMobile();
+        this.setState({isMobile});
+    }
+
     render() {
-        // TODO: temp use of dropdown
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsHeader', 'team menu region');
 
         return (
             <div
-                className='SidebarHeader a11y__region'
+                id='lhsHeader'
+                aria-label={ariaLabel}
+                tabIndex={-1}
+                role='application'
+                className='SidebarHeader team__header theme a11y__region'
                 data-a11y-sort-order='5'
             >
-                {'Sidebar Header'}
-                <SidebarHeaderDropdown/>
+                <div
+                    className='d-flex'
+                >
+                    {!this.state.isMobile && <StatusDropdown/>}
+                    <SidebarHeaderDropdown/>
+                </div>
             </div>
         );
     }
