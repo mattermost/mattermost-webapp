@@ -2,13 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
-import SidebarChannel from '../sidebar_channel';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
+import SidebarChannel from '../sidebar_channel';
+
 type Props = {
-    category: any;
+    category: ChannelCategory;
+    channels: Channel[];
     setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
@@ -60,12 +67,12 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         }
     }
 
-    renderChannel = (channelId: string) => {
+    renderChannel = (channel: Channel) => {
         const {isCollapsed} = this.props;
 
         return (
             <SidebarChannel
-                channelId={channelId}
+                channelId={channel.id}
                 setChannelRef={this.props.setChannelRef}
                 getChannelRef={this.props.getChannelRef}
                 isCategoryCollapsed={isCollapsed}
@@ -84,12 +91,20 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     render() {
-        const {category, isCollapsed} = this.props;
+        const {category, isCollapsed, channels} = this.props;
+        if (!category) {
+            return null;
+        }
 
-        const channels = category.channel_ids.map(this.renderChannel);
+        if (category.type !== CategoryTypes.DIRECT_MESSAGES && (!channels || !channels.length)) {
+            return null;
+        }
+
+        const renderedChannels = channels.map(this.renderChannel);
 
         let directMessagesModalButton;
-        if (category.id === 'direct') {
+        let hideArrow = false;
+        if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             directMessagesModalButton = (
                 <button
                     className='SidebarChannelGroupHeader_addButton'
@@ -98,6 +113,10 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                     <i className='icon-plus'/>
                 </button>
             );
+
+            if (!channels || !channels.length) {
+                hideArrow = true;
+            }
         }
 
         return (
@@ -108,7 +127,12 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                         className='SidebarChannelGroupHeader_groupButton a11y__section'
                         onClick={this.handleCollapse}
                     >
-                        <i className={`icon icon-chevron-down ${isCollapsed ? 'icon-rotate-minus-90' : ''}`}/>
+                        <i
+                            className={classNames('icon icon-chevron-down', {
+                                'icon-rotate-minus-90': isCollapsed,
+                                'hide-arrow': hideArrow,
+                            })}
+                        />
                         <div>
                             {category.display_name}
                         </div>
@@ -120,7 +144,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                         role='list'
                         className='NavGroupContent'
                     >
-                        {channels}
+                        {renderedChannels}
                     </ul>
                 </div>
             </div>

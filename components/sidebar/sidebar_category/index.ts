@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
@@ -17,9 +18,12 @@ type OwnProps = {
     category: ChannelCategory;
 }
 
+const getChannelsForCategory = makeGetChannelsForCategory();
+
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
         isCollapsed: isCategoryCollapsed(state, ownProps.category.id),
+        channels: getChannelsForCategory(state, ownProps.category),
     };
 }
 

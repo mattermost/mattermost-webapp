@@ -8,6 +8,7 @@ import {Spring, SpringSystem, util as MathUtil} from 'rebound';
 import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
@@ -45,7 +46,8 @@ export function renderThumbVertical(props: any) {
 type Props = {
     currentTeam: Team;
     currentChannel: Channel;
-    categories: any[];
+    categories: ChannelCategory[];
+    allChannels: Channel[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
@@ -110,7 +112,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         // autoclose), go to user default channel in team
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
-            !this.getDisplayedChannels().find((channelId: string) => channelId === this.props.currentChannel.id)
+            !this.props.allChannels.find((channel: Channel) => channel.id === this.props.currentChannel.id)
         ) {
             this.closedDirectChannel = true;
             redirectUserToDefaultTeam();
@@ -140,8 +142,12 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }
 
+    getDisplayedChannelIds = () => {
+        return this.props.allChannels.map((channel) => channel.id);
+    }
+
     channelIdIsDisplayedForProps = (id: string) => {
-        const allChannels = this.getDisplayedChannels();
+        const allChannels = this.getDisplayedChannelIds();
         for (let i = 0; i < allChannels.length; i++) {
             if (allChannels[i] === id) {
                 return true;
@@ -206,7 +212,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const margin = (scrollingToUnread || !this.state.showTopUnread) ? scrollMargin : scrollMarginWithUnread;
 
             let scrollEnd;
-            const displayedChannels = this.getDisplayedChannels();
+            const displayedChannels = this.getDisplayedChannelIds();
             if (displayedChannels.length > 0 && displayedChannels[0] === channelId) {
                 // This is the first channel, so scroll right to the top
                 scrollEnd = MathUtil.mapValueInRange(0, 0, 1, 0, 1);
@@ -265,25 +271,18 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     getFirstUnreadChannel = () => {
-        return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannels());
+        return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds());
     }
 
     getLastUnreadChannel = () => {
-        return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannels().reverse());
-    }
-
-    getDisplayedChannels = () => {
-        return this.props.categories.reduce((allChannelIds, section) => {
-            allChannelIds.push(...section.channel_ids);
-            return allChannelIds;
-        }, []);
+        return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds().reverse());
     }
 
     navigateChannelShortcut = (e: KeyboardEvent) => {
         if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            const allChannelIds = this.getDisplayedChannels();
+            const allChannelIds = this.getDisplayedChannelIds();
             const curChannelId = this.props.currentChannel!.id;
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
@@ -309,7 +308,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            const allChannelIds = this.getDisplayedChannels();
+            const allChannelIds = this.getDisplayedChannelIds();
 
             let direction = 0;
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
