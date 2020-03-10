@@ -17,6 +17,7 @@ export default class CodePreview extends React.Component {
 
         this.state = {
             code: '',
+            highlighted: '',
             lang: '',
             loading: true,
             success: true,
@@ -37,11 +38,11 @@ export default class CodePreview extends React.Component {
         const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(props.fileInfo.extension);
 
         if (!usedLanguage || props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
-            this.setState({code: '', lang: '', loading: false, success: false});
+            this.setState({code: '', lang: '', highlighted: '', loading: false, success: false});
             return;
         }
 
-        this.setState({code: '', lang: usedLanguage, loading: true});
+        this.setState({code: '', highlighted: '', lang: usedLanguage, loading: true});
 
         $.ajax({
             async: true,
@@ -53,21 +54,23 @@ export default class CodePreview extends React.Component {
         });
     }
 
-    handleReceivedCode = (data) => {
+    handleReceivedCode = async (data) => {
         let code = data;
         if (data.nodeName === '#document') {
             code = new XMLSerializer().serializeToString(data);
         }
+        const highlighted = await SyntaxHighlighting.highlight(this.state.lang, code);
         this.setState({
             code,
+            highlighted,
             loading: false,
             success: true,
         });
-    }
+    };
 
     handleReceivedError = () => {
         this.setState({loading: false, success: false});
-    }
+    };
 
     static supports(fileInfo) {
         return Boolean(SyntaxHighlighting.getLanguageFromFileExtension(fileInfo.extension));
@@ -104,8 +107,6 @@ export default class CodePreview extends React.Component {
 
         const language = SyntaxHighlighting.getLanguageName(this.state.lang);
 
-        const highlighted = SyntaxHighlighting.highlight(this.state.lang, this.state.code);
-
         return (
             <div className='post-code'>
                 <span className='post-code__language'>
@@ -117,7 +118,7 @@ export default class CodePreview extends React.Component {
                             <tbody>
                                 <tr>
                                     <td className='post-code__lineno'>{strlines}</td>
-                                    <td dangerouslySetInnerHTML={{__html: highlighted}}/>
+                                    <td dangerouslySetInnerHTML={{__html: this.state.highlighted}}/>
                                 </tr>
                             </tbody>
                         </table>
