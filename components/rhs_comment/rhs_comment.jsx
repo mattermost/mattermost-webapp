@@ -315,6 +315,7 @@ class RhsComment extends React.PureComponent {
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     post={post}
+                    statusHidden={true}
                     userId={post.user_id}
                 />
             );

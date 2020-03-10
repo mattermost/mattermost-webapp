@@ -42,6 +42,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>
@@ -178,6 +179,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>
@@ -355,6 +357,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>
@@ -504,6 +507,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>

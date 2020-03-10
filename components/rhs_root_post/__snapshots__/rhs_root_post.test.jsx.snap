@@ -46,6 +46,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>
@@ -228,6 +229,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>
@@ -367,6 +369,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>
@@ -506,6 +509,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             "user_id": "user_id",
           }
         }
+        statusHidden={true}
         userId="user_id"
       />
     </div>
