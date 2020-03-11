@@ -59,6 +59,7 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     beforeEach(() => {
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Visit the test channel
