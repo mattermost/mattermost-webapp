@@ -21,7 +21,6 @@ import * as TIMEOUTS from '../fixtures/timeouts';
 //     cy.findByText('Your guest account has no channels assigned. Please contact an administrator.').should('be.visible');
 // });
 
-
 // Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
 //     if (settings.teamName != null && settings.teamName.length > 0) {
 //         cy.findByText('Invite people to ' + settings.teamName).should('be.visible');

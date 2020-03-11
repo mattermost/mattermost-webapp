@@ -21,7 +21,6 @@ import {getRandomInt} from '../../../utils';
  * Note: This test requires Enterprise license to be uploaded
  */
 context('ldap', () => {
-
     const user1 = users['test-1'];
     const guest1 = users['board-1'];
     const guest2 = users['board-2'];
@@ -37,8 +36,8 @@ context('ldap', () => {
         LdapSettings: {
             Enable: true,
             EnableSync: false,
-            LdapServer: Cypress.env('ldapServer'), //localhost
-            LdapPort: Cypress.env('ldapPort'), //389,
+            LdapServer: 'localhost', //Cypress.env('ldapServer'), //localhost
+            LdapPort: 389, //Cypress.env('ldapPort'), //389,
             ConnectionSecurity: '',
             BaseDN: 'dc=mm,dc=test,dc=com',
             BindUsername: 'cn=admin,dc=mm,dc=test,dc=com',
@@ -117,7 +116,7 @@ context('ldap', () => {
     describe('LDAP Admin Login', () => {
         it('LDAP login new and existing MM admin(userType=Admin)', () => {
             testSettings.user = admin1;
-            newConfig.LdapSettings.EnableAdminFilter = true,
+            newConfig.LdapSettings.EnableAdminFilter = true;
             newConfig.LdapSettings.AdminFilter = '(cn=dev*)';
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
@@ -141,22 +140,24 @@ context('ldap', () => {
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     cy.skipOrCreateTeam(testSettings, 'board-1').then(() => {
-                        cy.doLogoutFromSignUp()
+                        cy.doLogoutFromSignUp();
                     });
                 });
             });
 
-            cy.doLDAPLogin(testSettings, ).then(() => {
-                cy.doLogoutFromSignUp()
+            cy.doLDAPLogin(testSettings).then(() => {
+                cy.doLogoutFromSignUp();
             });
         });
 
         it('LDAP login invited Guest user to a team', () => {
             testSettings.user = admin1;
+
             //login as an admin user - generate an invite link
             cy.doLDAPLogin(testSettings).then(() => {
                 cy.skipOrCreateTeam(testSettings, 'hello').then(() => {
                     cy.log(testSettings.user.username);
+
                     //get invite link
                     cy.doInviteGuest(guest2, testSettings).then(() => {
                         cy.doLDAPLogout(testSettings).then(() => {
