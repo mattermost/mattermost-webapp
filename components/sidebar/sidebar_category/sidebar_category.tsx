@@ -9,6 +9,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
@@ -83,6 +84,13 @@ export default class SidebarCategory extends React.PureComponent<Props> {
 
     handleCollapse = () => {
         const {category, isCollapsed} = this.props;
+
+        if (isCollapsed) {
+            trackEvent('ui', 'ui_sidebar_expand_category');
+        } else {
+            trackEvent('ui', 'ui_sidebar_collapse_category');
+        }
+
         this.props.actions.setCategoryCollapsed(category.id, !isCollapsed);
     }
 

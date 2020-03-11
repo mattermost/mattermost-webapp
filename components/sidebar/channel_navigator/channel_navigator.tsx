@@ -5,9 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
-
 import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
@@ -28,6 +28,9 @@ type State = {
 export default class ChannelNavigator extends React.PureComponent<Props, State> {
     openQuickSwitcher = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+
+        trackEvent('ui', 'ui_sidebar_open_channel_switcher_v2');
+
         this.props.actions.openModal({
             modalId: ModalIdentifiers.QUICK_SWITCH,
             dialogType: QuickSwitchModal,
@@ -35,10 +38,12 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
     }
 
     goBack = () => {
+        trackEvent('ui', 'ui_history_back');
         this.props.actions.goBack();
     }
 
     goForward = () => {
+        trackEvent('ui', 'ui_history_forward');
         this.props.actions.goForward();
     }
 

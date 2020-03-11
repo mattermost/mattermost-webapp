@@ -482,10 +482,12 @@ class LegacySidebar extends React.PureComponent {
     }
 
     showNewPublicChannelModal = () => {
+        trackEvent('ui', 'ui_channels_create_channel_public_v1');
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
     }
 
     showNewPrivateChannelModal = () => {
+        trackEvent('ui', 'ui_channels_create_channel_private_v1');
         this.showNewChannelModal(Constants.PRIVATE_CHANNEL);
     }
 
@@ -508,6 +510,9 @@ class LegacySidebar extends React.PureComponent {
 
     openQuickSwitcher = (e) => {
         e.preventDefault();
+
+        trackEvent('ui', 'ui_sidebar_open_channel_switcher_v1');
+
         this.props.actions.openModal({
             modalId: ModalIdentifiers.QUICK_SWITCH,
             dialogType: QuickSwitchModal,

@@ -5,6 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
+import {trackEvent} from 'actions/diagnostics_actions';
+
 type Props = {
     unreadFilterEnabled: boolean;
     actions: {
@@ -19,6 +21,13 @@ type State = {
 export default class ChannelFilter extends React.PureComponent<Props, State> {
     toggleUnreadFilter = () => {
         const {unreadFilterEnabled} = this.props;
+
+        if (unreadFilterEnabled) {
+            trackEvent('ui', 'ui_sidebar_unread_filter_disabled');
+        } else {
+            trackEvent('ui', 'ui_sidebar_unread_filter_enabled');
+        }
+
         this.props.actions.setUnreadFilterEnabled(!unreadFilterEnabled);
     }
 

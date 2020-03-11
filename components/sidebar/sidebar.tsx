@@ -44,6 +44,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     showMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: true});
+        trackEvent('ui', 'ui_channels_more_direct_v2');
     }
 
     hideMoreDirectChannelsModal = () => {
@@ -52,7 +53,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     showMoreChannelsModal = () => {
         this.setState({showMoreChannelsModal: true});
-        trackEvent('ui', 'ui_channels_more_public');
+        trackEvent('ui', 'ui_channels_more_public_v2');
     }
 
     hideMoreChannelsModal = () => {
@@ -61,6 +62,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     showNewChannelModal = () => {
         this.setState({showNewChannelModal: true});
+        trackEvent('ui', 'ui_channels_create_channel_v2');
     }
 
     hideNewChannelModal = () => {

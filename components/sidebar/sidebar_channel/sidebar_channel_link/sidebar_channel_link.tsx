@@ -100,8 +100,8 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     }
 
     trackChannelSelectedEvent = () => {
-        mark('SidebarChannelLink#click');
-        trackEvent('ui', 'ui_channel_selected');
+        mark('SidebarLink#click');
+        trackEvent('ui', 'ui_channel_selected_v2');
     }
 
     handleClick = () => {
