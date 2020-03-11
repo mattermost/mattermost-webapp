@@ -13,7 +13,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
-
+import {getEmojiMap} from 'selectors/emojis';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 
@@ -30,11 +30,13 @@ function mapStateToProps(state, ownProps) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = getChannel(state, ownProps.post.channel_id) || {};
+    const emojiMap = getEmojiMap(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     return {
         author: getDisplayName(state, ownProps.post.user_id),
         reactions: getReactionsForPost(state, ownProps.post.id),
+        emojiMap,
         enableEmojiPicker,
         enablePostUsernameOverride,
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),

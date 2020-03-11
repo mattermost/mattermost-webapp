@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {General, Posts} from 'mattermost-redux/constants';
 
-import {canManageMembers} from 'utils/channel_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import Markdown from 'components/markdown';
@@ -178,6 +177,7 @@ function renderHeaderChangeMessage(post) {
     const headerOptions = {
         singleline: true,
         channelNamesMap: post.props && post.props.channel_mentions,
+        mentionHighlight: false,
     };
 
     const username = renderUsername(post.props.username);
@@ -371,9 +371,8 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post, channel) {
+export function renderSystemMessage(post, channel, isUserCanManageMembers) {
     if (post.props && post.props.add_channel_member) {
-        const isUserCanManageMembers = canManageMembers(channel);
         const isEphemeral = Utils.isPostEphemeral(post);
 
         if ((channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&

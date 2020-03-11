@@ -2,18 +2,20 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
+import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {setPreviousTeamId} from 'actions/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
@@ -21,9 +23,15 @@ import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
 import {checkIfMFARequired} from 'utils/route';
 
-import NeedsTeam from './needs_team.jsx';
+import NeedsTeam from './needs_team';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    match: {
+        url: string;
+    };
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
@@ -38,9 +46,9 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, any>({
             fetchMyChannelsAndMembers,
             getMyTeamUnreads,
             viewChannel,

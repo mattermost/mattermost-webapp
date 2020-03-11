@@ -30,6 +30,8 @@ let longUsername;
 
 describe('Interactive Menu', () => {
     before(() => {
+        cy.requireWebhookServer();
+
         // Set required ServiceSettings
         const newSettings = {
             ServiceSettings: {

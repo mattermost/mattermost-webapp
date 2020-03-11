@@ -631,6 +631,7 @@ export const PermissionsScope = {
     [Permissions.CREATE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
+    [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -666,6 +667,7 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -683,6 +685,13 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OUTGOING_WEBHOOKS,
         Permissions.DELETE_POST,
         Permissions.DELETE_OTHERS_POSTS,
+    ],
+    guests: [
+        Permissions.EDIT_POST,
+        Permissions.DELETE_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
 };
 
@@ -751,6 +760,7 @@ export const Constants = {
     PRESENTATION_TYPES: ['ppt', 'pptx'],
     SPREADSHEET_TYPES: ['xlsx', 'csv'],
     WORD_TYPES: ['doc', 'docx'],
+    CHANNEL_HEADER_HEIGHT: 62,
     CODE_TYPES: ['applescript', 'as', 'atom', 'bas', 'bash', 'boot', 'c', 'c++', 'cake', 'cc', 'cjsx', 'cl2', 'clj', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', '_coffee', 'coffee', 'cpp', 'cs', 'csharp', 'cson', 'css', 'd', 'dart', 'delphi', 'dfm', 'di', 'diff', 'django', 'docker', 'dockerfile', 'dpr', 'erl', 'ex', 'exs', 'f90', 'f95', 'freepascal', 'fs', 'fsharp', 'gcode', 'gemspec', 'go', 'groovy', 'gyp', 'h', 'h++', 'handlebars', 'hbs', 'hic', 'hpp', 'hs', 'html', 'html.handlebars', 'html.hbs', 'hx', 'iced', 'irb', 'java', 'jinja', 'jl', 'js', 'json', 'jsp', 'jsx', 'kt', 'ktm', 'kts', 'lazarus', 'less', 'lfm', 'lisp', 'log', 'lpr', 'lua', 'm', 'mak', 'matlab', 'md', 'mk', 'mkd', 'mkdown', 'ml', 'mm', 'nc', 'obj-c', 'objc', 'osascript', 'pas', 'pascal', 'perl', 'php', 'php3', 'php4', 'php5', 'php6', 'pl', 'plist', 'podspec', 'pp', 'ps', 'ps1', 'py', 'r', 'rb', 'rs', 'rss', 'ruby', 'scala', 'scm', 'scpt', 'scss', 'sh', 'sld', 'sql', 'st', 'styl', 'swift', 'tex', 'thor', 'txt', 'v', 'vb', 'vbnet', 'vbs', 'veo', 'xhtml', 'xml', 'xsl', 'yaml', 'zsh'],
     PDF_TYPES: ['pdf'],
     PATCH_TYPES: ['patch'],
@@ -808,6 +818,7 @@ export const Constants = {
     SIGNIN_VERIFIED: 'verified',
     CREATE_LDAP: 'create_ldap',
     SESSION_EXPIRED: 'expired',
+    POST_AREA_HEIGHT: 80,
     POST_CHUNK_SIZE: 60,
     PROFILE_CHUNK_SIZE: 100,
     POST_FOCUS_CONTEXT_RADIUS: 10,
@@ -1307,6 +1318,7 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
+    PERMALINK_FADEOUT: 6000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
