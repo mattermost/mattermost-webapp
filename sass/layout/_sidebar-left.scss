@@ -112,6 +112,7 @@
             font-size: 14px;
             line-height: 19px;
             margin-right: 4px;
+            padding: 3px 8px 5px 8px;
 
             .SidebarChannelNavigator_shortcutText {
                 margin-left: auto;
@@ -315,7 +316,7 @@
     }
     .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         height: 32px;
-        padding: 0 2px;
+        padding: 0;
         font-size: 12px;
         font-family: 'Open Sans', sans-serif;
         font-weight: 600;
@@ -336,16 +337,18 @@
         width: 100%;
         align-items: center;
 
-        &.favorites div {
-            font-size: 14px;
-        }
-
         > div {
             flex: 1 1 auto;
         }
       
-        i.icon-chevron-down.hide-arrow {
-            visibility: hidden;
+        i.icon-chevron-down {
+            max-width: 16px;
+            max-height: 16px;
+            line-height: 18px;
+
+            &.hide-arrow {
+                visibility: hidden;
+            }
         }
     }
 
@@ -394,7 +397,7 @@
         width: 28px;
         border-radius: 4px;
         margin-left: auto;
-        margin-right: 14px;
+        margin-right: 19px;
     }
     .SidebarChannelGroupHeader_addButton:hover {
         cursor: pointer;
