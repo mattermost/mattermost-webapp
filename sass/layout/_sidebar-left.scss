@@ -336,6 +336,10 @@
         width: 100%;
         align-items: center;
 
+        &.favorites div {
+            font-size: 14px;
+        }
+
         > div {
             flex: 1 1 auto;
         }
