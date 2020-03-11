@@ -24,7 +24,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -34,21 +33,15 @@ import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
-import MoreDirectChannels from './more_direct_channels';
+import {GlobalState} from 'types/store';
 
-type State = GlobalState & {
-    views: {
-        search: {
-            modalSearch: string;
-        };
-    };
-}
+import MoreDirectChannels from './more_direct_channels';
 
 type OwnProps = {
     isExistingChannel: boolean;
 }
 
-function mapStateToProps(state: State, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUserId = getCurrentUserId(state);
     let currentChannelMembers: UserProfile[] = [];
     if (ownProps.isExistingChannel) {
