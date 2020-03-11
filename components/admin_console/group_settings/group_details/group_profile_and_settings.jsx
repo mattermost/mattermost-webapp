@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
-import GroupMention from 'components/admin_console/group_settings/group_details/group_mention';
 
 import {t} from 'utils/i18n';
 
@@ -18,7 +17,7 @@ const GroupSettingsToggle = ({isDefault, allowReference, onToggle}) => (
     <LineSwitch
         disabled={isDefault}
         toggled={allowReference}
-        last={allowReference}
+        last={true}
         onToggle={() => {
             if (isDefault) {
                 return;
@@ -56,6 +55,8 @@ export const GroupProfileAndSettings = ({name, allowReference, onToggle}) => (
     >
         <GroupProfile
             name={name}
+            title={t('admin.group_settings.group_details.group_profile.name')}
+            titleDefault={'Name:'}
         />
         <div className='group-settings'>
             <div className='group-settings--body'>
@@ -68,8 +69,10 @@ export const GroupProfileAndSettings = ({name, allowReference, onToggle}) => (
             </div>
         </div>
         {allowReference &&
-            <GroupMention
-                name={name}
+            <GroupProfile
+                name={'@' + name}
+                title={t('admin.group_settings.group_details.group_mention.name')}
+                titleDefault={'Mention:'}
             />
         }
     </AdminPanel>);

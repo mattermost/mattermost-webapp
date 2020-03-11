@@ -43,6 +43,7 @@ export default class NeedsTeam extends React.Component {
             loadProfilesForDirect: PropTypes.func.isRequired,
             getAllGroupsAssociatedToChannelsInTeam: PropTypes.func.isRequired,
             getAllGroupsAssociatedToTeam: PropTypes.func.isRequired,
+            getGroups: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -207,9 +208,13 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
-        this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id);
+        this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+
         if (team.group_constrained) {
-            this.props.actions.getAllGroupsAssociatedToTeam(team.id);
+            this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
+        } else {
+            //TODO (move somewhere not team-dependent?)
+            this.props.actions.getGroups(true);
         }
 
         return team;

@@ -134,9 +134,13 @@ describe('components/SuggestionBox', () => {
         const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'};
         const userid3 = {id: 'userid3', username: 'other', first_name: 'X', last_name: 'Y', nickname: 'Z'};
 
+        const groupid1 = {id: 'groupid1', display_name: 'board'};
+        const groupid2 = {id: 'groupid2', display_name: 'developers'};
+
         const baseParams = {
             currentUserId: 'userid1',
             profilesInChannel: [userid1, userid2, userid3],
+            autocompleteGroups: [groupid1, groupid2],
             autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
         };
         const provider = new AtMentionProvider(baseParams);

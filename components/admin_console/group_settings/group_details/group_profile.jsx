@@ -8,18 +8,20 @@ import {FormattedMessage} from 'react-intl';
 export default class GroupProfile extends React.PureComponent {
     static propTypes = {
         name: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        titleDefault: PropTypes.string.isRequired,
     };
 
     render = () => {
-        const {name} = this.props;
+        const {name, title, titleDefault} = this.props;
 
         return (
             <div className='group-profile'>
                 <div className='group-profile-field'>
                     <label>
                         <FormattedMessage
-                            id='admin.group_settings.group_details.group_profile.name'
-                            defaultMessage='Name:'
+                            id={title}
+                            defaultMessage={titleDefault}
                         />
                     </label>
                     <input

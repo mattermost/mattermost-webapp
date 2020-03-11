@@ -24,15 +24,15 @@ const makeMapStateToProps = (state, ownProps) => {
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state);
 
-    let autocompleteGroups;
+    let autocompleteGroups = [];
 
-    if(team && team.group_constrained && channel && channel.group_constrained) {
-        let groupsFromChannel = getGroupsAssociatedToChannelForReference(state, channel.id);
-        let groupsFromTeam = getGroupsAssociatedToTeamForReference(state, team.id);
+    if (team && team.group_constrained && channel && channel.group_constrained) {
+        const groupsFromChannel = getGroupsAssociatedToChannelForReference(state, channel.id);
+        const groupsFromTeam = getGroupsAssociatedToTeamForReference(state, team.id);
         autocompleteGroups = groupsFromChannel.concat(groupsFromTeam.filter((item) => groupsFromChannel.indexOf(item) < 0));
-    } else if(team && team.group_constrained) {
+    } else if (team && team.group_constrained) {
         autocompleteGroups = getGroupsAssociatedToTeamForReference(state, team.id);
-    } else if(channel && channel.group_constrained) {
+    } else if (channel && channel.group_constrained) {
         autocompleteGroups = getGroupsAssociatedToChannelForReference(state, channel.id);
     } else {
         autocompleteGroups = getGroupsForReference(state);

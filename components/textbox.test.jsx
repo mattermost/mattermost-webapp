@@ -17,6 +17,10 @@ describe('components/TextBox', () => {
             {id: 'id3'},
             {id: 'id4'},
         ],
+        autocompleteGroups: [
+            {id: 'gid1'},
+            {id: 'gid2'},
+        ],
         actions: {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),

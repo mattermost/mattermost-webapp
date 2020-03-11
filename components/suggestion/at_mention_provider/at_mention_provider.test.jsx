@@ -16,10 +16,14 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid7 = {id: 'userid7', username: 'xuser7', first_name: '', last_name: '', nickname: 'x'};
     const userid8 = {id: 'userid8', username: 'xuser8', first_name: 'Robert', last_name: 'Ward', nickname: 'nickname'};
 
+    const groupid1 = {id: 'groupid1', display_name: 'board'};
+    const groupid2 = {id: 'groupid2', display_name: 'developers'};
+
     const baseParams = {
         currentUserId: 'userid1',
         profilesInChannel: [userid10, userid3, userid1, userid2],
         autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
+        autocompleteGroups: [groupid1, groupid2],
         useChannelMentions: true,
     };
 
@@ -59,6 +63,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@here',
                 '@channel',
                 '@all',
+                '@board',
+                '@developers',
             ],
             items: [
                 {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -68,6 +74,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 {type: Constants.MENTION_SPECIAL, username: 'here'},
                 {type: Constants.MENTION_SPECIAL, username: 'channel'},
                 {type: Constants.MENTION_SPECIAL, username: 'all'},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
             ],
             component: AtMentionSuggestion,
         });
@@ -84,6 +92,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@here',
                 '@channel',
                 '@all',
+                '@board',
+                '@developers',
                 '',
             ],
             items: [
@@ -94,6 +104,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 {type: Constants.MENTION_SPECIAL, username: 'here'},
                 {type: Constants.MENTION_SPECIAL, username: 'channel'},
                 {type: Constants.MENTION_SPECIAL, username: 'all'},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
                 {type: Constants.MENTION_MORE_MEMBERS, loading: true},
             ],
             component: AtMentionSuggestion,
@@ -113,6 +125,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@all',
                     '@user5',
                     '@user6.six-split',
+                    '@board',
+                    '@developers',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -125,6 +139,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     {type: Constants.MENTION_SPECIAL, username: 'all'},
                     {type: Constants.MENTION_NONMEMBERS, ...userid5},
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
+                    {type: Constants.MENTION_GROUPS, ...groupid1},
+                    {type: Constants.MENTION_GROUPS, ...groupid2},
                 ],
                 component: AtMentionSuggestion,
             });
@@ -158,6 +174,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@here',
                 '@channel',
                 '@all',
+                '@board',
+                '@developers',
             ],
             items: [
                 {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -167,6 +185,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 {type: Constants.MENTION_SPECIAL, username: 'here'},
                 {type: Constants.MENTION_SPECIAL, username: 'channel'},
                 {type: Constants.MENTION_SPECIAL, username: 'all'},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
             ],
             component: AtMentionSuggestion,
         });
@@ -187,6 +207,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@all',
                     '@user5',
                     '@user6.six-split',
+                    '@board',
+                    '@developers',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -199,6 +221,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     {type: Constants.MENTION_SPECIAL, username: 'all'},
                     {type: Constants.MENTION_NONMEMBERS, ...userid5},
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
+                    {type: Constants.MENTION_GROUPS, ...groupid1},
+                    {type: Constants.MENTION_GROUPS, ...groupid2},
                 ],
                 component: AtMentionSuggestion,
             });
@@ -970,6 +994,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     out_of_channel: [],
                 }});
             })),
+            autocompleteGroups: [],
         };
 
         const provider = new AtMentionProvider(params);
