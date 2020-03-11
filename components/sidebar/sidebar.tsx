@@ -3,8 +3,9 @@
 
 import React from 'react';
 import classNames from 'classnames';
-
 import Pluggable from 'plugins/pluggable';
+
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {trackEvent} from 'actions/diagnostics_actions';
 import MoreDirectChannels from 'components/more_direct_channels';
@@ -107,7 +108,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     show={this.state.showNewChannelModal}
                     canCreatePublicChannel={this.props.canCreatePublicChannel}
                     canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                    channelType={Constants.OPEN_CHANNEL}
+                    channelType={Constants.OPEN_CHANNEL as ChannelType}
                     onModalDismissed={this.hideNewChannelModal}
                 />
                 {moreDirectChannelsModal}
