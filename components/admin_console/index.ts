@@ -9,7 +9,8 @@ import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
 import {getConfig as getGeneralConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
-import {resetCurrentChannelId} from 'mattermost-redux/actions/channels';
+import {selectChannel} from 'mattermost-redux/actions/channels';
+import {selectTeam} from 'mattermost-redux/actions/teams';
 import {isCurrentUserSystemAdmin, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
@@ -60,7 +61,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             confirmNavigation,
             loadRolesIfNeeded,
             editRole,
-            resetCurrentChannelId,
+            selectChannel,
+            selectTeam,
         }, dispatch),
     };
 }
