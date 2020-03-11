@@ -39,8 +39,8 @@ type Props = {
         confirmNavigation: () => void;
         cancelNavigation: () => void;
         loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
-        selectChannel: () => void;
-        selectTeam: () => void;
+        selectChannel: (channelId: string) => void;
+        selectTeam: (teamId: string) => void;
         editRole: (role: Role) => void;
         updateConfig?: (config: Record<string, any>) => ActionFunc;
     };
