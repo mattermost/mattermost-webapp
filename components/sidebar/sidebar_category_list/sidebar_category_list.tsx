@@ -47,10 +47,10 @@ type Props = {
     currentTeam: Team;
     currentChannel: Channel;
     categories: ChannelCategory[];
-    allChannels: Channel[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
+    getChannelsForCategory: (category: ChannelCategory) => Channel[];
     actions: {
         switchToChannelById: (channelId: string) => void;
         close: () => void;
@@ -112,7 +112,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         // autoclose), go to user default channel in team
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
-            !this.props.allChannels.find((channel: Channel) => channel.id === this.props.currentChannel.id)
+            !this.getDisplayedChannelIds().find((channelId: string) => channelId === this.props.currentChannel.id)
         ) {
             this.closedDirectChannel = true;
             redirectUserToDefaultTeam();
@@ -143,7 +143,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     getDisplayedChannelIds = () => {
-        return this.props.allChannels.map((channel) => channel.id);
+        const allChannels = this.props.categories.map((category) => this.props.getChannelsForCategory(category));
+        return allChannels.flat().map((channel) => channel.id);
     }
 
     channelIdIsDisplayedForProps = (id: string) => {

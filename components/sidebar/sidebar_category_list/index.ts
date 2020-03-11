@@ -5,10 +5,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetCategoriesForTeam, makeGetChannelsForAllCategories} from 'mattermost-redux/selectors/entities/channel_categories';
+import {makeGetCategoriesForTeam, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {switchToChannelById} from 'actions/views/channel';
 import {close} from 'actions/views/lhs';
@@ -18,7 +18,7 @@ import {GlobalState} from 'types/store';
 import SidebarCategoryList from './sidebar_category_list';
 
 const getCategoriesForTeam = makeGetCategoriesForTeam();
-const getChannelsForAllCategories = makeGetChannelsForAllCategories();
+const getChannelsForCategory = makeGetChannelsForCategory();
 
 function mapStateToProps(state: GlobalState) {
     const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
@@ -28,9 +28,9 @@ function mapStateToProps(state: GlobalState) {
         currentTeam,
         currentChannel: getCurrentChannel(state),
         categories: getCategoriesForTeam(state, currentTeam.id),
-        allChannels: getChannelsForAllCategories(state, currentTeam.id),
         isUnreadFilterEnabled: isUnreadFilterEnabled(state),
-        unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'), // This function call doesn't need to be 5 arguments does it?
+        unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
+        getChannelsForCategory: (category: ChannelCategory) => getChannelsForCategory(state, category),
     };
 }
 

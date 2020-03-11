@@ -345,9 +345,13 @@
         }
     }
 
-    .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton i.icon-chevron-down {
-        visibility: hidden;
-    }
+    .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+        cursor: default;
+
+        i.icon-chevron-down {
+            visibility: hidden;
+        }
+    } 
 
     .SidebarChannelGroup .SidebarChannelGroupHeader.stuck {
         /* box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.33);

@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
@@ -119,6 +120,11 @@ export default class SidebarCategory extends React.PureComponent<Props> {
             }
         }
 
+        let displayName = category.display_name;
+        if (category.type !== CategoryTypes.CUSTOM) {
+            displayName = localizeMessage(`sidebar.types.${category.type}`, category.display_name);
+        }
+
         return (
             <div className='SidebarChannelGroup'>
                 <div className='SidebarChannelGroupHeader'>
@@ -134,7 +140,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                             })}
                         />
                         <div>
-                            {category.display_name}
+                            {displayName}
                         </div>
                         {directMessagesModalButton}
                     </button>

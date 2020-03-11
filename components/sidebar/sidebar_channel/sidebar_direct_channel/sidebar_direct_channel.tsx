@@ -72,11 +72,11 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
 
         if (teammate.id && teammate.delete_at) {
             return (
-                <ArchiveIcon className='icon icon__archive'/>
+                <i className='icon icon-archive-outline'/>
             );
         } else if (teammate.id && teammate.is_bot) {
             // Use default bot icon
-            let icon = (<BotIcon className='icon icon__bot'/>);
+            let icon = (<i className='icon icon-robot-happy'/>);
 
             // Attempt to display custom icon if botIconUrl has changed
             // or if there was no error when loading custom svg
@@ -84,7 +84,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
                 this.props.botIconUrl !== this.state.svgErrorUrl) {
                 icon = (
                     <Svg
-                        className='icon icon__bot'
+                        className='icon icon-robot-happy'
                         src={this.props.botIconUrl}
                         onLoad={this.onSvgLoad}
                         onError={this.onSvgLoadError}
