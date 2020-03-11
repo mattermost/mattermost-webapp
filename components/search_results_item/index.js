@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {createSelector} from 'reselect';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -11,7 +10,7 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {isPostEphemeral, isPostFlagged} from 'mattermost-redux/utils/post_utils';
+import {isPostFlagged} from 'mattermost-redux/utils/post_utils';
 
 import {
     closeRightHandSide,
@@ -20,25 +19,10 @@ import {
     setRhsExpanded,
 } from 'actions/views/rhs';
 
-import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
 import {getDirectTeammate, getDisplayNameByUser} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';
-
-export function makeGetReplyCount() {
-    return createSelector(
-        (state) => state.entities.posts.posts,
-        (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
-        (allPosts, postIds) => {
-            if (!postIds) {
-                return 0;
-            }
-
-            // Count the number of non-ephemeral posts in the thread
-            return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
-        }
-    );
-}
 
 function mapStateToProps() {
     const getReplyCount = makeGetReplyCount();
