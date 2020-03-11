@@ -35,7 +35,7 @@
     .badge {
         background: var(--mention-bg);
         color: var(--mention-color);
-        margin-right: 10px;
+        margin-right: 20px;
         height: 16px;
         min-width: 16px;
     }
@@ -316,9 +316,9 @@
     .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         height: 32px;
         padding: 0 2px;
-        font-size: 14px;
+        font-size: 12px;
         font-family: 'Open Sans', sans-serif;
-        font-weight: bold;
+        font-weight: 600;
         text-transform: uppercase;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -390,7 +390,7 @@
         width: 28px;
         border-radius: 4px;
         margin-left: auto;
-        margin-right: 19px;
+        margin-right: 14px;
     }
     .SidebarChannelGroupHeader_addButton:hover {
         cursor: pointer;
@@ -436,7 +436,7 @@
             position: relative;
             width: 24px;
             height: 20px;
-            line-height: 20px;
+            line-height: 16px;
             margin-right: 7px;
             text-align: center;
 
@@ -480,7 +480,7 @@
         padding: 7px 5px 7px 15px;
         display: flex;
         color: var(--sidebar-text-60);
-        align-items: center;
+        align-items: flex-start;
         margin-right: 0;
         width: 100%;
     }
@@ -494,7 +494,11 @@
     }
     .SidebarChannel.active .SidebarLink {
         background: rgba(255, 255, 255, 0.16);
-        color: var(--sidebar-text);
+
+        .SidebarChannelLinkLabel {
+            color: var(--sidebar-text);
+        }
+        
     }
 
     .SidebarChannel.active .SidebarLink::before {
@@ -510,12 +514,12 @@
     
     .SidebarChannel.unread .SidebarLink,
     .SidebarChannel.unread .SidebarLink:hover {
-        font-weight: bold;
+        font-weight: 600;
         color: var(--sidebar-unread-text);
     }
     .SidebarChannel .SidebarLink > i {
         font-size: 12px;
-        margin-right: 2px;
+        margin-right: 5px;
     }
     .SidebarChannel.dragging {
         opacity: 0;
@@ -584,7 +588,9 @@
 
     .status.status--group {
         background: var(--sidebar-text-30);
-        margin: 0 6px 0 2px;
+        margin: 0 8px 0 0;
+        min-width: 14px;
+        height: 14px;
     }
 
     .status-away {
