@@ -231,7 +231,7 @@ export function markPostAsUnread(post) {
     return async (dispatch, getState) => {
         const state = getState();
         const userId = getCurrentUserId(state);
-        await dispatch(PostActions.setUnreadPost(userId, post.id));
+        await dispatch(PostActions.setUnreadPost(userId, post));
     };
 }
 
