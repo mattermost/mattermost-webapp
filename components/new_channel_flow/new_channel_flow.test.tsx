@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import assert from 'assert';
+
+import {ChannelType, Channel} from 'mattermost-redux/types/channels';
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
@@ -12,7 +14,8 @@ import NewChannelFlow, {
     SHOW_EDIT_URL,
     SHOW_EDIT_URL_THEN_COMPLETE,
     getChannelTypeFromProps,
-} from 'components/new_channel_flow/new_channel_flow.jsx';
+    Props,
+} from 'components/new_channel_flow/new_channel_flow';
 
 describe('components/NewChannelFlow', () => {
     const baseProps = {
@@ -21,13 +24,13 @@ describe('components/NewChannelFlow', () => {
                 const data = {
                     id: 'new-channel-id',
                     name: 'newChannel',
-                };
+                } as Channel;
                 return Promise.resolve({data});
             }),
             switchToChannel: jest.fn(),
         },
         show: true,
-        channelType: Constants.OPEN_CHANNEL,
+        channelType: Constants.OPEN_CHANNEL as ChannelType,
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
         onModalDismissed: jest.fn(),
@@ -35,14 +38,14 @@ describe('components/NewChannelFlow', () => {
     };
 
     test('should match snapshot, with base props', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when channelDataChanged is called', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
         const data = {displayName: 'name', purpose: 'purpose', header: 'header'};
@@ -54,7 +57,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when urlChangeDismissed is called', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
         wrapper.instance().urlChangeDismissed();
@@ -63,7 +66,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when urlChangeSubmitted is called', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
         const newUrl = 'example.com';
@@ -76,51 +79,51 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when urlChangeRequested is called', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
-        wrapper.instance().urlChangeRequested({preventDefault: jest.fn()});
+        wrapper.instance().urlChangeRequested({preventDefault: jest.fn()} as unknown as React.MouseEvent);
         expect(wrapper.state('flowState')).toEqual(SHOW_EDIT_URL);
     });
 
     test('should match state when typeSwitched is called, with state switched from OPEN_CHANNEL', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
         wrapper.setState({channelType: Constants.OPEN_CHANNEL, serverError: 'server error'});
-        wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL);
+        wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL as ChannelType);
         expect(wrapper.state('channelType')).toEqual(Constants.PRIVATE_CHANNEL);
         expect(wrapper.state('serverError')).toEqual('');
 
         wrapper.setState({channelType: Constants.PRIVATE_CHANNEL, serverError: 'server error'});
-        wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL);
+        wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL as ChannelType);
         expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
         expect(wrapper.state('serverError')).toEqual('');
     });
 
     test('should match state when typeSwitched is called, with state switched from PRIVATE_CHANNEL', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
         wrapper.setState({channelType: Constants.PRIVATE_CHANNEL});
-        wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL);
+        wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL as ChannelType);
         expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
     });
 
     test('should match state when onModalExited is called', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
-        wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL);
+        wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL as ChannelType);
         expect(wrapper.state('channelType')).toEqual(Constants.PRIVATE_CHANNEL);
     });
 
     test('should match state when onSubmit is called with invalid channelDisplayName', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
@@ -129,7 +132,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should call createChannel when onSubmit is called with valid channelDisplayName and valid channelName', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
@@ -142,7 +145,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('call onModalDismissed after successfully creating channel', (done) => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
@@ -161,7 +164,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('don\'t call onModalDismissed after failing to create channel', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
@@ -190,7 +193,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('show URL modal when trying to submit non-Latin display name', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
@@ -208,7 +211,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('call onModalDismissed after successfully creating channel from URL modal', (done) => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
             <NewChannelFlow {...baseProps}/>
         );
 
@@ -231,10 +234,17 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('getChannelTypeFromProps', () => {
-        const props = {
-            channelType: Constants.OPEN_CHANNEL,
+        const props: Props = {
+            actions: {
+                createChannel: jest.fn(),
+                switchToChannel: jest.fn(),
+            },
+            currentTeamId: '',
+            onModalDismissed: jest.fn(),
+            show: false,
+            channelType: Constants.OPEN_CHANNEL as ChannelType,
             canCreatePublicChannel: true,
-            canCreatePrivateChannel: true,
+            canCreatePrivateChannel: true
         };
 
         assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
@@ -248,7 +258,7 @@ describe('components/NewChannelFlow', () => {
         props.canCreatePublicChannel = true;
         assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
 
-        props.channelType = Constants.PRIVATE_CHANNEL;
+        props.channelType = Constants.PRIVATE_CHANNEL as ChannelType;
         props.canCreatePrivateChannel = true;
         assert.equal(getChannelTypeFromProps(props), Constants.PRIVATE_CHANNEL);
 
