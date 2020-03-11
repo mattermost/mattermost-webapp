@@ -332,7 +332,6 @@ export default class SelectTeam extends React.Component {
                 <div className='col-sm-12'>
                     <div
                         className={'signup-team__container'}
-                        style={{maxWidth: '800px', padding: '25px 0 0'}}
                     >
                         <img
                             alt={'signup team logo'}
