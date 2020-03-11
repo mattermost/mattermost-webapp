@@ -3,7 +3,6 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import Pluggable from 'plugins/pluggable';
 
 import {ChannelType} from 'mattermost-redux/types/channels';
 
@@ -11,7 +10,7 @@ import {trackEvent} from 'actions/diagnostics_actions';
 import MoreDirectChannels from 'components/more_direct_channels';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
-
+import Pluggable from 'plugins/pluggable';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
