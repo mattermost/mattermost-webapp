@@ -136,7 +136,7 @@ export default class InfiniteScroll extends React.PureComponent {
     render() {
         const {children, endOfDataMessage, styleClass, loaderStyle} = this.props;
         const {isEndofData, isFetching} = this.state;
-        const showLoader = !isEndofData && isFetching // show loader if fetching and end of data is not reached.
+        const showLoader = !isEndofData && isFetching; // show loader if fetching and end of data is not reached.
         return (
             // eslint-disable-next-line react/jsx-filename-extension
             <>

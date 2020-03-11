@@ -75,6 +75,7 @@ describe('/components/common/InfiniteScroll', () => {
         wrapper.setState({isFetching: true});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.state().isFetching).toBe(true);
+
         // Now it should show the loader.
         loadingDiv = wrapper.find('.loading-screen');
         expect(loadingDiv.exists()).toBe(true);
