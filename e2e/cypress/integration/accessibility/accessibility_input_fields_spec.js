@@ -111,6 +111,17 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     it('MM-22625 Verify Accessibility Support in Search Autocomplete', () => {
+        // # Adding at least five other users in the channel
+        cy.getCurrentChannelId().then((channelId) => {
+            cy.getCurrentTeamId().then((teamId) => {
+                cy.createNewUser({}, [teamId]).then((user) => {
+                    cy.apiAddUserToChannel(channelId, user.id);
+                });
+            });
+        });
+        cy.apiLogin('sysadmin');
+        cy.visit('/ad-1/channels/town-square');
+
         // * Verify Accessibility support in search input
         cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').focus();
         cy.get('#searchbar-help-popup').should('be.visible').and('have.attr', 'role', 'tooltip');
