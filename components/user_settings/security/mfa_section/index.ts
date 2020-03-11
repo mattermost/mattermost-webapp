@@ -20,11 +20,11 @@ function mapStateToProps(state: GlobalState) {
     const mfaLicensed = license && license.IsLicensed === 'true' && license.MFA === 'true';
     const mfaEnabled = config.EnableMultifactorAuthentication === 'true';
     const mfaEnforced = mfaLicensed && config.EnforceMultifactorAuthentication === 'true';
-    const user: UserProfile & {mfa_active: boolean} = Object.assign(getCurrentUser(state));
+    const user: UserProfile = getCurrentUser(state);
     let mfaActive = false;
     let mfaAvailable = false;
     if (user) {
-        mfaActive = user.mfa_active;
+        mfaActive = (user as any).mfa_active;
         mfaAvailable = mfaEnabled && (user.auth_service === '' || user.auth_service === Constants.LDAP_SERVICE);
     }
     return {
