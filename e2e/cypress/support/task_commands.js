@@ -61,3 +61,29 @@ Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootI
         cy.wrap({id: data.id, status, data});
     });
 });
+
+/**
+* urlHealthCheck is a task wrapped as command that checks whether
+* a URL is healthy and reachable.
+* @param {String} url - URL to check
+* @param {String} method - a request using a specific method
+* @param {String} httpStatus - expected HTTP status
+*/
+Cypress.Commands.add('urlHealthCheck', ({url, method = 'get', httpStatus}) => {
+    cy.task('urlHealthCheck', {url, method}).then(({data, errorCode, status, success}) => {
+        expect(success, `Requires ${url} to be reachable: ${errorCode}`).to.equal(true);
+        expect(status, `Expect ${httpStatus} to match returned ${status} HTTP status`).to.equal(httpStatus);
+
+        cy.wrap({data, status});
+    });
+});
+
+Cypress.Commands.add('requireWebhookServer', () => {
+    const webhookBaseUrl = Cypress.env().webhookBaseUrl;
+    cy.urlHealthCheck({url: webhookBaseUrl, method: 'get', httpStatus: 200});
+});
+
+Cypress.Commands.add('requireStorybookServer', () => {
+    const storybookUrl = Cypress.env().storybookUrl;
+    cy.urlHealthCheck({url: storybookUrl, method: 'get', httpStatus: 200});
+});

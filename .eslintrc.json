@@ -1,10 +1,10 @@
 {
   "extends": [
-    "./node_modules/eslint-config-mattermost/.eslintrc.json",
-    "./node_modules/eslint-config-mattermost/.eslintrc-react.json",
+    "plugin:mattermost/react",
     "plugin:cypress/recommended"
   ],
   "plugins": [
+    "mattermost",
     "import",
     "cypress"
   ],
@@ -67,10 +67,7 @@
     {
       "files": ["**/*.tsx", "**/*.ts"],
       "extends": [
-        "./node_modules/eslint-config-mattermost/.eslintrc.json",
-        "./node_modules/eslint-config-mattermost/.eslintrc-react.json",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:cypress/recommended"
+        "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
         "comma-dangle": 0,

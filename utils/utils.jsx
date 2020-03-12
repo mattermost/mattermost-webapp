@@ -651,7 +651,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .popover.right>.arrow', 'border-right-color:' + changeOpacity(theme.centerChannelColor, 0.25));
         changeCss('.app__body .popover.left>.arrow', 'border-left-color:' + changeOpacity(theme.centerChannelColor, 0.25));
         changeCss('.app__body .popover.top>.arrow', 'border-top-color:' + changeOpacity(theme.centerChannelColor, 0.25));
-        changeCss('.app__body .suggestion-list__content .command, .app__body .popover .popover-title', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
+        changeCss('.app__body .suggestion-list__content .command', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .suggestion-list__content .command, .app__body .popover .popover__row', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .suggestion-list__divider:before, .app__body .menu-divider, .app__body .search-help-popover .search-autocomplete__divider:before', 'background:' + theme.centerChannelColor);
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
@@ -708,7 +708,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker__category--selected, .app__body .emoji-picker__category--selected:focus, .app__body .emoji-picker__category--selected:hover', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker__item-wrapper:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .popover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .post .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
         changeCss('.app__body .post .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
@@ -1712,6 +1711,38 @@ export function enableDevModeFeatures() {
             throw new Error('Map.length is not supported. Use Map.size instead.');
         },
     });
+}
+
+/**
+ * Get closest parent which match selector
+ */
+export function getClosestParent(elem, selector) {
+    // Element.matches() polyfill
+    if (!Element.prototype.matches) {
+        Element.prototype.matches =
+        Element.prototype.matchesSelector ||
+        Element.prototype.mozMatchesSelector ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.oMatchesSelector ||
+        Element.prototype.webkitMatchesSelector ||
+        ((s) => {
+            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+            let i = matches.length - 1;
+            while (i >= 0 && matches.item(i) !== this) {
+                i--;
+            }
+            return i > -1;
+        });
+    }
+
+    // Get the closest matching element
+    let currentElem = elem;
+    for (; currentElem && currentElem !== document; currentElem = currentElem.parentNode) {
+        if (currentElem.matches(selector)) {
+            return currentElem;
+        }
+    }
+    return null;
 }
 
 export function getSortedUsers(reactions, currentUserId, profiles, teammateNameDisplay) {

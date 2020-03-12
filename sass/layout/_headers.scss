@@ -421,11 +421,26 @@
             overflow: visible;
 
             button {
-                @include opacity(.6);
+                color: v(center-channel-color-60);
 
-                &:hover
-                &:focus {
-                    text-decoration: underline;
+                .button__edit {
+                    color: v(link-color);
+                    display: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                &:focus,
+                &:hover {
+                    text-decoration: none;
+                }
+
+                &:hover {
+                    .button__edit {
+                        display: inline;
+                    }
                 }
             }
         }
