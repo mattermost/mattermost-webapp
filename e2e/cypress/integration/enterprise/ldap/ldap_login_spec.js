@@ -72,6 +72,9 @@ context('ldap', () => {
         },
     };
 
+    let teamId;
+    let randomTeam;
+    
     describe('LDAP Login flow - User Filter)', () => {
         before(() => {
             cy.apiUpdateConfig(newConfig).then(() => {
@@ -81,12 +84,20 @@ context('ldap', () => {
                     });
                 });
             });
+
+            before(() => {
+                cy.apiLogin('sysadmin');
+                // # Ensure an open team is available to join
+                randomTeam = 'T' + String(getRandomInt(10000));
+                cy.apiCreateTeam(randomTeam, randomTeam).then((response) => {
+                    teamId = response.body.id;
+                });
+            });    
         });
 
         it('LDAP Invalid login existing user', () => {
             testSettings.user = user1;
             newConfig.LdapSettings.UserFilter = '(sn=no_users)';
-            cy.log(newConfig);
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     cy.checkLoginFailed(testSettings);
@@ -140,28 +151,27 @@ context('ldap', () => {
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     cy.skipOrCreateTeam(testSettings, 'board-1').then(() => {
-                        cy.doLogoutFromSignUp();
+                        cy.doGuestLogout(testSettings);
                     });
                 });
             });
 
             cy.doLDAPLogin(testSettings).then(() => {
-                cy.doLogoutFromSignUp();
+                cy.doGuestLogout(testSettings);
             });
         });
 
         it('LDAP login invited Guest user to a team', () => {
             testSettings.user = admin1;
 
-            //login as an admin user - generate an invite link
+            //login as an admin user - generate an invite
             cy.doLDAPLogin(testSettings).then(() => {
                 cy.skipOrCreateTeam(testSettings, 'hello').then(() => {
-                    cy.log(testSettings.user.username);
 
-                    //get invite link
-                    cy.doInviteGuest(guest2, testSettings).then(() => {
+                    //get invite
+                    cy.doInviteGuest(guest1, testSettings).then(() => {
                         cy.doLDAPLogout(testSettings).then(() => {
-                            testSettings.user = guest2;
+                            testSettings.user = guest1;
                             cy.doLDAPLogin(testSettings, true).then(() => {
                                 //login the guest
                                 cy.checkLeftSideBar(testSettings).then(() => {

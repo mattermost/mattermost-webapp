@@ -32,6 +32,17 @@ Cypress.Commands.add('performLDAPLogin', (settings = {}, useEmail = false) => {
     cy.findByText('Sign in').click().wait(TIMEOUTS.SMALL);
 });
 
+
+Cypress.Commands.add('doGuestLogout', (settings = {}) => {
+    cy.get('body').then((body) => {
+        if (body.find('logout').length) {
+            cy.doLogoutFromSignUp();
+        }else{
+            cy.doLDAPLogout(settings);
+        }
+    });
+});
+
 Cypress.Commands.add('doLDAPLogout', (settings = {}) => {
     cy.checkLeftSideBar(settings);
 
@@ -71,22 +82,6 @@ Cypress.Commands.add('doInviteGuest', (user, settings = {}) => {
         });
     });
 });
-
-// Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
-//     cy.checkChatSideBar(settings);
-
-//     // # Click hamburger main menu button
-//     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
-//         cy.findByText('Invite People').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
-//             cy.checkInvitePeoplePage();
-//             cy.findByTestId('shareLinkInput').should('be.visible').invoke('val').then((text) => {
-//                 //close the invitepeople modal
-//                 cy.get('.close-x').should('be.visible').click();
-//                 return cy.wrap(text);
-//             });
-//         });
-//     });
-// });
 
 Cypress.Commands.add('setLDAPTestSettings', (config) => {
     return {
