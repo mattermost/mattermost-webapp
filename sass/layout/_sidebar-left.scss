@@ -540,6 +540,7 @@
         padding-right: 10px;
         line-height: 16px;
         text-align: justify;
+        height: 18px;
     }
     
     /* .SidebarChannel__absolute {
@@ -595,7 +596,7 @@
 
     .status.status--group {
         background: var(--sidebar-text-30);
-        margin: 0 8px 0 0;
+        margin: 1px 8px 0 0;
         min-width: 14px;
         height: 14px;
     }
