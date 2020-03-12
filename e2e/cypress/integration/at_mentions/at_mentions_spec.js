@@ -116,7 +116,6 @@ function signupWithEmailCreateTeam(name, pw, team) {
 }
 
 function goToNotificationsFillOutName(name) {
-
     // open preferences
     cy.get('#headerInfo').click();
 
@@ -198,7 +197,6 @@ describe('at-mention', () => {
 
         // ensure "Your non-case sensitive username" is not checked
         cy.get('#notificationTriggerUsername').should('is.not.checked');
-
     });
 
     it('N14571 still triggers notification if username is not listed in words that trigger mentions', () => {
