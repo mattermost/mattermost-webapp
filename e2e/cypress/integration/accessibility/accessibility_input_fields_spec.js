@@ -128,10 +128,10 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#searchbar-help-popup').should('be.visible').and('have.attr', 'role', 'tooltip');
 
         // # Ensure User list is cached once in UI
-        cy.get('#searchBox').type('from:').wait(TIMEOUTS.SMALL).type('{downarrow}');
+        cy.get('#searchBox').type('from:').wait(TIMEOUTS.SMALL);
 
         // # Trigger the user autocomplete again
-        cy.get('#searchBox').clear().type('from:').wait(TIMEOUTS.SMALL).type('{downarrow}');
+        cy.get('#searchBox').clear().type('from:').wait(TIMEOUTS.SMALL).type('{downarrow}{downarrow}');
 
         // * Verify Accessibility Support in search autocomplete
         verifySearchAutocomplete(2);
@@ -145,10 +145,10 @@ describe('Verify Accessibility Support in different input fields', () => {
         verifySearchAutocomplete(3);
 
         // # Type the in: filter and ensure channel list is cached once
-        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.SMALL).type('{downarrow}');
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.SMALL);
 
         // # Trigger the channel autocomplete again
-        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.SMALL).type('{downarrow}');
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.SMALL).type('{downarrow}{downarrow}');
 
         // * Verify Accessibility Support in search autocomplete
         verifySearchAutocomplete(2, 'channel');
@@ -193,10 +193,10 @@ describe('Verify Accessibility Support in different input fields', () => {
         verifyMessageAutocomplete(0);
 
         // # Trigger the channel autocomplete filter and ensure channel list is cached once
-        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.SMALL).type('{downarrow}');
+        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.SMALL);
 
         // # Trigger the channel autocomplete again
-        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.SMALL).type('{downarrow}');
+        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.SMALL).type('{downarrow}{downarrow}');
 
         // * Verify Accessibility Support in message autocomplete
         verifyMessageAutocomplete(2, 'channel');
