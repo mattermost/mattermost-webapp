@@ -131,7 +131,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#searchBox').type('from:').wait(TIMEOUTS.SMALL).type('{downarrow}');
 
         // # Trigger the user autocomplete again
-        cy.get('#searchBox').clear().type('from:').wait(TIMEOUTS.TINY).type('{downarrow}');
+        cy.get('#searchBox').clear().type('from:').wait(TIMEOUTS.SMALL).type('{downarrow}');
 
         // * Verify Accessibility Support in search autocomplete
         verifySearchAutocomplete(2);
@@ -148,7 +148,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.SMALL).type('{downarrow}');
 
         // # Trigger the channel autocomplete again
-        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.TINY).type('{downarrow}');
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.SMALL).type('{downarrow}');
 
         // * Verify Accessibility Support in search autocomplete
         verifySearchAutocomplete(2, 'channel');
@@ -181,7 +181,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
 
         // # Trigger the user autocomplete again
-        cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.TINY).type('{downarrow}');
+        cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.SMALL).type('{downarrow}');
 
         // * Verify Accessibility Support in message autocomplete
         verifyMessageAutocomplete(1);
@@ -196,7 +196,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.SMALL).type('{downarrow}');
 
         // # Trigger the channel autocomplete again
-        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.TINY).type('{downarrow}');
+        cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.SMALL).type('{downarrow}');
 
         // * Verify Accessibility Support in message autocomplete
         verifyMessageAutocomplete(2, 'channel');
