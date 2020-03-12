@@ -118,7 +118,7 @@ export default class GroupDetails extends React.PureComponent {
 
     onToggle = async (allowReference) => {
         this.setState({allowReference});
-        await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference});
+        this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference});
     }
 
     render = () => {
