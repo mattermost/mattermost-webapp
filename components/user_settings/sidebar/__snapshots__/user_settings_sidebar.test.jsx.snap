@@ -100,8 +100,8 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <Connect(SettingItemMin)
       describe={
         <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.sidebar.on"
+          defaultMessage="Off"
+          id="user.settings.sidebar.off"
           values={Object {}}
         />
       }

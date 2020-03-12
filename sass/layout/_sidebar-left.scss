@@ -91,16 +91,16 @@
             min-width: 28px;
             vertical-align: middle;
             border: 0;
-            background: rgba(255, 255, 255, 0.16); // TODO themeing?
-            color: var(--sidebar-text-80);
+            background: rgba(255, 255, 255, 0.16);
+            color: var(--sidebar-text-72);
 
             &:hover:not(.disabled) {
                 color: var(--sidebar-text);
-                background: rgba(255, 255, 255, 0.4); // TODO themeing?
+                background: rgba(255, 255, 255, 0.24);
             }
 
             &.disabled {
-                background: rgba(255, 255, 255, 0.08); // TODO themeing?
+                background: rgba(255, 255, 255, 0.08);
             }
         }
 
@@ -112,7 +112,7 @@
             font-size: 14px;
             line-height: 19px;
             margin-right: 4px;
-            padding: 3px 8px 5px 8px;
+            padding: 3px 8px 6px 8px;
 
             .SidebarChannelNavigator_shortcutText {
                 margin-left: auto;
@@ -152,6 +152,8 @@
         flex-direction: row;
         width: 100%;
         padding: 7px 16px;
+        align-items: center;
+        margin-bottom: 8px;
     }
     .SidebarFilters .SidebarFilters_filterButton {
         display: block;
@@ -174,7 +176,7 @@
     }
 
     .SidebarFilters .SidebarFilters_filterTitle {
-        color: var(--sidebar-text-80);
+        color: var(--sidebar-text-72);
         font-weight: 600;
         font-size: 10px;
         line-height: 12px;
@@ -193,8 +195,22 @@
         height: 30px;
 
         .dropdown-menu {
+            margin-top: 8px;
+            line-height: 19px;
+            min-width: 0;
+
+            span {
+                white-space: nowrap;
+            }
+
             button {
                 padding: 0 16px;
+            }
+
+            i {
+                font-size: 16px;
+                color: var(--center-channel-color-72);
+                line-height: 16px;
             }
         }
     }
@@ -213,7 +229,7 @@
         width: 28px;
         border-radius: 4px;
     }
-    .AddChannelDropdown_dropdownButton:hover {
+    .AddChannelDropdown_dropdownButton:hover, .AddChannelDropdown_dropdownButton:active, .AddChannelDropdown_dropdownButton:focus {
         cursor: pointer;
         background: rgba(255, 255, 255, 0.24);
         color: var(--sidebar-text);
@@ -261,7 +277,7 @@
     }
 
     .nav-pills__unread-indicator-top {
-        top: 16px;
+        top: 32px;
 
         .icon {
             svg {
@@ -519,8 +535,8 @@
         border-radius: 4px;
     }
     
-    .SidebarChannel.unread .SidebarLink,
-    .SidebarChannel.unread .SidebarLink:hover {
+    .SidebarChannel.unread .SidebarChannelLinkLabel,
+    .SidebarChannel.unread .SidebarLink:hover .SidebarChannelLinkLabel {
         font-weight: 600;
         color: var(--sidebar-unread-text);
     }

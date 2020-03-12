@@ -16,7 +16,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         displayUnreadSection: 'true',
         showUnusedOption: false,
         channelSwitcherOption: 'true',
-        channelSidebarOrganizationOption: 'true',
+        channelSidebarOrganizationOption: 'false',
         showGroupSortOptions: true,
         showChannelOrganization: true,
         showChannelSidebarOrganization: true,

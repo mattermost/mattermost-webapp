@@ -63,11 +63,14 @@ type State = {
 };
 
 // scrollMargin is the margin at the edge of the channel list that we leave when scrolling to a channel.
-const scrollMargin = 15;
+const scrollMargin = 10;
+
+// categoryHeaderHeight is the height of the category header
+const categoryHeaderHeight = 32;
 
 // scrollMarginWithUnread is the margin that we leave at the edge of the channel list when scrolling to a channel so
 // that the channel is not under the unread indicator.
-const scrollMarginWithUnread = 60;
+const scrollMarginWithUnread = 55;
 
 export default class SidebarCategoryList extends React.PureComponent<Props, State> {
     channelRefs: Map<string, HTMLLIElement>;
@@ -208,7 +211,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         const scrollTop = this.scrollbar.current!.getScrollTop();
         const scrollHeight = this.scrollbar.current!.getClientHeight();
 
-        if (top < scrollTop) {
+        if (top < (scrollTop + categoryHeaderHeight)) {
             // Scroll up to the item
             const margin = (scrollingToUnread || !this.state.showTopUnread) ? scrollMargin : scrollMarginWithUnread;
 
@@ -216,9 +219,9 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const displayedChannels = this.getDisplayedChannelIds();
             if (displayedChannels.length > 0 && displayedChannels[0] === channelId) {
                 // This is the first channel, so scroll right to the top
-                scrollEnd = MathUtil.mapValueInRange(0, 0, 1, 0, 1);
+                scrollEnd = 0;
             } else {
-                scrollEnd = MathUtil.mapValueInRange(top - margin, 0, 1, 0, 1);
+                scrollEnd = top - margin - categoryHeaderHeight;
             }
 
             this.scrollToPosition(scrollEnd);
@@ -250,7 +253,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             const firstUnreadElement = this.channelRefs.get(firstUnreadChannel);
             const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.offsetTop : null;
 
-            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin) < this.scrollbar.current!.getScrollTop()) {
+            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin - categoryHeaderHeight) < this.scrollbar.current!.getScrollTop()) {
                 showTopUnread = true;
             }
         }
