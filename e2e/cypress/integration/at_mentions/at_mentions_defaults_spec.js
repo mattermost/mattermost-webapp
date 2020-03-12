@@ -44,12 +44,28 @@ function signupWithEmailCreateTeam(name, pw, team) {
     cy.get('#teamURLFinishButton').click();
 }
 
-function goToNotifications() {
+function goToNotificationsFillOutName(name) {
+
     // open preferences
     cy.get('#headerInfo').click();
 
     // open account settings
     cy.get('#accountSettings').click();
+
+    // open General sub settings
+    cy.get('#generalButton').click();
+
+    // open Full Name sub sub settings
+    cy.get('#nameTitle').click();
+
+    // open Full Name sub sub settings
+    cy.get('#firstName').click();
+
+    // # Fill first name
+    cy.get('#firstName').type(name);
+
+    // # click save
+    cy.get('#saveSetting').click();
 
     // open notfications sub settings
     cy.get('#notificationsButton').click();
@@ -58,7 +74,7 @@ function goToNotifications() {
     cy.get('#keysTitle').click();
 }
 
-describe('Email Address', () => {
+describe('Verify Notification Defaults', () => {
 
     before(() => {
         // Set EnableOpenServer to true so users can sign up
@@ -68,14 +84,17 @@ describe('Email Address', () => {
         cy.apiUpdateConfig(newSettings);
     });
 
-    it('On14634 Email address already exists', () => {
+    it('MM7881 Disable default mention notification settings for "case sensitive first name" and "non-case sensitive username"', () => {
         // # Signup a new user with an email address and user generated in signupWithEmail
         signupWithEmailCreateTeam('unique.' + uniqueUserId, 'unique1pw', 'team.' + uniqueTeamId);
 
-        // # open up a specific notifications sub sub panel
-        goToNotifications();
+        // # enter first name then open up a specific notifications sub sub panel
+        goToNotificationsFillOutName('first_name.' + uniqueUserId);
 
-        // ensure "Your non-case sensitive username " is not checked
+        // ensure "Your case sensitive first name" is not checked
+        cy.get('#notificationTriggerFirst').should('is.not.checked');
+
+        // ensure "Your non-case sensitive username" is not checked
         cy.get('#notificationTriggerUsername').should('is.not.checked');
 
     });
