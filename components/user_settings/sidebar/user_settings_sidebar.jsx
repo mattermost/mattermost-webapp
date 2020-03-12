@@ -185,10 +185,10 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     getPreviousSection = (sectionName) => {
-        const {showChannelOrganization, showChannelSidebarOrganization} = this.props;
+        const {showChannelOrganization, showChannelSidebarOrganization, channelSidebarOrganizationOption} = this.props;
         switch (sectionName) {
         case 'autoCloseDM':
-            return 'channelSwitcher';
+            return channelSidebarOrganizationOption === 'true' ? 'channelSidebarOrganization' : 'channelSwitcher';
         case 'groupChannels':
             return 'dummySectionName';
         case 'channelSidebarOrganization':
@@ -813,12 +813,14 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     render() {
-        const {showUnusedOption, showChannelOrganization, showChannelSidebarOrganization} = this.props;
+        const {showUnusedOption, showChannelOrganization, showChannelSidebarOrganization, channelSidebarOrganizationOption} = this.props;
 
-        const channelOrganizationSection = showChannelOrganization ? this.renderChannelOrganizationSection() : null;
+        const channelSidebarOrganizationDisabled = channelSidebarOrganizationOption === 'false';
+
+        const channelOrganizationSection = (showChannelOrganization && channelSidebarOrganizationDisabled) ? this.renderChannelOrganizationSection() : null;
         const channelSidebarOrganizationSection = showChannelSidebarOrganization ? this.renderChannelSidebarOrganizationSection() : null;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
-        const channelSwitcherSection = this.renderChannelSwitcherSection();
+        const channelSwitcherSection = channelSidebarOrganizationDisabled ? this.renderChannelSwitcherSection() : null;
 
         return (
             <div>
