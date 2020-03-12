@@ -7,7 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+
+const user1 = users['user-1'];
 
 function verifySearchAutocomplete(index, type = 'user') {
     cy.get('#search-autocomplete__popover .search-autocomplete__item').eq(index).should('be.visible').and('have.class', 'selected a11y--focused').within((el) => {
@@ -29,7 +32,7 @@ function verifyMessageAutocomplete(index, type = 'user') {
     cy.get('#suggestionList .mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
             cy.wrap(el).invoke('text').then((text) => {
-                const username = text.replace('- ', '').replace('@', '').replace('(', '').replace(')', '').toLowerCase();
+                const username = text.replace('- ', '').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
                 cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', username);
             });
         } else if (type === 'channel') {
@@ -42,6 +45,8 @@ function verifyMessageAutocomplete(index, type = 'user') {
 }
 
 describe('Verify Accessibility Support in different input fields', () => {
+    let testChannel;
+
     before(() => {
         cy.apiLogin('sysadmin');
 
@@ -56,6 +61,14 @@ describe('Verify Accessibility Support in different input fields', () => {
     beforeEach(() => {
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+
+        // # Visit the test channel
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.apiCreateChannel(teamId, 'accessibility', 'accessibility').then((response) => {
+                testChannel = response.body;
+                cy.visit(`/ad-1/channels/${testChannel.name}`);
+            });
+        });
     });
 
     it('MM-22625 Verify Accessibility Support in Input fields in Invite People Flow', () => {
@@ -134,8 +147,16 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     it('MM-22625 Verify Accessibility Support in Message Autocomplete', () => {
+        // # Adding at least one other user in the channel
+        cy.getCurrentChannelId().then((channelId) => {
+            cy.apiGetUserByEmail(user1.email).then((res) => {
+                const user = res.body;
+                cy.apiAddUserToChannel(channelId, user.id);
+            });
+        });
+
         // * Verify Accessibility support in post input field
-        cy.get('#post_textbox').should('have.attr', 'aria-label', 'write to town square').clear().focus();
+        cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).clear().focus();
 
         // # Ensure User list is cached once in UI
         cy.get('#post_textbox').type('@').wait(TIMEOUTS.SMALL);
@@ -178,7 +199,7 @@ describe('Verify Accessibility Support in different input fields', () => {
     it('MM-22625 Verify Accessibility Support in Main Post Input', () => {
         cy.get('#centerChannelFooter').within(() => {
             // * Verify Accessibility Support in Main Post input
-            cy.get('#post_textbox').should('have.attr', 'aria-label', 'write to town square').and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
+            cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();
