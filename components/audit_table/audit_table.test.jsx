@@ -20,6 +20,7 @@ describe('components/audit_table/AuditTable', () => {
         getUser: jest.fn(),
         getByName: jest.fn(),
         actions,
+        getDirectTeammate: jest.fn(),
     };
 
     test('should match snapshot with no audits', () => {

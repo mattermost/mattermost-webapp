@@ -125,7 +125,9 @@ class PostList extends React.PureComponent {
         this.state = {
             isScrolling: false,
             isMobile,
-            atBottom: true,
+
+            /* Intentionally setting null so that toast can determine when the first time this state is defined */
+            atBottom: null,
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
@@ -133,6 +135,8 @@ class PostList extends React.PureComponent {
             dynamicListStyle: {
                 willChange: 'transform',
             },
+            initScrollCompleted: false,
+            initScrollOffsetFromBottom: 0,
         };
 
         this.listRef = React.createRef();
@@ -169,7 +173,7 @@ class PostList extends React.PureComponent {
         if (this.postListRef && this.postListRef.current) {
             const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
-            if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
+            if ((postsAddedAtTop || channelHeaderAdded) && this.state.atBottom === false) {
                 const postListNode = this.postListRef.current;
                 const previousScrollTop = postListNode.parentElement.scrollTop;
                 const previousScrollHeight = postListNode.scrollHeight;
@@ -293,6 +297,9 @@ class PostList extends React.PureComponent {
             }
         }
 
+        // Since the first in the list is the latest message
+        const isLastPost = itemId === this.state.postListIds[0];
+
         return (
             <div
                 style={style}
@@ -305,6 +312,7 @@ class PostList extends React.PureComponent {
                     loadOlderPosts={this.props.actions.loadOlderPosts}
                     loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
+                    isLastPost={isLastPost}
                 />
             </div>
         );
@@ -324,6 +332,10 @@ class PostList extends React.PureComponent {
     }
 
     onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
+        if (scrollHeight <= 0) {
+            return;
+        }
+
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
@@ -347,6 +359,8 @@ class PostList extends React.PureComponent {
             }
         }
 
+        this.checkBottom(scrollOffset, scrollHeight, clientHeight);
+
         if (scrollUpdateWasRequested) { //if scroll change is programatically requested i.e by calling scrollTo
             //This is a private method on virtlist
             const postsRenderedRange = this.listRef.current._getRangeToRender(); //eslint-disable-line no-underscore-dangle
@@ -355,10 +369,13 @@ class PostList extends React.PureComponent {
             if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
-        }
 
-        if (scrollHeight > 0) {
-            this.checkBottom(scrollOffset, scrollHeight, clientHeight);
+            if (!this.state.atBottom && scrollHeight) {
+                const initScrollOffsetFromBottom = scrollHeight - clientHeight - scrollOffset;
+                this.setState({
+                    initScrollOffsetFromBottom,
+                });
+            }
         }
     }
 
@@ -491,6 +508,8 @@ class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}
+                focusedPostId={this.props.focusedPostId}
+                initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
             />
         );
     }
@@ -549,7 +568,7 @@ class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.renderToasts(width)}</div>
+                                        <div>{this.state.atBottom !== null && this.renderToasts(width)}</div>
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}

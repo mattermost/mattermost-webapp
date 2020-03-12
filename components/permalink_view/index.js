@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {focusPost} from './actions';
 import PermalinkView from './permalink_view.jsx';
@@ -13,13 +14,10 @@ import PermalinkView from './permalink_view.jsx';
 function mapStateToProps(state) {
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state);
+    const currentUserId = getCurrentUserId(state);
     let channelId = '';
-    let channelName = '';
-    let channelIsArchived;
     if (channel) {
         channelId = channel.id;
-        channelName = channel.name;
-        channelIsArchived = channel.delete_at !== 0;
     }
 
     let teamName = '';
@@ -29,9 +27,8 @@ function mapStateToProps(state) {
 
     return {
         channelId,
-        channelName,
         teamName,
-        channelIsArchived,
+        currentUserId,
     };
 }
 

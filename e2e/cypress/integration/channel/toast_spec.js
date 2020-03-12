@@ -19,6 +19,7 @@ describe('toasts', () => {
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });
+        cy.apiSaveMessageDisplayPreference();
     });
 
     beforeEach(() => {
@@ -78,7 +79,7 @@ describe('toasts', () => {
         visitTownSquareAndWaitForPageToLoad();
 
         // # Scroll up so bottom is not visible
-        cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000});
+        scrollUp();
 
         // # Post few new message
         for (let index = 0; index < 4; index++) {
@@ -115,7 +116,7 @@ describe('toasts', () => {
             cy.get('div.toast').should('be.visible');
 
             // # Click on toast dismiss button to close the toast
-            cy.get('div.toast__dismiss').click();
+            cy.findByTestId('dismissToast').click();
             cy.get('div.toast').should('not.be.visible');
         });
     });
@@ -128,11 +129,11 @@ describe('toasts', () => {
         cy.go('back');
 
         // # Scroll up so bottom is not visible
-        cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000});
+        scrollUp();
 
         // # Post a new message
         cy.get('div.toast').should('be.visible');
-        cy.get('div.toast__dismiss').click();
+        cy.findByTestId('dismissToast').click();
         cy.get('div.toast').should('not.be.visible');
     });
 
@@ -153,7 +154,7 @@ describe('toasts', () => {
 
         cy.get('div.toast').should('be.visible');
         cy.get('div.toast__message>span').first().contains('1 new message');
-        cy.get('div.toast__dismiss').click();
+        cy.findByTestId('dismissToast').click();
         cy.get('div.toast').should('not.be.visible');
         cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
             cy.get('div.toast__message>span').first().contains('1 new message');
@@ -182,7 +183,7 @@ describe('toasts', () => {
             cy.visit('/ad-1/channels/town-square');
 
             // # Scroll up so bottom is not visible
-            cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000});
+            scrollUp();
 
             // # Toast apprears and has the appropriate message
             cy.get('div.toast').should('be.visible');
@@ -201,11 +202,40 @@ describe('toasts', () => {
             // * The new messages line should appear above the last post
             cy.get('.NotificationSeparator').should('exist');
             cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post1');
-            cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000});
+            scrollUp();
             cy.postMessageAs({sender: otherUser, message: 'post2', channelId: townsquareChannelId}).then(() => {
                 // * The new messages line should have moved to the last post
                 cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
             });
+        });
+    });
+
+    it('Archive toast is not show when visiting a permalink at the bottom', () => {
+        // # Add one message
+        cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
+            visitTownSquareAndWaitForPageToLoad();
+            cy.visit(`/ad-1/pl/${id}`);
+
+            // * Toast should not be present
+            cy.get('div.toast').should('not.be.visible');
+        });
+    });
+
+    it('Archive toast should be show when visiting a post which is not at bottom', () => {
+        // # Add one message
+        cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
+            visitTownSquareAndWaitForPageToLoad();
+
+            // # Add 29 posts to create enough space from bottom for showing archive toast
+            for (let index = 0; index < 25; index++) {
+                cy.postMessageAs({sender: otherUser, message: `# This is an old message [${index}]`, channelId: townsquareChannelId});
+            }
+
+            cy.visit('/ad-1/channels/off-topic');
+            cy.visit(`/ad-1/pl/${id}`);
+
+            // * Toast should not be present
+            cy.get('div.toast').should('be.visible');
         });
     });
 });
@@ -216,12 +246,16 @@ function visitTownSquareAndWaitForPageToLoad() {
 }
 
 function scrollUpAndPostAMessage() {
-    // # Scroll up so bottom is not visible
-    cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000});
+    scrollUp();
 
     // # Without the wait the tests seem to fun flaky. Possibly because of ScrollTo having a race with post of message
     cy.wait(20); // eslint-disable-line cypress/no-unnecessary-waiting
 
     // # Post a new message
     return cy.postMessageAs({sender: otherUser, message: 'This is a new message', channelId: townsquareChannelId});
+}
+
+function scrollUp() {
+    // # Scroll up so bottom is not visible
+    cy.get('div.post-list__dynamic').scrollTo(0, '70%', {duration: 1000}).wait(1000);
 }

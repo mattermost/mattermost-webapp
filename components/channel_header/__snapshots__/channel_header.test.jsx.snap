@@ -7,7 +7,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div
@@ -113,6 +113,13 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -209,7 +216,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div
@@ -315,6 +322,13 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -411,7 +425,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div
@@ -517,6 +531,13 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -613,7 +634,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div
@@ -762,7 +783,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div
@@ -903,6 +924,13 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -1005,7 +1033,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div
@@ -1111,6 +1139,13 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -1207,7 +1242,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div

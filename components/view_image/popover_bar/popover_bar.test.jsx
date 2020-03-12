@@ -7,7 +7,6 @@ import PopoverBar from 'components/view_image/popover_bar/popover_bar.jsx';
 
 describe('components/view_image/popover_bar/PopoverBar', () => {
     const defaultProps = {
-        isDesktopApp: true,
         enablePublicLink: false,
         canDownloadFiles: true,
         isExternalFile: false,
@@ -53,55 +52,28 @@ describe('components/view_image/popover_bar/PopoverBar', () => {
             isExternalFile: false,
             fileUrl: 'http://example.com/img.png',
             filename: 'img.png',
-            isDesktopApp: true,
         };
 
-        test('when externally hosted', () => {
+        test('should not add download attribute when externally hosted', () => {
             const wrapper = shallow(
                 <PopoverBar
                     {...props}
                     isExternalFile={true}
-                    isDesktopApp={false}
                 />
             );
 
-            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find('a').prop('download')).toBeUndefined();
         });
 
-        test('when externally hosted and on the desktop app', () => {
-            const wrapper = shallow(
-                <PopoverBar
-                    {...props}
-                    isExternalFile={true}
-                    isDesktopApp={true}
-                />
-            );
-
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('when internally hosted', () => {
+        test('should add download attribute when internally hosted', () => {
             const wrapper = shallow(
                 <PopoverBar
                     {...props}
                     isExternalFile={false}
-                    isDesktopApp={false}
                 />
             );
 
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('when internally hosted and on the desktop app', () => {
-            const wrapper = shallow(
-                <PopoverBar
-                    {...props}
-                    isExternalFile={false}
-                    isDesktopApp={true}
-                />
-            );
-
-            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find('a').prop('download')).toBe(props.filename);
         });
     });
 });

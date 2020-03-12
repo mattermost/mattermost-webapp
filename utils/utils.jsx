@@ -4,31 +4,29 @@
 import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import semver from 'semver';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
+import * as Utils from 'utils/utils';
 import bing from 'images/bing.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
-import {showNotification} from 'utils/notifications';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 export function isMac() {
@@ -140,8 +138,7 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
-export function getChannelURL(channel, teamId) {
-    const state = store.getState();
+export function getChannelURL(state, channel, teamId) {
     let notificationURL;
     if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
         notificationURL = getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name;
@@ -160,39 +157,6 @@ export function getChannelURL(channel, teamId) {
     return notificationURL;
 }
 
-export function notifyMe(title, body, channel, teamId, silent) {
-    // handle notifications in desktop app >= 4.3.0
-    if (UserAgent.isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
-        // get the desktop app to trigger the notification
-        window.postMessage(
-            {
-                type: 'dispatch-notification',
-                message: {
-                    title,
-                    body,
-                    channel,
-                    teamId,
-                    silent,
-                },
-            },
-            window.location.origin
-        );
-    } else {
-        showNotification({
-            title,
-            body,
-            requireInteraction: false,
-            silent,
-            onClick: () => {
-                window.focus();
-                browserHistory.push(getChannelURL(channel, teamId));
-            },
-        }).catch((error) => {
-            store.dispatch(logError(error));
-        });
-    }
-}
-
 var canDing = true;
 
 export function ding() {
@@ -207,7 +171,7 @@ export function ding() {
 }
 
 export function hasSoundOptions() {
-    return (!(UserAgent.isFirefox()) && !(UserAgent.isEdge()));
+    return (!UserAgent.isEdge());
 }
 
 export function getDateForUnixTicks(ticks) {
@@ -687,7 +651,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .popover.right>.arrow', 'border-right-color:' + changeOpacity(theme.centerChannelColor, 0.25));
         changeCss('.app__body .popover.left>.arrow', 'border-left-color:' + changeOpacity(theme.centerChannelColor, 0.25));
         changeCss('.app__body .popover.top>.arrow', 'border-top-color:' + changeOpacity(theme.centerChannelColor, 0.25));
-        changeCss('.app__body .suggestion-list__content .command, .app__body .popover .popover-title', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
+        changeCss('.app__body .suggestion-list__content .command', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .suggestion-list__content .command, .app__body .popover .popover__row', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .suggestion-list__divider:before, .app__body .menu-divider, .app__body .search-help-popover .search-autocomplete__divider:before', 'background:' + theme.centerChannelColor);
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
@@ -746,7 +710,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker__item-wrapper:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .emoji-picker-items__container .emoji-picker__item.selected', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .popover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .post .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
         changeCss('.app__body .post .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
@@ -1011,6 +974,7 @@ export function applyTheme(theme) {
             'button-color-05': changeOpacity(theme.buttonColor, 0.05),
             'error-text': theme.errorTextColor,
             'error-text-08': changeOpacity(theme.errorTextColor, 0.08),
+            'error-text-12': changeOpacity(theme.errorTextColor, 0.12),
             'mention-highlight-bg': theme.mentionHighlightBg,
             'mention-highlight-link': theme.mentionHighlightLink,
         },
@@ -1169,18 +1133,7 @@ export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
 }
 
-export function getUserById(userId) {
-    const state = store.getState();
-    return getUser(state, userId);
-}
-
-export function getUserByUsername(username) {
-    const state = store.getState();
-    return getUserByUsernameRedux(state, username);
-}
-
-export function getDirectTeammate(channelId) {
-    const state = store.getState();
+export function getDirectTeammate(state, channelId) {
     let teammate = {};
 
     const channel = getChannel(state, channelId);
@@ -1306,15 +1259,14 @@ export function getLongDisplayNameParts(user) {
 /**
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUserId(userId) {
-    return getDisplayNameByUser(getUser(store.getState(), userId));
+export function getDisplayNameByUserId(state, userId) {
+    return getDisplayNameByUser(state, getUser(state, userId));
 }
 
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUser(user) {
-    const state = store.getState();
+export function getDisplayNameByUser(state, user) {
     const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
         return displayUsername(user, teammateNameDisplay);
@@ -1335,7 +1287,7 @@ const UserStatusesWeight = {
 /**
  * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
  */
-export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
+export function sortUsersByStatusAndDisplayName(users, statusesByUserId, teammateNameDisplay) {
     function compareUsers(a, b) {
         const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
         const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
@@ -1344,20 +1296,13 @@ export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
         }
 
-        const aName = getDisplayNameByUser(a);
-        const bName = getDisplayNameByUser(b);
+        const aName = displayUsername(a, teammateNameDisplay);
+        const bName = displayUsername(b, teammateNameDisplay);
 
         return aName.localeCompare(bName);
     }
 
     return users.sort(compareUsers);
-}
-
-/**
- * Gets the entire name, including username, full name, and nickname, of the user with the specified id
- */
-export function displayEntireName(userId) {
-    return displayEntireNameForUser(getUser(store.getState(), userId));
 }
 
 /**
@@ -1401,13 +1346,6 @@ export function displayEntireNameForUser(user) {
 }
 
 export function imageURLForUser(userIdOrObject) {
-    if (typeof userIdOrObject == 'string') {
-        const profile = getUser(store.getState(), userIdOrObject);
-        if (profile) {
-            return imageURLForUser(profile);
-        }
-        return Constants.TRANSPARENT_PIXEL;
-    }
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
@@ -1417,14 +1355,6 @@ export function defaultImageURLForUser(userId) {
 
 // in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
 export function imageURLForTeam(teamIdOrObject) {
-    if (typeof teamIdOrObject == 'string') {
-        const team = getTeam(store.getState(), teamIdOrObject);
-        if (team) {
-            return imageURLForTeam(team);
-        }
-        return null;
-    }
-
     return teamIdOrObject.last_team_icon_update ? Client4.getTeamIconUrl(teamIdOrObject.id, teamIdOrObject.last_team_icon_update) : null;
 }
 
@@ -1495,8 +1425,8 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     return otherUserId;
 }
 
-export function importSlack(file, success, error) {
-    Client4.importTeam(getCurrentTeamId(store.getState()), file, 'slack').then(success).catch(error);
+export function importSlack(teamId, file, success, error) {
+    Client4.importTeam(teamId, file, 'slack').then(success).catch(error);
 }
 
 export function windowWidth() {
@@ -1507,8 +1437,9 @@ export function windowHeight() {
     return $(window).height();
 }
 
-export function isFeatureEnabled(feature) {
-    return getBool(store.getState(), Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
+// Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
+export function isFeatureEnabled(feature, state) {
+    return getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
 }
 
 export function fillArray(value, length) {
@@ -1654,7 +1585,7 @@ export function isValidPassword(password, passwordConfig) {
     return {valid, error};
 }
 
-export function handleFormattedTextClick(e) {
+export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');
     const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
@@ -1673,7 +1604,7 @@ export function handleFormattedTextClick(e) {
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
-        browserHistory.push(getCurrentRelativeTeamUrl(store.getState()) + '/channels/' + channelMentionAttribute.value);
+        browserHistory.push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
     }
 }
 
@@ -1782,4 +1713,60 @@ export function enableDevModeFeatures() {
             throw new Error('Map.length is not supported. Use Map.size instead.');
         },
     });
+}
+
+/**
+ * Get closest parent which match selector
+ */
+export function getClosestParent(elem, selector) {
+    // Element.matches() polyfill
+    if (!Element.prototype.matches) {
+        Element.prototype.matches =
+        Element.prototype.matchesSelector ||
+        Element.prototype.mozMatchesSelector ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.oMatchesSelector ||
+        Element.prototype.webkitMatchesSelector ||
+        ((s) => {
+            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+            let i = matches.length - 1;
+            while (i >= 0 && matches.item(i) !== this) {
+                i--;
+            }
+            return i > -1;
+        });
+    }
+
+    // Get the closest matching element
+    let currentElem = elem;
+    for (; currentElem && currentElem !== document; currentElem = currentElem.parentNode) {
+        if (currentElem.matches(selector)) {
+            return currentElem;
+        }
+    }
+    return null;
+}
+
+export function getSortedUsers(reactions, currentUserId, profiles, teammateNameDisplay) {
+    // Sort users by who reacted first with "you" being first if the current user reacted
+
+    let currentUserReacted = false;
+    const sortedReactions = reactions.sort((a, b) => a.create_at - b.create_at);
+    const users = sortedReactions.reduce((accumulator, current) => {
+        if (current.user_id === currentUserId) {
+            currentUserReacted = true;
+        } else {
+            const user = profiles.find((u) => u.id === current.user_id);
+            if (user) {
+                accumulator.push(displayUsername(user, teammateNameDisplay));
+            }
+        }
+        return accumulator;
+    }, []);
+
+    if (currentUserReacted) {
+        users.unshift(Utils.localizeMessage('reaction.you', 'You'));
+    }
+
+    return {currentUserReacted, users};
 }

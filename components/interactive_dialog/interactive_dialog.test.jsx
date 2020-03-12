@@ -7,6 +7,8 @@ import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
+import EmojiMap from 'utils/emoji_map';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InteractiveDialog from './interactive_dialog.jsx';
@@ -25,6 +27,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
         actions: {
             submitInteractiveDialog: () => ({}),
         },
+        emojiMap: new EmojiMap(new Map()),
     };
 
     describe('generic error message', () => {

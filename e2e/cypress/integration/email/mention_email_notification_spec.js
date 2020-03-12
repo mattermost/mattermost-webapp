@@ -35,6 +35,7 @@ describe('Email notification', () => {
     it('post a message that mentions a user', () => {
         // # Login as user-1 and visit town-square channel
         cy.apiLogin('user-1');
+        cy.apiSaveTeammateNameDisplayPreference('username');
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message mentioning the new user

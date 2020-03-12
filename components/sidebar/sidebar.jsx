@@ -447,7 +447,7 @@ class Sidebar extends React.PureComponent {
     }
 
     navigateChannelShortcut = (e) => {
-        if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+        if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             if (this.isSwitchingChannel) {
@@ -480,7 +480,7 @@ class Sidebar extends React.PureComponent {
     };
 
     navigateUnreadChannelShortcut = (e) => {
-        if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+        if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             if (this.isSwitchingChannel) {
@@ -789,6 +789,8 @@ class Sidebar extends React.PureComponent {
                 className={classNames('sidebar--left', {'move--right': this.props.isOpen && Utils.isMobile()})}
                 id='sidebar-left'
                 key='sidebar-left'
+                role='navigation'
+                aria-labelledby='sidebar-left'
             >
                 <NewChannelFlow
                     show={showChannelModal}
