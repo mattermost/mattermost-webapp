@@ -185,18 +185,15 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     getPreviousSection = (sectionName) => {
-        const {showChannelOrganization, showChannelSidebarOrganization, channelSidebarOrganizationOption} = this.props;
+        const {showChannelOrganization, channelSidebarOrganizationOption} = this.props;
         switch (sectionName) {
         case 'autoCloseDM':
             return channelSidebarOrganizationOption === 'true' ? 'channelSidebarOrganization' : 'channelSwitcher';
         case 'groupChannels':
             return 'dummySectionName';
         case 'channelSidebarOrganization':
-            return showChannelOrganization ? 'groupChannels' : 'dummySectionName';
+            return 'dummySectionName';
         case 'channelSwitcher':
-            if (showChannelSidebarOrganization) {
-                return 'channelSidebarOrganization';
-            }
             return showChannelOrganization ? 'groupChannels' : 'dummySectionName';
         default:
             return null;
@@ -414,7 +411,7 @@ export default class UserSettingsSidebar extends React.Component {
         const helpChannelSidebarOrganizationText = (
             <FormattedMarkdownMessage
                 id={t('user.settings.sidebar.channelSidebarOrganizationSection.desc')}
-                defaultMessage={'When enabled, access experimental channel sidebar features, including collapsible sections and unreads filtering. [Learn more or give us feedback](!https://about.mattermost.com/default-sidebar/)'}
+                defaultMessage={'When enabled, access experimental channel sidebar features, including collapsible sections and unreads filtering. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)'}
             />
         );
 
@@ -865,8 +862,8 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
-                    {channelOrganizationSection}
                     {channelSidebarOrganizationSection}
+                    {channelOrganizationSection}
                     {channelSwitcherSection}
                     {showUnusedOption ? <div className='divider-light'/> : <div className='divider-dark'/>}
                     {autoCloseDMSection}

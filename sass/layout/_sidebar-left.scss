@@ -117,6 +117,7 @@
             .SidebarChannelNavigator_shortcutText {
                 margin-left: auto;
                 display: none;
+                margin-top: 1px;
             }
 
             &:hover {
@@ -128,21 +129,19 @@
 
         .SidebarChannelNavigator_backButton {
             border-radius: 4px 0px 0px 4px;
-            padding-left: 0;
-            padding-right: 0;
+            padding: 0;
         }
 
         .SidebarChannelNavigator_forwardButton {
             border-radius: 0px 4px 4px 0px;
-            padding-left: 0;
-            padding-right: 0;
-            padding-top: 3px;
+            padding: 0;
         }
 
         i {
             font-size: 16px;
             line-height: 16px;
             margin: 0;
+            vertical-align: middle;
         }
     }
 
@@ -224,7 +223,7 @@
         border: none;
         color: var(--sidebar-text-80);
         font-size: 18px;
-        line-height: 18px;
+        line-height: 16px;
         height: 28px;
         width: 28px;
         border-radius: 4px;
@@ -408,7 +407,7 @@
         border: none;
         color: var(--sidebar-text-80);
         font-size: 18px;
-        line-height: 18px;
+        line-height: 16px;
         height: 28px;
         width: 28px;
         border-radius: 4px;
@@ -554,7 +553,7 @@
         width: 100%;
         white-space: nowrap;
         padding-right: 10px;
-        line-height: 16px;
+        line-height: 18px;
         text-align: justify;
         height: 18px;
     }

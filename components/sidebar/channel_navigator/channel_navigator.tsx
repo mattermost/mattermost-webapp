@@ -48,7 +48,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
     }
 
     render() {
-        let channelSwitchTextShortcutDefault = 'CTRL+K';
+        let channelSwitchTextShortcutDefault = 'Ctrl+K';
         if (Utils.isMac()) {
             channelSwitchTextShortcutDefault = '⌘K';
         }
