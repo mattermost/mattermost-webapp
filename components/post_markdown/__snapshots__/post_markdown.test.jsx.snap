@@ -140,3 +140,17 @@ exports[`components/PostMarkdown should render properly with an empty post 1`] =
   proxyImages={true}
 />
 `;
+
+exports[`components/PostMarkdown should render properly without highlight a post 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  message="No highlight"
+  options={
+    Object {
+      "mentionHighlight": false,
+    }
+  }
+  proxyImages={true}
+/>
+`;

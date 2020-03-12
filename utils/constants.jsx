@@ -631,6 +631,7 @@ export const PermissionsScope = {
     [Permissions.CREATE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
+    [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -666,6 +667,7 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -683,6 +685,13 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OUTGOING_WEBHOOKS,
         Permissions.DELETE_POST,
         Permissions.DELETE_OTHERS_POSTS,
+    ],
+    guests: [
+        Permissions.EDIT_POST,
+        Permissions.DELETE_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
 };
 

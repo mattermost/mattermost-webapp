@@ -7,7 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import users from '../../fixtures/users.json';
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 let selectedRowText;
+const user1 = users['user-1'];
+const user2 = users['user-2'];
 
 function verifyMainMenuModal(modalName, modalId, modalLabel, expectedModalName) {
     cy.get('#headerInfo button').click();
@@ -117,14 +122,16 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             // # Focus on the Create Channel button and TAB twice
             cy.get('#createNewChannel').focus().tab().tab();
 
-            // * Verify channel name is highlighted and reader reads the channel name
+            // * Verify channel name is highlighted and reader reads the channel name and channel description
             cy.get('#moreChannelsList').children().eq(0).as('selectedRow');
             cy.get('@selectedRow').within(() => {
-                cy.get('.more-modal__details button').
-                    should('have.class', 'a11y--active a11y--focused').invoke('text').then((channel) => {
-                        selectedRowText = channel.toLowerCase() + ', ';
-                        cy.get('.more-modal__details button').should('have.attr', 'aria-label', selectedRowText);
-                    });
+                cy.get('.more-modal__description').invoke('text').then((description) => {
+                    cy.get('.more-modal__details button').
+                        should('have.class', 'a11y--active a11y--focused').invoke('text').then((channel) => {
+                            selectedRowText = channel.toLowerCase() + ', ' + description.toLowerCase();
+                            cy.get('.more-modal__details button').should('have.attr', 'aria-label', selectedRowText);
+                        });
+                });
 
                 // * Press Tab and verify if focus changes to Join button
                 cy.focused().tab();
@@ -158,7 +165,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
-            cy.get('#selectItems input').type('s', {force: true}).wait(500).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+            cy.get('#selectItems input').type('s', {force: true}).wait(TIMEOUTS.TINY).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
             cy.get('#multiSelectList').children().eq(2).should('have.class', 'more-modal__row--selected').within(() => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
@@ -184,6 +191,18 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     it('MM-22623 Accessibility Support in Manage Channel Members Dialog screen', () => {
         cy.visit('/ad-1/channels/off-topic');
 
+        // # Adding at least two other users in the channel
+        cy.getCurrentChannelId().then((channelId) => {
+            cy.apiGetUserByEmail(user1.email).then((res) => {
+                const user = res.body;
+                cy.apiAddUserToChannel(channelId, user.id);
+            });
+            cy.apiGetUserByEmail(user2.email).then((res) => {
+                const user = res.body;
+                cy.apiAddUserToChannel(channelId, user.id);
+            });
+        });
+
         // # Open Channel Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();
         cy.findByText('Manage Members').click();
@@ -194,7 +213,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').type(' {backspace}').tab();
+            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.TINY).tab({shift: true}).tab().tab();
 
             // * Verify channel name is highlighted and reader reads the channel name
             cy.get('.more-modal__list>div').children().eq(0).as('selectedRow');
