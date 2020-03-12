@@ -18,10 +18,7 @@ let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
     before(() => {
-        // # Check webhook
-        cy.request(Cypress.env().webhookBaseUrl).then((response) => {
-            expect(response.status === 200, 'This test requires webhook server running. Initiate `npm run start:webhook` to start.');
-        });
+        cy.requireWebhookServer()
 
         // Set required ServiceSettings
         const newSettings = {
