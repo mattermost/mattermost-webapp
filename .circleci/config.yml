@@ -235,9 +235,9 @@ jobs:
 
             cd mattermost-server
             export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
-            docker build --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} build
+            docker build --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-test-enterprise:${TAG} build
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-            docker push mattermost/mattermost-enterprise-edition:${TAG}
+            docker push mattermost/mattermost-test-enterprise:${TAG}
 
 workflows:
   version: 2
