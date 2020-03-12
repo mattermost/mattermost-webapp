@@ -16,12 +16,12 @@ import Suggestion from '../suggestion.jsx';
 export default class AtMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
-        const user = this.props.item;
+        const item = this.props.item;
 
         let username;
         let description;
         let icon;
-        if (user.username === 'all') {
+        if (item.username === 'all') {
             username = 'all';
             description = (
                 <FormattedMessage
@@ -42,7 +42,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     )}
                 </FormattedMessage>
             );
-        } else if (user.username === 'channel') {
+        } else if (item.username === 'channel') {
             username = 'channel';
             description = (
                 <FormattedMessage
@@ -63,7 +63,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     )}
                 </FormattedMessage>
             );
-        } else if (user.username === 'here') {
+        } else if (item.username === 'here') {
             username = 'here';
             description = (
                 <FormattedMessage
@@ -84,9 +84,9 @@ export default class AtMentionSuggestion extends Suggestion {
                     )}
                 </FormattedMessage>
             );
-        } else if (user.type === Constants.MENTION_GROUPS) {
-            username = user.display_name;
-            description = `- (${user.display_name})`;
+        } else if (item.type === Constants.MENTION_GROUPS) {
+            username = item.display_name;
+            description = `- (${item.display_name})`;
             icon = (
                 <FormattedMessage
                     id='generic_icons.member'
@@ -101,27 +101,27 @@ export default class AtMentionSuggestion extends Suggestion {
                 </FormattedMessage>
             );
         } else {
-            username = user.username;
+            username = item.username;
 
-            if ((user.first_name || user.last_name) && user.nickname) {
-                description = `- ${Utils.getFullName(user)} (${user.nickname})`;
-            } else if (user.nickname) {
-                description = `- (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                description = `- ${Utils.getFullName(user)}`;
+            if ((item.first_name || item.last_name) && item.nickname) {
+                description = `- ${Utils.getFullName(item)} (${item.nickname})`;
+            } else if (item.nickname) {
+                description = `- (${item.nickname})`;
+            } else if (item.first_name || item.last_name) {
+                description = `- ${Utils.getFullName(item)}`;
             }
 
             icon = (
                 <Avatar
                     size='xs'
-                    username={user && user.username}
-                    url={Utils.imageURLForUser(user)}
+                    username={item && item.username}
+                    url={Utils.imageURLForUser(item)}
                 />
             );
         }
 
         let youElement = null;
-        if (user.isCurrentUser) {
+        if (item.isCurrentUser) {
             youElement =
             (<span className='mention__you'>
                 <FormattedMessage
@@ -149,7 +149,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     {'@' + username}
                 </span>
                 <BotBadge
-                    show={Boolean(user.is_bot)}
+                    show={Boolean(item.is_bot)}
                     className='badge-autocomplete'
                 />
                 <span className='mention__fullname'>
@@ -158,7 +158,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
                 {youElement}
                 <GuestBadge
-                    show={Utils.isGuest(user)}
+                    show={Utils.isGuest(item)}
                     className='badge-autocomplete'
                 />
             </div>

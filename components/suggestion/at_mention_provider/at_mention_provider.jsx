@@ -197,13 +197,13 @@ export default class AtMentionProvider extends Provider {
     }
 
     // updateMatches invokes the resultCallback with the metadata for rendering at mentions
-    updateMatches(resultCallback, users) {
-        const mentions = users.map((user) => {
-            if (user.username) {
-                return '@' + user.username;
+    updateMatches(resultCallback, items) {
+        const mentions = items.map((item) => {
+            if (item.username) {
+                return '@' + item.username;
             }
-            if (user.display_name) {
-                return '@' + user.display_name;
+            if (item.display_name) {
+                return '@' + item.display_name;
             }
             return '';
         });
@@ -211,7 +211,7 @@ export default class AtMentionProvider extends Provider {
         resultCallback({
             matchedPretext: `@${this.latestPrefix}`,
             terms: mentions,
-            items: users,
+            items,
             component: AtMentionSuggestion,
         });
     }

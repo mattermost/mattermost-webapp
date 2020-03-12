@@ -48,17 +48,16 @@ export default class GroupDetails extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        const group = props.group;
         this.state = {
             loadingTeamsAndChannels: true,
             addTeamOpen: false,
             addChannelOpen: false,
-            allowReference: Boolean(group.allow_reference),
+            allowReference: Boolean(props.group.allow_reference),
         };
     }
 
     componentDidMount() {
-        const {groupID, actions} = this.props;
+        const {groupID, actions, group} = this.props;
         actions.getGroup(groupID);
 
         Promise.all([
@@ -66,7 +65,7 @@ export default class GroupDetails extends React.PureComponent {
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
         ]).then(() => {
             this.setState({loadingTeamsAndChannels: false});
-            this.setState({group: this.props.group, allowReference: Boolean(this.props.group.allow_reference)});
+            this.setState({group, allowReference: Boolean(this.props.group.allow_reference)});
         });
     }
 

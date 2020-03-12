@@ -17,6 +17,8 @@ import {autocompleteChannels} from 'actions/channel_actions';
 
 import Textbox from './textbox.jsx';
 
+/* eslint-disable camelcase */
+
 const makeMapStateToProps = (state, ownProps) => {
     const getProfilesInChannel = makeGetProfilesInChannel();
     const getProfilesNotInChannel = makeGetProfilesNotInChannel();
