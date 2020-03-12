@@ -37,8 +37,9 @@ describe('components/marketplace/marketplace_list', () => {
         expect(wrapper.state('page')).toEqual(0);
         expect(wrapper.find('Connect(MarketplaceItem)')).toHaveLength(15);
         expect(wrapper.find('Connect(NavigationRow)')).toHaveLength(1);
-        expect(wrapper.find('Connect(NavigationRow)').props().showNextPageButton).toBeTruthy();
-        expect(wrapper.find('Connect(NavigationRow)').props().showPreviousPageButton).toBeFalsy();
+        expect(wrapper.find('Connect(NavigationRow)').props().page).toEqual(0);
+        expect(wrapper.find('Connect(NavigationRow)').props().total).toEqual(17);
+        expect(wrapper.find('Connect(NavigationRow)').props().maximumPerPage).toEqual(15);
     });
 
     it('should set page to 0 when list of plugins changed', () => {

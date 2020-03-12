@@ -170,23 +170,11 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     version="1.0.3"
   />
   <Connect(NavigationRow)
-    countText={
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total"
-        id="marketplace_list.count_total_page"
-        values={
-          Object {
-            "endCount": 15,
-            "startCount": 1,
-            "total": 17,
-          }
-        }
-      />
-    }
+    maximumPerPage={15}
     onNextPageButtonClick={[Function]}
     onPreviousPageButtonClick={[Function]}
-    showNextPageButton={true}
-    showPreviousPageButton={false}
+    page={0}
+    total={17}
   />
 </div>
 `;

@@ -3,7 +3,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
 
 import MarketplaceItem from '../marketplace_item';
 
@@ -44,30 +43,10 @@ export default class MarketplaceList extends React.PureComponent {
         }));
     };
 
-    renderCount = () => {
-        const total = this.props.plugins.length;
-        const startCount = this.state.page * PLUGINS_PER_PAGE;
-        const endCount = Math.min(startCount + PLUGINS_PER_PAGE, this.props.plugins.length);
-
-        return (
-            <FormattedMessage
-                id='marketplace_list.count_total_page'
-                defaultMessage='{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total'
-                values={{
-                    startCount: startCount + 1,
-                    endCount,
-                    total,
-                }}
-            />
-        );
-    };
-
     render() {
         const pageStart = this.state.page * PLUGINS_PER_PAGE;
         const pageEnd = pageStart + PLUGINS_PER_PAGE;
         const pluginsToDisplay = this.props.plugins.slice(pageStart, pageEnd);
-        const showNextPageButton = pluginsToDisplay.length >= PLUGINS_PER_PAGE && pageEnd < this.props.plugins.length;
-        const showPreviousPageButton = this.state.page > 0;
 
         return (
             <div className='more-modal__list'>
@@ -87,11 +66,11 @@ export default class MarketplaceList extends React.PureComponent {
                     />
                 ))}
                 <NavigationRow
-                    countText={this.renderCount()}
+                    page={this.state.page}
+                    total={this.props.plugins.length}
+                    maximumPerPage={PLUGINS_PER_PAGE}
                     onNextPageButtonClick={this.nextPage}
                     onPreviousPageButtonClick={this.previousPage}
-                    showNextPageButton={showNextPageButton}
-                    showPreviousPageButton={showPreviousPageButton}
                 />
             </div>
         );
