@@ -4,7 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as TextFormatting from 'utils/text_formatting';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Markdown from 'components/markdown';
 
