@@ -246,7 +246,7 @@
   "admin.channel_settings.channel_moderation.postReactions.disabledMember": "Post reactions for members are disabled in [{scheme_name}](../permissions/{scheme_link}).",
   "admin.channel_settings.channel_moderation.postReactionsDesc": "The ability for members and guests to post reactions.",
   "admin.channel_settings.channel_moderation.subtitle": "Manage the actions available to channel members and guests.",
-  "admin.channel_settings.channel_moderation.title": "Channel Moderation",
+  "admin.channel_settings.channel_moderation.title": "Channel Moderation (Beta)",
   "admin.channel_settings.channel_row.configure": "Edit",
   "admin.channel_settings.description": "Manage channel settings.",
   "admin.channel_settings.groupsPageTitle": "{siteName} Channels",
