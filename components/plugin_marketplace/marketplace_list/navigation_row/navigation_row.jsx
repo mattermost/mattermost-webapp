@@ -18,29 +18,12 @@ export default class NavigationRow extends React.PureComponent {
         theme: PropTypes.object.isRequired,
     };
 
-    renderNextButton = () => {
+    canShowNextButton = () => {
         const {page, maximumPerPage, total} = this.props;
         const pageStart = page * maximumPerPage;
         const pageEnd = pageStart + maximumPerPage;
-        const show = total >= maximumPerPage && pageEnd < total;
 
-        return show ? (
-            <NavigationButton
-                onClick={this.props.onNextPageButtonClick}
-                messageId={'more_channels.next'}
-                defaultMessage={'Next'}
-            />
-        ) : null;
-    };
-
-    renderPreviousButton = () => {
-        return this.props.page > 0 ? (
-            <NavigationButton
-                onClick={this.props.onPreviousPageButtonClick}
-                messageId={'more_channels.prev'}
-                defaultMessage={'Previous'}
-            />
-        ) : null;
+        return total >= maximumPerPage && pageEnd < total;
     };
 
     renderCount = () => {
@@ -67,7 +50,13 @@ export default class NavigationRow extends React.PureComponent {
         return (
             <div className='navigation-row'>
                 <div className='col-xs-2'>
-                    {this.renderPreviousButton()}
+                    {(this.props.page > 0) && (
+                        <NavigationButton
+                            onClick={this.props.onPreviousPageButtonClick}
+                            messageId={'more_channels.prev'}
+                            defaultMessage={'Previous'}
+                        />
+                    )}
                 </div>
                 <div
                     className='col-xs-8 count'
@@ -76,7 +65,13 @@ export default class NavigationRow extends React.PureComponent {
                     {this.renderCount()}
                 </div>
                 <div className='col-xs-2'>
-                    {this.renderNextButton()}
+                    {this.canShowNextButton() && (
+                        <NavigationButton
+                            onClick={this.props.onNextPageButtonClick}
+                            messageId={'more_channels.next'}
+                            defaultMessage={'Next'}
+                        />
+                    )}
                 </div>
             </div>
         );
