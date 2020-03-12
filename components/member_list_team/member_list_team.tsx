@@ -118,7 +118,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
 
     nextPage = async (page: number) => {
         this.setState({loading: true});
-        this.props.actions.loadProfilesAndTeamMembers(page, USERS_PER_PAGE),
+        this.props.actions.loadProfilesAndTeamMembers(page, USERS_PER_PAGE);
         await this.props.actions.getTeamMembers(this.props.currentTeamId, page);
         this.loadComplete();
     }
