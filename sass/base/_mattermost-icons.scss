@@ -31,7 +31,6 @@
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  /* TODO: Brad has this commented out, but it doesn't seem to be required for the app */
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
@@ -72,6 +71,7 @@
 .icon-slash-forward-box-outline:before { content: '\e80b'; } /* '' */
 .icon-webhook-incoming:before { content: '\e80c'; } /* '' */
 .icon-webhook-outgoing:before { content: '\e80d'; } /* '' */
+.icon-image-area-outline:before { content: '\e80e'; } /* '' */
 .icon-account-multiple-outline:before { content: '\f00f'; } /* '' */
 .icon-account-outline:before { content: '\f013'; } /* '' */
 .icon-airplane:before { content: '\f01d'; } /* '' */
@@ -186,6 +186,7 @@
 .icon-draw:before { content: '\ff66'; } /* 'ｦ' */
 .icon-file-code-outline:before { content: '󰁍'; } /* '\f004d' */
 .icon-file-excel-outline:before { content: '󰁏'; } /* '\f004f' */
+.icon-arrow-right:before { content: '󰁔'; } /* '\f0054' */
 .icon-file-powerpoint-outline:before { content: '󰁗'; } /* '\f0057' */
 .icon-file-word-outline:before { content: '󰁠'; } /* '\f0060' */
 .icon-dock-left:before { content: '󰃕'; } /* '\f00d5' */

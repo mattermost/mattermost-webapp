@@ -139,7 +139,7 @@
 
         i {
             font-size: 16px;
-            line-height: 16px;
+            line-height: 18px;
             margin: 0;
             vertical-align: middle;
         }
@@ -597,12 +597,6 @@
         -ms-transform: rotate(-90deg);
         transform: rotate(-90deg);
         transition: transform 0.15s ease-out; /* should match collapse animation speed */
-    }
-
-    .icon-flip {
-        -webkit-transform: rotate(-180deg);
-        -ms-transform: rotate(-180deg);
-        transform: rotate(-180deg);
     }
 
     :root .icon-rotate-180 {

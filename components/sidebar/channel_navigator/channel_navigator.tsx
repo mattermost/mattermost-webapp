@@ -69,7 +69,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                         disabled={!this.props.canGoForward}
                         onClick={this.goForward}
                     >
-                        <i className='icon icon-arrow-left icon-flip'/>
+                        <i className='icon icon-arrow-right'/>
                     </button>
                 </React.Fragment>
             );
