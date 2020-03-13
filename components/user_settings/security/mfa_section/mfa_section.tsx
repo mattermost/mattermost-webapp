@@ -23,7 +23,7 @@ type Props = {
     mfaEnforced: boolean;
 
     updateSection: (section: string) => void;
-    actions: {deactivateMfa: () => Promise<{error?: undefined}>;};
+    actions: {deactivateMfa: () => Promise<{error?: {message: string}}>};
 }
 
 type State = {
@@ -51,7 +51,7 @@ export default class MfaSection extends React.PureComponent<Props, State> {
 
         if (error) {
             this.setState({
-                serverError: (error as any).message,
+                serverError: error.message,
             });
             return;
         }
