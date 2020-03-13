@@ -251,12 +251,12 @@ class EditPostModal extends React.PureComponent {
         this.props.actions.hideEditPostModal();
     }
 
-    handleCheckForChangesHide = (doRefocus = true) => {
+    handleCheckForChangesHide = () => {
         if (this.state.editText !== this.props.editingPost.post.message) {
             return;
         }
 
-        this.handleHide(doRefocus);
+        this.handleHide();
     }
 
     handleEntered = () => {
