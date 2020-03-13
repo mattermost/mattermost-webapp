@@ -15,7 +15,7 @@ import Constants from 'utils/constants';
 import MfaSection from './mfa_section';
 
 type Actions = {
-  deactivateMfa: () => Promise<{error?: {message: string}}>;
+    deactivateMfa: () => Promise<{error?: {message: string}}>;
 }
 
 function mapStateToProps(state: GlobalState) {
