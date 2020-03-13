@@ -167,7 +167,7 @@
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
         color: var(--sidebar-text-80);
-        background: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.24);
     }
     .SidebarFilters .SidebarFilters_filterButton.active {
         color: var(--sidebar-bg);
@@ -436,7 +436,7 @@
     /* Channels */
     .SidebarChannel {
         display: block;
-        height: 31px; /* height required for transition animation */
+        height: 32px; /* height required for transition animation */
         list-style-type: none;
         /* border: solid 2px transparent; */
         overflow: hidden;
@@ -505,6 +505,8 @@
         align-items: flex-start;
         margin-right: 0;
         width: 100%;
+        border-top: 0;
+        border-bottom: 0;
     }
     .SidebarChannel .SidebarLink:focus {
         /* box-shadow: inset 0 0 0 2px orange; */
