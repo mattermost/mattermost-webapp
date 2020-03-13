@@ -190,24 +190,12 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     />
   </MenuGroup>
   <MenuGroup>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_slash_commands",
-          "manage_oauth",
-          "manage_incoming_webhooks",
-          "manage_outgoing_webhooks",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemLink
-        id="integrations"
-        show={true}
-        text="Integrations"
-        to="/somename/integrations"
-      />
-    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      id="integrations"
+      show={true}
+      text="Integrations"
+      to="/somename/integrations"
+    />
     <Connect(TeamPermissionGate)
       permissions={
         Array [

@@ -109,6 +109,11 @@ class SearchResultsItem extends React.PureComponent {
         intl: intlShape.isRequired,
         directTeammate: PropTypes.string.isRequired,
         displayName: PropTypes.string.isRequired,
+
+        /**
+         * The number of replies in the same thread as this post
+         */
+        replyCount: PropTypes.number,
     };
 
     static defaultProps = {
@@ -307,8 +312,10 @@ class SearchResultsItem extends React.PureComponent {
                     <CommentIcon
                         location={Locations.SEARCH}
                         handleCommentClick={this.handleFocusRHSClick}
+                        commentCount={this.props.replyCount}
                         postId={post.id}
                         searchStyle={'search-item__comment'}
+                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
                     />
                     <a
                         href='#'

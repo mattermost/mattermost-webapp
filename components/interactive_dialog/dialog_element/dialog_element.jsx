@@ -12,6 +12,7 @@ import GenericChannelProvider from 'components/suggestion/generic_channel_provid
 
 import TextSetting from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 
@@ -167,6 +168,7 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     value={this.state.value}
+                    listComponent={ModalSuggestionList}
                 />
             );
         } else if (type === 'bool') {
