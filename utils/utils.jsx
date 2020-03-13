@@ -921,6 +921,7 @@ export function applyTheme(theme) {
             'center-channel-bg-05': changeOpacity(theme.centerChannelBg, 0.05),
             'center-channel-color-08': changeOpacity(theme.centerChannelColor, 0.08),
             'center-channel-color-05': changeOpacity(theme.centerChannelColor, 0.05),
+            'center-channel-color-04': changeOpacity(theme.centerChannelColor, 0.04),
             'new-message-separator': theme.newMessageSeparator,
             'link-color': theme.linkColor,
             'button-bg': theme.buttonBg,
