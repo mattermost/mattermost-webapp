@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/marketplace/navigation_row should not render any buttons 1`] = `
+<div
+  className="navigation-row"
+>
+  <div
+    className="col-xs-2"
+  />
+  <div
+    className="col-xs-8 count"
+    style={
+      Object {
+        "color": "rgba(255,255,255,0.6)",
+      }
+    }
+  >
+    <FormattedMessage
+      defaultMessage="{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total"
+      id="marketplace_list.count_total_page"
+      values={
+        Object {
+          "endCount": 15,
+          "startCount": 1,
+          "total": 15,
+        }
+      }
+    />
+  </div>
+  <div
+    className="col-xs-2"
+  />
+</div>
+`;
+
 exports[`components/marketplace/navigation_row should render next and previous buttons 1`] = `
 <div
   className="navigation-row"

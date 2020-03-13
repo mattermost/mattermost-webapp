@@ -63,4 +63,13 @@ describe('components/marketplace/navigation_row', () => {
         expect(wrapper.instance().props.onNextPageButtonClick).toHaveBeenCalledTimes(0);
         expect(wrapper.instance().props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
     });
+
+    it('should not render any buttons', () => {
+        const props = {...baseProps, page: 0, total: 15};
+        const wrapper = shallow(
+            <NavigationRow {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('NavigationButton')).toHaveLength(0);
+    });
 });

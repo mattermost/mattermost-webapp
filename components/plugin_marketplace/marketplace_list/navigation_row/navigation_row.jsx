@@ -20,7 +20,7 @@ export default class NavigationRow extends React.PureComponent {
 
     canShowNextButton = () => {
         const {page, maximumPerPage, total} = this.props;
-        const totalPages = Math.trunc(total / maximumPerPage);
+        const totalPages = Math.trunc((total - 1) / maximumPerPage);
 
         return totalPages > page;
     };
