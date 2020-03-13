@@ -2,17 +2,21 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {deactivateMfa} from 'actions/views/mfa';
 import Constants from 'utils/constants';
 
 import MfaSection from './mfa_section';
+
+type Actions = {
+  deactivateMfa: () => Promise<{error?: {message: string}}>;
+}
 
 function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
@@ -34,9 +38,9 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             deactivateMfa,
         }, dispatch),
     };
