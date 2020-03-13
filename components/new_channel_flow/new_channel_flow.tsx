@@ -1,13 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {cleanUpUrlable} from 'utils/url';
-import * as Utils from 'utils/utils';
+import {ChannelType, Channel} from 'mattermost-redux/types/channels';
+import {Error} from 'mattermost-redux/types/errors';
+
 import Constants from 'utils/constants';
+import * as Utils from 'utils/utils';
+import {cleanUpUrlable} from 'utils/url';
+
 import NewChannelModal from 'components/new_channel_modal';
 import ChangeURLModal from 'components/change_url_modal';
 
@@ -15,64 +18,82 @@ export const SHOW_NEW_CHANNEL = 1;
 export const SHOW_EDIT_URL = 2;
 export const SHOW_EDIT_URL_THEN_COMPLETE = 3;
 
-export function getChannelTypeFromProps(props) {
+export function getChannelTypeFromProps(props: Props): ChannelType {
     let channelType = props.channelType || Constants.OPEN_CHANNEL;
     if (!props.canCreatePublicChannel && channelType === Constants.OPEN_CHANNEL) {
-        channelType = Constants.PRIVATE_CHANNEL;
+        channelType = Constants.PRIVATE_CHANNEL as ChannelType;
     }
     if (!props.canCreatePrivateChannel && channelType === Constants.PRIVATE_CHANNEL) {
-        channelType = Constants.OPEN_CHANNEL;
+        channelType = Constants.OPEN_CHANNEL as ChannelType;
     }
     return channelType;
 }
 
-export default class NewChannelFlow extends React.Component {
-    static propTypes = {
+export type Props = {
 
-        /**
-        * Set whether to show the modal or not
-        */
-        show: PropTypes.bool.isRequired,
+    /**
+     * Set whether to show the modal or not
+     */
+    show: boolean;
 
-        /**
-        * Set to Constants.OPEN_CHANNEL or Constants.PRIVATE_CHANNEL depending on which modal we should show first
-        */
-        channelType: PropTypes.string.isRequired,
+    /**
+     * Set to Constants.OPEN_CHANNEL or Constants.PRIVATE_CHANNEL depending on which modal we should show first
+     */
+    channelType: ChannelType;
 
-        /**
-        * Function to call when modal is dimissed
-        */
-        onModalDismissed: PropTypes.func.isRequired,
+    /**
+     * Function to call when modal is dimissed
+     */
+    onModalDismissed: () => void;
 
-        /**
-        * The current team ID
-        */
-        currentTeamId: PropTypes.string.isRequired,
+    /**
+     * The current team ID
+     */
+    currentTeamId: string;
 
-        /**
-         * Permission to create public channel
-         */
-        canCreatePublicChannel: PropTypes.bool.isRequired,
+    /**
+     * Permission to create public channel
+     */
+    canCreatePublicChannel: boolean;
 
-        /**
-         * Permission to create private channel
-         */
-        canCreatePrivateChannel: PropTypes.bool.isRequired,
+    /**
+     * Permission to create private channel
+     */
+    canCreatePrivateChannel: boolean;
 
-        actions: PropTypes.shape({
-            createChannel: PropTypes.func.isRequired,
-            switchToChannel: PropTypes.func.isRequired,
-        }),
+    actions: {
+        createChannel: (channel: Channel) => Promise<{data: Channel; error?: Error}>;
+        switchToChannel: (channel: Channel) => Promise<{}>;
     };
+};
 
-    static defaultProps = {
+type State = {
+    serverError: JSX.Element | string | null;
+    channelType: ChannelType;
+    flowState: number;
+    channelDisplayName: string;
+    channelName: string;
+    channelPurpose: string;
+    channelHeader: string;
+    nameModified: boolean;
+    show: boolean;
+}
+
+type NewChannelData = {
+    displayName: string;
+    purpose: string;
+    header: string;
+}
+
+export default class NewChannelFlow extends React.Component<Props, State> {
+    public static defaultProps = {
         show: false,
-        channelType: Constants.OPEN_CHANNEL,
+        channelType: Constants.OPEN_CHANNEL as ChannelType,
     };
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         // If we are being shown, grab channel type from props and clear
-        if (props.show === true && state.show === false) {
+        if (props.show && !state.show) {
             return {
                 serverError: '',
                 channelType: getChannelTypeFromProps(props),
@@ -89,7 +110,7 @@ export default class NewChannelFlow extends React.Component {
         return {show: props.show};
     }
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -117,16 +138,26 @@ export default class NewChannelFlow extends React.Component {
         }
 
         const {actions, currentTeamId} = this.props;
-        const channel = {
+        const channel: Channel = {
             team_id: currentTeamId,
             name: this.state.channelName,
             display_name: this.state.channelDisplayName,
             purpose: this.state.channelPurpose,
             header: this.state.channelHeader,
             type: this.state.channelType,
+            create_at: 0,
+            creator_id: '',
+            delete_at: 0,
+            extra_update_at: 0,
+            group_constrained: false,
+            id: '',
+            last_post_at: 0,
+            scheme_id: '',
+            total_msg_count: 0,
+            update_at: 0,
         };
 
-        actions.createChannel(channel).then((result) => {
+        actions.createChannel(channel).then((result: {data: Channel; error?: Error}) => {
             if (result.error) {
                 this.onCreateChannelError(result.error);
                 return;
@@ -137,8 +168,8 @@ export default class NewChannelFlow extends React.Component {
         });
     };
 
-    onCreateChannelError = (err) => {
-        if (err.id === 'model.channel.is_valid.2_or_more.app_error') {
+    onCreateChannelError = (err: Error) => {
+        if (err.server_error_id === 'model.channel.is_valid.2_or_more.app_error') {
             this.setState({
                 flowState: SHOW_EDIT_URL_THEN_COMPLETE,
                 serverError: (
@@ -148,28 +179,28 @@ export default class NewChannelFlow extends React.Component {
                     />
                 ),
             });
-        } else if (err.id === 'store.sql_channel.update.exists.app_error') {
+        } else if (err.server_error_id === 'store.sql_channel.update.exists.app_error') {
             this.setState({serverError: Utils.localizeMessage('channel_flow.alreadyExist', 'A channel with that URL already exists')});
         } else {
             this.setState({serverError: err.message});
         }
     };
 
-    typeSwitched = (channelType) => {
+    typeSwitched = (channelType: ChannelType) => {
         this.setState({
             channelType,
             serverError: '',
         });
     };
 
-    urlChangeRequested = (e) => {
+    urlChangeRequested = (e: React.MouseEvent) => {
         if (e) {
             e.preventDefault();
         }
         this.setState({flowState: SHOW_EDIT_URL});
     };
 
-    urlChangeSubmitted = (newURL) => {
+    urlChangeSubmitted = (newURL: string) => {
         if (this.state.flowState === SHOW_EDIT_URL_THEN_COMPLETE) {
             this.setState({channelName: newURL, nameModified: true}, this.onSubmit);
         } else {
@@ -181,7 +212,7 @@ export default class NewChannelFlow extends React.Component {
         this.setState({flowState: SHOW_NEW_CHANNEL});
     };
 
-    channelDataChanged = (data) => {
+    channelDataChanged = (data: NewChannelData) => {
         this.setState({
             channelDisplayName: data.displayName,
             channelPurpose: data.purpose,
@@ -203,8 +234,8 @@ export default class NewChannelFlow extends React.Component {
         let showChannelModal = false;
         let showChangeURLModal = false;
 
-        let changeURLTitle = '';
-        let changeURLSubmitButtonText = '';
+        let changeURLTitle: string | JSX.Element = '';
+        let changeURLSubmitButtonText: string | JSX.Element = '';
 
         // Only listen to flow state if we are being shown
         if (this.props.show) {
@@ -239,6 +270,7 @@ export default class NewChannelFlow extends React.Component {
                 break;
             }
         }
+
         return (
             <span>
                 <NewChannelModal

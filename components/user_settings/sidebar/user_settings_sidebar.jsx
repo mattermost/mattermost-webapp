@@ -716,7 +716,10 @@ export default class UserSettingsSidebar extends React.Component {
                         className='modal-title'
                         ref='title'
                     >
-                        <div className='modal-back'>
+                        <div
+                            className='modal-back'
+                            onClick={this.props.collapseModal}
+                        >
                             <LocalizedIcon
                                 className='fa fa-angle-left'
                                 title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}

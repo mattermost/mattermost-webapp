@@ -44,6 +44,7 @@ describe('components/post_view/PostInfo', () => {
         actions: {
             removePost: jest.fn(),
         },
+        shouldShowDotMenu: true,
     };
 
     test('should match snapshot', () => {

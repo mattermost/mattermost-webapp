@@ -19,7 +19,7 @@ function mapStateToProps(state, ownProps) {
 
     return {
         emoji,
-        creatorDisplayName: getDisplayNameByUser(creator),
+        creatorDisplayName: getDisplayNameByUser(state, creator),
         creatorUsername: creator ? creator.username : '',
         currentUserId: getCurrentUserId(state),
         currentTeam: getCurrentTeam(state),

@@ -8,8 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
 
+import {Constants} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -56,8 +56,93 @@ export default class TeamSidebar extends React.PureComponent {
         }).isRequired,
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showOrder: false,
+        };
+    }
+
+    switchToPrevOrNextTeam = (e, currentTeamId, teams) => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+            e.preventDefault();
+            const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
+            const pos = teams.findIndex((team) => team.id === currentTeamId);
+            const newPos = pos + delta;
+
+            let team;
+            if (newPos === -1) {
+                team = teams[teams.length - 1];
+            } else if (newPos === teams.length) {
+                team = teams[0];
+            } else {
+                team = teams[newPos];
+            }
+
+            this.props.actions.switchTeam(`/${team.name}`);
+            return true;
+        }
+        return false;
+    }
+
+    switchToTeamByNumber = (e, currentTeamId, teams) => {
+        const digits = [
+            Constants.KeyCodes.ONE,
+            Constants.KeyCodes.TWO,
+            Constants.KeyCodes.THREE,
+            Constants.KeyCodes.FOUR,
+            Constants.KeyCodes.FIVE,
+            Constants.KeyCodes.SIX,
+            Constants.KeyCodes.SEVEN,
+            Constants.KeyCodes.EIGHT,
+            Constants.KeyCodes.NINE,
+            Constants.KeyCodes.ZERO,
+        ];
+
+        for (const idx in digits) {
+            if (Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
+                e.preventDefault();
+                const team = teams[idx];
+                this.props.actions.switchTeam(`/${team.name}`);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    handleKeyDown = (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.altKey) {
+            const {currentTeamId} = this.props;
+            const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
+
+            if (this.switchToPrevOrNextTeam(e, currentTeamId, teams)) {
+                return;
+            }
+
+            if (this.switchToTeamByNumber(e, currentTeamId, teams)) {
+                return;
+            }
+
+            this.setState({showOrder: true});
+        }
+    }
+
+    handleKeyUp = (e) => {
+        if (!((e.ctrlKey || e.metaKey) && e.altKey)) {
+            this.setState({showOrder: false});
+        }
+    }
+
     componentDidMount() {
         this.props.actions.getTeams(0, 200);
+        document.addEventListener('keydown', this.handleKeyDown);
+        document.addEventListener('keyup', this.handleKeyUp);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+        document.removeEventListener('keyup', this.handleKeyUp);
     }
 
     render() {
@@ -70,11 +155,13 @@ export default class TeamSidebar extends React.PureComponent {
 
         const plugins = [];
         const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale).
-            map((team) => {
+            map((team, idx) => {
                 const member = this.props.myTeamMembers[team.id];
                 return (
                     <TeamButton
                         key={'switch_team_' + team.name}
+                        order={idx + 1}
+                        showOrder={this.state.showOrder}
                         url={`/${team.name}`}
                         tip={team.display_name}
                         active={team.id === this.props.currentTeamId}

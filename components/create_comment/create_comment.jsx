@@ -25,7 +25,7 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
-import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import TextboxLinks from 'components/textbox/textbox_links';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
@@ -187,10 +187,13 @@ class CreateComment extends React.PureComponent {
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
 
+        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
+
         /**
          * Function to set or unset emoji picker for last message
          */
         emitShortcutReactToLastPostFrom: PropTypes.func,
+
         canPost: PropTypes.bool.isRequired,
 
         /**
@@ -436,12 +439,25 @@ class CreateComment extends React.PureComponent {
         e.preventDefault();
         this.updatePreview(false);
 
-        const membersCount = this.props.channelMembersCount;
-        const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
-        if (notificationsToChannel &&
-            membersCount > Constants.NOTIFY_ALL_MEMBERS &&
+        const {channelMembersCount, enableConfirmNotificationsToChannel, useChannelMentions, isTimezoneEnabled} = this.props;
+        const {draft} = this.state;
+        if (!useChannelMentions && containsAtChannel(draft.message, {checkAllMentions: true})) {
+            const updatedDraft = {
+                ...draft,
+                props: {
+                    ...draft.props,
+                    mentionHighlightDisabled: true,
+                },
+            };
+
+            this.props.onUpdateCommentDraft(updatedDraft);
+            this.setState({draft: updatedDraft});
+        }
+
+        if (enableConfirmNotificationsToChannel && useChannelMentions &&
+            channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.draft.message)) {
-            if (this.props.isTimezoneEnabled) {
+            if (isTimezoneEnabled) {
                 const {data} = await this.props.getChannelTimezones(this.props.channelId);
                 if (data) {
                     this.setState({channelTimezoneCount: data.length});
@@ -1052,6 +1068,7 @@ class CreateComment extends React.PureComponent {
                                     showPreview={this.state.showPreview}
                                     updatePreview={this.updatePreview}
                                     message={readOnlyChannel ? '' : this.state.message}
+                                    isMarkdownPreviewEnabled={this.props.isMarkdownPreviewEnabled}
                                 />
                             </div>
                         </div>
