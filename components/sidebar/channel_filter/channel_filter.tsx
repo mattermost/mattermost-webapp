@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions';
+import OverlayTrigger from 'components/overlay_trigger';
 
 type Props = {
     unreadFilterEnabled: boolean;
@@ -66,6 +68,32 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
             );
         }
 
+        let tooltipMessage;
+        if (unreadFilterEnabled) {
+            tooltipMessage = (
+                <FormattedMessage
+                    id={'sidebar_left.channel_filter.showAllChannels'}
+                    defaultMessage='Show all channels'
+                />
+            );
+        } else {
+            tooltipMessage = (
+                <FormattedMessage
+                    id={'sidebar_left.channel_filter.filterByUnread'}
+                    defaultMessage='Filter by unread'
+                />
+            );
+        }
+
+        const tooltip = (
+            <Tooltip
+                id='new-group-tooltip'
+                className='hidden-xs'
+            >
+                {tooltipMessage}
+            </Tooltip>
+        );
+
         return (
             <div className='SidebarFilters'>
                 <a
@@ -75,7 +103,13 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
                     })}
                     onClick={this.toggleUnreadFilter}
                 >
-                    <i className='icon icon-filter-variant'/>
+                    <OverlayTrigger
+                        delayShow={500}
+                        placement='top'
+                        overlay={tooltip}
+                    >
+                        <i className='icon icon-filter-variant'/>
+                    </OverlayTrigger>
                 </a>
                 <div>
                     <div className='SidebarFilters_filterTitle'>

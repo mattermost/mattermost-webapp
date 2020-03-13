@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
+import OverlayTrigger from 'components/overlay_trigger';
 
 type Props = {
     intl: IntlShape;
@@ -21,10 +23,28 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
     render() {
         const {formatMessage} = this.props.intl;
 
+        const tooltip = (
+            <Tooltip
+                id='new-group-tooltip'
+                className='hidden-xs'
+            >
+                <FormattedMessage
+                    id={'sidebar_left.add_channel_dropdown.browseOrCreateChannels'}
+                    defaultMessage='Browse or create channels'
+                />
+            </Tooltip>
+        );
+
         return (
             <MenuWrapper className='AddChannelDropdown'>
                 <button className='AddChannelDropdown_dropdownButton'>
-                    <i className='icon-plus'/>
+                    <OverlayTrigger
+                        delayShow={500}
+                        placement='top'
+                        overlay={tooltip}
+                    >
+                        <i className='icon-plus'/>
+                    </OverlayTrigger>
                 </button>
                 <Menu
                     id='AddChannelDropdown'

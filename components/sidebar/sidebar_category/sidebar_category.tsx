@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -10,6 +12,7 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions';
+import OverlayTrigger from 'components/overlay_trigger';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
@@ -114,12 +117,30 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         let directMessagesModalButton;
         let hideArrow = false;
         if (category.type === CategoryTypes.DIRECT_MESSAGES) {
+            const tooltip = (
+                <Tooltip
+                    id='new-group-tooltip'
+                    className='hidden-xs'
+                >
+                    <FormattedMessage
+                        id='sidebar.createDirectMessage'
+                        defaultMessage='Create new direct message'
+                    />
+                </Tooltip>
+            );
+
             directMessagesModalButton = (
                 <button
                     className='SidebarChannelGroupHeader_addButton'
                     onClick={this.handleOpenDirectMessagesModal}
                 >
-                    <i className='icon-plus'/>
+                    <OverlayTrigger
+                        delayShow={500}
+                        placement='top'
+                        overlay={tooltip}
+                    >
+                        <i className='icon-plus'/>
+                    </OverlayTrigger>
                 </button>
             );
 
