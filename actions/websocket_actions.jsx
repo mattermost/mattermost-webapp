@@ -17,6 +17,7 @@ import {
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
+    getMyChannelMember,
     getChannelMember,
     getChannelStats,
     viewChannel,
@@ -308,6 +309,10 @@ export function handleEvent(msg) {
     case SocketEvents.ROLE_REMOVED:
         handleRoleRemovedEvent(msg);
         break;
+
+    case SocketEvents.CHANNEL_SCHEME_UPDATED:
+        handleChannelSchemeUpdatedEvent(msg);
+        break
 
     case SocketEvents.MEMBERROLE_UPDATED:
         handleUpdateMemberRoleEvent(msg);
@@ -816,6 +821,10 @@ function handleRoleRemovedEvent(msg) {
         type: RoleTypes.ROLE_DELETED,
         data: role,
     });
+}
+
+function handleChannelSchemeUpdatedEvent(msg) {
+    dispatch(getMyChannelMember(msg.broadcast.channel_id));
 }
 
 function handleRoleUpdatedEvent(msg) {
