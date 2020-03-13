@@ -3,7 +3,7 @@
 
 jest.mock('utils/browser_history');
 
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import MfaSection from 'components/user_settings/security/mfa_section/mfa_section';
@@ -101,15 +101,13 @@ describe('MfaSection', () => {
 
     describe('setupMfa', () => {
         it('should send to setup page', () => {
-            const wrapper: ShallowWrapper<any, any, MfaSection> = shallow(
-                <MfaSection {...baseProps}/>
-            );
+            const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
             const mockEvent = {
                 preventDefault: jest.fn()
             } as unknown as React.MouseEvent<HTMLElement>;
 
-            wrapper.instance().setupMfa(mockEvent);
+            (wrapper.instance() as MfaSection).setupMfa(mockEvent);
 
             expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
         });
@@ -117,9 +115,7 @@ describe('MfaSection', () => {
 
     describe('removeMfa', () => {
         it('on success, should close section and clear state', async () => {
-            const wrapper: ShallowWrapper<any, any, MfaSection> = shallow(
-                <MfaSection {...baseProps}/>
-            );
+            const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
             const mockEvent = {
                 preventDefault: jest.fn()
@@ -127,7 +123,7 @@ describe('MfaSection', () => {
 
             wrapper.setState({serverError: 'An error has occurred'});
 
-            await wrapper.instance().removeMfa(mockEvent);
+            await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
 
             expect(baseProps.updateSection).toHaveBeenCalledWith('');
             expect(wrapper.state('serverError')).toEqual(null);
@@ -140,15 +136,13 @@ describe('MfaSection', () => {
                 mfaEnforced: true,
             };
 
-            const wrapper: ShallowWrapper<any, any, MfaSection> = shallow(
-                <MfaSection {...props}/>
-            );
+            const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
             const mockEvent = {
                 preventDefault: jest.fn()
             } as unknown as React.MouseEvent<HTMLElement>;
 
-            await wrapper.instance().removeMfa(mockEvent);
+            await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
 
             expect(baseProps.updateSection).not.toHaveBeenCalled();
             expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
@@ -157,9 +151,7 @@ describe('MfaSection', () => {
         it('on error, should show error', async () => {
             const error = {message: 'An error occurred'};
 
-            const wrapper: ShallowWrapper<any, any, MfaSection> = shallow(
-                <MfaSection {...baseProps}/>
-            );
+            const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
             const mockEvent = {
                 preventDefault: jest.fn()
@@ -167,7 +159,7 @@ describe('MfaSection', () => {
 
             baseProps.actions.deactivateMfa.mockImplementation(() => Promise.resolve({error}));
 
-            await wrapper.instance().removeMfa(mockEvent);
+            await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
 
             expect(baseProps.updateSection).not.toHaveBeenCalled();
             expect(wrapper.state('serverError')).toEqual(error.message);
