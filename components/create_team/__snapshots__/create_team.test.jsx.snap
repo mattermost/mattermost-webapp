@@ -4,6 +4,7 @@ exports[`/components/create_team should match snapshot 1`] = `
 <div>
   <Connect(AnnouncementBarController) />
   <BackButton
+    onClick={[Function]}
     url="/test-team/channels/test-channel"
   />
   <div
