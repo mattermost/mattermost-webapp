@@ -18,7 +18,7 @@ let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
     before(() => {
-        cy.requireWebhookServer()
+        cy.requireWebhookServer();
 
         // Set required ServiceSettings
         const newSettings = {
