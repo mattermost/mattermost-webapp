@@ -217,11 +217,13 @@ export class MarketplaceModal extends React.Component {
                     className='error-bar'
                     id='error_bar'
                 >
-                    <FormattedMarkdownMessage
-                        id='app.plugin.marketplace_plugins.app_error'
-                        defaultMessage='Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management).'
-                        values={{siteURL: this.props.siteURL}}
-                    />
+                    <div className='error-bar__content'>
+                        <FormattedMarkdownMessage
+                            id='app.plugin.marketplace_plugins.app_error'
+                            defaultMessage='Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management).'
+                            values={{siteURL: this.props.siteURL}}
+                        />
+                    </div>
                 </div>
             );
         }

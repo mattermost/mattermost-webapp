@@ -38,6 +38,7 @@ export default class PostView extends React.PureComponent {
                 channelLoading: props.channelLoading,
             };
         }
+
         return null;
     }
 
@@ -67,7 +68,10 @@ export default class PostView extends React.PureComponent {
         }
 
         return (
-            <div id='post-list'>
+            <div
+                id='post-list'
+                role='main'
+            >
                 <PostList
                     unreadChunkTimeStamp={this.state.unreadChunkTimeStamp}
                     channelId={this.props.channelId}
