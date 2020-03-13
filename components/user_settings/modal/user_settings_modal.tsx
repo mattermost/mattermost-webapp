@@ -67,7 +67,7 @@ type Props = {
     currentUser: UserProfile;
     onHide: () => void;
     intl: IntlShape;
-    actions: {sendVerificationEmail: (email: string) => any;};
+    actions: {sendVerificationEmail: (email: string) => any};
 }
 
 type State = {
@@ -110,7 +110,7 @@ class UserSettingsModal extends React.Component<Props, State> {
     handleResend = (email: string) => {
         this.setState({resendStatus: 'sending'});
 
-        this.props.actions.sendVerificationEmail(email).toPromise().then(({data, err} : {data: any, err: any}) => {
+        this.props.actions.sendVerificationEmail(email).toPromise().then(({data, err}:{data: any; err: any}) => {
             if (data) {
                 this.setState({resendStatus: 'success'});
             } else if (err) {
@@ -230,7 +230,7 @@ class UserSettingsModal extends React.Component<Props, State> {
         }
     }
 
-    updateTab = (tab: string, skipConfirm: boolean) => {
+    updateTab = (tab: string, skipConfirm?: boolean) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateTab(tab, true));
         } else {
@@ -256,7 +256,7 @@ class UserSettingsModal extends React.Component<Props, State> {
         if (this.props.currentUser == null) {
             return (<div/>);
         }
-        var tabs = [];
+        let tabs = [];
 
         tabs.push({name: 'general', uiName: formatMessage(holders.general), icon: 'icon fa fa-gear', iconTitle: Utils.localizeMessage('user.settings.general.icon', 'General Settings Icon')});
         tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
