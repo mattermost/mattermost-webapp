@@ -136,7 +136,7 @@ describe('MfaSection', () => {
                 mfaEnforced: true,
             };
 
-            const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
+            const wrapper = mountWithIntl(<MfaSection {...props}/>);
 
             const mockEvent = {
                 preventDefault: jest.fn()
