@@ -100,6 +100,7 @@ describe('Autocomplete', () => {
 
         // # Login as admin
         cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create new team for tests
         cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {

@@ -19,6 +19,8 @@ let simpleDialog;
 describe('Interactive Dialog', () => {
     describe('ID17212 Interactive Dialog without element', () => {
         before(() => {
+            cy.requireWebhookServer();
+
             // Set required ServiceSettings
             const newSettings = {
                 ServiceSettings: {
