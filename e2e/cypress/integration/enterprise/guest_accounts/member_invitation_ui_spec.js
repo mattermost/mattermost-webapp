@@ -75,6 +75,9 @@ function verifyInvitationSuccess(user, successText) {
 
 describe('Guest Account - Member Invitation Flow', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Login as "sysadmin" and go to /
         cy.apiLogin('sysadmin');
 
