@@ -312,7 +312,7 @@ export function handleEvent(msg) {
 
     case SocketEvents.CHANNEL_SCHEME_UPDATED:
         handleChannelSchemeUpdatedEvent(msg);
-        break
+        break;
 
     case SocketEvents.MEMBERROLE_UPDATED:
         handleUpdateMemberRoleEvent(msg);
