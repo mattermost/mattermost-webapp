@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -73,6 +74,9 @@ describe('search for channel with', () => {
     let user;
 
     before(() => {
+        // * Check if server has license for Elasticsearch
+        cy.requireLicenseForFeature('Elasticsearch');
+
         // # Login
         cy.apiLogin('sysadmin');
 

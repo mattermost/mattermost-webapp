@@ -91,7 +91,7 @@ let offTopicChannelId;
 describe('at-mention', () => {
     function ignoreUncaughtException() {
         cy.on('uncaught:exception', (err) => {
-            expect(err.message).to.include('notification.close is not a function');
+            expect(err.message).to.include('.close is not a function');
 
             return false;
         });

@@ -290,6 +290,23 @@ class AdminSidebar extends React.Component {
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
+                <div className='filter-container'>
+                    <SearchIcon
+                        className='search__icon'
+                        aria-hidden='true'
+                    />
+                    <QuickInput
+                        className={'filter ' + (this.state.filter ? 'active' : '')}
+                        type='text'
+                        onChange={this.onFilterChange}
+                        value={this.state.filter}
+                        placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
+                        ref={this.searchRef}
+                        id='adminSidebarFilter'
+                        clearable={true}
+                        onClear={this.handleClearFilter}
+                    />
+                </div>
                 <Scrollbars
                     ref='scrollbar'
                     autoHide={true}
@@ -302,23 +319,6 @@ class AdminSidebar extends React.Component {
                     <div className='nav-pills__container'>
                         <Highlight filter={this.state.filter}>
                             <ul className='nav nav-pills nav-stacked'>
-                                <li className='filter-container'>
-                                    <SearchIcon
-                                        className='search__icon'
-                                        aria-hidden='true'
-                                    />
-                                    <QuickInput
-                                        className={'filter ' + (this.state.filter ? 'active' : '')}
-                                        type='text'
-                                        onChange={this.onFilterChange}
-                                        value={this.state.filter}
-                                        placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
-                                        ref={this.searchRef}
-                                        id='adminSidebarFilter'
-                                        clearable={true}
-                                        onClear={this.handleClearFilter}
-                                    />
-                                </li>
                                 {this.renderRootMenu(this.props.adminDefinition)}
                             </ul>
                         </Highlight>
