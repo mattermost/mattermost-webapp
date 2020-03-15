@@ -472,7 +472,7 @@
                 &:last-child{
                     td {
                         padding-bottom: 0px;
-                    }                
+                    }
                 }
             }
 
@@ -488,10 +488,10 @@
                     vertical-align: middle;
                 }
             }
-    
+
             th {
                 padding: 6px 20px;
-    
+
                 &:first-child {
                     padding-left: 0px;
                 }
@@ -648,7 +648,9 @@
     margin-top: -20px;
 
     .group-settings--body {
-        padding: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: -8px;
     }
 }
 

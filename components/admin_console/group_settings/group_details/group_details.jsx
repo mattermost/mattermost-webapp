@@ -42,7 +42,7 @@ export default class GroupDetails extends React.PureComponent {
         members: [],
         groupTeams: [],
         groupChannels: [],
-        group: {display_name: '', allow_reference: false},
+        group: {groupname: '', display_name: '', allow_reference: false},
         memberCount: 0,
     };
 
@@ -153,6 +153,7 @@ export default class GroupDetails extends React.PureComponent {
 
                         <GroupProfileAndSettings
                             name={group.display_name}
+                            groupname={group.groupname}
                             allowReference={allowReference}
                             onToggle={this.onToggle}
                         />

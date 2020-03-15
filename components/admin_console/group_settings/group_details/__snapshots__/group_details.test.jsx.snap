@@ -40,6 +40,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
       <GroupProfileAndSettings
         allowReference={false}
+        groupname="Group"
         name="Group"
         onToggle={[Function]}
       />
@@ -209,6 +210,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
       <GroupProfileAndSettings
         allowReference={false}
+        groupname="Group"
         name="Group"
         onToggle={[Function]}
       />
@@ -377,6 +379,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
       <GroupProfileAndSettings
         allowReference={false}
+        groupname="Group"
         name="Group"
         onToggle={[Function]}
       />
@@ -534,6 +537,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </div>
       <GroupProfileAndSettings
         allowReference={false}
+        groupname="Group"
         name="Group"
         onToggle={[Function]}
       />

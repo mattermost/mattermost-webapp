@@ -8,7 +8,9 @@ import Textbox from 'components/textbox/textbox.jsx';
 
 describe('components/TextBox', () => {
     const baseProps = {
+        channelId: 'channelId',
         currentUserId: 'currentUserId',
+        currentTeamId: 'currentTeamId',
         profilesInChannel: [
             {id: 'id1'},
             {id: 'id2'},
@@ -24,6 +26,7 @@ describe('components/TextBox', () => {
         actions: {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),
+            searchAssociatedGroupsForReference: jest.fn(),
         },
         useChannelMentions: true,
     };

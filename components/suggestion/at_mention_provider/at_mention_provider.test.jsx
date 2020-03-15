@@ -16,15 +16,19 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid7 = {id: 'userid7', username: 'xuser7', first_name: '', last_name: '', nickname: 'x'};
     const userid8 = {id: 'userid8', username: 'xuser8', first_name: 'Robert', last_name: 'Ward', nickname: 'nickname'};
 
-    const groupid1 = {id: 'groupid1', display_name: 'board'};
-    const groupid2 = {id: 'groupid2', display_name: 'developers'};
+    const groupid1 = {id: 'groupid1', groupname: 'board', display_name: 'board'};
+    const groupid2 = {id: 'groupid2', groupname: 'developers', display_name: 'developers'};
+    const groupid3 = {id: 'groupid3', groupname: 'software-engineers', display_name: 'software engineers'};
 
     const baseParams = {
         currentUserId: 'userid1',
+        currentTeamId: 'teamid1',
+        currentChannelId: 'channelid1',
         profilesInChannel: [userid10, userid3, userid1, userid2],
         autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
-        autocompleteGroups: [groupid1, groupid2],
+        autocompleteGroups: [groupid1, groupid2, groupid3],
         useChannelMentions: true,
+        searchAssociatedGroupsForReference: jest.fn().mockResolvedValue(false),
     };
 
     it('should ignore pretexts that are not at-mentions', () => {
@@ -34,11 +38,27 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         expect(provider.handlePretextChanged('user', resultCallback)).toEqual(false);
         expect(provider.handlePretextChanged('this is a sentence', resultCallback)).toEqual(false);
         expect(baseParams.autocompleteUsersInChannel).not.toHaveBeenCalled();
+        expect(baseParams.searchAssociatedGroupsForReference).not.toHaveBeenCalled();
     });
 
     it('should suggest for "@"', async () => {
         const pretext = '@';
         const matchedPretext = '@';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid10},
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid1},
+            {type: Constants.MENTION_MEMBERS, ...userid2},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_SPECIAL, username: 'here'},
+            {type: Constants.MENTION_SPECIAL, username: 'channel'},
+            {type: Constants.MENTION_SPECIAL, username: 'all'},
+            {type: Constants.MENTION_NONMEMBERS, ...userid5},
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+            {type: Constants.MENTION_GROUPS, ...groupid1},
+            {type: Constants.MENTION_GROUPS, ...groupid2},
+            {type: Constants.MENTION_GROUPS, ...groupid3},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -46,6 +66,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [userid5, userid6],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [groupid1, groupid2, groupid3],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -65,6 +91,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@all',
                 '@board',
                 '@developers',
+                '@software-engineers',
             ],
             items: [
                 {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -76,6 +103,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 {type: Constants.MENTION_SPECIAL, username: 'all'},
                 {type: Constants.MENTION_GROUPS, ...groupid1},
                 {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
             ],
             component: AtMentionSuggestion,
         });
@@ -94,6 +122,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@all',
                 '@board',
                 '@developers',
+                '@software-engineers',
                 '',
             ],
             items: [
@@ -106,6 +135,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 {type: Constants.MENTION_SPECIAL, username: 'all'},
                 {type: Constants.MENTION_GROUPS, ...groupid1},
                 {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
                 {type: Constants.MENTION_MORE_MEMBERS, loading: true},
             ],
             component: AtMentionSuggestion,
@@ -127,21 +157,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user6.six-split',
                     '@board',
                     '@developers',
+                    '@software-engineers',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid10},
-                    {type: Constants.MENTION_MEMBERS, ...userid3},
-                    {type: Constants.MENTION_MEMBERS, ...userid1},
-                    {type: Constants.MENTION_MEMBERS, ...userid2},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                    {type: Constants.MENTION_SPECIAL, username: 'here'},
-                    {type: Constants.MENTION_SPECIAL, username: 'channel'},
-                    {type: Constants.MENTION_SPECIAL, username: 'all'},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid5},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                    {type: Constants.MENTION_GROUPS, ...groupid1},
-                    {type: Constants.MENTION_GROUPS, ...groupid2},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -150,6 +168,21 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for "@", skipping the loading indicator if results load quickly', async () => {
         const pretext = '@';
         const matchedPretext = '@';
+        const itemsCall2 = [
+            {type: Constants.MENTION_MEMBERS, ...userid10},
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid1},
+            {type: Constants.MENTION_MEMBERS, ...userid2},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_SPECIAL, username: 'here'},
+            {type: Constants.MENTION_SPECIAL, username: 'channel'},
+            {type: Constants.MENTION_SPECIAL, username: 'all'},
+            {type: Constants.MENTION_NONMEMBERS, ...userid5},
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+            {type: Constants.MENTION_GROUPS, ...groupid1},
+            {type: Constants.MENTION_GROUPS, ...groupid2},
+            {type: Constants.MENTION_GROUPS, ...groupid3},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -157,6 +190,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [userid5, userid6],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [groupid1, groupid2, groupid3],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall2)).toEqual(true);
             })),
         };
 
@@ -176,6 +215,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@all',
                 '@board',
                 '@developers',
+                '@software-engineers',
             ],
             items: [
                 {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -187,6 +227,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 {type: Constants.MENTION_SPECIAL, username: 'all'},
                 {type: Constants.MENTION_GROUPS, ...groupid1},
                 {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
             ],
             component: AtMentionSuggestion,
         });
@@ -209,21 +250,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user6.six-split',
                     '@board',
                     '@developers',
+                    '@software-engineers',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid10},
-                    {type: Constants.MENTION_MEMBERS, ...userid3},
-                    {type: Constants.MENTION_MEMBERS, ...userid1},
-                    {type: Constants.MENTION_MEMBERS, ...userid2},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                    {type: Constants.MENTION_SPECIAL, username: 'here'},
-                    {type: Constants.MENTION_SPECIAL, username: 'channel'},
-                    {type: Constants.MENTION_SPECIAL, username: 'all'},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid5},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                    {type: Constants.MENTION_GROUPS, ...groupid1},
-                    {type: Constants.MENTION_GROUPS, ...groupid2},
-                ],
+                items: itemsCall2,
                 component: AtMentionSuggestion,
             });
         });
@@ -232,6 +261,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for "@h"', async () => {
         const pretext = '@h';
         const matchedPretext = '@h';
+        const itemsCall3 = [
+            {type: Constants.MENTION_SPECIAL, username: 'here'},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -239,6 +271,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [],
                     out_of_channel: [],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -278,9 +316,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 terms: [
                     '@here',
                 ],
-                items: [
-                    {type: Constants.MENTION_SPECIAL, username: 'here'},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -289,6 +325,13 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for username match "@user"', async () => {
         const pretext = '@user';
         const matchedPretext = '@user';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid1},
+            {type: Constants.MENTION_MEMBERS, ...userid2},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_NONMEMBERS, ...userid5},
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -296,6 +339,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [userid5, userid6],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -342,13 +391,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user5',
                     '@user6.six-split',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid1},
-                    {type: Constants.MENTION_MEMBERS, ...userid2},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid5},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -357,6 +400,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for username match "@six"', async () => {
         const pretext = '@six';
         const matchedPretext = '@six';
+        const itemsCall3 = [
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -364,6 +410,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [userid5, userid6],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -397,9 +449,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 terms: [
                     '@user6.six-split',
                 ],
-                items: [
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -408,6 +458,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for username match "@split"', async () => {
         const pretext = '@split';
         const matchedPretext = '@split';
+        const itemsCall3 = [
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -416,6 +469,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     out_of_channel: [userid5, userid6],
                 }});
             })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
+            })),
         };
 
         const provider = new AtMentionProvider(params);
@@ -448,9 +507,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 terms: [
                     '@user6.six-split',
                 ],
-                items: [
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -459,6 +516,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for username match "@-split"', async () => {
         const pretext = '@-split';
         const matchedPretext = '@-split';
+        const itemsCall3 = [
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -466,6 +526,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [],
                     out_of_channel: [userid6],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -498,9 +564,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 terms: [
                     '@user6.six-split',
                 ],
-                items: [
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -509,6 +573,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for username match "@junior"', async () => {
         const pretext = '@junior';
         const matchedPretext = '@junior';
+        const itemsCall3 = [
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -516,6 +583,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [],
                     out_of_channel: [userid6],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -549,9 +622,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 terms: [
                     '@user6.six-split',
                 ],
-                items: [
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -560,6 +631,10 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for first_name match "@X"', async () => {
         const pretext = '@X';
         const matchedPretext = '@x';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -567,6 +642,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -607,10 +688,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@other',
                     '@user4',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid3},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -619,6 +697,10 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for last_name match "@Y"', async () => {
         const pretext = '@Y';
         const matchedPretext = '@y';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -626,6 +708,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -666,10 +754,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@other',
                     '@user4',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid3},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -678,6 +763,11 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for nickname match "@Z"', async () => {
         const pretext = '@Z';
         const matchedPretext = '@z';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid10},
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -685,6 +775,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -730,11 +826,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@other',
                     '@user4',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid10},
-                    {type: Constants.MENTION_MEMBERS, ...userid3},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -743,6 +835,13 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest ignore out_of_channel if found locally', async () => {
         const pretext = '@user';
         const matchedPretext = '@user';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid1},
+            {type: Constants.MENTION_MEMBERS, ...userid2},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_NONMEMBERS, ...userid5},
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -750,6 +849,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [userid4],
                     out_of_channel: [userid1, userid2, userid5, userid6],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -797,13 +902,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user5',
                     '@user6.six-split',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid1},
-                    {type: Constants.MENTION_MEMBERS, ...userid2},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid5},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid6},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -812,6 +911,11 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should prioritise username match over other matches for in channel users', async () => {
         const pretext = '@x';
         const matchedPretext = '@x';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid7},
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -820,6 +924,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     out_of_channel: [],
                 }});
             })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
+            })),
         };
 
         const provider = new AtMentionProvider(params);
@@ -860,11 +970,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@other',
                     '@user4',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid7},
-                    {type: Constants.MENTION_MEMBERS, ...userid3},
-                    {type: Constants.MENTION_MEMBERS, ...userid4},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -873,6 +979,11 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should prioritise username match over other matches for out of channel users', async () => {
         const pretext = '@x';
         const matchedPretext = '@x';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_NONMEMBERS, ...userid7},
+            {type: Constants.MENTION_NONMEMBERS, ...userid4},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -880,6 +991,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [],
                     out_of_channel: [userid4, userid7],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -921,11 +1038,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@xuser7',
                     '@user4',
                 ],
-                items: [
-                    {type: Constants.MENTION_MEMBERS, ...userid3},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid7},
-                    {type: Constants.MENTION_NONMEMBERS, ...userid4},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -934,6 +1047,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     it('should suggest for full name match "robert ward"', async () => {
         const pretext = '@robert ward';
         const matchedPretext = '@robert ward';
+        const itemsCall3 = [
+            {type: Constants.MENTION_NONMEMBERS, ...userid8},
+        ];
         const params = {
             ...baseParams,
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
@@ -941,6 +1057,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     users: [],
                     out_of_channel: [userid8],
                 }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
             })),
         };
 
@@ -973,9 +1095,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 terms: [
                     '@xuser8',
                 ],
-                items: [
-                    {type: Constants.MENTION_NONMEMBERS, ...userid8},
-                ],
+                items: itemsCall3,
                 component: AtMentionSuggestion,
             });
         });
@@ -994,7 +1114,11 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     out_of_channel: [],
                 }});
             })),
-            autocompleteGroups: [],
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [groupid1, groupid2, groupid3],
+                });
+            })),
         };
 
         const provider = new AtMentionProvider(params);
@@ -1003,8 +1127,51 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
 
         expect(resultCallback).toHaveBeenNthCalledWith(1, {
             matchedPretext,
-            terms: [],
-            items: [],
+            terms: [
+                '@board',
+                '@developers',
+                '@software-engineers',
+            ],
+            items: [
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+            ],
+            component: AtMentionSuggestion,
+        });
+    });
+    it('should suggest for full group display name match "software engineers"', async () => {
+        const pretext = '@software engineers';
+        const matchedPretext = '@software engineers';
+        const itemsCall3 = [
+            {type: Constants.MENTION_GROUPS, ...groupid3},
+        ];
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [],
+                    out_of_channel: [],
+                }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [groupid3],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
+            })),
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: ['@software-engineers'],
+            items: [
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+            ],
             component: AtMentionSuggestion,
         });
     });

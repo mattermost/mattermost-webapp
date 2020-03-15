@@ -34,7 +34,7 @@ const GroupSettingsToggle = ({isDefault, allowReference, onToggle}) => (
         subTitle={(
             <FormattedMarkdownMessage
                 id='admin.team_settings.team_details.groupDetailsToggleDescr'
-                defaultMessage='When enabled, the group will be visible and accessible to users to mention by the name below. The membership of this group will become visible.'
+                defaultMessage='When enabled, the group can be mentioned in other channels and teams. This may result in the group member list being visible to all users.'
             />
         )}
     />);
@@ -45,7 +45,7 @@ GroupSettingsToggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
 };
 
-export const GroupProfileAndSettings = ({name, allowReference, onToggle}) => (
+export const GroupProfileAndSettings = ({name, groupname, allowReference, onToggle}) => (
     <AdminPanel
         id='group_profile'
         titleId={t('admin.group_settings.group_detail.groupProfileTitle')}
@@ -70,7 +70,7 @@ export const GroupProfileAndSettings = ({name, allowReference, onToggle}) => (
         </div>
         {allowReference &&
             <GroupProfile
-                name={'@' + name}
+                name={'@' + groupname}
                 title={t('admin.group_settings.group_details.group_mention.name')}
                 titleDefault={'Mention:'}
             />
@@ -79,6 +79,7 @@ export const GroupProfileAndSettings = ({name, allowReference, onToggle}) => (
 
 GroupProfileAndSettings.propTypes = {
     name: PropTypes.string.isRequired,
+    groupname: PropTypes.string.isRequired,
     allowReference: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
 };

@@ -18,11 +18,11 @@ export default class AtMentionSuggestion extends Suggestion {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
 
-        let username;
+        let itemname;
         let description;
         let icon;
         if (item.username === 'all') {
-            username = 'all';
+            itemname = 'all';
             description = (
                 <FormattedMessage
                     id='suggestion.mention.all'
@@ -43,7 +43,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 </FormattedMessage>
             );
         } else if (item.username === 'channel') {
-            username = 'channel';
+            itemname = 'channel';
             description = (
                 <FormattedMessage
                     id='suggestion.mention.channel'
@@ -64,7 +64,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 </FormattedMessage>
             );
         } else if (item.username === 'here') {
-            username = 'here';
+            itemname = 'here';
             description = (
                 <FormattedMessage
                     id='suggestion.mention.here'
@@ -85,7 +85,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 </FormattedMessage>
             );
         } else if (item.type === Constants.MENTION_GROUPS) {
-            username = item.display_name;
+            itemname = item.groupname;
             description = `- (${item.display_name})`;
             icon = (
                 <FormattedMessage
@@ -101,7 +101,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 </FormattedMessage>
             );
         } else {
-            username = item.username;
+            itemname = item.username;
 
             if ((item.first_name || item.last_name) && item.nickname) {
                 description = `- ${Utils.getFullName(item)} (${item.nickname})`;
@@ -139,14 +139,14 @@ export default class AtMentionSuggestion extends Suggestion {
         return (
             <div
                 className={className}
-                data-testid={`mentionSuggestion_${username}`}
+                data-testid={`mentionSuggestion_${itemname}`}
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
                 {icon}
                 <span className='mention--align'>
-                    {'@' + username}
+                    {'@' + itemname}
                 </span>
                 <BotBadge
                     show={Boolean(item.is_bot)}

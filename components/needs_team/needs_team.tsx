@@ -228,11 +228,9 @@ export default class NeedsTeam extends React.Component<Props, State> {
         this.props.actions.loadProfilesForDirect();
 
         this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-
         if (team.group_constrained) {
             this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
         } else {
-            //TODO (move somewhere not team-dependent?)
             this.props.actions.getGroups(true);
         }
 

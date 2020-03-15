@@ -11,6 +11,7 @@ describe('components/admin_console/group_settings/group_details/GroupProfileAndS
         const wrapper = shallow(
             <GroupProfileAndSettings
                 name='GroupProfileAndSettings'
+                groupname='GroupProfileAndSettings'
                 allowReference={false}
                 onToggle={jest.fn()}
             />);
@@ -21,6 +22,7 @@ describe('components/admin_console/group_settings/group_details/GroupProfileAndS
         const wrapper = shallow(
             <GroupProfileAndSettings
                 name='GroupProfileAndSettings'
+                groupname='GroupProfileAndSettings'
                 allowReference={true}
                 onToggle={jest.fn()}
             />);
