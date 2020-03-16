@@ -25,6 +25,7 @@ function getAllTests(results) {
 }
 
 function generateStatsFieldValue(stats, failedFullTitles) {
+    console.log('stats:', stats);
     let statsFieldValue = `
 | Key | Value |
 |:---|:---|
@@ -82,7 +83,8 @@ async function runTests() {
     await fse.remove('screenshots');
 
     const BROWSER = process.env.BROWSER ? process.env.BROWSER : 'chrome';
-    const testDirs = fse.readdirSync('cypress/integration/');
+    // const testDirs = fse.readdirSync('cypress/integration/');
+    const testDirs = ['accessibility'];
     let failedTests = 0;
 
     const mochawesomeReportDir = 'results/mochawesome-report';
