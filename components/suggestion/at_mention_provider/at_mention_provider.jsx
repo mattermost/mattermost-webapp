@@ -78,8 +78,8 @@ export default class AtMentionProvider extends Provider {
             return groupSuggestions;
         }
 
-        if (group.groupname) {
-            const groupnameSuggestions = getSuggestionsSplitByMultiple(group.groupname.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
+        if (group.name) {
+            const groupnameSuggestions = getSuggestionsSplitByMultiple(group.name.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
             groupSuggestions.push(...groupnameSuggestions);
         }
         [group.display_name].forEach((property) => {
@@ -129,7 +129,7 @@ export default class AtMentionProvider extends Provider {
         const localGroups = this.autocompleteGroups.
             filter((group) => this.filterGroup(group)).
             map((group) => this.createFromGroup(group, Constants.MENTION_GROUPS)).
-            sort((a, b) => a.groupname.localeCompare(b.groupname)).
+            sort((a, b) => a.name.localeCompare(b.name)).
             splice(0, 25);
 
         return localGroups;
@@ -224,11 +224,11 @@ export default class AtMentionProvider extends Provider {
 
         // comparator which prioritises users with usernames starting with search term
         const orderGroups = (a, b) => {
-            const aStartsWith = a.groupname.startsWith(this.latestPrefix);
-            const bStartsWith = b.groupname.startsWith(this.latestPrefix);
+            const aStartsWith = a.name.startsWith(this.latestPrefix);
+            const bStartsWith = b.name.startsWith(this.latestPrefix);
 
             if (aStartsWith && bStartsWith) {
-                return a.groupname.localeCompare(b.groupname);
+                return a.name.localeCompare(b.name);
             }
             if (aStartsWith) {
                 return -1;
@@ -236,7 +236,7 @@ export default class AtMentionProvider extends Provider {
             if (bStartsWith) {
                 return 1;
             }
-            return a.groupname.localeCompare(b.groupname);
+            return a.name.localeCompare(b.name);
         };
 
         // Combine the local and remote groups, sorting to mix the results together.
@@ -252,8 +252,8 @@ export default class AtMentionProvider extends Provider {
         const mentions = items.map((item) => {
             if (item.username) {
                 return '@' + item.username;
-            } else if (item.groupname) {
-                return '@' + item.groupname;
+            } else if (item.name) {
+                return '@' + item.name;
             }
             return '';
         });

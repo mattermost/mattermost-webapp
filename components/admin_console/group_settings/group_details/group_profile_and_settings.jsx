@@ -45,7 +45,7 @@ GroupSettingsToggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
 };
 
-export const GroupProfileAndSettings = ({name, groupname, allowReference, onToggle}) => (
+export const GroupProfileAndSettings = ({displayname, name, allowReference, onToggle}) => (
     <AdminPanel
         id='group_profile'
         titleId={t('admin.group_settings.group_detail.groupProfileTitle')}
@@ -54,7 +54,7 @@ export const GroupProfileAndSettings = ({name, groupname, allowReference, onTogg
         subtitleDefault='The name for this group.'
     >
         <GroupProfile
-            name={name}
+            name={displayname}
             title={t('admin.group_settings.group_details.group_profile.name')}
             titleDefault={'Name:'}
         />
@@ -70,7 +70,7 @@ export const GroupProfileAndSettings = ({name, groupname, allowReference, onTogg
         </div>
         {allowReference &&
             <GroupProfile
-                name={'@' + groupname}
+                name={'@' + name}
                 title={t('admin.group_settings.group_details.group_mention.name')}
                 titleDefault={'Mention:'}
             />
@@ -78,8 +78,8 @@ export const GroupProfileAndSettings = ({name, groupname, allowReference, onTogg
     </AdminPanel>);
 
 GroupProfileAndSettings.propTypes = {
+    displayname: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    groupname: PropTypes.string.isRequired,
     allowReference: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
 };

@@ -10,8 +10,8 @@ describe('components/admin_console/group_settings/group_details/GroupProfileAndS
     test('should match snapshot, with toggle off', () => {
         const wrapper = shallow(
             <GroupProfileAndSettings
+                displayname='GroupProfileAndSettings'
                 name='GroupProfileAndSettings'
-                groupname='GroupProfileAndSettings'
                 allowReference={false}
                 onToggle={jest.fn()}
             />);
@@ -21,8 +21,8 @@ describe('components/admin_console/group_settings/group_details/GroupProfileAndS
     test('should match snapshot, with toggle on', () => {
         const wrapper = shallow(
             <GroupProfileAndSettings
+                displayname='GroupProfileAndSettings'
                 name='GroupProfileAndSettings'
-                groupname='GroupProfileAndSettings'
                 allowReference={true}
                 onToggle={jest.fn()}
             />);

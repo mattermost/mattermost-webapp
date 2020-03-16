@@ -16,9 +16,9 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid7 = {id: 'userid7', username: 'xuser7', first_name: '', last_name: '', nickname: 'x'};
     const userid8 = {id: 'userid8', username: 'xuser8', first_name: 'Robert', last_name: 'Ward', nickname: 'nickname'};
 
-    const groupid1 = {id: 'groupid1', groupname: 'board', display_name: 'board'};
-    const groupid2 = {id: 'groupid2', groupname: 'developers', display_name: 'developers'};
-    const groupid3 = {id: 'groupid3', groupname: 'software-engineers', display_name: 'software engineers'};
+    const groupid1 = {id: 'groupid1', name: 'board', display_name: 'board'};
+    const groupid2 = {id: 'groupid2', name: 'developers', display_name: 'developers'};
+    const groupid3 = {id: 'groupid3', name: 'software-engineers', display_name: 'software engineers'};
 
     const baseParams = {
         currentUserId: 'userid1',

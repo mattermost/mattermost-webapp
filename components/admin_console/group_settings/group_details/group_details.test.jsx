@@ -11,7 +11,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         groupID: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
         group: {
             display_name: 'Group',
-            groupname: 'Group',
+            name: 'Group',
         },
         groupTeams: [
             {team_id: '11111111111111111111111111'},
