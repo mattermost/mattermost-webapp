@@ -16,9 +16,21 @@ import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarCategoryList from './sidebar_category_list';
+import { createSelector } from 'reselect';
+import { Channel } from 'mattermost-redux/types/channels';
 
 const getCategoriesForTeam = makeGetCategoriesForTeam();
 const getChannelsForCategory = makeGetChannelsForCategory();
+
+function getChannelsForCategoryFunc(state: GlobalState) : (category: ChannelCategory) => Channel[] {
+    return createSelector(
+        () => state,
+        (category: ChannelCategory) => category,
+        (state, category) => {
+            return getChannelsForCategory(state, category);
+        }
+    );
+}
 
 function mapStateToProps(state: GlobalState) {
     const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
@@ -30,7 +42,7 @@ function mapStateToProps(state: GlobalState) {
         categories: getCategoriesForTeam(state, currentTeam.id),
         isUnreadFilterEnabled: isUnreadFilterEnabled(state),
         unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
-        getChannelsForCategory: (category: ChannelCategory) => getChannelsForCategory(state, category),
+        getChannelsForCategory: getChannelsForCategoryFunc(state),
     };
 }
 
