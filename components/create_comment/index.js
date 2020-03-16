@@ -7,11 +7,14 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getAllChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
-import {getChannelTimezones} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
+import {
+    getAllAssociatedGroupsForReference,
+} from 'mattermost-redux/selectors/entities/groups';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -62,6 +65,7 @@ function makeMapStateToProps() {
             channel: ownProps.channelId,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
+        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, ownProps.channelId);
 
         return {
             draft,
@@ -83,6 +87,8 @@ function makeMapStateToProps() {
             selectedPostFocussedAt: getSelectedPostFocussedAt(state),
             canPost,
             useChannelMentions,
+            allowReferencedGroups: getAllAssociatedGroupsForReference(state),
+            channelMemberCountsByGroup
         };
     };
 }
@@ -136,7 +142,8 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
-            emitShortcutReactToLastPostFrom
+            emitShortcutReactToLastPostFrom,
+            selectChannelMemberCountsByGroup
         }, dispatch);
     };
 }

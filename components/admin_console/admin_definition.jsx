@@ -1743,9 +1743,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableConfirmNotificationsToChannel',
                         label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
-                        label_default: 'Show @channel and @all confirmation dialog:',
+                        label_default: 'Show @channel and @all and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.',
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
