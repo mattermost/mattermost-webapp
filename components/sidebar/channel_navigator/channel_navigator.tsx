@@ -61,6 +61,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                         className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
                         disabled={!this.props.canGoBack}
                         onClick={this.goBack}
+                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
                     >
                         <i className='icon icon-arrow-left'/>
                     </button>
@@ -68,6 +69,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                         className={classNames('SidebarChannelNavigator_forwardButton', {disabled: !this.props.canGoForward})}
                         disabled={!this.props.canGoForward}
                         onClick={this.goForward}
+                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
                     >
                         <i className='icon icon-arrow-right'/>
                     </button>
@@ -80,6 +82,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                 <button
                     className={'SidebarChannelNavigator_jumpToButton'}
                     onClick={this.openQuickSwitcher}
+                    aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
                 >
                     <FormattedMessage
                         id='sidebar_left.channel_navigator.jumpTo'

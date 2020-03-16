@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions';
 import OverlayTrigger from 'components/overlay_trigger';
+import {localizeMessage} from 'utils/utils';
 
 type Props = {
     unreadFilterEnabled: boolean;
@@ -70,19 +71,9 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
 
         let tooltipMessage;
         if (unreadFilterEnabled) {
-            tooltipMessage = (
-                <FormattedMessage
-                    id={'sidebar_left.channel_filter.showAllChannels'}
-                    defaultMessage='Show all channels'
-                />
-            );
+            tooltipMessage = localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
         } else {
-            tooltipMessage = (
-                <FormattedMessage
-                    id={'sidebar_left.channel_filter.filterByUnread'}
-                    defaultMessage='Filter by unread'
-                />
-            );
+            tooltipMessage = localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
         }
 
         const tooltip = (
@@ -102,6 +93,7 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
                         active: unreadFilterEnabled,
                     })}
                     onClick={this.toggleUnreadFilter}
+                    aria-label={tooltipMessage}
                 >
                     <OverlayTrigger
                         delayShow={500}
