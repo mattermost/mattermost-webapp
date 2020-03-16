@@ -108,8 +108,11 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     });
 
     it('MM-22630 Verify Tab Support in Public Channels section', () => {
-        // # Press tab from the Add Public Channel button
-        cy.get('#createPublicChannel').focus().tab({shift: true}).tab().tab();
+        // # Press tab to the Add Public Channel button
+        cy.get('#createPublicChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create new public channel');
+
+        // * Verify if the Plus button is round when it has focus
+        cy.get('#createPublicChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
 
         // * Verify if focus changes to different channels in Public Channels section
         cy.get('#publicChannelList .sidebar-item').each((el) => {
@@ -129,8 +132,11 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
                     // # Wait for few seconds
                     cy.wait(TIMEOUTS.SMALL);
 
-                    // # Press tab from the Add Private Channel button
-                    cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().tab();
+                    // # Press tab to the Add Private Channel button
+                    cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create new private channel');
+
+                    // * Verify if the Plus button is round when it has focus
+                    cy.get('#createPrivateChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
 
                     // * Verify if focus changes to different channels in Favorite Channels section
                     cy.get('#privateChannelList .sidebar-item').each((el) => {
@@ -156,8 +162,11 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
 
         cy.wait(TIMEOUTS.SMALL);
 
-        // # Press tab from the Add Public Channel button
-        cy.get('#addDirectChannel').focus().tab({shift: true}).tab().tab();
+        // # Press tab to the Create DM button
+        cy.get('#addDirectChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create new direct message');
+
+        // * Verify if the Plus button is round when it has focus
+        cy.get('#addDirectChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
 
         // * Verify if focus changes to different channels in Direct Messages section
         cy.get('#directChannelList .sidebar-item').each((el) => {
