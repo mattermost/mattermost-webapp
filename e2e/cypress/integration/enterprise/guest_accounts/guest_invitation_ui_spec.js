@@ -109,6 +109,9 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 
 describe('Guest Account - Guest User Invitation Flow', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Login as "sysadmin"
         cy.apiLogin('sysadmin');
 
