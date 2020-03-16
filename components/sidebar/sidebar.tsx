@@ -127,7 +127,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 })}
             >
                 <SidebarHeader/>
-                <div 
+                <div
                     className='a11y__region'
                     data-a11y-sort-order='6'
                 >

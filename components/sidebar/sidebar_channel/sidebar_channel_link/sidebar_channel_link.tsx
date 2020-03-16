@@ -129,7 +129,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channel={channel}
                     icon={icon}
                 />
-                <span 
+                <span
                     className='SidebarChannelLinkLabel'
                     ref={this.labelRef}
                 >
