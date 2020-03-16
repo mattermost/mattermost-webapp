@@ -1365,7 +1365,6 @@ export const Constants = {
     MENTION_UNREAD_CHANNELS: 'mention.unread.channels',
     MENTION_MEMBERS: 'mention.members',
     MENTION_MORE_MEMBERS: 'mention.moremembers',
-    MENTION_MORE_GROUPS: 'mention.moregroups',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_SPECIAL: 'mention.special',
     MENTION_GROUPS: 'mention.groups',
