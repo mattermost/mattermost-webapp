@@ -111,18 +111,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             return;
         }
 
-        // if the active channel disappeared (which can happen when dm channels
-        // autoclose), go to user default channel in team
-        if (this.props.currentTeam === prevProps.currentTeam &&
-            this.props.currentChannel.id === prevProps.currentChannel.id &&
-            !this.getDisplayedChannelIds().find((channelId: string) => channelId === this.props.currentChannel.id) &&
-            this.getDisplayedChannelIdsForProps(prevProps).find((channelId: string) => channelId === this.props.currentChannel.id)
-        ) {
-            this.closedDirectChannel = true;
-            redirectUserToDefaultTeam();
-            return;
-        }
-
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
             this.scrollbar.current!.scrollToTop();

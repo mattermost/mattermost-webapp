@@ -22,6 +22,7 @@ import SidebarCategoryList from './sidebar_category_list';
 const getCategoriesForTeam = makeGetCategoriesForTeam();
 const getChannelsForCategory = makeGetChannelsForCategory();
 
+// TODO: Remove once Harrison's stuff is in
 function getChannelsForCategoryFunc(state: GlobalState): (category: ChannelCategory) => Channel[] {
     return createSelector(
         () => state,
