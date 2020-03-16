@@ -15,7 +15,7 @@ import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
-import {Preferences} from 'utils/constants';
+import {Constants, Preferences} from 'utils/constants';
 import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
@@ -67,6 +67,7 @@ function makeMapStateToProps() {
             createAriaLabel: createAriaLabelForPost(state, post),
             currentChannel: channel,
             currentUserId: getCurrentUserId(state),
+            isDMChannel: Boolean(channel && channel.type === Constants.DM_CHANNEL),
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,
