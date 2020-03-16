@@ -32,7 +32,7 @@ class Post extends React.PureComponent {
         /**
          * The current channel
          */
-        currentChannel: PropTypes.object.isRequired,
+        currentChannel: PropTypes.object,
 
         /**
          * The logged in user ID
