@@ -65,6 +65,7 @@ function makeMapStateToProps() {
         return {
             post,
             createAriaLabel: createAriaLabelForPost(state, post),
+            currentChannel: channel,
             currentUserId: getCurrentUserId(state),
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,

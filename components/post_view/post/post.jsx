@@ -30,6 +30,11 @@ class Post extends React.PureComponent {
         createAriaLabel: PropTypes.func.isRequired,
 
         /**
+         * The current channel
+         */
+        currentChannel: PropTypes.object.isRequired,
+
+        /**
          * The logged in user ID
          */
         currentUserId: PropTypes.string.isRequired,
@@ -310,7 +315,7 @@ class Post extends React.PureComponent {
     }
 
     render() {
-        const {post} = this.props;
+        const {post, currentChannel} = this.props;
         if (!post.id) {
             return null;
         }
@@ -322,13 +327,17 @@ class Post extends React.PureComponent {
         const fromBot = post && post.props && post.props.from_bot === 'true';
 
         let profilePic;
+        let statusFlag = false;
         const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
+        if (currentChannel && currentChannel.type === Constants.DM_CHANNEL) {
+            statusFlag = true;
+        }
         if (!hideProfilePicture) {
             profilePic = (
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
                     post={post}
-                    statusHidden={true}
+                    statusHidden={statusFlag}
                     userId={post.user_id}
                 />
             );
