@@ -361,6 +361,10 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
     return output;
 }
 
+export function allAtMentions(text: string) {
+    return text.match(/\B@(channel|all|here)\b/gi && AT_MENTION_PATTERN) || [];
+}
+
 function autolinkChannelMentions(
     text: string,
     tokens: Tokens,

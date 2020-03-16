@@ -6,10 +6,10 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getChannelTimezones} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -19,6 +19,9 @@ import {
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
+import {
+    getAllAssociatedGroupsForReference,
+} from 'mattermost-redux/selectors/entities/groups';
 import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
@@ -78,6 +81,7 @@ function makeMapStateToProps() {
             channel: currentChannel.id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
+        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, currentChannel.id);
 
         return {
             currentTeamId: getCurrentTeamId(state),
@@ -108,6 +112,8 @@ function makeMapStateToProps() {
             shortcutReactToLastPostEmittedFrom,
             canPost,
             useChannelMentions,
+            allowReferencedGroups: getAllAssociatedGroupsForReference(state),
+            channelMemberCountsByGroup
         };
     };
 }
@@ -138,6 +144,7 @@ function mapDispatchToProps(dispatch) {
             runMessageWillBePostedHooks,
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
+            selectChannelMemberCountsByGroup,
         }, dispatch),
     };
 }

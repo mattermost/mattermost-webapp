@@ -17,6 +17,7 @@ import {
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
+    groupsMentionedInText,
 } from 'utils/post_utils.jsx';
 import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
@@ -263,8 +264,13 @@ class CreatePost extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            emitShortcutReactToLastPostFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func,
+
+            selectChannelMemberCountsByGroup: PropTypes.func,
         }).isRequired,
+
+        allowReferencedGroups: PropTypes.array,
+        channelMemberCountsByGroup: PropTypes.object,
     }
 
     static defaultProps = {
@@ -299,6 +305,8 @@ class CreatePost extends React.PureComponent {
             uploadsProgressPercent: {},
             renderScrollbar: false,
             currentChannel: props.currentChannel,
+            mentions: [],
+            memberNotifyCount: 0,
         };
 
         this.lastBlurAt = 0;
@@ -315,7 +323,6 @@ class CreatePost extends React.PureComponent {
             }
             return value;
         });
-
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
@@ -326,6 +333,7 @@ class CreatePost extends React.PureComponent {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+            this.props.actions.selectChannelMemberCountsByGroup(this.props.currentChannel.id, this.props.isTimezoneEnabled);
         }
 
         // Focus on textbox when emoji picker is closed
@@ -536,21 +544,47 @@ class CreatePost extends React.PureComponent {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
+            allowReferencedGroups,
+            channelMemberCountsByGroup,
+            currentChannelMembersCount
         } = this.props;
 
-        const currentMembersCount = this.props.currentChannelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
+        let memberNotifyCount = 0;
+        let channelTimezoneCount = 0;
+        let mentions = [];
+        if (this.props.enableConfirmNotificationsToChannel && !containsAtChannel(this.state.message)) {
+            // Groups mentioned in users text
+            mentions = groupsMentionedInText(this.state.message, allowReferencedGroups);
+            if (mentions.length > 0) {
+                const groupsWith5MembersInChannel = mentions.map((group) => channelMemberCountsByGroup[group.id]).filter((group) => group && group.channel_member_count > Constants.NOTIFY_ALL_MEMBERS);
+                mentions = mentions.map((group) => `@${group.name}`);
+                groupsWith5MembersInChannel.forEach((group) => {
+                    if (group.channel_member_count > memberNotifyCount) {
+                        memberNotifyCount = group.channel_member_count;
+                        channelTimezoneCount = group.channel_member_timezones_count;
+                    }
+                });
+            }
+        }
+
         if (notificationsToChannel &&
-            currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
+            currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
+            memberNotifyCount = currentChannelMembersCount - 1;
+            mentions = ['@all', '@channel'];
             if (this.props.isTimezoneEnabled) {
                 const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
-                if (data) {
-                    this.setState({channelTimezoneCount: data.length});
-                } else {
-                    this.setState({channelTimezoneCount: 0});
-                }
+                channelTimezoneCount = data ? data.length : 0;
             }
+        }
+
+        if (memberNotifyCount > 0) {
+            this.setState({
+                channelTimezoneCount,
+                memberNotifyCount,
+                mentions,
+            });
             this.showNotifyAllModal();
             return;
         }
@@ -1126,7 +1160,6 @@ class CreatePost extends React.PureComponent {
     render() {
         const {
             currentChannel,
-            currentChannelMembersCount,
             draft,
             fullWidthTextBox,
             showTutorialTip,
@@ -1134,16 +1167,99 @@ class CreatePost extends React.PureComponent {
         } = this.props;
         const readOnlyChannel = this.props.readOnlyChannel || !canPost;
         const {formatMessage} = this.props.intl;
-        const members = currentChannelMembersCount - 1;
-        const {renderScrollbar} = this.state;
+        const {renderScrollbar, channelTimezoneCount, mentions, memberNotifyCount} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
+        let notifyAllMessage = '';
+        let notifyAllTitle = '';
+        if (mentions.includes('@all') || mentions.includes('@channel')) {
+            notifyAllTitle = (
+                <FormattedMessage
+                    id='notify_all.title.confirm'
+                    defaultMessage='Confirm sending notifications to entire channel'
+                />
+            );
+            if (channelTimezoneCount > 0) {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question_timezone'
+                        defaultMessage='By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                        values={{
+                            totalMembers: memberNotifyCount,
+                            timezones: channelTimezoneCount,
+                        }}
+                    />
+                );
+            } else {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question'
+                        defaultMessage='By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?'
+                        values={{
+                            totalMembers: memberNotifyCount,
+                        }}
+                    />
+                );
+            }
+        } else if (mentions.length > 0) {
+            notifyAllTitle = (
+                <FormattedMessage
+                    id='notify_all.title.confirm_groups'
+                    defaultMessage='Confirm sending notifications to groups'
+                />
+            );
 
-        const notifyAllTitle = (
-            <FormattedMessage
-                id='notify_all.title.confirm'
-                defaultMessage='Confirm Sending Notifications to Entire Channel'
-            />
-        );
+            if (mentions.length === 1) {
+                if (channelTimezoneCount > 0) {
+                    notifyAllMessage = (
+                        <FormattedMarkdownMessage
+                            id='notify_all.question_timezone_one_group'
+                            defaultMessage='By using **{mention}** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                            values={{
+                                mention: mentions[0],
+                                totalMembers: memberNotifyCount,
+                                timezones: channelTimezoneCount,
+                            }}
+                        />
+                    );
+                } else {
+                    notifyAllMessage = (
+                        <FormattedMarkdownMessage
+                            id='notify_all.question_one_group'
+                            defaultMessage='By using **{mention}** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?'
+                            values={{
+                                mention: mentions[0],
+                                totalMembers: memberNotifyCount,
+                            }}
+                        />
+                    );
+                }
+            } else if (channelTimezoneCount > 0) {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question_timezone_groups'
+                        defaultMessage='By using **{mentions}** and **{finalMention}** you are about to send notifications to at least **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                        values={{
+                            mentions: mentions.slice(0, -1).join(' ,'),
+                            finalMention: mentions[mentions.length - 1],
+                            totalMembers: memberNotifyCount,
+                            timezones: channelTimezoneCount,
+                        }}
+                    />
+                );
+            } else {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question_groups'
+                        defaultMessage='By using **{mentions}** and **{finalMention}** you are about to send notifications to at least **{totalMembers} people**. Are you sure you want to do this?'
+                        values={{
+                            mentions: mentions.slice(0, -1).join(', '),
+                            finalMention: mentions[mentions.length - 1],
+                            totalMembers: memberNotifyCount,
+                        }}
+                    />
+                );
+            }
+        }
 
         const notifyAllConfirm = (
             <FormattedMessage
@@ -1151,30 +1267,6 @@ class CreatePost extends React.PureComponent {
                 defaultMessage='Confirm'
             />
         );
-
-        let notifyAllMessage = '';
-        if (this.state.channelTimezoneCount && this.props.isTimezoneEnabled) {
-            notifyAllMessage = (
-                <FormattedMarkdownMessage
-                    id='notify_all.question_timezone'
-                    defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
-                    values={{
-                        totalMembers: members,
-                        timezones: this.state.channelTimezoneCount,
-                    }}
-                />
-            );
-        } else {
-            notifyAllMessage = (
-                <FormattedMessage
-                    id='notify_all.question'
-                    defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
-                    values={{
-                        totalMembers: members,
-                    }}
-                />
-            );
-        }
 
         let serverError = null;
         if (this.state.serverError) {
