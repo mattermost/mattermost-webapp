@@ -12,8 +12,15 @@ import Constants from 'utils/constants';
 
 const ActionTypes = Constants.ActionTypes;
 
-export default class ImportThemeModal extends React.Component {
-    constructor(props) {
+type State = {
+    value: string;
+    inputError: FormattedMessage|string|null;
+    show: boolean;
+    callback: (({}) => void) | null;
+}
+
+export default class ImportThemeModal extends React.Component<{}, State> {
+    public constructor(props: {}) {
         super(props);
 
         this.state = {
@@ -24,22 +31,22 @@ export default class ImportThemeModal extends React.Component {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         ModalStore.addModalListener(ActionTypes.TOGGLE_IMPORT_THEME_MODAL, this.updateShow);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         ModalStore.removeModalListener(ActionTypes.TOGGLE_IMPORT_THEME_MODAL, this.updateShow);
     }
 
-    updateShow = (show, args) => {
+    private updateShow = (show: boolean, args: {callback: null}) => {
         this.setState({
             show,
             callback: args.callback,
         });
     }
 
-    handleSubmit = (e) => {
+    private handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
         const text = this.state.value;
@@ -48,7 +55,7 @@ export default class ImportThemeModal extends React.Component {
             this.setState({
                 inputError: (
                     <FormattedMessage
-                        id='user.settings.import_theme.submitError'
+                        id='user.settings.TOGGLE_IMPORT_THEME_MODAL.submitError'
                         defaultMessage='Invalid format, please try copying and pasting in again.'
                     />
                 ),
@@ -59,26 +66,27 @@ export default class ImportThemeModal extends React.Component {
         const colors = text.split(',');
         const theme = {type: 'custom'};
 
-        theme.sidebarBg = colors[0];
-        theme.sidebarText = colors[5];
-        theme.sidebarUnreadText = colors[5];
-        theme.sidebarTextHoverBg = colors[4];
-        theme.sidebarTextActiveBorder = colors[2];
-        theme.sidebarTextActiveColor = colors[3];
-        theme.sidebarHeaderBg = colors[1];
-        theme.sidebarHeaderTextColor = colors[5];
-        theme.onlineIndicator = colors[6];
-        theme.mentionBg = colors[7];
-        setThemeDefaults(theme);
+        (theme as any).sidebarBg = colors[0];
+        (theme as any).sidebarText = colors[5];
+        (theme as any).sidebarUnreadText = colors[5];
+        (theme as any).sidebarTextHoverBg = colors[4];
+        (theme as any).sidebarTextActiveBorder = colors[2];
+        (theme as any).sidebarTextActiveColor = colors[3];
+        (theme as any).sidebarHeaderBg = colors[1];
+        (theme as any).sidebarHeaderTextColor = colors[5];
+        (theme as any).onlineIndicator = colors[6];
+        (theme as any).mentionBg = colors[7];
+        setThemeDefaults(theme as any);
 
-        this.state.callback(theme);
+        
+        this.state.callback && this.state.callback(theme);
         this.setState({
             show: false,
             callback: null,
         });
     }
 
-    isInputValid(text) {
+    private isInputValid(text: string) {
         if (text.length === 0) {
             return false;
         }
@@ -112,7 +120,7 @@ export default class ImportThemeModal extends React.Component {
         return true;
     }
 
-    handleChange = (e) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         this.setState({value});
 
