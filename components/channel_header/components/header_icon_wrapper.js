@@ -129,4 +129,5 @@ HeaderIconWrapper.propTypes = {
     onClick: PropTypes.func.isRequired,
     tooltipKey: PropTypes.string,
     tooltipText: PropTypes.node,
+    isRhsOpen: PropTypes.bool,
 };
