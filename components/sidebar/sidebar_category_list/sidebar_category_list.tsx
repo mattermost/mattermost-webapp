@@ -372,7 +372,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         return (
             <div
                 className={classNames('SidebarNavContainer a11y__region', {disabled: this.props.isUnreadFilterEnabled})}
-                data-a11y-sort-order='6'
+                data-a11y-sort-order='7'
             >
                 <UnreadChannelIndicator
                     name='Top'

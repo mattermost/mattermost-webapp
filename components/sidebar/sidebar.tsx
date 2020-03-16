@@ -127,13 +127,18 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 })}
             >
                 <SidebarHeader/>
-                <ChannelNavigator/>
-                <div className='SidebarContainer_filterAddChannel'>
-                    <ChannelFilter/>
-                    <AddChannelDropdown
-                        showNewChannelModal={this.showNewChannelModal}
-                        showMoreChannelsModal={this.showMoreChannelsModal}
-                    />
+                <div 
+                    className='a11y__region'
+                    data-a11y-sort-order='6'
+                >
+                    <ChannelNavigator/>
+                    <div className='SidebarContainer_filterAddChannel'>
+                        <ChannelFilter/>
+                        <AddChannelDropdown
+                            showNewChannelModal={this.showNewChannelModal}
+                            showMoreChannelsModal={this.showMoreChannelsModal}
+                        />
+                    </div>
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}/>

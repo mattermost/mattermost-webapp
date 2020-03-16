@@ -155,11 +155,11 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         }
 
         return (
-            <div className='SidebarChannelGroup'>
+            <div className='SidebarChannelGroup a11y__section'>
                 <div className='SidebarChannelGroupHeader'>
                     <button
                         ref={this.categoryTitleRef}
-                        className={classNames('SidebarChannelGroupHeader_groupButton a11y__section', {favorites: category.type === CategoryTypes.FAVORITES})}
+                        className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
                         onClick={this.handleCollapse}
                     >
                         <i

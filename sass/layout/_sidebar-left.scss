@@ -41,7 +41,7 @@
     }
 
     .a11y--focused {
-        box-shadow: inset 0 0 1px 3px var(--sidebar-text-50), inset 0 0 0 1px var(--sidebar-text);
+        box-shadow: inset 0 0 1px 3px var(--sidebar-text-50), inset 0 0 0 1px var(--sidebar-text) !important;
     }
 
     .SidebarContainer_filterAddChannel {

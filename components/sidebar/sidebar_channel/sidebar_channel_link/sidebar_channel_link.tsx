@@ -49,33 +49,36 @@ type State = {
 };
 
 export default class SidebarChannelLink extends React.PureComponent<Props, State> {
+    labelRef: React.RefObject<HTMLSpanElement>;
+
     constructor(props: Props) {
         super(props);
 
+        this.labelRef = React.createRef();
         this.state = {
             showTooltip: false,
         };
     }
 
-    // TODO: Gotta rethink some of this
-    // componentDidMount() {
-    //     this.enableToolTipIfNeeded();
-    // }
+    componentDidMount() {
+        this.enableToolTipIfNeeded();
+    }
 
-    // componentDidUpdate(prevProps) {
-    //     if (prevProps.displayName !== this.props.displayName) {
-    //         this.enableToolTipIfNeeded();
-    //     }
-    // }
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.label !== this.props.label) {
+            this.enableToolTipIfNeeded();
+        }
+    }
 
-    // enableToolTipIfNeeded = () => {
-    //     const element = this.displayNameRef.current;
-    //     if (element && element.offsetWidth < element.scrollWidth) {
-    //         this.setState({showTooltip: true});
-    //     } else {
-    //         this.setState({showTooltip: false});
-    //     }
-    // }
+    // TODO: Is there a better way to do this?
+    enableToolTipIfNeeded = () => {
+        const element = this.labelRef.current;
+        if (element && element.offsetWidth < element.scrollWidth) {
+            this.setState({showTooltip: true});
+        } else {
+            this.setState({showTooltip: false});
+        }
+    }
 
     getAriaLabel = () => {
         const {label, ariaLabelPrefix, unreadMentions} = this.props;
@@ -117,28 +120,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
     };
 
-    getRowClass = () => {
-        // let rowClass = 'sidebar-item';
-        // let badge = false;
-        // if (this.showChannelAsUnread()) {
-        //     rowClass += ' unread-title';
-        // }
-
-        // if (this.props.unreadMentions > 0) {
-        //     rowClass += ' has-badge';
-
-        //     badge = true;
-        // }
-
-        // if (this.props.channelMuted) {
-        //     rowClass += ' muted';
-        // }
-
-        // if (closeHandler && !badge) {
-        //     rowClass += ' has-close';
-        // }
-    }
-
     render() {
         const {link, label, channel, unreadMentions, icon} = this.props;
 
@@ -148,7 +129,12 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channel={channel}
                     icon={icon}
                 />
-                <span className='SidebarChannelLinkLabel'>{label}</span>
+                <span 
+                    className='SidebarChannelLinkLabel'
+                    ref={this.labelRef}
+                >
+                    {label}
+                </span>
                 <ChannelMentionBadge
                     channelId={channel.id}
                     unreadMentions={unreadMentions}
@@ -169,7 +155,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     menuId={channel.id}
                 >
                     <button
-                        className={'btn btn-link SidebarLink'}// TODO + rowClass}
+                        className={'btn btn-link SidebarLink'}
                         aria-label={this.getAriaLabel()}
                         onClick={this.handleClick}
                     >
@@ -193,11 +179,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
         if (this.state.showTooltip) {
             const displayNameToolTip = (
-                <Tooltip
-                    id='channel-displayname__tooltip'
-
-                    //style={style.channelTooltip} // TODO
-                >
+                <Tooltip id='channel-displayname__tooltip'>
                     {label}
                 </Tooltip>
             );
