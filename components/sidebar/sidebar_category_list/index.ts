@@ -3,12 +3,14 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+import {createSelector} from 'reselect';
 
 import {getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetCategoriesForTeam, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {switchToChannelById} from 'actions/views/channel';
 import {close} from 'actions/views/lhs';
@@ -16,17 +18,15 @@ import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarCategoryList from './sidebar_category_list';
-import { createSelector } from 'reselect';
-import { Channel } from 'mattermost-redux/types/channels';
 
 const getCategoriesForTeam = makeGetCategoriesForTeam();
 const getChannelsForCategory = makeGetChannelsForCategory();
 
-function getChannelsForCategoryFunc(state: GlobalState) : (category: ChannelCategory) => Channel[] {
+function getChannelsForCategoryFunc(state: GlobalState): (category: ChannelCategory) => Channel[] {
     return createSelector(
         () => state,
         (category: ChannelCategory) => category,
-        (state, category) => {
+        (_, category) => {
             return getChannelsForCategory(state, category);
         }
     );
