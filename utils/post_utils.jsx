@@ -12,6 +12,8 @@ import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
+import {allAtMentions} from 'utils/text_formatting';
+
 import {getEmojiMap} from 'selectors/emojis';
 
 import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
@@ -121,6 +123,15 @@ export function containsAtChannel(text, options = {}) {
 
     return (/\B@(all|channel)\b/i).test(mentionableText);
 }
+
+export const groupsMentionedInText = (text, groups) => {
+    // Don't warn for slash commands
+    if (!text || text.startsWith('/')) {
+        return [];
+    }
+    const mentions = allAtMentions(text);
+    return mentions.length > 0 && groups.filter((group) => mentions.includes(`@${group.name}`));
+};
 
 export function shouldFocusMainTextbox(e, activeElement) {
     if (!e) {
