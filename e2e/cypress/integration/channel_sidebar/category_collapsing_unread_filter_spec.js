@@ -95,43 +95,47 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
     });
 
-    // Test should be working but isn't because the state doesn't seem to be persisting in Cypress
-    // Investigation is underway
-    // it('should save collapsed state and remember the state on refresh', () => {
-    //     // # Start with a new team
-    //     const teamName = `team-${getRandomInt(999999)}`;
-    //     cy.createNewTeam(teamName, teamName);
+    it('should save collapsed state and remember the state on refresh', () => {
+        // # Start with a new team
+        const teamName = `team-${getRandomInt(999999)}`;
+        cy.createNewTeam(teamName, teamName);
 
-    //     // * Verify that we've switched to the new team
-    //     cy.get('#headerTeamName').should('contain', teamName);
+        // * Verify that we've switched to the new team
+        cy.get('#headerTeamName').should('contain', teamName);
 
-    //     // * Verify that the category doesn't appear collapsed currently
-    //     cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('be.visible').should('not.have.class', 'icon-rotate-minus-90');
+        // * Verify that the category doesn't appear collapsed currently
+        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('be.visible').should('not.have.class', 'icon-rotate-minus-90');
 
-    //     // # Click on PUBLIC CHANNELS
-    //     cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS)').should('be.visible').click();
+        // # Click on PUBLIC CHANNELS
+        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS)').should('be.visible').click();
 
-    //     // * Verify that the category appears collapsed after refresh
-    //     cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('have.class', 'icon-rotate-minus-90');
+        // * Verify that the category appears collapsed after refresh
+        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('have.class', 'icon-rotate-minus-90');
 
-    //     // # Reload the page
-    //     cy.reload();
+        // Wait for state to settle
+        cy.wait(1000);
 
-    //     // * Verify that the category still appears collapsed after refresh
-    //     cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('have.class', 'icon-rotate-minus-90');
+        // # Reload the page
+        cy.reload();
 
-    //     // # Click on PUBLIC CHANNELS
-    //     cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS)').should('be.visible').click();
+        // * Verify that the category still appears collapsed after refresh
+        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('have.class', 'icon-rotate-minus-90');
 
-    //     // * Verify that the category appears not collapsed after refresh
-    //     cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('not.have.class', 'icon-rotate-minus-90');
+        // # Click on PUBLIC CHANNELS
+        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS)').should('be.visible').click();
 
-    //     // # Reload the page
-    //     cy.reload();
+        // * Verify that the category appears not collapsed after refresh
+        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('not.have.class', 'icon-rotate-minus-90');
 
-    //     // * Verify that the category still appears not collapsed after refresh
-    //     cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('not.have.class', 'icon-rotate-minus-90');
-    // });
+        // Wait for state to settle
+        cy.wait(1000);
+
+        // # Reload the page
+        cy.reload();
+
+        // * Verify that the category still appears not collapsed after refresh
+        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('not.have.class', 'icon-rotate-minus-90');
+    });
 
     it('should change the text state when the unread filter changes state', () => {
         // # Start with a new team
