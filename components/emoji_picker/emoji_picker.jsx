@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
+import {animateScroll as scroll} from 'react-scroll';
 
 import * as Emoji from 'utils/emoji.jsx';
+import {EMOJI_SCROLL_DURATION} from 'utils/constants';
 import {compareEmojis} from 'utils/emoji_utils.jsx';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
@@ -343,7 +345,11 @@ export default class EmojiPicker extends React.PureComponent {
             cursor: [Object.keys(this.state.categories).indexOf(categoryName), 0],
         });
         this.updateEmojisToShow(this.state.categories[categoryName].offset);
-        this.emojiPickerContainer.scrollTo({top: this.state.categories[categoryName].offset, left: 0, behavior: 'smooth'});
+        scroll.scrollTo(this.state.categories[categoryName].offset, {
+            containerId: 'emoji-picker__items',
+            duration: EMOJI_SCROLL_DURATION,
+            smooth: 'easeOutQuint'
+        });
         this.searchInput.focus();
     }
 
@@ -656,6 +662,7 @@ export default class EmojiPicker extends React.PureComponent {
                 ref={this.emojiPickerContainerRef}
                 onScroll={this.handleScrollThrottle}
                 className='emoji-picker__items'
+                id='emoji-picker__items'
                 style={(EMOJI_CONTAINER_STYLE, {overflowY: this.state.renderAllCategories ? 'auto' : 'hidden'})}
             >
                 <div className='emoji-picker__container'>
