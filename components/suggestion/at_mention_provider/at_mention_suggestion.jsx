@@ -86,7 +86,7 @@ export default class AtMentionSuggestion extends Suggestion {
             );
         } else if (item.type === Constants.MENTION_GROUPS) {
             itemname = item.name;
-            description = `- (${item.display_name})`;
+            description = `- ${item.display_name}`;
             icon = (
                 <FormattedMessage
                     id='generic_icons.member'
