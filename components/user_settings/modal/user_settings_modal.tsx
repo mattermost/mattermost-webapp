@@ -10,6 +10,7 @@ import {
     injectIntl,
     IntlShape
 } from 'react-intl';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
@@ -67,7 +68,14 @@ type Props = {
     currentUser: UserProfile;
     onHide: () => void;
     intl: IntlShape;
-    actions: {sendVerificationEmail: (email: string) => any};
+    actions: {
+        sendVerificationEmail: (email: string) => Promise<{
+            data: {},
+            error: {
+                err: string;
+            };
+        }>;
+    };
 }
 
 type State = {
@@ -110,7 +118,7 @@ class UserSettingsModal extends React.Component<Props, State> {
     handleResend = (email: string) => {
         this.setState({resendStatus: 'sending'});
 
-        this.props.actions.sendVerificationEmail(email).toPromise().then(({data, err}: {data: any; err: any}) => {
+        this.props.actions.sendVerificationEmail(email).then(({data, error: err}) => {
             if (data) {
                 this.setState({resendStatus: 'success'});
             } else if (err) {
@@ -134,7 +142,7 @@ class UserSettingsModal extends React.Component<Props, State> {
         }
     }
 
-    handleKeyDown = (e: any) => {
+    handleKeyDown = (e: KeyboardEvent) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
             this.handleHide();
         }
@@ -163,8 +171,8 @@ class UserSettingsModal extends React.Component<Props, State> {
 
     // Called to hide the settings pane when on mobile
     handleCollapse = () => {
-        const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as any;
-        el.closest('.modal-dialog').removeClass('display--content');
+        const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as HTMLDivElement;
+        el?.closest('.modal-dialog')?.classList.remove('display--content');
 
         this.setState({
             active_tab: '',
@@ -196,7 +204,7 @@ class UserSettingsModal extends React.Component<Props, State> {
         this.afterConfirm = null;
     }
 
-    showConfirmModal = (afterConfirm: any) => {
+    showConfirmModal = (afterConfirm: () => void) => {
         if (afterConfirm) {
             this.afterConfirm = afterConfirm;
         }
@@ -241,7 +249,7 @@ class UserSettingsModal extends React.Component<Props, State> {
         }
     }
 
-    updateSection = (section: any, skipConfirm: any) => {
+    updateSection = (section: string, skipConfirm: boolean) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
@@ -310,9 +318,9 @@ class UserSettingsModal extends React.Component<Props, State> {
                                     updateTab={this.updateTab}
                                     closeModal={this.closeModal}
                                     collapseModal={this.collapseModal}
-                                    setEnforceFocus={(enforceFocus: any) => this.setState({enforceFocus})}
+                                    setEnforceFocus={(enforceFocus: boolean) => this.setState({enforceFocus})}
                                     setRequireConfirm={
-                                        (requireConfirm: any, customConfirmAction: any) => {
+                                        (requireConfirm: boolean, customConfirmAction: () => () => void ) => {
                                             this.requireConfirm = requireConfirm;
                                             this.customConfirmAction = customConfirmAction;
                                         }
