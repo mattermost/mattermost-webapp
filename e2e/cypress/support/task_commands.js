@@ -28,7 +28,12 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 * @param {Object} data - payload on incoming webhook
 */
 Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
-    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200).wait(TIMEOUTS.MEDIUM);
+    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
+
+    cy.waitUntil(() => cy.getLastPost().then((el) => {
+        const postedMessageEl = el.find('.attachment__thumb-pretext > p')[0];
+        return Boolean(postedMessageEl && postedMessageEl.textContent.includes(data.attachments[0].pretext));
+    }));
 });
 
 /**
