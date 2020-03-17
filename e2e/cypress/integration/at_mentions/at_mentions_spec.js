@@ -126,6 +126,12 @@ describe('at-mention', () => {
 
         const body = `@${sender.username}: ${message}`;
 
+        cy.get('@notifySpy').should('have.been.calledWithMatch', 'Town Square', (args) => {
+            expect(args.body, `Notification body: "${args.body}" should match: "${body}"`).to.equal(body);
+            expect(args.tag, `Notification tag: "${args.tag}" should match: "${body}"`).to.equal(body);
+            return true;
+        });
+
         cy.get('@notifySpy').should('have.been.calledWithMatch',
             'Town Square', {body, tag: body, requireInteraction: false, silent: false});
 
