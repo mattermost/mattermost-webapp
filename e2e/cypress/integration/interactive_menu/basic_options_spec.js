@@ -540,7 +540,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it.only('IM21038 - Selected options with long usernames are not cut off in the RHS', () => {
+    it('IM21038 - Selected options with long usernames are not cut off in the RHS', () => {
         cy.getCurrentTeamId().then((teamId) => {
             longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
 
