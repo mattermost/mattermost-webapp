@@ -6,12 +6,13 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {Draggable} from 'react-beautiful-dnd';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {isDesktopApp} from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, isMac} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
@@ -24,6 +25,8 @@ class TeamButton extends React.Component {
         displayName: PropTypes.string,
         content: PropTypes.node,
         tip: PropTypes.node.isRequired,
+        order: PropTypes.number,
+        showOrder: PropTypes.bool.isRequired,
         active: PropTypes.bool,
         disabled: PropTypes.bool,
         unread: PropTypes.bool,
@@ -32,11 +35,15 @@ class TeamButton extends React.Component {
         teamIconUrl: PropTypes.string,
         switchTeam: PropTypes.func.isRequired,
         intl: intlShape.isRequired,
+        isDraggable: PropTypes.bool,
+        teamIndex: PropTypes.number,
+        teamId: PropTypes.string,
     };
 
     static defaultProps = {
         btnClass: '',
         tip: '',
+        showOrder: false,
         placement: 'right',
         active: false,
         disabled: false,
@@ -56,11 +63,12 @@ class TeamButton extends React.Component {
     }
 
     render() {
-        const {teamIconUrl, displayName, btnClass, mentions, unread} = this.props;
+        const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId} = this.props;
         const {formatMessage} = this.props.intl;
 
         let teamClass = this.props.active ? 'active' : '';
         const disabled = this.props.disabled ? 'team-disabled' : '';
+        const isNotCreateTeamButton = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
         let badge;
 
@@ -73,7 +81,13 @@ class TeamButton extends React.Component {
         });
 
         if (!teamClass) {
-            teamClass = unread ? 'unread' : '';
+            if (unread) {
+                teamClass = 'unread';
+            } else if (isNotCreateTeamButton) {
+                teamClass = '';
+            } else {
+                teamClass = 'special';
+            }
             ariaLabel = formatMessage({
                 id: 'team.button.unread.ariaLabel',
                 defaultMessage: '{teamName} team unread',
@@ -108,7 +122,44 @@ class TeamButton extends React.Component {
             />
         );
 
-        const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let orderIndicator;
+        if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
+            let toolTipHelp;
+            if (isMac()) {
+                toolTipHelp = formatMessage({
+                    id: 'team.button.tooltip.mac',
+                    defaultMessage: '⌘ ⌥ {order}',
+                },
+                {
+                    order: this.props.order,
+                });
+            } else {
+                toolTipHelp = formatMessage({
+                    id: 'team.button.tooltip',
+                    defaultMessage: 'Ctrl+Alt+{order}',
+                },
+                {
+                    order: this.props.order,
+                });
+            }
+
+            toolTip = (
+                <>
+                    {toolTip}
+                    <div className='tooltip-help'>{toolTipHelp}</div>
+                </>
+            );
+
+            if (this.props.showOrder) {
+                orderIndicator = (
+                    <div className='order-indicator'>
+                        {this.props.order}
+                    </div>
+                );
+            }
+        }
+
         const btn = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -138,7 +189,7 @@ class TeamButton extends React.Component {
             );
 
             // if this is not a "special" team button, give it a context menu
-            if (!this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team')) {
+            if (isNotCreateTeamButton) {
                 teamButton = (
                     <CopyUrlContextMenu
                         link={this.props.url}
@@ -162,11 +213,28 @@ class TeamButton extends React.Component {
             );
         }
 
-        return (
-            <div
-                className={`team-container ${teamClass}`}
+        return isDraggable ? (
+            <Draggable
+                draggableId={teamId}
+                index={teamIndex}
             >
+                {(provided) => {
+                    return (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`team-container ${teamClass}`}
+                        >
+                            {teamButton}
+                        </div>
+                    );
+                }}
+            </Draggable>
+        ) : (
+            <div className={`team-container ${teamClass}`}>
                 {teamButton}
+                {orderIndicator}
             </div>
         );
     }

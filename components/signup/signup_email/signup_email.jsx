@@ -223,6 +223,7 @@ export default class SignupEmail extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        trackEvent('signup_email', 'click_create_account');
 
         // bail out if a submission is already in progress
         if (this.state.isSubmitting) {
@@ -476,7 +477,7 @@ export default class SignupEmail extends React.Component {
 
         return (
             <div>
-                {hasAccounts && <BackButton/>}
+                {hasAccounts && <BackButton onClick={() => trackEvent('signup_email', 'click_back')}/>}
                 <div
                     id='signup_email_section'
                     className='col-sm-12'
@@ -512,6 +513,7 @@ export default class SignupEmail extends React.Component {
                             <Link
                                 id='signin_account_link'
                                 to={'/login' + location.search}
+                                onClick={() => trackEvent('signup_email', 'click_signin_account')}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

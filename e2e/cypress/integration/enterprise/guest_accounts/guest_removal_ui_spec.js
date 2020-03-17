@@ -40,6 +40,9 @@ function removeUserFromAllChannels(verifyAlert) {
 
 describe('Guest Account - Guest User Removal Experience', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
