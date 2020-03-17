@@ -70,7 +70,7 @@ type Props = {
     intl: IntlShape;
     actions: {
         sendVerificationEmail: (email: string) => Promise<{
-            data: {},
+            data: {};
             error: {
                 err: string;
             };
@@ -172,7 +172,7 @@ class UserSettingsModal extends React.Component<Props, State> {
     // Called to hide the settings pane when on mobile
     handleCollapse = () => {
         const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as HTMLDivElement;
-        el?.closest('.modal-dialog')?.classList.remove('display--content');
+        el.closest('.modal-dialog')?.classList.remove('display--content');
 
         this.setState({
             active_tab: '',
@@ -320,7 +320,7 @@ class UserSettingsModal extends React.Component<Props, State> {
                                     collapseModal={this.collapseModal}
                                     setEnforceFocus={(enforceFocus: boolean) => this.setState({enforceFocus})}
                                     setRequireConfirm={
-                                        (requireConfirm: boolean, customConfirmAction: () => () => void ) => {
+                                        (requireConfirm: boolean, customConfirmAction: () => () => void) => {
                                             this.requireConfirm = requireConfirm;
                                             this.customConfirmAction = customConfirmAction;
                                         }
