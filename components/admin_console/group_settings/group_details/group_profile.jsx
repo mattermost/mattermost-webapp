@@ -10,13 +10,17 @@ export default class GroupProfile extends React.PureComponent {
         name: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         titleDefault: PropTypes.string.isRequired,
+        customID: PropTypes.string,
     };
 
     render = () => {
-        const {name, title, titleDefault} = this.props;
+        const {name, title, titleDefault, customID} = this.props;
 
         return (
-            <div className='group-profile'>
+            <div
+                className='group-profile'
+                id={customID}
+            >
                 <div className='group-profile-field'>
                     <label>
                         <FormattedMessage

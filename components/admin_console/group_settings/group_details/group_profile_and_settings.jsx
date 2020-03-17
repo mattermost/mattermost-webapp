@@ -57,6 +57,7 @@ export const GroupProfileAndSettings = ({displayname, name, allowReference, onTo
             name={displayname}
             title={t('admin.group_settings.group_details.group_profile.name')}
             titleDefault={'Name:'}
+            customID={'GroupDisplayName'}
         />
         <div className='group-settings'>
             <div className='group-settings--body'>
@@ -72,7 +73,8 @@ export const GroupProfileAndSettings = ({displayname, name, allowReference, onTo
             <GroupProfile
                 name={'@' + name}
                 title={t('admin.group_settings.group_details.group_mention.name')}
-                titleDefault={'Mention:'}
+                titleDefault={'Group Mention:'}
+                customID={'GroupMention'}
             />
         }
     </AdminPanel>);
