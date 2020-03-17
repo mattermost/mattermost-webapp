@@ -39,12 +39,15 @@ export default class Textbox extends React.PureComponent {
         badConnection: PropTypes.bool,
         listenForMentionKeyClick: PropTypes.bool,
         currentUserId: PropTypes.string.isRequired,
+        currentTeamId: PropTypes.string.isRequired,
         preview: PropTypes.bool,
         profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
+        autocompleteGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
             autocompleteChannels: PropTypes.func.isRequired,
+            searchAssociatedGroupsForReference: PropTypes.func.isRequired,
         }),
         useChannelMentions: PropTypes.bool.isRequired,
     };
@@ -63,8 +66,10 @@ export default class Textbox extends React.PureComponent {
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
                 profilesNotInChannel: this.props.profilesNotInChannel,
-                autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
+                autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
+                autocompleteGroups: this.props.autocompleteGroups,
+                searchAssociatedGroupsForReference: (prefix) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -86,17 +91,21 @@ export default class Textbox extends React.PureComponent {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel) {
+            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel ||
+            this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;
             for (let i = 0; i < providers.length; i++) {
                 if (providers[i] instanceof AtMentionProvider) {
                     providers[i].setProps({
                         currentUserId: this.props.currentUserId,
+                        currentChannelId: this.props.channelId,
                         profilesInChannel: this.props.profilesInChannel,
                         profilesNotInChannel: this.props.profilesNotInChannel,
                         autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
+                        autocompleteGroups: this.props.autocompleteGroups,
+                        searchAssociatedGroupsForReference: (prefix) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                     });
                 }
             }

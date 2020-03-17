@@ -10,7 +10,8 @@ import {
     getGroup as fetchGroup,
     getGroupMembers as fetchMembers,
     getGroupSyncables as fetchGroupSyncables,
-    patchGroupSyncable
+    patchGroupSyncable,
+    patchGroup
 } from 'mattermost-redux/actions/groups';
 import {getGroup, getGroupTeams, getGroupChannels, getGroupMembers, getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
 
@@ -43,6 +44,7 @@ function mapDispatchToProps(dispatch) {
             link: linkGroupSyncable,
             unlink: unlinkGroupSyncable,
             patchGroupSyncable,
+            patchGroup,
         }, dispatch),
     };
 }

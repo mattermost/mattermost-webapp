@@ -320,12 +320,13 @@
 }
 
 .group-profile {
-    padding: 15px;
+    padding: 20px;
+    margin-top: -10px;
 
     .group-profile-field {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
 
         label {
             flex-grow: 1;
@@ -472,7 +473,7 @@
                 &:last-child{
                     td {
                         padding-bottom: 0px;
-                    }                
+                    }
                 }
             }
 
@@ -488,10 +489,10 @@
                     vertical-align: middle;
                 }
             }
-    
+
             th {
                 padding: 6px 20px;
-    
+
                 &:first-child {
                     padding-left: 0px;
                 }
@@ -592,7 +593,7 @@
                 color: #454448;
                 opacity: 50%;
             }
-            
+
             .name-no-arrow{
                 margin-left: 16px;
             }
@@ -641,6 +642,16 @@
                 justify-content: space-between;
             }
         }
+    }
+}
+
+.group-settings {
+    margin-top: -20px;
+
+    .group-settings--body {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 12px;
     }
 }
 

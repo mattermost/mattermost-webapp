@@ -51,6 +51,9 @@ type Props = {
         setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
         loadStatusesForChannelAndSidebar: () => Promise<{}>;
         loadProfilesForDirect: () => Promise<{}>;
+        getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
+        getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
+        getGroups: (filterAllowReference: boolean) => Promise<{}>;
     };
     mfaRequired: boolean;
     match: {
@@ -223,6 +226,13 @@ export default class NeedsTeam extends React.Component<Props, State> {
 
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
+
+        this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+        if (team.group_constrained) {
+            this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
+        } else {
+            this.props.actions.getGroups(true);
+        }
 
         return team;
     }
