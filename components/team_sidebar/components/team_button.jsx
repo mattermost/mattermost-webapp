@@ -12,7 +12,7 @@ import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {isDesktopApp} from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, isMac} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
@@ -25,6 +25,8 @@ class TeamButton extends React.Component {
         displayName: PropTypes.string,
         content: PropTypes.node,
         tip: PropTypes.node.isRequired,
+        order: PropTypes.number,
+        showOrder: PropTypes.bool.isRequired,
         active: PropTypes.bool,
         disabled: PropTypes.bool,
         unread: PropTypes.bool,
@@ -41,6 +43,7 @@ class TeamButton extends React.Component {
     static defaultProps = {
         btnClass: '',
         tip: '',
+        showOrder: false,
         placement: 'right',
         active: false,
         disabled: false,
@@ -119,7 +122,44 @@ class TeamButton extends React.Component {
             />
         );
 
-        const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let orderIndicator;
+        if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
+            let toolTipHelp;
+            if (isMac()) {
+                toolTipHelp = formatMessage({
+                    id: 'team.button.tooltip.mac',
+                    defaultMessage: '⌘ ⌥ {order}',
+                },
+                {
+                    order: this.props.order,
+                });
+            } else {
+                toolTipHelp = formatMessage({
+                    id: 'team.button.tooltip',
+                    defaultMessage: 'Ctrl+Alt+{order}',
+                },
+                {
+                    order: this.props.order,
+                });
+            }
+
+            toolTip = (
+                <>
+                    {toolTip}
+                    <div className='tooltip-help'>{toolTipHelp}</div>
+                </>
+            );
+
+            if (this.props.showOrder) {
+                orderIndicator = (
+                    <div className='order-indicator'>
+                        {this.props.order}
+                    </div>
+                );
+            }
+        }
+
         const btn = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -193,6 +233,9 @@ class TeamButton extends React.Component {
             </Draggable>
         ) : (
             <div className={`team-container ${teamClass}`}>{teamButton}</div>
+                {teamButton}
+                {orderIndicator}
+            </div>
         );
     }
 }
