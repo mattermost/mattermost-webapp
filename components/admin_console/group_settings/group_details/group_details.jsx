@@ -64,8 +64,7 @@ export default class GroupDetails extends React.PureComponent {
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM),
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
         ]).then(() => {
-            this.setState({loadingTeamsAndChannels: false});
-            this.setState({group, allowReference: Boolean(this.props.group.allow_reference)});
+            this.setState({loadingTeamsAndChannels: false, group, allowReference: Boolean(this.props.group.allow_reference)});
         });
     }
 

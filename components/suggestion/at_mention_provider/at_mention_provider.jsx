@@ -82,10 +82,9 @@ export default class AtMentionProvider extends Provider {
             const groupnameSuggestions = getSuggestionsSplitByMultiple(group.name.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
             groupSuggestions.push(...groupnameSuggestions);
         }
-        [group.display_name].forEach((property) => {
-            const suggestions = getSuggestionsSplitBy(property.toLowerCase(), ' ');
-            groupSuggestions.push(...suggestions);
-        });
+
+        const suggestions = getSuggestionsSplitBy(group.display_name.toLowerCase(), ' ');
+        groupSuggestions.push(...suggestions);
 
         groupSuggestions.push(group.display_name.toLowerCase());
         return groupSuggestions;
