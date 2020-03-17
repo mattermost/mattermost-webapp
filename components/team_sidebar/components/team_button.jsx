@@ -232,7 +232,7 @@ class TeamButton extends React.Component {
                 }}
             </Draggable>
         ) : (
-            <div className={`team-container ${teamClass}`}>{teamButton}</div>
+            <div className={`team-container ${teamClass}`}>
                 {teamButton}
                 {orderIndicator}
             </div>
