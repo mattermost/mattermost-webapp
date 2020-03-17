@@ -319,9 +319,20 @@
     }
 }
 
+#GroupDisplayName{
+    &.group-profile{
+        padding-bottom: 0px;
+    }
+}
+
+#GroupMention{
+    &.group-profile{
+        padding-top: 0px;
+    }
+}
+
 .group-profile {
     padding: 20px;
-    margin-top: -10px;
 
     .group-profile-field {
         display: flex;
@@ -646,12 +657,8 @@
 }
 
 .group-settings {
-    margin-top: -20px;
-
     .group-settings--body {
-        padding-left: 20px;
-        padding-right: 20px;
-        margin-bottom: 12px;
+        padding: 0px 20px 20px 20px;
     }
 }
 
