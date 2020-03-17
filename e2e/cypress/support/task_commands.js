@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../fixtures/timeouts';
-
 /**
 * postMessageAs is a task which is wrapped as command with post-verification
 * that a message is successfully posted by the user/sender
