@@ -32,6 +32,7 @@ export default class SearchBar extends React.Component {
         showMentionFlagBtns: PropTypes.bool,
         isFocus: PropTypes.bool,
         isSideBarRight: PropTypes.bool,
+        isRhsOpen: PropTypes.bool,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
             showSearchResults: PropTypes.func,
@@ -197,6 +198,7 @@ export default class SearchBar extends React.Component {
                     buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderMentionButton' : 'channelHeaderMentionButton'}
                     onClick={this.searchMentions}
                     tooltipKey={'recentMentions'}
+                    isRhsOpen={this.props.isRhsOpen}
                 />
             );
 
@@ -212,6 +214,7 @@ export default class SearchBar extends React.Component {
                     buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderFlagButton' : 'channelHeaderFlagButton'}
                     onClick={this.getFlagged}
                     tooltipKey={'flaggedPosts'}
+                    isRhsOpen={this.props.isRhsOpen}
                 />
             );
         }
