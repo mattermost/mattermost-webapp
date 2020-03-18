@@ -31,6 +31,7 @@ export default class SidebarChannelClose extends React.PureComponent<Props, Stat
 
     handleLeaveChannel = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         e.preventDefault();
+        e.stopPropagation();
         if (this.isLeaving || !this.props.closeHandler) {
             return;
         }

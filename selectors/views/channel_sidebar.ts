@@ -9,16 +9,17 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
-import {getItem} from 'selectors/storage';
+import {getItemFromStorage} from 'selectors/storage';
 import {GlobalState} from 'types/store';
 import {StoragePrefixes} from 'utils/constants';
+import {getPrefix} from 'utils/storage_utils';
 
-export function isCategoryCollapsedFromStorage(state: GlobalState, categoryId: string) {
-    return getItem(state, StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, false);
+export function isCategoryCollapsedFromStorage(prefix: string, storage: {[key: string]: any}, categoryId: string) {
+    return getItemFromStorage(storage, prefix + StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, false);
 }
 
 export function isCategoryCollapsed(state: GlobalState, categoryId: string) {
-    return isUnreadFilterEnabled(state) || isCategoryCollapsedFromStorage(state, categoryId);
+    return isUnreadFilterEnabled(state) || isCategoryCollapsedFromStorage(getPrefix(state), state.storage.storage, categoryId);
 }
 
 export function isUnreadFilterEnabled(state: GlobalState) {
@@ -28,13 +29,18 @@ export function isUnreadFilterEnabled(state: GlobalState) {
 function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, teamId: string) => Record<string, boolean> {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
-    return (state: GlobalState, teamId: string) => {
-        const categories = getCategoriesForTeam(state, teamId);
-        return categories.reduce((map: Record<string, boolean>, category: ChannelCategory) => {
-            map[category.id] = isCategoryCollapsed(state, category.id);
-            return map;
-        }, {});
-    };
+    return createSelector(
+        getPrefix,
+        getCategoriesForTeam,
+        (state: GlobalState) => isUnreadFilterEnabled(state),
+        (state: GlobalState) => state.storage.storage,
+        (prefix: string, categories: ChannelCategory[], unreadFilterEnabled: boolean, storage: {[key: string]: any}) => {
+            return categories.reduce((map: Record<string, boolean>, category: ChannelCategory) => {
+                map[category.id] = isCategoryCollapsedFromStorage(prefix, storage, category.id) || unreadFilterEnabled;
+                return map;
+            }, {});
+        }
+    );
 }
 
 export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState, teamId: string) => Channel[] {

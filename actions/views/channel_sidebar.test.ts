@@ -4,21 +4,30 @@
 import configureStore from 'store';
 
 import {isCategoryCollapsedFromStorage} from 'selectors/views/channel_sidebar';
+import {getPrefix} from 'utils/storage_utils';
 
 import * as Actions from './channel_sidebar';
 
 describe('setCategoryCollapsed', () => {
     test('should save category expanded and category collapsed', async () => {
         const category1 = 'category1';
+        const initialState = {
+            users: {
+                currentUserId: 'user1',
+                profiles: {
+                    user1: {},
+                }
+            }
+        }
 
-        const store = await configureStore();
+        const store = await configureStore(initialState);
 
         store.dispatch(Actions.setCategoryCollapsed(category1, true));
 
-        expect(isCategoryCollapsedFromStorage(store.getState(), category1)).toBe(true);
+        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState(), category1)).toBe(true);
 
         store.dispatch(Actions.setCategoryCollapsed(category1, false));
 
-        expect(isCategoryCollapsedFromStorage(store.getState(), category1)).toBe(false);
+        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState(), category1)).toBe(false);
     });
 });

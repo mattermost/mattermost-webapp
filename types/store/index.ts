@@ -11,6 +11,9 @@ import {PluginsState} from './plugins';
 
 export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;
+    storage: {
+        storage: {[key: string]: any};
+    };
 
     views: {
         admin: {
