@@ -632,6 +632,7 @@ export const PermissionsScope = {
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
     [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
+    [Permissions.USE_GROUP_MENTIONS]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -668,6 +669,7 @@ export const DefaultRolePermissions = {
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_GROUP_MENTIONS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
