@@ -438,10 +438,14 @@ class ChannelHeader extends React.PureComponent {
                     placement='bottom'
                     className={classNames(['channel-header__popover', {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam}])}
                 >
-                    <Markdown
-                        message={headerText}
-                        options={this.getPopoverMarkdownOptions(channelNamesMap)}
-                    />
+                    <span
+                        onClick={this.handleFormattedTextClick}
+                    >
+                        <Markdown
+                            message={headerText}
+                            options={this.getPopoverMarkdownOptions(channelNamesMap)}
+                        />
+                    </span>
                 </Popover>
             );
 

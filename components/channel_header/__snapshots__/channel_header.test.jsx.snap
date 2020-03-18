@@ -1294,42 +1294,9 @@ exports[`components/ChannelHeader should render properly when populated with cha
             </MenuWrapper>
           </div>
         </div>
-        <OverlayTrigger
-          defaultOverlayShown={false}
-          overlay={
-            <Popover
-              className="channel-header__popover"
-              id="header-popover"
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              placement="bottom"
-              popoverSize="lg"
-              popoverStyle="info"
-            >
-              <span
-                onClick={[Function]}
-              >
-                <Connect(Markdown)
-                  message="See ~test"
-                  options={
-                    Object {
-                      "atMentions": true,
-                      "channelNamesMap": Object {
-                        "test": Object {
-                          "display_name": "Test",
-                        },
-                      },
-                      "mentionHighlight": false,
-                      "singleline": false,
-                    }
-                  }
-                />
-              </span>
-            </Popover>
-          }
-          placement="bottom"
-          rootClose={true}
-          trigger="click"
+        <div
+          className="channel-header__description"
+          id="channelHeaderDescription"
         >
           <div
             className="header-popover-text-measurer"
@@ -1376,21 +1343,25 @@ exports[`components/ChannelHeader should render properly when populated with cha
                   }
                 }
               >
-                <Connect(Markdown)
-                  message="See ~test"
-                  options={
-                    Object {
-                      "atMentions": true,
-                      "channelNamesMap": Object {
-                        "test": Object {
-                          "display_name": "Test",
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="See ~test"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": Object {
+                          "test": Object {
+                            "display_name": "Test",
+                          },
                         },
-                      },
-                      "mentionHighlight": false,
-                      "singleline": false,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
                     }
-                  }
-                />
+                  />
+                </span>
               </Popover>
             </Overlay>
             <Connect(Markdown)
