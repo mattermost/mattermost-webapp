@@ -191,6 +191,8 @@ export const ActionTypes = keyMirror({
     FILTER_MARKETPLACE_PLUGINS: null,
 
     POST_UNREAD_SUCCESS: null,
+
+    SET_UNREAD_FILTER_ENABLED: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -444,6 +446,7 @@ export const StoragePrefixes = {
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
+    CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
 };
 
 export const LandingPreferenceTypes = {
