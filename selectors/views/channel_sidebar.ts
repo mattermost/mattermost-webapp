@@ -25,20 +25,33 @@ export function isUnreadFilterEnabled(state: GlobalState) {
     return state.views.channelSidebar.unreadFilterEnabled;
 }
 
+function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, teamId: string) => Record<string, boolean> {
+    const getCategoriesForTeam = makeGetCategoriesForTeam();
+
+    return (state: GlobalState, teamId: string) => {
+        const categories = getCategoriesForTeam(state, teamId);
+        return categories.reduce((map: Record<string, boolean>, category: ChannelCategory) => {
+            map[category.id] = isCategoryCollapsed(state, category.id);
+            return map;
+        }, {});
+    };
+}
+
 export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState, teamId: string) => Channel[] {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
     const getChannelsByCategory = makeGetChannelsByCategory();
+    const getCollapsedStateForAllCategoriesByTeam = makeGetCollapsedStateForAllCategoriesByTeam();
 
     return createSelector(
-        (state: GlobalState) => state,
+        getCollapsedStateForAllCategoriesByTeam,
         getCategoriesForTeam,
         getChannelsByCategory,
         (state: GlobalState) => getCurrentChannel(state),
         (state: GlobalState) => getUnreadChannelIds(state),
-        (state: GlobalState, categories: ChannelCategory[], channelsByCategory: RelationOneToOne<ChannelCategory, Channel[]>, currentChannel: Channel, unreadChannelIds: string[]) => {
+        (collapsedState: Record<string, boolean>, categories: ChannelCategory[], channelsByCategory: RelationOneToOne<ChannelCategory, Channel[]>, currentChannel: Channel, unreadChannelIds: string[]) => {
             return categories.map((category) => {
                 const channels = channelsByCategory[category.id];
-                const isCollapsed = isCategoryCollapsed(state, category.id);
+                const isCollapsed = collapsedState[category.id];
 
                 if (isCollapsed) {
                     const filter = (channel: Channel) => {
