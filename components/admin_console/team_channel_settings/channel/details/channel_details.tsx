@@ -371,7 +371,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.setState({serverError, saving: false, saveNeeded});
 
         if (isPrivacyChanging) {
-            await actions.getChannelModerations(channelID).then(this.getChannelModerationsCallback);
+            actions.getChannelModerations(channelID).then(this.getChannelModerationsCallback);
         }
 
         actions.setNavigationBlocked(saveNeeded);
