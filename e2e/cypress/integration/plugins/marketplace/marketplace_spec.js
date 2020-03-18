@@ -85,6 +85,7 @@ describe('Plugin Marketplace', () => {
             cy.visit('/ad-1/channels/town-square');
         });
     });
+
     describe('invalid marketplace, should', () => {
         before(() => {
             // # Set ServiceSettings to expected values
@@ -217,6 +218,7 @@ describe('Plugin Marketplace', () => {
         it('autofocus on search plugin input box', () => {
             cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
         });
+
         it('render the list of all plugins by default', () => {
             // * all plugins tab should be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
