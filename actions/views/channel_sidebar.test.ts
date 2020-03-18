@@ -24,10 +24,10 @@ describe('setCategoryCollapsed', () => {
 
         store.dispatch(Actions.setCategoryCollapsed(category1, true));
 
-        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState(), category1)).toBe(true);
+        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState().storage.storage, category1)).toBe(true);
 
         store.dispatch(Actions.setCategoryCollapsed(category1, false));
 
-        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState(), category1)).toBe(false);
+        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState().storage.storage, category1)).toBe(false);
     });
 });
