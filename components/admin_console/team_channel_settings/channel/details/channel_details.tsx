@@ -388,12 +388,15 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 }
             };
         });
-        const result = await actions.patchChannelModerations(channelID, patchChannelPermissionsArray);
-        if (result.error) {
-            serverError = <FormError error={result.error.message}/>;
-        } else {
-            actions.getChannelModerations(channelID).then(() => this.updateChannelPermissions());
-        }
+
+        await actions.patchChannelModerations(channelID, patchChannelPermissionsArray)
+            .then(((result: {data: any; error?: Error}) => {
+                if (result.error) {
+                    serverError = <FormError error={result.error.message}/>;
+                }
+                this.updateChannelPermissions();
+            })
+        );
 
         let privacyChanging = isPrivacyChanging;
         if (serverError == null) {
