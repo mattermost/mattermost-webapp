@@ -18,7 +18,7 @@ describe('setCategoryCollapsed', () => {
                     user1: {},
                 }
             }
-        }
+        };
 
         const store = await configureStore(initialState);
 
