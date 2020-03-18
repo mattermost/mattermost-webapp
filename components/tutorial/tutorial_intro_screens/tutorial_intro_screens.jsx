@@ -13,7 +13,7 @@ import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
 import InvitationModal from 'components/invitation_modal';
 
 const NUM_SCREENS = 3;
-const SUPPORT_SETTINGS_DEFAULT_SUPPORT_EMAIL = 'feedback@mattermost.com';
+const SUPPORT_SETTINGS_DEFAULT_SUPPORT_EMAIL = 'change.me@mattermost.com';
 
 export default class TutorialIntroScreens extends React.Component {
     static propTypes = {

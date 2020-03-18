@@ -104,7 +104,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
     });
 
     test('should match snapshot, default supportEmail', () => {
-        const props = {...requiredProps, supportEmail: 'feedback@mattermost.com'};
+        const props = {...requiredProps, supportEmail: 'change.me@mattermost.com'};
         const wrapper = shallow(<TutorialIntroScreens {...props}/>);
         wrapper.instance().handleNext();
         wrapper.instance().handleNext();
