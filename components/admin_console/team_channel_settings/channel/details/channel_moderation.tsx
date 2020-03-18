@@ -124,7 +124,7 @@ const formattedMessages: any = defineMessages({
 
     title: {
         id: t('admin.channel_settings.channel_moderation.title'),
-        defaultMessage: 'Channel Moderation',
+        defaultMessage: 'Channel Moderation (Beta)',
     },
     subtitle: {
         id: t('admin.channel_settings.channel_moderation.subtitle'),

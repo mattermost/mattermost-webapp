@@ -52,6 +52,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.apiUpdateConfigBasic({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
+                ExperimentalChannelOrganization: false,
             },
             DisplaySettings: {
                 ExperimentalTimezone: true,

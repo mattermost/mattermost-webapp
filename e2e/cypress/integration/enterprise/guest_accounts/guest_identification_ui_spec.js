@@ -19,6 +19,9 @@ let guestTeamId;
 
 describe('MM-18045 Verify Guest User Identification in different screens', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {

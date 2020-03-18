@@ -4,6 +4,7 @@
 const postMessageAs = require('./post_message_as');
 const postBotMessage = require('./post_bot_message');
 const externalRequest = require('./external_request');
+const getClipboard = require('./getClipboard');
 const getRecentEmail = require('./get_recent_email');
 const postIncomingWebhook = require('./post_incoming_webhook');
 const oktaRequest = require('./okta_request');
@@ -14,6 +15,7 @@ module.exports = (on, config) => {
         postMessageAs,
         postBotMessage,
         externalRequest,
+        getClipboard,
         getRecentEmail,
         postIncomingWebhook,
         oktaRequest,
