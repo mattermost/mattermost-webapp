@@ -7,6 +7,14 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import PermissionsTree from './permissions_tree.jsx';
 
+export const EXCLUDED_PERMISSIONS = [
+    Permissions.VIEW_MEMBERS,
+    Permissions.JOIN_PUBLIC_TEAMS,
+    Permissions.LIST_PUBLIC_TEAMS,
+    Permissions.JOIN_PRIVATE_TEAMS,
+    Permissions.LIST_PRIVATE_TEAMS,
+];
+
 function mapStateToProps(state) {
     const config = getConfig(state);
 

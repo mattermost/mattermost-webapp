@@ -5,8 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import Permissions from 'mattermost-redux/constants/permissions';
-
 import {PermissionsScope, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -22,28 +20,12 @@ import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_w
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import PermissionsTree from '../permissions_tree';
-import GuestPermissionsTree from '../guest_permissions_tree';
+import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
+import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import TeamInList from './team_in_list';
-
-const EXCLUDED_PERMISSIONS = [
-    Permissions.VIEW_MEMBERS,
-    Permissions.JOIN_PUBLIC_TEAMS,
-    Permissions.LIST_PUBLIC_TEAMS,
-    Permissions.JOIN_PRIVATE_TEAMS,
-    Permissions.LIST_PRIVATE_TEAMS,
-];
-
-const GUEST_INCLUDED_PERMISSIONS = [
-    Permissions.CREATE_PRIVATE_CHANNEL,
-    Permissions.EDIT_POST,
-    Permissions.DELETE_POST,
-    Permissions.ADD_REACTION,
-    Permissions.REMOVE_REACTION,
-];
 
 export default class PermissionTeamSchemeSettings extends React.Component {
     static propTypes = {
