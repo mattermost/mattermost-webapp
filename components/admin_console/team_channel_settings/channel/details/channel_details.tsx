@@ -116,6 +116,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 then(() => this.setState({teamScheme: this.props.teamScheme}));
         }
     }
+
     async componentDidMount() {
         const {channelID, channel, actions} = this.props;
         const actionsToAwait = [];
@@ -374,7 +375,21 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             if (resultWithError && 'error' in resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
-                await actions.getGroups(channelID);
+                const actionsToAwait: any[] = [actions.getGroups(channelID)];
+                if (isPrivacyChanging) {
+                    // If the privacy is changing update the manage_members value for the channel moderation widget
+                    actionsToAwait.push(
+                        actions.getChannelModerations(channelID).then(() => {
+                            const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                            if (channelPermissions) {
+                                const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                                channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
+                            }
+                            this.setState({channelPermissions});
+                        })
+                    );
+                }
+                await Promise.all(actionsToAwait);
             }
         }
 
@@ -392,7 +407,13 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             serverError = <FormError error={result.error.message}/>;
         }
 
-        this.setState({serverError, saving: false, saveNeeded});
+        let privacyChanging = isPrivacyChanging;
+        if (serverError == null) {
+            privacyChanging = false;
+        }
+
+        this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging});
+
         actions.setNavigationBlocked(saveNeeded);
     };
 
