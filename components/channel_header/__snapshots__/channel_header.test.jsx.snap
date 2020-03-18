@@ -113,6 +113,13 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -315,6 +322,13 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -517,6 +531,13 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -903,6 +924,13 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -1111,6 +1139,13 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -1297,31 +1332,84 @@ exports[`components/ChannelHeader should render properly when populated with cha
           trigger="click"
         >
           <div
-            className="channel-header__description"
-            id="channelHeaderDescription"
+            className="header-popover-text-measurer"
           >
-            <span
-              className="header-description__text"
-              onClick={[Function]}
-            >
-              <Connect(Markdown)
-                message="See ~test"
-                options={
-                  Object {
-                    "atMentions": true,
-                    "channelNamesMap": Object {
-                      "test": Object {
-                        "display_name": "Test",
-                      },
+            <Connect(Markdown)
+              message="See ~test"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": Object {
+                    "test": Object {
+                      "display_name": "Test",
                     },
-                    "mentionHighlight": false,
-                    "singleline": true,
+                  },
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
                   }
                 }
-              />
-            </span>
-          </div>
-        </OverlayTrigger>
+              >
+                <Connect(Markdown)
+                  message="See ~test"
+                  options={
+                    Object {
+                      "atMentions": true,
+                      "channelNamesMap": Object {
+                        "test": Object {
+                          "display_name": "Test",
+                        },
+                      },
+                      "mentionHighlight": false,
+                      "singleline": false,
+                    }
+                  }
+                />
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="See ~test"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": Object {
+                    "test": Object {
+                      "display_name": "Test",
+                    },
+                  },
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
       </div>
     </div>
     <div

@@ -693,24 +693,28 @@ export default class SuggestionBox extends React.Component {
                     onKeyDown={this.handleKeyDown}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <SuggestionListComponent
-                        ariaLiveRef={this.suggestionReadOut}
-                        open={this.state.focused}
-                        pretext={this.pretext}
-                        location={listStyle}
-                        renderDividers={renderDividers}
-                        renderNoResults={renderNoResults}
-                        onCompleteWord={this.handleCompleteWord}
-                        preventClose={this.preventSuggestionListClose}
-                        onItemHover={this.setSelection}
-                        cleared={this.state.cleared}
-                        matchedPretext={this.state.matchedPretext}
-                        items={this.state.items}
-                        terms={this.state.terms}
-                        selection={this.state.selection}
-                        components={this.state.components}
-                        wrapperHeight={this.props.wrapperHeight}
-                    />
+                    <div style={{width: this.state.width}}>
+                        <SuggestionListComponent
+                            ariaLiveRef={this.suggestionReadOut}
+                            open={this.state.focused}
+                            pretext={this.pretext}
+                            location={listStyle}
+                            renderDividers={renderDividers}
+                            renderNoResults={renderNoResults}
+                            onCompleteWord={this.handleCompleteWord}
+                            preventClose={this.preventSuggestionListClose}
+                            onItemHover={this.setSelection}
+                            cleared={this.state.cleared}
+                            matchedPretext={this.state.matchedPretext}
+                            items={this.state.items}
+                            terms={this.state.terms}
+                            selection={this.state.selection}
+                            components={this.state.components}
+                            wrapperHeight={this.props.wrapperHeight}
+                            inputRef={this.inputRef}
+                            onLoseVisibility={this.blur}
+                        />
+                    </div>
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent

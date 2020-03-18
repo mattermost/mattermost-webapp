@@ -11,6 +11,11 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search teams', () => {
+    before(() => {
+        // * Check if server has license
+        cy.requireLicense();
+    });
+
     beforeEach(() => {
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/user_management/teams');
