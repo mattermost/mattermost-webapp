@@ -20,8 +20,12 @@ Cypress.Commands.add('checkLoginFailed', () => {
     cy.get('div').should('have.class', 'has-error');
 });
 
-Cypress.Commands.add('checkSignUpPageSection', () => {
+Cypress.Commands.add('checkGuestNoChannels', () => {
     cy.findByText('Your guest account has no channels assigned. Please contact an administrator.').should('be.visible');
+});
+
+Cypress.Commands.add('checkMemberNoChannels', () => {
+    cy.findByText('No teams are available to join. Please create a new team or ask your administrator for an invite.').should('be.visible');
 });
 
 Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
@@ -64,7 +68,12 @@ Cypress.Commands.add('checkInvitePeopleAdminPage', (settings = {}) => {
 });
 
 Cypress.Commands.add('doLogoutFromSignUp', () => {
-    cy.checkSignUpPageSection();
+    cy.checkGuestNoChannels();
+    cy.findByText('Logout').should('be.visible').click();
+});
+
+Cypress.Commands.add('doMemberLogoutFromSignUp', () => {
+    cy.checkMemberNoChannels();
     cy.findByText('Logout').should('be.visible').click();
 });
 

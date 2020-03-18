@@ -35,8 +35,18 @@ Cypress.Commands.add('performLDAPLogin', (settings = {}, useEmail = false) => {
 
 Cypress.Commands.add('doGuestLogout', (settings = {}) => {
     cy.get('body').then((body) => {
-        if (body.find('logout').length) {
+        if (body.text().includes('Logout')) {
             cy.doLogoutFromSignUp();
+        }else{
+            cy.doLDAPLogout(settings);
+        }
+    });
+});
+
+Cypress.Commands.add('doMemberLogout', (settings = {}) => {
+    cy.get('body').then((body) => {
+        if (body.text().includes('Logout')) {
+            cy.doMemberLogoutFromSignUp();
         }else{
             cy.doLDAPLogout(settings);
         }
@@ -76,6 +86,33 @@ Cypress.Commands.add('doInviteGuest', (user, settings = {}) => {
             });
             cy.findByText('Invite Guests').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
                 cy.findByText('Successful Invites').scrollIntoView().should('be.visible').then(() => {
+                    cy.findByText('Done').scrollIntoView().should('be.visible').click();
+                });
+            });
+        });
+    });
+});
+
+Cypress.Commands.add('doInviteMember', (user, settings = {}) => {
+    cy.checkLeftSideBar(settings);
+
+    // # Click hamburger main menu button
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+        cy.findByText('Invite People').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+            cy.checkInvitePeopleAdminPage();
+
+            // cy.findByTestId('inviteGuestLink').find('.arrow').click();
+            cy.findByText('Members').click();
+
+            cy.findByText('Invite Members').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+                // # Search and add a user
+                cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
+                    cy.get('input').type(user.username, {force: true}).wait(1000).type('\n');
+                });
+            });
+
+            cy.findByText('Invite Members').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
+                cy.findByText('Invite More People').scrollIntoView().should('be.visible').then(() => {
                     cy.findByText('Done').scrollIntoView().should('be.visible').click();
                 });
             });

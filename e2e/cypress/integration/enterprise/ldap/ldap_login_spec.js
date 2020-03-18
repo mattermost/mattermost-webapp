@@ -5,21 +5,9 @@ import users from '../../../fixtures/ldap_users.json';
 import {getRandomInt} from '../../../utils';
 
 // TODO: UPDATE THIS
-
-// assumes that the SAML certificates+keys are already present in the config folder
-// assumes that Cypress.env.json is copied in the same folder with Cypress.json
 // assumes thet CYPRESS_* variables are set
-// In the Okta Applicaions->Okta MM App define attribute statements:
-// Name: UserType -> Value: user.userType
-// Name: IsAdmin -> Value: user.isAdmin
-// Name: IsGuest -> Value: user.isGuest
-// In the Okta Profile Editor, add following custom types:
-// - for Okta app: variablename: isAdmin(boolean, isGuest(boolean) (userType is already defined)
-// - for Okta MM app: variablename: UserType(string),IsGuest(boolean), IsAdmin(boolean)
+// assumes that E20 license is uploaded
 
-/**
- * Note: This test requires Enterprise license to be uploaded
- */
 context('ldap', () => {
     const user1 = users['test-1'];
     const guest1 = users['board-1'];
@@ -36,7 +24,7 @@ context('ldap', () => {
         LdapSettings: {
             Enable: true,
             EnableSync: false,
-            LdapServer: 'localhost', //Cypress.env('ldapServer'), //localhost
+            LdapServer: 'ldap.e2e.dev.spinmint.com', //Cypress.env('ldapServer'), //'localhost'
             LdapPort: 389, //Cypress.env('ldapPort'), //389,
             ConnectionSecurity: '',
             BaseDN: 'dc=mm,dc=test,dc=com',
@@ -72,10 +60,7 @@ context('ldap', () => {
         },
     };
 
-    let teamId;
-    let randomTeam;
-    
-    describe('LDAP Login flow - User Filter)', () => {
+    describe('LDAP Login flow - Admin Login', () => {
         before(() => {
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.apiGetConfig().then((response) => {
@@ -84,20 +69,35 @@ context('ldap', () => {
                     });
                 });
             });
-
-            before(() => {
-                cy.apiLogin('sysadmin');
-                // # Ensure an open team is available to join
-                randomTeam = 'T' + String(getRandomInt(10000));
-                cy.apiCreateTeam(randomTeam, randomTeam).then((response) => {
-                    teamId = response.body.id;
-                });
-            });    
         });
 
-        it('LDAP Invalid login existing user', () => {
+        it('LDAP login new MM admin, create team', () => {
+            testSettings.user = admin1;
+            newConfig.LdapSettings.EnableAdminFilter = true;
+            newConfig.LdapSettings.AdminFilter = '(cn=dev*)';
+            cy.apiUpdateConfig(newConfig).then(() => {
+                cy.doLDAPLogin(testSettings).then(() => {
+                    // new user create team
+                    const randomTeam = String(getRandomInt(10000));
+                    cy.skipOrCreateTeam(testSettings, randomTeam).then(() => {
+                        cy.doLDAPLogout(testSettings);
+                    });
+                });
+            });
+        });
+
+        it('LDAP login existing MM admin', () => {
+            // existing user, verify and logout
+            cy.doLDAPLogin(testSettings).then(() => {
+                cy.doLDAPLogout(testSettings);
+            });
+        });        
+    });
+
+    describe('LDAP Login flow - Member Login)', () => {
+        it('Invalid login with user filter', () => {
             testSettings.user = user1;
-            newConfig.LdapSettings.UserFilter = '(sn=no_users)';
+            newConfig.LdapSettings.UserFilter = '(cn=no_users)';
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     cy.checkLoginFailed(testSettings);
@@ -105,82 +105,64 @@ context('ldap', () => {
             });
         });
 
-        it('LDAP login new and existing MM regular user', () => {
+        it('LDAP login, new MM user, no channels', () => {
             testSettings.user = user1;
-            newConfig.LdapSettings.UserFilter = '(sn=user)';
-            cy.log(newConfig);
+            newConfig.LdapSettings.UserFilter = '(cn=test*)';
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
-                    const randomTeam = String(getRandomInt(10000));
-                    cy.skipOrCreateTeam(testSettings, randomTeam).then(() => {
-                        cy.doLDAPLogout(testSettings);
-                    });
+                    cy.doMemberLogout(testSettings);
                 });
-            });
-
-            cy.doLDAPLogin(testSettings).then(() => {
-                cy.doLDAPLogout(testSettings);
             });
         });
     });
 
-    describe('LDAP Admin Login', () => {
-        it('LDAP login new and existing MM admin(userType=Admin)', () => {
-            testSettings.user = admin1;
-            newConfig.LdapSettings.EnableAdminFilter = true;
-            newConfig.LdapSettings.AdminFilter = '(cn=dev*)';
+
+    describe('LDAP Login flow - Guest Login', () => {
+        it('Invalid login with guest filter', () => {
+            testSettings.user = guest1;
+            newConfig.LdapSettings.GuestFilter = '(cn=no_guests)';
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
-                    const randomTeam = String(getRandomInt(10000));
-                    cy.skipOrCreateTeam(testSettings, randomTeam).then(() => {
-                        cy.doLDAPLogout(testSettings);
-                    });
+                    cy.checkLoginFailed(testSettings);
                 });
             });
-
-            cy.doLDAPLogin(testSettings).then(() => {
-                cy.doLDAPLogout(testSettings);
-            });
         });
-    });
 
-    describe('LDAP Guest Login', () => {
-        it('LDAP login new and existing guest member', () => {
+        it('LDAP login, new guest, no channels', () => {
             testSettings.user = guest1;
             newConfig.LdapSettings.GuestFilter = '(cn=board*)';
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
-                    cy.skipOrCreateTeam(testSettings, 'board-1').then(() => {
-                        cy.doGuestLogout(testSettings);
-                    });
+                    cy.doGuestLogout(testSettings);
                 });
             });
+        });
+    });
 
+    describe('LDAP Add Member and Guest to teams and test logins', () => {
+        // Add to teams
+        it('Add LDAP Member/Guest to team', () => {
+            testSettings.user = admin1;
             cy.doLDAPLogin(testSettings).then(() => {
-                cy.doGuestLogout(testSettings);
+                cy.doInviteGuest(guest1, testSettings).then(() => {
+                    cy.doInviteMember(user1, testSettings).then(() => {
+                        cy.doLDAPLogout(testSettings);
+                    });
+                });
             });
         });
 
-        it('LDAP login invited Guest user to a team', () => {
-            testSettings.user = admin1;
-
-            //login as an admin user - generate an invite
+        it('LDAP Member login with team invite', () => {
+            testSettings.user = user1;
             cy.doLDAPLogin(testSettings).then(() => {
-                cy.skipOrCreateTeam(testSettings, 'hello').then(() => {
+                cy.doLDAPLogout(testSettings);
+            });
+        });
 
-                    //get invite
-                    cy.doInviteGuest(guest1, testSettings).then(() => {
-                        cy.doLDAPLogout(testSettings).then(() => {
-                            testSettings.user = guest1;
-                            cy.doLDAPLogin(testSettings, true).then(() => {
-                                //login the guest
-                                cy.checkLeftSideBar(testSettings).then(() => {
-                                    cy.doLDAPLogout(testSettings);
-                                });
-                            });
-                        });
-                    });
-                });
+        it('LDAP Guest login with team invite', () => {
+            testSettings.user = guest1;
+            cy.doLDAPLogin(testSettings).then(() => {
+                cy.doGuestLogout(testSettings);
             });
         });
     });
