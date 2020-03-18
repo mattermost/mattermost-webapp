@@ -7,6 +7,8 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Permalink message edit', () => {
     it('M18717 - Edit a message in permalink view', () => {
         // # Login as "user-1" and go to /
@@ -52,12 +54,16 @@ describe('Permalink message edit', () => {
             verifyEditedPermalink(postId, editedText);
         });
     });
-    function verifyEditedPermalink(postId, text) {
-        // * Check that it redirected to permalink URL
-        cy.url().should('include', `/ad-1/pl/${postId}`);
+
+    function verifyEditedPermalink(permalinkId, text) {
+        // # Check if url include the permalink
+        cy.url().should('include', `/ad-1/channels/town-square/${permalinkId}`);
+
+        // * Check if url redirects back to parent path eventually
+        cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${permalinkId}`);
 
         // * Verify edited post
-        cy.get(`#postMessageText_${postId}`).should('have.text', text);
-        cy.get(`#postEdited_${postId}`).should('have.text', '(edited)');
+        cy.get(`#postMessageText_${permalinkId}`).should('have.text', text);
+        cy.get(`#postEdited_${permalinkId}`).should('have.text', '(edited)');
     }
 });

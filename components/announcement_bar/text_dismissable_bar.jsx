@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Markdown from 'components/markdown';
 
 import AnnouncementBar from './announcement_bar.jsx';
@@ -38,6 +39,8 @@ export default class TextDismissableBar extends React.PureComponent {
         if (!this.props.allowDismissal) {
             return;
         }
+        trackEvent('signup', 'click_dismiss_bar');
+
         localStorage.setItem(localStoragePrefix + this.props.text, true);
         this.setState({
             dismissed: true,

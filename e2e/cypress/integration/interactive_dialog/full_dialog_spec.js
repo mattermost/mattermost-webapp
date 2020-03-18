@@ -31,6 +31,8 @@ const optionsLength = {
 
 describe('Interactive Dialog', () => {
     before(() => {
+        cy.requireWebhookServer();
+
         // Set required ServiceSettings
         const newSettings = {
             ServiceSettings: {
@@ -96,7 +98,7 @@ describe('Interactive Dialog', () => {
             cy.get('.modal-body').should('be.visible').children().each(($elForm, index) => {
                 const element = fullDialog.dialog.elements[index];
 
-                cy.wrap($elForm).find('label.control-label').scrollIntoView().should('be.visible').and('have.text', `${element.display_name} ${element.optional ? '(optional)' : '*'}`);
+                cy.wrap($elForm).find('label.control-label').scrollIntoView().should('exist').and('have.text', `${element.display_name} ${element.optional ? '(optional)' : '*'}`);
 
                 if (['someuserselector', 'somechannelselector', 'someoptionselector'].includes(element.name)) {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
@@ -131,7 +133,7 @@ describe('Interactive Dialog', () => {
                 }
 
                 if (element.help_text) {
-                    cy.wrap($elForm).find('.help-text').should('be.visible').and('have.text', element.help_text);
+                    cy.wrap($elForm).find('.help-text').should('exist').and('have.text', element.help_text);
                 }
             });
 
