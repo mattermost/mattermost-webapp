@@ -102,6 +102,7 @@ export default class PermissionsTree extends React.Component {
                             Permissions.REMOVE_REACTION,
                         ],
                     },
+                    Permissions.USE_GROUP_MENTIONS,
                 ],
             },
             {

@@ -1089,6 +1089,8 @@
   "admin.permissions.permission.revoke_user_access_token.name": "Revoke user access token",
   "admin.permissions.permission.upload_file.description": "Upload file",
   "admin.permissions.permission.upload_file.name": "Upload file",
+  "admin.permissions.permission.use_group_mentions.description": "Notify group members with a group mention",
+  "admin.permissions.permission.use_group_mentions.name": "Group Mentions",
   "admin.permissions.permission.view_team.description": "View team",
   "admin.permissions.permission.view_team.name": "View team",
   "admin.permissions.permissionSchemes": "Permission Schemes",
