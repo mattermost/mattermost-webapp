@@ -3,23 +3,22 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {createSelector} from 'reselect';
 
 import {getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetCategoriesForTeam, makeGetChannelsByCategory} from 'mattermost-redux/selectors/entities/channel_categories';
+import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
 import {close} from 'actions/views/lhs';
-import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
+import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarCategoryList from './sidebar_category_list';
 
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
-    const getChannelsByCategory = makeGetChannelsByCategory();
+    const getCurrentlyDisplayedChannelsForTeam = makeGetCurrentlyDisplayedChannelsForTeam();
 
     return (state: GlobalState) => {
         const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
@@ -31,7 +30,7 @@ function makeMapStateToProps() {
             categories: getCategoriesForTeam(state, currentTeam.id),
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
             unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
-            channelsByCategory: getChannelsByCategory(state, currentTeam.id),
+            displayedChannels: getCurrentlyDisplayedChannelsForTeam(state, currentTeam.id),
         };
     };
 }

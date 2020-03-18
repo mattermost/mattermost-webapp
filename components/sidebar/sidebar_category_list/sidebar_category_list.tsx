@@ -50,7 +50,7 @@ type Props = {
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
-    channelsByCategory: RelationOneToOne<ChannelCategory, Channel[]>;
+    displayedChannels: Channel[];
     actions: {
         switchToChannelById: (channelId: string) => void;
         close: () => void;
@@ -135,7 +135,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     getDisplayedChannelIds = () => {
-        return Object.values(this.props.channelsByCategory).flat().map((channel) => channel.id);
+        return this.props.displayedChannels.map((channel) => channel.id);
     }
 
     getChannelRef = (channelId: string) => {
