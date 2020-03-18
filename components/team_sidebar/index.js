@@ -8,10 +8,12 @@ import {withRouter} from 'react-router-dom';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getMyTeams, getJoinableTeamIds, getTeamMemberships, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
-import {switchTeam} from 'actions/team_actions.jsx';
+import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
+import {Preferences} from 'utils/constants.jsx';
 
 import TeamSidebar from './team_sidebar_controller.jsx';
 
@@ -30,6 +32,7 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         locale: getCurrentLocale(state),
         moreTeamsToJoin,
+        userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
     };
 }
 
@@ -38,6 +41,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTeams,
             switchTeam,
+            updateTeamsOrderForUser,
         }, dispatch),
     };
 }

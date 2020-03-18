@@ -11,6 +11,11 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
+    before(() => {
+        // * Check if server has license for LDAP Groups
+        cy.requireLicenseForFeature('LDAPGroups');
+    });
+
     beforeEach(() => {
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/user_management/channels');

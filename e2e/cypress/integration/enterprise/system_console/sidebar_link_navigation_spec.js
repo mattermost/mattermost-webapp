@@ -9,6 +9,9 @@
 
 describe('System Console - Enterprise', () => {
     before(() => {
+        // * Check if server has license
+        cy.requireLicense();
+
         const newSettings = {
             TeamSettings: {SiteName: 'Mattermost'},
         };
