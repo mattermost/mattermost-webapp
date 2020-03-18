@@ -375,7 +375,21 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             if (resultWithError && 'error' in resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
-                await actions.getGroups(channelID);
+                const actionsToAwait: any[] = [actions.getGroups(channelID)];
+                if (isPrivacyChanging) {
+                    // If the privacy is changing update the manage_members value for the channel moderation widget
+                    actionsToAwait.push(
+                        actions.getChannelModerations(channelID).then(() => {
+                            const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                            if (channelPermissions) {
+                                const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                                channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
+                            }
+                            this.setState({channelPermissions});
+                        })
+                    );
+                }
+                await Promise.all(actionsToAwait);
             }
         }
 
@@ -389,13 +403,11 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             };
         });
 
-        await actions.patchChannelModerations(channelID, patchChannelPermissionsArray).
-            then(((result: {data: any; error?: Error}) => {
-                if (result.error) {
-                    serverError = <FormError error={result.error.message}/>;
-                }
-                this.updateChannelPermissions();
-            }));
+        const result = await actions.patchChannelModerations(channelID, patchChannelPermissionsArray);
+        if (result.error) {
+            serverError = <FormError error={result.error.message}/>;
+        }
+        this.updateChannelPermissions();
 
         let privacyChanging = isPrivacyChanging;
         if (serverError == null) {
