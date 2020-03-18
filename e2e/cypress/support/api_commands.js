@@ -806,6 +806,39 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
 // https://api.mattermost.com/#tag/system
 // *****************************************************************************
 
+Cypress.Commands.add('apiGetClientLicense', () => {
+    cy.apiLogin('sysadmin');
+
+    return cy.request('/api/v4/license/client?format=old').then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
+Cypress.Commands.add('requireLicenseForFeature', (key = '') => {
+    cy.apiGetClientLicense().then((response) => {
+        const license = response.body;
+        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
+
+        let hasLicenseKey = false;
+        for (const [k, v] of Object.entries(license)) {
+            if (k === key && v === 'true') {
+                hasLicenseKey = true;
+                break;
+            }
+        }
+
+        expect(hasLicenseKey, `No license for feature: ${key}`).to.equal(true);
+    });
+});
+
+Cypress.Commands.add('requireLicense', () => {
+    cy.apiGetClientLicense().then((response) => {
+        const license = response.body;
+        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
+    });
+});
+
 Cypress.Commands.add('apiUpdateConfigBasic', (newSettings = {}) => {
     // # Get current settings
     cy.request('/api/v4/config').then((response) => {

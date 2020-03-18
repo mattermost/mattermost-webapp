@@ -7,6 +7,7 @@ import {shallow} from 'enzyme';
 import {Group} from 'mattermost-redux/types/groups';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
+import {Scheme} from 'mattermost-redux/types/schemes';
 
 import ChannelDetails from './channel_details';
 
@@ -51,6 +52,20 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
         const team: Partial<Team> = {
             display_name: 'test',
         };
+        const teamScheme: Scheme = {
+            id: 'asdf',
+            name: 'asdf',
+            description: 'asdf',
+            display_name: 'asdf',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            scope: 'team',
+            default_team_admin_role: 'asdf',
+            default_team_user_role: 'asdf',
+            default_channel_admin_role: 'asdf',
+            default_channel_user_role: 'asdf',
+        };
 
         const actions = {
             getChannel: jest.fn().mockResolvedValue([]),
@@ -64,6 +79,9 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             membersMinusGroupMembers: jest.fn(),
             updateChannelPrivacy: jest.fn(),
             patchGroupSyncable: jest.fn(),
+            getChannelModerations: jest.fn().mockResolvedValue([]),
+            patchChannelModerations: jest.fn(),
+            loadScheme: jest.fn(),
         };
 
         if (!testChannel.id) {
@@ -72,6 +90,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
 
         let wrapper = shallow(
             <ChannelDetails
+                teamScheme={teamScheme}
                 groups={groups}
                 team={team}
                 totalGroups={groups.length}
@@ -85,6 +104,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
 
         wrapper = shallow(
             <ChannelDetails
+                teamScheme={teamScheme}
                 groups={groups}
                 team={{}}
                 totalGroups={groups.length}
