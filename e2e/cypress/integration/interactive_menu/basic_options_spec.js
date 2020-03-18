@@ -94,7 +94,7 @@ describe('Interactive Menu', () => {
             cy.get('#suggestionList').should('not.be.visible');
 
             // # Click on the suggestion dropdown input
-            cy.findByPlaceholderText('Select an option...').should('be.visible').click();
+            cy.findByPlaceholderText('Select an option...').scrollIntoView().should('be.visible').click();
 
             // * Suggestion list should now be open
             cy.get('#suggestionList').should('be.visible').children().should('have.length', options.length);
@@ -116,7 +116,7 @@ describe('Interactive Menu', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#messageAttachmentList_${postId}`).within(() => {
                 // # Select option 1 by typing exact text and press enter
-                cy.findByPlaceholderText('Select an option...').click().clear().type(`${options[0].text}{enter}`);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().click().clear({force: true}).type(`${options[0].text}{enter}`);
 
                 // * Verify that the input is updated with the selected option
                 cy.findByDisplayValue(options[0].text).should('exist');
@@ -190,7 +190,7 @@ describe('Interactive Menu', () => {
         });
 
         cy.get('@messageAttachmentList').within(() => {
-            cy.findByPlaceholderText('Select an option...').click().clear().type('sea');
+            cy.findByPlaceholderText('Select an option...').scrollIntoView().click().clear({force: true}).type('sea');
 
             // * Message attachment menu dropdown should now be open
             cy.get('#suggestionList').should('exist').children().should('have.length', 2);
@@ -215,7 +215,7 @@ describe('Interactive Menu', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#messageAttachmentList_${postId}`).within(() => {
                 // # Type the missing user in the select input
-                cy.findByPlaceholderText('Select an option...').click().clear().type(`${missingUser}`);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().click().clear({force: true}).type(`${missingUser}`);
 
                 cy.get('#suggestionList').within(() => {
                     // * Check if we get appropriate message when no options matches entered text
@@ -237,7 +237,7 @@ describe('Interactive Menu', () => {
         });
 
         cy.get('@messageAttachmentList').within(() => {
-            cy.findByPlaceholderText('Select an option...').as('optionInputField');
+            cy.findByPlaceholderText('Select an option...').scrollIntoView().as('optionInputField');
             cy.get('@optionInputField').click();
             cy.get('#suggestionList').should('be.visible');
 
@@ -308,7 +308,7 @@ describe('Interactive Menu', () => {
                 cy.get('#suggestionList').should('not.exist');
 
                 // // # Open the message attachment menu dropdown
-                cy.findByPlaceholderText('Select an option...').click();
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
 
                 // * Message attachment menu dropdown should now be open
                 cy.get('#suggestionList').should('exist').children().should('have.length', options.length);
@@ -338,7 +338,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // # Find the message attachment menu and assign it to a variable for later use
-                cy.findByPlaceholderText('Select an option...').as('optionInputField');
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().as('optionInputField');
 
                 // # Open the options menu
                 cy.get('@optionInputField').click();
@@ -398,7 +398,7 @@ describe('Interactive Menu', () => {
                 cy.get('#suggestionList').should('not.exist');
 
                 // // # Open the message attachment menu dropdown
-                cy.findByPlaceholderText('Select an option...').click();
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
 
                 // * Message attachment menu dropdown should now be open
                 cy.get('#suggestionList').should('exist').children().should('have.length', manyOptions.length);
@@ -412,8 +412,8 @@ describe('Interactive Menu', () => {
                     cy.findByText(manyOptions[1].text, {listContainer}).should('exist').and('not.be.visible');
 
                     // # But the last options should be visible
-                    cy.findByText(manyOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('exist').and('be.visible');
-                    cy.findByText(manyOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('exist').and('be.visible');
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 1].text, {listContainer}).scrollIntoView().should('exist').and('be.visible');
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 2].text, {listContainer}).scrollIntoView().should('exist').and('be.visible');
                 });
 
                 // # Scroll to top of the options
@@ -447,7 +447,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // # Start typing only first few letters in the input
-                cy.findByPlaceholderText('Select an option...').clear().type(`${firstFewLettersOfSelectedItem}`);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${firstFewLettersOfSelectedItem}`);
 
                 // * Message attachment dropdown with the selected item should be visible
                 cy.get('#suggestionList').should('exist').within(() => {
@@ -455,7 +455,7 @@ describe('Interactive Menu', () => {
                 });
 
                 // # Now that we know selected option appeared in the list, Click enter on input field
-                cy.findByPlaceholderText('Select an option...').clear().type('{enter}');
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type('{enter}');
 
                 // * Verify the input has the selected value
                 cy.findByDisplayValue(selectedItem).should('exist');
@@ -497,7 +497,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${parentPostId}`).within(() => {
                 // # Open the message attachment menu dropdown by clickin on input
-                cy.findByPlaceholderText('Select an option...').click();
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
 
                 // * Message attachment dropdown with the selected item should be visible
                 cy.get('#suggestionList').should('exist').within(() => {
@@ -556,7 +556,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // # Find and select the user, we just added
-                cy.findByPlaceholderText('Select an option...').clear().type(`${longUsername}`);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${longUsername}`);
 
                 cy.get('#suggestionList').within(() => {
                     // * Newly added username should be there in the search list
@@ -592,10 +592,10 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
 
         if (isRhs) {
             // * Verify that the selected option from center view matches the one in RHS
-            cy.findByPlaceholderText('Select an option...').should('have.value', text);
+            cy.findByPlaceholderText('Select an option...').scrollIntoView().should('have.value', text);
         } else {
             // # Select an option (long) in center view
-            cy.findByPlaceholderText('Select an option...').should('be.visible').click();
+            cy.findByPlaceholderText('Select an option...').scrollIntoView().should('be.visible').click();
             cy.get('#suggestionList').should('be.visible').children().first().click({force: true});
         }
 
@@ -605,12 +605,12 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
             and('have.css', 'height', '32px').
             and('have.css', 'width', '220px');
 
-        cy.findByPlaceholderText('Select an option...').
+        cy.findByPlaceholderText('Select an option...').scrollIntoView().
             and('have.css', 'height', '32px').
             and('have.css', 'width', '220px').
             and('have.css', 'padding-right', '30px');
 
-        return cy.findByPlaceholderText('Select an option...').invoke('attr', 'value').then((value) => {
+        return cy.findByPlaceholderText('Select an option...').scrollIntoView().invoke('attr', 'value').then((value) => {
             return cy.wrap({value});
         });
     });
