@@ -329,7 +329,7 @@ t('admin.permissions.permission.revoke_user_access_token.name');
 t('admin.permissions.permission.upload_file.description');
 t('admin.permissions.permission.upload_file.name');
 t('admin.permissions.permission.use_group_mentions.description');
-t('admin.permissions.permission.use_group_mentions.name')
+t('admin.permissions.permission.use_group_mentions.name');
 t('admin.permissions.permission.view_team.description');
 t('admin.permissions.permission.view_team.name');
 t('admin.permissions.permission.edit_others_posts.description');
