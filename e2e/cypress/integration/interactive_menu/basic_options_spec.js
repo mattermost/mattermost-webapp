@@ -30,6 +30,9 @@ describe('Interactive Menu', () => {
     before(() => {
         cy.requireWebhookServer();
 
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // Set required ServiceSettings
         const newSettings = {
             ServiceSettings: {
@@ -38,10 +41,9 @@ describe('Interactive Menu', () => {
                 EnablePostIconOverride: true,
             },
         };
-        cy.apiUpdateConfig(newSettings);
+        cy.apiUpdateConfigBasic(newSettings);
 
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-        cy.apiLogin('sysadmin');
+        // # Update teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference('clean');
 
@@ -59,9 +61,6 @@ describe('Interactive Menu', () => {
             cy.apiCreateWebhook(newIncomingHook).then((hook) => {
                 incomingWebhook = hook;
             });
-
-            // # Login again, this is a temp fix as cy.createNewUser, logs out the current user
-            cy.apiLogin('sysadmin').visit(`/ad-1/channels/${channel.name}`);
         });
     });
 
@@ -546,45 +545,46 @@ describe('Interactive Menu', () => {
 
             // # Create a new user with 64 chars length
             cy.createNewUser({username: longUsername}, [teamId]).then((user) => {
+                cy.visit(`/ad-1/channels/${channel.name}`);
                 cy.apiAddUserToChannel(channel.id, user.id);
-            });
-        });
 
-        // # Make webhook request to get list of all the users
-        const userOptions = getMessageMenusPayload({dataSource: 'users'});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+                // # Make webhook request to get list of all the users
+                const userOptions = getMessageMenusPayload({dataSource: 'users'});
+                cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
 
-        // # Go to last webhook message with users list
-        cy.getLastPostId().then((lastPostId) => {
-            // # Get the last messages attachment container
-            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
-                // # Find and select the user, we just added
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${longUsername}`);
+                // # Go to last webhook message with users list
+                cy.getLastPostId().then((lastPostId) => {
+                    // # Get the last messages attachment container
+                    cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                        // # Find and select the user, we just added
+                        cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${longUsername}`);
 
-                cy.get('#suggestionList').within(() => {
-                    // * Newly added username should be there in the search list
-                    cy.findByText(`@${longUsername}`).should('exist').click();
+                        cy.get('#suggestionList').within(() => {
+                            // * Newly added username should be there in the search list
+                            cy.findByText(`@${longUsername}`).should('exist').click();
+                        });
+
+                        // * Verify the input has the complete username value
+                        cy.findByDisplayValue(longUsername).should('exist');
+                    });
+
+                    // # Click on reply icon to open message in RHS
+                    cy.clickPostCommentIcon(lastPostId);
+
+                    // * Verify RHS has opened
+                    cy.get('#rhsContainer').should('exist');
+
+                    // # Same id as parent post in center, only opened in RHS
+                    cy.get(`#rhsPost_${lastPostId}`).within(() => {
+                        // * Verify the input has the selected value same as that of Center
+                        //   and verify that it has truncation css applied
+                        cy.findByDisplayValue(longUsername).should('exist').and('have.css', 'text-overflow', 'ellipsis');
+                    });
+
+                    // # Close RHS
+                    cy.closeRHS();
                 });
-
-                // * Verify the input has the complete username value
-                cy.findByDisplayValue(longUsername).should('exist');
             });
-
-            // # Click on reply icon to open message in RHS
-            cy.clickPostCommentIcon(lastPostId);
-
-            // * Verify RHS has opened
-            cy.get('#rhsContainer').should('exist');
-
-            // # Same id as parent post in center, only opened in RHS
-            cy.get(`#rhsPost_${lastPostId}`).within(() => {
-                // * Verify the input has the selected value same as that of Center
-                //   and verify that it has truncation css applied
-                cy.findByDisplayValue(longUsername).should('exist').and('have.css', 'text-overflow', 'ellipsis');
-            });
-
-            // # Close RHS
-            cy.closeRHS();
         });
     });
 });
