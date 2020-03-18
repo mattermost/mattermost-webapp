@@ -462,7 +462,7 @@ export default class SwitchChannelProvider extends Provider {
 
         const channelNames = channels.
             sort(quickSwitchSorter).
-            map((wrappedChannel, indx) => wrappedChannel.channel.name + indx);
+            map((wrappedChannel) => wrappedChannel.channel.id);
 
         if (skipNotInChannel) {
             channels.push({
@@ -507,7 +507,7 @@ export default class SwitchChannelProvider extends Provider {
             channels.push(wrappedChannel);
         }
 
-        const channelNames = channels.map((wrappedChannel, indx) => wrappedChannel.channel.name + indx);
+        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.id);
 
         resultsCallback({
             matchedPretext: '',
