@@ -1,6 +1,19 @@
 @charset 'UTF-8';
 @import 'compass/css3/transition';
 
+.app__body .popover.channel-header__popover {
+    box-shadow: none;
+}
+
+.header-popover-text-measurer {
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+    white-space: nowrap;
+}
+
+
 .popover {
     @include border-radius($border-rad * 2);
     color: lighten($black, 25%);
@@ -13,6 +26,29 @@
 
     &.channel-header__popover {
         z-index: 999;
+        margin-left: -4px;
+        font-size: em(12px);
+
+        &.chanel-header__popover--lhs_offset {
+            margin-left: 61px;
+        }
+
+        .popover-content {
+            padding: 1px 3px;
+
+            p {
+                white-space: normal;
+                word-break: normal;
+    
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        &.bottom {
+            margin-top: -11px;
+        }
     }
 
     &.bottom,
@@ -396,10 +432,19 @@
                 margin-left: 12px;
 
                 button {
+                    @include border-radius(4px);
                     opacity: 0;
                     line-height: 0;
                     width: 2em;
                     height: 2em;
+
+                    &:hover {
+                        background-color: v(button-bg-20);
+                    }
+
+                    &:active {
+                        background-color: v(button-bg-30);
+                    }
 
                     &.a11y--focused {
                         opacity: 1;
