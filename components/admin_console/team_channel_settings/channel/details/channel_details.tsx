@@ -351,9 +351,6 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
                 await actions.getGroups(channelID);
-                if (isPrivacyChanging) {
-                    await actions.getChannelModerations(channelID).then(this.getChannelModerationsCallback);
-                }
             }
         }
 
@@ -372,6 +369,11 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         }
 
         this.setState({serverError, saving: false, saveNeeded});
+
+        if (isPrivacyChanging) {
+            await actions.getChannelModerations(channelID).then(this.getChannelModerationsCallback);
+        }
+
         actions.setNavigationBlocked(saveNeeded);
     };
 
