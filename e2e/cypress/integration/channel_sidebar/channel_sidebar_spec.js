@@ -119,6 +119,7 @@ describe('Channel sidebar', () => {
         // # Click on the channel menu and select Leave Channel
         cy.get('#channelHeaderTitle').click();
         cy.get('#channelArchiveChannel').click();
+        cy.get('#deleteChannelModalDeleteButton').click();
 
         // * Verify that we've switched to Town Square
         cy.url().should('include', `/${teamName}/channels/town-square`);
