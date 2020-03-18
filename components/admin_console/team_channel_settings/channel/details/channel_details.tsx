@@ -389,14 +389,13 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             };
         });
 
-        await actions.patchChannelModerations(channelID, patchChannelPermissionsArray)
-            .then(((result: {data: any; error?: Error}) => {
+        await actions.patchChannelModerations(channelID, patchChannelPermissionsArray).
+            then(((result: {data: any; error?: Error}) => {
                 if (result.error) {
                     serverError = <FormError error={result.error.message}/>;
                 }
                 this.updateChannelPermissions();
-            })
-        );
+            }));
 
         let privacyChanging = isPrivacyChanging;
         if (serverError == null) {
