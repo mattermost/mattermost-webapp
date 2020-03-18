@@ -6,6 +6,7 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {Draggable} from 'react-beautiful-dnd';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
@@ -34,6 +35,9 @@ class TeamButton extends React.Component {
         teamIconUrl: PropTypes.string,
         switchTeam: PropTypes.func.isRequired,
         intl: intlShape.isRequired,
+        isDraggable: PropTypes.bool,
+        teamIndex: PropTypes.number,
+        teamId: PropTypes.string,
     };
 
     static defaultProps = {
@@ -59,11 +63,12 @@ class TeamButton extends React.Component {
     }
 
     render() {
-        const {teamIconUrl, displayName, btnClass, mentions, unread} = this.props;
+        const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId} = this.props;
         const {formatMessage} = this.props.intl;
 
         let teamClass = this.props.active ? 'active' : '';
         const disabled = this.props.disabled ? 'team-disabled' : '';
+        const isNotCreateTeamButton = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
         let badge;
 
@@ -76,7 +81,13 @@ class TeamButton extends React.Component {
         });
 
         if (!teamClass) {
-            teamClass = unread ? 'unread' : '';
+            if (unread) {
+                teamClass = 'unread';
+            } else if (isNotCreateTeamButton) {
+                teamClass = '';
+            } else {
+                teamClass = 'special';
+            }
             ariaLabel = formatMessage({
                 id: 'team.button.unread.ariaLabel',
                 defaultMessage: '{teamName} team unread',
@@ -178,7 +189,7 @@ class TeamButton extends React.Component {
             );
 
             // if this is not a "special" team button, give it a context menu
-            if (!this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team')) {
+            if (isNotCreateTeamButton) {
                 teamButton = (
                     <CopyUrlContextMenu
                         link={this.props.url}
@@ -202,10 +213,26 @@ class TeamButton extends React.Component {
             );
         }
 
-        return (
-            <div
-                className={`team-container ${teamClass}`}
+        return isDraggable ? (
+            <Draggable
+                draggableId={teamId}
+                index={teamIndex}
             >
+                {(provided) => {
+                    return (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`team-container ${teamClass}`}
+                        >
+                            {teamButton}
+                        </div>
+                    );
+                }}
+            </Draggable>
+        ) : (
+            <div className={`team-container ${teamClass}`}>
                 {teamButton}
                 {orderIndicator}
             </div>
