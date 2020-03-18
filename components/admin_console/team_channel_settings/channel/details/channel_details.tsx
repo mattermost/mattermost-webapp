@@ -125,7 +125,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 then(() => actions.getChannel(channelID)).
                 then(() => this.setState({groups: this.props.groups}))
             );
-            actionsToAwait.push(actions.getChannelModerations(channelID).then(() => this.updateChannelPermissions()));
+            actionsToAwait.push(actions.getChannelModerations(channelID).then(() => this.restrictChannelMentions()));
         }
 
         if (channel.team_id) {
@@ -142,7 +142,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         await Promise.all(actionsToAwait);
     }
 
-    private updateChannelPermissions() {
+    private restrictChannelMentions() {
+        // Disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
         let channelPermissions = this.props.channelPermissions;
         const currentCreatePostRoles: any = channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
         for (const channelRole of Object.keys(currentCreatePostRoles)) {
@@ -407,7 +408,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         if (result.error) {
             serverError = <FormError error={result.error.message}/>;
         }
-        this.updateChannelPermissions();
+        this.restrictChannelMentions();
 
         let privacyChanging = isPrivacyChanging;
         if (serverError == null) {
