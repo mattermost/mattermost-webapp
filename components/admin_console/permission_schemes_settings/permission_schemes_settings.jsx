@@ -49,11 +49,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: {},
     };
 
-    async UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        let schemes;
+    componentDidMount() {
         let phase2MigrationIsComplete = true; // Assume migration is complete unless HTTP status code says otherwise.
-        try {
-            schemes = await this.props.actions.loadSchemes('team', 0, PAGE_SIZE);
+        this.props.actions.loadSchemes('team', 0, PAGE_SIZE).then((schemes) => {
             if (schemes.error.status_code === PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE) {
                 phase2MigrationIsComplete = false;
             }
@@ -62,9 +60,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 promises.push(this.props.actions.loadSchemeTeams(scheme.id));
             }
             Promise.all(promises).then(() => this.setState({loading: false, phase2MigrationIsComplete}));
-        } catch (err) {
+        }).catch(() => {
             this.setState({loading: false, phase2MigrationIsComplete});
-        }
+        });
     }
 
     loadMoreSchemes = () => {

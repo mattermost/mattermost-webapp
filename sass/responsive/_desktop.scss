@@ -1,5 +1,27 @@
 @charset 'UTF-8';
 
+@media screen and (min-width: 1680px) {
+    .sidebar--right {
+        width: 500px;
+    }
+
+    .move--left {
+        .search__form {
+            width: 260px;
+        }
+
+        #post-list {
+            margin-right: 500px;
+        }
+
+        .app__content {
+            > .post-create__container {
+                width: calc(100% - 500px);
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 1800px) {
     .inner-wrap {
         &.move--left {
