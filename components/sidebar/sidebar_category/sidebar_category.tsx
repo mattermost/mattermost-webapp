@@ -73,13 +73,13 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     renderChannel = (channel: Channel) => {
-        const {isCollapsed} = this.props;
+        const {isCollapsed, setChannelRef, getChannelRef} = this.props;
 
         return (
             <SidebarChannel
                 channelId={channel.id}
-                setChannelRef={this.props.setChannelRef}
-                getChannelRef={this.props.getChannelRef}
+                setChannelRef={setChannelRef}
+                getChannelRef={getChannelRef}
                 isCategoryCollapsed={isCollapsed}
             />
         );

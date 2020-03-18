@@ -111,7 +111,6 @@
             font-family: 'Open Sans';
             font-size: 14px;
             line-height: 19px;
-            margin-right: 4px;
             padding: 3px 8px 6px 8px;
 
             .SidebarChannelNavigator_shortcutText {
@@ -216,7 +215,7 @@
 
     .AddChannelDropdown_dropdownButton {
         padding: 0;
-        margin-right: 19px;
+        margin-right: 16px;
         margin-top: 6px;
         z-index: 1;
         background: transparent;
@@ -412,7 +411,7 @@
         width: 28px;
         border-radius: 4px;
         margin-left: auto;
-        margin-right: 19px;
+        margin-right: 16px;
     }
     .SidebarChannelGroupHeader_addButton:hover {
         cursor: pointer;
@@ -499,7 +498,7 @@
         position: relative;
         font-size: 14px;
         text-decoration: none;
-        padding: 7px 5px 7px 15px;
+        padding: 7px 5px 7px 14px;
         display: flex;
         color: var(--sidebar-text-60);
         align-items: flex-start;
@@ -507,6 +506,7 @@
         width: 100%;
         border-top: 0;
         border-bottom: 0;
+        height: 32px;
     }
     .SidebarChannel .SidebarLink:focus {
         /* box-shadow: inset 0 0 0 2px orange; */
@@ -527,7 +527,7 @@
 
     .SidebarChannel.active .SidebarLink::before {
         content: '';
-        height: 33px;
+        height: 32px;
         position: absolute;
         left: -2px;
         top: 0;

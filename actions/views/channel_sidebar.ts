@@ -10,7 +10,7 @@ export function collapseCategory(categoryId: string) {
 }
 
 export function expandCategory(categoryId: string) {
-    // This would ideally remove the item, but that doesn't work for some reason
+    // You should be able to use removeItem here, but removeItem was not working at all
     return setItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, false);
 }
 

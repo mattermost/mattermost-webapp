@@ -78,6 +78,11 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         }
     }
 
+    handleNewChannelForMoreChannelsModal = () => {
+        this.hideMoreChannelsModal();
+        this.showNewChannelModal();
+    }
+
     renderModals = () => {
         let moreDirectChannelsModal;
         if (this.state.showDirectChannelsModal) {
@@ -94,10 +99,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             moreChannelsModal = (
                 <MoreChannels
                     onModalDismissed={this.hideMoreChannelsModal}
-                    handleNewChannel={() => {
-                        this.hideMoreChannelsModal();
-                        this.showNewChannelModal();
-                    }}
+                    handleNewChannel={this.handleNewChannelForMoreChannelsModal}
                     morePublicChannelsModalType={'public'} // TODO: need to incorporate 'private' when showing archived channels: (getConfig(state).ExperimentalViewArchivedChannels === 'true')
                 />
             );

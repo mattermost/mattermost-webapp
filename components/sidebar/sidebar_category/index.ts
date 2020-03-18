@@ -18,12 +18,14 @@ type OwnProps = {
     category: ChannelCategory;
 }
 
-const getChannelsForCategory = makeGetChannelsForCategory();
+function makeMapStateToProps() {
+    const getChannelsForCategory = makeGetChannelsForCategory();
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    return {
-        isCollapsed: isCategoryCollapsed(state, ownProps.category.id),
-        channels: getChannelsForCategory(state, ownProps.category),
+    return (state: GlobalState, ownProps: OwnProps) => {
+        return {
+            isCollapsed: isCategoryCollapsed(state, ownProps.category.id),
+            channels: getChannelsForCategory(state, ownProps.category),
+        };
     };
 }
 
@@ -35,4 +37,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarCategory);
+export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarCategory);

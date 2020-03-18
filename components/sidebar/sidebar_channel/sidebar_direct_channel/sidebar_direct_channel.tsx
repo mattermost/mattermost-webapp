@@ -13,9 +13,7 @@ import {trackEvent} from 'actions/diagnostics_actions';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 
-import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import StatusIconNew from 'components/status_icon_new';
-import BotIcon from 'components/widgets/icons/bot_icon.jsx';
 import SidebarChannelLink from '../sidebar_channel_link';
 
 type Props = {

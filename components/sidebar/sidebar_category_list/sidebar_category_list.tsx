@@ -4,14 +4,14 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
-import {Spring, SpringSystem, util as MathUtil} from 'rebound';
+import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
-import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -50,7 +50,7 @@ type Props = {
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
-    getChannelsForCategory: (category: ChannelCategory) => Channel[];
+    channelsByCategory: RelationOneToOne<ChannelCategory, Channel[]>;
     actions: {
         switchToChannelById: (channelId: string) => void;
         close: () => void;
@@ -117,8 +117,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         }
 
         // Scroll to selected channel so it's in view
-        if (this.props.currentChannel?.id !== prevProps.currentChannel?.id) { //eslint-disable-line no-undef
-            this.scrollToChannel(this.props.currentChannel!.id);
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.scrollToChannel(this.props.currentChannel.id);
         }
 
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
@@ -134,13 +134,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }
 
-    getDisplayedChannelIdsForProps = (props: Props) => {
-        const allChannels = props.categories.map((category) => props.getChannelsForCategory(category));
-        return allChannels.flat().map((channel) => channel.id);
-    }
-
     getDisplayedChannelIds = () => {
-        return this.getDisplayedChannelIdsForProps(this.props);
+        return Object.values(this.props.channelsByCategory).flat().map((channel) => channel.id);
     }
 
     getChannelRef = (channelId: string) => {
@@ -319,9 +314,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         }
     };
 
-    renderCategory = (category: any) => {
+    renderCategory = (category: ChannelCategory) => {
         return (
             <SidebarCategory
+                key={category.id}
                 category={category}
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}

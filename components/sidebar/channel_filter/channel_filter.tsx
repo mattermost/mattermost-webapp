@@ -44,15 +44,6 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
             />
         );
 
-        if (unreadFilterEnabled) {
-            filterTitle = (
-                <FormattedMessage
-                    id='sidebar_left.channel_filter.filteredBy'
-                    defaultMessage='FILTERED BY:'
-                />
-            );
-        }
-
         let filterDescription = (
             <FormattedMessage
                 id='sidebar_left.channel_filter.allChannels'
@@ -60,20 +51,24 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
             />
         );
 
+        let tooltipMessage = localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
+
         if (unreadFilterEnabled) {
+            filterTitle = (
+                <FormattedMessage
+                    id='sidebar_left.channel_filter.filteredBy'
+                    defaultMessage='FILTERED BY:'
+                />
+            );
+
             filterDescription = (
                 <FormattedMessage
                     id='sidebar_left.channel_filter.unread'
                     defaultMessage='Unread'
                 />
             );
-        }
 
-        let tooltipMessage;
-        if (unreadFilterEnabled) {
             tooltipMessage = localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
-        } else {
-            tooltipMessage = localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
         }
 
         const tooltip = (
