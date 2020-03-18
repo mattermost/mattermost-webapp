@@ -124,31 +124,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 then(() => actions.getChannel(channelID)).
                 then(() => this.setState({groups: this.props.groups}))
             );
-            actionsToAwait.push(actions.getChannelModerations(channelID).
-                then(() => {
-                    // We are disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
-                    const currentCreatePostRoles: any = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
-                    let channelPermissions = this.props.channelPermissions;
-                    for (const channelRole of Object.keys(currentCreatePostRoles)) {
-                        channelPermissions = channelPermissions!.map((permission) => {
-                            if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
-                                return {
-                                    name: permission.name,
-                                    roles: {
-                                        ...permission.roles,
-                                        [channelRole]: {
-                                            value: false,
-                                            enabled: false,
-                                        }
-                                    }
-                                };
-                            }
-                            return permission;
-                        });
-                    }
-                    this.setState({channelPermissions});
-                })
-            );
+            actionsToAwait.push(actions.getChannelModerations(channelID).then(this.getChannelModerationsCallback));
         }
 
         if (channel.team_id) {
@@ -375,6 +351,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
                 await actions.getGroups(channelID);
+                if (isPrivacyChanging) {
+                    await actions.getChannelModerations(channelID).then(this.getChannelModerationsCallback);
+                }
             }
         }
 
@@ -395,6 +374,30 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.setState({serverError, saving: false, saveNeeded});
         actions.setNavigationBlocked(saveNeeded);
     };
+
+    private getChannelModerationsCallback = () => {
+        // We are disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
+        const currentCreatePostRoles: any = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
+        let channelPermissions = this.props.channelPermissions;
+        for (const channelRole of Object.keys(currentCreatePostRoles)) {
+            channelPermissions = channelPermissions!.map((permission) => {
+                if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
+                    return {
+                        name: permission.name,
+                        roles: {
+                            ...permission.roles,
+                            [channelRole]: {
+                                value: false,
+                                enabled: false,
+                            }
+                        }
+                    };
+                }
+                return permission;
+            });
+        }
+        this.setState({channelPermissions});
+    }
 
     render = (): JSX.Element => {
         const {
