@@ -60,6 +60,7 @@ export default class TeamUrl extends React.PureComponent {
 
     submitBack = (e) => {
         e.preventDefault();
+        trackEvent('signup', 'click_back');
         const newState = this.props.state;
         newState.wizard = 'display_name';
         this.props.updateParent(newState);
@@ -67,6 +68,7 @@ export default class TeamUrl extends React.PureComponent {
 
     submitNext = async (e) => {
         e.preventDefault();
+        trackEvent('signup', 'click_finish');
 
         const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
