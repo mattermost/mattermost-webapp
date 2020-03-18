@@ -17,6 +17,12 @@ let newChannel = {};
 
 describe('Keyboard shortcut for adding reactions to last message in channel or thread', () => {
     before(() => {
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: true,
+            },
+        });
+
         cy.apiLogin('sysadmin');
         cy.visit('/ad-1/channels/town-square');
 
@@ -33,6 +39,14 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
                     newChannel = Object.assign({}, response.body);
                 }
             );
+        });
+    });
+
+    after(() => {
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: false,
+            },
         });
     });
 
@@ -647,11 +661,11 @@ function verifyShortcutReactToLastMessageIsBlocked(from) {
 function openMainMenuOptions(menu) {
     cy.get('body').type('{esc}');
     cy.findByLabelText('main menu').click();
-    cy.findByText(menu).click();
+    cy.findByText(menu).scrollIntoView().click();
 }
 
 function openChannelMainOptions(menu) {
     cy.get('body').type('{esc}');
     cy.findByLabelText('channel menu').click();
-    cy.findByText(menu).click();
+    cy.findByText(menu).scrollIntoView().should('be.visible').click();
 }

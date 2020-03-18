@@ -17,6 +17,7 @@ import {
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
+    getMyChannelMember,
     getChannelMember,
     getChannelStats,
     viewChannel,
@@ -43,11 +44,12 @@ import {
     getStatusesByIds,
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
+import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
@@ -309,6 +311,10 @@ export function handleEvent(msg) {
         handleRoleRemovedEvent(msg);
         break;
 
+    case SocketEvents.CHANNEL_SCHEME_UPDATED:
+        handleChannelSchemeUpdatedEvent(msg);
+        break;
+
     case SocketEvents.MEMBERROLE_UPDATED:
         handleUpdateMemberRoleEvent(msg);
         break;
@@ -323,6 +329,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.CHANNEL_DELETED:
         handleChannelDeletedEvent(msg);
+        break;
+
+    case SocketEvents.CHANNEL_UNARCHIVED:
+        handleChannelUnarchivedEvent(msg);
         break;
 
     case SocketEvents.CHANNEL_CONVERTED:
@@ -594,8 +604,9 @@ export function handleLeaveTeamEvent(msg) {
     }
 
     dispatch(batchActions(actions));
+    const currentUser = getCurrentUser(state);
 
-    if (getCurrentUserId(state) === msg.data.user_id) {
+    if (currentUser.id === msg.data.user_id) {
         dispatch({type: TeamTypes.LEAVE_TEAM, data: {id: msg.data.team_id}});
 
         // if they are on the team being removed redirect them to default team
@@ -603,6 +614,25 @@ export function handleLeaveTeamEvent(msg) {
             if (!global.location.pathname.startsWith('/admin_console')) {
                 redirectUserToDefaultTeam();
             }
+        }
+        if (isGuest(currentUser)) {
+            dispatch(removeNotVisibleUsers());
+        }
+    } else {
+        const team = getTeam(state, msg.data.team_id);
+        const members = getChannelMembersInChannels(state);
+        const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
+        if (team && isGuest(currentUser) && !isMember) {
+            dispatch(batchActions([
+                {
+                    type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
+                    data: {user_id: msg.data.user_id},
+                },
+                {
+                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                    data: {team_id: team.id, user_id: msg.data.user_id},
+                },
+            ]));
         }
     }
 }
@@ -703,9 +733,9 @@ function handleUserAddedEvent(msg) {
 export function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
-    const currentUserId = getCurrentUserId(state);
+    const currentUser = getCurrentUser(state);
 
-    if (msg.broadcast.user_id === currentUserId) {
+    if (msg.broadcast.user_id === currentUser.id) {
         dispatch(loadChannelsForCurrentUser());
 
         const rhsChannelId = getSelectedChannelId(state);
@@ -738,12 +768,34 @@ export function handleUserRemovedEvent(msg) {
             type: ChannelTypes.LEAVE_CHANNEL,
             data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
         });
+        if (isGuest(currentUser)) {
+            dispatch(removeNotVisibleUsers());
+        }
     } else if (msg.broadcast.channel_id === currentChannel.id) {
         dispatch(getChannelStats(currentChannel.id));
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
+    }
+
+    if (msg.broadcast.user_id !== currentUser.id) {
+        const channel = getChannel(state, msg.broadcast.channel_id);
+        const members = getChannelMembersInChannels(state);
+        const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
+        if (channel && isGuest(currentUser) && !isMember) {
+            const actions = [
+                {
+                    type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
+                    data: {user_id: msg.data.user_id},
+                },
+                {
+                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                    data: {team_id: channel.team_id, user_id: msg.data.user_id},
+                },
+            ];
+            dispatch(batchActions(actions));
+        }
     }
 
     const channelId = msg.broadcast.channel_id || msg.data.channel_id;
@@ -814,6 +866,10 @@ function handleRoleRemovedEvent(msg) {
     });
 }
 
+function handleChannelSchemeUpdatedEvent(msg) {
+    dispatch(getMyChannelMember(msg.broadcast.channel_id));
+}
+
 function handleRoleUpdatedEvent(msg) {
     const role = JSON.parse(msg.data.role);
 
@@ -845,6 +901,14 @@ function handleChannelDeletedEvent(msg) {
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
+}
+
+function handleChannelUnarchivedEvent(msg) {
+    const state = getState();
+    const config = getConfig(state);
+    const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+
+    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_UNARCHIVED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels}});
 }
 
 function handlePreferenceChangedEvent(msg) {

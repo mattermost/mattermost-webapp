@@ -45,6 +45,24 @@
             text-align: center;
             width: 100%;
 
+            &:not(.special):before{
+                @include border-radius(4px);
+                content: '';
+                height: 0px;
+                position: absolute;
+                left: -8px;
+                top: 18px;
+                transition: all ease-in-out 0.1s;
+                width: 8px;
+                background: $black;
+            }
+
+            &:hover::before {
+                height: 32px;
+                left: -4px;
+                top: 8px;
+            }
+
             a {
                 display: block;
                 height: 100%;
@@ -78,22 +96,35 @@
                 @include border-radius(4px);
                 background: $black;
                 content: '';
-                height: 42px;
-                left: 0;
+                height: 41px;
+                left: -4px;
                 position: absolute;
-                top: 1px;
-                width: 5px;
+                top: 3px;
+                transition: all ease-in-out 0.1s;
+                width: 8px;
+            }
+
+            &.active:hover::before {
+                height: 32px;
+                top: 8px;
             }
 
             &.unread:before {
                 background: $black;
-                border-radius: 50%;
+                border-radius: 8px;
                 content: '';
-                height: 5px;
-                left: 0;
+                height: 8px;
+                left: -4px;
                 position: absolute;
                 top: 18px;
-                width: 5px;
+                transition: all ease-in-out 0.1s;
+                width: 8px;
+            }
+
+            &.unread:hover::before {
+                height: 16px;
+                top: 15px;
+                width: 8px;
             }
 
             a.team-disabled {
@@ -103,6 +134,23 @@
 
             .team-btn {
                 color: var(--sidebar-header-text-color);
+            }
+
+            .order-indicator {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                left: 12px;
+                top: 28px;
+                background: #000000;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                color: #FFFFFF;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
             }
         }
 

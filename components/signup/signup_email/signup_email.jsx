@@ -31,6 +31,7 @@ export default class SignupEmail extends React.Component {
         privacyPolicyLink: PropTypes.string,
         customDescriptionText: PropTypes.string,
         passwordConfig: PropTypes.object,
+        hasAccounts: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             createUser: PropTypes.func.isRequired,
             loginById: PropTypes.func.isRequired,
@@ -65,6 +66,10 @@ export default class SignupEmail extends React.Component {
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
+        }
+
+        if (!this.props.hasAccounts) {
+            document.body.classList.remove('sticky');
         }
     }
 
@@ -218,6 +223,7 @@ export default class SignupEmail extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        trackEvent('signup_email', 'click_create_account');
 
         // bail out if a submission is already in progress
         if (this.state.isSubmitting) {
@@ -422,6 +428,7 @@ export default class SignupEmail extends React.Component {
             privacyPolicyLink,
             siteName,
             termsOfServiceLink,
+            hasAccounts,
         } = this.props;
 
         let serverError = null;
@@ -470,7 +477,7 @@ export default class SignupEmail extends React.Component {
 
         return (
             <div>
-                <BackButton/>
+                {hasAccounts && <BackButton onClick={() => trackEvent('signup_email', 'click_back')}/>}
                 <div
                     id='signup_email_section'
                     className='col-sm-12'
@@ -506,6 +513,7 @@ export default class SignupEmail extends React.Component {
                             <Link
                                 id='signin_account_link'
                                 to={'/login' + location.search}
+                                onClick={() => trackEvent('signup_email', 'click_signin_account')}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'
