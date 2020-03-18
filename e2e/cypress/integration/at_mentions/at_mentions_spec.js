@@ -100,6 +100,7 @@ describe('at-mention', () => {
     before(() => {
         // # Login as receiver and go to "/"
         cy.apiLogin(receiver.username);
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Navigate to the channel we were mention to
         // clear the notification gem and get the channelId
