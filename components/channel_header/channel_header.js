@@ -571,7 +571,7 @@ class ChannelHeader extends React.PureComponent {
                         {...formattedMessage}
                     />
                 </Tooltip>
-            )
+            );
 
             toggleFavorite = (
                 <OverlayTrigger
@@ -588,7 +588,7 @@ class ChannelHeader extends React.PureComponent {
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
                         aria-label={ariaLabel}
                     >
-                        <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')} />
+                        <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
                     </button>
                 </OverlayTrigger>
             );
