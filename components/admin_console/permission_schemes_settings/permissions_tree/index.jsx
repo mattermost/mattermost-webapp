@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import PermissionsTree from './permissions_tree.jsx';
-
 import Permissions from 'mattermost-redux/constants/permissions';
+
+import PermissionsTree from './permissions_tree.jsx';
 
 export const EXCLUDED_PERMISSIONS = [
     Permissions.VIEW_MEMBERS,
