@@ -8,7 +8,6 @@
 // ***************************************************************
 
 import users from '../../fixtures/users.json';
-import {getRandomInt} from '../../utils';
 
 function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}) {
     // Navigate to settings modal
@@ -83,59 +82,12 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
     cy.get('#sidebarItem_saepe-5').scrollIntoView().click({force: true});
 }
 
-function signupWithEmailCreateTeam(name, pw, team) {
-    // # Go to /login
-    cy.visit('/login');
-
-    // # Click on sign up button
-    cy.get('#signup').click();
-
-    // # Type email address (by adding the uniqueUserId in the email address)
-    cy.get('#email').type('unique.' + uniqueUserId + '@sample.mattermost.com');
-
-    // # Type 'unique-1' for username
-    cy.get('#name').type(name);
-
-    // # Type 'unique1pw' for password
-    cy.get('#password').type(pw);
-
-    // # Click on Create Account button
-    cy.get('#createAccountButton').click();
-
-    // # Click on Create a Team link
-    cy.get('#createNewTeamLink').click();
-
-    // # Fill out team name
-    cy.get('#teamNameInput').type(team);
-
-    // # Click Next
-    cy.get('#teamNameNextButton').click();
-
-    // # Click Finish
-    cy.get('#teamURLFinishButton').click();
-}
-
-function goToNotificationsFillOutName(name) {
+function goToNotifications() {
     // open preferences
     cy.get('#headerInfo').click();
 
     // open account settings
     cy.get('#accountSettings').click();
-
-    // open General sub settings
-    cy.get('#generalButton').click();
-
-    // open Full Name sub sub settings
-    cy.get('#nameTitle').click();
-
-    // open Full Name sub sub settings
-    cy.get('#firstName').click();
-
-    // # Fill first name
-    cy.get('#firstName').type(name);
-
-    // # click save
-    cy.get('#saveSetting').click();
 
     // open notfications sub settings
     cy.get('#notificationsButton').click();
@@ -147,8 +99,6 @@ function goToNotificationsFillOutName(name) {
 const receiver = users['user-1'];
 const sender = users['user-2'];
 const sysadmin = users.sysadmin;
-const uniqueUserId = getRandomInt(99999);
-const uniqueTeamId = getRandomInt(99999);
 let townsquareChannelId;
 let offTopicChannelId;
 
@@ -176,27 +126,19 @@ describe('at-mention', () => {
             offTopicChannelId = id;
         });
 
-        // Set EnableOpenServer to true so users can sign up
-        const newSettings = {
-            TeamSettings: {EnableOpenServer: true},
-        };
-        cy.apiUpdateConfig(newSettings);
     });
 
     it('MM7881 Disable default mention notification settings for "case sensitive first name" and "non-case sensitive username"', () => {
         ignoreUncaughtException();
+        cy.loginAsNewUser().then(() => {
+            goToNotifications();
 
-        // # Signup a new user with an email address and user generated in signupWithEmail
-        signupWithEmailCreateTeam('unique.' + uniqueUserId, 'unique1pw', 'team.' + uniqueTeamId);
+            // ensure "Your case sensitive first name" is not checked
+            cy.get('#notificationTriggerFirst').should('is.not.checked');
 
-        // # enter first name then open up a specific notifications sub sub panel
-        goToNotificationsFillOutName('first_name.' + uniqueUserId);
-
-        // ensure "Your case sensitive first name" is not checked
-        cy.get('#notificationTriggerFirst').should('is.not.checked');
-
-        // ensure "Your non-case sensitive username" is not checked
-        cy.get('#notificationTriggerUsername').should('is.not.checked');
+            // ensure "Your non-case sensitive username" is not checked
+            cy.get('#notificationTriggerUsername').should('is.not.checked');
+        });
     });
 
     it('N14571 still triggers notification if username is not listed in words that trigger mentions', () => {
