@@ -15,6 +15,9 @@ const waitUntilConfigSave = () => {
 
 describe('System Console', () => {
     before(() => {
+        // * Check if server has license for LDAP Groups
+        cy.requireLicenseForFeature('LDAPGroups');
+
         // # Check and run LDAP Sync job
         cy.checkRunLDAPSync();
     });
