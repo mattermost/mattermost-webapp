@@ -198,7 +198,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.be.visible');
 
             // * search should be visible
-            cy.findByPlaceholderText('Search Plugins').should('be.visible').click();
+            cy.findByPlaceholderText('Search Plugins').should('be.visible');
 
             // * tabs should be visible
             cy.get('#marketplaceTabs').should('exist');
