@@ -31,6 +31,7 @@ describe('Messaging', () => {
                 Date.UTC(2020, 0, 5, 4, 30), // Jan 5, 2020 04:30
                 Date.UTC(2020, 0, 5, 12, 30), // Jan 5, 2020 12:30
                 Date.UTC(2020, 0, 5, 20, 30), // Jan 5, 2020 20:30
+                Date.UTC(2020, 0, 6, 0, 30), // Jan 6, 2020 00:30
             ].forEach((createAt, index) => {
                 cy.postMessageAs({sender: sysadmin, message: `Hello from ${index}`, channelId: channel.id, createAt});
             });
@@ -62,6 +63,7 @@ describe('Messaging', () => {
                     {postIndex: 0, match12hour: '4:30 AM', match24hour: '04:30'},
                     {postIndex: 1, match12hour: '12:30 PM', match24hour: '12:30'},
                     {postIndex: 2, match12hour: '8:30 PM', match24hour: '20:30'},
+                    {postIndex: 3, match12hour: '12:30 AM', match24hour: '00:30'},
                 ]
             },
             {
@@ -73,6 +75,7 @@ describe('Messaging', () => {
                     {postIndex: 0, match12hour: /4:30 a\. m\./, match24hour: '4:30'},
                     {postIndex: 1, match12hour: /12:30 p\. m\./, match24hour: '12:30'},
                     {postIndex: 2, match12hour: /8:30 p\. m\./, match24hour: '20:30'},
+                    {postIndex: 3, match12hour: /12:30 a\. m\./, match24hour: '00:30'},
                 ]
             },
             {
@@ -84,6 +87,7 @@ describe('Messaging', () => {
                     {postIndex: 0, match12hour: re12Hour, match24hour: re24Hour},
                     {postIndex: 1, match12hour: re12Hour, match24hour: re24Hour},
                     {postIndex: 2, match12hour: re12Hour, match24hour: re24Hour},
+                    {postIndex: 3, match12hour: re12Hour, match24hour: re24Hour},
                 ]
             },
         ].forEach((testCase) => {
