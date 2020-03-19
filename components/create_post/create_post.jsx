@@ -668,6 +668,9 @@ class CreatePost extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
+        if (this.refs.textbox) {
+            this.refs.textbox.getWrappedInstance().blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored
+        }
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.getWrappedInstance().focus();
         }
