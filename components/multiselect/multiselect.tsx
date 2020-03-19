@@ -362,7 +362,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
         return (
             <div className='filtered-user-list'>
                 <div className='filter-row filter-row--full'>
-                    <div className='multi-select__container react-select'>
+                    <div className='multi-select__container'>
                         <ReactSelect
                             id='selectItems'
                             ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
@@ -387,7 +387,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
                             getOptionLabel={this.props.ariaLabelRenderer}
                             aria-label={this.props.placeholderText}
                             className={this.state.a11yActive ? 'multi-select__focused' : ''}
-                            classNamePrefix='react-select'
+                            classNamePrefix='multi-select'
                         />
                         <SaveButton
                             id='saveItems'
@@ -439,7 +439,7 @@ const nullComponent = () => null;
 const paddedComponent = (WrappedComponent: any) => {
     return (props: {data: any}) => {
         return (
-            <div style={{paddingRight: '5px', paddingLeft: '5px', borderRight: '1px solid rgba(0, 126, 255, 0.24)'}}>
+            <div style={{paddingLeft: '10px'}}>
                 <WrappedComponent {...props}/>
             </div>
         );
