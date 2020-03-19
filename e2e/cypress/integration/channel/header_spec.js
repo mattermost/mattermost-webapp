@@ -95,7 +95,7 @@ function updateAndVerifyChannelHeader(prefix, header) {
     }
 
     // * Check if channel header description has ellipsis
-    cy.get('#channelHeaderDescription').find('p').
+    cy.get('#channelHeaderDescription > .header-description__text').find('p').
         should('have.text', header).
         and('have.css', 'overflow', 'hidden').
         and('have.css', 'text-overflow', 'ellipsis');

@@ -3426,7 +3426,7 @@ const AdminDefinition = {
                                 display_name_default: 'Google Apps',
                                 isHidden: it.isnt(it.licensedForFeature('GoogleOAuth')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.\n8. Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview) and click *Enable*. This setting might take a few minutes to propagate.',
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
                             },
                             {
@@ -4457,12 +4457,38 @@ const AdminDefinition = {
                         isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
+                        label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
+                        label_default: 'Experimental Sidebar Features',
+                        help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
+                        help_text_default: 'When enabled, users can access experimental channel sidebar features, including collapsible sections and unreads filtering. If default on, this enabled the new sidebar features by default for all users on this server. Users can disable the features in **Account Settings > Sidebar > Experimental Sidebar Features**. If default off, users must enable the experimental sidebar features in Account Settings. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.disabled'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+                        ],
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalChannelOrganization',
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
-                        label_default: 'Sidebar Organization:',
+                        label_default: 'Channel Grouping and Sorting',
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list.',
+                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
                     },
                     {

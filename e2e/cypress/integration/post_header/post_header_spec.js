@@ -8,6 +8,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Post Header', () => {
     before(() => {
         // # Go to Main Channel View with "user-1"
@@ -33,8 +35,11 @@ describe('Post Header', () => {
             // # Click timestamp of a post
             cy.clickPostTime(postId);
 
-            // * Check that it redirected to permalink URL
-            cy.url().should('include', `/ad-1/pl/${postId}`);
+            // * Check if url include the permalink
+            cy.url().should('include', `/ad-1/channels/town-square/${postId}`);
+
+            // * Check if url redirects back to parent path eventually
+            cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
             cy.get(divPostId).should('be.visible').should('have.class', 'post--highlight');

@@ -3,9 +3,18 @@
 
 import {bindActionCreators} from 'redux';
 
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
-import {getChannel as fetchChannel, membersMinusGroupMembers, patchChannel, updateChannelPrivacy} from 'mattermost-redux/actions/channels';
+import {getScheme} from 'mattermost-redux/selectors/entities/schemes';
+import {getScheme as loadScheme} from 'mattermost-redux/actions/schemes';
+import {
+    getChannel as fetchChannel,
+    membersMinusGroupMembers,
+    patchChannel,
+    updateChannelPrivacy,
+    getChannelModerations as fetchChannelModerations,
+    patchChannelModerations,
+} from 'mattermost-redux/actions/channels';
 import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
 
 import {
@@ -30,6 +39,8 @@ function mapStateToProps(state, props) {
     const groups = getGroupsAssociatedToChannel(state, channelID);
     const allGroups = getAllGroups(state, channel.team_id);
     const totalGroups = groups.length;
+    const channelPermissions = getChannelModerations(state, channelID);
+    const teamScheme = getScheme(state, team.scheme_id);
     return {
         channel,
         team,
@@ -37,12 +48,17 @@ function mapStateToProps(state, props) {
         totalGroups,
         groups,
         channelID,
+        channelPermissions,
+        teamScheme,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            loadScheme,
+            patchChannelModerations,
+            getChannelModerations: fetchChannelModerations,
             getChannel: fetchChannel,
             getTeam: fetchTeam,
             getGroups: fetchAssociatedGroups,

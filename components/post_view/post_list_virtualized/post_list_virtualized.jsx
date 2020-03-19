@@ -135,6 +135,8 @@ class PostList extends React.PureComponent {
             dynamicListStyle: {
                 willChange: 'transform',
             },
+            initScrollCompleted: false,
+            initScrollOffsetFromBottom: 0,
         };
 
         this.listRef = React.createRef();
@@ -295,6 +297,9 @@ class PostList extends React.PureComponent {
             }
         }
 
+        // Since the first in the list is the latest message
+        const isLastPost = itemId === this.state.postListIds[0];
+
         return (
             <div
                 style={style}
@@ -307,6 +312,7 @@ class PostList extends React.PureComponent {
                     loadOlderPosts={this.props.actions.loadOlderPosts}
                     loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
+                    isLastPost={isLastPost}
                 />
             </div>
         );
@@ -362,6 +368,13 @@ class PostList extends React.PureComponent {
             // postsRenderedRange[3] is the visibleStopIndex which is post at the bottom of the screen
             if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
+            }
+
+            if (!this.state.atBottom && scrollHeight) {
+                const initScrollOffsetFromBottom = scrollHeight - clientHeight - scrollOffset;
+                this.setState({
+                    initScrollOffsetFromBottom,
+                });
             }
         }
     }
@@ -495,6 +508,8 @@ class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}
+                focusedPostId={this.props.focusedPostId}
+                initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
             />
         );
     }
@@ -553,7 +568,7 @@ class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.renderToasts(width)}</div>
+                                        <div>{this.state.atBottom !== null && this.renderToasts(width)}</div>
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}

@@ -75,6 +75,9 @@ function verifyInvitationSuccess(user, successText) {
 
 describe('Guest Account - Member Invitation Flow', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Login as "sysadmin" and go to /
         cy.apiLogin('sysadmin');
 
@@ -206,6 +209,15 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // # Search and add a new member by email who is not part of the team
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(email, 'An invitation email has been sent.');
+    });
+
+    it('MM-22037 Invite Member via Email containing upper case letters', () => {
+        // # Invite a email containing uppercase letters
+        const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
