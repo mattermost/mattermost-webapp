@@ -72,4 +72,28 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
         expect(buttonStyles).toHaveProperty('color', props.action.style);
     });
+
+    test('should have no styles when provided wrong hex color', () => {
+        const props = {
+            ...baseProps,
+            action: {...baseProps.action, style: '#wrong'},
+        };
+
+        const wrapper = shallow(<ActionButton {...props}/>);
+        const buttonStyles = wrapper.find('button').prop('style');
+
+        expect(buttonStyles).toBeUndefined();
+    });
+
+    test('should have no styles when provided undefined', () => {
+        const props = {
+            ...baseProps,
+            action: {...baseProps.action, style: undefined},
+        };
+
+        const wrapper = shallow(<ActionButton {...props}/>);
+        const buttonStyles = wrapper.find('button').prop('style');
+
+        expect(buttonStyles).toBeUndefined();
+    });
 });

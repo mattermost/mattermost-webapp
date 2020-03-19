@@ -21,8 +21,19 @@ export default class ActionButton extends React.PureComponent {
         let customButtonStyle;
 
         if (action.style) {
-            const hexColor = STATUS_COLORS[action.style] || theme[action.style] || action.style;
-            customButtonStyle = {borderColor: changeOpacity(hexColor, 0.25), backgroundColor: '#ffffff', color: hexColor, borderWidth: 2};
+            const hexColor =
+                STATUS_COLORS[action.style] ||
+                theme[action.style] ||
+                (action.style.match('^#(?:[0-9a-fA-F]{3}){1,2}$') && action.style);
+
+            if (hexColor) {
+                customButtonStyle = {
+                    borderColor: changeOpacity(hexColor, 0.25),
+                    backgroundColor: '#ffffff',
+                    color: hexColor,
+                    borderWidth: 2
+                };
+            }
         }
 
         return (
