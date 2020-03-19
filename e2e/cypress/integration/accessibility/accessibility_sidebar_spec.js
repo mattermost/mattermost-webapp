@@ -51,7 +51,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         // # Update Configs
         cy.apiUpdateConfigBasic({
             ServiceSettings: {
-                ExperimentalChannelOrganization: false,
+                ExperimentalChannelOrganization: true,
             },
         });
 
