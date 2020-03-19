@@ -80,19 +80,19 @@ describe('Channel sidebar', () => {
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
                 cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
+
+                // * Verify that all channels are visible
+                cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
+                cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible').should('has.class', 'unread');
+
+                // # Click on PUBLIC CHANNELS
+                cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS)').should('be.visible').click();
+
+                // * Verify that Off-Topic is no longer visible but Channel Test still is
+                cy.get('.SidebarChannel:contains(Off-Topic)').should('not.be.visible');
+                cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
             });
         });
-
-        // * Verify that all channels are visible
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
-        cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible').should('has.class', 'unread');
-
-        // # Click on PUBLIC CHANNELS
-        cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS)').should('be.visible').click();
-
-        // * Verify that Off-Topic is no longer visible but Channel Test still is
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('not.be.visible');
-        cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
     });
 
     it('should save collapsed state and remember the state on refresh', () => {
@@ -113,6 +113,8 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('have.class', 'icon-rotate-minus-90');
 
         // Wait for state to settle
+        // This is necessary since we have no observable way of finding out when the state actually settles so that it persists on reload
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000);
 
         // # Reload the page
@@ -128,6 +130,7 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannelGroupHeader:contains(PUBLIC CHANNELS) i').should('not.have.class', 'icon-rotate-minus-90');
 
         // Wait for state to settle
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000);
 
         // # Reload the page
@@ -178,19 +181,19 @@ describe('Channel sidebar', () => {
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
                 cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
+
+                // * Verify that all channels are visible
+                cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
+                cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible').should('has.class', 'unread');
+
+                // # Enable the unread filter
+                cy.get('.SidebarFilters_filterButton').should('be.visible').click();
+
+                // * Verify that Off-Topic is no longer visible but Channel Test still is
+                cy.get('.SidebarChannel:contains(Off-Topic)').should('not.be.visible');
+                cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
             });
         });
-
-        // * Verify that all channels are visible
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
-        cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible').should('has.class', 'unread');
-
-        // # Enable the unread filter
-        cy.get('.SidebarFilters_filterButton').should('be.visible').click();
-
-        // * Verify that Off-Topic is no longer visible but Channel Test still is
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('not.be.visible');
-        cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
     });
 
     it('should collapse all categories when the unread filter is enabled', () => {
