@@ -22,6 +22,7 @@ describe('plugins/MainMenuActions', () => {
             enableIncomingWebhooks: true,
             enableOutgoingWebhooks: true,
             enableOAuthServiceProvider: true,
+            canManageSystemBots: true,
             enableUserCreation: true,
             enableEmailInvitations: false,
             enablePluginMarketplace: true,
@@ -29,6 +30,7 @@ describe('plugins/MainMenuActions', () => {
             onToggleDropdown: () => {}, //eslint-disable-line no-empty-function
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
             canCreateOrDeleteCustomEmoji: true,
+            canManageIntegrations: true,
             moreTeamsToJoin: true,
             teamIsGroupConstrained: true,
             actions: {

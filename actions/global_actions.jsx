@@ -142,14 +142,6 @@ export function showChannelNameUpdateModal(channel) {
     });
 }
 
-export function showGetPostLinkModal(post) {
-    AppDispatcher.handleViewAction({
-        type: ActionTypes.TOGGLE_GET_POST_LINK_MODAL,
-        value: true,
-        post,
-    });
-}
-
 export function showGetPublicLinkModal(fileId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,

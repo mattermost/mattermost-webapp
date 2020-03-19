@@ -10,6 +10,7 @@ import {getCurrentUserId, makeGetProfilesForReactions, getCurrentUser} from 'mat
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 import Constants from 'mattermost-redux/constants/general';
@@ -18,6 +19,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {addReaction} from 'actions/post_actions.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
+import {getSortedUsers} from 'utils/utils.jsx';
 
 import Reaction from './reaction.jsx';
 
@@ -45,7 +47,8 @@ function makeMapStateToProps() {
         const channel = getChannel(state, ownProps.post.channel_id) || {};
         const channelIsArchived = channel.delete_at !== 0;
         const teamId = channel.team_id;
-
+        const currentUserId = getCurrentUserId(state);
+        const teammateNameDisplaySetting = getTeammateNameDisplaySetting(state);
         let canAddReaction = false;
         let canRemoveReaction = false;
 
@@ -57,11 +60,12 @@ function makeMapStateToProps() {
         return {
             profiles,
             otherUsersCount: ownProps.reactions.length - profiles.length,
-            currentUserId: getCurrentUserId(state),
+            currentUserId,
             reactionCount: ownProps.reactions.length,
             canAddReaction,
             canRemoveReaction,
             emojiImageUrl,
+            sortedUsers: getSortedUsers(ownProps.reactions, currentUserId, profiles, teammateNameDisplaySetting),
         };
     };
 }
