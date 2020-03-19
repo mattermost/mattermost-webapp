@@ -1485,10 +1485,10 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
-  role="application"
+  role="banner"
   tabIndex="-1"
 >
   <div
@@ -1594,6 +1594,13 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
                 id="channel_header.addChannelHeader"
                 values={Object {}}
               />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
