@@ -24,7 +24,7 @@ type Props = {
     totalTeamMembers: number;
     canManageTeamMembers?: boolean;
     actions: {
-        getTeamMembers: (teamId: string, page?: number) => Promise<{data: {}}>;
+        getTeamMembers: (teamId: string, page?: number, perPage?: number, options?: {}) => Promise<{data: {}}>;
         searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
         getTeamStats: (teamId: string) => Promise<{data: {}}>;
         loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
@@ -62,7 +62,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
     async componentDidMount() {
         await Promise.all([
             this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId),
-            this.props.actions.getTeamMembers(this.props.currentTeamId),
+            this.props.actions.getTeamMembers(this.props.currentTeamId, 0, Constants.DEFAULT_MAX_USERS_PER_TEAM, { sort: "Username", exclude_deleted_members: true }),
             this.props.actions.getTeamStats(this.props.currentTeamId),
         ]);
         this.loadComplete();
@@ -119,7 +119,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
     nextPage = async (page: number) => {
         this.setState({loading: true});
         this.props.actions.loadProfilesAndTeamMembers(page, USERS_PER_PAGE);
-        await this.props.actions.getTeamMembers(this.props.currentTeamId, page);
+        await this.props.actions.getTeamMembers(this.props.currentTeamId, page, Constants.DEFAULT_MAX_USERS_PER_TEAM, { sort: "Username", exclude_deleted_members: true });
         this.loadComplete();
     }
 
