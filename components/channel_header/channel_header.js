@@ -438,11 +438,14 @@ class ChannelHeader extends React.PureComponent {
                     placement='bottom'
                     className={classNames(['channel-header__popover', {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam}])}
                 >
-
-                    <Markdown
-                        message={headerText}
-                        options={this.getPopoverMarkdownOptions(channelNamesMap)}
-                    />
+                    <span
+                        onClick={this.handleFormattedTextClick}
+                    >
+                        <Markdown
+                            message={headerText}
+                            options={this.getPopoverMarkdownOptions(channelNamesMap)}
+                        />
+                    </span>
                 </Popover>
             );
 
@@ -704,7 +707,7 @@ class ChannelHeader extends React.PureComponent {
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
-                data-a11y-sort-order='7'
+                data-a11y-sort-order='8'
             >
                 <div className='flex-parent'>
                     <div className='flex-child'>

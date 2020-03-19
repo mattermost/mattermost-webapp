@@ -100,6 +100,7 @@ describe('at-mention', () => {
     before(() => {
         // # Login as receiver and go to "/"
         cy.apiLogin(receiver.username);
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Navigate to the channel we were mention to
         // clear the notification gem and get the channelId
@@ -125,6 +126,12 @@ describe('at-mention', () => {
         cy.postMessageAs({sender, message, channelId: townsquareChannelId});
 
         const body = `@${sender.username}: ${message}`;
+
+        cy.get('@notifySpy').should('have.been.calledWithMatch', 'Town Square', (args) => {
+            expect(args.body, `Notification body: "${args.body}" should match: "${body}"`).to.equal(body);
+            expect(args.tag, `Notification tag: "${args.tag}" should match: "${body}"`).to.equal(body);
+            return true;
+        });
 
         cy.get('@notifySpy').should('have.been.calledWithMatch',
             'Town Square', {body, tag: body, requireInteraction: false, silent: false});

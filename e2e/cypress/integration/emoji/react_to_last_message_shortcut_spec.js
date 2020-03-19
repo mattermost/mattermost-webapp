@@ -667,5 +667,5 @@ function openMainMenuOptions(menu) {
 function openChannelMainOptions(menu) {
     cy.get('body').type('{esc}');
     cy.findByLabelText('channel menu').click();
-    cy.findByText(menu).scrollIntoView().click();
+    cy.findByText(menu).scrollIntoView().should('be.visible').click();
 }
