@@ -548,6 +548,9 @@ export function handlePostEditEvent(msg) {
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(postDeleted(post));
+    if (post.is_pinned) {
+        dispatch(getChannelStats(post.channel_id));
+    }
 }
 
 export function handlePostUnreadEvent(msg) {
