@@ -89,9 +89,9 @@ type State = {
 
 class UserSettingsModal extends React.Component<Props, State> {
     private requireConfirm: boolean;
-    private customConfirmAction: any;
+    private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
-    private afterConfirm: any;
+    private afterConfirm: (() => void) | null;
 
     constructor(props: Props) {
         super(props);
@@ -111,6 +111,7 @@ class UserSettingsModal extends React.Component<Props, State> {
         // If set by a child, it will be called in place of showing the regular confirm
         // modal. It will be passed a function to call on modal confirm
         this.customConfirmAction = null;
+        this.afterConfirm = null;
 
         this.modalBodyRef = React.createRef();
     }
