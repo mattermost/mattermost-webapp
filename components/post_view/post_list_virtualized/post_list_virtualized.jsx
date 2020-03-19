@@ -494,7 +494,7 @@ class PostList extends React.PureComponent {
         this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, lastViewedAt);
     }
 
-    renderToasts = (width) => {
+    renderToastsAndFloatingTimestamp = (width) => {
         return (
             <ToastWrapper
                 atLatestPost={this.props.atLatestPost}
@@ -569,7 +569,7 @@ class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.state.atBottom !== null && this.renderToasts(width)}</div>
+                                        <div>{this.state.atBottom !== null && this.renderToastsAndFloatingTimestamp(width)}</div>
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}
