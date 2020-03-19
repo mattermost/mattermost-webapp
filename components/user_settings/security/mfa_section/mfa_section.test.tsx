@@ -103,7 +103,11 @@ describe('MfaSection', () => {
         it('should send to setup page', () => {
             const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
-            wrapper.instance().setupMfa({preventDefault: jest.fn()});
+            const mockEvent = {
+                preventDefault: jest.fn()
+            } as unknown as React.MouseEvent<HTMLElement>;
+
+            (wrapper.instance() as MfaSection).setupMfa(mockEvent);
 
             expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
         });
@@ -113,9 +117,13 @@ describe('MfaSection', () => {
         it('on success, should close section and clear state', async () => {
             const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
+            const mockEvent = {
+                preventDefault: jest.fn()
+            } as unknown as React.MouseEvent<HTMLElement>;
+
             wrapper.setState({serverError: 'An error has occurred'});
 
-            await wrapper.instance().removeMfa({preventDefault: jest.fn()});
+            await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
 
             expect(baseProps.updateSection).toHaveBeenCalledWith('');
             expect(wrapper.state('serverError')).toEqual(null);
@@ -130,7 +138,11 @@ describe('MfaSection', () => {
 
             const wrapper = mountWithIntl(<MfaSection {...props}/>);
 
-            await wrapper.instance().removeMfa({preventDefault: jest.fn()});
+            const mockEvent = {
+                preventDefault: jest.fn()
+            } as unknown as React.MouseEvent<HTMLElement>;
+
+            await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
 
             expect(baseProps.updateSection).not.toHaveBeenCalled();
             expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
@@ -141,9 +153,13 @@ describe('MfaSection', () => {
 
             const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
+            const mockEvent = {
+                preventDefault: jest.fn()
+            } as unknown as React.MouseEvent<HTMLElement>;
+
             baseProps.actions.deactivateMfa.mockImplementation(() => Promise.resolve({error}));
 
-            await wrapper.instance().removeMfa({preventDefault: jest.fn()});
+            await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
 
             expect(baseProps.updateSection).not.toHaveBeenCalled();
             expect(wrapper.state('serverError')).toEqual(error.message);
