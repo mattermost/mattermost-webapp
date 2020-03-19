@@ -32,6 +32,7 @@ class ToastWrapper extends React.PureComponent {
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
         updateLastViewedBottomAt: PropTypes.func,
+        children: PropTypes.element
     };
 
     static defaultProps = {
@@ -229,14 +230,18 @@ class ToastWrapper extends React.PureComponent {
     }
 
     render() {
+        const {atLatestPost, atBottom, width, lastViewedAt, children} = this.props;
+        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, unreadCount} = this.state;
+        const toastPresent = showUnreadToast || showNewMessagesToast || showMessageHistoryToast;
+
         let unreadToastProps = {
             show: false,
-            width: this.props.width,
+            width,
         };
 
         const archiveToastProps = {
-            show: this.state.showMessageHistoryToast,
-            width: this.props.width,
+            show: showMessageHistoryToast,
+            width,
             onDismiss: this.hideArchiveToast,
             onClick: this.scrollToLatestMessages,
             onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
@@ -244,30 +249,31 @@ class ToastWrapper extends React.PureComponent {
             extraClasses: 'toast__history',
         };
 
-        if (this.state.showUnreadToast && this.state.unreadCount > 0) {
+        if (showUnreadToast && unreadCount > 0) {
             unreadToastProps = {
                 ...unreadToastProps,
                 onDismiss: this.hideUnreadToast,
                 onClick: this.scrollToLatestMessages,
                 onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
                 show: true,
-                showActions: !this.props.atLatestPost || (this.props.atLatestPost && !this.props.atBottom),
+                showActions: !atLatestPost || (atLatestPost && !atBottom),
             };
-        } else if (this.state.showNewMessagesToast) {
+        } else if (showNewMessagesToast) {
             unreadToastProps = {
                 ...unreadToastProps,
                 onDismiss: this.hideNewMessagesToast,
                 onClick: this.scrollToNewMessage,
                 onClickMessage: Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages'),
                 show: true,
-                showActions: !this.props.atLatestPost || (this.props.atLatestPost && !this.props.atBottom),
+                showActions: !atLatestPost || (atLatestPost && !atBottom),
             };
         }
 
         return (
             <React.Fragment>
+                {React.cloneElement(children, {toastPresent})}
                 <Toast {...unreadToastProps}>
-                    {this.newMessagesToastText(this.state.unreadCount, this.props.lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
                 </Toast>
                 <Toast {...archiveToastProps}>
                     {this.archiveToastText()}

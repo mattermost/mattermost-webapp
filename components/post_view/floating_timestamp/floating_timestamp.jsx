@@ -14,22 +14,24 @@ export default class FloatingTimestamp extends React.PureComponent {
             PropTypes.instanceOf(Date),
             PropTypes.number,
         ]).isRequired,
+        toastPresent: PropTypes.bool,
         isRhsPost: PropTypes.bool,
-        stylesOverride: PropTypes.object,
     }
 
     render() {
-        if (!this.props.isMobile) {
+        const {isMobile, createAt, isScrolling, isRhsPost, toastPresent} = this.props;
+
+        if (!isMobile) {
             return null;
         }
 
-        if (this.props.createAt === 0) {
+        if (createAt === 0) {
             return null;
         }
 
         const dateString = (
             <RecentDate
-                value={this.props.createAt}
+                value={createAt}
                 weekday='short'
                 day='2-digit'
                 month='short'
@@ -38,18 +40,18 @@ export default class FloatingTimestamp extends React.PureComponent {
         );
 
         let className = 'post-list__timestamp';
-        if (this.props.isScrolling) {
+        if (isScrolling) {
             className += ' scrolling';
         }
 
-        if (this.props.isRhsPost) {
+        if (isRhsPost) {
             className += ' rhs';
         }
 
         return (
             <div
                 className={className}
-                style={this.props.stylesOverride}
+                style={toastPresent ? {top: '50px'} : null}
                 data-testid='floatingTimestamp'
             >
                 <div>

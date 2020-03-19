@@ -510,7 +510,13 @@ class PostList extends React.PureComponent {
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
-            />
+            >
+                <FloatingTimestamp
+                    isScrolling={this.state.isScrolling}
+                    isMobile={true}
+                    postId={this.state.topPostId}
+                />
+            </ToastWrapper>
         );
     }
 
@@ -534,11 +540,6 @@ class PostList extends React.PureComponent {
             >
                 {this.state.isMobile && (
                     <React.Fragment>
-                        <FloatingTimestamp
-                            isScrolling={this.state.isScrolling}
-                            isMobile={true}
-                            postId={this.state.topPostId}
-                        />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
                             atBottom={this.state.atBottom}
