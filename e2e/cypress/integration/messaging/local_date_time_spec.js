@@ -91,7 +91,10 @@ describe('Messaging', () => {
                 ]
             },
         ].forEach((testCase) => {
-            it(testCase.name, () => {
+            it(testCase.name + ' standard time', () => {
+                verifyLocalizeTime(testCase);
+            });
+            it(testCase.name + ' military time', () => {
                 verifyLocalizeTime(testCase);
             });
         });
@@ -128,7 +131,7 @@ function verifyPostTime(postPosition, match) {
     });
 }
 
-function verifyLocalizeTime({locale, manualTimezone, channelIntro, localTimes}) {
+function verifyLocalizeTime12Hour({locale, manualTimezone, channelIntro, localTimes}) {
     // # Set user preference to 12-hour format
     setTo24HourTimeFormat(false);
 
@@ -142,9 +145,17 @@ function verifyLocalizeTime({locale, manualTimezone, channelIntro, localTimes}) 
     localTimes.forEach((localTime, index) => {
         verifyPostTime(index, localTime.match12hour);
     });
+}
 
+function verifyLocalizeTime24Hour({locale, manualTimezone, channelIntro, localTimes}) {
     // # Change user preference to 24-hour format
     setTo24HourTimeFormat(true);
+
+    // # Set user locale and timezone
+    setLocaleAndTimezone(locale, manualTimezone);
+
+    // * Verify that the channel is loaded correctly based on locale
+    cy.findByText(channelIntro).should('be.visible');
 
     // * Verify that the local time of each post is rendered in 24-hour format based on locale
     localTimes.forEach((localTime, index) => {
