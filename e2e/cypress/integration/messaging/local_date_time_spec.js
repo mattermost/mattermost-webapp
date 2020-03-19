@@ -28,9 +28,9 @@ describe('Messaging', () => {
         cy.createAndVisitNewChannel().then((channel) => {
             // # Post messages from the past and now
             [
-                Date.UTC(2020, 0, 5, 4, 30), // Jan 5, 2020 4:30am
-                Date.UTC(2020, 0, 5, 12, 30), // Jan 5, 2020 4:30am
-                Date.UTC(2020, 0, 5, 20, 30), // Jan 5, 2020 4:30am
+                Date.UTC(2020, 0, 5, 4, 30), // Jan 5, 2020 04:30
+                Date.UTC(2020, 0, 5, 12, 30), // Jan 5, 2020 12:30
+                Date.UTC(2020, 0, 5, 20, 30), // Jan 5, 2020 20:30
             ].forEach((createAt, index) => {
                 cy.postMessageAs({sender: sysadmin, message: `Hello from ${index}`, channelId: channel.id, createAt});
             });
