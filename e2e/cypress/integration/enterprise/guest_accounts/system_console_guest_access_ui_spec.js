@@ -43,15 +43,6 @@ describe('Guest Account - Verify Guest Access UI', () => {
         cy.visit('/admin_console/authentication/guest_access');
     });
 
-    after(() => {
-        // # Reset MFA
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableMultifactorAuthentication: false,
-            },
-        });
-    });
-
     it('MM-18046 Verify Guest Access Screen', () => {
         // * Verify Enable Guest Access field
         cy.findByTestId('GuestAccountsSettings.Enable').should('be.visible').within(() => {
