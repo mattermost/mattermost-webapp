@@ -35,6 +35,14 @@ type State = {
 };
 
 class SidebarDirectChannel extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            svgErrorUrl: null,
+        };
+    }
+
     handleLeaveChannel = (callback: () => void) => {
         const id = this.props.channel.teammate_id;
         const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
