@@ -8,7 +8,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     className="filter-row filter-row--full"
   >
     <div
-      className="multi-select__container react-select""
+      className="multi-select__container react-select"
     >
       <StateManager
         className=""
