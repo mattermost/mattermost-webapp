@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent';
 import Constants from 'utils/constants';
@@ -78,6 +79,7 @@ export default class SelectTeam extends React.Component {
     }
 
     componentDidMount() {
+        trackEvent('signup', 'signup_select_team', {userId: this.props.currentUserId});
         this.fetchMoreTeams();
         this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
     }
@@ -137,6 +139,7 @@ export default class SelectTeam extends React.Component {
 
     handleLogoutClick = (e) => {
         e.preventDefault();
+        trackEvent('select_team', 'click_logout');
         emitUserLoggedOutEvent('/login');
     };
 
@@ -273,6 +276,7 @@ export default class SelectTeam extends React.Component {
                     <Link
                         id='createNewTeamLink'
                         to='/create_team'
+                        onClick={() => trackEvent('select_team', 'click_create_team')}
                         className='signup-team-login'
                     >
                         <FormattedMessage
@@ -292,6 +296,7 @@ export default class SelectTeam extends React.Component {
                         <Link
                             to='/admin_console'
                             className='signup-team-login'
+                            onClick={() => trackEvent('select_team', 'click_system_console')}
                         >
                             <FormattedMessage
                                 id='signup_team_system_console'
@@ -332,7 +337,6 @@ export default class SelectTeam extends React.Component {
                 <div className='col-sm-12'>
                     <div
                         className={'signup-team__container'}
-                        style={{maxWidth: '800px', padding: '25px 0 0'}}
                     >
                         <img
                             alt={'signup team logo'}
