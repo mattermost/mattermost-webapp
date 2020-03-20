@@ -15,6 +15,9 @@ describe('Group Synced Team - Bot invitation flow', () => {
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
+        // Enable LDAP
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+
         // # Login as sysadmin to perform setup
         cy.apiLogin('sysadmin');
 

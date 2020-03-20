@@ -10,19 +10,6 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Plugin Marketplace', () => {
-    after(() => {
-        // # Restore default configuration
-        const newSettings = {
-            PluginSettings: {
-                Enable: true,
-                EnableMarketplace: true,
-                EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-    });
-
     describe('should not render in main menu', () => {
         afterEach(() => {
             cy.get('#lhsHeader').should('be.visible').within(() => {
