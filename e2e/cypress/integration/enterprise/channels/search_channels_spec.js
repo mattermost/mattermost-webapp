@@ -14,6 +14,9 @@ describe('Search channels', () => {
     before(() => {
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
+
+        // Enable LDAP
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
     });
 
     beforeEach(() => {
