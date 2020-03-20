@@ -4,72 +4,12 @@
     display: table;
     padding: 0 15px;
     width: 100%;
-    vertical-align: top;
 
     .btn {
         display: table-cell;
         height: 36px;
         min-width: 60px;
         vertical-align: top;
-    }
-
-    .multi-select__control {
-        background: v(center-channel-bg);
-        border-color: v(center-channel-color-20);
-
-        &:hover {
-            border-color: v(button-bg);
-
-            .multi-select__indicator {
-                opacity: .8;
-            }
-        }
-    }
-
-    .multi-select__control--is-focused {
-        box-shadow: 0 0 0 1px v(button-bg);
-        border-color: v(button-bg);
-
-        &:hover {
-            box-shadow: 0 0 0 1px v(button-bg);
-        }
-    }
-
-    .multi-select__input {
-        color: v(center-channel-color);
-    }
-
-    .multi-select__multi-value {
-        align-items: center;
-        background: var(--center-channel-color-10);
-        padding: 2px;
-        border-radius: 16px;
-        color: var(--center-channel-color);
-        margin: 4px;
-        &:nth-last-child(2) {
-            margin: 4px 0px 4px 4px;
-        }
-    }
-
-    .multi-select__multi-value__remove {
-        cursor: pointer;
-        span {
-            height: 16px;
-            width: 16px;
-            display: flex;
-        }
-        &:hover {
-            background: none;
-        }
-        svg {
-            height: 16px;
-            width: 16px;
-            fill: var(--center-channel-color-60);
-            &:hover {
-                fill: var(--center-channel-color-80);
-            }
-            opacity: .6;
-        }
     }
 }
 
