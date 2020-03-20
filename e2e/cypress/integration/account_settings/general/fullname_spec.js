@@ -12,14 +12,14 @@ describe('Account Settings > Sidebar > General', () => {
     // # number to identify particular user
     const uniqueNumber = getRandomInt(1000);
     before(() => {
-        cy.apiLogin('user-2');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiLogin('sysadmin');
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            const team = res.body;
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).as('newuser');
 
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.loginAsNewUser({}, [teamId]).as('newuser');
-
-            // # Go to Account Settings as new user
-            cy.toAccountSettingsModal(null, true);
+            // # Go to town-square channel and into the Account Settings
+            cy.visit('/ad-1/channels/town-square');
+            cy.toAccountSettingsModal();
 
             // # Click General button
             cy.get('#generalButton').click();
@@ -36,7 +36,7 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('M17459 - Filtering by first name with Korean characters', () => {
-        cy.apiLogin('user-2');
+        cy.apiLogin('user-1');
         cy.get('@newuser').then((user) => {
             cy.visit('/ad-1/channels/town-square');
 

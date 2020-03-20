@@ -18,15 +18,14 @@ describe('Email notification', () => {
     let mentionedUser;
 
     before(() => {
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({EmailSettings: {SendEmailNotifications: true}});
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
 
-        cy.visit('/ad-1/channels/town-square');
-
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.createNewUser({}, [teamId]).then((user) => {
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            cy.createNewUser({}, [res.body.id]).then((user) => {
                 mentionedUser = user;
             });
         });

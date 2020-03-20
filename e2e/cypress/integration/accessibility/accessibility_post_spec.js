@@ -71,7 +71,7 @@ describe('Verify Accessibility Support in Post', () => {
         cy.apiLogin('sysadmin');
 
         // # Update Configs
-        cy.apiUpdateConfigBasic({
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: false,
             },

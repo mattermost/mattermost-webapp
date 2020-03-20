@@ -16,6 +16,7 @@ let guest;
 describe('Guest Account - Verify Guest Access UI', () => {
     before(() => {
         // * Check if server has license for Guest Accounts
+        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
@@ -28,16 +29,13 @@ describe('Guest Account - Verify Guest Access UI', () => {
             },
         });
 
-        // # Login as new user
-        cy.loginAsNewUser().then((userResponse) => {
+        // # Create guest user account
+        cy.createNewUser().then((userResponse) => {
             guest = userResponse;
 
             // # Demote the current member to a guest user
             cy.demoteUser(guest.id);
         });
-
-        // # Login as SysAdmin
-        cy.apiLogin('sysadmin');
 
         // # Visit System Console Users page
         cy.visit('/admin_console/authentication/guest_access');
@@ -68,9 +66,6 @@ describe('Guest Account - Verify Guest Access UI', () => {
                 EnableMultifactorAuthentication: true,
             },
         });
-
-        // # Login as SysAdmin
-        cy.apiLogin('sysadmin');
 
         // # Visit System Console Users page
         cy.visit('/admin_console/authentication/guest_access');

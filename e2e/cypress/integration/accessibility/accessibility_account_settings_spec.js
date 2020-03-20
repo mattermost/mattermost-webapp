@@ -31,7 +31,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.apiLogin('sysadmin');
 
         // # Update Configs
-        cy.apiUpdateConfigBasic({
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
                 ExperimentalChannelOrganization: false,
@@ -50,10 +50,15 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
     beforeEach(() => {
         // # Open Account Settings
-        cy.toAccountSettingsModal(null, true).wait(TIMEOUTS.TINY);
+        cy.toAccountSettingsModal();
 
         // # Wait until the content in the settings are loaded
         cy.get('.settings-content > div').should('be.visible');
+    });
+
+    afterEach(() => {
+        // # Click "x" button to close Account Settings modal
+        cy.get('#accountSettingsHeader > .close').click();
     });
 
     it('MM-22628 Verify Label & Tab behavior in section links', () => {
