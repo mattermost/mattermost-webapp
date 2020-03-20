@@ -51,6 +51,9 @@ describe('System Console', () => {
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
+        // Enable LDAP
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+
         // # Check and run LDAP Sync job
         cy.checkRunLDAPSync();
     });

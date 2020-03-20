@@ -15,6 +15,9 @@ describe('Search channels', () => {
         // * Login as sysadmin and check if server has license for LDAP Groups
         cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('LDAPGroups');
+
+        // Enable LDAP
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
     });
 
     beforeEach(() => {

@@ -6,6 +6,7 @@ import merge from 'merge-deep';
 import {getRandomInt} from '../utils';
 
 import users from '../fixtures/users.json';
+import partialDefaultConfig from '../fixtures/partial_default_config.json';
 
 import theme from '../fixtures/theme.json';
 
@@ -834,7 +835,7 @@ Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     cy.request('/api/v4/config').then((response) => {
         const oldSettings = response.body;
 
-        const settings = merge(oldSettings, newSettings);
+        const settings = merge(oldSettings, partialDefaultConfig, newSettings);
 
         // # Set the modified settings
         cy.request({

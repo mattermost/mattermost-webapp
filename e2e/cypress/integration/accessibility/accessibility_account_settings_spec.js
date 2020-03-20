@@ -10,8 +10,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import accountSettingSections from '../../fixtures/account_setting_sections.json';
 
-let origConfig;
-
 function verifySections(sections) {
     // * Verify Accessibility support in the specified sections
     sections.forEach((section, index) => {
@@ -31,22 +29,6 @@ function verifySections(sections) {
 describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
     before(() => {
         cy.apiLogin('sysadmin');
-
-        // Get config
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-            origConfig = {
-                DisplaySettings: {
-                    ExperimentalTimezone: config.DisplaySettings.ExperimentalTimezone,
-                },
-                SamlSettings: {
-                    Enable: config.SamlSettings.Enable,
-                },
-                ServiceSettings: {
-                    EnableMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication,
-                },
-            };
-        });
 
         // # Update Configs
         cy.apiUpdateConfig({
@@ -72,11 +54,6 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
         // # Wait until the content in the settings are loaded
         cy.get('.settings-content > div').should('be.visible');
-    });
-
-    after(() => {
-        // # Revert Config
-        cy.apiUpdateConfig(origConfig);
     });
 
     afterEach(() => {
