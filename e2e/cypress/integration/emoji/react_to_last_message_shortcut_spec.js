@@ -42,14 +42,6 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         });
     });
 
-    after(() => {
-        cy.apiUpdateConfig({
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: false,
-            },
-        });
-    });
-
     beforeEach(() => {
         // # Make sure there is at least a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
