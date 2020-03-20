@@ -262,7 +262,7 @@ class ChannelHeader extends React.PureComponent {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
 
-        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g, ' ')) {
+        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
             this.setState({showChannelHeaderPopover: true});
         }
     }
@@ -462,7 +462,7 @@ class ChannelHeader extends React.PureComponent {
                         ref={this.headerPopoverTextMeasurerRef}
                     >
                         <Markdown
-                            message={headerText.replace(/\n{2,}/g, ' ')}
+                            message={headerText.replace(/\n{2,}/g, ' ').replace(/\n/, ' ')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         /></div>
                     <span
@@ -480,6 +480,7 @@ class ChannelHeader extends React.PureComponent {
                             target={this.headerDescriptionRef.current}
                             ref='headerOverlay'
                             onEnter={this.setPopoverOverlayWidth}
+                            onHide={() => this.setState({showChannelHeaderPopover: false})}
                         >{popoverContent}</Overlay>
 
                         <Markdown
