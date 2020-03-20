@@ -17,13 +17,13 @@ let newChannel = {};
 
 describe('Keyboard shortcut for adding reactions to last message in channel or thread', () => {
     before(() => {
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },
         });
 
-        cy.apiLogin('sysadmin');
         cy.visit('/ad-1/channels/town-square');
 
         // # Get the current channels Id for later use such as posting message with other user

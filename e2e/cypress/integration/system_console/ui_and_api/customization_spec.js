@@ -11,6 +11,9 @@ describe('Customization', () => {
     let origConfig;
 
     before(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // Get config
         cy.apiGetConfig().then((response) => {
             const config = response.body;
@@ -36,11 +39,8 @@ describe('Customization', () => {
                 },
             };
         });
-    });
 
-    beforeEach(() => {
-        // # Login as sysadmin and visit customization system console page
-        cy.apiLogin('sysadmin');
+        // # Visit customization system console page
         cy.visit('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
@@ -51,7 +51,7 @@ describe('Customization', () => {
 
     it('SC20336 - Can change Custom Brand Image setting', () => {
         // # Make sure necessary field is false
-        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
         cy.reload();
 
         // # Set Enable Custom Branding to true to be able to upload custom brand image
@@ -389,7 +389,7 @@ describe('Customization', () => {
 
     it('SC20339 - Can change Enable Custom Branding setting', () => {
         // # Make sure necessary field is false
-        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
         cy.reload();
 
         cy.findByTestId('TeamSettings.EnableCustomBrand').should('be.visible').within(() => {

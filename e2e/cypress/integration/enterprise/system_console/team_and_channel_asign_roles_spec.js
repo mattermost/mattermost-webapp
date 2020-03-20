@@ -15,6 +15,9 @@ const waitUntilConfigSave = () => {
 
 describe('System Console', () => {
     before(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
@@ -24,7 +27,6 @@ describe('System Console', () => {
 
     it('MM-20059 - System Admin can map roles to groups from Team Configuration screen', () => {
         const teamName = 'eligendi';
-        cy.apiLogin('sysadmin');
 
         // # Go to system admin page and to team configuration page of channel "eligendi"
         cy.visit('/admin_console/user_management/teams');
@@ -36,7 +38,7 @@ describe('System Console', () => {
         // # Wait until the groups retrieved and show up
         cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // # Remove all exisiting groups
+        // # Remove all existing groups
         cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
                 for (let i = 0; i < el[0].childNodes.length; i++) {
@@ -83,7 +85,7 @@ describe('System Console', () => {
             expect(el[0].firstElementChild.children.length).equal(1);
         });
 
-        // # Change role to memeber
+        // # Change role to member
         cy.get('#role-to-be').click();
         cy.get('#saveSetting').click();
         waitUntilConfigSave();
@@ -94,7 +96,7 @@ describe('System Console', () => {
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
 
-        // # Remove all exisiting groups
+        // # Remove all existing groups
         cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
                 for (let i = 0; i < el[0].childNodes.length; i++) {
@@ -121,7 +123,6 @@ describe('System Console', () => {
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on team configuration page', () => {
         const teamName = 'eligendi';
-        cy.apiLogin('sysadmin');
 
         // # Go to system admin page and to team configuration page of channel "eligendi"
         cy.visit('/admin_console/user_management/teams');
@@ -133,7 +134,7 @@ describe('System Console', () => {
         // # Wait until the groups retrieved and show up
         cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // # Remove all exisiting groups
+        // # Remove all existing groups
         cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
                 for (let i = 0; i < el[0].childNodes.length; i++) {
@@ -173,7 +174,6 @@ describe('System Console', () => {
 
     it('MM-20646 - System Admin can map roles to groups from Channel Configuration screen', () => {
         const channelName = 'autem';
-        cy.apiLogin('sysadmin');
 
         // # Go to system admin page and to channel configuration page of channel "autem"
         cy.visit('/admin_console/user_management/channels');
@@ -185,7 +185,7 @@ describe('System Console', () => {
         // # Wait until the groups retrieved and show up
         cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // # Remove all exisiting groups
+        // # Remove all existing groups
         cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
                 for (let i = 0; i < el[0].childNodes.length; i++) {
@@ -246,7 +246,7 @@ describe('System Console', () => {
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
 
-        // # Remove all exisiting groups
+        // # Remove all existing groups
         cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
                 for (let i = 0; i < el[0].childNodes.length; i++) {
@@ -273,7 +273,6 @@ describe('System Console', () => {
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on channel configuration page', () => {
         const channelName = 'autem';
-        cy.apiLogin('sysadmin');
 
         // # Go to system admin page and to channel configuration page of channel "autem"
         cy.visit('/admin_console/user_management/channels');
@@ -285,7 +284,7 @@ describe('System Console', () => {
         // # Wait until the groups retrieved and show up
         cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
 
-        // # Remove all exisiting groups
+        // # Remove all existing groups
         cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
                 for (let i = 0; i < el[0].childNodes.length; i++) {
