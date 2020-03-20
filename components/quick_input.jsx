@@ -95,6 +95,7 @@ export default class QuickInput extends React.PureComponent {
         if (this.props.onClear) {
             this.props.onClear();
         }
+        this.focus();
     }
 
     render() {
