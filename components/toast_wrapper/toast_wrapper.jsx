@@ -32,7 +32,13 @@ class ToastWrapper extends React.PureComponent {
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
         updateLastViewedBottomAt: PropTypes.func,
-        children: PropTypes.element
+        actions: PropTypes.shape({
+
+            /**
+             * Action creator to update toast status
+             */
+            updateToastStatus: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -105,25 +111,47 @@ class ToastWrapper extends React.PureComponent {
 
     componentDidMount() {
         this.mounted = true;
+        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = this.state;
+        const toastPresent = showUnreadToast || showNewMessagesToast || showMessageHistoryToast;
         document.addEventListener('keydown', this.handleShortcut);
+        this.props.actions.updateToastStatus(toastPresent);
     }
 
-    componentDidUpdate(prevProps) {
-        if (!prevProps.atBottom && this.props.atBottom && this.props.atLatestPost) {
+    componentDidUpdate(prevProps, prevState) {
+        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = this.state;
+        const {
+            atBottom,
+            atLatestPost,
+            postListIds,
+            lastViewedBottom,
+            updateNewMessagesAtInChannel,
+            actions
+        } = this.props;
+
+        if (!prevProps.atBottom && atBottom && atLatestPost) {
             this.hideNewMessagesToast(false);
             this.hideUnreadToast();
             this.hideArchiveToast();
         }
 
         const prevPostsCount = prevProps.postListIds.length;
-        const presentPostsCount = this.props.postListIds.length;
-        const postsAddedAtBottom = presentPostsCount !== prevPostsCount && this.props.postListIds[0] !== prevProps.postListIds[0];
-        const notBottomWithLatestPosts = !this.props.atBottom && this.props.atLatestPost && presentPostsCount > 0;
+        const presentPostsCount = postListIds.length;
+        const postsAddedAtBottom = presentPostsCount !== prevPostsCount && postListIds[0] !== prevProps.postListIds[0];
+        const notBottomWithLatestPosts = !atBottom && atLatestPost && presentPostsCount > 0;
 
         //Marking existing messages as read based on last time user reached to the bottom
         //This moves the new message indicator to the latest posts and keeping in sync with the toast count
-        if (postsAddedAtBottom && notBottomWithLatestPosts && !this.state.showUnreadToast) {
-            this.props.updateNewMessagesAtInChannel(this.props.lastViewedBottom);
+        if (postsAddedAtBottom && notBottomWithLatestPosts && !showUnreadToast) {
+            updateNewMessagesAtInChannel(lastViewedBottom);
+        }
+
+        const toastStateChanged = prevState.showUnreadToast !== showUnreadToast ||
+                                  prevState.showNewMessagesToast !== showNewMessagesToast ||
+                                  prevState.showMessageHistoryToast !== showMessageHistoryToast;
+
+        if (toastStateChanged) {
+            const toastPresent = showUnreadToast || showNewMessagesToast || showMessageHistoryToast;
+            actions.updateToastStatus(toastPresent);
         }
     }
 
@@ -230,9 +258,8 @@ class ToastWrapper extends React.PureComponent {
     }
 
     render() {
-        const {atLatestPost, atBottom, width, lastViewedAt, children} = this.props;
+        const {atLatestPost, atBottom, width, lastViewedAt} = this.props;
         const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, unreadCount} = this.state;
-        const toastPresent = showUnreadToast || showNewMessagesToast || showMessageHistoryToast;
 
         let unreadToastProps = {
             show: false,
@@ -271,7 +298,6 @@ class ToastWrapper extends React.PureComponent {
 
         return (
             <React.Fragment>
-                {React.cloneElement(children, {toastPresent})}
                 <Toast {...unreadToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
                 </Toast>

@@ -48,10 +48,13 @@ export default class FloatingTimestamp extends React.PureComponent {
             className += ' rhs';
         }
 
+        if (toastPresent) {
+            className += ' toastAdjustment';
+        }
+
         return (
             <div
                 className={className}
-                style={toastPresent ? {top: '50px'} : null}
                 data-testid='floatingTimestamp'
             >
                 <div>

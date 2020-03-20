@@ -494,7 +494,7 @@ class PostList extends React.PureComponent {
         this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, lastViewedAt);
     }
 
-    renderToastsAndFloatingTimestamp = (width) => {
+    renderToasts = (width) => {
         return (
             <ToastWrapper
                 atLatestPost={this.props.atLatestPost}
@@ -510,13 +510,7 @@ class PostList extends React.PureComponent {
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
-            >
-                <FloatingTimestamp
-                    isScrolling={this.state.isScrolling}
-                    isMobile={true}
-                    postId={this.state.topPostId}
-                />
-            </ToastWrapper>
+            />
         );
     }
 
@@ -540,6 +534,11 @@ class PostList extends React.PureComponent {
             >
                 {this.state.isMobile && (
                     <React.Fragment>
+                        <FloatingTimestamp
+                            isScrolling={this.state.isScrolling}
+                            isMobile={true}
+                            postId={this.state.topPostId}
+                        />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
                             atBottom={this.state.atBottom}
@@ -569,7 +568,7 @@ class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.state.atBottom !== null && this.renderToastsAndFloatingTimestamp(width)}</div>
+                                        <div>{this.state.atBottom !== null && this.renderToasts(width)}</div>
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}
