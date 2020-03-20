@@ -99,7 +99,7 @@ function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
             and('have.text', user.username);
         cy.get('.channel-intro-text').
             should('be.visible').
-            and('contain', `This is the start of your direct message history with ${user.nickname}.`).
+            and('contain', `This is the start of your direct message history with ${user.username}.`).
             and('contain', 'Direct messages and files shared here are not shown to people outside this area.');
     });
 }
