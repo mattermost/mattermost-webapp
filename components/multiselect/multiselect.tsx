@@ -362,7 +362,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
         return (
             <div className='filtered-user-list'>
                 <div className='filter-row filter-row--full'>
-                    <div className='multi-select__container'>
+                    <div className='multi-select__container react-select'>
                         <ReactSelect
                             id='selectItems'
                             ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
