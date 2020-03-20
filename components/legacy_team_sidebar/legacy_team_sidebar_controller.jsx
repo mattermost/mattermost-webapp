@@ -117,7 +117,7 @@ export default class LegacyTeamSidebar extends React.Component {
     handleKeyDown = (e) => {
         if ((e.ctrlKey || e.metaKey) && e.altKey) {
             const {currentTeamId} = this.props;
-            const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
+            const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
             if (this.switchToPrevOrNextTeam(e, currentTeamId, teams)) {
                 return;
@@ -205,6 +205,8 @@ export default class LegacyTeamSidebar extends React.Component {
                     active={team.id === this.props.currentTeamId}
                     displayName={team.display_name}
                     unread={member.msg_count > 0}
+                    order={index + 1}
+                    showOrder={this.state.showOrder}
                     mentions={member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={this.props.actions.switchTeam}
