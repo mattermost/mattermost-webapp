@@ -484,7 +484,7 @@ class ChannelHeader extends React.PureComponent {
                         >{popoverContent}</Overlay>
 
                         <Markdown
-                            message={headerText.replace(/\n/, '\n\n')}
+                            message={headerText.replace(/\n/g, '\n\n')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         />
                     </span>
