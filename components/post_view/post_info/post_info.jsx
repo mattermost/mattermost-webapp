@@ -228,6 +228,7 @@ export default class PostInfo extends React.PureComponent {
         return (
             <div
                 ref='dotMenu'
+                data-testid={`post-menu-${post.id}`}
                 className={'col col__reply'}
             >
                 {dotMenu}
