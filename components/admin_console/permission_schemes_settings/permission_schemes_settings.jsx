@@ -152,6 +152,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     disabled={teamOverrideView !== null}
                     linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
                     linkTextDefault='New Team Override Scheme'
+                    linkDataTestId='new-team-override-scheme'
                 >
                     {schemes.length === 0 && teamOverrideView === null &&
                         <div className='no-team-schemes'>
