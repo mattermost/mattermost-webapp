@@ -11,39 +11,37 @@ import TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
     let newUser;
+    const message = `Testing ${Date.now()}`;
 
     before(() => {
-        // # Login as "user-1" and go to main channel view
-        cy.toMainChannelView('user-1');
-
-        // # Update user preferences
+        // # Login as sysadmin and update user preferences
+        cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference();
 
         // # Create new user and have it post a message
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.getCurrentChannelId().as('currentChannelId');
-
-            cy.createNewUser({}, [teamId]).then((user) => {
+        cy.apiGetTeamByName('ad-1').then((teamRes) => {
+            cy.createNewUser({}, [teamRes.body.id]).then((user) => {
                 newUser = user;
 
-                const message = `Testing ${Date.now()}`;
-                cy.get('@currentChannelId').then((currentChannelId) => {
-                    cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.TINY);
+                cy.apiGetChannelByName('ad-1', 'town-square').then((channelRes) => {
+                    cy.postMessageAs({sender: newUser, message, channelId: channelRes.body.id}).wait(TIMEOUTS.SMALL);
                 });
-
-                cy.waitUntil(() => cy.getLastPost().then((el) => {
-                    const postedMessageEl = el.find('.post-message__text > p')[0];
-                    return postedMessageEl && postedMessageEl.textContent.includes(message);
-                }));
-
-                cy.getLastPostId().as('lastPostId');
             });
         });
     });
 
     it('M19908 Send message in profile popover take to DM channel', () => {
-        cy.get('@lastPostId').then((lastPostId) => {
+        // # Login as "user-1" and visit '/ad-1/channels/town-square
+        cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
+
+        cy.waitUntil(() => cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text > p')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        }));
+
+        cy.getLastPostId().then((lastPostId) => {
             // # On default viewport width of 1300
             // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, '.status-wrapper', newUser);
@@ -68,21 +66,25 @@ function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
     cy.visit('/ad-1/channels/town-square');
 
     // # Visit post thread on RHS and verify that RHS is opened
+    cy.wait(TIMEOUTS.TINY);
     cy.clickPostCommentIcon(postId);
     cy.get('#rhsContainer').should('be.visible');
 
     // # Open profile popover with the given selector
+    cy.wait(TIMEOUTS.TINY);
     cy.get(`#rhsPost_${postId}`).should('be.visible').within(() => {
         cy.get(profileSelector).should('be.visible').click();
     });
 
     // * Verify that profile popover is opened
+    cy.wait(TIMEOUTS.TINY);
     cy.get('#user-profile-popover').should('be.visible').within(() => {
         // # Click "Send Message" on profile popover
         cy.findByText('Send Message').should('be.visible').click();
     });
 
     // * Verify that profile popover is closed
+    cy.wait(TIMEOUTS.TINY);
     cy.get('#user-profile-popover').should('not.be.visible');
 
     // * Verify that it redirects into the DM channel and matches channel intro
@@ -93,7 +95,7 @@ function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
             and('have.text', user.username);
         cy.get('.channel-intro-text').
             should('be.visible').
-            and('contain', `This is the start of your direct message history with ${user.nickname}.`).
+            and('contain', `This is the start of your direct message history with ${user.username}.`).
             and('contain', 'Direct messages and files shared here are not shown to people outside this area.');
     });
 }

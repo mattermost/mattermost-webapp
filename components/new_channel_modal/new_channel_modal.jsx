@@ -465,7 +465,7 @@ export default class NewChannelModal extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_modal.createNew'
-                                    defaultMessage='Create New Channel'
+                                    defaultMessage='Create Channel'
                                 />
                             </button>
                         </Modal.Footer>

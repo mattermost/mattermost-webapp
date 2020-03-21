@@ -15,6 +15,10 @@ import './storybook_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import 'cypress-wait-until';
+import 'cypress-plugin-tab';
+import './okta_commands';
+import './saml_commands';
+
 import addContext from 'mochawesome/addContext';
 
 Cypress.on('test:after:run', (test, runnable) => {

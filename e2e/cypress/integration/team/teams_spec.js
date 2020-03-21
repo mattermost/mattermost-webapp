@@ -26,7 +26,7 @@ describe('Teams Suite', () => {
     it('TS12995 Cancel out of leaving a team', () => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // * check the team name
         cy.get('#headerTeamName').should('contain', 'eligendi');
@@ -57,6 +57,8 @@ describe('Teams Suite', () => {
     });
 
     it('TS13548 Team or System Admin searches and adds new team member', () => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: false,
@@ -74,7 +76,7 @@ describe('Teams Suite', () => {
         // # Login as System Admin, update teammate name display preference to "username" and visit "/"
         cy.apiLogin(sysadmin.username);
         cy.apiSaveTeammateNameDisplayPreference('username');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Create team
         cy.createNewTeam(teamName, teamURL);
@@ -82,7 +84,7 @@ describe('Teams Suite', () => {
         // # Click hamburger menu > Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').and('contain', 'Invite People').
-            find('.extra-text').should('have.text', 'Add or invite people to the team');
+            find('.MenuItem__help-text').should('have.text', 'Add or invite people to the team');
 
         cy.get('#invitePeople').click();
 
@@ -165,7 +167,7 @@ describe('Teams Suite', () => {
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
 
         // # Login as new user
-        cy.loginAsNewUser();
+        cy.apiCreateAndLoginAsNewUser();
 
         // # Leave all teams
         cy.apiGetTeams().then((response) => {

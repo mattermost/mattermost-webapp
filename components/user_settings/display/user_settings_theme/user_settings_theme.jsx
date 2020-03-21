@@ -255,7 +255,7 @@ export default class ThemeSetting extends React.Component {
                 inputs.push(
                     <div
                         key='importSlackThemeButton'
-                        className='padding-top'
+                        className='pt-2'
                     >
                         <button
                             id='slackImportTheme'

@@ -14,8 +14,9 @@ export default class CloseIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            width='24'
-                            height='24'
+                            width='24px'
+                            height='24px'
+                            viewBox='0 0 24 24'
                             role='img'
                             aria-label={ariaLabel}
                         >

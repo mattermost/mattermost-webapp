@@ -10,7 +10,10 @@
 const appDownloadLink = 'https://about.mattermost.com/downloads/';
 
 describe('Test Tutorial Navigation', () => {
+    let team;
+
     before(() => {
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             NativeAppSettings: {
                 AppDownloadLink: appDownloadLink,
@@ -19,7 +22,12 @@ describe('Test Tutorial Navigation', () => {
                 SupportEmail: 'feedback@mattermost.com',
             },
         });
-        cy.loginAsNewUser({}, [], false);
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            team = res.body;
+
+            cy.apiCreateAndLoginAsNewUser({}, [team.id], false);
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('On13989 - Tutorial Navigation and Links', () => {
@@ -83,7 +91,9 @@ describe('Test Tutorial Navigation', () => {
         cy.apiLogout();
 
         // # Create another new user with the tutorial bypass flag set to false.
-        cy.loginAsNewUser({}, [], false);
+        cy.apiLogin('sysadmin');
+        cy.apiCreateAndLoginAsNewUser({}, [team.id], false);
+        cy.visit(`/${team.name}/channels/town-square`);
 
         // * Verify that the first step of the tutorial displays.
         checkStepOne();

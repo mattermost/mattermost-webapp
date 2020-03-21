@@ -56,5 +56,6 @@ describe('I18456 Built-in slash commands: common', () => {
 
 function loginAndVisitDefaultChannel(user) {
     cy.apiLogin(user);
-    cy.visit('/');
+    cy.apiSaveTeammateNameDisplayPreference('username');
+    cy.visit('/ad-1/channels/town-square');
 }

@@ -8,6 +8,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Post Header', () => {
     before(() => {
         // # Go to Main Channel View with "user-1"
@@ -33,8 +35,11 @@ describe('Post Header', () => {
             // # Click timestamp of a post
             cy.clickPostTime(postId);
 
-            // * Check that it redirected to permalink URL
-            cy.url().should('include', `/ad-1/pl/${postId}`);
+            // * Check if url include the permalink
+            cy.url().should('include', `/ad-1/channels/town-square/${postId}`);
+
+            // * Check if url redirects back to parent path eventually
+            cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
             cy.get(divPostId).should('be.visible').should('have.class', 'post--highlight');
@@ -185,7 +190,7 @@ describe('Post Header', () => {
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
 
             // # Pin the post.
-            cy.getPostMenu(postId, 'Pin to channel').click();
+            cy.getPostMenu(postId, 'Pin to Channel').click();
 
             // # Click the center flag icon of a post
             cy.clickPostFlagIcon(postId);
@@ -202,7 +207,7 @@ describe('Post Header', () => {
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
 
             // # unpin the post
-            cy.getPostMenu(postId, 'Un-pin from channel').click();
+            cy.getPostMenu(postId, 'Unpin from Channel').click();
 
             // * Check that message exists in RHS flagged posts list
             // * Check that post is not be pinned in center
@@ -212,7 +217,7 @@ describe('Post Header', () => {
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('not.exist');
 
             // # Pin the post again.
-            cy.getPostMenu(postId, 'Pin to channel').click();
+            cy.getPostMenu(postId, 'Pin to Channel').click();
 
             // * Check that post is be pinned in center
             // * Check that post is be pinned in RHS

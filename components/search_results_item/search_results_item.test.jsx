@@ -7,7 +7,6 @@ import {Posts} from 'mattermost-redux/constants';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {browserHistory} from 'utils/browser_history';
-import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils';
 import SearchResultsItem from 'components/search_results_item/search_results_item';
 
 jest.mock('utils/browser_history', () => ({
@@ -17,8 +16,6 @@ jest.mock('utils/browser_history', () => ({
 }));
 
 jest.mock('utils/utils.jsx', () => ({
-    getDisplayNameByUser: jest.fn().mockReturnValue('Other guy'),
-    getDirectTeammate: jest.fn().mockReturnValue({}),
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true),
     getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z')),
     localizeMessage: jest.fn(),
@@ -82,6 +79,8 @@ describe('components/SearchResultsItem', () => {
                 selectPostCard: mockFunc,
                 setRhsExpanded: mockFunc,
             },
+            directTeammate: '',
+            displayName: 'Other guy',
         };
     });
 
@@ -150,8 +149,6 @@ describe('components/SearchResultsItem', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(getDirectTeammate).toHaveBeenCalledWith('channel_id');
-        expect(getDisplayNameByUser).toHaveBeenCalledWith({});
     });
 
     test('Check for dotmenu dropdownOpened state', () => {

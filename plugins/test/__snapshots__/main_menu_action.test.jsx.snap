@@ -159,7 +159,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -190,24 +190,12 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     />
   </MenuGroup>
   <MenuGroup>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_slash_commands",
-          "manage_oauth",
-          "manage_incoming_webhooks",
-          "manage_outgoing_webhooks",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemLink
-        id="integrations"
-        show={true}
-        text="Integrations"
-        to="/somename/integrations"
-      />
-    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      id="integrations"
+      show={true}
+      text="Integrations"
+      to="/somename/integrations"
+    />
     <Connect(TeamPermissionGate)
       permissions={
         Array [
@@ -288,7 +276,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text="Log Out"
     />
   </MenuGroup>
 </Menu>

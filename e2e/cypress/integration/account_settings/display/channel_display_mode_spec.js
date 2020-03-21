@@ -16,7 +16,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         cy.apiSaveMessageDisplayPreference();
 
         // Post a message to a channel
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.postMessage('Test for channel display mode');
     });
 
@@ -25,8 +25,8 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     });
 
     it('should render in min setting view', () => {
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal(null, true);
+        // # Go to Account Settings
+        cy.toAccountSettingsModal();
 
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');
@@ -87,8 +87,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     });
 
     it('AS13225 Channel display mode setting to "Fixed width, centered"', () => {
-        // # Return to Account Settings modal
-        cy.toAccountSettingsModal('user-1', true);
+        cy.toAccountSettingsModal();
 
         // * Check that the Sidebar tab is loaded
         cy.get('#displayButton').should('be.visible');

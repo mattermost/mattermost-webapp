@@ -7,7 +7,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
@@ -15,6 +15,8 @@ import {ModalIdentifiers} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
+
+import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
 import groupsAvatar from 'images/groups-avatar.png';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -117,22 +119,29 @@ class TeamGroupsManageModal extends React.PureComponent {
                     height='32'
                 />
                 <div className='more-modal__details'>
-                    <div className='more-modal__name'>{item.display_name} {'-'} <span>
-                        <FormattedMessage
-                            id='numMembers'
-                            defaultMessage='{num, number} {num, plural, one {member} other {members}}'
-                            values={{
-                                num: item.member_count,
-                            }}
-                        /></span>
+                    <div className='more-modal__name'>{item.display_name} {'-'} &nbsp;
+                        <span className='more-modal__name_count'>
+                            <FormattedMessage
+                                id='numMembers'
+                                defaultMessage='{num, number} {num, plural, one {member} other {members}}'
+                                values={{
+                                    num: item.member_count,
+                                }}
+                            />
+                        </span>
                     </div>
                 </div>
-                <div className='more-modal__dropdown'>
+                <div className='more-modal__actions'>
                     <MenuWrapper>
-                        <a>
+                        <button
+                            id={`teamGroupsDropdown_${item.display_name}`}
+                            className='dropdown-toggle theme color--link style--none'
+                            type='button'
+                            aria-expanded='true'
+                        >
                             <span>{title} </span>
-                            <span className='caret'/>
-                        </a>
+                            <DropdownIcon/>
+                        </button>
                         <Menu
                             openLeft={true}
                             ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
@@ -176,7 +185,7 @@ class TeamGroupsManageModal extends React.PureComponent {
                 <ConfirmModal
                     show={this.state.showConfirmModal}
                     title={formatMessage({id: 'remove_group_confirm_title', defaultMessage: 'Remove Group and {memberCount, number} {memberCount, plural, one {Member} other {Members}}'}, {memberCount})}
-                    message={formatMessage({id: 'remove_group_confirm_message', defaultMessage: '{memberCount, number} {memberCount, plural, one {member} other {members}} associated to this group will be removed from the team on the next scheduled AD/LDAP synchronization. Are you sure you wish to remove this group and {memberCount} {memberCount, plural, one {member} other {members}}?'}, {memberCount})}
+                    message={formatMessage({id: 'remove_group_confirm_message', defaultMessage: '{memberCount, number} {memberCount, plural, one {member} other {members}} associated to this group will be removed from the team. Are you sure you wish to remove this group and {memberCount} {memberCount, plural, one {member} other {members}}?'}, {memberCount})}
                     confirmButtonText={formatMessage({id: 'remove_group_confirm_button', defaultMessage: 'Yes, Remove Group and {memberCount, plural, one {Member} other {Members}}'}, {memberCount})}
                     onConfirm={this.handleDeleteConfirmed}
                     onCancel={this.handleDeleteCanceled}

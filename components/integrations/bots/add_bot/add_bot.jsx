@@ -479,7 +479,7 @@ export default class AddBot extends React.Component {
                                 >
                                     <FormattedMessage
                                         id='bots.image.upload'
-                                        defaultMessage='Upload an image'
+                                        defaultMessage='Upload Image'
                                     />
                                     <input
                                         accept='.jpg,.png,.bmp'
@@ -563,12 +563,18 @@ export default class AddBot extends React.Component {
                                     <option
                                         value={roleOptionMember}
                                     >
-                                        {roleOptionMember}
+                                        <FormattedMessage
+                                            id='bot.add.role.member'
+                                            defaultMessage='Member'
+                                        />
                                     </option>
                                     <option
                                         value={roleOptionSystemAdmin}
                                     >
-                                        {roleOptionSystemAdmin}
+                                        <FormattedMessage
+                                            id='bot.add.role.admin'
+                                            defaultMessage='System Admin'
+                                        />
                                     </option>
                                 </select>
                                 <div className='form__help'>

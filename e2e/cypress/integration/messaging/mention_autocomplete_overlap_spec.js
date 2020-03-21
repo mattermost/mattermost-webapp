@@ -13,61 +13,46 @@ describe('Messaging', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (standard viewport)', () => {
-        // # Upload file
-        cy.fileUpload('#fileUploadInput');
-
-        // # Create and then type message to use
-        cy.get('#post_textbox').clear();
-        let message = 'h{shift}';
-        for (let i = 0; i < 12; i++) {
-            message += '{enter}h';
-        }
-        cy.get('#post_textbox').type(message);
-
-        // # Add the mention
-        cy.get('#post_textbox').type('{shift}{enter}').type('@');
-
-        cy.get('#suggestionList').then((list) => {
-            cy.get('#channel-header').then((header) => {
-                // # Wait for suggestions to be fully loaded
-                cy.wait(TIMEOUTS.TINY).then(() => {
-                    // * Suggestion list should visibly render just within the channel header
-                    expect(list[0].getBoundingClientRect().top).to.be.greaterThan(header[0].getBoundingClientRect().top);
-                    expect(list[0].getBoundingClientRect().top).to.be.lessThan(header[0].getBoundingClientRect().bottom);
-                });
-            });
-        });
+        // # Upload file, add message, add mention, verify no overlap
+        addAutocompleteThenVerifyNoOverlap();
     });
 
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
+        // # Set to different viewport
         cy.viewport(1280, 900);
 
-        // # Upload file
-        cy.fileUpload('#fileUploadInput');
+        // # Upload file, add message, add mention, verify no overlap
+        addAutocompleteThenVerifyNoOverlap();
+    });
+});
 
-        // # Create and then type message to use
-        cy.get('#post_textbox').clear();
-        let message = 'h{shift}';
-        for (let i = 0; i < 12; i++) {
-            message += '{enter}h';
-        }
-        cy.get('#post_textbox').type(message);
+function addAutocompleteThenVerifyNoOverlap() {
+    // # Upload file
+    cy.fileUpload('#fileUploadInput');
 
-        // # Add the mention
-        cy.get('#post_textbox').type('{shift}{enter}').type('@');
+    // # Create and then type message to use
+    cy.get('#post_textbox').clear();
+    let message = 'h{shift}';
+    for (let i = 0; i < 12; i++) {
+        message += '{enter}h';
+    }
+    cy.get('#post_textbox').type(message);
 
+    // # Add the mention
+    cy.get('#post_textbox').type('{shift}{enter}').type('@');
+
+    cy.get('#channel-header').then((header) => {
         cy.get('#suggestionList').then((list) => {
-            cy.get('#channel-header').then((header) => {
-                // # Wait for suggestions to be fully loaded
-                cy.wait(TIMEOUTS.TINY).then(() => {
-                    // * Check overlap
-                    expect(list[0].getBoundingClientRect().top).to.be.at.least(header[0].getBoundingClientRect().bottom);
-                });
+            // # Wait for suggestions to be fully loaded
+            cy.wait(TIMEOUTS.TINY).then(() => {
+                // * Suggestion list should visibly render just within the channel header
+                expect(header[0].getBoundingClientRect().top).to.be.lessThan(list[0].getBoundingClientRect().top);
+                expect(header[0].getBoundingClientRect().bottom).to.be.lessThan(list[0].getBoundingClientRect().top);
             });
         });
     });
-});
+}

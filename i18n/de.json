@@ -2002,8 +2002,6 @@
   "get_link.clipboard": " Link kopiert",
   "get_link.close": "Schließen",
   "get_link.copy": "Link kopieren",
-  "get_post_link_modal.help": "Der Link erlaubt berechtigten Benutzern diese Nachricht zu sehen.",
-  "get_post_link_modal.title": "Kopiere Permalink",
   "get_public_link_modal.help": "Der unten stehende Link erlaubt jedem diese Datei zu sehen ohne auf diesem Server registriert zu sein.",
   "get_public_link_modal.title": "Öffentlichen Link kopieren",
   "get_team_invite_link_modal.help": "Senden Sie Teammitgliedern den unten stehenden Link, damit diese sich für dieses Team registrieren können. Der Team-Einladungslink kann mit mehreren Teammitgliedern geteilt werden, da er sich nicht ändert, sofern er nicht in den Teameinstellungen durch den Teamadmin geändert wird.",

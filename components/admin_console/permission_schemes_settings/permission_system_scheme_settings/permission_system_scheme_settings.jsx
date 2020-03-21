@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import GeneralConstants from 'mattermost-redux/constants/general';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -440,6 +440,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         />
                     </BlockableLink>
                     <a
+                        data-testid='resetPermissionsToDefault'
                         onClick={() => this.setState({showResetDefaultModal: true})}
                         className='cancel-button reset-defaults-btn'
                     >

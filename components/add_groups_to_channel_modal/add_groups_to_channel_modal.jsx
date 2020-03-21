@@ -63,11 +63,11 @@ export default class AddGroupsToChannelModal extends React.Component {
         });
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.searchTerm !== nextProps.searchTerm) {
+    componentDidUpdate(prevProps) {
+        if (this.props.searchTerm !== prevProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
-            const searchTerm = nextProps.searchTerm;
+            const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 return;
             }
@@ -259,7 +259,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                     <Modal.Title>
                         <FormattedMessage
                             id='add_groups_to_channel.title'
-                            defaultMessage='Add New Groups To {channelName} Channel'
+                            defaultMessage='Add New Groups to {channelName} Channel'
                             values={{
                                 channelName: (
                                     <strong>{this.props.currentChannelName}</strong>

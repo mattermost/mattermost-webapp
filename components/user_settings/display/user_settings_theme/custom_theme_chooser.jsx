@@ -406,7 +406,7 @@ export default class CustomThemeChooser extends React.Component {
                     onChange={this.onChangeHandle}
                     onClick={this.selectTheme}
                 />
-                <div className='margin-top x2'>
+                <div className='mt-3'>
                     <button
                         className='btn btn-link copy-theme-button'
                         onClick={this.copyTheme}
@@ -431,7 +431,7 @@ export default class CustomThemeChooser extends React.Component {
         );
 
         return (
-            <div className='appearance-section padding-top'>
+            <div className='appearance-section pt-2'>
                 <div className='theme-elements row'>
                     <div
                         ref='sidebarStylesHeader'
@@ -520,7 +520,7 @@ export default class CustomThemeChooser extends React.Component {
                         {linkAndButtonElements}
                     </div>
                 </div>
-                <div className='row margin-top x2'>
+                <div className='row mt-3'>
                     {pasteBox}
                 </div>
             </div>

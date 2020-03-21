@@ -31,6 +31,7 @@ describe('components/ToastWrapper', () => {
         scrollToNewMessage: jest.fn(),
         scrollToLatestMessages: jest.fn(),
         updateLastViewedBottomAt: jest.fn(),
+        lastViewedAt: 12344,
     };
 
     describe('unread count logic', () => {
@@ -89,16 +90,118 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
+        test('Should set state of have unread toast when atBottom changes from undefined', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+                atBottom: null,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(undefined);
+            wrapper.setProps({atBottom: false});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
         test('Should have unread toast channel is marked as unread', () => {
             const props = {
                 ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
                 channelMarkedAsUnread: false,
+                atBottom: true,
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+            wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
+        test('Should have unread toast channel is marked as unread again', () => {
+            const props = {
+                ...baseProps,
+                channelMarkedAsUnread: false,
+                atLatestPost: true,
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+
+            wrapper.setProps({
+                channelMarkedAsUnread: true,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            });
+
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+            wrapper.setProps({atBottom: true});
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+            wrapper.setProps({atBottom: false});
+            wrapper.setProps({lastViewedAt: 12342});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
+        test('Should have archive toast if channel is not atLatestPost and focusedPostId exists', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: 'asdasd',
+                atLatestPost: false,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
 
+            expect(wrapper.state('showMessageHistoryToast')).toBe(true);
+        });
+
+        test('Should have archive toast if channel initScrollOffsetFromBottom is greater than 1000 and focusedPostId exists', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: 'asdasd',
+                atLatestPost: true,
+                initScrollOffsetFromBottom: 1001,
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.state('showMessageHistoryToast')).toBe(true);
+        });
+
+        test('Should not have unread toast if channel is marked as unread and at bottom', () => {
+            const props = {
+                ...baseProps,
+                channelMarkedAsUnread: false,
+                atLatestPost: true,
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(false);
-            wrapper.setProps({channelMarkedAsUnread: true});
-            expect(wrapper.state('showUnreadToast')).toBe(true);
+            wrapper.setProps({atBottom: true});
+            wrapper.setProps({
+                channelMarkedAsUnread: true,
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            });
+
+            expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
         test('Should have showNewMessagesToast if there are unreads and lastViewedAt is less than latestPostTimeStamp', () => {
@@ -130,9 +233,22 @@ describe('components/ToastWrapper', () => {
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
-            wrapper.instance().forceUnreadEvenAtBottom = true;
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showUnreadToast')).toBe(false);
+        });
+
+        test('Should hide archive toast if channel is atBottom is true', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: 'asdasd',
+                atLatestPost: true,
+                initScrollOffsetFromBottom: 1001,
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.state('showMessageHistoryToast')).toBe(true);
+            wrapper.setProps({atBottom: true});
+            expect(wrapper.state('showMessageHistoryToast')).toBe(false);
         });
 
         test('Should hide showNewMessagesToast if atBottom is true', () => {
@@ -247,6 +363,29 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
             wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
             expect(baseProps.updateLastViewedBottomAt).toHaveBeenCalledTimes(1);
+        });
+
+        test('Changing unreadCount to 0 should set the showNewMessagesToast state to false', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            wrapper.setState({atBottom: false, showUnreadToast: false});
+            wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
+            expect(wrapper.state('showNewMessagesToast')).toBe(true);
+            wrapper.setProps({postListIds: baseProps.postListIds});
+            expect(wrapper.state('showNewMessagesToast')).toBe(false);
         });
     });
 });
