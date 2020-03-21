@@ -39,12 +39,6 @@ export default class DeleteModalTrigger extends React.PureComponent<Props, State
         this.setState({showDeleteModal: false});
     }
 
-    handleKeyDown = (e: React.KeyboardEvent) => {
-        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
-            this.handleConfirm();
-        }
-    }
-
     get triggerTitle(): JSX.Element {
         return <div> </div>;
     }
@@ -77,7 +71,6 @@ export default class DeleteModalTrigger extends React.PureComponent<Props, State
                     confirmButtonText={this.modalConfirmButton}
                     onConfirm={this.handleConfirm}
                     onCancel={this.handleCancel}
-                    onKeyDown={this.handleKeyDown}
                 />
             </span>
         );
