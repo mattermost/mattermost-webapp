@@ -17,7 +17,7 @@ import ResetStatusModal from 'components/reset_status_modal';
 import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
-import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
+import ImportThemeModal from 'components/user_settings/import_theme_modal';
 import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';

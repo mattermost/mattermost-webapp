@@ -23,10 +23,6 @@ type Props = {
 }
 
 export default class UserSettings extends React.PureComponent<Props, {}> {
-    public constructor(props: Props){
-        super(props);
-    }
-
     render() {
         if (this.props.activeTab === 'general') {
             return (

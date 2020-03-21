@@ -14,9 +14,9 @@ const ActionTypes = Constants.ActionTypes;
 
 type State = {
     value: string;
-    inputError: FormattedMessage|string|null;
+    inputError: any;
     show: boolean;
-    callback: (({}) => void) | null;
+    callback: ((args: {}) => void) | null;
 }
 
 export default class ImportThemeModal extends React.Component<{}, State> {
@@ -78,8 +78,7 @@ export default class ImportThemeModal extends React.Component<{}, State> {
         (theme as any).mentionBg = colors[7];
         setThemeDefaults(theme as any);
 
-        
-        this.state.callback && this.state.callback(theme);
+        this.state.callback!(theme);
         this.setState({
             show: false,
             callback: null,
