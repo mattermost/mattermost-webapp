@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Markdown from 'components/markdown/markdown';
+import EmojiMap from 'utils/emoji_map';
 
 describe('components/Markdown', () => {
     const baseProps = {
@@ -16,6 +17,7 @@ describe('components/Markdown', () => {
         team: {name: 'yourteamhere'},
         hasImageProxy: false,
         minimumHashtagLength: 3,
+        emojiMap: new EmojiMap([]),
         metadata: {},
     };
 
