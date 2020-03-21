@@ -3,9 +3,6 @@
 
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
-
 import ConfirmModal from './confirm_modal';
 
 type Props = {

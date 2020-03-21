@@ -25,7 +25,6 @@ exports[`components/DeleteModalTrigger should match snapshot 1`] = `
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
-    onKeyDown={[Function]}
     show={false}
     title={
       <div>
@@ -61,7 +60,6 @@ exports[`components/DeleteModalTrigger should match snapshot when showDeleteModa
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
-    onKeyDown={[Function]}
     show={true}
     title={
       <div>
