@@ -50,10 +50,9 @@ describe('Verify Accessibility Support in different input fields', () => {
     let testChannel;
 
     before(() => {
+        // # Login as sysadmin and update Config
         cy.apiLogin('sysadmin');
-
-        // # Update Config
-        cy.apiUpdateConfigBasic({
+        cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
             },
@@ -61,12 +60,9 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     beforeEach(() => {
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
-
         // # Visit the test channel
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'accessibility', 'accessibility').then((response) => {
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            cy.apiCreateChannel(res.body.id, 'accessibility', 'accessibility').then((response) => {
                 testChannel = response.body;
                 cy.visit(`/ad-1/channels/${testChannel.name}`);
             });
@@ -115,15 +111,13 @@ describe('Verify Accessibility Support in different input fields', () => {
     it('MM-22625 Verify Accessibility Support in Search Autocomplete', () => {
         // # Adding at least five other users in the channel
         const channelId = testChannel.id;
-        cy.getCurrentTeamId().then((teamId) => {
+        cy.apiGetTeamByName('ad-1').then((res) => {
             for (let i = 0; i < 5; i++) {
-                cy.createNewUser({}, [teamId]).then((user) => {
+                cy.createNewUser({}, [res.body.id]).then((user) => {
                     cy.apiAddUserToChannel(channelId, user.id);
                 });
             }
         });
-        cy.apiLogin('sysadmin');
-        cy.visit(`/ad-1/channels/${testChannel.name}`);
 
         // * Verify Accessibility support in search input
         cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').focus();

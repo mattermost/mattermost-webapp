@@ -41,6 +41,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
         }
       />
       <InvitationModalInitialStep
+        emailInvitationsEnabled={true}
         goToGuests={[Function]}
         goToMembers={[Function]}
         teamName="Test name"
@@ -201,6 +202,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         }
       />
       <InvitationModalInitialStep
+        emailInvitationsEnabled={true}
         goToGuests={[Function]}
         goToMembers={[Function]}
         teamName="Test name"
