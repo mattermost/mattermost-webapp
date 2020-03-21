@@ -8,6 +8,7 @@ const cypress = require('cypress');
 const fse = require('fs-extra');
 const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
+const shell = require('shelljs');
 
 const MAX_FAILED_TITLES = 5;
 
@@ -83,17 +84,28 @@ async function runTests() {
     await fse.remove('screenshots');
 
     const BROWSER = process.env.BROWSER ? process.env.BROWSER : 'chrome';
+
+    const files = shell.exec('grep -l -r "@prod" cypress');
+    // console.log('files:', typeof files, files.length, files);
+
+    const testFiles = files.stdout.split('\n').filter((f) => f.includes('spec.js'));
+    console.log('testFiles:', testFiles);
+
+    // shell.exec('grep -l -r -v "@prod" cypress')
+
     // const testDirs = fse.readdirSync('cypress/integration/');
     const testDirs = ['accessibility'];
     let failedTests = 0;
 
     const mochawesomeReportDir = 'results/mochawesome-report';
 
-    for (const dir of testDirs) {
+    // for (const dir of testDirs) {
+    for (const testFile of testFiles) {
+        console.log('TEST RUNNING:', testFile);
         const {totalFailed} = await cypress.run({
             browser: `${BROWSER}`,
             headless: 'true',
-            spec: `./cypress/integration/${dir}/**/*`,
+            spec: testFile,
             config: {
                 screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
                 trashAssetsBeforeRuns: false,
@@ -108,7 +120,7 @@ async function runTests() {
                     },
                     mochawesomeReporterOptions: {
                         reportDir: mochawesomeReportDir,
-                        reportFilename: `mochawesome-${dir}`,
+                        reportFilename: `mochawesome-${testFile}`,
                         quiet: true,
                         overwrite: false,
                         html: false,

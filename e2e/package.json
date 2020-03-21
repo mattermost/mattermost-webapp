@@ -33,5 +33,8 @@
     "start:webhook": "node webhook_serve.js",
     "test": "start-test start:webhook 3000 test:ci",
     "test:ci": "node run_tests.js"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.3"
   }
 }
