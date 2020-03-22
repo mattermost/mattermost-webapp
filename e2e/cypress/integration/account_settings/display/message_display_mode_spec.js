@@ -11,6 +11,7 @@ describe('Account Settings > Display > Message Display', () => {
     before(() => {
         // # Change message display setting to compact
         cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
         cy.changeMessageDisplaySetting('COMPACT');
     });
 

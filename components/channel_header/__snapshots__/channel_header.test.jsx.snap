@@ -4,7 +4,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
@@ -214,7 +214,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
@@ -424,7 +424,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
@@ -634,7 +634,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
@@ -783,7 +783,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
@@ -1034,7 +1034,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
@@ -1244,7 +1244,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
-  data-a11y-sort-order="7"
+  data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"

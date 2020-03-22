@@ -703,7 +703,7 @@ class ChannelHeader extends React.PureComponent {
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
-                data-a11y-sort-order='7'
+                data-a11y-sort-order='8'
             >
                 <div className='flex-parent'>
                     <div className='flex-child'>

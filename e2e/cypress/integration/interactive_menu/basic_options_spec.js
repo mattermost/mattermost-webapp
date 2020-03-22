@@ -41,7 +41,7 @@ describe('Interactive Menu', () => {
                 EnablePostIconOverride: true,
             },
         };
-        cy.apiUpdateConfigBasic(newSettings);
+        cy.apiUpdateConfig(newSettings);
 
         // # Update teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');

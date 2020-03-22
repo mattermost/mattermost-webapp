@@ -53,12 +53,12 @@ describe('renaming', () => {
     let team;
 
     before(() => {
-        // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
-
         // # Login as admin
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
+
+        // * Check if server has license for Elasticsearch
+        cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
