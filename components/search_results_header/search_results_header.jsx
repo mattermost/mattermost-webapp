@@ -92,17 +92,17 @@ export default class SearchResultsHeader extends React.Component {
                             </FormattedMessage>
                         </OverlayTrigger>
                     </button>
-                    <button
-                        id='searchResultsCloseButton'
-                        type='button'
-                        className='sidebar--right__close'
-                        aria-label='Close'
-                        onClick={this.props.actions.closeRightHandSide}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={closeSidebarTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={closeSidebarTooltip}
+                        <button
+                            id='searchResultsCloseButton'
+                            type='button'
+                            className='sidebar--right__close'
+                            aria-label='Close'
+                            onClick={this.props.actions.closeRightHandSide}
                         >
                             <FormattedMessage
                                 id='rhs_header.closeTooltip.icon'
@@ -115,8 +115,8 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </div>
             </div>
         );
