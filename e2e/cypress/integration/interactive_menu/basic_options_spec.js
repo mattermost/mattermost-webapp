@@ -22,15 +22,16 @@ const options = [
     {text: 'Option 3', value: 'option3'},
 ];
 
-const payload = getMessageMenusPayload({options});
-
-let channelId;
+let channel;
 let incomingWebhook;
 let longUsername;
 
 describe('Interactive Menu', () => {
     before(() => {
         cy.requireWebhookServer();
+
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
         // Set required ServiceSettings
         const newSettings = {
@@ -42,17 +43,16 @@ describe('Interactive Menu', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-        cy.apiLogin('sysadmin');
+        // # Update teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference('clean');
 
         // # Create and visit new channel and create incoming webhook
-        cy.createAndVisitNewChannel().then((channel) => {
-            channelId = channel.id;
+        cy.createAndVisitNewChannel().then((data) => {
+            channel = data;
 
             const newIncomingHook = {
-                channel_id: channelId,
+                channel_id: channel.id,
                 channel_locked: true,
                 description: 'Incoming webhook interactive menu',
                 display_name: 'menuIn' + Date.now(),
@@ -61,21 +61,12 @@ describe('Interactive Menu', () => {
             cy.apiCreateWebhook(newIncomingHook).then((hook) => {
                 incomingWebhook = hook;
             });
-
-            cy.getCurrentTeamId().then((teamId) => {
-                longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
-
-                // # Create a new user with 64 chars lenght
-                cy.createNewUser({username: longUsername}, [teamId]);
-            });
-
-            // # Login again, this is a temp fix as cy.createNewUser, logs out the current user
-            cy.apiLogin('sysadmin').visit(`/ad-1/channels/${channelId}`);
         });
     });
 
     it('matches elements', () => {
         // # Post an incoming webhook
+        const payload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Get message attachment from the last post
@@ -85,8 +76,8 @@ describe('Interactive Menu', () => {
 
         // * Verify each element of message attachment list
         cy.get('@messageAttachmentList').scrollIntoView().within(() => {
-            cy.get('.attachment__thumb-pretext').should('be.visible').and('have.text', 'This is attachment pretext with basic options');
-            cy.get('.post-message__text-container').should('be.visible').and('have.text', 'This is attachment text with basic options');
+            cy.get('.attachment__thumb-pretext').should('be.visible').and('have.text', payload.attachments[0].pretext);
+            cy.get('.post-message__text-container').should('be.visible').and('have.text', payload.attachments[0].text);
             cy.get('.attachment-actions').should('be.visible');
             cy.get('.select-suggestion-container').should('be.visible');
 
@@ -110,6 +101,7 @@ describe('Interactive Menu', () => {
 
     it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
+        const payload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Get message attachment from the last post
@@ -133,16 +125,17 @@ describe('Interactive Menu', () => {
         // # Add user to channel
         cy.apiGetUserByEmail(user1.email).then((res) => {
             const user = res.body;
-            cy.apiAddUserToChannel(channelId, user.id);
+            cy.apiAddUserToChannel(channel.id, user.id);
         });
 
         // # Post an incoming webhook
+        const payload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // # Get last post
         cy.getLastPostId().then((parentMessageId) => {
             // # Post another message
-            cy.postMessageAs({sender: user1, message: 'Just another message', channelId});
+            cy.postMessageAs({sender: user1, message: 'Just another message', channelId: channel.id});
 
             // # Click comment icon to open RHS
             cy.clickPostCommentIcon(parentMessageId);
@@ -151,13 +144,13 @@ describe('Interactive Menu', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // # Have another user reply to the webhook message
-            cy.postMessageAs({sender: user1, message: 'Reply to webhook', channelId, rootId: parentMessageId});
+            cy.postMessageAs({sender: user1, message: 'Reply to webhook', channelId: channel.id, rootId: parentMessageId});
 
             // # Get the latest post
             cy.getLastPostId().then((replyMessageId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyMessageId}`).within(() => {
-                    cy.get('.post__link').should('be.visible').and('have.text', 'Commented on webhook\'s message: This is attachment pretext with basic options');
+                    cy.get('.post__link').should('be.visible').and('have.text', `Commented on webhook's message: ${payload.attachments[0].pretext}`);
                     cy.get(`#postMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
 
@@ -547,41 +540,51 @@ describe('Interactive Menu', () => {
     });
 
     it('IM21038 - Selected options with long usernames are not cut off in the RHS', () => {
-        // # Make webhook request to get list of all the users
-        const userOptions = getMessageMenusPayload({dataSource: 'users'});
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+        cy.getCurrentTeamId().then((teamId) => {
+            longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
 
-        // # Go to last webhook message with users list
-        cy.getLastPostId().then((lastPostId) => {
-            // # Get the last messages attachment container
-            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
-                // # Find and select the user, we just added
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${longUsername}`);
+            // # Create a new user with 64 chars length
+            cy.createNewUser({username: longUsername}, [teamId]).then((user) => {
+                cy.visit(`/ad-1/channels/${channel.name}`);
+                cy.apiAddUserToChannel(channel.id, user.id);
 
-                cy.get('#suggestionList').within(() => {
-                    // * Newly added username should be there in the search list
-                    cy.findByText(`@${longUsername}`).should('exist').click();
+                // # Make webhook request to get list of all the users
+                const userOptions = getMessageMenusPayload({dataSource: 'users'});
+                cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+
+                // # Go to last webhook message with users list
+                cy.getLastPostId().then((lastPostId) => {
+                    // # Get the last messages attachment container
+                    cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                        // # Find and select the user, we just added
+                        cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${longUsername}`);
+
+                        cy.get('#suggestionList').within(() => {
+                            // * Newly added username should be there in the search list
+                            cy.findByText(`@${longUsername}`).should('exist').click();
+                        });
+
+                        // * Verify the input has the complete username value
+                        cy.findByDisplayValue(longUsername).should('exist');
+                    });
+
+                    // # Click on reply icon to open message in RHS
+                    cy.clickPostCommentIcon(lastPostId);
+
+                    // * Verify RHS has opened
+                    cy.get('#rhsContainer').should('exist');
+
+                    // # Same id as parent post in center, only opened in RHS
+                    cy.get(`#rhsPost_${lastPostId}`).within(() => {
+                        // * Verify the input has the selected value same as that of Center
+                        //   and verify that it has truncation css applied
+                        cy.findByDisplayValue(longUsername).should('exist').and('have.css', 'text-overflow', 'ellipsis');
+                    });
+
+                    // # Close RHS
+                    cy.closeRHS();
                 });
-
-                // * Verify the input has the complete username value
-                cy.findByDisplayValue(longUsername).should('exist');
             });
-
-            // # Click on reply icon to open message in RHS
-            cy.clickPostCommentIcon(lastPostId);
-
-            // * Verify RHS has opened
-            cy.get('#rhsContainer').should('exist');
-
-            // # Same id as parent post in center, only opened in RHS
-            cy.get(`#rhsPost_${lastPostId}`).within(() => {
-                // * Verify the input has the selected value same as that of Center
-                //   and verify that it has truncation css applied
-                cy.findByDisplayValue(longUsername).should('exist').and('have.css', 'text-overflow', 'ellipsis');
-            });
-
-            // # Close RHS
-            cy.closeRHS();
         });
     });
 });
