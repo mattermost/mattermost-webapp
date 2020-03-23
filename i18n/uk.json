@@ -1907,7 +1907,7 @@
   "bot.manage.create_token": "Створити новий токен",
   "bot.manage.disable": "Відключити",
   "bot.manage.enable": "Увімкнути",
-  "bot.remove_profile_picture": "Remove Bot Icon",
+  "bot.remove_profile_picture": "Видалити цей значок",
   "bot.token.default.description": "Default Token",
   "bot.token.error.description": "Будь-ласка, введіть опис",
   "bots.add.displayName": "Відображене ім'я",
