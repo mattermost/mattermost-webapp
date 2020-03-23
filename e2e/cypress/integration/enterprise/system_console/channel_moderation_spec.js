@@ -899,35 +899,30 @@ describe('Channel Moderation Test', () => {
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
         });
 
-        // KNOWN TO FAIL! EDIT AND DELETE SHOW UP!
-        // it('Check if user is allowed to Edit or Delete their own posts on a Read-Only channel', () => {
-        //     // # Clean up and set back the permission to enabled
-        //     visitChannelConfigPage('autem');
-        //     enableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
-        //     saveConfig();
+        it('Check if user is allowed to Edit or Delete their own posts on a Read-Only channel', () => {
+            visitAutemChannel('user-1');
+            cy.findByTestId('post_textbox').clear().type('testMessage123123{enter}');
+            cy.findByTestId('post_textbox_placeholder').should('not.have.text', 'This channel is read-only. Only members with permission can post here.');
+            cy.findByTestId('post_textbox').should('not.be.disabled');
 
-        //     visitAutemChannel('user-1');
-        //     cy.findByTestId('post_textbox').clear().type('testMessage123123{enter}');
-        //     cy.findByTestId('post_textbox_placeholder').should('not.have.text', 'This channel is read-only. Only members with permission can post here.');
-        //     cy.findByTestId('post_textbox').should('not.be.disabled');
+            visitChannelConfigPage('autem');
+            disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
+            saveConfig();
 
-        //     visitChannelConfigPage('autem');
-        //     disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
-        //     saveConfig();
+            visitAutemChannel('user-1');
 
-        //     visitAutemChannel('user-1');
+            // * user should see a message stating that this channel is read-only and the textbox area should be disabled
+            cy.findByTestId('post_textbox_placeholder').should('have.text', 'This channel is read-only. Only members with permission can post here.');
+            cy.findByTestId('post_textbox').should('be.disabled');
 
-        //     // # Check if the user has the permission to create a post on that channel (Guest user should not have the permission)
-        //     // * user should see a message stating that this channel is read-only and the textbox area should be disabled
-        //     cy.findByTestId('post_textbox_placeholder').should('have.text', 'This channel is read-only. Only members with permission can post here.');
-        //     cy.findByTestId('post_textbox').should('be.disabled');
-
-        //     cy.getLastPostId().then((postId) => {
-        //         cy.clickPostDotMenu(postId);
-        //         cy.get(`#edit_post_${postId}`).should('not.exist');
-        //         cy.get(`#delete_post_${postId}`).should('not.exist');
-        //     });
-        // });
+            cy.getLastPostId().then((postId) => {
+                cy.clickPostDotMenu(postId);
+                
+                // * As per test case, ensure edit and delete button show up
+                cy.get(`#edit_post_${postId}`).should('exist');
+                cy.get(`#delete_post_${postId}`).should('exist');
+            });
+        });
     });
 
     it('MM-22276 - Enable and Disable all channel moderated permissions', () => {
