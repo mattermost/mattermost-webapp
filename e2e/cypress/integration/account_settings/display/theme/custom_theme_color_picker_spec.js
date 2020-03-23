@@ -11,13 +11,14 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // Login as user-1
+        // Login as user-1 and visit town-square channel
         cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     beforeEach(() => {
         // Navigating to account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
         cy.get('#displayButton').click();
         cy.get('#themeTitle').click();
         cy.get('#customThemes').click();
@@ -25,6 +26,12 @@ describe('AS14318 Theme Colors - Color Picker', () => {
 
     after(() => {
         cy.apiSaveThemePreference();
+    });
+
+    afterEach(() => {
+        // # Click "x" button to close Account Settings modal and then discard changes made
+        cy.get('#accountSettingsHeader > .close').click();
+        cy.findAllByText('Yes, Discard').click();
     });
 
     it('Should be able to use color picker input and change Sidebar theme color', () => {

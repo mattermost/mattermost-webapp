@@ -38,13 +38,13 @@ describe('channel name tooltips', () => {
     let team;
 
     before(() => {
-        // # Login and go to /
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // # Create new test team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             team = response.body;
-            cy.loginAsNewUser({}, [team.id]).then((user) => {
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).then((user) => {
                 loggedUser = user;
 
                 // # Go to "/"
