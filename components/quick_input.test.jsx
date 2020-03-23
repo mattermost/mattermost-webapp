@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {mount} from 'enzyme';
-import {elementType} from 'prop-types';
 
 import QuickInput from 'components/quick_input';
 
