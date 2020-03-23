@@ -69,10 +69,10 @@ Cypress.Commands.add('doInviteGuest', (user, settings = {}) => {
             cy.findByText('Invite Guests').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
                 // # Search and add a user
                 cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
-                    cy.get('input').type(user.username, {force: true}).wait(1000).type('\n');
+                    cy.get('input').type(user.username, {force: true}).wait(TIMEOUTS.TINY).type('\n');
                 });
                 cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
-                    cy.get('input').type('town', {force: true}).wait(500).type('\n');
+                    cy.get('input').type('town', {force: true}).wait(TIMEOUTS.TINY).type('\n');
                 });
             });
             cy.findByText('Invite Guests').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
@@ -97,7 +97,7 @@ Cypress.Commands.add('doInviteMember', (user, settings = {}) => {
             cy.findByText('Invite Members').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
                 // # Search and add a user
                 cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
-                    cy.get('input').type(user.username, {force: true}).wait(1000).type('\n');
+                    cy.get('input').type(user.username, {force: true}).wait(TIMEOUTS.TINY).type('\n');
                 });
             });
 
