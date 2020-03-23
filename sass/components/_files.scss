@@ -438,6 +438,10 @@
         top: 0;
         width: 50px;
 
+        span {
+            padding-top: 12px;
+        }
+
         svg {
             @include opacity(.7);
             @include single-transition(all, .1s, linear);
