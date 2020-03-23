@@ -40,10 +40,8 @@ class ToastWrapper extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        const showMessageHistoryToast = props.focusedPostId !== '' && (props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost);
         this.state = {
             unreadCountInChannel: props.unreadCountInChannel,
-            showMessageHistoryToast,
         };
     }
 
@@ -57,7 +55,7 @@ class ToastWrapper extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, prevState) {
-        let {showUnreadToast, showNewMessagesToast} = prevState;
+        let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = prevState;
         let unreadCount;
 
         if (props.atLatestPost) {
@@ -71,6 +69,10 @@ class ToastWrapper extends React.PureComponent {
         // show unread toast on mount when channel is not at bottom and unread count greater than 0
         if (typeof showUnreadToast === 'undefined' && props.atBottom !== null) {
             showUnreadToast = unreadCount > 0 && !props.atBottom;
+        }
+
+        if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '') {
+            showMessageHistoryToast = props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost;
         }
 
         // show unread toast when a channel is marked as unread
@@ -99,6 +101,7 @@ class ToastWrapper extends React.PureComponent {
             showNewMessagesToast,
             lastViewedAt: props.lastViewedAt,
             channelMarkedAsUnread: props.channelMarkedAsUnread,
+            showMessageHistoryToast,
         };
     }
 
@@ -235,7 +238,7 @@ class ToastWrapper extends React.PureComponent {
         };
 
         const archiveToastProps = {
-            show: this.state.showMessageHistoryToast,
+            show: this.state.showMessageHistoryToast || false,
             width: this.props.width,
             onDismiss: this.hideArchiveToast,
             onClick: this.scrollToLatestMessages,
