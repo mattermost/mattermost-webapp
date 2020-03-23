@@ -462,7 +462,7 @@ class ChannelHeader extends React.PureComponent {
                         ref={this.headerPopoverTextMeasurerRef}
                     >
                         <Markdown
-                            message={headerText.replace(/\n+/g, '\n\n')}
+                            message={headerText.replace(/\n+/g, ' ')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         /></div>
                     <span
