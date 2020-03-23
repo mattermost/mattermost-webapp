@@ -7,13 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import users from '../../fixtures/users';
-
 import {testWithConfig} from '../../support/hooks';
 
 import {getRandomInt} from '../../utils';
-
-const sysadmin = users.sysadmin;
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -23,14 +19,12 @@ describe('Channel sidebar', () => {
     });
 
     before(() => {
-        Cypress.config('userAgent', 'Mattermost/Electron');
-
         cy.apiLogin('user-1');
 
         cy.visit('/');
     });
 
-    it('should go back and forth in history when clicking on the back/forward button', () => {
+    it('should not show history arrows on the regular webapp', () => {
         // # Start with a new team
         const teamName = `team-${getRandomInt(999999)}`;
         cy.createNewTeam(teamName, teamName);
@@ -38,25 +32,29 @@ describe('Channel sidebar', () => {
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName').should('contain', teamName);
 
-        // # Click on Off Topic
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible').click();
+        // * Verify both buttons don't exist
+        cy.get('.SidebarChannelNavigator_backButton').should('not.exist');
+        cy.get('.SidebarChannelNavigator_forwardButton').should('not.exist');
+    });
 
-        // * Verify that the channel changed
+    it('should switch to channel when using the channel switcher', () => {
+        // # Start with a new team
+        const teamName = `team-${getRandomInt(999999)}`;
+        cy.createNewTeam(teamName, teamName);
+
+        // * Verify that we've switched to the new team
+        cy.get('#headerTeamName').should('contain', teamName);
+
+        // # Click the Channel Switcher button
+        cy.get('.SidebarChannelNavigator_jumpToButton').should('be.visible').click();
+
+        // # Search for Off-Topic and press Enter
+        cy.get('.channel-switch__suggestion-box #quickSwitchInput').type('Off-Topic{enter}');
+
+        // * Verify that the channel switcher is closed and the active channel is now Off-Topic
+        cy.get('.channel-switch__modal').should('not.be.visible');
         cy.url().should('include', `/${teamName}/channels/off-topic`);
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
-
-        // # Click the Back button
-        cy.get('.SidebarChannelNavigator_backButton').should('be.visible').click();
-
-        // * Verify that the channel changed back to Town Square
-        cy.url().should('include', `/${teamName}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('contain', 'Town Square');
-
-        // # Click the Forward button
-        cy.get('.SidebarChannelNavigator_backButton').should('be.visible').click();
-
-        // * Verify that the channel changed back to Off-Topic
-        cy.url().should('include', `/${teamName}/channels/off-topic`);
-        cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
+        cy.get('.SidebarChannel.active:contains(Off-Topic)').should('be.visible');
     });
 });
