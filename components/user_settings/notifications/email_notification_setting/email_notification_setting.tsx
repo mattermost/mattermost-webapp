@@ -14,27 +14,37 @@ import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
 
-export default class EmailNotificationSetting extends React.PureComponent {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        activeSection: PropTypes.string.isRequired,
-        updateSection: PropTypes.func.isRequired,
-        enableEmail: PropTypes.bool.isRequired,
-        emailInterval: PropTypes.number.isRequired,
-        onSubmit: PropTypes.func.isRequired,
-        onCancel: PropTypes.func.isRequired,
-        onChange: PropTypes.func.isRequired,
-        serverError: PropTypes.string,
-        saving: PropTypes.bool,
-        focused: PropTypes.bool,
-        sendEmailNotifications: PropTypes.bool,
-        enableEmailBatching: PropTypes.bool,
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type Props = {
+    currentUserId: string;
+    activeSection: string;
+    updateSection: (func: () => void) => void | string;
+    enableEmail: boolean;
+    emailInterval: number;
+    onSubmit: () => void;
+    onCancel: () => void;
+    onChange: (enableEmail: boolean) => void;
+    serverError?: string;
+    saving?: boolean;
+    focused?: boolean;
+    sendEmailNotifications?: boolean;
+    enableEmailBatching?: boolean;
+    actions: {
+        savePreferences: (currentUserId: string, emailIntervalPreference: {}) =>
+            Promise<{}>;
+    }; 
+};
 
-    constructor(props) {
+type State = {
+    activeSection: string;
+    emailInterval: number;
+    enableEmail: boolean;
+    enableEmailBatching?: boolean;
+    sendEmailNotifications?: boolean;
+    newInterval: () => void;
+};
+
+export default class EmailNotificationSetting extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         const {
@@ -55,7 +65,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         const {
             emailInterval,
             enableEmail,
