@@ -87,7 +87,7 @@ describe('renaming', () => {
             };
 
             // # Create a new user
-            cy.createNewUser(spiderman, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
                 const user = userResponse;
                 cy.visit(`/${team.name}`);
 
@@ -141,7 +141,7 @@ describe('renaming', () => {
                 };
 
                 // # Setup new channel and user
-                cy.createNewUser(punisher, [team.id]).then((userResponse) => {
+                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals
@@ -198,7 +198,7 @@ describe('renaming', () => {
             };
 
             // # Create a new user
-            cy.createNewUser(spiderman, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
                 const user = userResponse;
                 cy.visit(`/${team.name}`);
 
@@ -252,7 +252,7 @@ describe('renaming', () => {
                 };
 
                 // # Setup new channel and user
-                cy.createNewUser(punisher, [team.id]).then((userResponse) => {
+                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals

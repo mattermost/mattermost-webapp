@@ -157,7 +157,7 @@ describe('Invite Members', () => {
         verifyInviteMembersModal();
 
         // # invite existing user
-        inviteUser(user2);
+        inviteUser({...user2, username: 'user-2'});
 
         // * verify Invitation was created successfully
         verifyInvitationSuccess();

@@ -33,7 +33,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
 
         // # Create guest user account
-        cy.createNewUser().then((userResponse) => {
+        cy.apiCreateNewUser().then((userResponse) => {
             guest = userResponse;
 
             // # Demote the current member to a guest user

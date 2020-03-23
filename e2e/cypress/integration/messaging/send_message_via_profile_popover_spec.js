@@ -24,7 +24,7 @@ describe('Profile popover', () => {
 
         // # Create new user and have it post a message
         cy.apiGetTeamByName('ad-1').then((teamRes) => {
-            cy.createNewUser({}, [teamRes.body.id]).then((user) => {
+            cy.apiCreateNewUser({}, [teamRes.body.id]).then((user) => {
                 newUser = user;
 
                 cy.apiGetChannelByName('ad-1', 'town-square').then((channelRes) => {

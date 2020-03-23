@@ -111,7 +111,7 @@ describe('Autocomplete', () => {
 
             // # Create pool of users for tests
             Cypress._.forEach(testUsers, (user) => {
-                cy.createNewUser(user, [team.id]);
+                cy.apiCreateNewUser(user, [team.id]);
             });
         });
     });

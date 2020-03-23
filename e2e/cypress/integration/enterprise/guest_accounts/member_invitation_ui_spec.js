@@ -190,7 +190,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
     it('MM-18040 Verify Invite New/Existing Users', () => {
         // # Login as new user and get the user id
-        cy.createNewUser().then((newUser) => {
+        cy.apiCreateNewUser().then((newUser) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id);
 
             // # Logout sysadmin, then login as new user
