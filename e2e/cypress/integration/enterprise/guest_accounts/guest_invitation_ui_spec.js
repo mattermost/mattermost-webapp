@@ -121,7 +121,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             testTeam = response.body;
 
             // # Create a new user and add it to the new team
-            cy.createNewUser().then((user) => {
+            cy.apiCreateNewUser().then((user) => {
                 newUser = user;
                 cy.apiAddUserToTeam(testTeam.id, user.id);
             });
@@ -266,7 +266,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
 
         // # Search and add an existing guest by email, who is not part of the team
-        cy.createNewUser().then((user) => {
+        cy.apiCreateNewUser().then((user) => {
             // # Demote the user from member to guest
             cy.demoteUser(user.id);
 
@@ -336,7 +336,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(email, expectedError);
 
         // # From System Console try to update email of guest user
-        cy.createNewUser().then((user) => {
+        cy.apiCreateNewUser().then((user) => {
             // # Demote the user from member to guest
             cy.demoteUser(user.id);
 
