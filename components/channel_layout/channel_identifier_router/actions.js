@@ -73,8 +73,11 @@ export function getPathFromIdentifier(state, path, identifier) {
         if (identifier.length === LENGTH_OF_ID) {
             return channelsByName || moreChannelsByName ? 'channel_name' : 'channel_id';
         } else if (
-            (channelsByName && channelsByName.type === Constants.GM_CHANNEL) ||
-            (moreChannelsByName && moreChannelsByName.type === Constants.GM_CHANNEL)
+            (!channelsByName && !moreChannelsByName && identifier.length === LENGTH_OF_GROUP_ID) ||
+            (
+                (channelsByName && channelsByName.type === Constants.GM_CHANNEL) ||
+                (moreChannelsByName && moreChannelsByName.type === Constants.GM_CHANNEL)
+            )
         ) {
             return 'group_channel_group_id';
         } else if (isDirectChannelIdentifier(identifier)) {
