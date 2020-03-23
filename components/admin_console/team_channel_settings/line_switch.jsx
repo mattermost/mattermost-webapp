@@ -18,14 +18,18 @@ export default class LineSwitch extends React.PureComponent {
         children: PropTypes.node,
         offText: PropTypes.node,
         onText: PropTypes.node,
+        dataTestId: PropTypes.string,
     };
 
     render() {
-        const {title, subTitle, singleLine, toggled, onToggle, children, offText, onText, disabled, last} = this.props;
+        const {title, subTitle, singleLine, toggled, onToggle, children, offText, onText, disabled, last, dataTestId} = this.props;
         return (<div>
             <div className='line-switch d-flex flex-sm-column flex-md-row align-items-sm-start align-items-center justify-content-md-between'>
                 <label className='line-switch__label'>{title}</label>
-                <div className='line-switch__toggle'>
+                <div
+                    data-testid={dataTestId}
+                    className='line-switch__toggle'
+                >
                     <Toggle
                         disabled={disabled}
                         onToggle={onToggle}
