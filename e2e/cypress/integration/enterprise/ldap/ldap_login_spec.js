@@ -62,8 +62,8 @@ context('ldap', () => {
 
     describe('LDAP Login flow - Admin Login', () => {
         before(() => {
-            // * Check if server has license for SAML
-            cy.requireLicenseForFeature('SAML');
+            // * Check if server has license for LDAP
+            cy.requireLicenseForFeature('LDAP');
 
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.apiGetConfig().then((response) => {
