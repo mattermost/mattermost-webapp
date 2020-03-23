@@ -140,8 +140,8 @@ const visitAutemChannelConfigPage = () => {
     visitChannelConfigPage('autem');
 };
 
-// Clicks the save button in the system console page. 
-// waitUntilConfigSaved: If we need to wait for the save button to go from saving -> save. 
+// Clicks the save button in the system console page.
+// waitUntilConfigSaved: If we need to wait for the save button to go from saving -> save.
 // Usually we need to wait unless we are doing this in team override scheme
 const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false) => {
     // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
@@ -255,7 +255,7 @@ describe('Channel Moderation Test', () => {
         it('Create Post option for Guests', () => {
             const loginAs = 'guest';
 
-            // # Go to channel configuration page of 
+            // # Go to channel configuration page of
             visitAutemChannelConfigPage();
 
             // # Uncheck the Create Posts option for Guests and Save
@@ -286,13 +286,12 @@ describe('Channel Moderation Test', () => {
         });
 
         it('Create Post option for Members', () => {
-            const channelName = 'autem';
             const loginAs = 'user-1';
 
             // # Go to system admin page and to channel configuration page of channel "autem"
             visitAutemChannelConfigPage();
 
-            // # Uncheck the Create Posts option for Members and Save 
+            // # Uncheck the Create Posts option for Members and Save
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
             saveConfig();
 
@@ -400,7 +399,7 @@ describe('Channel Moderation Test', () => {
 
         it('Post Reactions option removed for Guests and Members in System Scheme', () => {
             // # Login as sysadmin and visit the Permissions page in the system console.
-            // # Edit the System Scheme and remove the Post Reaction option for Guests & Save.            
+            // # Edit the System Scheme and remove the Post Reaction option for Guests & Save.
             goToSystemScheme();
             cy.get('#guests-reactions').click();
             saveConfig();
@@ -537,7 +536,7 @@ describe('Channel Moderation Test', () => {
             // # Visit Autem channel page and turn off the Manage members for Members and then save
             visitAutemChannelConfigPage();
 
-            // * Assert that Manage Members option should be disabled for a Members. 
+            // * Assert that Manage Members option should be disabled for a Members.
             // * A message Manage members for members are disabled in the System Scheme should be displayed.
             cy.findByTestId('admin-channel_settings-channel_moderation-manageMembers-disabledMember').
                 should('exist').
@@ -634,7 +633,7 @@ describe('Channel Moderation Test', () => {
             // # Uncheck the create posts option for guests
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
 
-            // * Option to allow Channel Mentions for Guests should also be disabled when Create Post option is disabled. 
+            // * Option to allow Channel Mentions for Guests should also be disabled when Create Post option is disabled.
             // * A message Guests can not use channel mentions without the ability to create posts should be displayed.
             cy.findByTestId('admin-channel_settings-channel_moderation-channelMentions-disabledGuestsDueToCreatePosts').
                 should('have.text', 'Guests can not use channel mentions without the ability to create posts.');
@@ -644,7 +643,7 @@ describe('Channel Moderation Test', () => {
             enableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_MEMBERS);
 
-            // * Option to allow Channel Mentions for Members should also be disabled when Create Post option is disabled. 
+            // * Option to allow Channel Mentions for Members should also be disabled when Create Post option is disabled.
             // * A message Members can not use channel mentions without the ability to create posts should be displayed.
             cy.findByTestId('admin-channel_settings-channel_moderation-channelMentions-disabledMemberDueToCreatePosts').
                 should('have.text', 'Members can not use channel mentions without the ability to create posts.');
@@ -653,7 +652,7 @@ describe('Channel Moderation Test', () => {
             // # Uncheck the create posts option for guests
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CREATE_POSTS_GUESTS);
 
-            // * Ensure that channel mentions for members and guests is disabled 
+            // * Ensure that channel mentions for members and guests is disabled
             // * Ensure message Guests & Members can not use channel mentions without the ability to create posts
             cy.findByTestId('admin-channel_settings-channel_moderation-channelMentions-disabledBothDueToCreatePosts').
                 should('have.text', 'Guests and members can not use channel mentions without the ability to create posts.');
@@ -856,7 +855,7 @@ describe('Channel Moderation Test', () => {
             // # Turn channel back to public channel
             cy.findByTestId('allow-all-toggle').click();
             saveConfig(true, true);
-            
+
             // * ensure it got reverted back to a Public channel
             cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
         });
@@ -864,7 +863,7 @@ describe('Channel Moderation Test', () => {
         it('Manage Members removed for Private Channels / Permissions inherited when channel converted from Public to Private', () => {
             const teamOverrideSchemeName = 'autem' + getRandomInt(1000);
 
-            // # Create a new team override scheme and remove manage private channel members from it 
+            // # Create a new team override scheme and remove manage private channel members from it
             // * Ensure that manage public channel members is checked
             goToPermissionsAndCreateTeamOverrideScheme(`${teamOverrideSchemeName}`);
             deleteOrEditTeamScheme(`${teamOverrideSchemeName}`, 'edit');
@@ -917,7 +916,7 @@ describe('Channel Moderation Test', () => {
 
             cy.getLastPostId().then((postId) => {
                 cy.clickPostDotMenu(postId);
-                
+
                 // * As per test case, ensure edit and delete button show up
                 cy.get(`#edit_post_${postId}`).should('exist');
                 cy.get(`#delete_post_${postId}`).should('exist');
