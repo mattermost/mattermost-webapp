@@ -68,7 +68,7 @@ describe('components/QuickInput', () => {
     });
 
     test('should dismiss clear button', () => {
-        const mockInput={focus: jest.fn()};
+        const mockInput = {focus: jest.fn()};
         const wrapper = mount(
             <QuickInput
                 value='mock'
