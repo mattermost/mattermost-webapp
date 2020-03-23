@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// @prod
+// Stage: @prod @smoke
+// Group: @accessibility
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import accountSettingSections from '../../fixtures/account_setting_sections.json';
@@ -30,7 +31,6 @@ function verifySections(sections) {
 
 describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
     before(() => {
-        cy.runOn({platforms: 'mac', tags: 'smoke,prod'});
         cy.apiLogin('sysadmin');
 
         // # Update Configs
@@ -65,8 +65,6 @@ describe('Verify Accessibility Support in different sections in Account Settings
     });
 
     it('MM-22628 Verify Label & Tab behavior in section links', () => {
-        cy.skipOn({headless: false});
-
         // * Verify the aria-label and Tab support in different sections
         cy.get('body').tab();
         cy.get('#generalButton').should('have.attr', 'aria-label', 'general').focus().tab();
@@ -78,8 +76,6 @@ describe('Verify Accessibility Support in different sections in Account Settings
     });
 
     it('MM-22628 Verify Accessibility Support in each section in Account Settings Dialog', () => {
-        cy.runOn({browsers: 'firefox'});
-
         // # Tab from Advanced section
         cy.get('body').tab();
         cy.get('#generalButton').click();

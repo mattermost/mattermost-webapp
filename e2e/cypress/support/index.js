@@ -18,7 +18,6 @@ import 'cypress-wait-until';
 import 'cypress-plugin-tab';
 import './okta_commands';
 import './saml_commands';
-import './on_commands';
 
 import addContext from 'mochawesome/addContext';
 

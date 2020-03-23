@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @integrations
+
 describe('I18456 Built-in slash commands: common', () => {
     before(() => {
         loginAndVisitDefaultChannel('user-1');

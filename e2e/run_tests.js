@@ -3,14 +3,21 @@
 
 /* eslint-disable no-await-in-loop, no-console */
 
+const os = require('os');
+
 const axios = require('axios');
+const chalk = require('chalk');
 const cypress = require('cypress');
 const fse = require('fs-extra');
+const intersection = require('lodash.intersection');
+const without = require('lodash.without');
 const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 const shell = require('shelljs');
+const argv = require('yargs').argv;
 
 const MAX_FAILED_TITLES = 5;
+const TEST_DIR = 'cypress/integration';
 
 function getAllTests(results) {
     const tests = [];
@@ -26,7 +33,6 @@ function getAllTests(results) {
 }
 
 function generateStatsFieldValue(stats, failedFullTitles) {
-    console.log('stats:', stats);
     let statsFieldValue = `
 | Key | Value |
 |:---|:---|
@@ -79,32 +85,127 @@ function writeJsonToFile(jsonObject, filename, dir) {
         catch((err) => console.error(err));
 }
 
+const grepCommand = (word = '') => {
+    // -r, recursive search on subdirectories
+    // -I, ignore binary
+    // -l, only names of files to stdout/return
+    // -w, expression is searched for as a word
+    return `grep -rIlw '${word}' ${TEST_DIR}`;
+};
+
+const grepFiles = (command) => {
+    return shell.exec(command, {silent: true}).stdout.
+        split('\n').
+        filter((f) => f.includes('spec.js'));
+};
+
+function getTestFiles() {
+    const {invert, group, stage} = argv;
+
+    const allFiles = grepFiles(grepCommand());
+
+    const stageFiles = [];
+    if (stage) {
+        const sc = grepCommand(stage.split(',').join('\\|'));
+        stageFiles.push(...grepFiles(sc));
+    }
+    const groupFiles = [];
+    if (group) {
+        const gc = grepCommand(group.split(',').join('\\|'));
+        groupFiles.push(...grepFiles(gc));
+    }
+
+    if (invert) {
+        // Return no test file if no stage and group, but inverted
+        if (!stage && !group) {
+            return [];
+        }
+
+        // Return all excluding stage files
+        if (stage && !group) {
+            return without(allFiles, ...stageFiles);
+        }
+
+        // Return all excluding group files
+        if (!stage && group) {
+            return without(allFiles, ...groupFiles);
+        }
+
+        // Return all excluding group and stage files
+        return without(allFiles, ...intersection(stageFiles, groupFiles));
+    }
+
+    // Return all files if no stage and group flags
+    if (!stage && !group) {
+        return allFiles;
+    }
+
+    // Return stage files if no group flag
+    if (stage && !group) {
+        return stageFiles;
+    }
+
+    // Return group files if no stage flag
+    if (!stage && group) {
+        return groupFiles;
+    }
+
+    // Return files if both in stage and group
+    return intersection(stageFiles, groupFiles);
+}
+
+function getSkippedFiles(initialTestFiles, platform, browser, headless) {
+    const platformFiles = grepFiles(grepCommand(`@${platform}`));
+    const browserFiles = grepFiles(grepCommand(`@${browser}`));
+    const headlessFiles = grepFiles(grepCommand(`@${headless ? 'headless' : 'headed'}`));
+
+    const initialSkippedFiles = platformFiles.concat(browserFiles, headlessFiles);
+    const skippedFiles = intersection(initialTestFiles, initialSkippedFiles);
+    const finalTestFiles = without(initialTestFiles, ...skippedFiles);
+
+    // Log which files were skipped
+    if (skippedFiles.length) {
+        console.log(chalk.cyan(`\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'}):`));
+
+        skippedFiles.forEach((file, index) => {
+            console.log(chalk.cyan(`- [${index + 1}] ${file}`));
+        });
+        console.log('');
+    }
+
+    return {skippedFiles, finalTestFiles};
+}
+
 async function runTests() {
     await fse.remove('results');
     await fse.remove('screenshots');
 
-    const BROWSER = process.env.BROWSER ? process.env.BROWSER : 'chrome';
+    const BROWSER = process.env.BROWSER || 'chrome';
+    const HEADLESS = typeof process.env.HEADLESS === 'undefined' ? true : process.env.HEADLESS === 'true';
 
-    const files = shell.exec('grep -l -r "@prod" cypress');
-    // console.log('files:', typeof files, files.length, files);
+    const initialTestFiles = getTestFiles().sort((a, b) => a.localeCompare(b));
+    const {finalTestFiles} = getSkippedFiles(initialTestFiles, os.platform(), BROWSER, HEADLESS);
 
-    const testFiles = files.stdout.split('\n').filter((f) => f.includes('spec.js'));
-    console.log('testFiles:', testFiles);
-
-    // shell.exec('grep -l -r -v "@prod" cypress')
-
-    // const testDirs = fse.readdirSync('cypress/integration/');
-    const testDirs = ['accessibility'];
-    let failedTests = 0;
+    if (!finalTestFiles.length) {
+        console.log(chalk.red('Nothing to test!'));
+    }
 
     const mochawesomeReportDir = 'results/mochawesome-report';
+    const {invert, group, stage} = argv;
+    let failedTests = 0;
 
-    // for (const dir of testDirs) {
-    for (const testFile of testFiles) {
-        console.log('TEST RUNNING:', testFile);
+    for (let i = 0; i < finalTestFiles.length; i++) {
+        const testFile = finalTestFiles[i];
+        const testStage = stage ? `Stage: "${stage}" ` : '';
+        const testGroup = group ? `Group: "${group}" ` : '';
+
+        // Log which files were being tested
+        console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && group ? '| ' : ''}${testGroup}`));
+        console.log(chalk.magenta(`(Testing ${i + 1} of ${finalTestFiles.length})  - `, testFile));
+
         const {totalFailed} = await cypress.run({
-            browser: `${BROWSER}`,
-            headless: 'true',
+            browser: BROWSER,
+            headless: HEADLESS,
             spec: testFile,
             config: {
                 screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
@@ -120,7 +221,7 @@ async function runTests() {
                     },
                     mochawesomeReporterOptions: {
                         reportDir: mochawesomeReportDir,
-                        reportFilename: `mochawesome-${testFile}`,
+                        reportFilename: `json/${testFile}`,
                         quiet: true,
                         overwrite: false,
                         html: false,
@@ -133,7 +234,7 @@ async function runTests() {
     }
 
     // Merge all json reports into one single json report
-    const jsonReport = await merge({files: [`${mochawesomeReportDir}/*.json`]});
+    const jsonReport = await merge({files: [`${mochawesomeReportDir}/**/*.json`]});
 
     // Generate short summary, write to file and then send report via webhook
     const summary = generateShortSummary(jsonReport);
