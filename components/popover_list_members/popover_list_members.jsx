@@ -239,6 +239,7 @@ export default class PopoverListMembers extends React.Component {
                             </span>
                             <MemberIcon
                                 id='channelMemberIcon'
+                                data-testid='channelMemberIcon'
                                 className='icon icon__members'
                                 aria-hidden='true'
                             />
