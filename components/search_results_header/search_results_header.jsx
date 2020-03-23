@@ -14,6 +14,7 @@ export default class SearchResultsHeader extends React.Component {
     static propTypes = {
         children: PropTypes.node,
         actions: PropTypes.shape({
+            isExpanded: PropTypes.bool.isRequired,
             closeRightHandSide: PropTypes.func,
             toggleRhsExpanded: PropTypes.func.isRequired,
         }),
@@ -46,21 +47,27 @@ export default class SearchResultsHeader extends React.Component {
                 />
             </Tooltip>
         );
+        let toggleSidebarTooltip;
+        if(this.props.isExpanded) {
+            toggleSidebarTooltip = shrinkSidebarTooltip;
+        } else {
+            toggleSidebarTooltip = expandSidebarTooltip;
+        }
 
         return (
             <div className='sidebar--right__header'>
                 <span className='sidebar--right__title'>{this.props.children}</span>
                 <div className='pull-right'>
-                    <button
-                        type='button'
-                        className='sidebar--right__expand'
-                        aria-label='Expand'
-                        onClick={this.props.actions.toggleRhsExpanded}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={toggleSidebarTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={expandSidebarTooltip}
+                        <button
+                            type='button'
+                            className='sidebar--right__expand'
+                            aria-label='Expand'
+                            onClick={this.props.actions.toggleRhsExpanded}
                         >
                             <FormattedMessage
                                 id='rhs_header.expandSidebarTooltip.icon'
@@ -73,12 +80,6 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={shrinkSidebarTooltip}
-                        >
                             <FormattedMessage
                                 id='rhs_header.expandTooltip.icon'
                                 defaultMessage='Shrink Sidebar Icon'
@@ -90,8 +91,8 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'

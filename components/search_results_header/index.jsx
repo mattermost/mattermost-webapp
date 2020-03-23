@@ -9,7 +9,17 @@ import {
     toggleRhsExpanded,
 } from 'actions/views/rhs';
 
+import {
+    getIsRhsExpanded,
+} from 'selectors/rhs';
+
 import SearchResultsHeader from './search_results_header.jsx';
+
+function mapStateToProps(state) {
+    return {
+        isExpanded: getIsRhsExpanded(state),
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -20,4 +30,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(SearchResultsHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsHeader);
