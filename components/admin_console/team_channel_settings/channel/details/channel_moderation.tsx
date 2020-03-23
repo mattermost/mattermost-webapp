@@ -168,7 +168,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
         <tr>
             <td>
                 <label
-                    data-testid={formattedMessages[props.name].title.id.replace(PERIOD_TO_SLASH_REGEX,'-')}
+                    data-testid={formattedMessages[props.name].title.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
                 >
                     <FormattedMessage
                         id={formattedMessages[props.name].title.id}
@@ -176,7 +176,7 @@ const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: Row
                     />
                 </label>
                 <div
-                    data-testid={formattedMessages[props.name].description.id.replace(PERIOD_TO_SLASH_REGEX,'-')}
+                    data-testid={formattedMessages[props.name].description.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
                 >
                     <FormattedMessage
                         id={formattedMessages[props.name].description.id}
@@ -236,7 +236,7 @@ export default class ChannelModeration extends React.Component<Props> {
             if (!createPostsObject!.roles.guests!.value && !createPostsObject!.roles.members!.value) {
                 errorMessages.push(
                     <div
-                        data-testid={formattedMessages[entry.name].disabledBothDueToCreatePosts.id.replace(PERIOD_TO_SLASH_REGEX,'-')}
+                        data-testid={formattedMessages[entry.name].disabledBothDueToCreatePosts.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
                         key={formattedMessages[entry.name].disabledBothDueToCreatePosts.id}
                     >
                         <FormattedMessage
@@ -255,7 +255,7 @@ export default class ChannelModeration extends React.Component<Props> {
             if (createPostsKey !== '') {
                 errorMessages.push(
                     <div
-                        data-testid={formattedMessages[entry.name][createPostsKey].id.replace(PERIOD_TO_SLASH_REGEX,'-')}
+                        data-testid={formattedMessages[entry.name][createPostsKey].id.replace(PERIOD_TO_SLASH_REGEX, '-')}
                         key={formattedMessages[entry.name][createPostsKey].id}
                     >
                         <FormattedMessage
@@ -284,7 +284,7 @@ export default class ChannelModeration extends React.Component<Props> {
             }
             errorMessages.push(
                 <div
-                    data-testid={formattedMessages[entry.name][disabledKey].id.replace(PERIOD_TO_SLASH_REGEX,'-')}
+                    data-testid={formattedMessages[entry.name][disabledKey].id.replace(PERIOD_TO_SLASH_REGEX, '-')}
                     key={formattedMessages[entry.name][disabledKey].id}
                 >
                     <FormattedMarkdownMessage
