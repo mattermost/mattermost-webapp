@@ -67,6 +67,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
@@ -78,6 +79,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage
@@ -185,6 +187,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
@@ -196,6 +199,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage
@@ -378,6 +382,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
@@ -389,6 +394,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage

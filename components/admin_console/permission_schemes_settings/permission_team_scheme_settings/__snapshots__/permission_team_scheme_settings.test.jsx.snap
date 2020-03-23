@@ -101,6 +101,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         </div>
       </AdminPanel>
       <AdminPanelWithButton
+        buttonDataTestId="add-teams"
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
@@ -381,6 +382,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         </div>
       </AdminPanel>
       <AdminPanelWithButton
+        buttonDataTestId="add-teams"
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
@@ -641,6 +643,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         </div>
       </AdminPanel>
       <AdminPanelWithButton
+        buttonDataTestId="add-teams"
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"
@@ -931,6 +934,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         </div>
       </AdminPanel>
       <AdminPanelWithButton
+        buttonDataTestId="add-teams"
         buttonTextDefault="Add Teams"
         buttonTextId="admin.permissions.teamScheme.addTeams"
         className="permissions-block"

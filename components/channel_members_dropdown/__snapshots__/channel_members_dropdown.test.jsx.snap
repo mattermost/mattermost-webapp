@@ -30,11 +30,13 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-member"
       text="Make Channel Member"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-admin"
       text="Make Channel Admin"
     />
     <MenuItemAction
@@ -76,11 +78,13 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-member"
       text="Make Channel Member"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-admin"
       text="Make Channel Admin"
     />
     <MenuItemAction
@@ -132,11 +136,13 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-member"
       text="Make Channel Member"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-admin"
       text="Make Channel Admin"
     />
     <MenuItemAction
@@ -178,11 +184,13 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-member"
       text="Make Channel Member"
     />
     <MenuItemAction
       onClick={[Function]}
       show={false}
+      testid="undefined-make-channel-admin"
       text="Make Channel Admin"
     />
     <MenuItemAction
