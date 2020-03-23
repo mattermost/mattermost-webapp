@@ -7,9 +7,9 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -22,9 +22,8 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import UserProfile from 'components/user_profile/user_profile';
 
-export function renderView(props: Props) {
+export function renderView(props: Record<string, any>) {
     return (
         <div
             {...props}
@@ -36,7 +35,7 @@ export function renderThumbHorizontal() {
     return (<div/>);
 }
 
-export function renderThumbVertical(props: Props) {
+export function renderThumbVertical(props: Record<string, any>) {
     return (
         <div
             {...props}
@@ -46,19 +45,19 @@ export function renderThumbVertical(props: Props) {
 
 type Props = {
     posts: Post[];
-    channel: Partial<Channel> | null;
-    selected: Record<string, any>;
+    channel: Channel | null;
+    selected: Post;
     previousRhsState?: string;
     currentUserId: string;
     previewCollapsed: string;
     previewEnabled: boolean;
     socketConnectionStatus: boolean;
     actions: {
-        removePost: (post: ExtendedPost) => (dispatch: DispatchFunc, getState: GetStateFunc) => void;
-        selectPostCard: (post: Record<string, any>) => Record<string, any>;
+        removePost: (post: ExtendedPost) => void;
+        selectPostCard: (post: Post) => void;
         getPostThread: (rootId: string, root?: boolean) => void;
     };
-    directTeammate: string
+    directTeammate: UserProfile;
 }
 
 type State = {
@@ -76,7 +75,7 @@ export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
-        let updatedState: Record<string, any> = {selected: props.selected};
+        let updatedState: Partial<State> = {selected: props.selected};
         if (state.selected && props.selected && state.selected.id !== props.selected.id) {
             updatedState = {...updatedState, openTime: (new Date()).getTime()};
         }
@@ -169,7 +168,7 @@ export default class RhsThread extends React.Component<Props, State> {
         }
     }
 
-    private handleCardClick = (post: Record<string, any>) => {
+    private handleCardClick = (post: Post) => {
         if (!post) {
             return;
         }
@@ -177,7 +176,7 @@ export default class RhsThread extends React.Component<Props, State> {
         this.props.actions.selectPostCard(post);
     }
 
-    private handleCardClickPost = (post: Record<string, any>) => {
+    private handleCardClickPost = (post: Post) => {
         if (!post) {
             return;
         }
@@ -189,8 +188,8 @@ export default class RhsThread extends React.Component<Props, State> {
         this.setState({isBusy});
     }
 
-    private filterPosts = (posts: Record<string, any>[], selected: Record<string, any>, openTime: number): Record<string, any>[] => {
-        const postsArray: Record<string, any>[] = [];
+    private filterPosts = (posts: Post[], selected: Post, openTime: number): Post[] => {
+        const postsArray: Post[] = [];
 
         posts.forEach((cpost) => {
             // Do not show empherals created before sidebar has been opened
@@ -270,7 +269,7 @@ export default class RhsThread extends React.Component<Props, State> {
         const {selected, currentUserId} = this.props;
 
         let isRhsRootLastPost = false;
-        let lastRhsCommentPost = '';
+        let lastRhsCommentPost: Partial<Post> = {};
 
         if (postsLength === 0) {
             isRhsRootLastPost = true;
