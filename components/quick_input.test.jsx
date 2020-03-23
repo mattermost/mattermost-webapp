@@ -38,11 +38,13 @@ describe('components/QuickInput', () => {
     });
 
     test('should dismiss clear button', () => {
+        const mockInput={focus: jest.fn()};
         const wrapper = mount(
             <QuickInput
                 value='mock'
                 clearable={true}
                 onClear={() => {}}
+                setInput={mockInput}
             />
         );
 
@@ -51,5 +53,6 @@ describe('components/QuickInput', () => {
 
         wrapper.find('.input-clear').simulate('click');
         expect(wrapper.find('.input-clear').exists()).toBe(false);
+        expect(mockInput.focus).toBeCalled();
     });
 });
