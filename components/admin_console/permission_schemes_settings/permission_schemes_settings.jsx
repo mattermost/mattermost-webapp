@@ -143,6 +143,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         if (hasCustomSchemes) {
             return (
                 <AdminPanelWithLink
+                    id='team-override-schemes-list'
                     className='permissions-block'
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
