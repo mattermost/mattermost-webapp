@@ -14,22 +14,18 @@ describe('Profile popover', () => {
     const message = `Testing ${Date.now()}`;
 
     before(() => {
-        // # Login as "user-1" and visit '/ad-1/channels/town-square
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-
-        // # Update user preferences
+        // # Login as sysadmin and update user preferences
+        cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference();
 
         // # Create new user and have it post a message
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.createNewUser({}, [teamId]).then((user) => {
+        cy.apiGetTeamByName('ad-1').then((teamRes) => {
+            cy.apiCreateNewUser({}, [teamRes.body.id]).then((user) => {
                 newUser = user;
 
-                cy.visit('/ad-1/channels/town-square');
-                cy.getCurrentChannelId().then((currentChannelId) => {
-                    cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.SMALL);
+                cy.apiGetChannelByName('ad-1', 'town-square').then((channelRes) => {
+                    cy.postMessageAs({sender: newUser, message, channelId: channelRes.body.id}).wait(TIMEOUTS.SMALL);
                 });
             });
         });
@@ -99,7 +95,7 @@ function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
             and('have.text', user.username);
         cy.get('.channel-intro-text').
             should('be.visible').
-            and('contain', `This is the start of your direct message history with ${user.nickname}.`).
+            and('contain', `This is the start of your direct message history with ${user.username}.`).
             and('contain', 'Direct messages and files shared here are not shown to people outside this area.');
     });
 }
