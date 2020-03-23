@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {mount} from 'enzyme';
+import {elementType} from 'prop-types';
 
 import QuickInput from 'components/quick_input';
 
@@ -38,13 +39,19 @@ describe('components/QuickInput', () => {
     });
 
     test('should dismiss clear button', () => {
-        const mockInput = {focus: jest.fn()};
+        const focusFn = jest.fn();
+        class MockComp extends React.PureComponent {
+            focus = focusFn;
+            render() {
+                return <div/>;
+            }
+        }
         const wrapper = mount(
             <QuickInput
                 value='mock'
                 clearable={true}
                 onClear={() => {}}
-                setInput={mockInput}
+                inputComponent={MockComp}
             />
         );
 
@@ -53,6 +60,6 @@ describe('components/QuickInput', () => {
 
         wrapper.find('.input-clear').simulate('click');
         expect(wrapper.find('.input-clear').exists()).toBe(false);
-        expect(mockInput.focus).toBeCalled();
+        expect(focusFn).toBeCalled();
     });
 });
