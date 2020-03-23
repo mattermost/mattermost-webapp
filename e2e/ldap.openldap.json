@@ -1,6 +1,4 @@
 {
-    "env": {
-        "ldapServer": "ldap.e2e.dev.spinmint.com",
-        "ldapPort": "389"
-    }
+    "ldapServer": "ldap.e2e.dev.spinmint.com",
+    "ldapPort": 389
 }

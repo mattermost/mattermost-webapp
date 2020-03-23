@@ -24,8 +24,8 @@ context('ldap', () => {
         LdapSettings: {
             Enable: true,
             EnableSync: false,
-            LdapServer: 'ldap.e2e.dev.spinmint.com', //Cypress.env('ldapServer'), //'localhost'
-            LdapPort: 389, //Cypress.env('ldapPort'), //389,
+            LdapServer: Cypress.env('ldapServer'), // 'ldap.e2e.dev.spinmint.com' 'localhost'
+            LdapPort: Cypress.env('ldapPort'), //389,
             ConnectionSecurity: '',
             BaseDN: 'dc=mm,dc=test,dc=com',
             BindUsername: 'cn=admin,dc=mm,dc=test,dc=com',
@@ -62,6 +62,9 @@ context('ldap', () => {
 
     describe('LDAP Login flow - Admin Login', () => {
         before(() => {
+            // * Check if server has license for SAML
+            cy.requireLicenseForFeature('SAML');
+
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.apiGetConfig().then((response) => {
                     cy.setLDAPTestSettings(response.body).then((_response) => {
