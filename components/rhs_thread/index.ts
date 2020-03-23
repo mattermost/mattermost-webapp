@@ -10,6 +10,7 @@ import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import {Preferences} from 'utils/constants';
 import {getDirectTeammate} from 'utils/utils.jsx';
@@ -42,7 +43,7 @@ function makeMapStateToProps() {
             socketConnectionStatus: socketStatus.connected,
             previewCollapsed,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT === 'true'),
-            directTeammate: getDirectTeammate(state, channel.id),
+            directTeammate: getDirectTeammate(state, channel!.id) as UserProfile,
         };
     };
 }
