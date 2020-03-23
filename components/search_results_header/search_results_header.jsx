@@ -13,8 +13,8 @@ import Constants from 'utils/constants';
 export default class SearchResultsHeader extends React.Component {
     static propTypes = {
         children: PropTypes.node,
+        isExpanded: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            isExpanded: PropTypes.bool.isRequired,
             closeRightHandSide: PropTypes.func,
             toggleRhsExpanded: PropTypes.func.isRequired,
         }),
@@ -47,8 +47,10 @@ export default class SearchResultsHeader extends React.Component {
                 />
             </Tooltip>
         );
+
         let toggleSidebarTooltip;
-        if(this.props.isExpanded) {
+
+        if (this.props.isExpanded) {
             toggleSidebarTooltip = shrinkSidebarTooltip;
         } else {
             toggleSidebarTooltip = expandSidebarTooltip;
