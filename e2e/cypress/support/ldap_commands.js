@@ -3,14 +3,6 @@
 
 import * as TIMEOUTS from '../fixtures/timeouts';
 
-// Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
-//     if (settings.user.userType === 'Guest' || settings.user.isGuest) {
-//         cy.findByText('Create a team').should('not.be.visible');
-//     } else {
-//         cy.findByText('Create a team').should('be.visible');
-//     }
-// });
-
 Cypress.Commands.add('doLDAPExistingLogin', () => {
     cy.findByText('Click here to sign in.').should('be.visible').click();
 });
@@ -72,7 +64,6 @@ Cypress.Commands.add('doInviteGuest', (user, settings = {}) => {
         cy.findByText('Invite People').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
             cy.checkInvitePeopleAdminPage();
 
-            // cy.findByTestId('inviteGuestLink').find('.arrow').click();
             cy.findByText('Guests').click();
 
             cy.findByText('Invite Guests').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
@@ -101,7 +92,6 @@ Cypress.Commands.add('doInviteMember', (user, settings = {}) => {
         cy.findByText('Invite People').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
             cy.checkInvitePeopleAdminPage();
 
-            // cy.findByTestId('inviteGuestLink').find('.arrow').click();
             cy.findByText('Members').click();
 
             cy.findByText('Invite Members').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {

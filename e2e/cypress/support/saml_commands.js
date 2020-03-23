@@ -3,31 +3,6 @@
 
 import * as TIMEOUTS from '../fixtures/timeouts';
 
-// Cypress.Commands.add('checkLoginPage', (settings = {}) => {
-//     // * Check the title
-//     cy.title().should('include', settings.siteName);
-
-//     // * Check elements in the body
-//     cy.get('#loginId').should('be.visible').and(($loginTextbox) => {
-//         const placeholder = $loginTextbox[0].placeholder;
-//         expect(placeholder).to.match(/Email/);
-//         expect(placeholder).to.match(/Username/);
-//     });
-//     cy.get('#loginPassword').should('be.visible').and('have.attr', 'placeholder', 'Password');
-//     cy.findByText('Sign in').should('be.visible');
-// });
-
-// Cypress.Commands.add('checkSignUpPageSection', () => {
-//     cy.findByText('Your guest account has no channels assigned. Please contact an administrator.').should('be.visible');
-// });
-
-// Cypress.Commands.add('checkInvitePeoplePage', (settings = {}) => {
-//     if (settings.teamName != null && settings.teamName.length > 0) {
-//         cy.findByText('Invite people to ' + settings.teamName).should('be.visible');
-//     }
-//     cy.findByText('Copy Link').should('be.visible');
-// });
-
 Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
     if (settings.user.userType === 'Guest' || settings.user.isGuest) {
         cy.findByText('Create a team').scrollIntoView().should('not.be.visible');
