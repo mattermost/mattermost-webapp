@@ -74,11 +74,11 @@ describe('search for channel with', () => {
     let user;
 
     before(() => {
-        // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
-
         // # Login
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Elasticsearch
+        cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team to run tests against
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
@@ -102,7 +102,9 @@ describe('search for channel with', () => {
     describe('elastic search enabled', () => {
         before(() => {
             // # Execute the before hook based on current config
+            cy.apiLogin('sysadmin');
             enableElasticSearch();
+            cy.apiLogout();
 
             // # Login and navigate to team with new user
             cy.apiLogin(user.username, user.password);
@@ -242,7 +244,9 @@ describe('search for channel with', () => {
     describe('elastic search disabled', () => {
         before(() => {
             // # Execute the before hook based on current config
+            cy.apiLogin('sysadmin');
             disableElasticSearch();
+            cy.apiLogout();
 
             // # Login and navigate to team with new user
             cy.apiLogin(user.username, user.password);
@@ -320,6 +324,8 @@ describe('search for channel with', () => {
             let channelId;
 
             before(() => {
+                cy.apiLogout();
+
                 // # Login as admin
                 cy.apiLogin('sysadmin');
                 cy.visit(`/${team.name}`);

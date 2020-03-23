@@ -191,6 +191,8 @@ export const ActionTypes = keyMirror({
     FILTER_MARKETPLACE_PLUGINS: null,
 
     POST_UNREAD_SUCCESS: null,
+
+    SET_UNREAD_FILTER_ENABLED: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -291,6 +293,7 @@ export const SocketEvents = {
     CHANNEL_UPDATED: 'channel_updated',
     CHANNEL_VIEWED: 'channel_viewed',
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
+    CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
     DIRECT_ADDED: 'direct_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
@@ -443,6 +446,7 @@ export const StoragePrefixes = {
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
+    CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
 };
 
 export const LandingPreferenceTypes = {

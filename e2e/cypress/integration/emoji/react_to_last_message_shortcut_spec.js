@@ -17,13 +17,13 @@ let newChannel = {};
 
 describe('Keyboard shortcut for adding reactions to last message in channel or thread', () => {
     before(() => {
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },
         });
 
-        cy.apiLogin('sysadmin');
         cy.visit('/ad-1/channels/town-square');
 
         // # Get the current channels Id for later use such as posting message with other user
@@ -39,14 +39,6 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
                     newChannel = Object.assign({}, response.body);
                 }
             );
-        });
-    });
-
-    after(() => {
-        cy.apiUpdateConfig({
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: false,
-            },
         });
     });
 
@@ -667,5 +659,5 @@ function openMainMenuOptions(menu) {
 function openChannelMainOptions(menu) {
     cy.get('body').type('{esc}');
     cy.findByLabelText('channel menu').click();
-    cy.findByText(menu).scrollIntoView().click();
+    cy.findByText(menu).scrollIntoView().should('be.visible').click();
 }

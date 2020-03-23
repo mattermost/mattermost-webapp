@@ -8,7 +8,7 @@ import {withRouter} from 'react-router-dom';
 import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
@@ -42,6 +42,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentTeamId: getCurrentTeamId(state),
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
+        useLegacyLHS: !getNewSidebarPreference(state),
     };
 }
 

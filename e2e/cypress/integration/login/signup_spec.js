@@ -12,6 +12,7 @@ let config;
 describe('Signup Email page', () => {
     before(() => {
         // Disable other auth options
+        cy.apiLogin('sysadmin');
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
@@ -50,7 +51,7 @@ describe('Signup Email page', () => {
         // * Check elements in the body
         cy.get('#signup_email_section').should('be.visible');
         cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
-        cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
+        cy.get('#site_description').should('contain', config.TeamSettings.CustomDescriptionText);
         cy.get('#create_account').should('contain', 'Let\'s create your account');
         cy.get('#signin_account').should('contain', 'Already have an account?');
         cy.get('#signin_account').should('contain', 'Click here to sign in.');
