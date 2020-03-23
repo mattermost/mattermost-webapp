@@ -11,6 +11,9 @@ import {PluginsState} from './plugins';
 
 export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;
+    storage: {
+        storage: {[key: string]: any};
+    };
 
     views: {
         admin: {
@@ -37,10 +40,7 @@ export type GlobalState = BaseGlobalState & {
             };
             focusedPostId: string;
             mobileView: boolean;
-            keepChannelIdAsUnread: {
-                id: string;
-                hadMentions: boolean;
-            } | null;
+            keepChannelIdAsUnread: Channel | null;
             lastGetPosts: {
                 [channelId: string]: number;
             };

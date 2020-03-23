@@ -16,7 +16,7 @@ describe('Test Tutorial Navigation', () => {
                 AppDownloadLink: appDownloadLink,
             },
             SupportSettings: {
-                SupportEmail: 'feedback@mattermost.com',
+                SupportEmail: 'feedback@example.com',
             },
         });
         cy.loginAsNewUser({}, [], false);
