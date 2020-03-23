@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {Post} from 'mattermost-redux/src/types/posts';
 
 import RhsThread from './rhs_thread';
@@ -41,16 +42,72 @@ describe('components/RhsThread', () => {
         user_id: 'user_id',
     };
 
-    const channel: Partial<Channel> = {
+    const channel: Channel = {
         id: 'channel_id',
+        create_at: 0,
+        update_at: 0,
         team_id: 'team_id',
         delete_at: 0,
+        type: 'O',
+        display_name: '',
+        name: '',
+        header: '',
+        purpose: '',
+        last_post_at: 0,
+        total_msg_count: 0,
+        extra_update_at: 0,
+        creator_id: '',
+        scheme_id: '',
+        isCurrent: false,
+        teammate_id: '',
+        status: '',
+        fake: false,
+        group_constrained: false
     };
 
     const actions = {
         removePost: jest.fn(),
         selectPostCard: jest.fn(),
         getPostThread: jest.fn(),
+    };
+
+    const directTeammate: UserProfile = {
+        id: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        username: '',
+        auth_data: '',
+        auth_service: '',
+        email: '',
+        email_verified: true,
+        nickname: '',
+        first_name: '',
+        last_name: '',
+        position: '',
+        roles: '',
+        locale: '',
+        notify_props: {
+            desktop: 'default',
+            desktop_sound: 'true',
+            email: 'true',
+            mark_unread: 'all',
+            push: 'default',
+            push_status: 'ooo',
+            comments: 'never',
+            first_name: 'true',
+            channel: 'true',
+            mention_keys: '',
+        },
+        terms_of_service_id: '',
+        terms_of_service_create_at: 0,
+        timezone: {
+            useAutomaticTimezone: true,
+            automaticTimezone: '',
+            manualTimezone: '',
+        },
+        is_bot: true,
+        last_picture_update: 0,
     };
 
     const baseProps = {
@@ -62,7 +119,7 @@ describe('components/RhsThread', () => {
         previewEnabled: true,
         socketConnectionStatus: true,
         actions,
-        directTeammate: 'dummy_teammate'
+        directTeammate
     };
 
     test('should match snapshot', () => {
