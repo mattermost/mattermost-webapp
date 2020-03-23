@@ -3,11 +3,13 @@
 
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {connect} from 'react-redux';
+
 import {canManageChannelMembers} from 'mattermost-redux/selectors/entities/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
+
+import {GlobalState} from 'types/store';
 
 import ChannelMembersModal from './channel_members_modal';
 

@@ -27,7 +27,7 @@ $positions: 't'top,
     }
 
     .p-#{$i} {
-        margin: #{$i*4}px !important;
+        padding: #{$i*4}px !important;
     }
 }
 

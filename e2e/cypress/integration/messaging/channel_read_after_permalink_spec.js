@@ -22,6 +22,8 @@ describe('Messaging', () => {
 
     it('M18713-Channel is removed from Unreads section if user navigates out of it via permalink', () => {
         const message = 'Hello' + Date.now();
+        let linkText;
+        let permalinkId;
 
         // # Create new DM channel with user's email
         cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
@@ -34,49 +36,37 @@ describe('Messaging', () => {
                 cy.postMessage(message);
 
                 cy.getLastPostId().then((postId) => {
-                    // # Wrap it for later use
-                    cy.wrap(postId).as('postId');
+                    permalinkId = postId;
 
-                    // # check if ... button is visible in last post right side
+                    // # Check if ... button is visible in last post right side
                     cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
 
-                    // # click on ... button of last post
+                    // # Click on ... button of last post
                     cy.clickPostDotMenu(postId);
 
-                    // spy on function and verify it
-                    cy.document().then((doc) => {
-                        cy.spy(doc, 'execCommand').as('execCommandSpy');
+                    // # Click on permalink option
+                    cy.get(`#permalink_${postId}`).should('be.visible').click().wait(TIMEOUTS.SMALL);
+
+                    // * Check clipboard contains permalink
+                    cy.task('getClipboard').should('contain', `/ad-1/pl/${postId}`).then((text) => {
+                        linkText = text;
                     });
-
-                    // # click on permalink option
-                    cy.get(`#permalink_${postId}`).should('be.visible').click();
-
-                    // # copy permalink from button
-                    cy.get('#linkModalCopyLink').click();
-
-                    // # Copy link url from text area
-                    cy.get('#linkModalTextArea').invoke('val').as('linkText');
-
-                    cy.get('@execCommandSpy').should('have.been.calledWith', 'copy');
-
-                    // # close modal dialog
-                    cy.get('#linkModalCloseButton').click();
                 });
             });
         });
 
-        // # get current team id
+        // # Get current team id
         cy.getCurrentTeamId().then((teamId) => {
             const channelName = 'test-message-channel-1';
 
-            // # create public channel to post permalink
+            // # Create public channel to post permalink
             cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
                 const testChannel = response.body;
 
-                // # post the message on the channel
-                postMessageOnChannel(testChannel);
+                // # Post the message on the channel
+                postMessageOnChannel(testChannel, linkText);
 
-                // # change user
+                // # Change user
                 cy.visit('/ad-1/town-square');
                 cy.apiLogout();
                 cy.apiLogin('sysadmin');
@@ -90,13 +80,14 @@ describe('Messaging', () => {
                         and('have.attr', 'aria-label', `${channelName} public channel 1 mention`);
                 });
 
-                // # read the message and click the permalink
+                // # Read the message and click the permalink
                 clickLink(testChannel);
 
-                // # URL should be address the post
-                cy.get('@postId').then((postId) => {
-                    cy.url().should('include', `/ad-1/pl/${postId}`);
-                });
+                // * Check if url include the permalink
+                cy.url().should('include', `/ad-1/messages/@user-1/${permalinkId}`);
+
+                // * Check if url redirects back to parent path eventually
+                cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/messages/@user-1').and('not.include', `/${permalinkId}`);
 
                 // # Channel should still be visible
                 cy.get('#publicChannelList', {force: true}).scrollIntoView().should('be.visible').within(() => {
@@ -106,36 +97,34 @@ describe('Messaging', () => {
                         and('have.attr', 'aria-label', `${channelName} public channel`);
                 });
 
-                // * check the channel is not under the unread channel list
+                // * Check the channel is not under the unread channel list
                 cy.get('#unreadsChannelList').find('#sidebarItem_' + testChannel.name).should('not.exist');
 
-                // * check the channel is not marked as unread
+                // * Check the channel is not marked as unread
                 cy.get('#sidebarItem_' + testChannel.name).invoke('attr', 'aria-label').should('not.include', 'unread');
             });
         });
     });
 });
 
-function postMessageOnChannel(testChannel) {
-    // # click on test public channel
+function postMessageOnChannel(testChannel, linkText) {
+    // # Click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
     cy.wait(TIMEOUTS.TINY);
 
-    // # paste link on postlist area and mention the other user
-    cy.get('@linkText').then((linkText) => {
-        cy.postMessage('@sysadmin ' + linkText);
+    // # Paste link on postlist area and mention the other user
+    cy.postMessage('@sysadmin ' + linkText);
 
-        // # we add the mentioned user to the channel
-        cy.get('#add_channel_member_link').click({force: true});
-    });
+    // # We add the mentioned user to the channel
+    cy.get('#add_channel_member_link').click({force: true});
 }
 
 function clickLink(testChannel) {
-    // # click on test public channel
+    // # Click on test public channel
     cy.get('#sidebarItem_' + testChannel.name).click({force: true});
     cy.wait(TIMEOUTS.TINY);
 
-    // # since the last message is the system message telling us we joined the channel, we take the one previous
+    // # Since the last message is the system message telling us we joined the channel, we take the one previous
     cy.getNthPostId(1).then((postId) => {
         // # Click on permalink
         cy.get(`#postMessageText_${postId} > p > .markdown__link`).scrollIntoView().click();

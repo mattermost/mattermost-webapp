@@ -22,6 +22,7 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import UserProfile from 'components/user_profile/user_profile';
 
 export function renderView(props: Props) {
     return (
@@ -57,6 +58,7 @@ type Props = {
         selectPostCard: (post: Record<string, any>) => Record<string, any>;
         getPostThread: (rootId: string, root?: boolean) => void;
     };
+    directTeammate: string
 }
 
 type State = {
@@ -264,7 +266,17 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
+        const postsLength = postsArray.length;
         const {selected, currentUserId} = this.props;
+
+        let isRhsRootLastPost = false;
+        let lastRhsCommentPost = '';
+
+        if (postsLength === 0) {
+            isRhsRootLastPost = true;
+        } else {
+            lastRhsCommentPost = postsArray[postsLength - 1];
+        }
 
         let createAt = selected.create_at;
         if (!createAt && this.props.posts.length > 0) {
@@ -274,7 +286,6 @@ export default class RhsThread extends React.Component<Props, State> {
         let previousPostDay = rootPostDay;
 
         const commentsLists = [];
-        const postsLength = postsArray.length;
         let a11yIndex = 1;
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
@@ -306,6 +317,7 @@ export default class RhsThread extends React.Component<Props, State> {
                     previewEnabled={this.props.previewEnabled}
                     handleCardClick={this.handleCardClickPost}
                     a11yIndex={a11yIndex++}
+                    isLastPost={comPost.id === lastRhsCommentPost.id}
                 />
             );
         }
@@ -338,7 +350,7 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         if (this.props.channel!.type === Constants.DM_CHANNEL) {
-            const teammate: Record<string, any> = Utils.getDirectTeammate(this.props.channel!.id);
+            const teammate: UserProfile = this.props.directTeammate;
             if (teammate && teammate.delete_at) {
                 createComment = (
                     <div
@@ -397,6 +409,7 @@ export default class RhsThread extends React.Component<Props, State> {
                                 previewEnabled={this.props.previewEnabled}
                                 isBusy={this.state.isBusy}
                                 handleCardClick={this.handleCardClick}
+                                isLastPost={isRhsRootLastPost}
                             />
                             {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                             <div

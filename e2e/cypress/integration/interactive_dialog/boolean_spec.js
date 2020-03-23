@@ -18,6 +18,12 @@ let simpleDialog;
 
 describe('Interactive Dialog', () => {
     before(() => {
+        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
+        cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
+
+        cy.requireWebhookServer();
+
         // Set required ServiceSettings
         const newSettings = {
             ServiceSettings: {
@@ -27,10 +33,6 @@ describe('Interactive Dialog', () => {
             },
         };
         cy.apiUpdateConfig(newSettings);
-
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-        cy.apiLogin('sysadmin');
-        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {

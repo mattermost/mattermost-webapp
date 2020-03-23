@@ -559,9 +559,19 @@
         }
     }
 
-    &:hover,
-    &:active {
-        box-shadow: none;
+    .post-action {
+        &:hover,
+        &:active {
+            box-shadow: none;
+
+            .icon--emoji {
+                opacity: 1;
+
+                &.active {
+                    opacity: 1;
+                }
+            }
+        }
     }
 
     &.btn-file__disabled {
@@ -580,14 +590,14 @@
         top: 1px;
         position: relative;
 
+        &.active {
+            opacity: 1;
+        }
+
         svg {
             position: relative;
             top: 1px;
         }
-    }
-
-    .post-action:hover .icon--emoji {
-        @include opacity(.7);
     }
 
     .icon--attachment {
@@ -768,10 +778,6 @@
         .post__body {
             background: transparent !important;
         }
-    }
-
-    &.post--highlight {
-        background-color: beige;
     }
 
     &.post--hide-controls {
@@ -1277,6 +1283,14 @@
                 height: 24px;
                 top: 0;
                 width: 24px;
+
+                &:hover {
+                    background-color: v(center-channel-color-05);
+                }
+
+                &:active {
+                    background-color: v(center-channel-color-15);
+                }
             }
 
             .comment-icon__container {
@@ -1507,6 +1521,10 @@
             }
 
             li {
+                p {
+                    display: inline;
+                }
+
                 ul {
                     font-size: 1em;
                     margin: 0;
@@ -2097,4 +2115,17 @@
     .emoji-picker--active & {
         pointer-events: none;
     }
+}
+
+@keyframes postHighlight {
+    100% {
+      background: initial;
+    }
+}
+
+.app__body .app__content .post.post--highlight {
+    animation-duration: 1s;
+    animation-name: postHighlight;
+    animation-delay: 5s;
+    animation-fill-mode: forwards;
 }
