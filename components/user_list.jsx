@@ -45,7 +45,6 @@ export default class UserList extends React.Component {
     render() {
         const users = this.props.users;
         const RowComponentType = this.props.rowComponentType;
-        let content;
 
         if (users == null) {
             return <LoadingScreen/>;
@@ -66,23 +65,23 @@ export default class UserList extends React.Component {
                     </div>
                 </div>
             );
-        } else {
-            content = users.map((user, index) => {
-                return (
-                    <RowComponentType
-                        key={user.id}
-                        user={user}
-                        extraInfo={this.props.extraInfo[user.id]}
-                        actions={this.props.actions}
-                        actionProps={this.props.actionProps}
-                        actionUserProps={this.props.actionUserProps[user.id]}
-                        index={index}
-                        totalUsers={users.length}
-                        userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
-                    />
-                );
-            });
         }
+
+        const content = users.map((user, index) => {
+            return (
+                <RowComponentType
+                    key={user.id}
+                    user={user}
+                    extraInfo={this.props.extraInfo[user.id]}
+                    actions={this.props.actions}
+                    actionProps={this.props.actionProps}
+                    actionUserProps={this.props.actionUserProps[user.id]}
+                    index={index}
+                    totalUsers={users.length}
+                    userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+                />
+            );
+        });
 
         const loadingMore = (
             <div className='loading-screen row'>

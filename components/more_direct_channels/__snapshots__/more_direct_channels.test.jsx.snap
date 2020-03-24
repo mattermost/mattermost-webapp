@@ -62,6 +62,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       handleInput={[Function]}
       handlePageChange={[Function]}
       handleSubmit={[Function]}
+      infinite={true}
       key="moreDirectChannelsList"
       loading={true}
       maxValues={7}
@@ -105,7 +106,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
           },
         ]
       }
-      perPage={50}
+      perPage={30}
       placeholderText="Search and add members"
       saving={false}
       submitImmediatelyOn={[Function]}
