@@ -18,7 +18,6 @@ type Props = {
     disabled?: boolean;
     buttonTextId?: string;
     buttonTextDefault?: string;
-    buttonDataTestId?: string;
 }
 
 const AdminPanelWithButton: React.FC<Props> = (props: Props) => {
@@ -27,7 +26,6 @@ const AdminPanelWithButton: React.FC<Props> = (props: Props) => {
         const buttonId = (props.buttonTextDefault || '').split(' ').join('-').toLowerCase();
         button = (
             <a
-                data-testid={props.buttonDataTestId}
                 className='btn btn-primary'
                 onClick={props.disabled ? (e) => e.preventDefault() : props.onButtonClick}
                 data-testid={buttonId}
