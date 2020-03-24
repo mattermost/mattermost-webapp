@@ -164,6 +164,7 @@ export default class PermissionsSchemeSummary extends React.Component {
         return (
             <div
                 className='permissions-scheme-summary'
+                data-testid='permissions-scheme-summary'
                 onClick={this.goToEdit}
             >
                 <div onClick={this.stopPropagation}>{confirmModal}</div>

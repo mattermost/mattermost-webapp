@@ -3,6 +3,7 @@
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on default data 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -123,6 +124,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on more than eight teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -318,6 +320,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on no teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
