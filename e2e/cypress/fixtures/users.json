@@ -24,7 +24,7 @@
     "guest": {
         "username": "guest",
         "password": "SampleGu@st1",
-        "email": "SampleGu@st1",
+        "email": "guest@sample.mattermost.com",
         "firstName": "Howard",
         "lastName": "Stewart"
     }
