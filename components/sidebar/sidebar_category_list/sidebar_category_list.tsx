@@ -118,7 +118,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         // Scroll to selected channel so it's in view
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.scrollToChannel(this.props.currentChannel.id);
+            // This will be re-enabled when we can avoid animating the scroll on first load and team switch
+            // this.scrollToChannel(this.props.currentChannel.id);
         }
 
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
