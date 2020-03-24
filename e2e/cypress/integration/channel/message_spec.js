@@ -37,7 +37,7 @@ describe('Message', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M13701 Consecutive message does not repeat profile info', () => {
@@ -97,8 +97,9 @@ describe('Message', () => {
         // # Change settings to allow @channel messages
         cy.apiPatchMe({notify_props: {channel: 'true'}});
 
-        // # Login as new user
-        cy.loginAsNewUser().then(() => {
+        // # Login as sysadmin the create/login as new user
+        cy.apiLogin('sysadmin');
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 cy.visit(`/${response.body.name}`);

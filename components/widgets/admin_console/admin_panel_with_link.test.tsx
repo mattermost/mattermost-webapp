@@ -42,6 +42,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
     </Link>
   }
   className="AdminPanelWithLink test-class-name"
+  data-testid="test-id"
   id="test-id"
   subtitleDefault="test-subtitle-default"
   subtitleId="test-subtitle-id"
@@ -79,6 +80,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
     </Link>
   }
   className="AdminPanelWithLink test-class-name"
+  data-testid="test-id"
   id="test-id"
   subtitleDefault="test-subtitle-default"
   subtitleId="test-subtitle-id"

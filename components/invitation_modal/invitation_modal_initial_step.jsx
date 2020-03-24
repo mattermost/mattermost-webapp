@@ -16,6 +16,7 @@ export default class InvitationModalInitialStep extends React.Component {
         teamName: PropTypes.string.isRequired,
         goToMembers: PropTypes.func.isRequired,
         goToGuests: PropTypes.func.isRequired,
+        emailInvitationsEnabled: PropTypes.bool.isRequired,
     }
 
     onMembersKeyDown = (e) => {
@@ -62,12 +63,22 @@ export default class InvitationModalInitialStep extends React.Component {
                                 defaultMessage='Invite **Members**'
                             />
                         </h2>
+                        {this.props.emailInvitationsEnabled &&
                         <FormattedMessage
                             id='invitation_modal.invite_members.description'
                             defaultMessage='Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.'
                         >
                             {(text) => (<span id='inviteMembersSectionDescription'>{text}</span>)}
                         </FormattedMessage>
+                        }
+                        {!this.props.emailInvitationsEnabled &&
+                        <FormattedMessage
+                            id='invitation_modal.invite_members.description-email-disabled'
+                            defaultMessage='Invite new team members with a link. Team members have access to messages and files in open teams and public channels.'
+                        >
+                            {(text) => (<span id='inviteMembersSectionDescription'>{text}</span>)}
+                        </FormattedMessage>
+                        }
                     </div>
                     <ArrowRightIcon className='arrow'/>
                 </div>

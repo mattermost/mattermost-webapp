@@ -15,13 +15,14 @@ let config;
 
 describe('Signin/Authentication', () => {
     before(() => {
+        cy.apiLogin('sysadmin');
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
     });
 
     it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
-        cy.loginAsNewUser().then((user) => {
+        cy.apiCreateAndLoginAsNewUser().then((user) => {
             cy.apiLogout();
 
             resetPasswordAndLogin(user, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
@@ -66,7 +67,7 @@ function resetPasswordAndLogin(user, feedbackEmail, supportEmail) {
     const newPassword = 'newpasswd';
 
     // # Visit '/'
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
     // * Verify that it redirects to /login
     cy.url().should('contain', '/login');

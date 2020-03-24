@@ -9,6 +9,11 @@
 
 describe('Messaging', () => {
     before(() => {
+        // # Login as sysadmin and update preference
+        cy.apiLogin('sysadmin');
+        cy.apiSaveShowPreviewPreference();
+        cy.apiSavePreviewCollapsedPreference('false');
+
         // # Set the configuration on Link Previews
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -16,17 +21,11 @@ describe('Messaging', () => {
             },
         });
 
+        // # Login as user-1, update preference and go to town-square
         cy.apiLogin('user-1');
         cy.apiSaveShowPreviewPreference();
         cy.apiSavePreviewCollapsedPreference('false');
-
-        cy.apiLogin('sysadmin');
-        cy.apiSaveShowPreviewPreference();
-        cy.apiSavePreviewCollapsedPreference('false');
-
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18708-Link preview - Removing it from my view removes it from other user\'s view', () => {

@@ -12,14 +12,14 @@ describe('Account Settings > Sidebar > General', () => {
     // # number to identify particular user
     const uniqueNumber = getRandomInt(1000);
     before(() => {
-        cy.apiLogin('user-2');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiLogin('sysadmin');
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            const team = res.body;
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).as('newuser');
 
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.loginAsNewUser({}, [teamId]).as('newuser');
-
-            // # Go to Account Settings as new user
-            cy.toAccountSettingsModal(null, true);
+            // # Go to town-square channel and into the Account Settings
+            cy.visit('/ad-1/channels/town-square');
+            cy.toAccountSettingsModal();
 
             // # Click General button
             cy.get('#generalButton').click();
@@ -36,24 +36,21 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('M17459 - Filtering by first name with Korean characters', () => {
-        cy.apiLogin('user-2');
+        cy.apiLogin('user-1');
         cy.get('@newuser').then((user) => {
             cy.visit('/ad-1/channels/town-square');
 
             // # type in user`s firstName substring
             cy.get('#post_textbox').clear().type(`@정트리나${uniqueNumber}`);
 
-            // * verify that suggestion list is visible and has value
-            cy.get('.suggestion-list__divider').
-                find('span').
-                last().
-                should('be.visible').
-                and('have.text', 'Channel Members');
-
-            // * verify that user listed in popup
-            cy.get('.mention--align').
-                should('be.visible').
-                and('have.text', `@${user.username}`);
+            cy.findByTestId(user.username, {exact: false}).within((name) => {
+                cy.wrap(name).prev('.suggestion-list__divider').
+                    should('have.text', 'Channel Members');
+                cy.wrap(name).find('.mention--align').
+                    should('have.text', `@${user.username}`);
+                cy.wrap(name).find('.mention__fullname').
+                    should('have.text', ` - 정트리나${uniqueNumber}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
+            });
 
             // # Press tab on text input
             cy.get('#post_textbox').tab();
@@ -61,7 +58,7 @@ describe('Account Settings > Sidebar > General', () => {
             // # verify that after enter user`s username match
             cy.get('#post_textbox').should('have.value', `@${user.username} `);
 
-            // # click enter in chat input
+            // # click enter in post textbox
             cy.get('#post_textbox').type('{enter}');
 
             // # verify that message has been post in chat

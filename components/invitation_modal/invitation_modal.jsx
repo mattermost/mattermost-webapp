@@ -255,6 +255,7 @@ export default class InvitationModal extends React.Component {
                                 teamName={this.props.currentTeam.display_name}
                                 goToMembers={this.goToMembers}
                                 goToGuests={this.goToGuests}
+                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                             />
                         }
                         {this.state.step === STEPS_INVITE_MEMBERS &&

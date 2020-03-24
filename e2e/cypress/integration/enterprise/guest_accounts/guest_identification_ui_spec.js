@@ -19,6 +19,10 @@ let guestTeamId;
 
 describe('MM-18045 Verify Guest User Identification in different screens', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.apiLogin('sysadmin');
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
@@ -26,29 +30,24 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
             },
             ServiceSettings: {
                 EnableEmailInvitations: true,
+                ExperimentalChannelSidebarOrganization: 'disabled',
             },
         });
 
         // # Create a Guest Team and login as Guest User
-        cy.loginAsNewGuestUser().then((userResponse) => {
-            guest = userResponse;
-            cy.getCurrentTeamId().then((teamId) => {
-                guestTeamId = teamId;
+        cy.loginAsNewGuestUser().then(({user, team}) => {
+            guest = user;
+            guestTeamId = team.id;
 
-                // # Login as Sysadmin and add a regular member to Guest Team
-                cy.apiLogin('sysadmin');
-                cy.apiGetUserByEmail(user1.email).then((emailResponse) => {
-                    const user = emailResponse.body;
-                    cy.apiAddUserToTeam(guestTeamId, user.id);
-                });
-
-                // # Login as user1
-                cy.apiLogin('user-1');
-                cy.apiGetTeam(teamId).then((teamResponse) => {
-                    const team = teamResponse.body;
-                    cy.visit(`/${team.name}`);
-                });
+            // # Login as Sysadmin and add a regular member to Guest Team
+            cy.apiLogin('sysadmin');
+            cy.apiGetUserByEmail(user1.email).then((res) => {
+                cy.apiAddUserToTeam(guestTeamId, res.body.id);
             });
+
+            // # Login as user1
+            cy.apiLogin('user-1');
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

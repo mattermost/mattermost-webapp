@@ -23,19 +23,20 @@ function promoteGuestToUser(user) {
 
 describe('Channel header menu', () => {
     before(() => {
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
             },
         });
-        cy.loginAsNewUser().as('newuser');
+        cy.apiCreateAndLoginAsNewUser().as('newuser');
     });
 
     it('MM-14490 show/hide properly menu dividers', () => {
         let channel;
 
         // # Go to "/"
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         cy.getCurrentTeamId().then((teamId) => {
             // # Create new test channel

@@ -14,13 +14,13 @@ Cypress.Commands.add('logout', () => {
 
 Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
     cy.apiLogin(username, password);
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
-    cy.get('#post_textbox').should('be.visible');
+    cy.get('#post_textbox', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 });
 
 Cypress.Commands.add('getSubpath', () => {
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
     cy.url().then((url) => {
         cy.location().its('origin').then((origin) => {
             if (url === origin) {
@@ -46,42 +46,11 @@ Cypress.Commands.add('getCurrentUserId', () => {
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false) => {
-    if (!isLoggedInAlready) {
-        cy.apiLogin(username);
-    }
-
-    cy.visit('/');
+Cypress.Commands.add('toAccountSettingsModal', () => {
     cy.get('#channel_view').should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
     cy.get('#accountSettingsModal').should('be.visible');
-});
-
-// Go to Account Settings modal > Sidebar > Channel Switcher
-Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn = true) => {
-    cy.toAccountSettingsModal(username);
-
-    cy.get('#sidebarButton').should('be.visible');
-    cy.get('#sidebarButton').click();
-
-    let isOn;
-    cy.get('#channelSwitcherDesc').should((desc) => {
-        if (desc.length > 0) {
-            isOn = Cypress.$(desc[0]).text() === 'On';
-        }
-    });
-
-    cy.get('#channelSwitcherEdit').click();
-
-    if (isOn && !setToOn) {
-        cy.get('#channelSwitcherSectionOff').click();
-    } else if (!isOn && setToOn) {
-        cy.get('#channelSwitcherSectionEnabled').click();
-    }
-
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
 });
 
 /**
@@ -91,7 +60,7 @@ Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn
 Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
 
-    cy.toAccountSettingsModal(null, true);
+    cy.toAccountSettingsModal();
     cy.get('#displayButton').click();
 
     cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
@@ -137,8 +106,11 @@ function isMac() {
 
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
-    cy.wait(TIMEOUTS.TINY);
-    cy.get('#post_textbox').should('have.value', '');
+    cy.waitUntil(() => {
+        return cy.get('#post_textbox').then((el) => {
+            return el[0].textContent === '';
+        });
+    });
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
@@ -475,19 +447,36 @@ Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, 
 /**
  * Navigate to system console-PluginManagement from account settings
  */
-Cypress.Commands.add('systemConsolePluginManagement', () => {
-    cy.get('#lhsHeader').should('be.visible').within(() => {
-        // # Click hamburger main menu
-        cy.get('#sidebarHeaderDropdownButton').click();
+Cypress.Commands.add('checkRunLDAPSync', () => {
+    cy.apiGetLDAPSync().then((response) => {
+        var jobs = response.body;
+        var currentTime = new Date();
 
-        // * Dropdown menu should be visible
-        cy.get('.dropdown-menu').should('be.visible').within(() => {
-            // * Plugin Marketplace button should be visible then click
-            cy.get('#systemConsole').should('be.visible').click();
-        });
+        // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
+        if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
+            // # Go to system admin LDAP page and run the group sync
+            cy.visit('/admin_console/authentication/ldap');
+
+            // # Click on AD/LDAP Synchronize Now button
+            cy.findByText('AD/LDAP Synchronize Now').click().wait(1000);
+
+            // * Get the First row
+            cy.findByTestId('jobTable').
+                find('tbody > tr').
+                eq(0).
+                as('firstRow');
+
+            // * Wait until first row updates to say Success
+            cy.waitUntil(() => {
+                return cy.get('@firstRow').then((el) => {
+                    return el.find('.status-icon-success').length > 0;
+                });
+            }
+            , {
+                timeout: TIMEOUTS.FOUR_MINS,
+                interval: 2000,
+                errorMsg: 'AD/LDAP Sync Job did not finish',
+            });
+        }
     });
-
-    //Search for plugin management in filter container
-    cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
-        wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
 });

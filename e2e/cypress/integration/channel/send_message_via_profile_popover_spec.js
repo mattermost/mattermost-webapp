@@ -11,39 +11,37 @@ import TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
     let newUser;
+    const message = `Testing ${Date.now()}`;
 
     before(() => {
-        // # Login as "user-1" and go to main channel view
-        cy.toMainChannelView('user-1');
-
-        // # Update user preferences
+        // # Login as sysadmin and update user preferences
+        cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference();
 
         // # Create new user and have it post a message
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.getCurrentChannelId().as('currentChannelId');
-
-            cy.createNewUser({}, [teamId]).then((user) => {
+        cy.apiGetTeamByName('ad-1').then((teamRes) => {
+            cy.apiCreateNewUser({}, [teamRes.body.id]).then((user) => {
                 newUser = user;
 
-                const message = `Testing ${Date.now()}`;
-                cy.get('@currentChannelId').then((currentChannelId) => {
-                    cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.SMALL);
+                cy.apiGetChannelByName('ad-1', 'town-square').then((channelRes) => {
+                    cy.postMessageAs({sender: newUser, message, channelId: channelRes.body.id}).wait(TIMEOUTS.SMALL);
                 });
-
-                cy.waitUntil(() => cy.getLastPost().then((el) => {
-                    const postedMessageEl = el.find('.post-message__text > p')[0];
-                    return postedMessageEl && postedMessageEl.textContent.includes(message);
-                }));
-
-                cy.getLastPostId().as('lastPostId');
             });
         });
     });
 
     it('M19908 Send message in profile popover take to DM channel', () => {
-        cy.get('@lastPostId').then((lastPostId) => {
+        // # Login as "user-1" and visit '/ad-1/channels/town-square
+        cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
+
+        cy.waitUntil(() => cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text > p')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        }));
+
+        cy.getLastPostId().then((lastPostId) => {
             // # On default viewport width of 1300
             // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, '.status-wrapper', newUser);
@@ -97,7 +95,7 @@ function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
             and('have.text', user.username);
         cy.get('.channel-intro-text').
             should('be.visible').
-            and('contain', `This is the start of your direct message history with ${user.nickname}.`).
+            and('contain', `This is the start of your direct message history with ${user.username}.`).
             and('contain', 'Direct messages and files shared here are not shown to people outside this area.');
     });
 }

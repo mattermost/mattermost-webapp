@@ -16,6 +16,10 @@ let guest;
 
 describe('Guest Account - Guest User Experience', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.apiLogin('sysadmin');
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
@@ -27,9 +31,9 @@ describe('Guest Account - Guest User Experience', () => {
         });
 
         // # Login as a guest user and go to /
-        cy.loginAsNewGuestUser().then((userResponse) => {
-            guest = userResponse;
-            cy.visit('/');
+        cy.loginAsNewGuestUser().then(({user, team}) => {
+            guest = user;
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

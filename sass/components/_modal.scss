@@ -579,6 +579,20 @@
             padding: 8px 16px;
         }
     }
+
+    .suggestion-list--top {
+        bottom: initial;
+        position: absolute;
+    }
+
+    .suggestion-list--bottom {
+        position: absolute;
+    }
+
+    .suggestion-list__content--top {
+        bottom: 0;
+        position: absolute;
+    }
 }
 
 .more-modal {

@@ -11,6 +11,8 @@
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 const webhookUtils = require('../../../utils/webhook_utils');
 
 let createdCommand;
@@ -19,6 +21,12 @@ let simpleDialog;
 describe('Interactive Dialog', () => {
     describe('ID17212 Interactive Dialog without element', () => {
         before(() => {
+            cy.requireWebhookServer();
+
+            // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
+            cy.apiLogin('sysadmin');
+            cy.apiSaveTeammateNameDisplayPreference('username');
+
             // Set required ServiceSettings
             const newSettings = {
                 ServiceSettings: {
@@ -28,10 +36,6 @@ describe('Interactive Dialog', () => {
                 },
             };
             cy.apiUpdateConfig(newSettings);
-
-            // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-            cy.apiLogin('sysadmin');
-            cy.apiSaveTeammateNameDisplayPreference('username');
 
             // # Create new team and create command on it
             cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
@@ -94,7 +98,7 @@ describe('Interactive Dialog', () => {
 
             // # Click "X" button from the modal
             cy.get('.modal-header').should('be.visible').within(($elForm) => {
-                cy.wrap($elForm).find('button.close').should('be.visible').click();
+                cy.wrap($elForm).find('button.close').should('be.visible').click().wait(TIMEOUTS.SMALL);
             });
 
             // * Verify that the interactive dialog modal is closed
@@ -112,7 +116,7 @@ describe('Interactive Dialog', () => {
             cy.get('#interactiveDialogModal').should('be.visible');
 
             // # Click cancel from the modal
-            cy.get('#interactiveDialogCancel').click();
+            cy.get('#interactiveDialogCancel').click().wait(TIMEOUTS.SMALL);
 
             // * Verify that the interactive dialog modal is closed
             cy.get('#interactiveDialogModal').should('not.be.visible');

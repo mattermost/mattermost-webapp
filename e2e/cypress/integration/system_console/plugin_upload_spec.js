@@ -14,6 +14,8 @@ describe('Draw Plugin - Upload', () => {
     const fileType = 'application/gzip';
     const pluginId = 'com.mattermost.draw-plugin';
     before(() => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -21,13 +23,12 @@ describe('Draw Plugin - Upload', () => {
             },
         });
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-        cy.visit('/');
+        // # Visit town-square channel
+        cy.visit('/ad-1/channels/town-square');
 
         // #If draw plugin is already enabled , unInstall it
         cy.uninstallPluginById(pluginId);
-        cy.systemConsolePluginManagement();
+        cy.visit('/admin_console/plugins/plugin_management');
     });
 
     /**
@@ -37,7 +38,16 @@ describe('Draw Plugin - Upload', () => {
         // * upload Draw plugin from the browser
         cy.get('input[type=file]').uploadFile(fileName, fileType).wait(TIMEOUTS.TINY);
         cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.TINY);
-        cy.wait(TIMEOUTS.TINY);
+
+        // * Verify that the button shows correct text while uploading
+        cy.findByText('Uploading...').should('be.visible');
+
+        // * Verify that the button shows correct text and is disabled after upload
+        cy.findByText('Upload').should('be.visible');
+        cy.get('#uploadPlugin').and('be.disabled');
+
+        // * Verify that the Draw Plugin is shown on successful upload
+        cy.findByText('Draw Plugin').should('be.visible');
 
         // # Draw plugin ID should be visible
         cy.findByTestId('com.mattermost.draw-plugin').should('be.visible').within(() => {

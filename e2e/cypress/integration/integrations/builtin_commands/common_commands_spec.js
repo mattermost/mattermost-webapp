@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import users from '../../../fixtures/users.json';
+
 describe('I18456 Built-in slash commands: common', () => {
     before(() => {
         loginAndVisitDefaultChannel('user-1');
@@ -54,7 +56,9 @@ describe('I18456 Built-in slash commands: common', () => {
     });
 });
 
-function loginAndVisitDefaultChannel(user) {
-    cy.apiLogin(user);
-    cy.visit('/');
+function loginAndVisitDefaultChannel(username) {
+    const user = users[username];
+    cy.apiLogin(user.username, user.password);
+    cy.apiSaveTeammateNameDisplayPreference('username');
+    cy.visit('/ad-1/channels/town-square');
 }
