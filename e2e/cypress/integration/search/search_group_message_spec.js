@@ -11,7 +11,11 @@ const groupMembers = ['aaron.peterson', 'aaron.ward', 'samuel.tucker'];
 
 describe('Search', () => {
     before(() => {
-        cy.loginAsNewUser().then(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
+        // # Create and login as a new user
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             cy.apiSaveTeammateNameDisplayPreference('username');
 
             cy.apiGetUsers(groupMembers).then((res) => {

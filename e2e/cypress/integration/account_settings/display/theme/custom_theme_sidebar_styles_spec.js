@@ -27,9 +27,10 @@ const testCases = [
 
 describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
     before(() => {
-        // # Set default theme preference
+        // # Login as user-1, set default theme preference and visit town-square channel
         cy.apiLogin('user-1');
         cy.apiSaveThemePreference();
+        cy.visit('/ad-1/channels/town-square');
 
         // # Go to Theme > Custom > Sidebar Styles
         toThemeDisplaySettings();
@@ -76,9 +77,6 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
     });
 
     it('should take effect each custom color in Channel View', () => {
-        // * Check Sidebar Unread Text
-        cy.get('.sidebar-item.unread-title').should('have.css', 'color', 'rgb(129, 65, 65)');
-
         // * Check Mention Jewel BG color
         cy.get('#unreadIndicatorBottom').should('have.css', 'background-color', 'rgb(129, 65, 65)');
 
@@ -110,7 +108,7 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
 
 function toThemeDisplaySettings() {
     // # Go to account settings modal
-    cy.toAccountSettingsModal(null, true);
+    cy.toAccountSettingsModal();
 
     // * Check that the Display tab is loaded, then click on it
     cy.get('#displayButton').should('be.visible').click();
