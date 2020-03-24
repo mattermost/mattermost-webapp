@@ -559,6 +559,10 @@
         line-height: 18px;
         text-align: justify;
         height: 18px;
+
+        &.muted {
+            opacity: 0.5;
+        }
     }
     
     /* .SidebarChannel__absolute {
