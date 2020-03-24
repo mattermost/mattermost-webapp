@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
 
-import ChannelModeration, {ChannelModerationTableRow}  from './channel_moderation';
+import ChannelModeration, {ChannelModerationTableRow} from './channel_moderation';
 
 describe('admin_console/team_channel_settings/channel/ChannelModeration', () => {
     const channelPermissions: ChannelPermissions[] = [{

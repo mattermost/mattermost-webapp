@@ -64,36 +64,36 @@ const enableAllChannelModeratedPermissions = () => {
 const enableAllChannelModeratedPermissionsViaAPI = (channelId) => {
     cy.externalRequest(
         {
-            user: users.sysadmin, 
-            method: 'PUT', 
+            user: users.sysadmin,
+            method: 'PUT',
             path: `channels/${channelId}/moderations/patch`,
-            data: 
+            data:
                 [
                     {
-                        name :"create_post",
+                        name: 'create_post',
                         roles: {
-                            members :true,
-                            guests :true,
+                            members: true,
+                            guests: true,
                         }
                     },
                     {
-                        name :"create_reactions",
+                        name: 'create_reactions',
                         roles: {
-                            members:true,
-                            guests:true,
+                            members: true,
+                            guests: true,
                         }
                     },
                     {
-                        name:"manage_members",
-                        roles:{
-                            members:true,
+                        name: 'manage_members',
+                        roles: {
+                            members: true,
                         }
                     },
                     {
-                        name:"use_channel_mentions",
-                        roles:{
-                            members:true,
-                            guests:true,
+                        name: 'use_channel_mentions',
+                        roles: {
+                            members: true,
+                            guests: true,
                         }
                     },
                 ],
@@ -276,7 +276,7 @@ describe('Channel Moderation Test', () => {
         visitAutemChannel('sysadmin');
         cy.getCurrentChannelId().then((channelId) => {
             autemChannelId = channelId;
-        })
+        });
     });
 
     beforeEach(() => {
