@@ -52,6 +52,7 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
       <button
         aria-label="add reaction"
         className="reacticon__container color--link style--none"
+        data-testid="post-reaction-emoji-icon"
         id="CENTER_reaction_post_id_1"
         onClick={[MockFunction]}
       >

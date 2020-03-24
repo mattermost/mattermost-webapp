@@ -24,6 +24,7 @@ type Props = {
 const AdminPanelWithLink = (props: Props) => {
     const button = (
         <Link
+            data-testid={`${props.id}-link`}
             className='btn btn-primary'
             to={props.url}
             onClick={props.disabled ? (e) => e.preventDefault() : () => null}
