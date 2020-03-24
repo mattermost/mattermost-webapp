@@ -9,10 +9,8 @@
 
 import users from '../../../fixtures/users.json';
 
-import {deleteExistingTeamOverrideSchemes} from './team_scheme_spec.js';
-
-export const channelUrl = '/ad-1/channels/suscipit-4';
-export const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = false) => {
+const channelUrl = '/ad-1/channels/suscipit-4';
+const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = false) => {
     cy.apiLogin('user-1');
     cy.visit(channelUrl);
 
@@ -63,7 +61,16 @@ const saveConfig = () => {
     }));
 };
 
-export const enablePermission = (permissionCheckBoxTestId) => {
+const deleteExistingTeamOverrideSchemes = () => {
+    cy.apiLogin('sysadmin');
+    cy.apiGetSchemes('team').then((res) => {
+        res.body.forEach((scheme) => {
+            cy.apiDeleteScheme(scheme.id);
+        });
+    });
+};
+
+const enablePermission = (permissionCheckBoxTestId) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (!el.hasClass('checked')) {
             el.click();
@@ -71,7 +78,7 @@ export const enablePermission = (permissionCheckBoxTestId) => {
     });
 };
 
-export const removePermission = (permissionCheckBoxTestId) => {
+const removePermission = (permissionCheckBoxTestId) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (el.hasClass('checked')) {
             el.click();
@@ -81,7 +88,7 @@ export const removePermission = (permissionCheckBoxTestId) => {
 
 // # Checks to see if user recieved a system message warning after using @here
 // # If enabled is true assumes the user has the permission enabled and checks for no system message
-export const channelMentionsPermissionCheck = (enabled) => {
+const channelMentionsPermissionCheck = (enabled) => {
     // # Type @here and post it to the channel
     cy.get('#post_textbox').clear().type('@here{enter}');
 
@@ -100,7 +107,7 @@ export const channelMentionsPermissionCheck = (enabled) => {
     });
 };
 
-export const resetPermissionsToDefault = () => {
+const resetPermissionsToDefault = () => {
     // # Login as sysadmin and navigate to system scheme page
     cy.apiLogin('sysadmin');
     cy.visit('/admin_console/user_management/permissions/system_scheme');
