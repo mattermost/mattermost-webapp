@@ -6,6 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {Theme} from 'mattermost-redux/types/preferences';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
@@ -55,7 +56,7 @@ export default class ImportThemeModal extends React.Component<{}, State> {
             this.setState({
                 inputError: (
                     <FormattedMessage
-                        id='user.settings.TOGGLE_IMPORT_THEME_MODAL.submitError'
+                        id='user.settings.import_theme.submitError'
                         defaultMessage='Invalid format, please try copying and pasting in again.'
                     />
                 ),
@@ -66,17 +67,17 @@ export default class ImportThemeModal extends React.Component<{}, State> {
         const colors = text.split(',');
         const theme = {type: 'custom'};
 
-        (theme as any).sidebarBg = colors[0];
-        (theme as any).sidebarText = colors[5];
-        (theme as any).sidebarUnreadText = colors[5];
-        (theme as any).sidebarTextHoverBg = colors[4];
-        (theme as any).sidebarTextActiveBorder = colors[2];
-        (theme as any).sidebarTextActiveColor = colors[3];
-        (theme as any).sidebarHeaderBg = colors[1];
-        (theme as any).sidebarHeaderTextColor = colors[5];
-        (theme as any).onlineIndicator = colors[6];
-        (theme as any).mentionBg = colors[7];
-        setThemeDefaults(theme as any);
+        (theme as Theme).sidebarBg = colors[0];
+        (theme as Theme).sidebarText = colors[5];
+        (theme as Theme).sidebarUnreadText = colors[5];
+        (theme as Theme).sidebarTextHoverBg = colors[4];
+        (theme as Theme).sidebarTextActiveBorder = colors[2];
+        (theme as Theme).sidebarTextActiveColor = colors[3];
+        (theme as Theme).sidebarHeaderBg = colors[1];
+        (theme as Theme).sidebarHeaderTextColor = colors[5];
+        (theme as Theme).onlineIndicator = colors[6];
+        (theme as Theme).mentionBg = colors[7];
+        setThemeDefaults(theme as Theme);
 
         this.state.callback!(theme);
         this.setState({

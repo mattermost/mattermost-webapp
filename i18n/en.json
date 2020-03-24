@@ -3681,7 +3681,6 @@
   "user.settings.timezones.automatic": "Set automatically",
   "user.settings.timezones.change": "Change timezone",
   "user.settings.timezones.promote": "Select the timezone used for timestamps in the user interface and email notifications.",
-  "user.settings.TOGGLE_IMPORT_THEME_MODAL.submitError": "Invalid format, please try copying and pasting in again.",
   "user.settings.tokens.activate": "Enable",
   "user.settings.tokens.cancel": "Cancel",
   "user.settings.tokens.clickToEdit": "Click 'Edit' to manage your personal access tokens",
