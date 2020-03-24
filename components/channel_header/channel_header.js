@@ -556,30 +556,26 @@ class ChannelHeader extends React.PureComponent {
         let ariaLabel = '';
 
         if (!channelIsArchived) {
-            if (isFavorite) {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.removeFromFavorites'
-                            defaultMessage='Remove from Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.removeFromFavorites', defaultMessage: 'Remove from Favorites'}).toLowerCase();
-            } else {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.addToFavorites'
-                            defaultMessage='Add to Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.addToFavorites', defaultMessage: 'Add to Favorites'}).toLowerCase();
-            }
+            const formattedMessage = isFavorite ? {
+                id: 'channelHeader.removeFromFavorites',
+                defaultMessage: 'Remove from Favorites'
+            } : {
+                id: 'channelHeader.addToFavorites',
+                defaultMessage: 'Add to Favorites'
+            };
+
+            ariaLabel = formatMessage(formattedMessage).toLowerCase();
+            toggleFavoriteTooltip = (
+                <Tooltip id='favoriteTooltip' >
+                    <FormattedMessage
+                        {...formattedMessage}
+                    />
+                </Tooltip>
+            );
 
             toggleFavorite = (
                 <OverlayTrigger
+                    key={`isFavorite-${isFavorite}`}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
