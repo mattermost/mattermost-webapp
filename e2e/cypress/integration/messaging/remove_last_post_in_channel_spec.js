@@ -18,7 +18,7 @@ describe('Remove Last Post', () => {
         cy.apiLogin('user-1');
 
         // # Use the API to create a new user
-        cy.createNewUser().then((res) => {
+        cy.apiCreateNewUser().then((res) => {
             username = res.username;
 
             // # Start DM with new user

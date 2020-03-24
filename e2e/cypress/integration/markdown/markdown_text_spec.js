@@ -26,7 +26,8 @@ const testCases = [
 
 describe('Markdown message', () => {
     before(() => {
-        // # Enable local image proxy so our expected URLs match
+        // # Login as sysadmin and enable local image proxy so our expected URLs match
+        cy.apiLogin('sysadmin');
         const newSettings = {
             ImageProxySettings: {
                 Enable: true,
@@ -38,7 +39,7 @@ describe('Markdown message', () => {
         cy.apiUpdateConfig(newSettings);
 
         // # Login as new user
-        cy.loginAsNewUser().then(() => {
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 cy.visit(`/${response.body.name}`);

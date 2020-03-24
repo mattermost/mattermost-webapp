@@ -12,12 +12,15 @@ const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
     before(() => {
-        // * Check if server has license for LDAP Groups
+        // * Login as sysadmin and check if server has license for LDAP Groups
+        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('LDAPGroups');
+
+        // Enable LDAP
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
     });
 
     beforeEach(() => {
-        cy.apiLogin('sysadmin');
         cy.visit('/admin_console/user_management/channels');
         cy.wrap([]).as('createdChannelIDs');
     });
