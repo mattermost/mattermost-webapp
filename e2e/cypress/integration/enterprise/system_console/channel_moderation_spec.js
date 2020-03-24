@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getRandomInt} from '../../../utils';
+import users from '../../../fixtures/users.json';
 
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
@@ -57,6 +58,47 @@ const enableAllChannelModeratedPermissions = () => {
             }
         });
     });
+};
+
+// # Enable (check) all the permissoins in the channel moderation widget through the API
+const enableAllChannelModeratedPermissionsViaAPI = (channelId) => {
+    cy.externalRequest(
+        {
+            user: users.sysadmin, 
+            method: 'PUT', 
+            path: `channels/${channelId}/moderations/patch`,
+            data: 
+                [
+                    {
+                        name :"create_post",
+                        roles: {
+                            members :true,
+                            guests :true,
+                        }
+                    },
+                    {
+                        name :"create_reactions",
+                        roles: {
+                            members:true,
+                            guests:true,
+                        }
+                    },
+                    {
+                        name:"manage_members",
+                        roles:{
+                            members:true,
+                        }
+                    },
+                    {
+                        name:"use_channel_mentions",
+                        roles:{
+                            members:true,
+                            guests:true,
+                        }
+                    },
+                ],
+        }
+    );
 };
 
 // # Disable a specific channel moderated permission in the channel moderation widget
@@ -226,9 +268,15 @@ const postChannelMentionsAndVerifySystemMessageNotExist = () => {
 };
 
 describe('Channel Moderation Test', () => {
+    let autemChannelId;
     before(() => {
         // * Check if server has license
         cy.requireLicense();
+
+        visitAutemChannel('sysadmin');
+        cy.getCurrentChannelId().then((channelId) => {
+            autemChannelId = channelId;
+        })
     });
 
     beforeEach(() => {
@@ -245,10 +293,8 @@ describe('Channel Moderation Test', () => {
             }
         });
 
-        // # Reset Autem Channel Moderation settings to default (everything on)
-        visitAutemChannelConfigPage();
-        enableAllChannelModeratedPermissions();
-        saveConfig();
+        // // # Reset Autem Channel Moderation settings to default (everything on)
+        enableAllChannelModeratedPermissionsViaAPI(autemChannelId);
     });
 
     describe('MM-23102 - Create Posts', () => {
@@ -523,7 +569,7 @@ describe('Channel Moderation Test', () => {
             visitAutemChannel('user-1');
             viewManageChannelMembersModal('Manage');
 
-            // * Add Members button does not exist
+            // * Add Members button does exist
             cy.get('#showInviteModal').should('exist');
         });
 
@@ -610,7 +656,7 @@ describe('Channel Moderation Test', () => {
 
             visitAutemChannel('user-1');
 
-            // # Check Member user has the permission to user special mentions like @all @channel and @here
+            // # Check Member user does not has the permission to use special mentions like @all @channel and @here
             postChannelMentionsAndVerifySystemMessageExist();
 
             // # Visit Channel page and Search for the channel.
@@ -622,7 +668,7 @@ describe('Channel Moderation Test', () => {
 
             visitAutemChannel('user-1');
 
-            // # Check Guest user has the permission to user special mentions like @all @channel and @here
+            // # Check Member user has the permission to user special mentions like @all @channel and @here
             postChannelMentionsAndVerifySystemMessageNotExist();
         });
 
@@ -719,6 +765,7 @@ describe('Channel Moderation Test', () => {
             // # Visit Channel page and Search for the channel.
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
+            disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
             saveConfig();
 
             // # check the channel mentions option for guests and save
@@ -796,6 +843,7 @@ describe('Channel Moderation Test', () => {
             // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
+            disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
             saveConfig();
 
             enableChannelModeratedPermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
