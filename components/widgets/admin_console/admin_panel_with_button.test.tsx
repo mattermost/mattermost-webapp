@@ -31,6 +31,7 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
   button={
     <a
       className="btn btn-primary"
+      data-testid="test-button-text-default"
       onClick={[MockFunction]}
     >
       <FormattedMessage
@@ -67,6 +68,7 @@ describe('components/widgets/admin_console/AdminPanelWithButton', () => {
   button={
     <a
       className="btn btn-primary"
+      data-testid="test-button-text-default"
       onClick={[Function]}
     >
       <FormattedMessage

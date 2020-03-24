@@ -217,6 +217,7 @@ class TeamButton extends React.Component {
                             className={`team-container ${teamClass}`}
                         >
                             {teamButton}
+                            {orderIndicator}
                         </div>
                     );
                 }}
