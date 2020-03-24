@@ -16,7 +16,7 @@ import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
 

@@ -38,6 +38,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -197,6 +198,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -356,6 +358,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -515,6 +518,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -649,6 +653,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -808,6 +813,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -967,6 +973,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -1126,6 +1133,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
@@ -1285,6 +1293,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    onHide={[Function]}
   >
     <ModalTitle
       bsClass="modal-title"
