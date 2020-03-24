@@ -44,6 +44,7 @@ import DataRetentionSettings from './data_retention_settings.jsx';
 import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
+import BleveSettings from './bleve_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 
@@ -687,6 +688,29 @@ const AdminDefinition = {
             schema: {
                 id: 'ElasticSearchSettings',
                 component: ElasticSearchSettings,
+            },
+        },
+        bleve: {
+            url: 'environment/blevesearch',
+            title: t('admin.sidebar.blevesearch'),
+            title_default: 'Bleve',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            searchableStrings: [
+                'admin.bleve.title',
+                'admin.bleve.enableIndexingTitle',
+                ['admin.bleve.enableIndexingDescription', {documentationLink: ''}],
+                'admin.bleve.enableIndexingDescription.documentationLinkText',
+                'admin.bleve.bulkIndexingTitle',
+                'admin.bleve.createJob.help',
+                'admin.bleve.purgeIndexesHelpText',
+                'admin.bleve.purgeIndexesButton',
+                'admin.bleve.purgeIndexesButton.label',
+                'admin.bleve.enableSearchingTitle',
+                'admin.bleve.enableSearchingDescription',
+            ],
+            schema: {
+                id: 'BleveSettings',
+                component: BleveSettings,
             },
         },
         storage: {

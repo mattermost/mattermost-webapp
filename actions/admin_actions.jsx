@@ -254,6 +254,15 @@ export async function elasticsearchPurgeIndexes(success, error) {
     }
 }
 
+export async function blevePurgeIndexes(success, error) {
+    const {data, error: err} = await AdminActions.purgeBleveIndexes()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
 export function setNavigationBlocked(blocked) {
     return {
         type: ActionTypes.SET_NAVIGATION_BLOCKED,

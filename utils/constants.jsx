@@ -467,6 +467,7 @@ export const ErrorPageTypes = {
 export const JobTypes = {
     DATA_RETENTION: 'data_retention',
     ELASTICSEARCH_POST_INDEXING: 'elasticsearch_post_indexing',
+    BLEVE_POST_INDEXING: 'bleve_post_indexing',
     LDAP_SYNC: 'ldap_sync',
     MESSAGE_EXPORT: 'message_export',
 };
