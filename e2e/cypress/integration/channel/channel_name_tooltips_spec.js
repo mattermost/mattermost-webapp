@@ -35,16 +35,30 @@ function verifyChannel(res, verifyExistence = true) {
 
 describe('channel name tooltips', () => {
     let loggedUser;
+    let longUser;
     let team;
 
     before(() => {
-        // # Login and go to /
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // # Create new test team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             team = response.body;
-            cy.loginAsNewUser({}, [team.id]).then((user) => {
+
+            // # Create test user with long username
+            cy.apiCreateNewUser({
+                email: `longUser${timestamp}@sample.mattermost.com`,
+                username: `thisIsALongUsername${timestamp}`,
+                firstName: `thisIsALongFirst${timestamp}`,
+                lastName: `thisIsALongLast${timestamp}`,
+                nickname: `thisIsALongNickname${timestamp}`,
+                password: 'password123',
+            }, [team.id]).then((user) => {
+                longUser = user;
+            });
+
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).then((user) => {
                 loggedUser = user;
 
                 // # Go to "/"
@@ -100,37 +114,27 @@ describe('channel name tooltips', () => {
     });
 
     it('Should show tooltip on hover - user with a long username', () => {
-        // # Create new user
-        cy.createNewUser({
-            email: `longUser${timestamp}@sample.mattermost.com`,
-            username: `thisIsALongUsername${timestamp}`,
-            firstName: `thisIsALongFirst${timestamp}`,
-            lastName: `thisIsALongLast${timestamp}`,
-            nickname: `thisIsALongNickname${timestamp}`,
-            password: 'password123',
-        }, [team.id]).then((user) => {
-            // # Open a DM with the user
-            cy.get('#addDirectChannel').should('be.visible').click();
-            cy.focused().as('searchBox').type(user.username, {force: true});
+        // # Open a DM with the user
+        cy.get('#addDirectChannel').should('be.visible').click();
+        cy.focused().as('searchBox').type(longUser.username, {force: true});
 
-            // * Verify that the user is selected in the results list before typing enter
-            cy.get('div.more-modal__row').
-                should('have.length', 1).
-                and('have.class', 'clickable').
-                and('have.class', 'more-modal__row--selected').
-                and('contain.text', user.username.toLowerCase());
+        // * Verify that the user is selected in the results list before typing enter
+        cy.get('div.more-modal__row').
+            should('have.length', 1).
+            and('have.class', 'clickable').
+            and('have.class', 'more-modal__row--selected').
+            and('contain.text', longUser.username.toLowerCase());
 
-            cy.get('@searchBox').type('{enter}', {force: true});
-            cy.get('#saveItems').should('be.visible').click();
+        cy.get('@searchBox').type('{enter}', {force: true});
+        cy.get('#saveItems').should('be.visible').click();
 
-            // # Hover on the channel name
-            cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, user.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseover');
+        // # Hover on the channel name
+        cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, longUser.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseover');
 
-            // * Verify that the tooltip is displayed
-            cy.get('div.tooltip-inner').should('be.visible');
+        // * Verify that the tooltip is displayed
+        cy.get('div.tooltip-inner').should('be.visible');
 
-            // # Move cursor away from channel
-            cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, user.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseout');
-        });
+        // # Move cursor away from channel
+        cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, longUser.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseout');
     });
 });

@@ -21,8 +21,11 @@ function verifyImageInPostFooter(verifyExistence = true) {
 
 describe('Image attachment', () => {
     before(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // # Login as new user
-        cy.loginAsNewUser().then(() => {
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 cy.visit(`/${response.body.name}`);
