@@ -15,7 +15,7 @@ describe('components/sidebar', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <Sidebar {...baseProps} />
+            <Sidebar {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -23,25 +23,25 @@ describe('components/sidebar', () => {
 
     test('should match snapshot when direct channels modal is open', () => {
         const wrapper = shallow(
-            <Sidebar {...baseProps} />
+            <Sidebar {...baseProps}/>
         );
-        
+
         wrapper.instance().setState({showDirectChannelsModal: true});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when more channels modal is open', () => {
         const wrapper = shallow(
-            <Sidebar {...baseProps} />
+            <Sidebar {...baseProps}/>
         );
-        
+
         wrapper.instance().setState({showMoreChannelsModal: true});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should toggle direct messages modal correctly', () => {
         const wrapper = shallow<Sidebar>(
-            <Sidebar {...baseProps} />
+            <Sidebar {...baseProps}/>
         );
         const instance = wrapper.instance();
         const mockEvent: Partial<Event> = {preventDefault: jest.fn()};
