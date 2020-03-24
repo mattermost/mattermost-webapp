@@ -120,7 +120,7 @@ const resetPermissionsToDefault = () => {
     saveConfig();
 };
 
-describe('System Scheme Permissions Test', () => {
+describe('System Scheme Channel Mentions Permissions Test', () => {
     before(() => {
         // * Check if server has license
         cy.requireLicense();
