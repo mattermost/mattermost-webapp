@@ -50,18 +50,20 @@ export default class UserList extends React.Component {
         if (users == null) {
             return <LoadingScreen/>;
         } else if (!users.length && !this.props.loading) {
-            content = (
-                <div
-                    key='no-users-found'
-                    className='more-modal__placeholder-row'
-                    data-testid='noUsersFound'
-                >
-                    <p>
-                        <FormattedMessage
-                            id='user_list.notFound'
-                            defaultMessage='No users found'
-                        />
-                    </p>
+            return (
+                <div ref='container'>
+                    <div
+                        key='no-users-found'
+                        className='more-modal__placeholder-row'
+                        data-testid='noUsersFound'
+                    >
+                        <p>
+                            <FormattedMessage
+                                id='user_list.notFound'
+                                defaultMessage='No users found'
+                            />
+                        </p>
+                    </div>
                 </div>
             );
         } else {
