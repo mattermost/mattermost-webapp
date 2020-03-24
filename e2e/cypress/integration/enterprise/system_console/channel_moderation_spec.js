@@ -15,7 +15,7 @@ const checkboxesTitleToIdMap = {
     CREATE_POSTS_MEMBERS: 'create_post-members',
     POST_REACTIONS_GUESTS: 'create_reactions-guests',
     POST_REACTIONS_MEMBERS: 'create_reactions-members',
-    MANAGE_MEMBERS_GUESTS: 'manage_members-guets',
+    MANAGE_MEMBERS_GUESTS: 'manage_members-guests',
     MANAGE_MEMBERS_MEMBERS: 'manage_members-members',
     CHANNEL_MENTIONS_MEMBERS: 'use_channel_mentions-members',
     CHANNEL_MENTIONS_GUESTS: 'use_channel_mentions-guests',
@@ -38,7 +38,7 @@ const checkBoxes = [
     checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS,
 ];
 
-// # Disable (uncheck) all the permissoins in the channel moderation widget
+// # Disable (uncheck) all the permissions in the channel moderation widget
 const disableAllChannelModeratedPermissions = () => {
     checkBoxes.forEach((buttonId) => {
         cy.findByTestId(buttonId).then((btn) => {
@@ -49,7 +49,7 @@ const disableAllChannelModeratedPermissions = () => {
     });
 };
 
-// # Enable (check) all the permissoins in the channel moderation widget
+// # Enable (check) all the permissions in the channel moderation widget
 const enableAllChannelModeratedPermissions = () => {
     checkBoxes.forEach((buttonId) => {
         cy.findByTestId(buttonId).then((btn) => {
@@ -60,7 +60,7 @@ const enableAllChannelModeratedPermissions = () => {
     });
 };
 
-// # Enable (check) all the permissoins in the channel moderation widget through the API
+// # Enable (check) all the permissions in the channel moderation widget through the API
 const enableAllChannelModeratedPermissionsViaAPI = (channelId) => {
     cy.externalRequest(
         {
@@ -99,6 +99,15 @@ const enableAllChannelModeratedPermissionsViaAPI = (channelId) => {
                 ],
         }
     );
+};
+
+const deleteExistingTeamOverrideSchemes = () => {
+    cy.apiLogin('sysadmin');
+    cy.apiGetSchemes('team').then((res) => {
+        res.body.forEach((scheme) => {
+            cy.apiDeleteScheme(scheme.id);
+        });
+    });
 };
 
 // # Disable a specific channel moderated permission in the channel moderation widget
@@ -158,7 +167,7 @@ const goToSystemScheme = () => {
 const goToPermissionsAndCreateTeamOverrideScheme = (schemeName) => {
     cy.apiLogin('sysadmin');
     cy.visit('/admin_console/user_management/permissions');
-    cy.findByTestId('new-team-override-scheme').click();
+    cy.findByTestId('team-override-schemes-link').click();
     cy.get('#scheme-name').type(schemeName);
     cy.findByTestId('add-teams').click();
     cy.get('#selectItems').click().type('eligendi');
@@ -284,14 +293,7 @@ describe('Channel Moderation Test', () => {
         resetSystemSchemePermissionsToDefault();
 
         // # Delete all Team Override Schemes
-        cy.apiLogin('sysadmin');
-        cy.visit('/admin_console/user_management/permissions');
-        cy.get('#team-override-schemes-list').then((elements) => {
-            for (let i = 1; i < elements[0].children.length && elements[0].children[1].className !== 'no-team-schemes'; i++) {
-                elements[0].children[i].children[1].children[1].lastChild.click();
-                cy.get('#confirmModalButton').click({force: true});
-            }
-        });
+        deleteExistingTeamOverrideSchemes();
 
         // // # Reset Autem Channel Moderation settings to default (everything on)
         enableAllChannelModeratedPermissionsViaAPI(autemChannelId);

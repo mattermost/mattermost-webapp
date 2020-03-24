@@ -143,7 +143,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         if (hasCustomSchemes) {
             return (
                 <AdminPanelWithLink
-                    id='team-override-schemes-list'
+                    id='team-override-schemes'
                     className='permissions-block'
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
@@ -153,7 +153,6 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     disabled={teamOverrideView !== null}
                     linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
                     linkTextDefault='New Team Override Scheme'
-                    linkDataTestId='new-team-override-scheme'
                 >
                     {schemes.length === 0 && teamOverrideView === null &&
                         <div className='no-team-schemes'>
