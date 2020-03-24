@@ -9,8 +9,10 @@
 
 import users from '../../../fixtures/users.json';
 
-const channelUrl = '/ad-1/channels/suscipit-4';
-const setupRegularUserMembership = (channelAdmin = false, teamAdmin = false) => {
+import {deleteExistingTeamOverrideSchemes} from './team_scheme_spec.js';
+
+export const channelUrl = '/ad-1/channels/suscipit-4';
+export const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = false) => {
     cy.apiLogin('user-1');
     cy.visit(channelUrl);
 
@@ -61,7 +63,7 @@ const saveConfig = () => {
     }));
 };
 
-const enablePermission = (permissionCheckBoxTestId) => {
+export const enablePermission = (permissionCheckBoxTestId) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (!el.hasClass('checked')) {
             el.click();
@@ -69,7 +71,7 @@ const enablePermission = (permissionCheckBoxTestId) => {
     });
 };
 
-const removePermission = (permissionCheckBoxTestId) => {
+export const removePermission = (permissionCheckBoxTestId) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (el.hasClass('checked')) {
             el.click();
@@ -77,8 +79,9 @@ const removePermission = (permissionCheckBoxTestId) => {
     });
 };
 
-// # Checks to see if we got a system message warning after using @all/@here/@channel
-const channelMentionsPermissionCheck = (enabled) => {
+// # Checks to see if user recieved a system message warning after using @here
+// # If enabled is true assumes the user has the permission enabled and checks for no system message
+export const channelMentionsPermissionCheck = (enabled) => {
     // # Type @here and post it to the channel
     cy.get('#post_textbox').clear().type('@here{enter}');
 
@@ -97,11 +100,16 @@ const channelMentionsPermissionCheck = (enabled) => {
     });
 };
 
-const resetPermissionsToDefault = () => {
+export const resetPermissionsToDefault = () => {
+    // # Login as sysadmin and navigate to system scheme page
     cy.apiLogin('sysadmin');
     cy.visit('/admin_console/user_management/permissions/system_scheme');
+
+    // # Click reset to defaults and confirm
     cy.findByTestId('resetPermissionsToDefault').click();
     cy.get('#confirmModalButton').click();
+
+    // # Save
     saveConfig();
 };
 
@@ -112,6 +120,8 @@ describe('System Scheme Permissions Test', () => {
 
         // Reset permissions in system scheme to defaults.
         resetPermissionsToDefault();
+
+        deleteExistingTeamOverrideSchemes();
     });
 
     it('MM-23018 - Enable and Disable Channel Mentions', () => {
@@ -122,8 +132,8 @@ describe('System Scheme Permissions Test', () => {
         const teamTestId = `team_admin-posts-${permissionName}-checkbox`;
         const testIds = [guestsTestId, usersTestId, channelTestId, teamTestId];
 
-        // # Setup user as a regular channel member
-        setupRegularUserMembership();
+        // # Setup user as a regular channel member and team member
+        setUserTeamAndChannelMemberships();
 
         // * Ensure user can use channel mentions by default
         channelMentionsPermissionCheck(true);
@@ -148,7 +158,7 @@ describe('System Scheme Permissions Test', () => {
         removePermission(usersTestId);
         saveConfig();
 
-        // * Ensure that the permission is removed from every all roles
+        // * Ensure that the permission is removed from all roles
         testIds.forEach((testId) => {
             cy.findByTestId(testId).should('not.have.class', 'checked');
         });
@@ -166,19 +176,19 @@ describe('System Scheme Permissions Test', () => {
         enablePermission(channelTestId);
         saveConfig();
 
-        // * Ensure that the permission is only removed from all users
+        // * Ensure that the permission is only removed from regular users
         cy.findByTestId(teamTestId).should('have.class', 'checked');
         cy.findByTestId(channelTestId).should('have.class', 'checked');
         cy.findByTestId(usersTestId).should('not.have.class', 'checked');
 
         // # Setup user as a regular channel member
-        setupRegularUserMembership();
+        setUserTeamAndChannelMemberships();
 
         // * Ensure user cannot use channel mentions
         channelMentionsPermissionCheck(false);
 
         // # Setup user as a channel admin
-        setupRegularUserMembership(true, false);
+        setUserTeamAndChannelMemberships(true, false);
 
         // * Ensure user can use channel mentions as channel admin
         channelMentionsPermissionCheck(true);
@@ -197,7 +207,7 @@ describe('System Scheme Permissions Test', () => {
         channelMentionsPermissionCheck(false);
 
         // # Setup user as a team admin
-        setupRegularUserMembership(true, true);
+        setUserTeamAndChannelMemberships(true, true);
 
         // * Ensure user can use channel mentions as team admin
         channelMentionsPermissionCheck(true);
