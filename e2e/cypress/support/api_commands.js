@@ -1282,3 +1282,16 @@ Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
         return cy.wrap(response);
     });
 });
+
+/**
+ * Get all schemes in the system - must have PERMISSION_MANAGE_SYSTEM
+ *
+ * @param {String} scope - either "team" or "channel"
+ */
+Cypress.Commands.add('apiGetSchemes', (scope) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/schemes?scope=${scope}`,
+        method: 'GET',
+    });
+});
