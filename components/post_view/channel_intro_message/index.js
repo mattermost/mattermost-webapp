@@ -35,6 +35,7 @@ function mapStateToProps(state) {
         teamIsGroupConstrained: Boolean(team.group_constrained),
         creatorName: getDisplayNameByUser(state, creator),
         teammate,
+        teammateName: getDisplayNameByUser(state, teammate),
     };
 }
 

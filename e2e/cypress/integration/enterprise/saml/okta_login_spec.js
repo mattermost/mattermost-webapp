@@ -63,6 +63,7 @@ context('Okta', () => {
     describe('SAML Login flow', () => {
         before(() => {
             // * Check if server has license for SAML
+            cy.apiLogin('sysadmin');
             cy.requireLicenseForFeature('SAML');
 
             cy.oktaAddUsers(users);
