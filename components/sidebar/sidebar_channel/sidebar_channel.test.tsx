@@ -40,7 +40,7 @@ describe('components/sidebar/sidebar_channel', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarChannel {...baseProps} />
+            <SidebarChannel {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -53,7 +53,7 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props} />
+            <SidebarChannel {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -66,7 +66,7 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props} />
+            <SidebarChannel {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -79,7 +79,7 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props} />
+            <SidebarChannel {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -95,7 +95,7 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props} />
+            <SidebarChannel {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -111,7 +111,7 @@ describe('components/sidebar/sidebar_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannel {...props} />
+            <SidebarChannel {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -121,10 +121,10 @@ describe('components/sidebar/sidebar_channel', () => {
         const props = {
             ...baseProps,
             isCategoryCollapsed: true,
-        }
+        };
 
         const wrapper = shallow<SidebarChannel>(
-            <SidebarChannel {...baseProps} />
+            <SidebarChannel {...props}/>
         );
 
         wrapper.instance().isUnread = jest.fn(() => true);
@@ -136,10 +136,10 @@ describe('components/sidebar/sidebar_channel', () => {
             ...baseProps,
             isCategoryCollapsed: true,
             isCurrentChannel: true,
-        }
+        };
 
         const wrapper = shallow<SidebarChannel>(
-            <SidebarChannel {...baseProps} />
+            <SidebarChannel {...props}/>
         );
 
         expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);
