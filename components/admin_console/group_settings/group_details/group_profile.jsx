@@ -16,7 +16,7 @@ export default class GroupProfile extends React.PureComponent {
         return (
             <div className='group-profile'>
                 <div className='group-profile-field'>
-                    <label>
+                    <label className='mt-2'>
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_profile.name'
                             defaultMessage='Name:'
