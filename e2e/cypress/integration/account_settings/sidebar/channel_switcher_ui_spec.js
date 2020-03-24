@@ -9,19 +9,24 @@
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
-        cy.apiLogin('user-1');
+        // # Login as user-1 and visit town-square channel
+        cy.apiLogin('sysadmin');
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'disabled',
+            },
+        });
         cy.visit('/ad-1/channels/town-square');
+    });
 
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal(null, true);
+    beforeEach(() => {
+        // # Go to Account Settings
+        cy.toAccountSettingsModal();
     });
 
     it('should render in min setting view', () => {
-        // * Check that the Sidebar tab is loaded
-        cy.get('#sidebarButton').should('be.visible');
-
-        // # Click the sidebar tab
-        cy.get('#sidebarButton').click();
+        // * Check that the Sidebar tab is loaded, then click
+        cy.get('#sidebarButton').should('be.visible').click();
 
         // * Check that it changed into the Sidebar section
         // * Check the min setting view if each element is present and contains expected text values
@@ -29,12 +34,15 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#channelSwitcherTitle').should('be.visible').should('contain', 'Channel Switcher');
         cy.get('#channelSwitcherDesc').should('be.visible').should('contain', 'On');
         cy.get('#channelSwitcherEdit').should('be.visible').should('contain', 'Edit');
-        cy.get('#accountSettingsHeader > .close').should('be.visible');
+        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
     it('should render in max setting view', () => {
+        // * Check that the Sidebar tab is loaded, then click
+        cy.get('#sidebarButton').should('be.visible').click();
+
         // # Click "Edit" to the right of "Channel Switcher"
-        cy.get('#channelSwitcherEdit').click();
+        cy.get('#channelSwitcherEdit').should('be.visible').click();
 
         // * Check that it changed into the Sidebar section
         // * Check the max setting view if each element is present and contains expected text values
@@ -47,52 +55,52 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#channelSwitcherHelpText').should('be.visible').should('contain', 'The channel switcher is shown at the bottom of the sidebar and is used to jump between channels quickly. It can also be accessed using');
         cy.get('#saveSetting').should('be.visible').should('contain', 'Save');
         cy.get('#cancelSetting').should('be.visible').should('contain', 'Cancel');
-        cy.get('#accountSettingsHeader > .close').should('be.visible');
+        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
     it('AS12980 Hide Channel Switcher button in left-hand-side', () => {
+        // * Check that the Sidebar tab is loaded, then click
+        cy.get('#sidebarButton').should('be.visible').click();
+
+        // # Click "Edit" to the right of "Channel Switcher"
+        cy.get('#channelSwitcherEdit').should('be.visible').click();
+
         // # Click the radio button for "Off"
-        cy.get('#channelSwitcherSectionOff').click();
+        cy.get('#channelSwitcherSectionOff').should('be.visible').click();
 
         // # Click "Save"
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').should('be.visible').click();
 
         // * Check that it changed into min setting view
         // * Check if element is present and contains expected text values
         cy.get('#channelSwitcherDesc').should('be.visible').should('contain', 'Off');
 
         // # Click "x" button to close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
+        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 
         // * Channel Switcher button should disappear from the bottom of the left-hand-side bar
         cy.get('#sidebarSwitcherButton').should('be.not.visible');
     });
 
     it('AS12980 Show Channel Switcher button in left-hand-side', () => {
-        // # Return to Account Settings modal
-        cy.toAccountSettingsModal('user-1', true);
-
-        // * Check that the Sidebar tab is loaded
-        cy.get('#sidebarButton').should('be.visible');
-
-        // # Click the sidebar tab
-        cy.get('#sidebarButton').click();
+        // * Check that the Sidebar tab is loaded, then click
+        cy.get('#sidebarButton').should('be.visible').click();
 
         // # Click "Edit" to the right of "Channel Switcher"
-        cy.get('#channelSwitcherEdit').click();
+        cy.get('#channelSwitcherEdit').should('be.visible').click();
 
         // # Click the radio button for "On"
-        cy.get('#channelSwitcherSectionEnabled').click();
+        cy.get('#channelSwitcherSectionEnabled').should('be.visible').click();
 
         // # Click "Save"
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').should('be.visible').click();
 
         // * Check that it changed into min setting view
         // * Check if element is present and contains expected text values
         cy.get('#channelSwitcherDesc').should('be.visible').should('contain', 'On');
 
         // # Click "x" button to close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
+        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 
         // * Channel Switcher button should appear at the bottom of the left-hand-side bar
         cy.get('#sidebarSwitcherButton').should('be.visible');

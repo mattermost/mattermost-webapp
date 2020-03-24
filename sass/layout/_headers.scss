@@ -402,8 +402,19 @@
             display: flex;
             flex-direction: column;
 
+            ul {
+                &:first-child {
+                    margin: 3px 0 0;
+                }
+            }
+
             li {
                 margin-bottom: 8px;
+
+                p {
+                    margin: 0;
+                    display: inline;
+                }
             }
         }
 
