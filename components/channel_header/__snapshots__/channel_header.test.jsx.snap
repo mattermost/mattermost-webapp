@@ -1331,6 +1331,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
             <Overlay
               animation={[Function]}
               onEnter={[Function]}
+              onHide={[Function]}
               placement="bottom"
               rootClose={true}
               show={false}
