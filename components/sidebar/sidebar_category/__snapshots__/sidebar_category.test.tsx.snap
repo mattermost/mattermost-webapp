@@ -139,3 +139,5 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   </div>
 </div>
 `;
+
+exports[`components/sidebar/sidebar_category should match snapshot when there are no channels to display 1`] = `""`;
