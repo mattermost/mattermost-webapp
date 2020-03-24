@@ -73,6 +73,7 @@ describe('Plugin Marketplace', () => {
             cy.visit('/ad-1/channels/town-square');
         });
     });
+
     describe('invalid marketplace, should', () => {
         before(() => {
             // # Login as sysadmin and set ServiceSettings to expected values
@@ -183,7 +184,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.be.visible');
 
             // * search should be visible
-            cy.findByPlaceholderText('Search Plugins').should('be.visible').click();
+            cy.findByPlaceholderText('Search Plugins').should('be.visible');
 
             // * tabs should be visible
             cy.get('#marketplaceTabs').should('exist');
