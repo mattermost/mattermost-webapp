@@ -1093,6 +1093,8 @@
   "admin.permissions.permission.revoke_user_access_token.name": "Revoke user access token",
   "admin.permissions.permission.upload_file.description": "Upload file",
   "admin.permissions.permission.upload_file.name": "Upload file",
+  "admin.permissions.permission.use_channel_mentions.description": "Notify channel members with @all, @channel and @here",
+  "admin.permissions.permission.use_channel_mentions.name": "Channel Mentions",
   "admin.permissions.permission.view_team.description": "View team",
   "admin.permissions.permission.view_team.name": "View team",
   "admin.permissions.permissionSchemes": "Permission Schemes",
