@@ -42,10 +42,12 @@ class MainMenu extends React.PureComponent {
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
         enableCustomEmoji: PropTypes.bool.isRequired,
-        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
+        canManageSystemBots: PropTypes.bool.isRequired,
+        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
+        canManageIntegrations: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
         enableEmailInvitations: PropTypes.bool.isRequired,
         enablePluginMarketplace: PropTypes.bool.isRequired,
@@ -135,6 +137,9 @@ class MainMenu extends React.PureComponent {
                 />
             );
         });
+
+        const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
+        const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
 
         const {formatMessage} = this.props.intl;
 
@@ -257,7 +262,7 @@ class MainMenu extends React.PureComponent {
                         <Menu.ItemLink
                             id='createTeam'
                             to='/create_team'
-                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a New Team'})}
+                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             icon={this.props.mobile && <i className='fa fa-plus-square'/>}
                         />
                     </SystemPermissionGate>
@@ -281,17 +286,12 @@ class MainMenu extends React.PureComponent {
                     {pluginItems}
                 </Menu.Group>
                 <Menu.Group>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS]}
-                    >
-                        <Menu.ItemLink
-                            id='integrations'
-                            show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}
-                            to={'/' + this.props.teamName + '/integrations'}
-                            text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
-                        />
-                    </TeamPermissionGate>
+                    <Menu.ItemLink
+                        id='integrations'
+                        show={showIntegrations}
+                        to={'/' + this.props.teamName + '/integrations'}
+                        text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                    />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.MANAGE_SYSTEM]}
@@ -362,7 +362,7 @@ class MainMenu extends React.PureComponent {
                     <Menu.ItemAction
                         id='logout'
                         onClick={this.handleEmitUserLoggedOutEvent}
-                        text={formatMessage({id: 'navbar_dropdown.logout', defaultMessage: 'Logout'})}
+                        text={formatMessage({id: 'navbar_dropdown.logout', defaultMessage: 'Log Out'})}
                         icon={this.props.mobile && <i className='fa fa-sign-out'/>}
                     />
                 </Menu.Group>

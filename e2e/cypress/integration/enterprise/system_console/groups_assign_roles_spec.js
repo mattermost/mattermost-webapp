@@ -44,6 +44,14 @@ const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
 };
 
 describe('System Console', () => {
+    before(() => {
+        // * Check if server has license for LDAP Groups
+        cy.requireLicenseForFeature('LDAPGroups');
+
+        // # Check and run LDAP Sync job
+        cy.checkRunLDAPSync();
+    });
+
     it('MM-20058 - System Admin can map roles to teams and channels via group configuration page', () => {
         cy.apiLogin('sysadmin');
 
@@ -89,27 +97,20 @@ describe('System Console', () => {
         cy.get('#multiSelectList').first().click();
         cy.get('#saveItems').click();
 
-        cy.get('#group_teams_and_channels').then((el) => {
-            let name;
+        // # Wait until the groups retrieved and show up
+        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
 
+        cy.get('#team_and_channel_membership_table').then((el) => {
             // * Ensure that the text in the roles column is Member as default text for each row
-            for (let i = 1; i < el[0].childNodes[1].rows.length; i++) {
-                name = el[0].childNodes[1].rows[i].cells[0].innerText;
-                cy.findByTestId(`${name}_current_role`).scrollIntoView().should('contain.text', 'Member');
-            }
+            const name = el[0].rows[1].cells[0].innerText;
+            cy.findByTestId(`${name}_current_role`).scrollIntoView().should('contain.text', 'Member');
 
             // # Change the option to the admin roles (Channel Admin/Team Admin) for each row
-            for (let i = 1; i < el[0].childNodes[1].rows.length; i++) {
-                name = el[0].childNodes[1].rows[i].cells[0].innerText;
-                cy.wrap(el[0].childNodes[1].rows[i]).findByTestId(`${name}_current_role`).scrollIntoView().click();
-                cy.wrap(el[0].childNodes[1].rows[i]).findByTestId(`${name}_role_to_be`).scrollIntoView().click();
-            }
+            cy.findByTestId(`${name}_current_role`).scrollIntoView().click();
+            cy.findByTestId(`${name}_role_to_be`).scrollIntoView().click();
 
-            // * Ensure that each row roles have changed successfully (by making sure that the Member text is not existant anymore)
-            for (let i = 1; i < el[0].childNodes[1].rows.length; i++) {
-                name = el[0].childNodes[1].rows[i].cells[0].innerText;
-                cy.findByTestId(`${name}_current_role`).scrollIntoView().should('not.contain.text', 'Member');
-            }
+            // * Ensure that each row roles have changed successfully (by making sure that the Member text is not existent anymore)
+            cy.findByTestId(`${name}_current_role`).scrollIntoView().should('not.contain.text', 'Member');
         });
     });
 });

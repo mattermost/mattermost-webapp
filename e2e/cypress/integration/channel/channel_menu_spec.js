@@ -35,7 +35,7 @@ describe('Channel header menu', () => {
         let channel;
 
         // # Go to "/"
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         cy.getCurrentTeamId().then((teamId) => {
             // # Create new test channel

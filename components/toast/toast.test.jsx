@@ -51,11 +51,8 @@ describe('components/Toast', () => {
         expect(defaultProps.onDismiss).toHaveBeenCalledTimes(1);
     });
 
-    test('should change state to false after timer expires', () => {
-        jest.useFakeTimers();
-        const wrapper = mountWithIntl(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
-        wrapper.setProps({show: false, toastTimer: 1000});
-        jest.runOnlyPendingTimers();
-        expect(wrapper.state('show')).toBe(false);
+    test('should match snapshot to have extraClasses', () => {
+        const wrapper = shallow(<Toast {...{...defaultProps, extraClasses: 'extraClasses'}}><span>{'child'}</span></Toast>);
+        expect(wrapper).toMatchSnapshot();
     });
 });

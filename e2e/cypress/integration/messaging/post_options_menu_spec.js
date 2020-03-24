@@ -46,9 +46,9 @@ describe('Messaging', () => {
                 // * Check if one of the options are as follows
                 cy.findByText('Add Reaction').should('be.visible');
                 cy.findByText('Mark as Unread').should('be.visible');
-                cy.findByText('Permalink').should('be.visible');
+                cy.findByText('Copy Link').should('be.visible');
                 cy.findByText('Flag').should('be.visible');
-                cy.findByText('Pin to channel').should('be.visible');
+                cy.findByText('Pin to Channel').should('be.visible');
                 cy.findByText('Edit').should('be.visible');
                 cy.findByText('Delete').should('be.visible');
             });

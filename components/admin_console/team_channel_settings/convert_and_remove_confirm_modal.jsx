@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 export default class ConvertAndRemoveConfirmModal extends React.PureComponent {
     static propTypes = {
@@ -81,7 +81,7 @@ export default class ConvertAndRemoveConfirmModal extends React.PureComponent {
                 <p>
                     <FormattedMessage
                         id='admin.team_channel_settings.removeConfirmModal.messageChannel'
-                        defaultMessage='{amount, number} {amount, plural, one {user} other {users}} will be removed on the next AD/LDAP synchronization. They are not in groups linked to this channel. Are you sure you wish to remove these users?'
+                        defaultMessage='{amount, number} {amount, plural, one {user} other {users}} will be removed. They are not in groups linked to this channel. Are you sure you wish to remove these users?'
                         values={{amount: removeAmount}}
                     />
                 </p>

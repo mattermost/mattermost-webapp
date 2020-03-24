@@ -143,7 +143,6 @@
     .MenuWrapper {
         .Menu__content {
             &.dropdown-menu {
-                max-height: 100%;
                 max-width: 100%;
             }
 
@@ -549,6 +548,7 @@
     }
 
     .sidebar--left .team__header .Avatar,
+    #SidebarContainer .team__header .Avatar,
     .sidebar--menu .team__header .Avatar {
         display: none;
     }
@@ -1532,6 +1532,109 @@
         }
     }
 
+    #SidebarContainer {
+        @include single-transition(transform, .35s, ease);
+        @include translate3d(-290px, 0, 0);
+        border: none;
+        width: 290px;
+
+        + .inner-wrap #app-content {
+            margin-left: 0;
+        }
+
+        &.move--right {
+            @include translate3d(0, 0, 0);
+        }
+
+        .nav-pills__unread-indicator {
+            width: 260px;
+        }
+
+        .team__header {
+            @include clearfix;
+            pointer-events: none;
+            padding: 15px;
+
+            .team__name,
+            .user__name {
+                max-width: 100%;
+            }
+
+            .sidebar-header-dropdown {
+                display: none;
+            }
+
+            .sidebar-header-dropdown__icon {
+                display: none;
+            }
+        }
+
+        .search__form {
+            display: block;
+        }
+
+        .SidebarChannelGroup {
+            div {
+                &.dropdown.open {
+                    padding-bottom: 25px;
+
+                    ul {
+                        background: $white;
+                        border-radius: 3px;
+                        clear: both;
+                        position: relative;
+                        top: 5px;
+
+                        li {
+                            a {
+                                line-height: 30px;
+                            }
+                        }
+                    }
+                }
+
+                .nav-more {
+                    padding: 12px 0 12px 17px;
+                }
+
+                .SidebarChannel {
+                    height: 45px;
+
+                    a, button {
+                        height: 45px;
+                    }
+
+                    &.has-close {
+                        .btn-close {
+                            @include opacity(.5);
+                            display: block;
+                            font-size: 25px;
+                            margin-right: 4px;
+                            width: 30px;
+                            height: 30px;
+                            line-height: 30px;
+                        }
+                    }
+                }
+
+                h4 {
+                    margin: 1.5 0 1em;
+                }
+
+                >a {
+                    font-size: 15px;
+                    line-height: 2.5;
+                    margin: 0;
+
+                    &:hover,
+                    &:focus {
+                        background: transparent;
+                    }
+                }
+            }
+        }
+    }
+
     .sidebar--right {
         @include translate3d(100%, 0, 0);
         right: 0;
@@ -1704,7 +1807,11 @@
             margin-left: 0;
         }
 
-        .sidebar--left {
+        #SidebarContainer + .inner-wrap #app-content {
+            margin-left: 0;
+        }
+
+        .sidebar--left, #SidebarContainer {
             left: 0;
 
             &.move--right {
@@ -1757,6 +1864,10 @@
                 }
             }
         }
+    }
+
+    .signup-team-all {
+        max-height: calc(75vh - (118px + 187px));
     }
 }
 
@@ -2111,7 +2222,7 @@
         }
     }
 
-    .sidebar--left {
+    .sidebar--left, #SidebarContainer {
         @include translate3d(-260px, 0, 0);
         width: 260px;
 
@@ -2228,7 +2339,7 @@
     }
 
     .multi-teams {
-        .sidebar--left {
+        .sidebar--left, #SidebarContainer {
             width: 220px;
 
             .nav-pills__unread-indicator {
@@ -2292,6 +2403,10 @@
         &.tip-overlay--sidebar {
             min-height: 440px;
         }
+    }
+
+    .signup-team-all {
+        max-height: calc(75vh - (111px + 187px));
     }
 }
 

@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {PostTypes} from 'utils/constants';
+import {Locations, PostTypes} from 'utils/constants';
 
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
@@ -13,15 +13,6 @@ jest.mock('utils/utils', () => {
     return {
         ...original,
         isMobile: jest.fn(() => false),
-    };
-});
-
-jest.mock('utils/post_utils', () => {
-    const original = require.requireActual('utils/post_utils');
-    return {
-        ...original,
-        canEditPost: jest.fn(() => true),
-        canDeletePost: jest.fn(() => false),
     };
 });
 
@@ -34,6 +25,8 @@ describe('components/dot_menu/DotMenu', () => {
         handleDropdownOpened: jest.fn(),
         enableEmojiPicker: true,
         components: {},
+        channelIsArchived: false,
+        currentTeamUrl: '',
         actions: {
             flagPost: jest.fn(),
             unflagPost: jest.fn(),
@@ -43,11 +36,17 @@ describe('components/dot_menu/DotMenu', () => {
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
         },
+        canEdit: false,
+        canDelete: false,
     };
 
     test('should match snapshot, on Center', () => {
+        const props = {
+            ...baseProps,
+            canEdit: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -60,20 +59,28 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should match snapshot, canDelete', () => {
-        const utils = require('utils/post_utils'); //eslint-disable-line global-require
-        utils.canDeletePost.mockReturnValue(true);
-
+        const props = {
+            ...baseProps,
+            canEdit: true,
+            canDelete: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should have divider when able to edit or delete post', () => {
+        const props = {
+            ...baseProps,
+            canEdit: true,
+            canDelete: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
+
         expect(wrapper.state('canEdit')).toBe(true);
         expect(wrapper.state('canDelete')).toBe(true);
         expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(true);
@@ -126,5 +133,37 @@ describe('components/dot_menu/DotMenu', () => {
             },
         });
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
+    });
+
+    test('should show mark as unread when channel is not archived', () => {
+        const wrapper = shallow(
+            <DotMenu {...baseProps}/>
+        );
+
+        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(true);
+    });
+
+    test('should not show mark as unread when channel is archived', () => {
+        const props = {
+            ...baseProps,
+            channelIsArchived: true,
+        };
+        const wrapper = shallow(
+            <DotMenu {...props}/>
+        );
+
+        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
+    });
+
+    test('should not show mark as unread in search', () => {
+        const props = {
+            ...baseProps,
+            location: Locations.SEARCH,
+        };
+        const wrapper = shallow(
+            <DotMenu {...props}/>
+        );
+
+        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
     });
 });

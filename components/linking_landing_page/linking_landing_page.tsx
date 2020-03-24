@@ -40,16 +40,19 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         super(props);
 
         const location = window.location.href.replace('/landing#', '');
-        const defaultProtocol = Utils.isMobile() ? 'mattermost-mobile' : 'mattermost';
 
         this.state = {
             rememberChecked: false,
             redirectPage: false,
             location,
-            nativeLocation: location.replace(/^(https|http)/, defaultProtocol),
+            nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
             brandImageError: false,
             navigating: false,
         };
+
+        if (Utils.isMobile() && !BrowserStore.hasSeenLandingPage()) {
+            BrowserStore.setLandingPageSeen(true);
+        }
     }
 
     componentDidMount() {
@@ -141,16 +144,25 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     renderGoNativeAppMessage = () => {
-        const downloadLink = this.getDownloadLink();
-
         return (
             <a
-                href={this.state.nativeLocation}
+                href={Utils.isMobile() ? '#' : this.state.nativeLocation}
                 onMouseDown={() => {
                     this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
                 }}
                 onClick={() => {
                     this.setState({redirectPage: true, navigating: true});
+                    if (Utils.isMobile()) {
+                        if (UserAgent.isAndroidWeb()) {
+                            const timeout = setTimeout(() => {
+                                window.location.replace(this.getDownloadLink()!);
+                            }, 2000);
+                            window.addEventListener('blur', () => {
+                                clearTimeout(timeout);
+                            });
+                        }
+                        window.location.replace(this.state.nativeLocation);
+                    }
                 }}
                 className='btn btn-primary btn-lg get-app__download'
             >
@@ -297,7 +309,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         let viewApp = (
             <FormattedMessage
                 id='get_app.ifNothingPrompts'
-                defaultMessage='You can view it in the{siteName} desktop app or continue in the web browser.'
+                defaultMessage='You can view {siteName} in the desktop app or continue in your web browser.'
                 values={{
                     siteName: this.props.enableCustomBrand ? '' : ' Mattermost',
                 }}
@@ -307,7 +319,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             viewApp = (
                 <FormattedMessage
                     id='get_app.ifNothingPromptsMobile'
-                    defaultMessage='You can view it in the{siteName} mobile app or continue in the web browser.'
+                    defaultMessage='You can view {siteName} in the mobile app or continue in your web browser.'
                     values={{
                         siteName: this.props.enableCustomBrand ? '' : ' Mattermost',
                     }}

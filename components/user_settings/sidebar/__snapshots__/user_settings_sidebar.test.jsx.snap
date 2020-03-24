@@ -24,6 +24,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     >
       <div
         className="modal-back"
+        onClick={[Function]}
       >
         <LocalizedIcon
           className="fa fa-angle-left"
@@ -61,6 +62,27 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     />
     <Connect(SettingItemMin)
       describe={
+        <FormattedMessage
+          defaultMessage="Off"
+          id="user.settings.sidebar.off"
+          values={Object {}}
+        />
+      }
+      section="channelSidebarOrganization"
+      title={
+        <FormattedMessage
+          defaultMessage="Experimental Sidebar Features"
+          id="user.settings.sidebar.channelSidebarOrganizationSectionTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(SettingItemMin)
+      describe={
         Array [
           <FormattedMessage
             defaultMessage="Group by channel type"
@@ -86,7 +108,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       section="groupChannels"
       title={
         <FormattedMessage
-          defaultMessage="Channel grouping and sorting"
+          defaultMessage="Channel Grouping and Sorting"
           id="user.settings.sidebar.groupAndSortChannelsTitle"
           values={Object {}}
         />

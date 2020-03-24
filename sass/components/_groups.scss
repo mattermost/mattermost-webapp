@@ -449,6 +449,83 @@
 
 }
 
+.channel-moderation {
+    .channel-moderation--body {
+        padding: 20px;
+
+        .channel-moderation--table {
+            width: 100%;
+
+            th {
+                &:first-child {
+                    width: 100%;
+                }
+
+                border-bottom: solid 1px alpha-color(#CCCCCC, .75);
+            }
+
+            tr {
+                &:not(:last-child){
+                    border-bottom: solid 1px alpha-color(#CCCCCC, .75);
+                }
+
+                &:last-child{
+                    td {
+                        padding-bottom: 0px;
+                    }                
+                }
+            }
+
+            td {
+                padding: 20px 0px;
+
+                &:first-child {
+                    padding-left: 0px;
+                }
+
+                &:not(:first-child) {
+                    text-align: center;
+                    vertical-align: middle;
+                }
+            }
+    
+            th {
+                padding: 6px 20px;
+    
+                &:first-child {
+                    padding-left: 0px;
+                }
+            }
+
+            .checkbox {
+                border-radius: 3px;
+                border: 2px solid $dark-gray;
+                height: 18px;
+                width: 18px;
+                padding: 0;
+                background: none;
+                display: inline-block;
+
+                > * {
+                    pointer-events: none;
+                }
+
+                &.disabled {
+                    border-color: $light-gray;
+                }
+
+                &.checked {
+                    border: 0;
+
+                    svg {
+                        fill: #145DBF;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .group-teams-and-channels {
     .group-teams-and-channels-loading {
         text-align: center;
@@ -469,6 +546,8 @@
     }
 
     .group-teams-and-channels--body {
+        padding: 20px;
+
         .group-teams-and-channels-row.has-clidren {
             .type {
                 margin-left: 20px;
@@ -507,6 +586,15 @@
                 button {
                     padding: 5px;
                 }
+            }
+
+            .type {
+                color: #454448;
+                opacity: 50%;
+            }
+            
+            .name-no-arrow{
+                margin-left: 16px;
             }
 
             .name-content {

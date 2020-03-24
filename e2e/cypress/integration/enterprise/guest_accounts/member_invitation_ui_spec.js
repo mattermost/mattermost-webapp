@@ -46,7 +46,7 @@ function verifyInvitationError(user, errorText) {
             cy.wrap($subel).find('.username-or-icon').should('contain', user);
             cy.wrap($subel).find('.reason').should('have.text', errorText);
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.wrap($el).find('.confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -66,7 +66,7 @@ function verifyInvitationSuccess(user, successText) {
             cy.wrap($subel).find('.username-or-icon').should('contain', user);
             cy.wrap($subel).find('.reason').should('have.text', successText);
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.wrap($el).find('.confirm-done').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -75,6 +75,9 @@ function verifyInvitationSuccess(user, successText) {
 
 describe('Guest Account - Member Invitation Flow', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Login as "sysadmin" and go to /
         cy.apiLogin('sysadmin');
 
@@ -85,13 +88,13 @@ describe('Guest Account - Member Invitation Flow', () => {
             },
             ServiceSettings: {
                 EnableEmailInvitations: true,
+                IdleTimeout: 300,
             },
         });
 
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             testTeam = response.body;
-            cy.visit('/');
             cy.visit(`/${testTeam.name}`);
         });
     });
@@ -189,7 +192,6 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.createNewUser().then((newUser) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id);
             cy.apiLogin(newUser.username, newUser.password);
-            cy.visit('/');
             cy.visit(`/${testTeam.name}`);
         });
 
@@ -207,6 +209,15 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // # Search and add a new member by email who is not part of the team
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(email, 'An invitation email has been sent.');
+    });
+
+    it('MM-22037 Invite Member via Email containing upper case letters', () => {
+        // # Invite a email containing uppercase letters
+        const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen

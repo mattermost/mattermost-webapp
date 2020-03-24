@@ -40,6 +40,9 @@ function removeUserFromAllChannels(verifyAlert) {
 
 describe('Guest Account - Guest User Removal Experience', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
@@ -50,7 +53,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
         // # Login as new user
         cy.loginAsNewUser().then((userResponse) => {
             guest = userResponse;
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             // # Get the Current Team Id
             cy.getCurrentTeamId().then((teamId) => {

@@ -13,7 +13,7 @@ export default class Markdown extends React.PureComponent {
         /*
          * An object mapping channel names to channels for the current team
          */
-        channelNamesMap: PropTypes.object.isRequired,
+        channelNamesMap: PropTypes.object,
 
         /*
          * An array of URL schemes that should be turned into links. Anything that looks
@@ -24,7 +24,7 @@ export default class Markdown extends React.PureComponent {
         /*
          * Whether or not to do Markdown rendering
          */
-        enableFormatting: PropTypes.bool.isRequired,
+        enableFormatting: PropTypes.bool,
 
         /*
          * Whether or not this text is part of the RHS
@@ -34,7 +34,7 @@ export default class Markdown extends React.PureComponent {
         /*
          * An array of words that can be used to mention a user
          */
-        mentionKeys: PropTypes.arrayOf(PropTypes.object).isRequired,
+        mentionKeys: PropTypes.arrayOf(PropTypes.object),
 
         /*
          * The text to be rendered
@@ -49,17 +49,17 @@ export default class Markdown extends React.PureComponent {
         /*
          * The root Site URL for the page
          */
-        siteURL: PropTypes.string.isRequired,
+        siteURL: PropTypes.string,
 
         /*
          * The current team
          */
-        team: PropTypes.object.isRequired,
+        team: PropTypes.object,
 
         /**
          * If an image proxy is enabled.
          */
-        hasImageProxy: PropTypes.bool.isRequired,
+        hasImageProxy: PropTypes.bool,
 
         /**
          * Minimum number of characters in a hashtag.
@@ -95,6 +95,7 @@ export default class Markdown extends React.PureComponent {
          * Post id prop passed down to markdown image
          */
         postType: PropTypes.string,
+        emojiMap: PropTypes.object,
     };
 
     static defaultProps = {
@@ -121,13 +122,14 @@ export default class Markdown extends React.PureComponent {
             minimumHashtagLength: this.props.minimumHashtagLength,
         }, this.props.options);
 
-        const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
+        const htmlFormattedText = TextFormatting.formatText(this.props.message, options, this.props.emojiMap);
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
             postType: this.props.postType,
+            mentionHighlight: this.props.options.mentionHighlight,
         });
     }
 }

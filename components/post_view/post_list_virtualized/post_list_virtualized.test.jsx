@@ -193,7 +193,7 @@ describe('PostList', () => {
     describe('updateAtBottom', () => {
         test('should update atBottom and lastViewedBottom when atBottom changes', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            wrapper.setState({lastViewedBottom: 1234});
+            wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
             wrapper.instance().updateAtBottom(true);
 
@@ -203,7 +203,7 @@ describe('PostList', () => {
 
         test('should not update lastViewedBottom when atBottom does not change', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            wrapper.setState({lastViewedBottom: 1234});
+            wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
             wrapper.instance().updateAtBottom(false);
 
@@ -214,7 +214,7 @@ describe('PostList', () => {
             Date.now = jest.fn().mockReturnValue(12344);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            wrapper.setState({lastViewedBottom: 1234});
+            wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
             wrapper.instance().updateAtBottom(true);
 
@@ -225,7 +225,7 @@ describe('PostList', () => {
             Date.now = jest.fn().mockReturnValue(12346);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            wrapper.setState({lastViewedBottom: 1234});
+            wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
             wrapper.instance().updateAtBottom(true);
 
@@ -241,9 +241,10 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
 
+            wrapper.setState({atBottom: false});
             wrapper.setProps({atOldestPost: true});
-            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
-            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
             instance.postListRef = {current: {scrollHeight: 200, parentElement: {scrollTop: 30}}};
             wrapper.setProps({postListIds: [
@@ -254,8 +255,8 @@ describe('PostList', () => {
                 'post4',
             ]});
 
-            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
-            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
+            expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
+            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
         });
 
         test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
@@ -265,21 +266,8 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
             wrapper.setProps({atOldestPost: true});
-
-            expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100, previousScrollTop: 10});
-
             wrapper.setState({atBottom: true});
-            instance.postListRef = {current: {scrollHeight: 400, parentElement: {scrollTop: 40}}};
-            wrapper.setProps({postListIds: [
-                'post1',
-                'post2',
-                'post3',
-                'post4',
-                'post5',
-                DATE_LINE + 1551711600000,
-            ]});
-
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual(null);
+            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual(null);
         });
     });
 

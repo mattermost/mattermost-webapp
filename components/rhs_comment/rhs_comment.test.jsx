@@ -58,6 +58,7 @@ describe('components/RhsComment', () => {
         channelIsArchived: false,
         isConsecutivePost: false,
         handleCardClick: jest.fn(),
+        shortcutReactToLastPostEmittedFrom: '',
         actions: {
             markPostAsUnread: jest.fn(),
         },
@@ -118,6 +119,23 @@ describe('components/RhsComment', () => {
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(true);
     });
 
+    test('should not show pointer when alt is held down, but channel is archived', () => {
+        const props = {
+            ...baseProps,
+            channelIsArchived: true
+        };
+
+        const wrapper = shallowWithIntl(
+            <RhsComment {...props}/>
+        );
+
+        expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
+
+        wrapper.setState({alt: true});
+
+        expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
+    });
+
     test('should call markPostAsUnread when post is alt+clicked on', () => {
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>
@@ -129,6 +147,25 @@ describe('components/RhsComment', () => {
 
         wrapper.simulate('click', {altKey: true});
 
-        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalled();
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post);
+    });
+
+    test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {
+        const props = {
+            ...baseProps,
+            channelIsArchived: true
+        };
+
+        const wrapper = shallowWithIntl(
+            <RhsComment {...props}/>
+        );
+
+        wrapper.simulate('click', {altKey: false});
+
+        expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
+
+        wrapper.simulate('click', {altKey: true});
+
+        expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
     });
 });

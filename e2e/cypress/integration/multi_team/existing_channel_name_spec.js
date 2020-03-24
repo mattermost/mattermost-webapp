@@ -88,7 +88,7 @@ describe('Channel', () => {
     beforeEach(() => {
         // Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('Mult14635 Should not create new channel with existing public channel name', () => {

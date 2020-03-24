@@ -7,15 +7,22 @@ import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting';
 import {getScheme, isUrlSafe} from 'utils/url';
+import EmojiMap from 'utils/emoji_map';
 
 export default class Renderer extends marked.Renderer {
     private formattingOptions: TextFormatting.TextFormattingOptions;
-    public constructor(options: MarkedOptions, formattingOptions = {}) {
+    private emojiMap: EmojiMap;
+    public constructor(
+        options: MarkedOptions,
+        formattingOptions = {},
+        emojiMap = new EmojiMap(new Map())
+    ) {
         super(options);
 
         this.heading = this.heading.bind(this);
         this.paragraph = this.paragraph.bind(this);
         this.text = this.text.bind(this);
+        this.emojiMap = emojiMap;
 
         this.formattingOptions = formattingOptions;
     }
@@ -162,9 +169,10 @@ export default class Renderer extends marked.Renderer {
             if (!scheme) {
                 outHref = `http://${outHref}`;
             } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
-                const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(
-                    scheme.toLowerCase()
-                ) !== -1;
+                const isValidUrl =
+          this.formattingOptions.autolinkedUrlSchemes.indexOf(
+              scheme.toLowerCase()
+          ) !== -1;
 
                 if (!isValidUrl) {
                     return text;
@@ -222,9 +230,9 @@ export default class Renderer extends marked.Renderer {
             let result;
             if (text.includes('class="markdown-inline-img"')) {
                 /*
-                ** use a div tag instead of a p tag to allow other divs to be nested,
-                ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
-                */
+         ** use a div tag instead of a p tag to allow other divs to be nested,
+         ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
+         */
                 result = `<div class="markdown__paragraph-inline">${text}</div>`;
             } else {
                 result = `<p class="markdown__paragraph-inline">${text}</p>`;
@@ -253,6 +261,20 @@ export default class Renderer extends marked.Renderer {
         return marked.Renderer.prototype.tablecell(content, flags).trim();
     }
 
+    public list(content: string, ordered: boolean, start: number) {
+        const type = ordered ? 'ol' : 'ul';
+
+        let output = `<${type} className="markdown__list"`;
+        if (ordered && start !== undefined) { // eslint-disable-line no-undefined
+            // The CSS that we use for lists hides the actual counter and uses ::before to simulate one so that we can
+            // style it properly. We need to use a CSS counter to tell the ::before elements which numbers to show.
+            output += ` style="counter-reset: list ${start - 1}"`;
+        }
+        output += `>\n${content}</${type}>`;
+
+        return output;
+    }
+
     public listitem(text: string, bullet = '') {
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
@@ -263,16 +285,17 @@ export default class Renderer extends marked.Renderer {
         '/> '}${text.replace(taskListReg, '')}</li>`;
         }
 
-        if ((/^\d+.$/).test(bullet)) {
-            // this is a numbered list item so override the numbering
-            return `<li value="${parseInt(bullet, 10)}">${text}</li>`;
-        }
-
-        return `<li>${text}</li>`;
+        // Added a span because if not whitespace nodes only
+        // works in Firefox but not in Webkit
+        return `<li><span>${text}</span></li>`;
     }
 
     public text(txt: string) {
-        return TextFormatting.doFormatText(txt, this.formattingOptions);
+        return TextFormatting.doFormatText(
+            txt,
+            this.formattingOptions,
+            this.emojiMap
+        );
     }
 }
 

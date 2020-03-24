@@ -26,6 +26,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
@@ -48,7 +49,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         clearable={true}
         completeOnTab={true}
         containerClass=""
-        data-a11y-sort-order="8"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"
@@ -127,6 +128,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
@@ -149,7 +151,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         clearable={true}
         completeOnTab={true}
         containerClass=""
-        data-a11y-sort-order="8"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"
@@ -239,6 +241,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}
@@ -261,7 +264,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         clearable={true}
         completeOnTab={true}
         containerClass=""
-        data-a11y-sort-order="8"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"
@@ -351,6 +354,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     id="searchFormContainer"
   >
     <form
+      aria-labelledby="searchBox"
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}
@@ -373,7 +377,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         clearable={true}
         completeOnTab={true}
         containerClass=""
-        data-a11y-sort-order="8"
+        data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"

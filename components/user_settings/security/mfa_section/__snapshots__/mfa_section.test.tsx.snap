@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MfaSection rendering should render nothing when MFA is not available 1`] = `""`;
+
+exports[`MfaSection rendering when section is collapsed and MFA is active 1`] = `
+<Connect(SettingItemMin)
+  describe={
+    <FormattedMessage
+      defaultMessage="Active"
+      id="user.settings.security.active"
+      values={Object {}}
+    />
+  }
+  section="mfa"
+  title={
+    <FormattedMessage
+      defaultMessage="Multi-factor Authentication"
+      id="user.settings.mfa.title"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+/>
+`;
+
+exports[`MfaSection rendering when section is collapsed and MFA is not active 1`] = `
+<Connect(SettingItemMin)
+  describe={
+    <FormattedMessage
+      defaultMessage="Inactive"
+      id="user.settings.security.inactive"
+      values={Object {}}
+    />
+  }
+  section="mfa"
+  title={
+    <FormattedMessage
+      defaultMessage="Multi-factor Authentication"
+      id="user.settings.mfa.title"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+/>
+`;
+
+exports[`MfaSection rendering when section is expanded and MFA is active and enforced 1`] = `
+<SettingItemMax
+  containerStyle=""
+  extraInfo={
+    <FormattedMessage
+      defaultMessage="Multi-factor authentication is required on this server. Resetting is only recommended when you need to switch code generation to a new mobile device. You will be required to set it up again immediately."
+      id="user.settings.mfa.requiredHelp"
+      values={Object {}}
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    <div
+      className="pt-2"
+    >
+      <a
+        className="btn btn-primary"
+        href="#"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Reset MFA on Account"
+          id="user.settings.mfa.reset"
+          values={Object {}}
+        />
+      </a>
+      <br />
+    </div>
+  }
+  saving={false}
+  section=""
+  serverError={null}
+  title={
+    <FormattedMessage
+      defaultMessage="Multi-factor Authentication"
+      id="user.settings.mfa.title"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+  width="medium"
+/>
+`;
+
+exports[`MfaSection rendering when section is expanded and MFA is active but not enforced 1`] = `
+<SettingItemMax
+  containerStyle=""
+  extraInfo={
+    <FormattedMessage
+      defaultMessage="Removing multi-factor authentication means you will no longer require a phone-based passcode to sign-in to your account."
+      id="user.settings.mfa.removeHelp"
+      values={Object {}}
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    <div
+      className="pt-2"
+    >
+      <a
+        className="btn btn-primary"
+        href="#"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Remove MFA from Account"
+          id="user.settings.mfa.remove"
+          values={Object {}}
+        />
+      </a>
+      <br />
+    </div>
+  }
+  saving={false}
+  section=""
+  serverError={null}
+  title={
+    <FormattedMessage
+      defaultMessage="Multi-factor Authentication"
+      id="user.settings.mfa.title"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+  width="medium"
+/>
+`;
+
+exports[`MfaSection rendering when section is expanded and MFA is not active 1`] = `
+<SettingItemMax
+  containerStyle=""
+  extraInfo={
+    <FormattedMessage
+      defaultMessage="Adding multi-factor authentication will make your account more secure by requiring a code from your mobile phone each time you sign in."
+      id="user.settings.mfa.addHelp"
+      values={Object {}}
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    <div
+      className="pt-2"
+    >
+      <a
+        className="btn btn-primary"
+        href="#"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Add MFA to Account"
+          id="user.settings.mfa.add"
+          values={Object {}}
+        />
+      </a>
+      <br />
+    </div>
+  }
+  saving={false}
+  section=""
+  serverError={null}
+  title={
+    <FormattedMessage
+      defaultMessage="Multi-factor Authentication"
+      id="user.settings.mfa.title"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+  width="medium"
+/>
+`;
+
+exports[`MfaSection rendering when section is expanded with a server error 1`] = `
+<SettingItemMax
+  containerStyle=""
+  extraInfo={
+    <FormattedMessage
+      defaultMessage="Adding multi-factor authentication will make your account more secure by requiring a code from your mobile phone each time you sign in."
+      id="user.settings.mfa.addHelp"
+      values={Object {}}
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    <div
+      className="pt-2"
+    >
+      <a
+        className="btn btn-primary"
+        href="#"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Add MFA to Account"
+          id="user.settings.mfa.add"
+          values={Object {}}
+        />
+      </a>
+      <br />
+    </div>
+  }
+  saving={false}
+  section=""
+  serverError="An error has occurred"
+  title={
+    <FormattedMessage
+      defaultMessage="Multi-factor Authentication"
+      id="user.settings.mfa.title"
+      values={Object {}}
+    />
+  }
+  updateSection={[MockFunction]}
+  width="medium"
+/>
+`;

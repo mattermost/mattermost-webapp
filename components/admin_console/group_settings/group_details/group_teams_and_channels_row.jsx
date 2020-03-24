@@ -5,8 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {isNil} from 'lodash';
+import classNames from 'classnames';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -119,16 +120,10 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             extraClasses += ' collapsed';
         }
 
-        let teamIcon = null;
         let channelIcon = null;
         let typeText = null;
         switch (this.props.type) {
         case 'public-team':
-            teamIcon = (
-                <span className='team-icon team-icon-public'>
-                    <i className={'fa fa-circle-o-notch'}/>
-                </span>
-            );
             typeText = (
                 <FormattedMessage
                     id='admin.group_settings.group_details.group_teams_and_channels_row.publicTeam'
@@ -137,14 +132,6 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             );
             break;
         case 'private-team':
-            teamIcon = (
-                <span className='team-icon team-icon-private'>
-                    <span className='fa-stack fa-2x'>
-                        <i className={'fa fa-circle-thin fa-stack-2x'}/>
-                        <i className={'fa fa-lock fa-stack-1x'}/>
-                    </span>
-                </span>
-            );
             typeText = (
                 <FormattedMessage
                     id='admin.group_settings.group_details.group_teams_and_channels_row.privateTeam'
@@ -152,8 +139,6 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                 />
             );
             break;
-        default:
-            teamIcon = (<span className='team-icon'/>);
         }
 
         switch (this.props.type) {
@@ -194,14 +179,14 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     title={
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header'
-                            defaultMessage={`Remove Membership from the '${this.props.name}' ${displayType}?`}
+                            defaultMessage='Remove Membership from the {name} {displayType}?'
                             values={{name: this.props.name, displayType}}
                         />
                     }
                     message={
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body'
-                            defaultMessage={`Removing this membership will prevent future users in this group from being added to the '${this.props.name}' ${displayType}.`}
+                            defaultMessage='Removing this membership will prevent future users in this group from being added to the {name} {displayType}.'
                             values={{name: this.props.name, displayType}}
                         />
                     }
@@ -218,13 +203,12 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     <span className='arrow-icon'>
                         {arrowIcon}
                     </span>
-                    {teamIcon}
                     {channelIcon}
-                    <span className='name'>
+                    <span className={classNames({'name-no-arrow': isNil(arrowIcon) && isNil(channelIcon)})}>
                         {this.props.name}
                     </span>
                 </td>
-                <td>
+                <td className='type'>
                     {typeText}
                 </td>
                 <td>
