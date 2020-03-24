@@ -52,7 +52,8 @@ describe('Header', () => {
         cy.get('#channelHeaderDescription').click();
 
         // * Check that no elippsis is present
-        cy.get('#header-popover > div.popover-content').should('have.html', `<blockquote>\n<p>${header}</p>\n</blockquote>`);
+        cy.get('#header-popover > div.popover-content').
+            should('have.html', `<span><blockquote>\n<p>${header}</p>\n</blockquote></span>`);
 
         cy.apiSaveMessageDisplayPreference();
     });

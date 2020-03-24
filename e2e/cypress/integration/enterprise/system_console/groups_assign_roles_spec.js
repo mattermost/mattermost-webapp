@@ -45,16 +45,20 @@ const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
 
 describe('System Console', () => {
     before(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
+
+        // Enable LDAP
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Check and run LDAP Sync job
         cy.checkRunLDAPSync();
     });
 
     it('MM-20058 - System Admin can map roles to teams and channels via group configuration page', () => {
-        cy.apiLogin('sysadmin');
-
         // # Go to system admin page and to team configuration page of channel "eligendi"
         cy.visit('/admin_console/user_management/groups');
         cy.get('#developers_group').then((el) => {
@@ -88,13 +92,13 @@ describe('System Console', () => {
         // # Add the first team in the group list then save
         cy.get('#add_team_or_channel').click();
         cy.get('#add_team').click();
-        cy.get('#multiSelectList').first().click();
-        cy.get('#saveItems').click();
+        cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
+        cy.get('#saveItems').should('be.visible').click();
 
         // # Add the first channel in the group list then save
         cy.get('#add_team_or_channel').click();
         cy.get('#add_channel').click();
-        cy.get('#multiSelectList').first().click();
+        cy.get('#multiSelectList').children().first().click();
         cy.get('#saveItems').click();
 
         // # Wait until the groups retrieved and show up

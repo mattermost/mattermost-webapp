@@ -263,7 +263,7 @@ class ChannelHeader extends React.PureComponent {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
 
-        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g, ' ')) {
+        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
             this.setState({showChannelHeaderPopover: true});
         }
     }
@@ -443,7 +443,7 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.handleFormattedTextClick}
                     >
                         <Markdown
-                            message={headerText}
+                            message={headerText.replace(/\n/, '\n\n')}
                             options={this.getPopoverMarkdownOptions(channelNamesMap)}
                         />
                     </span>
@@ -463,7 +463,7 @@ class ChannelHeader extends React.PureComponent {
                         ref={this.headerPopoverTextMeasurerRef}
                     >
                         <Markdown
-                            message={headerText.replace(/\n{2,}/g, ' ')}
+                            message={headerText.replace(/\n+/g, ' ')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         /></div>
                     <span
@@ -481,10 +481,11 @@ class ChannelHeader extends React.PureComponent {
                             target={this.headerDescriptionRef.current}
                             ref='headerOverlay'
                             onEnter={this.setPopoverOverlayWidth}
+                            onHide={() => this.setState({showChannelHeaderPopover: false})}
                         >{popoverContent}</Overlay>
 
                         <Markdown
-                            message={headerText}
+                            message={headerText.replace(/\n/g, '\n\n')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         />
                     </span>
@@ -557,30 +558,26 @@ class ChannelHeader extends React.PureComponent {
         let ariaLabel = '';
 
         if (!channelIsArchived) {
-            if (isFavorite) {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.removeFromFavorites'
-                            defaultMessage='Remove from Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.removeFromFavorites', defaultMessage: 'Remove from Favorites'}).toLowerCase();
-            } else {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.addToFavorites'
-                            defaultMessage='Add to Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.addToFavorites', defaultMessage: 'Add to Favorites'}).toLowerCase();
-            }
+            const formattedMessage = isFavorite ? {
+                id: 'channelHeader.removeFromFavorites',
+                defaultMessage: 'Remove from Favorites'
+            } : {
+                id: 'channelHeader.addToFavorites',
+                defaultMessage: 'Add to Favorites'
+            };
+
+            ariaLabel = formatMessage(formattedMessage).toLowerCase();
+            toggleFavoriteTooltip = (
+                <Tooltip id='favoriteTooltip' >
+                    <FormattedMessage
+                        {...formattedMessage}
+                    />
+                </Tooltip>
+            );
 
             toggleFavorite = (
                 <OverlayTrigger
+                    key={`isFavorite-${isFavorite}`}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
