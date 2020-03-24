@@ -163,7 +163,7 @@ interface RowProps {
     errorMessages?: any;
 }
 
-const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
+export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
     return (
         <tr>
             <td>
