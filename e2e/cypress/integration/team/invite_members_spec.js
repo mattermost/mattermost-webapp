@@ -84,13 +84,20 @@ function closeAndComplete() {
 }
 
 describe('Invite Members', () => {
-    before(() => {
-        // # Login as sysadmin and update config
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        cy.apiUpdateConfig(
-            {EmailSettings: {RequireEmailVerification: false}},
-            {ServiceSettings: {EnableAPITeamDeletion: true}},
-        );
+
+        // # Enable API Team Deletion
+        // # Disable Require Email Verification
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableAPITeamDeletion: true,
+            },
+            EmailSettings: {
+                RequireEmailVerification: false,
+            },
+        });
 
         // # Login as new user
         cy.apiCreateAndLoginAsNewUser().then(() => {
@@ -105,9 +112,7 @@ describe('Invite Members', () => {
     afterEach(() => {
         // # Reload current page after each test to close any popup/modals left open
         cy.reload();
-    });
 
-    after(() => {
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
             cy.apiLogin('sysadmin');

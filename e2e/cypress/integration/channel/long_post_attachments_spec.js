@@ -22,7 +22,7 @@ function verifyImageInPostFooter(verifyExistence = true) {
 }
 
 describe('M14322 Long post with multiple attachments', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

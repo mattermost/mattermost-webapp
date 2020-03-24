@@ -12,11 +12,18 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('Customization', () => {
     let origConfig;
 
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // Get config
+        // # Disable Team Custom Brand
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                EnableCustomBrand: false,
+            }
+        });
+
+        // Get current config
         cy.apiGetConfig().then((response) => {
             origConfig = response.body;
         });
@@ -27,10 +34,6 @@ describe('Customization', () => {
     });
 
     it('SC20336 - Can change Custom Brand Image setting', () => {
-        // # Make sure necessary field is false
-        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
-        cy.reload();
-
         // # Set Enable Custom Branding to true to be able to upload custom brand image
         cy.get('[id="TeamSettings.EnableCustomBrandtrue"]').check();
 
@@ -367,10 +370,6 @@ describe('Customization', () => {
     });
 
     it('SC20339 - Can change Enable Custom Branding setting', () => {
-        // # Make sure necessary field is false
-        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
-        cy.reload();
-
         cy.findByTestId('TeamSettings.EnableCustomBrand').should('be.visible').within(() => {
             // * Verify that setting is visible and matches text content
             cy.get('label:first').should('be.visible').and('have.text', 'Enable Custom Branding: ');

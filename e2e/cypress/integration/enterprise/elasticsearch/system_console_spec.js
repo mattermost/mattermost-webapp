@@ -11,14 +11,15 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Elasticsearch system console', () => {
-    before(() => {
-        // # Login as admin
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // * Check if server has license for Elasticsearch
         cy.requireLicenseForFeature('Elasticsearch');
 
-        // # Enable Elasticsearch
+        // # Enable Elasticsearch Autocomplete, Indexing, and Searching
+        // # Disable Elasticsearch Sniff
         cy.apiUpdateConfig({
             ElasticsearchSettings: {
                 EnableAutocomplete: true,

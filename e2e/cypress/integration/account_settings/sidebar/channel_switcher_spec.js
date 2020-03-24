@@ -13,7 +13,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     let testChannel;
     let testTeam;
 
-    before(() => {
+    beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
@@ -32,7 +32,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         });
     });
 
-    after(() => {
+    afterEach(() => {
         // # Delete the test team as sysadmin
         if (testTeam && testTeam.id) {
             cy.apiLogin('sysadmin');

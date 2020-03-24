@@ -12,15 +12,17 @@ import users from '../../fixtures/users.json';
 let townsquareChannelId;
 
 describe('Messaging', () => {
-    before(() => {
+    beforeEach(() => {
         // # Wrap websocket to be able to connect and close connections on demand
         cy.mockWebsockets();
 
-        // # Login and go to /
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
-        // # Get ChannelID to use later
+        // # Get current channel id
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });

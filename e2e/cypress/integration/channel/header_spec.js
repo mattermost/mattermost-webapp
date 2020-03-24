@@ -10,8 +10,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Header', () => {
-    before(() => {
-        // # Login and go to /
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Create new test team
@@ -55,7 +55,7 @@ describe('Header', () => {
         cy.get('#header-popover > div.popover-content').
             should('have.html', `<span><blockquote>\n<p>${header}</p>\n</blockquote></span>`);
 
-        cy.apiSaveMessageDisplayPreference();
+        cy.apiSaveMessageDisplayPreference('clean');
     });
 
     it('S13483 - Cleared search term should not reappear as RHS is opened and closed', () => {

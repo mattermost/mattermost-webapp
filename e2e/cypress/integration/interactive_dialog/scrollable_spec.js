@@ -17,22 +17,24 @@ let createdCommand;
 let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
-    before(() => {
+    beforeEach(() => {
+        // * Check if webhook server is running
         cy.requireWebhookServer();
 
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Save Teammate Name Disaply Preference to username
         cy.apiSaveTeammateNameDisplayPreference('username');
 
-        // Set required ServiceSettings
-        const newSettings = {
+        // # Enable Allowed Untrusted Internal Connections, Post Username Override and Post Icon Override
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 AllowedUntrustedInternalConnections: 'localhost',
                 EnablePostUsernameOverride: true,
                 EnablePostIconOverride: true,
             },
-        };
-        cy.apiUpdateConfig(newSettings);
+        });
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {

@@ -36,12 +36,14 @@ const enableAllChannelModeratedPermissions = () => {
 };
 
 describe('Channel Moderation Test', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // * Check if server has license
         cy.requireLicense();
 
         // Reset permissions in system scheme to defaults.
-        cy.apiLogin('sysadmin');
         cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('resetPermissionsToDefault').click();
         cy.get('#confirmModalButton').click();

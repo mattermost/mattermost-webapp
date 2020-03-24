@@ -24,9 +24,11 @@ function checkEmojiSize(message, emojis, isJumbo) {
 }
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login as "user-1" and go to /
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

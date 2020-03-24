@@ -7,8 +7,8 @@
 // ***************************************************************
 
 describe('Messaging', () => {
-    before(() => {
-        // # Change viewport to tablet
+    beforeEach(() => {
+        // # Change viewport to ipad-2
         cy.viewport('ipad-2');
 
         // # Login and navigate to town-square

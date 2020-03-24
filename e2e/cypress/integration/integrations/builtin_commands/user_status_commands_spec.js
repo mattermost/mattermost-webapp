@@ -15,14 +15,11 @@ const testCases = [
 ];
 
 describe('Integrations', () => {
-    before(() => {
-        // # Login as user-1, go to "/" and set user status to online
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiUpdateUserStatus('online');
-    });
 
-    after(() => {
-        // # Set user status to online
+        // # Update user status to online
         cy.apiUpdateUserStatus('online');
     });
 

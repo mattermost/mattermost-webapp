@@ -8,13 +8,18 @@
 // ***************************************************************
 
 describe('System Console', () => {
-    before(() => {
-        // # Login as sysadmin, update config and visit town-square channel
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        const newSettings = {
-            TeamSettings: {SiteName: 'Mattermost'},
-        };
-        cy.apiUpdateConfig(newSettings);
+
+        // # Update Team Site Name
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                SiteName: 'Mattermost',
+            },
+        });
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

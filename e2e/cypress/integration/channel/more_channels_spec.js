@@ -30,13 +30,17 @@ describe('Channels', () => {
     });
 
     it('MM-19337 Enable users to view archived channels', () => {
-        // # Login as new user and go to "/"
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Experimental ViewArchived Channels
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },
         });
+
+        // # Login as new user and go to "/"
         cy.apiGetTeamByName('ad-1').then((res) => {
             cy.apiCreateAndLoginAsNewUser({}, [res.body.id]);
             cy.visit('/ad-1/channels/town-square');
@@ -128,8 +132,10 @@ describe('Channels', () => {
 });
 
 function verifyMoreChannelsModalWithArchivedSelection(isEnabled) {
-    // # Login as sysadmin and Update config to enable/disable viewing of archived channels
+    // # Login as sysadmin
     cy.apiLogin('sysadmin');
+
+    // # Update Experimental View Archived Channels
     cy.apiUpdateConfig({
         TeamSettings: {
             ExperimentalViewArchivedChannels: isEnabled,

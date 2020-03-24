@@ -67,19 +67,18 @@ function verifyPostLabel(elementId, username, labelSuffix) {
 }
 
 describe('Verify Accessibility Support in Post', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Update Configs
+        // # Disable Experimental Channel Organization
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: false,
             },
         });
-    });
 
-    beforeEach(() => {
-        // # Visit the Town Square channel
+        // # Visit the  channel
         cy.visit('/ad-1/channels/off-topic');
         cy.get('#postListContent').should('be.visible');
     });

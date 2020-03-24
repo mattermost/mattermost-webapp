@@ -12,7 +12,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 let testTeam;
 
 describe('Message Draft and Switch Channels', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

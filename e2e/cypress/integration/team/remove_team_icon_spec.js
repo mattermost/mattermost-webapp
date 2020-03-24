@@ -33,10 +33,16 @@ function openTeamSettingsDialog() {
 }
 
 describe('Teams Settings', () => {
-    before(() => {
-        // # Login as sysadmin and update config
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
+
+        // # Disable Require Email Verification
+        cy.apiUpdateConfig({
+            EmailSettings: {
+                RequireEmailVerification: false,
+            },
+        });
 
         // # Login as new user
         cy.apiCreateAndLoginAsNewUser().then(() => {

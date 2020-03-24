@@ -46,11 +46,11 @@ function verifyFocusInAddChannelMemberModal() {
 }
 
 describe('Messaging', () => {
-    before(() => {
-        cy.apiLogin('user-1');
-    });
-
     beforeEach(() => {
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

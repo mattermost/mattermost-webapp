@@ -22,7 +22,7 @@ function pinPost(index) {
 }
 
 describe('Messaging', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
@@ -33,7 +33,7 @@ describe('Messaging', () => {
     });
 
     // Unpin all posts at the end of the test
-    after(() => {
+    afterEach(() => {
         pinnedPosts.forEach((pinnedPost) => {
             cy.apiUnpinPosts(pinnedPost);
         });

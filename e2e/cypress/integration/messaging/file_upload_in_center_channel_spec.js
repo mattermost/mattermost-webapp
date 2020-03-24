@@ -15,9 +15,11 @@ function waitForImageUpload() {
 }
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login and go to /
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Set the default image preview setting to Expanded
@@ -26,7 +28,7 @@ describe('Messaging', () => {
 
     it('M16425 : Show single image thumbnails in standard mode', () => {
         // # Set the messages display setting to standard i.e not compact
-        cy.apiSaveMessageDisplayPreference();
+        cy.apiSaveMessageDisplayPreference('clean');
 
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';

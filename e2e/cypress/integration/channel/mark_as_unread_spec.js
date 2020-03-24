@@ -14,12 +14,13 @@ describe('Mark as Unread', () => {
     let post2;
     let post3;
 
-    before(() => {
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
-
     beforeEach(() => {
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
+
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-a', 'Channel A').then((resp) => {
                 channelA = resp.body;

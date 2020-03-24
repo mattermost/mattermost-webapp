@@ -11,13 +11,14 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search teams', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // * Check if server has license
         cy.requireLicense();
-    });
 
-    beforeEach(() => {
-        cy.apiLogin('sysadmin');
+        // # Visit admin user management teams
         cy.visit('/admin_console/user_management/teams');
         cy.wrap([]).as('createdTeamIDs');
     });

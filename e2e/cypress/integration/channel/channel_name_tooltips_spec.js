@@ -38,11 +38,11 @@ describe('channel name tooltips', () => {
     let longUser;
     let team;
 
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Create new test team
+        // # Create new team and add user to team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             team = response.body;
 

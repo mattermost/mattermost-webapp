@@ -34,14 +34,10 @@ function verifyChannelMenuModal(menuItem, modalName, modalLabel) {
 }
 
 describe('Verify Accessibility Support in Modals & Dialogs', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
-    });
-
-    beforeEach(() => {
         // Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });

@@ -25,18 +25,19 @@ const testCases = [
 ];
 
 describe('Markdown message', () => {
-    before(() => {
-        // # Login as sysadmin and enable local image proxy so our expected URLs match
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        const newSettings = {
+
+        // # Enable Image Proxy
+        cy.apiUpdateConfig({
             ImageProxySettings: {
                 Enable: true,
                 ImageProxyType: 'local',
                 RemoteImageProxyURL: '',
                 RemoteImageProxyOptions: '',
             },
-        };
-        cy.apiUpdateConfig(newSettings);
+        });
 
         // # Login as new user
         cy.apiCreateAndLoginAsNewUser().then(() => {

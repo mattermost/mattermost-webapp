@@ -18,12 +18,15 @@ let guest;
 let guestTeamId;
 
 describe('MM-18045 Verify Guest User Identification in different screens', () => {
-    before(() => {
-        // * Check if server has license for Guest Accounts
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable Guest Accounts and Email Invitations
+        // # Disable Experimental Channel Sidebar Organization
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -51,7 +54,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
     });
 
-    after(() => {
+    afterEach(() => {
         // # Delete the new team as sysadmin
         if (guestTeamId) {
             cy.apiLogin('sysadmin');

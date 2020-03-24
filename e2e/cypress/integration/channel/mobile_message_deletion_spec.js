@@ -11,9 +11,11 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 // ***************************************************************
 
 describe('Delete Parent Message', () => {
-    before(() => {
-        // # Go to Main Channel View with "user-1"
+    beforeEach(() => {
+        // # Change viewport to iphone-6
         cy.viewport('iphone-6');
+
+        // # Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
     });
 

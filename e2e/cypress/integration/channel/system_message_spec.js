@@ -47,9 +47,11 @@ function getLines(e) {
 }
 
 describe('System Message', () => {
-    before(() => {
-        // # Login and and set user preference
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Save Teammate Name Display Preference to username
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create new test team

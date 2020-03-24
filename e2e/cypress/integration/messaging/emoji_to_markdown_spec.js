@@ -41,8 +41,11 @@ function createAndVerifyMessage(message, isCode) {
 }
 
 describe('Messaging', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

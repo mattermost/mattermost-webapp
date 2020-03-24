@@ -14,12 +14,14 @@ const sysadmin = users.sysadmin;
 let townsquareChannelId;
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
-        // # Navigate to the channel and get the channelId
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+
+        // # Get current channel id
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });

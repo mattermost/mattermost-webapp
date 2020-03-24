@@ -9,7 +9,7 @@
 // ***************************************************************
 
 describe('Channel Settings', () => {
-    before(() => {
+    beforeEach(() => {
         // # Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
     });

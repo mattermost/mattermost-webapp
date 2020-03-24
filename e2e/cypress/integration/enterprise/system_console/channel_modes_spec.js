@@ -8,16 +8,18 @@
 // ***************************************************************
 
 describe('Test channel public/private toggle', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
-        // Enable LDAP and LDAP group sync
+        // # Enable LDAP
         cy.apiUpdateConfig({
-            LdapSettings: {Enable: true},
+            LdapSettings: {
+                Enable: true,
+            },
         });
 
         // # Check and run LDAP Sync job

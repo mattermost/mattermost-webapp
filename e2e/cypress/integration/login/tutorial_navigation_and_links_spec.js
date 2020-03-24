@@ -12,8 +12,11 @@ const appDownloadLink = 'https://about.mattermost.com/downloads/';
 describe('Test Tutorial Navigation', () => {
     let team;
 
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Update App Download Link and Support Email
         cy.apiUpdateConfig({
             NativeAppSettings: {
                 AppDownloadLink: appDownloadLink,
@@ -22,6 +25,8 @@ describe('Test Tutorial Navigation', () => {
                 SupportEmail: 'feedback@mattermost.com',
             },
         });
+
+        // # Visit the Town Square channel
         cy.apiGetTeamByName('ad-1').then((res) => {
             team = res.body;
 

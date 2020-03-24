@@ -15,10 +15,14 @@ let testTeam;
 let townsquareChannelId;
 
 describe('toasts', () => {
-    before(() => {
-        // # Build data to test and login as user-1
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiSaveMessageDisplayPreference();
+
+        // # Save Message Display Preference to clean
+        cy.apiSaveMessageDisplayPreference('clean');
+
+        // # Create new team add user to team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             testTeam = response.body;
 
@@ -32,9 +36,7 @@ describe('toasts', () => {
                 townsquareChannelId = id;
             });
         });
-    });
 
-    beforeEach(() => {
         // # Click on town-square then off-topic channels in LHS
         cy.get('#publicChannelList').scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Town Square').scrollIntoView().should('be.visible').click();

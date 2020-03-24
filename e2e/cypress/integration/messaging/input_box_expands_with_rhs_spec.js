@@ -10,9 +10,11 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login and go to sint channel
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // Visit the Suscipit-4 channel
         cy.visit('/ad-1/channels/suscipit-4');
     });
 

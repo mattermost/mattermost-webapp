@@ -52,9 +52,11 @@ describe('renaming', () => {
     const timestamp = Date.now();
     let team;
 
-    before(() => {
-        // # Login as admin
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Save Teammate Name Display Preference to username
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // * Check if server has license for Elasticsearch
@@ -69,7 +71,7 @@ describe('renaming', () => {
     describe('with elastic search enabled', () => {
         const configStamp = timestamp + 'enabled';
 
-        before(() => {
+        beforeEach(() => {
             // # Enable elastic search
             enableElasticSearch();
         });
@@ -128,7 +130,7 @@ describe('renaming', () => {
             let user;
             let channel;
 
-            before(() => {
+            beforeEach(() => {
                 const punisher = {
                     username: withTimestamp('punisher', configStamp),
                     firstName: 'Frank',
@@ -180,8 +182,8 @@ describe('renaming', () => {
     describe('with elastic search disabled', () => {
         const configStamp = timestamp + 'disabled';
 
-        before(() => {
-            // # Enable elastic search
+        beforeEach(() => {
+            // # Disable elastic search
             disableElasticSearch();
         });
 
@@ -239,7 +241,7 @@ describe('renaming', () => {
             let user;
             let channel;
 
-            before(() => {
+            beforeEach(() => {
                 const punisher = {
                     username: withTimestamp('punisher', configStamp),
                     firstName: 'Frank',

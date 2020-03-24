@@ -15,12 +15,14 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 let guest;
 
 describe('Guest Account - Guest User Experience', () => {
-    before(() => {
-        // * Check if server has license for Guest Accounts
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable Guest Accounts and Email Invitations
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,

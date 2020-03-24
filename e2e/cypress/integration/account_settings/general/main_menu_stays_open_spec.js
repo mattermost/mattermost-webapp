@@ -13,9 +13,11 @@ import users from '../../../fixtures/users.json';
 let townsquareChannelId;
 
 describe('Account Settings > General', () => {
-    before(() => {
-        // # Login and go to town square
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Store channel id for further use

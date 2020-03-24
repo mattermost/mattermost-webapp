@@ -10,10 +10,13 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('MM-13697 Edit Post with attachment', () => {
-    before(() => {
-        // # Login, set display preference and go to /
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiSaveMessageDisplayPreference();
+
+        // # Save Message Display Preference to clean
+        cy.apiSaveMessageDisplayPreference('clean');
+
         cy.visit('/ad-1/channels/town-square');
     });
 

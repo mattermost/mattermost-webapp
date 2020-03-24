@@ -8,13 +8,13 @@
 // ***************************************************************
 
 describe('MM-13064 - Emoji picker keyboard usability', () => {
-    before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
-
     beforeEach(() => {
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
+
         // # Open emoji picker
         cy.get('#emojiPickerButton').click();
 

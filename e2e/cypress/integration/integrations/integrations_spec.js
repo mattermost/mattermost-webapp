@@ -10,10 +10,12 @@
 import {getRandomInt} from '../../utils';
 
 describe('Integrations page', () => {
-    before(() => {
-        // # Login as sysadmin and set ServiceSettings to expected values
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        const newSettings = {
+
+        // # Enable OAuthService Provider, Incoming Webhooks, Outgoing Webhooks, Commands, and Bot Account Creation
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableOAuthServiceProvider: true,
                 EnableIncomingWebhooks: true,
@@ -21,8 +23,7 @@ describe('Integrations page', () => {
                 EnableCommands: true,
                 EnableBotAccountCreation: true,
             },
-        };
-        cy.apiUpdateConfig(newSettings);
+        });
 
         // # Go to integrations
         cy.visit('/ad-1/integrations');

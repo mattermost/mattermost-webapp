@@ -23,12 +23,14 @@ function verifyGuest(userStatus = 'Guest ') {
 }
 
 describe('Guest Account - Verify Manage Guest Users', () => {
-    before(() => {
-        // * Check if server has license for Guest Accounts
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable Guest Accounts
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,

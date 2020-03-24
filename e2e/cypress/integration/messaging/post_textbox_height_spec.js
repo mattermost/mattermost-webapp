@@ -8,7 +8,7 @@
 // ***************************************************************
 
 describe('Messaging', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login and navigate to town-square
         cy.toMainChannelView('user-1');
 

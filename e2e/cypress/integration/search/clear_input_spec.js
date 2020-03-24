@@ -10,9 +10,11 @@
 import TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Search', () => {
-    before(() => {
-        // # Login as the sysadmin.
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

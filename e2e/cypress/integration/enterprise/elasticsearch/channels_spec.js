@@ -73,8 +73,8 @@ describe('search for channel with', () => {
     let team = {};
     let user;
 
-    before(() => {
-        // # Login
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // * Check if server has license for Elasticsearch
@@ -100,19 +100,17 @@ describe('search for channel with', () => {
     });
 
     describe('elastic search enabled', () => {
-        before(() => {
-            // # Execute the before hook based on current config
+        beforeEach(() => {
+            // # Login as sysadmin
             cy.apiLogin('sysadmin');
+
+            // # Enable elastic search
             enableElasticSearch();
-            cy.apiLogout();
 
             // # Login and navigate to team with new user
+            cy.apiLogout();
             cy.apiLogin(user.username, user.password);
             cy.visit(`/${team.name}`);
-        });
-
-        afterEach(() => {
-            cy.reload();
         });
 
         it("private channel I don't belong to does not appear", () => {
@@ -181,9 +179,11 @@ describe('search for channel with', () => {
         describe('channel with', () => {
             let channelId;
 
-            before(() => {
-                // # Login as admin
+            beforeEach(() => {
+                // # Login as sysadmin
                 cy.apiLogin('sysadmin');
+
+                // # Visit team name
                 cy.visit(`/${team.name}`);
 
                 const name = 'hellothere';
@@ -195,8 +195,6 @@ describe('search for channel with', () => {
 
                 // * Verify channel without special characters appears normally
                 searchForChannel(name);
-
-                cy.reload();
             });
 
             it('dots appears', () => {
@@ -242,19 +240,17 @@ describe('search for channel with', () => {
     });
 
     describe('elastic search disabled', () => {
-        before(() => {
-            // # Execute the before hook based on current config
+        beforeEach(() => {
+            // # Login as sysadmin
             cy.apiLogin('sysadmin');
+
+            // # Disable elastic search
             disableElasticSearch();
-            cy.apiLogout();
 
             // # Login and navigate to team with new user
+            cy.apiLogout();
             cy.apiLogin(user.username, user.password);
             cy.visit(`/${team.name}`);
-        });
-
-        afterEach(() => {
-            cy.reload();
         });
 
         it("private channel I don't belong to does not appear", () => {
@@ -323,10 +319,8 @@ describe('search for channel with', () => {
         describe('channel with', () => {
             let channelId;
 
-            before(() => {
-                cy.apiLogout();
-
-                // # Login as admin
+            beforeEach(() => {
+                // # Login as sysadmin
                 cy.apiLogin('sysadmin');
                 cy.visit(`/${team.name}`);
 
@@ -339,8 +333,6 @@ describe('search for channel with', () => {
 
                 // * Verify channel without special characters appears normally
                 searchForChannel(name);
-
-                cy.reload();
             });
 
             it('dots appears', () => {

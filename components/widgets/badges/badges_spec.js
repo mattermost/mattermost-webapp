@@ -15,7 +15,8 @@
 /* eslint-disable max-nested-callbacks */
 
 describe('Widgets - Badges', () => {
-    before(() => {
+    beforeEach(() => {
+        // * Check if Storybook Server is running
         cy.requireStorybookServer();
 
         // # Go to widget story and verify that it renders regular badge

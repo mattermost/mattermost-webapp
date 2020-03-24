@@ -32,8 +32,8 @@ describe('Negative search filters will omit results', () => {
         cy.get('.search-item__container').should('not.exist');
     }
 
-    before(() => {
-        // # Login as the sysadmin.
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // # Create a new team

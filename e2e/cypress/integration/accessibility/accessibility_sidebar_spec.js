@@ -45,11 +45,14 @@ function markNewChannelAsUnread(channelName) {
 }
 
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Reset sidebar setting preference
         cy.apiSaveSidebarSettingPreference();
 
-        // # Update Configs
+        // # Enable Experimental Channel Organization
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: true,
@@ -63,9 +66,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         for (let index = 0; index < 5; index++) {
             markNewChannelAsUnread(`testing${index}`);
         }
-    });
 
-    beforeEach(() => {
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
         cy.get('#postListContent').should('be.visible');

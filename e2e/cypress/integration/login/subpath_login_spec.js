@@ -10,7 +10,7 @@
 import users from '../../fixtures/users.json';
 
 describe('Cookie with Subpath', () => {
-    before(() => {
+    beforeEach(() => {
         // # Logout to remove whitelisted cookies
         cy.apiLogout();
     });

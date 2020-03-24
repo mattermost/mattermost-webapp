@@ -37,9 +37,11 @@ function navigateToThemeSettings() {
 }
 
 describe('AS14319 Theme Colors - Code', () => {
-    before(() => {
-        // # Login and navigate to the app
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Towns Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Enter in code block for message
@@ -47,7 +49,7 @@ describe('AS14319 Theme Colors - Code', () => {
     });
 
     // reset settings to default mattermost theme
-    after(() => {
+    afterEach(() => {
         navigateToThemeSettings();
 
         // # Select the Theme Colors radio

@@ -10,13 +10,17 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Make sure for second user, unread channels are grouped
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Reset Sidebar Setting Preference
         cy.apiSaveSidebarSettingPreference();
 
-        // # Login and go to /
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/town-square');
     });
 

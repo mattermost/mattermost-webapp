@@ -11,8 +11,12 @@ import {getRandomInt} from '../../../utils';
 describe('Account Settings > Sidebar > General', () => {
     // # number to identify particular user
     const uniqueNumber = getRandomInt(1000);
-    before(() => {
+
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Create new user and save first name
         cy.apiGetTeamByName('ad-1').then((res) => {
             const team = res.body;
             cy.apiCreateAndLoginAsNewUser({}, [team.id]).as('newuser');

@@ -8,9 +8,14 @@
 // ***************************************************************
 
 describe('Channel routing', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Save Teammate Name Display Preference to username
         cy.apiSaveTeammateNameDisplayPreference('username');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

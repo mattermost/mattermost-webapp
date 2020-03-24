@@ -13,9 +13,12 @@ describe('Draw Plugin - Upload', () => {
     const fileName = 'com.mattermost.draw-plugin.tar.gz';
     const fileType = 'application/gzip';
     const pluginId = 'com.mattermost.draw-plugin';
-    before(() => {
-        // # Login as sysadmin and update config
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Plugin
+        // # Disable Require Plugin Signature
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -26,7 +29,7 @@ describe('Draw Plugin - Upload', () => {
         // # Visit town-square channel
         cy.visit('/ad-1/channels/town-square');
 
-        // #If draw plugin is already enabled , unInstall it
+        // # If draw plugin is already enabled , unInstall it
         cy.uninstallPluginById(pluginId);
         cy.visit('/admin_console/plugins/plugin_management');
     });

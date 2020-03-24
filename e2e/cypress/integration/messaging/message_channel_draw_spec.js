@@ -12,9 +12,12 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Draw plugin : Post message', () => {
     const pluginId = 'com.mattermost.draw-plugin';
 
-    before(() => {
-        // # Login as sysadmin and update config
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Plugin
+        // # Disable Require Plugin Signature
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -33,7 +36,7 @@ describe('Draw plugin : Post message', () => {
         });
     });
 
-    after(() => {
+    afterEach(() => {
         // # UnInstall Draw plugin
         cy.apiLogin('sysadmin');
         cy.uninstallPluginById(pluginId);

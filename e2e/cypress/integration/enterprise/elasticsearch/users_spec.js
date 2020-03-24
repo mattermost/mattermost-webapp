@@ -94,9 +94,11 @@ const testUsers = {
 describe('Autocomplete', () => {
     let team;
 
-    before(() => {
-        // # Login as admin
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Save Teammate Name Display Preference to username
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // * Check if server has license for Elasticsearch
@@ -114,7 +116,8 @@ describe('Autocomplete', () => {
     });
 
     describe('with elastic search enabled', () => {
-        before(() => {
+        beforeEach(() => {
+            // # Enable elastic search
             enableElasticSearch();
         });
 
@@ -146,7 +149,7 @@ describe('Autocomplete', () => {
                     },
                 };
 
-                before(() => {
+                beforeEach(() => {
                     // # Navigate to the new teams town square
                     cy.visit(`/${team.name}/channels/town-square`);
                 });
@@ -269,7 +272,7 @@ describe('Autocomplete', () => {
                     },
                 };
 
-                before(() => {
+                beforeEach(() => {
                     // # Navigate to the new teams town square
                     cy.visit(`/${team.name}/channels/town-square`);
                     cy.typeCmdOrCtrl().type('k');
@@ -462,7 +465,8 @@ describe('Autocomplete', () => {
     });
 
     describe('with elastic search disabled', () => {
-        before(() => {
+        beforeEach(() => {
+            // # Disable elastic Search
             disableElasticSearch();
         });
 
@@ -494,7 +498,7 @@ describe('Autocomplete', () => {
                     },
                 };
 
-                before(() => {
+                beforeEach(() => {
                     // # Navigate to the new teams town square
                     cy.visit(`/${team.name}/channels/town-square`);
                 });
@@ -617,7 +621,7 @@ describe('Autocomplete', () => {
                     },
                 };
 
-                before(() => {
+                beforeEach(() => {
                     // # Navigate to the new teams town square
                     cy.visit(`/${team.name}/channels/town-square`);
                     cy.typeCmdOrCtrl().type('k');

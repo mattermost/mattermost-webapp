@@ -76,8 +76,8 @@ describe('SF15699 Search Date Filter', () => {
     const baseUrl = Cypress.config('baseUrl');
     let newAdmin;
 
-    before(() => {
-        // # Login as the sysadmin.
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // # Change timezone to UTC so we are in sync with the backend
@@ -198,10 +198,6 @@ describe('SF15699 Search Date Filter', () => {
                 {name: 'month', date: '2018-6-05'},
                 {name: 'month and date', date: '2018-6-5'},
             ];
-
-            before(() => {
-                cy.reload();
-            });
 
             tests.forEach((test) => {
                 it(test.name, () => {

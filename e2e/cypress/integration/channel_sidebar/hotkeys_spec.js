@@ -9,22 +9,24 @@
 
 import users from '../../fixtures/users';
 
-import {testWithConfig} from '../../support/hooks';
-
 import {getRandomInt} from '../../utils';
 
 const sysadmin = users.sysadmin;
 
 describe('Channel switching', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
-    before(() => {
+        // # Enable Experimental Channel Sidebar Organization
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
+        // # Login as user-1
         cy.apiLogin('user-1');
-
         cy.visit('/');
     });
 

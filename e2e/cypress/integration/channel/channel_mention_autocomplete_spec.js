@@ -14,9 +14,11 @@ describe('Channel', () => {
     let testTeam;
     let testChannel;
 
-    before(() => {
-        // # Build data to test and login as user-1
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Create new team and add user to team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             testTeam = response.body;
 

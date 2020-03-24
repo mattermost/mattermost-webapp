@@ -26,19 +26,19 @@ const testCases = [
 ];
 
 describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
-    before(() => {
-        // # Login as user-1, set default theme preference and visit town-square channel
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Save Theme Preference to default
         cy.apiSaveThemePreference();
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Go to Theme > Custom > Sidebar Styles
         toThemeDisplaySettings();
         openSidebarStyles();
-    });
-
-    after(() => {
-        cy.apiSaveThemePreference();
     });
 
     testCases.forEach((testCase) => {

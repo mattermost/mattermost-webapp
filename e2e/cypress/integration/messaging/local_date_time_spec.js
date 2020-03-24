@@ -12,9 +12,11 @@ import users from '../../fixtures/users.json';
 const sysadmin = users.sysadmin;
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login sysadmin and enable Timezone
+    beforeEach(() => {
+        // # Login sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Experimental Timezone
         cy.apiUpdateConfig({
             DisplaySettings: {
                 ExperimentalTimezone: true,
@@ -41,7 +43,7 @@ describe('Messaging', () => {
         });
     });
 
-    after(() => {
+    afterEach(() => {
         cy.apiPatchMe({
             locale: 'en',
             timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},

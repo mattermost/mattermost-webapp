@@ -8,13 +8,13 @@
 // ***************************************************************
 
 describe('Account Settings > Sidebar > General', () => {
-    before(() => {
-        // # Login as user-1 and visit town-square channel
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
-
     beforeEach(() => {
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
+
         // # Go to Account Settings
         cy.toAccountSettingsModal();
     });

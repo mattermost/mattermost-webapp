@@ -57,8 +57,10 @@ describe('Teams Suite', () => {
     });
 
     it('TS13548 Team or System Admin searches and adds new team member', () => {
-        // # Login as sysadmin and update config
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Disable Guest Accounts
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: false,
@@ -164,7 +166,12 @@ describe('Teams Suite', () => {
     });
 
     it('TS14633 Leave all teams', () => {
-        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
+        // # Disable Require Email Verification
+        cy.apiUpdateConfig({
+            EmailSettings: {
+                RequireEmailVerification: false,
+            }
+        });
 
         // # Login as new user
         cy.apiCreateAndLoginAsNewUser();

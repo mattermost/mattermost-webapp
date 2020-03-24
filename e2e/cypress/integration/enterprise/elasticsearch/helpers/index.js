@@ -11,7 +11,8 @@ module.exports = {
         return name + timestamp + '@sample.mattermost.com';
     },
     enableElasticSearch: () => {
-        // Enabled elastic search via the API
+        // # Enable Elasticsearch Autocomplete, Indexing, and Searching
+        // # Disable Elasticsearch Sniff
         cy.apiUpdateConfig({
             ElasticsearchSettings: {
                 EnableAutocomplete: true,
@@ -49,7 +50,7 @@ module.exports = {
         });
     },
     disableElasticSearch: () => {
-        // Disable elastic search via API
+        // # Disable Elasticsearch Autocomplete, Indexing, Searching, and Sniff
         cy.apiUpdateConfig({
             ElasticsearchSettings: {
                 EnableAutocomplete: false,

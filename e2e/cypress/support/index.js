@@ -84,6 +84,9 @@ Cypress.on('test:after:run', (test, runnable) => {
 });
 
 // Add login cookies to whitelist to preserve it
+// Reset config before each test
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
+    cy.apiLogin('sysadmin');
+    cy.apiUpdateConfig();
 });

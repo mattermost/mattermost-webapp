@@ -47,17 +47,17 @@ function verifyMessageAutocomplete(index, type = 'user') {
 describe('Verify Accessibility Support in different input fields', () => {
     let testChannel;
 
-    before(() => {
-        // # Login as sysadmin and update Config
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Guest Accounts
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
             },
         });
-    });
 
-    beforeEach(() => {
         // # Visit the test channel
         cy.apiGetTeamByName('ad-1').then((res) => {
             cy.apiCreateChannel(res.body.id, 'accessibility', 'accessibility').then((response) => {

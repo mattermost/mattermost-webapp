@@ -17,11 +17,14 @@ const getSamlMetadataErrorMessage = 'SAML Metadata URL did not connect and pull 
 let config;
 
 describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
-    before(() => {
-        // * Check if server has license for SAML
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for SAML
         cy.requireLicenseForFeature('SAML');
 
+        // # Enable SAML
         cy.apiUpdateConfig({
             SamlSettings: {
                 Enable: true,

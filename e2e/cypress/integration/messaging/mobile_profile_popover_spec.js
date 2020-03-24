@@ -9,9 +9,11 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login and navigate to town-square
         cy.toMainChannelView('user-1');
+
+        // # Change viewport to iphone-6
         cy.viewport('iphone-6');
 
         // # Post a new message to ensure there will be a post to click on
@@ -20,7 +22,7 @@ describe('Profile popover', () => {
 
     it('M18715 Profile popover should render (standard mode)', () => {
         // # Setting posts to standard mode
-        cy.apiSaveMessageDisplayPreference();
+        cy.apiSaveMessageDisplayPreference('clean');
         cy.getLastPostId().then((postId) => {
             // add wait time to ensure image is rendered and can be clicked
             cy.wait(TIMEOUTS.TINY);

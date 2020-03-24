@@ -97,19 +97,25 @@ describe('at-mention', () => {
         });
     }
 
-    before(() => {
-        // # Update Configs
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Experimental Channel Organization
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: true,
             },
         });
-        cy.apiLogout();
 
         // # Login as receiver and go to "/"
+        cy.apiLogout();
         cy.apiLogin(receiver.username);
+
+        // # Save Teammate Name Display Preference username
         cy.apiSaveTeammateNameDisplayPreference('username');
+
+        // # Reset Sidebar Setting Preference
         cy.apiSaveSidebarSettingPreference();
 
         // # Navigate to the channel we were mention to

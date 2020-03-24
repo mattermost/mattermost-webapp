@@ -16,14 +16,18 @@ let channelId = '';
 let newChannel = {};
 
 describe('Keyboard shortcut for adding reactions to last message in channel or thread', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Experimental View Archived Channels
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },
         });
 
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Get the current channels Id for later use such as posting message with other user
@@ -40,9 +44,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
                 }
             );
         });
-    });
 
-    beforeEach(() => {
         // # Make sure there is at least a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
     });

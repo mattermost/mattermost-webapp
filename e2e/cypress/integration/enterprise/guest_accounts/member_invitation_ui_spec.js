@@ -74,12 +74,14 @@ function verifyInvitationSuccess(user, successText) {
 }
 
 describe('Guest Account - Member Invitation Flow', () => {
-    before(() => {
-        // * Check if server has license for Guest Accounts
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable Guest Accounts and Email Invitations
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -100,9 +102,7 @@ describe('Guest Account - Member Invitation Flow', () => {
     afterEach(() => {
         // # Reload current page after each test to close any popup/modals left open
         cy.reload();
-    });
 
-    after(() => {
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
             cy.apiLogin('sysadmin');

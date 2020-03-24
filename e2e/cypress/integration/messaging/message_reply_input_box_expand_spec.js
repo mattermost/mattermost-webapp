@@ -9,7 +9,7 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login and navigate to town-square
         cy.toMainChannelView('user-1');
 

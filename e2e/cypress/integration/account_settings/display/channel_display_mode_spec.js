@@ -8,19 +8,20 @@
 // ***************************************************************
 
 describe('Account Settings > Display > Channel Display Mode', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
-        // # Set default preference of a user on channel and message display
+        // # Save Channel Display Mode Preference to centered
+        // # Save Message Display Preference to clean
         cy.apiSaveChannelDisplayModePreference('centered');
-        cy.apiSaveMessageDisplayPreference();
+        cy.apiSaveMessageDisplayPreference('clean');
 
         // Post a message to a channel
         cy.visit('/ad-1/channels/town-square');
         cy.postMessage('Test for channel display mode');
-    });
 
-    beforeEach(() => {
+        // Update viewport to 1500 x 660
         cy.viewport(1500, 660);
     });
 

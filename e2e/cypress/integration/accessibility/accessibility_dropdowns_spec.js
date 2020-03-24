@@ -27,7 +27,8 @@ function verifyMenuItems(menuEl, labels) {
 }
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // # Ensure an open team is available to join
@@ -37,9 +38,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
                 cy.removeUserFromTeam(teamId, userId);
             });
         });
-    });
 
-    beforeEach(() => {
         // Visit the Off Topic channel
         cy.visit('/ad-1/channels/off-topic');
     });

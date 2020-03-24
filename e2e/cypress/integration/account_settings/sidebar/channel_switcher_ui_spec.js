@@ -8,18 +8,20 @@
 // ***************************************************************
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
-    before(() => {
-        // # Login as user-1 and visit town-square channel
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Disable Experimental Channel Sidebar Organization
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelSidebarOrganization: 'disabled',
             },
         });
-        cy.visit('/ad-1/channels/town-square');
-    });
 
-    beforeEach(() => {
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
+
         // # Go to Account Settings
         cy.toAccountSettingsModal();
     });

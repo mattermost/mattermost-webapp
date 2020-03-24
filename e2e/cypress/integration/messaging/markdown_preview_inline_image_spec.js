@@ -8,10 +8,14 @@
 // ***************************************************************
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login, set the Show Markdown Preview preference, then go to /
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiSaveShowMarkdownPreviewPreference();
+
+        // # Save Show Markdown Preview Preference true
+        cy.apiSaveShowMarkdownPreviewPreference('true');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

@@ -8,16 +8,15 @@
 // ***************************************************************
 
 describe('AS14318 Theme Colors - Settings View', () => {
-    before(() => {
-        // # Login as user-1, set default theme preference and visit town-square channel
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiSaveThemePreference();
-        cy.visit('/ad-1/channels/town-square');
-    });
 
-    after(() => {
-        // * Revert to default theme preference
+        // # Save Theme Preference to default
         cy.apiSaveThemePreference();
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('Theme Display should render in min setting view', () => {

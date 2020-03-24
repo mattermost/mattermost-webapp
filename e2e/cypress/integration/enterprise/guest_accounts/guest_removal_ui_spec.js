@@ -39,12 +39,14 @@ function removeUserFromAllChannels(verifyAlert) {
 }
 
 describe('Guest Account - Guest User Removal Experience', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
-        cy.apiLogin('sysadmin');
+        // # Enable Guest Accounts
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,

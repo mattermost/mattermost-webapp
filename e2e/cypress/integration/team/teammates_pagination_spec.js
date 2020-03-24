@@ -8,7 +8,8 @@
 // ***************************************************************
 
 describe('Teams Suite', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Create new team and visit its URL

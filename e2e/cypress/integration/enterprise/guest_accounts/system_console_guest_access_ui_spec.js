@@ -14,12 +14,15 @@
 let guest;
 
 describe('Guest Account - Verify Guest Access UI', () => {
-    before(() => {
-        // * Check if server has license for Guest Accounts
+    beforeEach(() => {
+        // Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Enable Guest Accounts
+        // # Disable Multifactor Authentication
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
@@ -60,7 +63,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
         cy.findByTestId('GuestAccountsSettings.EnforceMultifactorAuthenticationhelp-text').should('be.visible').and('have.text', 'Multi-factor authentication is currently not enabled.');
 
-        // # Enable Guest Account Settings
+        // # Enable Multifactor Authentication
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,

@@ -10,14 +10,18 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Make sure the viewport is the expected one, so written lines always create new lines
+    beforeEach(() => {
+        // # Change viewport to 1000 x 660
         cy.viewport(1000, 660);
 
-        // # Login and go to off-topic to make sure we are in the channel, then go to /
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Off-Topic channel
         cy.visit('/ad-1/channels/off-topic');
         cy.wait(TIMEOUTS.SMALL);
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

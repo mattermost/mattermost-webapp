@@ -14,15 +14,19 @@ const waitUntilConfigSave = () => {
 };
 
 describe('System Console', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
-        // Enable LDAP
-        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+        // # Enable LDAP
+        cy.apiUpdateConfig({
+            LdapSettings: {
+                Enable: true,
+            },
+        });
 
         // # Check and run LDAP Sync job
         cy.checkRunLDAPSync();

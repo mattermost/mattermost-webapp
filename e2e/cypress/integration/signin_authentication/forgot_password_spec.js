@@ -14,8 +14,11 @@ import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 let config;
 
 describe('Signin/Authentication', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Get current config
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });

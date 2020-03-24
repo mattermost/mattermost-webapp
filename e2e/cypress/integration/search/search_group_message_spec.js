@@ -10,7 +10,7 @@
 const groupMembers = ['aaron.peterson', 'aaron.ward', 'samuel.tucker'];
 
 describe('Search', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

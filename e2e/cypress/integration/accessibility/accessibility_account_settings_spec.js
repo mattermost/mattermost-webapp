@@ -27,10 +27,12 @@ function verifySections(sections) {
 }
 
 describe('Verify Accessibility Support in different sections in Account Settings Dialog', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Update Configs
+        // # Enable Enable Multifactor Authentication and Experimental Timezone
+        // # Disable Experimental Channel Organization and SAML
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
@@ -46,9 +48,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
-    });
 
-    beforeEach(() => {
         // # Open Account Settings
         cy.toAccountSettingsModal();
 

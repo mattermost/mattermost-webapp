@@ -14,10 +14,14 @@ const sender = users['user-2'];
 let townsquareChannelId;
 
 describe('Channel users interactions', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as receiver username
         cy.apiLogin(receiver.username);
 
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+
+        // # Get current channel id
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });

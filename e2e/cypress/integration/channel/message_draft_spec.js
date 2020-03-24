@@ -10,7 +10,7 @@
 let testTeam;
 
 describe('Message Draft', () => {
-    before(() => {
+    beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

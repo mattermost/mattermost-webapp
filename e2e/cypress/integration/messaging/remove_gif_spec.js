@@ -13,21 +13,26 @@ import users from '../../fixtures/users.json';
 const sysadmin = users.sysadmin;
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login and setup link preferences
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiSaveShowPreviewPreference();
+
+        // # Save Show Preview Preference to true
+        // # Save Preview Collapsed Preference to false
+        cy.apiSaveShowPreviewPreference('true');
         cy.apiSavePreviewCollapsedPreference('false');
 
-        // # Login as sysadmin and set the configuration on Link Previews
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Link Previews
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
             },
         });
 
-        // # Go to town-square channel
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

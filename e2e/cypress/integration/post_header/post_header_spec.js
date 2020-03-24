@@ -11,7 +11,7 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Post Header', () => {
-    before(() => {
+    beforeEach(() => {
         // # Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
     });

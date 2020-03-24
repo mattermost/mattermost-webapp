@@ -8,15 +8,18 @@
 // ***************************************************************
 
 describe('Message Draft with attachment and Switch Channels', () => {
-    before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
     const channelName1 = `test-channel-1-${Date.now()}`;
     const channelName2 = `test-channel-2-${Date.now()}`;
     let testChannel1;
     let testChannel2;
+
+    beforeEach(() => {
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
+    });
 
     it('M14126 Message Draft Pencil Icon - No text, only file attachment', () => {
         // # Create new test channel

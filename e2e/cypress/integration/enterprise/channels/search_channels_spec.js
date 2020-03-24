@@ -11,16 +11,21 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
-    before(() => {
-        // * Login as sysadmin and check if server has license for LDAP Groups
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
-        // Enable LDAP
-        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
-    });
+        // # Enable LDAP
+        cy.apiUpdateConfig({
+            LdapSettings: {
+                Enable: true,
+            },
+        });
 
-    beforeEach(() => {
+        // # Visit admin user management channels
         cy.visit('/admin_console/user_management/channels');
         cy.wrap([]).as('createdChannelIDs');
     });

@@ -8,9 +8,13 @@
 // ***************************************************************
 
 describe('Markdown', () => {
-    before(() => {
-        // # Login as sysadmin and update config
+    const baseUrl = Cypress.config('baseUrl');
+
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Image Proxy
         cy.apiUpdateConfig({
             ImageProxySettings: {
                 Enable: true,
@@ -26,8 +30,6 @@ describe('Markdown', () => {
             });
         });
     });
-
-    const baseUrl = Cypress.config('baseUrl');
 
     it('with in-line images 1', () => {
         // #  Post markdown message

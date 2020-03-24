@@ -8,16 +8,21 @@
 // ***************************************************************
 
 describe('System Console - Enterprise', () => {
-    before(() => {
-        // * Login as sysadmin and check if server has license
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license
         cy.requireLicense();
 
-        const newSettings = {
-            TeamSettings: {SiteName: 'Mattermost'},
-        };
-        cy.apiUpdateConfig(newSettings);
+        // # Update Team Site Name
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                SiteName: 'Mattermost',
+            },
+        });
 
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

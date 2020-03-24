@@ -10,7 +10,8 @@
 import users from '../../../fixtures/users.json';
 
 describe('I18456 Built-in slash commands: common', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1 and visit default channel
         loginAndVisitDefaultChannel('user-1');
     });
 

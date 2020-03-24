@@ -12,22 +12,27 @@ import users from '../../fixtures/users.json';
 let config;
 
 describe('Login page', () => {
-    before(() => {
-        // Disable other auth options
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        const newSettings = {
-            Office365Settings: {Enable: false},
-            LdapSettings: {Enable: false},
-        };
-        cy.apiUpdateConfig(newSettings);
 
+        // # Disable Office365 and LDAP
+        cy.apiUpdateConfig({
+            Office365Settings: {
+                Enable: false,
+            },
+            LdapSettings: {
+                Enable: false,
+            },
+        });
+
+        // # Get current config
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
 
         // # Go to login page
         cy.apiLogout();
-
         cy.visit('/login');
     });
 

@@ -61,12 +61,17 @@ context('Okta', () => {
 
     //Note: the assumption is that this test suite runs on a clean setup (empty DB) which would ensure that the users are not present in the Mattermost instance beforehand
     describe('SAML Login flow', () => {
-        before(() => {
-            // * Check if server has license for SAML
+        beforeEach(() => {
+            // * Login as sysadmin
             cy.apiLogin('sysadmin');
+
+            // * Check if server has license for SAML
             cy.requireLicenseForFeature('SAML');
 
+            // # Add Okta users
             cy.oktaAddUsers(users);
+
+            // # Update config
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.apiGetConfig().then((response) => {
                     cy.setTestSettings(loginButtonText, response.body).then((_response) => {
@@ -110,6 +115,7 @@ context('Okta', () => {
             testSettings.user = guest1;
             newConfig.SamlSettings.GuestAttribute = 'UserType=Guest';
 
+            // # Update config
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
@@ -143,6 +149,7 @@ context('Okta', () => {
             testSettings.user = guest2;
             newConfig.SamlSettings.GuestAttribute = 'IsGuest=true';
 
+            // # Update config
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
@@ -177,6 +184,7 @@ context('Okta', () => {
             newConfig.SamlSettings.EnableAdminAttribute = true;
             newConfig.SamlSettings.AdminAttribute = 'UserType=Admin';
 
+            // # Update config
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
@@ -211,6 +219,7 @@ context('Okta', () => {
             newConfig.SamlSettings.EnableAdminAttribute = true;
             newConfig.SamlSettings.AdminAttribute = 'IsAdmin=true';
 
+            // # Update config
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {

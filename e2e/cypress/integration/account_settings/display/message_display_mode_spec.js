@@ -8,16 +8,18 @@
 // ***************************************************************
 
 describe('Account Settings > Display > Message Display', () => {
-    before(() => {
-        // # Change message display setting to compact
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-        cy.changeMessageDisplaySetting('COMPACT');
-    });
 
-    after(() => {
-        // Revert setting so it does not impact other tests
+        // # Visit the Towns Square channel
+        cy.visit('/ad-1/channels/town-square');
+
+        // # Save Message Display Preference to clean
         cy.apiSaveMessageDisplayPreference('clean');
+
+        // # Change Message Display Settingto compact
+        cy.changeMessageDisplaySetting('COMPACT');
     });
 
     it('M14283 Compact view: Line breaks remain intact after editing', () => {

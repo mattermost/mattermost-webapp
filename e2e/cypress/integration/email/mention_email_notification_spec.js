@@ -17,13 +17,23 @@ let config;
 describe('Email notification', () => {
     let mentionedUser;
 
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        cy.apiUpdateConfig({EmailSettings: {SendEmailNotifications: true}});
+
+        // # Enable Send Email Notifications
+        cy.apiUpdateConfig({
+            EmailSettings: {
+                SendEmailNotifications: true,
+            },
+        });
+
+        // # Get current config
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
 
+        // # Create a new user
         cy.apiGetTeamByName('ad-1').then((res) => {
             cy.apiCreateNewUser({}, [res.body.id]).then((user) => {
                 mentionedUser = user;

@@ -22,13 +22,18 @@ function promoteGuestToUser(user) {
 }
 
 describe('Channel header menu', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Guest Accounts
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
             },
         });
+
+        // # Create and login as new user
         cy.apiCreateAndLoginAsNewUser().as('newuser');
     });
 

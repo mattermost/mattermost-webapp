@@ -14,9 +14,11 @@ const sysadmin = users.sysadmin;
 describe('Messaging', () => {
     let newChannel;
 
-    before(() => {
-        // # Login as user-1 and set preferences for locale and timezone
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Set preferences for locale and timezone
         cy.apiPatchMe({
             locale: 'en',
             timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},

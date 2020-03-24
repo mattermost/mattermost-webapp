@@ -16,17 +16,20 @@ describe('Messaging', () => {
     let botName;
     let botToken;
     let yesterdaysDate;
-    before(() => {
-        // # Login as sysadmin and set ServiceSettings to expected values
+
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        const newSettings = {
+
+        // # Save Teammate Name Display Preference to username
+        cy.apiSaveTeammateNameDisplayPreference('username');
+
+        // # Enable Bot Account Creation
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableBotAccountCreation: true,
             },
-        };
-        cy.apiUpdateConfig(newSettings);
-
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        });
 
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {

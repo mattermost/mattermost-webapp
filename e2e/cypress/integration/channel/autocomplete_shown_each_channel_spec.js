@@ -8,11 +8,19 @@
 // ***************************************************************
 
 describe('Identical Message Drafts', () => {
-    before(() => {
-        // # Login and go to /
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
+        // # Clear channel textbox
+        cy.clearPostTextbox('town-square');
+        cy.clearPostTextbox('autem-2');
+    });
+
+    afterEach(() => {
         // # Clear channel textbox
         cy.clearPostTextbox('town-square');
         cy.clearPostTextbox('autem-2');
@@ -52,12 +60,6 @@ describe('Identical Message Drafts', () => {
         // * At mention auto-complete is preserved in Channel A
         cy.url().should('include', '/channels/town-square');
         cy.get('#suggestionList').should('be.visible');
-    });
-
-    after(() => {
-        // # Clear channel textbox
-        cy.clearPostTextbox('town-square');
-        cy.clearPostTextbox('autem-2');
     });
 });
 

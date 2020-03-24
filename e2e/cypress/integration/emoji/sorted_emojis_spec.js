@@ -8,9 +8,14 @@
 // ***************************************************************
 
 describe('M16739 - Filtered emojis are sorted', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit Town Square channel
         cy.visit('/ad-1/channels/town-square');
+
+        // # Clear local store for recent emojis
         cy.clearLocalStorage(/recent_emojis/);
     });
 

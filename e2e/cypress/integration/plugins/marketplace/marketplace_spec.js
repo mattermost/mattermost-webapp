@@ -25,16 +25,17 @@ describe('Plugin Marketplace', () => {
         });
 
         it('for non-admin', () => {
-            // # Login as sysadmin and configure marketplace as enabled
+            // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            const newSettings = {
+
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # Login as non admin user
             cy.apiLogin('user-1');
@@ -42,32 +43,35 @@ describe('Plugin Marketplace', () => {
         });
 
         it('when marketplace disabled', () => {
-            // # Configure marketplace as disabled
+            // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            const newSettings = {
+
+            // # Disable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: false,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # Visit town-square channel
             cy.visit('/ad-1/channels/town-square');
         });
 
         it('when plugins disabled', () => {
-            // # Configure plugins as disabled
+            // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            const newSettings = {
+
+            // # Disable Plugin
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: false,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # Visit town-square channel
             cy.visit('/ad-1/channels/town-square');
@@ -75,21 +79,20 @@ describe('Plugin Marketplace', () => {
     });
 
     describe('invalid marketplace, should', () => {
-        before(() => {
-            // # Login as sysadmin and set ServiceSettings to expected values
+        beforeEach(() => {
+            // # Login as sysadmin
             cy.apiLogin('sysadmin');
-            const newSettings = {
+
+            // # Enable Plugin Marketplace and Remote Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     EnableRemoteMarketplace: true,
                     MarketplaceUrl: 'example.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
-        });
+            });
 
-        beforeEach(() => {
             // # Go to main channel
             cy.visit('/ad-1/channels/town-square');
 
@@ -116,15 +119,14 @@ describe('Plugin Marketplace', () => {
         });
 
         it('show an error bar on failing to filter', () => {
-            // # Set ServiceSettings to expected values
-            const newSettings = {
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'example.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # filter to jira plugin only
             cy.get('#searchMarketplaceTextbox').type('jira', {force: true});
@@ -147,8 +149,9 @@ describe('Plugin Marketplace', () => {
 
     describe('should', () => {
         beforeEach(() => {
-            // # Configure marketplace as enabled, and GitHub plugin as disabled.
-            const newSettings = {
+            // # Enable Plugin Marketplace and Remote Marketplace
+            // # Disable Plugin State Github and Webex
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
@@ -163,8 +166,7 @@ describe('Plugin Marketplace', () => {
                         },
                     },
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # Visit town-square-channel
             cy.visit('/ad-1/channels/town-square');
@@ -245,15 +247,14 @@ describe('Plugin Marketplace', () => {
         });
 
         it('should show an error bar on failing to filter', () => {
-            // # Set ServiceSettings to expected values
-            const newSettings = {
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'example.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # filter to jira plugin only
             cy.findByPlaceholderText('Search Plugins').should('be.visible').type('jira');
@@ -373,15 +374,16 @@ describe('Plugin Marketplace', () => {
 
     describe('EnableRemoteMarketplace disabled, should', () => {
         beforeEach(() => {
-            const newSettings = {
+            // # Enable Plugin Marketplace
+            // # Disable Plugin Remote Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     EnableRemoteMarketplace: false,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # Visit town-square channel
             cy.visit('/ad-1/channels/town-square');

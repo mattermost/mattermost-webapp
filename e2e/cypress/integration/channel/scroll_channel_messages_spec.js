@@ -13,13 +13,14 @@ const sysadmin = users.sysadmin;
 describe('Scroll channel`s messages in mobile view', () => {
     let newChannel;
 
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
-        // # resize browser to phone view
+        // # Change viewport to iphone-6
         cy.viewport('iphone-6');
 
-        // # visit channel
+        // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {
             newChannel = channel;
         });

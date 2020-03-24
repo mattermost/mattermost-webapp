@@ -15,7 +15,8 @@
 /* eslint-disable max-nested-callbacks */
 
 describe('Widgets - Popover', () => {
-    before(() => {
+    beforeEach(() => {
+        // * Check if Storybook Server is running
         cy.requireStorybookServer();
 
         // # Go to widget story and verify that it renders regular popup
@@ -24,6 +25,7 @@ describe('Widgets - Popover', () => {
             cy.findByText('basic popover').should('exist');
         });
     });
+
     it('verify UI', () => {
         // # Get the root of the iframe where the component is rendered
         cy.iframe('#storybook-preview-iframe', '#popover').as('iframePopover');
