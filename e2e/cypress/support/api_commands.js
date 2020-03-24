@@ -1295,3 +1295,19 @@ Cypress.Commands.add('apiGetSchemes', (scope) => {
         method: 'GET',
     });
 });
+
+/**
+ * Delete a scheme directly via API
+ *
+ * @param {String} schemeId - the id of the scheme to delete
+ */
+Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/schemes/' + schemeId,
+        method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
