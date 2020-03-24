@@ -9,7 +9,7 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-const testCases = [
+const areas = [
     {key: 0, name: 'Sidebar BG', backgroundColor: 'rgb(20, 191, 188)', themeId: 'sidebarBg', value: '#14bfbc'},
     {key: 1, name: 'Sidebar Text', backgroundColor: 'rgb(129, 65, 65)', themeId: 'sidebarText', value: '#814141'},
     {key: 2, name: 'Sidebar Header BG', backgroundColor: 'rgb(17, 171, 168)', themeId: 'sidebarHeaderBg', value: '#11aba8'},
@@ -41,25 +41,10 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
         openSidebarStyles();
     });
 
-    testCases.forEach((testCase) => {
-        it(`should change ${testCase.name} custom color`, () => {
-            // # Click input color button
-            cy.get('.input-group-addon').eq(testCase.key).scrollIntoView().click({force: true});
-
-            // # Enter hex value
-            cy.get('.color-popover').scrollIntoView().within(() => {
-                cy.get('input').clear({force: true}).invoke('val', testCase.value).wait(TIMEOUTS.TINY).type(' {backspace}{enter}', {force: true});
-            });
-
-            // * Check that icon color change
-            cy.get('.color-icon').eq(testCase.key).should('have.css', 'background-color', testCase.backgroundColor);
-
-            // * Check that theme colors for text sharing is updated
-            cy.get('#pasteBox').scrollIntoView().should('contain', `"${testCase.themeId}":"${testCase.value}"`);
-        });
-    });
-
     it('should observe color change in Account Settings modal before saving', () => {
+        // # Change area color
+        changeAreaColor();
+
         // * Check Sidebar BG color change
         cy.get('.settings-links').should('have.css', 'background-color', 'rgb(20, 191, 188)');
 
@@ -71,12 +56,16 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
 
         // * Check Sidebar Header Text color change
         cy.get('#accountSettingsModalLabel').should('have.css', 'color', 'rgb(129, 65, 65)');
-
-        cy.get('#saveSetting').click({force: true});
-        cy.get('#accountSettingsHeader > .close').click();
     });
 
     it('should take effect each custom color in Channel View', () => {
+        // # Change area color
+        changeAreaColor();
+
+        // # Save setting
+        cy.get('#saveSetting').click({force: true});
+        cy.get('#accountSettingsHeader > .close').click();
+
         // * Check Mention Jewel BG color
         cy.get('#unreadIndicatorBottom').should('have.css', 'background-color', 'rgb(129, 65, 65)');
 
@@ -124,4 +113,22 @@ function openSidebarStyles() {
 
     // # Expand sidebar styles
     cy.get('#sidebarStyles').click({force: true});
+}
+
+function changeAreaColor() {
+    areas.forEach((area) => {
+        // # Click input color button
+        cy.get('.input-group-addon').eq(area.key).scrollIntoView().click({force: true});
+
+        // # Enter hex value
+        cy.get('.color-popover').scrollIntoView().within(() => {
+            cy.get('input').clear({force: true}).invoke('val', area.value).wait(TIMEOUTS.TINY).type(' {backspace}{enter}', {force: true});
+        });
+
+        // * Check that icon color change
+        cy.get('.color-icon').eq(area.key).should('have.css', 'background-color', area.backgroundColor);
+
+        // * Check that theme colors for text sharing is updated
+        cy.get('#pasteBox').scrollIntoView().should('contain', `"${area.themeId}":"${area.value}"`);
+    });
 }

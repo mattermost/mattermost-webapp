@@ -22,11 +22,6 @@ describe('MM-13064 - Emoji picker keyboard usability', () => {
         cy.get('#emojiPicker').should('be.visible');
     });
 
-    afterEach(() => {
-        // # Close emoji picker by clicking on body
-        cy.get('body').click();
-    });
-
     it('If the left arrow key is pressed while focus is on the emoji picker text box, the cursor should move left in the text', () => {
         cy.findByLabelText('Search for an emoji').
             should('be.visible').

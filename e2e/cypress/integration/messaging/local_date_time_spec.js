@@ -26,6 +26,12 @@ describe('Messaging', () => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
+        // # Reset locale and timezone
+        cy.apiPatchMe({
+            locale: 'en',
+            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
+        });
+
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {
             // # Post messages from the past and now
@@ -40,13 +46,6 @@ describe('Messaging', () => {
 
             // # Reload to re-arrange posts
             cy.reload();
-        });
-    });
-
-    afterEach(() => {
-        cy.apiPatchMe({
-            locale: 'en',
-            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
         });
     });
 

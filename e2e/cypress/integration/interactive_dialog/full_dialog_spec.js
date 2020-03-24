@@ -75,11 +75,6 @@ describe('Interactive Dialog', () => {
         });
     });
 
-    afterEach(() => {
-        // # Reload current page after each test to close any dialogs left open
-        cy.reload();
-    });
-
     it('ID15888 - UI check', () => {
         // # Post a slash command
         cy.get('#postListContent').should('be.visible');

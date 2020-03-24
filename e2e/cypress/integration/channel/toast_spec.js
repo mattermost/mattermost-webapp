@@ -8,7 +8,7 @@
 // ***************************************************************
 
 import users from '../../fixtures/users.json';
-import TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const otherUser = users['user-2'];
 let testTeam;
@@ -49,11 +49,7 @@ describe('toasts', () => {
     });
 
     it('Unread messages toast is shown when visiting a channel with unreads and should disappear if scrolled to bottom', () => {
-        // # Add enough messages
-        for (let index = 0; index < 30; index++) {
-            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
-        }
-
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
 
         // * find the toast
@@ -71,6 +67,7 @@ describe('toasts', () => {
     });
 
     it('should show new message indicator when posts arrive and user is not at bottom', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage().then(() => {
             // * find the toast
@@ -82,6 +79,7 @@ describe('toasts', () => {
     });
 
     it('New message toast should not have action button when at bottom and hide toast in a sec', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage().then(() => {
             // * find the toast
@@ -97,6 +95,7 @@ describe('toasts', () => {
     });
 
     it('new message toast should take to new messages line when clicked', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
 
         // # Scroll up so bottom is not visible
@@ -115,6 +114,7 @@ describe('toasts', () => {
     });
 
     it('Unread messages toast should take to bottom when clicked', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
 
         // # Scroll up so bottom is not visible
@@ -135,6 +135,7 @@ describe('toasts', () => {
     });
 
     it('new message toast should be removed on clicking remove button', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage().then(() => {
             cy.get('div.toast').should('be.visible');
@@ -146,6 +147,7 @@ describe('toasts', () => {
     });
 
     it('Recurring visit to a channel with unreads should have unread toast ', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
         scrollUp();
         cy.get('#sidebarItem_off-topic').should('be.visible').scrollIntoView().click();
@@ -166,6 +168,7 @@ describe('toasts', () => {
     });
 
     it('New message count should increase with incoming messages', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage().then(() => {
             cy.get('div.toast').should('be.visible');
@@ -177,6 +180,7 @@ describe('toasts', () => {
     });
 
     it('New message count should reset when dismissed', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage();
 
@@ -190,6 +194,7 @@ describe('toasts', () => {
     });
 
     it('Marking channel as unread should make unread toast appear', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
         scrollUp();
 
@@ -215,6 +220,7 @@ describe('toasts', () => {
     });
 
     it('New message line should move if user is scrolled up and new messages arrive', () => {
+        postMessages();
         visitTownSquareAndWaitForPageToLoad();
 
         // # Scroll to the last post
@@ -233,6 +239,8 @@ describe('toasts', () => {
     });
 
     it('Archive toast is not shown when visiting a permalink at the bottom', () => {
+        postMessages();
+
         // # Add one message
         cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
             visitTownSquareAndWaitForPageToLoad();
@@ -245,6 +253,8 @@ describe('toasts', () => {
     });
 
     it('Archive toast should be shown when visiting a post which is not at bottom', () => {
+        postMessages();
+
         // # Add one message
         cy.postMessageAs({sender: otherUser, message: 'This is a message for permalink', channelId: townsquareChannelId}).then(({id}) => {
             visitTownSquareAndWaitForPageToLoad();
@@ -265,6 +275,13 @@ describe('toasts', () => {
     });
 });
 
+function postMessages() {
+    // # Add enough messages
+    for (let index = 0; index < 30; index++) {
+        cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
+    }
+}
+
 function visitTownSquareAndWaitForPageToLoad() {
     cy.get('#sidebarItem_town-square').should('be.visible').click();
     cy.findAllByTestId('postView').should('be.visible');
@@ -282,5 +299,5 @@ function scrollUpAndPostAMessage() {
 
 function scrollUp() {
     // # Scroll up so bottom is not visible
-    cy.get('div.post-list__dynamic').should('be.visible').scrollTo(0, '70%', {duration: 1000}).wait(1000);
+    cy.get('div.post-list__dynamic', {timeout: TIMEOUTS.MEDIUM}).should('be.visible').scrollTo(0, '70%', {duration: 1000}).wait(1000);
 }

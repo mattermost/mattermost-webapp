@@ -27,12 +27,6 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.get('#customThemes').click();
     });
 
-    afterEach(() => {
-        // # Click "x" button to close Account Settings modal and then discard changes made
-        cy.get('#accountSettingsHeader > .close').click();
-        cy.findAllByText('Yes, Discard').click();
-    });
-
     it('Should be able to use color picker input and change Sidebar theme color', () => {
         // # Change "Sidebar BG" and verify color change
         verifyColorPickerChange(

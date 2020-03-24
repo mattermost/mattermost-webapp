@@ -20,12 +20,6 @@ describe('Identical Message Drafts', () => {
         cy.clearPostTextbox('autem-2');
     });
 
-    afterEach(() => {
-        // # Clear channel textbox
-        cy.clearPostTextbox('town-square');
-        cy.clearPostTextbox('autem-2');
-    });
-
     it('M14432 shows Autocomplete in each channel', () => {
         // # Go to test Channel A on sidebar
         cy.get('#sidebarItem_town-square').click({force: true});

@@ -54,14 +54,6 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
     });
 
-    afterEach(() => {
-        // # Delete the new team as sysadmin
-        if (guestTeamId) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(guestTeamId);
-        }
-    });
-
     it('Verify Guest Badge in Channel Members dropdown and dialog', () => {
         cy.get('#sidebarItem_town-square').click({force: true});
 

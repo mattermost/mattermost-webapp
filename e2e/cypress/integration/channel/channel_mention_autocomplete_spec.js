@@ -10,6 +10,14 @@
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+function joinChannel(testTeam, testChannel) {
+    // # Join a channel by /join slash command
+    cy.get('#post_textbox').should('be.visible').clear().wait(TIMEOUTS.TINY).type(`/join ~${testChannel.name}`).type('{enter}').wait(TIMEOUTS.TINY);
+
+    // * Verify that it redirects into the channel
+    cy.url().should('include', `/${testTeam.name}/channels/${testChannel.name}`);
+}
+
 describe('Channel', () => {
     let testTeam;
     let testChannel;
@@ -54,11 +62,8 @@ describe('Channel', () => {
     });
 
     it('Joining a channel should alter channel mention autocomplete lists accordingly', () => {
-        // # Join a channel by /join slash command
-        cy.get('#post_textbox').should('be.visible').clear().wait(TIMEOUTS.TINY).type(`/join ~${testChannel.name}`).type('{enter}').wait(TIMEOUTS.TINY);
-
-        // * Verify that it redirects into the channel
-        cy.url().should('include', `/${testTeam.name}/channels/${testChannel.name}`);
+        // # Join a channel
+        joinChannel(testTeam, testChannel);
 
         // # Type "~"
         cy.get('#post_textbox').should('be.visible').type('~').wait(TIMEOUTS.TINY);
@@ -75,6 +80,9 @@ describe('Channel', () => {
     });
 
     it('Getting removed from a channel should alter channel mention autocomplete lists accordingly', () => {
+        // # Join a channel
+        joinChannel(testTeam, testChannel);
+
         // # Remove user-1 from the test channel
         cy.apiGetMe().then((res) => {
             const userId = res.body.id;

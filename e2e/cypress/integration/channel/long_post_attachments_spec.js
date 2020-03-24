@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-let team;
+let testTeam;
 
 function verifyImageInPostFooter(verifyExistence = true) {
     if (verifyExistence) {
@@ -21,36 +21,39 @@ function verifyImageInPostFooter(verifyExistence = true) {
     }
 }
 
+function postAttachments() {
+    // Add 4 attachments to a post
+    [...Array(4)].forEach(() => {
+        cy.fileUpload('#fileUploadInput', 'small-image.png');
+    });
+
+    // # verify the attachment at the footer
+    verifyImageInPostFooter();
+
+    // # Copy and paste the text below into the message box and post
+    cy.fixture('long_text_post.txt', 'utf-8').then((text) => {
+        cy.get('#post_textbox').then((textbox) => {
+            textbox.val(text);
+        }).type(' {backspace}{enter}');
+    });
+}
+
 describe('M14322 Long post with multiple attachments', () => {
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                team = response.body;
-                cy.visit(`/${team.name}`);
-            });
+        // # Create new team and new user and visit Town Square channel
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
+            cy.apiCreateAndLoginAsNewUser({}, [testTeam.id]);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     it('Attachment previews/thumbnails display as expected, when viewing full or partial post', () => {
-        // Add 4 attachments to a post
-        [...Array(4)].forEach(() => {
-            cy.fileUpload('#fileUploadInput', 'small-image.png');
-        });
-
-        // # verify the attachment at the footer
-        verifyImageInPostFooter();
-
-        // # Copy and paste the text below into the message box and post
-        cy.fixture('long_text_post.txt', 'utf-8').then((text) => {
-            cy.get('#post_textbox').then((textbox) => {
-                textbox.val(text);
-            }).type(' {backspace}{enter}');
-        });
+        // # Post attachments
+        postAttachments();
 
         // * Verify show more button
         cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show More');
@@ -71,6 +74,10 @@ describe('M14322 Long post with multiple attachments', () => {
     });
 
     it('Can click one of the attachments and cycle through the multiple attachment previews as usual', () => {
+        // # Post attachments
+        postAttachments();
+
+        // * Verify the attached items can be cycled through
         cy.getLastPostId().then((postID) => {
             cy.get(`#${postID}_message`).findByTestId('fileAttachmentList').children().first().click();
 

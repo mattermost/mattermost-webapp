@@ -89,7 +89,9 @@ Cypress.Commands.add('apiGetBots', () => {
  * All parameters required except purpose and header
  */
 Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '') => {
-    const uniqueName = `${name}-${getRandomInt(9999).toString()}`;
+    const suffix = `${getRandomInt(99999).toString()}`;
+    const uniqueName = `${name}-${suffix}`;
+    const uniqueDisplayName = `${displayName}-${suffix}`;
 
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -98,7 +100,7 @@ Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O',
         body: {
             team_id: teamId,
             name: uniqueName,
-            display_name: displayName,
+            display_name: uniqueDisplayName,
             type,
             purpose,
             header,
@@ -281,7 +283,9 @@ Cypress.Commands.add('apiCreateCommand', (command = {}) => {
  * All parameters required
  */
 Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
-    const uniqueName = `${name}-${getRandomInt(9999).toString()}`;
+    const suffix = `${getRandomInt(99999).toString()}`;
+    const uniqueName = `${name}-${suffix}`;
+    const uniqueDisplayName = `${displayName}-${suffix}`;
 
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -289,7 +293,7 @@ Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
         method: 'POST',
         body: {
             name: uniqueName,
-            display_name: displayName,
+            display_name: uniqueDisplayName,
             type,
         },
     }).then((response) => {

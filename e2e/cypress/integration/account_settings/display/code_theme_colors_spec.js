@@ -36,6 +36,21 @@ function navigateToThemeSettings() {
     cy.get('.section-max').scrollIntoView();
 }
 
+function resetSettingsToDefaultTheme() {
+    // # Navigate to the theme settings
+    navigateToThemeSettings();
+
+    // # Select the Theme Colors radio
+    cy.get('#standardThemes').check().should('be.checked');
+
+    // # Select the Mattermost pre-made theme
+    cy.get('#premadeThemeMattermost').first().click();
+
+    // # Save and close settings modal
+    cy.get('#saveSetting').click();
+    cy.get('#accountSettingsHeader > .close').click();
+}
+
 describe('AS14319 Theme Colors - Code', () => {
     beforeEach(() => {
         // # Login as user-1
@@ -46,21 +61,9 @@ describe('AS14319 Theme Colors - Code', () => {
 
         // # Enter in code block for message
         cy.get('#post_textbox').clear().type('```\ncode\n```{enter}');
-    });
 
-    // reset settings to default mattermost theme
-    afterEach(() => {
-        navigateToThemeSettings();
-
-        // # Select the Theme Colors radio
-        cy.get('#standardThemes').check().should('be.checked');
-
-        // # Select the Mattermost pre-made theme
-        cy.get('#premadeThemeMattermost').first().click();
-
-        // # Save and close settings modal
-        cy.get('#saveSetting').click();
-        cy.get('#accountSettingsHeader > .close').click();
+        // reset settings to default mattermost theme
+        resetSettingsToDefaultTheme();
     });
 
     THEMES.forEach((THEME) => {

@@ -49,11 +49,6 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.postMessage(MESSAGES.TINY);
     });
 
-    afterEach(() => {
-        // # Close any emoji picker if open
-        cy.get('body').type('{esc}');
-    });
-
     it('Should open emoji picker for last message by shortcut in the channel view when focus is on the center text box', () => {
         // # Emulate react to last message shortcut when focus is on the center text box
         pressShortcutReactToLastMessage('CENTER');

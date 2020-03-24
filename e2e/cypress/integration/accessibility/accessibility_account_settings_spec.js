@@ -56,11 +56,6 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('.settings-content > div').should('be.visible');
     });
 
-    afterEach(() => {
-        // # Click "x" button to close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
-    });
-
     it('MM-22628 Verify Label & Tab behavior in section links', () => {
         // * Verify the aria-label and Tab support in different sections
         cy.get('body').tab();

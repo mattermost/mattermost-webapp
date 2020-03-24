@@ -32,14 +32,6 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         });
     });
 
-    afterEach(() => {
-        // # Delete the test team as sysadmin
-        if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id, true);
-        }
-    });
-
     it('set channel switcher setting to On and test on click of sidebar switcher button', () => {
         // # Go to a known team and channel
         cy.visit(`/${testTeam.name}/channels/town-square`);

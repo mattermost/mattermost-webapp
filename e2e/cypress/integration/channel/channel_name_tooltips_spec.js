@@ -9,8 +9,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-const timestamp = Date.now();
-
 function verifyChannel(res, verifyExistence = true) {
     const channel = res.body;
 
@@ -37,8 +35,11 @@ describe('channel name tooltips', () => {
     let loggedUser;
     let longUser;
     let team;
+    let timestamp;
 
     beforeEach(() => {
+        timestamp = Date.now();
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
@@ -61,7 +62,7 @@ describe('channel name tooltips', () => {
             cy.apiCreateAndLoginAsNewUser({}, [team.id]).then((user) => {
                 loggedUser = user;
 
-                // # Go to "/"
+                // # Go to Town Square channel
                 cy.visit(`/${response.body.name}/town-square`);
             });
         });

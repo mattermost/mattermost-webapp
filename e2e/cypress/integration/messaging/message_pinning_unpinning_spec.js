@@ -30,10 +30,8 @@ describe('Messaging', () => {
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             cy.visit(`/${response.body.name}`);
         });
-    });
 
-    // Unpin all posts at the end of the test
-    afterEach(() => {
+        // # Unpin all posts if any
         pinnedPosts.forEach((pinnedPost) => {
             cy.apiUnpinPosts(pinnedPost);
         });

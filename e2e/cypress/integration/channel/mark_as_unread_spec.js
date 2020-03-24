@@ -45,11 +45,6 @@ describe('Mark as Unread', () => {
         });
     });
 
-    afterEach(() => {
-        cy.apiDeleteChannel(channelA.id);
-        cy.apiDeleteChannel(channelB.id);
-    });
-
     it('Channel should appear unread after switching away from channel and be read after switching back', () => {
         // Starts unread
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);

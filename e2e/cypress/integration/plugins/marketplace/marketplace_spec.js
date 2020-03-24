@@ -11,19 +11,6 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Plugin Marketplace', () => {
     describe('should not render in main menu', () => {
-        afterEach(() => {
-            cy.get('#lhsHeader').should('be.visible').within(() => {
-                // # Click hamburger main menu
-                cy.get('#sidebarHeaderDropdownButton').click();
-
-                // * Dropdown menu should be visible
-                cy.get('.dropdown-menu').should('be.visible').within(() => {
-                    // * Plugin Marketplace button should not be visible
-                    cy.findByText('Plugin Marketplace').should('not.be.visible');
-                });
-            });
-        });
-
         it('for non-admin', () => {
             // # Login as sysadmin
             cy.apiLogin('sysadmin');
@@ -93,7 +80,10 @@ describe('Plugin Marketplace', () => {
                 },
             });
 
-            // # Go to main channel
+            // # Cleanup installed plugins
+            uninstallAllPlugins();
+
+            // # Visit the Town Square channel
             cy.visit('/ad-1/channels/town-square');
 
             cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
@@ -106,11 +96,6 @@ describe('Plugin Marketplace', () => {
                     cy.findByText('Plugin Marketplace').should('be.visible').click();
                 });
             });
-        });
-
-        afterEach(() => {
-            // * cleanup installed plugins
-            uninstallAllPlugins();
         });
 
         it('render an error bar', () => {
@@ -168,7 +153,10 @@ describe('Plugin Marketplace', () => {
                 },
             });
 
-            // # Visit town-square-channel
+            // # Cleanup installed plugins
+            uninstallAllPlugins();
+
+            // # Visit the Town Square channel
             cy.visit('/ad-1/channels/town-square');
 
             cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
@@ -196,11 +184,6 @@ describe('Plugin Marketplace', () => {
 
             // * installed plugins tabs button should be visible
             cy.get('#marketplaceTabs-tab-installed').should('be.visible');
-        });
-
-        afterEach(() => {
-            // * cleanup installed plugins
-            uninstallAllPlugins();
         });
 
         it('autofocus on search plugin input box', () => {

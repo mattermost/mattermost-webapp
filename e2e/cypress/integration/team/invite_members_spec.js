@@ -109,17 +109,6 @@ describe('Invite Members', () => {
         });
     });
 
-    afterEach(() => {
-        // # Reload current page after each test to close any popup/modals left open
-        cy.reload();
-
-        // # Delete the new team as sysadmin
-        if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id, true);
-        }
-    });
-
     // By default, member don't have "InviteGuest" permission
     // should go directly to "InviteMembers" modal
     it('Invite Members to Team as Member', () => {

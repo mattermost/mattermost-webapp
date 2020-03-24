@@ -99,17 +99,6 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 
-    afterEach(() => {
-        // # Reload current page after each test to close any popup/modals left open
-        cy.reload();
-
-        // # Delete the new team as sysadmin
-        if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id);
-        }
-    });
-
     it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
 

@@ -25,6 +25,10 @@ describe('Draw plugin : Post message', () => {
             },
         });
 
+        // # UnInstall Draw plugin
+        cy.apiLogin('sysadmin');
+        cy.uninstallPluginById(pluginId);
+
         // # Upload and enable Draw plugin
         cy.uploadBinaryFileByName('com.mattermost.draw-plugin.tar.gz').then(() => {
             cy.enablePluginById(pluginId);
@@ -34,12 +38,6 @@ describe('Draw plugin : Post message', () => {
             cy.visit('/ad-1/channels/town-square');
             cy.get('#post_textbox').clear().type('This check is for draw plugin');
         });
-    });
-
-    afterEach(() => {
-        // # UnInstall Draw plugin
-        cy.apiLogin('sysadmin');
-        cy.uninstallPluginById(pluginId);
     });
 
     it('M11759-Draw plugin : Post message check for Draw Plugin & My Computer events', () => {

@@ -63,6 +63,7 @@
         "SupportEmail": "feedback@mattermost.com"
     },
     "TeamSettings": {
+        "MaxUsersPerTeam": 2000,
         "EnableCustomBrand": false,
         "EnableOpenServer": true,
         "ExperimentalViewArchivedChannels": false,
