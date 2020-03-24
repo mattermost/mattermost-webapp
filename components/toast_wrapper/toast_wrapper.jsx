@@ -238,7 +238,7 @@ class ToastWrapper extends React.PureComponent {
         };
 
         const archiveToastProps = {
-            show: this.state.showMessageHistoryToast || false,
+            show: Boolean(this.state.showMessageHistoryToast),
             width: this.props.width,
             onDismiss: this.hideArchiveToast,
             onClick: this.scrollToLatestMessages,
