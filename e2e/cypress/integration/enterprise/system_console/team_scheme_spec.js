@@ -7,15 +7,113 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {channelUrl, setUserTeamAndChannelMemberships, enablePermission, removePermission, channelMentionsPermissionCheck, resetPermissionsToDefault} from './system_scheme_spec.js';
+import users from '../../../fixtures/users.json';
 
-export const deleteExistingTeamOverrideSchemes = () => {
+const channelUrl = '/ad-1/channels/suscipit-4';
+const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = false) => {
+    cy.apiLogin('user-1');
+    cy.visit(channelUrl);
+
+    cy.apiGetMe().then((res) => {
+        const userId = res.body.id;
+
+        // # Set user as regular system user
+        cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${userId}/roles`, data: {roles: 'system_user'}});
+
+        // # Get team membership
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.externalRequest({
+                user: users.sysadmin,
+                method: 'put',
+                path: `teams/${teamId}/members/${userId}/schemeRoles`,
+                data: {
+                    scheme_user: true,
+                    scheme_admin: teamAdmin,
+                }
+            });
+
+            // # Reload page to ensure no cache or saved information
+            cy.reload(true);
+        });
+
+        // # Get channel membership
+        cy.getCurrentChannelId().then((channelId) => {
+            cy.externalRequest({
+                user: users.sysadmin,
+                method: 'put',
+                path: `channels/${channelId}/members/${userId}/schemeRoles`,
+                data: {
+                    scheme_user: true,
+                    scheme_admin: channelAdmin,
+                }
+            });
+
+            // # Reload page to ensure no cache or saved information
+            cy.reload(true);
+        });
+    });
+};
+
+const enablePermission = (permissionCheckBoxTestId) => {
+    cy.findByTestId(permissionCheckBoxTestId).then((el) => {
+        if (!el.hasClass('checked')) {
+            el.click();
+        }
+    });
+};
+
+const removePermission = (permissionCheckBoxTestId) => {
+    cy.findByTestId(permissionCheckBoxTestId).then((el) => {
+        if (el.hasClass('checked')) {
+            el.click();
+        }
+    });
+};
+
+const deleteExistingTeamOverrideSchemes = () => {
     cy.apiLogin('sysadmin');
     cy.apiGetSchemes('team').then((res) => {
         res.body.forEach((scheme) => {
             cy.apiDeleteScheme(scheme.id);
         });
     });
+};
+
+// # Checks to see if user recieved a system message warning after using @here
+// # If enabled is true assumes the user has the permission enabled and checks for no system message
+const channelMentionsPermissionCheck = (enabled) => {
+    // # Type @here and post it to the channel
+    cy.get('#post_textbox').clear().type('@here{enter}');
+
+    // # Wait for system message to appear
+    cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
+
+    // # Get last post message text
+    cy.getLastPostId().then((postId) => {
+        if (enabled) {
+            // * Assert that the last message posted is not a system message informing us we are not allowed to use channel mentions
+            cy.get(`#postMessageText_${postId}`).should('not.include.text', 'Channel notifications are disabled');
+        } else {
+            // * Assert that the last message posted is the system message informing us we are not allowed to use channel mentions
+            cy.get(`#postMessageText_${postId}`).should('include.text', 'Channel notifications are disabled');
+        }
+    });
+};
+
+const resetPermissionsToDefault = () => {
+    // # Login as sysadmin and navigate to system scheme page
+    cy.apiLogin('sysadmin');
+    cy.visit('/admin_console/user_management/permissions/system_scheme');
+
+    // # Click reset to defaults and confirm
+    cy.findByTestId('resetPermissionsToDefault').click();
+    cy.get('#confirmModalButton').click();
+
+    // # Save
+    cy.get('#saveSetting').click();
+    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+        return el[0].innerText === 'Save';
+    }));
 };
 
 describe('Team Scheme Permissions Test', () => {
