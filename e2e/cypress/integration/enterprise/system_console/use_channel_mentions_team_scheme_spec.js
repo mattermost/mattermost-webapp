@@ -116,7 +116,7 @@ const resetPermissionsToDefault = () => {
     }));
 };
 
-describe('Team Scheme Permissions Test', () => {
+describe('Team Scheme Channel Mentions Permissions Test', () => {
     before(() => {
         // * Check if server has license
         cy.requireLicense();
