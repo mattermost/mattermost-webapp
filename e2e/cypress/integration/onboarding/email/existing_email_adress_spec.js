@@ -33,13 +33,15 @@ function signupWithEmail(name, pw) {
 
 describe('Email Address', () => {
     before(() => {
-        // Set EnableOpenServer to true and disable other auth options
+        // # Login as sysadmin and set EnableOpenServer to true and disable other auth options
+        cy.apiLogin('sysadmin');
         const newSettings = {
             TeamSettings: {EnableOpenServer: true},
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
         cy.apiUpdateConfig(newSettings);
+        cy.apiLogout();
     });
 
     it('On14634 Email address already exists', () => {

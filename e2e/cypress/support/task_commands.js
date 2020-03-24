@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../fixtures/timeouts';
-
 /**
 * postMessageAs is a task which is wrapped as command with post-verification
 * that a message is successfully posted by the user/sender
@@ -28,7 +26,12 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 * @param {Object} data - payload on incoming webhook
 */
 Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
-    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200).wait(TIMEOUTS.MEDIUM);
+    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
+
+    cy.waitUntil(() => cy.getLastPost().then((el) => {
+        const postedMessageEl = el.find('.attachment__thumb-pretext > p')[0];
+        return Boolean(postedMessageEl && postedMessageEl.textContent.includes(data.attachments[0].pretext));
+    }));
 });
 
 /**

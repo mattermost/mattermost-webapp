@@ -189,6 +189,52 @@ function getSimpleDialog(triggerId, webhookBaseUrl) {
     };
 }
 
+function getUserAndChannelDialog(triggerId, webhookBaseUrl) {
+    return {
+        trigger_id: triggerId,
+        url: `${webhookBaseUrl}/dialog_submit`,
+        dialog: {
+            callback_id: 'somecallbackid',
+            title: 'Title for Dialog Test with user and channel element',
+            icon_url:
+                'http://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            submit_label: 'Submit Test',
+            notify_on_cancel: true,
+            state: 'somestate',
+            elements: [
+                {
+                    display_name: 'User Selector',
+                    name: 'someuserselector',
+                    type: 'select',
+                    subtype: '',
+                    default: '',
+                    placeholder: 'Select a user...',
+                    help_text: '',
+                    optional: false,
+                    min_length: 0,
+                    max_length: 0,
+                    data_source: 'users',
+                    options: null,
+                },
+                {
+                    display_name: 'Channel Selector',
+                    name: 'somechannelselector',
+                    type: 'select',
+                    subtype: '',
+                    default: '',
+                    placeholder: 'Select a channel...',
+                    help_text: 'Choose a channel from the list.',
+                    optional: true,
+                    min_length: 0,
+                    max_length: 0,
+                    data_source: 'channels',
+                    options: null,
+                },
+            ],
+        }
+    };
+}
+
 function getBooleanDialog(triggerId, webhookBaseUrl) {
     return {
         trigger_id: triggerId,
@@ -219,5 +265,6 @@ function getBooleanDialog(triggerId, webhookBaseUrl) {
 module.exports = {
     getFullDialog,
     getSimpleDialog,
+    getUserAndChannelDialog,
     getBooleanDialog,
 };
