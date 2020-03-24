@@ -39,6 +39,7 @@ const AdminPanelWithLink = (props: Props) => {
         <AdminPanel
             className={'AdminPanelWithLink ' + props.className}
             id={props.id}
+            data-testid={props.id}
             titleId={props.titleId}
             titleDefault={props.titleDefault}
             subtitleId={props.subtitleId}
