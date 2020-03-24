@@ -484,7 +484,6 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             onButtonClick={this.openAddTeam}
                             buttonTextId={t('admin.permissions.teamScheme.addTeams')}
                             buttonTextDefault='Add Teams'
-                            buttonDataTestId='add-teams'
                         >
                             <div className='teams-list'>
                                 {teams.length === 0 &&

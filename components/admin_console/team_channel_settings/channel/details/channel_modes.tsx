@@ -53,7 +53,7 @@ const AllowAllToggle: React.SFC<Props> = (props: Props): JSX.Element | null => {
     }
     return (
         <LineSwitch
-            dataTestId='allow-all-toggle'
+            id='allow-all-toggle'
             disabled={isDefault}
             toggled={isPublic}
             last={true}
