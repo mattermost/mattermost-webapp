@@ -9,16 +9,14 @@
 
 describe('System Console - Enterprise', () => {
     before(() => {
-        // * Check if server has license
+        // * Login as sysadmin and check if server has license
+        cy.apiLogin('sysadmin');
         cy.requireLicense();
 
         const newSettings = {
             TeamSettings: {SiteName: 'Mattermost'},
         };
         cy.apiUpdateConfig(newSettings);
-
-        // # Login as System Admin
-        cy.apiLogin('sysadmin');
 
         cy.visit('/ad-1/channels/town-square');
     });
