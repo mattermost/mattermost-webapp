@@ -158,7 +158,7 @@ export default class MultiSelectList<T extends Value> extends React.Component<Pr
         }
     }
 
-    private renderOptions(options: Value[]) {
+    private renderOptions(options: T[]) {
         const renderer = this.props.optionRenderer || this.defaultOptionRenderer;
         const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove));
 
