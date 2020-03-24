@@ -31,6 +31,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
   button={
     <Link
       className="btn btn-primary"
+      data-testid="test-id-link"
       onClick={[Function]}
       to="/path"
     >
@@ -69,6 +70,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
   button={
     <Link
       className="btn btn-primary"
+      data-testid="test-id-link"
       onClick={[Function]}
       to="/path"
     >
