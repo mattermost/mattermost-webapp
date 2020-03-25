@@ -120,6 +120,9 @@ describe('Messaging', () => {
                             // # Set user locale and timezone
                             setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
 
+                            // # Increase viewport to ensure channel intro remains in view.
+                            cy.viewport(1300, 800);
+
                             // * Verify that the channel is loaded correctly based on locale
                             cy.findByText(testCase.channelIntro).should('be.visible');
 
