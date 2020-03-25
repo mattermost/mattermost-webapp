@@ -29,6 +29,10 @@ const formattedMessages: any = defineMessages({
             id: t('admin.channel_settings.channel_moderation.createPostsDesc'),
             defaultMessage: 'The ability for members and guests to create posts in the channel.'
         },
+        descriptionMembers: {
+            id: t('admin.channel_settings.channel_moderation.createPostsDescMembers'),
+            defaultMessage: 'The ability for members to create posts in the channel.'
+        },
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.createPosts.disabledGuest'),
             defaultMessage: 'Create posts for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).'
@@ -51,6 +55,10 @@ const formattedMessages: any = defineMessages({
         description: {
             id: t('admin.channel_settings.channel_moderation.postReactionsDesc'),
             defaultMessage: 'The ability for members and guests to post reactions.'
+        },
+        descriptionMembers: {
+            id: t('admin.channel_settings.channel_moderation.postReactionsDescMembers'),
+            defaultMessage: 'The ability for members to post reactions.'
         },
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.postReactions.disabledGuest'),
@@ -98,6 +106,10 @@ const formattedMessages: any = defineMessages({
             id: t('admin.channel_settings.channel_moderation.channelMentionsDesc'),
             defaultMessage: 'The ability for members and guests to use @all, @here and @channel.'
         },
+        descriptionMembers: {
+            id: t('admin.channel_settings.channel_moderation.channelMentionsDescMembers'),
+            defaultMessage: 'The ability for members to use @all, @here and @channel.'
+        },
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledGuest'),
             defaultMessage: 'Channel mentions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).'
@@ -131,6 +143,10 @@ const formattedMessages: any = defineMessages({
     subtitle: {
         id: t('admin.channel_settings.channel_moderation.subtitle'),
         defaultMessage: 'Manage the actions available to channel members and guests.'
+    },
+    subtitleMembers: {
+        id: t('admin.channel_settings.channel_moderation.subtitleMembers'),
+        defaultMessage: 'Manage the actions available to channel members.'
     },
     permissions: {
         id: t('admin.channel_settings.channel_moderation.permissions'),
@@ -166,6 +182,12 @@ interface RowProps {
 }
 
 export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
+    let descriptionId = formattedMessages[props.name].description.id;
+    let descriptionDefaultMessage = formattedMessages[props.name].description.default;
+    if (!props.guestAccountsEnabled && formattedMessages[props.name].descriptionMembers) {
+        descriptionId = formattedMessages[props.name].descriptionMembers.id;
+        descriptionDefaultMessage = formattedMessages[props.name].descriptionMembers.defaultMessage;
+    }
     return (
         <tr>
             <td>
@@ -181,8 +203,8 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                     data-testid={formattedMessages[props.name].description.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
                 >
                     <FormattedMessage
-                        id={formattedMessages[props.name].description.id}
-                        defaultMessage={formattedMessages[props.name].description.defaultMessage}
+                        id={descriptionId}
+                        defaultMessage={descriptionDefaultMessage}
                     />
                 </div>
                 {props.errorMessages}
@@ -237,8 +259,7 @@ export default class ChannelModeration extends React.Component<Props> {
         let createPostsKey = '';
         if (entry.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS) {
             const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.find((permission) => permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST);
-            const createPostsGuestsUnchecked = !createPostsObject!.roles.guests!.value && this.props.guestAccountsEnabled;
-            if (createPostsGuestsUnchecked && !createPostsObject!.roles.members!.value) {
+            if (!createPostsObject!.roles.guests!.value && this.props.guestAccountsEnabled && !createPostsObject!.roles.members!.value) {
                 errorMessages.push(
                     <div
                         data-testid={formattedMessages[entry.name].disabledBothDueToCreatePosts.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
@@ -251,7 +272,7 @@ export default class ChannelModeration extends React.Component<Props> {
                     </div>
                 );
                 return errorMessages;
-            } else if (createPostsGuestsUnchecked) {
+            } else if (!createPostsObject!.roles.guests!.value && this.props.guestAccountsEnabled) {
                 createPostsKey = 'disabledGuestsDueToCreatePosts';
             } else if (!createPostsObject!.roles.members!.value) {
                 createPostsKey = 'disabledMembersDueToCreatePosts';
@@ -313,8 +334,8 @@ export default class ChannelModeration extends React.Component<Props> {
                 id='channel_moderation'
                 titleId={formattedMessages.title.id}
                 titleDefault={formattedMessages.title.defaultMessage}
-                subtitleId={formattedMessages.subtitle.id}
-                subtitleDefault={formattedMessages.subtitle.defaultMessage}
+                subtitleId={guestAccountsEnabled ? formattedMessages.subtitle.id : formattedMessages.subtitleMembers.id}
+                subtitleDefault={guestAccountsEnabled ? formattedMessages.subtitle.defaultMessage : formattedMessages.subtitleMembers.defaultMessage}
             >
                 <div className='channel-moderation'>
                     <div className='channel-moderation--body'>
