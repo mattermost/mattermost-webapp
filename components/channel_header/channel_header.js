@@ -3,8 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip, Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
+import classNames from 'classnames';
+
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
@@ -65,6 +67,8 @@ class ChannelHeader extends React.PureComponent {
         rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
         intl: intlShape.isRequired,
+        pinnedPostsCount: PropTypes.number,
+        hasMoreThanOneTeam: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -86,8 +90,10 @@ class ChannelHeader extends React.PureComponent {
     constructor(props) {
         super(props);
         this.toggleFavoriteRef = React.createRef();
+        this.headerDescriptionRef = React.createRef();
+        this.headerPopoverTextMeasurerRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props)};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -212,18 +218,6 @@ class ChannelHeader extends React.PureComponent {
         }
     };
 
-    handleOnMouseOver = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.show();
-        }
-    };
-
-    handleOnMouseOut = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
-        }
-    };
-
     handleQuickSwitchKeyPress = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             if (!e.altKey) {
@@ -265,9 +259,22 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
-    handleFormattedTextClick(e) {
-        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    showChannelHeaderPopover = (headerText) => {
+        const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
+        const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
+
+        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
+            this.setState({showChannelHeaderPopover: true});
+        }
     }
+
+    setPopoverOverlayWidth = () => {
+        const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
+        const ellipsisWidthAdjustment = 10;
+        this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
+    }
+
+    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {
@@ -428,43 +435,61 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`}}
                     placement='bottom'
-                    className='channel-header__popover'
-                    onMouseOver={this.handleOnMouseOver}
-                    onMouseOut={this.handleOnMouseOut}
+                    className={classNames(['channel-header__popover', {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam}])}
                 >
-                    <Markdown
-                        message={headerText}
-                        options={this.getPopoverMarkdownOptions(channelNamesMap)}
-                    />
+                    <span
+                        onClick={this.handleFormattedTextClick}
+                    >
+                        <Markdown
+                            message={headerText.replace(/\n/, '\n\n')}
+                            options={this.getPopoverMarkdownOptions(channelNamesMap)}
+                        />
+                    </span>
                 </Popover>
             );
+
             headerTextContainer = (
-                <OverlayTrigger
-                    trigger={'click'}
-                    placement='bottom'
-                    rootClose={true}
-                    overlay={popoverContent}
-                    ref='headerOverlay'
+                <div
+                    id='channelHeaderDescription'
+                    className='channel-header__description'
                 >
+                    {dmHeaderIconStatus}
+                    {dmHeaderTextStatus}
+                    {hasGuestsText}
                     <div
-                        id='channelHeaderDescription'
-                        className='channel-header__description'
+                        className='header-popover-text-measurer'
+                        ref={this.headerPopoverTextMeasurerRef}
                     >
-                        {dmHeaderIconStatus}
-                        {dmHeaderTextStatus}
-                        {hasGuestsText}
-                        <span
-                            className='header-description__text'
-                            onClick={this.handleFormattedTextClick}
-                        >
-                            <Markdown
-                                message={headerText}
-                                options={this.getHeaderMarkdownOptions(channelNamesMap)}
-                            />
-                        </span>
-                    </div>
-                </OverlayTrigger>
+                        <Markdown
+                            message={headerText.replace(/\n+/g, ' ')}
+                            options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                        /></div>
+                    <span
+                        className='header-description__text'
+                        onClick={this.handleFormattedTextClick}
+                        onMouseOver={() => this.showChannelHeaderPopover(headerText)}
+                        onMouseOut={() => this.setState({showChannelHeaderPopover: false})}
+                        ref={this.headerDescriptionRef}
+                    >
+
+                        <Overlay
+                            show={this.state.showChannelHeaderPopover}
+                            placement='bottom'
+                            rootClose={true}
+                            target={this.headerDescriptionRef.current}
+                            ref='headerOverlay'
+                            onEnter={this.setPopoverOverlayWidth}
+                            onHide={() => this.setState({showChannelHeaderPopover: false})}
+                        >{popoverContent}</Overlay>
+
+                        <Markdown
+                            message={headerText.replace(/\n/g, '\n\n')}
+                            options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                        />
+                    </span>
+                </div>
             );
         } else {
             let editMessage;
@@ -480,6 +505,12 @@ class ChannelHeader extends React.PureComponent {
                                     id='channel_header.addChannelHeader'
                                     defaultMessage='Add a channel description'
                                 />
+                                <FormattedMessage
+                                    id='channel_header.editLink'
+                                    defaultMessage='(Edit)'
+                                >
+                                    {(message) => <span className='button__edit ml-1'>{message}</span>}
+                                </FormattedMessage>
                             </button>
                         );
                     }
@@ -498,6 +529,12 @@ class ChannelHeader extends React.PureComponent {
                                     id='channel_header.addChannelHeader'
                                     defaultMessage='Add a channel description'
                                 />
+                                <FormattedMessage
+                                    id='channel_header.editLink'
+                                    defaultMessage='(Edit)'
+                                >
+                                    {(message) => <span className='button__edit ml-1'>{message}</span>}
+                                </FormattedMessage>
                             </button>
                         </ChannelPermissionGate>
                     );
@@ -521,30 +558,26 @@ class ChannelHeader extends React.PureComponent {
         let ariaLabel = '';
 
         if (!channelIsArchived) {
-            if (isFavorite) {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.removeFromFavorites'
-                            defaultMessage='Remove from Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.removeFromFavorites', defaultMessage: 'Remove from Favorites'}).toLowerCase();
-            } else {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.addToFavorites'
-                            defaultMessage='Add to Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.addToFavorites', defaultMessage: 'Add to Favorites'}).toLowerCase();
-            }
+            const formattedMessage = isFavorite ? {
+                id: 'channelHeader.removeFromFavorites',
+                defaultMessage: 'Remove from Favorites'
+            } : {
+                id: 'channelHeader.addToFavorites',
+                defaultMessage: 'Add to Favorites'
+            };
+
+            ariaLabel = formatMessage(formattedMessage).toLowerCase();
+            toggleFavoriteTooltip = (
+                <Tooltip id='favoriteTooltip' >
+                    <FormattedMessage
+                        {...formattedMessage}
+                    />
+                </Tooltip>
+            );
 
             toggleFavorite = (
                 <OverlayTrigger
+                    key={`isFavorite-${isFavorite}`}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
@@ -592,7 +625,7 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon';
+        let pinnedIconClass = 'channel-header__icon wide';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
         }
@@ -606,6 +639,23 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.FLAG) {
             flaggedIconClass += ' active';
         }
+        const pinnedIcon = (this.props.pinnedPostsCount ?
+            (<div className='flex-child'>
+                <span
+                    id='channelPinnedPostCountText'
+                    className='icon__text'
+                >
+                    {this.props.pinnedPostsCount}
+                </span>
+                <PinIcon
+                    className='icon icon__pin'
+                    aria-hidden='true'
+                />
+            </div>) : (
+                <PinIcon
+                    className='icon icon__pin'
+                    aria-hidden='true'
+                />));
 
         let title = (
             <React.Fragment>
@@ -672,7 +722,7 @@ class ChannelHeader extends React.PureComponent {
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
-                data-a11y-sort-order='7'
+                data-a11y-sort-order='8'
             >
                 <div className='flex-parent'>
                     <div className='flex-child'>
@@ -699,18 +749,14 @@ class ChannelHeader extends React.PureComponent {
                         channelMember={channelMember}
                     />
                     <HeaderIconWrapper
-                        iconComponent={
-                            <PinIcon
-                                className='icon icon__pin'
-                                aria-hidden='true'
-                            />
-                        }
+                        iconComponent={pinnedIcon}
                         ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
+
                     {this.state.showSearchBar ? (
                         <div
                             id='searchbarContainer'

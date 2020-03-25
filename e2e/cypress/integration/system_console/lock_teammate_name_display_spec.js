@@ -28,7 +28,7 @@ describe('System Console', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Go to Account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
 
         // # Click Display on the left hand side
         cy.get('#displayButton').click();
@@ -59,7 +59,7 @@ describe('System Console', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Go to Account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
 
         // # Click Display on the left hand side
         cy.get('#displayButton').click();

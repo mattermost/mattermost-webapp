@@ -18,6 +18,7 @@ import system from './system';
 import channelSelectorModal from './channel_selector_modal';
 import settings from './settings';
 import marketplace from './marketplace';
+import channelSidebar from './channel_sidebar';
 import textbox from './textbox';
 
 export default combineReducers({
@@ -37,4 +38,5 @@ export default combineReducers({
     settings,
     marketplace,
     textbox,
+    channelSidebar,
 });

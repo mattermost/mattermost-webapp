@@ -11,6 +11,18 @@ import PermissionCheckbox from './permission_checkbox.jsx';
 import PermissionRow from './permission_row.jsx';
 import PermissionDescription from './permission_description.jsx';
 
+const getRecursivePermissions = (permissions) => {
+    let result = [];
+    for (const permission of permissions) {
+        if (typeof permission === 'string') {
+            result.push(permission);
+        } else {
+            result = result.concat(getRecursivePermissions(permission.permissions));
+        }
+    }
+    return result;
+};
+
 export default class PermissionGroup extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -33,15 +45,18 @@ export default class PermissionGroup extends React.Component {
         this.state = {
             expanded: true,
             prevPermissions: [],
+            selected: props.selected,
         };
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (this.props.selected !== nextProps.selected) {
-            if (this.getRecursivePermissions(this.props.permissions).indexOf(nextProps.selected) !== -1) {
-                this.setState({expanded: true});
+    static getDerivedStateFromProps(props, state) {
+        if (props.selected !== state.selected) {
+            if (getRecursivePermissions(props.permissions).indexOf(props.selected) !== -1) {
+                return {expanded: true, selected: props.selected};
             }
+            return {selected: props.selected};
         }
+        return null;
     }
 
     toggleExpanded = (e) => {
@@ -54,18 +69,6 @@ export default class PermissionGroup extends React.Component {
             return;
         }
         this.props.onChange([id]);
-    }
-
-    getRecursivePermissions = (permissions) => {
-        let result = [];
-        for (const permission of permissions) {
-            if (typeof permission === 'string') {
-                result.push(permission);
-            } else {
-                result = result.concat(this.getRecursivePermissions(permission.permissions));
-            }
-        }
-        return result;
     }
 
     toggleSelectSubGroup = (ids) => {
@@ -82,7 +85,7 @@ export default class PermissionGroup extends React.Component {
         }
         if (this.getStatus(permissions) === 'checked') {
             const permissionsToToggle = [];
-            for (const permission of this.getRecursivePermissions(permissions)) {
+            for (const permission of getRecursivePermissions(permissions)) {
                 if (!this.fromParent(permission)) {
                     permissionsToToggle.push(permission);
                 }
@@ -93,14 +96,14 @@ export default class PermissionGroup extends React.Component {
             const permissionsToToggle = [];
             let expanded = true;
             if (this.state.prevPermissions.length === 0) {
-                for (const permission of this.getRecursivePermissions(permissions)) {
+                for (const permission of getRecursivePermissions(permissions)) {
                     if (!this.fromParent(permission)) {
                         permissionsToToggle.push(permission);
                         expanded = false;
                     }
                 }
             } else {
-                for (const permission of this.getRecursivePermissions(permissions)) {
+                for (const permission of getRecursivePermissions(permissions)) {
                     if (this.state.prevPermissions.indexOf(permission) !== -1 && !this.fromParent(permission)) {
                         permissionsToToggle.push(permission);
                     }
@@ -110,7 +113,7 @@ export default class PermissionGroup extends React.Component {
             this.setState({prevPermissions: [], expanded});
         } else {
             const permissionsToToggle = [];
-            for (const permission of this.getRecursivePermissions(permissions)) {
+            for (const permission of getRecursivePermissions(permissions)) {
                 if (role.permissions.indexOf(permission) === -1 && !this.fromParent(permission)) {
                     permissionsToToggle.push(permission);
                 }
@@ -210,7 +213,7 @@ export default class PermissionGroup extends React.Component {
     }
 
     hasPermissionsOnScope = () => {
-        return this.getRecursivePermissions(this.props.permissions).some((permission) => this.isInScope(permission));
+        return getRecursivePermissions(this.props.permissions).some((permission) => this.isInScope(permission));
     }
 
     allPermissionsFromParent = (permissions) => {
@@ -279,7 +282,10 @@ export default class PermissionGroup extends React.Component {
                                 className={'fa fa-caret-right permission-arrow ' + (this.state.expanded ? 'open' : '')}
                                 onClick={this.toggleExpanded}
                             />}
-                        <PermissionCheckbox value={this.getStatus(this.props.permissions)}/>
+                        <PermissionCheckbox
+                            value={this.getStatus(this.props.permissions)}
+                            id={`${uniqId}-checkbox`}
+                        />
                         <span className='permission-name'>
                             <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>

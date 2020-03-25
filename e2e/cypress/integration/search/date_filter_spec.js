@@ -97,7 +97,7 @@ describe('SF15699 Search Date Filter', () => {
 
         // # Create another admin user so we can create posts from another user
         cy.get('@team').then((team) => {
-            cy.createNewUser({}, [team.id]).as('newAdmin');
+            cy.apiCreateNewUser({}, [team.id]).as('newAdmin');
         });
 
         // # Set user to be a sysadmin, so it can access the system console

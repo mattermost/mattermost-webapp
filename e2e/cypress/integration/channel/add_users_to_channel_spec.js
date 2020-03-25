@@ -52,6 +52,7 @@ function addNumberOfUsersToChannel(num = 1) {
 describe('CS15445 Join/leave messages', () => {
     before(() => {
         cy.apiLogin('user-1');
+        cy.apiSaveTeammateNameDisplayPreference('username');
         cy.visit('/ad-1/channels/town-square');
     });
 

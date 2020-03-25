@@ -315,6 +315,10 @@
         top: 98px;
     }
 
+    &.toastAdjustment {
+        top: 50px;
+    }
+
     > div {
         @include border-radius(3px);
         @include font-smoothing(initial);
@@ -559,9 +563,19 @@
         }
     }
 
-    &:hover,
-    &:active {
-        box-shadow: none;
+    .post-action {
+        &:hover,
+        &:active {
+            box-shadow: none;
+
+            .icon--emoji {
+                opacity: 1;
+
+                &.active {
+                    opacity: 1;
+                }
+            }
+        }
     }
 
     &.btn-file__disabled {
@@ -580,14 +594,14 @@
         top: 1px;
         position: relative;
 
+        &.active {
+            opacity: 1;
+        }
+
         svg {
             position: relative;
             top: 1px;
         }
-    }
-
-    .post-action:hover .icon--emoji {
-        @include opacity(.7);
     }
 
     .icon--attachment {
@@ -1273,6 +1287,14 @@
                 height: 24px;
                 top: 0;
                 width: 24px;
+
+                &:hover {
+                    background-color: v(center-channel-color-05);
+                }
+
+                &:active {
+                    background-color: v(center-channel-color-15);
+                }
             }
 
             .comment-icon__container {

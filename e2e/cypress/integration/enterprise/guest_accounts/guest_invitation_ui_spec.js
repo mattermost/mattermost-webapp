@@ -20,7 +20,7 @@ const user1 = users['user-1'];
 
 function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
     // # Update Guest Account Settings
-    cy.apiUpdateConfigBasic({
+    cy.apiUpdateConfig({
         GuestAccountsSettings: {
             Enable: featureFlag,
             RestrictCreationToDomains: whitelistedDomains,
@@ -109,8 +109,9 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 
 describe('Guest Account - Guest User Invitation Flow', () => {
     before(() => {
-        // # Login as "sysadmin"
+        // * Login as sysadmin and check if server has license for Guest Accounts
         cy.apiLogin('sysadmin');
+        cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
         changeGuestFeatureSettings();
@@ -120,12 +121,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             testTeam = response.body;
 
             // # Create a new user and add it to the new team
-            cy.createNewUser().then((user) => {
+            cy.apiCreateNewUser().then((user) => {
                 newUser = user;
                 cy.apiAddUserToTeam(testTeam.id, user.id);
             });
 
-            cy.visit(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -265,7 +266,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
 
         // # Search and add an existing guest by email, who is not part of the team
-        cy.createNewUser().then((user) => {
+        cy.apiCreateNewUser().then((user) => {
             // # Demote the user from member to guest
             cy.demoteUser(user.id);
 
@@ -283,14 +284,11 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18050 Verify when different feature settings are disabled', () => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Disable Guest Account Feature
         changeGuestFeatureSettings(false, true);
 
         // # reload current page
-        cy.visit(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -322,15 +320,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18047 Verify Guest User whitelisted domains', () => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Configure a whitelisted domain
         changeGuestFeatureSettings(true, true, 'example.com');
 
         // # Visit to newly created team
         cy.reload();
-        cy.visit(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a Guest by email
         const email = `temp-${getRandomInt(9999)}@mattermost.com`;
@@ -341,7 +336,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(email, expectedError);
 
         // # From System Console try to update email of guest user
-        cy.createNewUser().then((user) => {
+        cy.apiCreateNewUser().then((user) => {
             // # Demote the user from member to guest
             cy.demoteUser(user.id);
 
@@ -371,7 +366,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         changeGuestFeatureSettings();
 
         // # Visit Team page
-        cy.visit(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a email containing uppercase letters
         const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;

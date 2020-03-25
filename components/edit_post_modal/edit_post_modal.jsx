@@ -252,6 +252,14 @@ class EditPostModal extends React.PureComponent {
         this.props.actions.hideEditPostModal();
     }
 
+    handleCheckForChangesHide = () => {
+        if (this.state.editText !== this.props.editingPost.post.message) {
+            return;
+        }
+
+        this.handleHide();
+    }
+
     handleEntered = () => {
         if (this.editbox) {
             this.editbox.focus();
@@ -349,7 +357,7 @@ class EditPostModal extends React.PureComponent {
                 dialogClassName='a11y__modal edit-modal'
                 show={this.props.editingPost.show}
                 onKeyDown={this.handleKeyDown}
-                onHide={this.handleHide}
+                onHide={this.handleCheckForChangesHide}
                 onEntered={this.handleEntered}
                 onExit={this.handleExit}
                 onExited={this.handleExited}
@@ -357,7 +365,10 @@ class EditPostModal extends React.PureComponent {
                 role='dialog'
                 aria-labelledby='editPostModalLabel'
             >
-                <Modal.Header closeButton={true}>
+                <Modal.Header
+                    closeButton={true}
+                    onHide={this.handleHide}
+                >
                     <Modal.Title
                         componentClass='h1'
                         id='editPostModalLabel'

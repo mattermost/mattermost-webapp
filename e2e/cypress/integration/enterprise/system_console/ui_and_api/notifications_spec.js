@@ -9,6 +9,10 @@
 
 describe('System Console', () => {
     before(() => {
+        // * Login as sysadmin and check if server has license for ID Loaded Push Notifications
+        cy.apiLogin('sysadmin');
+        cy.requireLicenseForFeature('IDLoadedPushNotifications');
+
         // # Update to default config
         cy.apiUpdateConfig({
             EmailSettings: {
@@ -16,8 +20,7 @@ describe('System Console', () => {
             },
         });
 
-        // # Login as sysadmin and visit Notifications admin console page
-        cy.apiLogin('sysadmin');
+        // #  Visit Notifications admin console page
         cy.visit('/admin_console/environment/notifications');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Notifications');
     });
