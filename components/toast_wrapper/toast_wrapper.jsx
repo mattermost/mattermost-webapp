@@ -153,7 +153,7 @@ class ToastWrapper extends React.PureComponent {
                                   prevState.showMessageHistoryToast !== showMessageHistoryToast;
 
         if (toastStateChanged) {
-            const toastPresent = showUnreadToast || showNewMessagesToast || showMessageHistoryToast;
+            const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast);
             actions.updateToastStatus(toastPresent);
         }
     }
