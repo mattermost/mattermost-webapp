@@ -32,6 +32,10 @@
     height: 100%;
     z-index: 12;
 
+    body.announcement-bar--fixed & {
+        height: calc(100% - #{$announcement-bar-height});
+    }
+
     .badge {
         background: var(--mention-bg);
         color: var(--mention-color);
