@@ -151,6 +151,7 @@ interface Props {
     onChannelPermissionsChanged: (name: string, channelRole: ChannelModerationRoles) => void;
     teamSchemeID?: string;
     teamSchemeDisplayName?: string;
+    guestAccountsEnabled: boolean;
 }
 
 interface RowProps {
@@ -161,6 +162,7 @@ interface RowProps {
     membersDisabled: boolean;
     onClick: (name: string, channelRole: ChannelModerationRoles) => void;
     errorMessages?: any;
+    guestAccountsEnabled: boolean;
 }
 
 export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
@@ -185,24 +187,26 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                 </div>
                 {props.errorMessages}
             </td>
-            <td>
-                {!isNil(props.guests) &&
-                    <button
-                        data-testid={`${props.name}-${Roles.GUESTS}`}
-                        className={classNames(
-                            'checkbox',
-                            {
-                                checked: props.guests && !props.guestsDisabled,
-                                disabled: props.guestsDisabled,
-                            }
-                        )}
-                        onClick={() => props.onClick(props.name, Roles.GUESTS as ChannelModerationRoles)}
-                        disabled={props.guestsDisabled}
-                    >
-                        {props.guests && !props.guestsDisabled && <CheckboxCheckedIcon/>}
-                    </button>
-                }
-            </td>
+            {props.guestAccountsEnabled &&
+                <td>
+                    {!isNil(props.guests) &&
+                        <button
+                            data-testid={`${props.name}-${Roles.GUESTS}`}
+                            className={classNames(
+                                'checkbox',
+                                {
+                                    checked: props.guests && !props.guestsDisabled,
+                                    disabled: props.guestsDisabled,
+                                }
+                            )}
+                            onClick={() => props.onClick(props.name, Roles.GUESTS as ChannelModerationRoles)}
+                            disabled={props.guestsDisabled}
+                        >
+                            {props.guests && !props.guestsDisabled && <CheckboxCheckedIcon/>}
+                        </button>
+                    }
+                </td>
+            }
             <td>
                 {!isNil(props.members) &&
                     <button
@@ -228,12 +232,13 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
 export default class ChannelModeration extends React.Component<Props> {
     private errorMessagesToDisplay = (entry: ChannelPermissions): Array<any> => {
         const errorMessages: Array<any> = [];
-        const isGuestsDisabled = !isNil(entry.roles.guests?.['enabled']) && !entry.roles.guests?.['enabled'];
+        const isGuestsDisabled = !isNil(entry.roles.guests?.['enabled']) && !entry.roles.guests?.['enabled'] && this.props.guestAccountsEnabled;
         const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';
         if (entry.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS) {
             const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.find((permission) => permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST);
-            if (!createPostsObject!.roles.guests!.value && !createPostsObject!.roles.members!.value) {
+            const createPostsGuestsUnchecked = !createPostsObject!.roles.guests!.value && this.props.guestAccountsEnabled;
+            if (createPostsGuestsUnchecked && !createPostsObject!.roles.members!.value) {
                 errorMessages.push(
                     <div
                         data-testid={formattedMessages[entry.name].disabledBothDueToCreatePosts.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
@@ -246,7 +251,7 @@ export default class ChannelModeration extends React.Component<Props> {
                     </div>
                 );
                 return errorMessages;
-            } else if (!createPostsObject!.roles.guests!.value) {
+            } else if (createPostsGuestsUnchecked) {
                 createPostsKey = 'disabledGuestsDueToCreatePosts';
             } else if (!createPostsObject!.roles.members!.value) {
                 createPostsKey = 'disabledMembersDueToCreatePosts';
@@ -302,6 +307,7 @@ export default class ChannelModeration extends React.Component<Props> {
     }
 
     render = (): JSX.Element => {
+        const {channelPermissions, guestAccountsEnabled, onChannelPermissionsChanged} = this.props;
         return (
             <AdminPanel
                 id='channel_moderation'
@@ -325,12 +331,14 @@ export default class ChannelModeration extends React.Component<Props> {
                                             defaultMessage={formattedMessages.permissions.defaultMessage}
                                         />
                                     </th>
-                                    <th>
-                                        <FormattedMessage
-                                            id={formattedMessages.guests.id}
-                                            defaultMessage={formattedMessages.guests.defaultMessage}
-                                        />
-                                    </th>
+                                    {guestAccountsEnabled &&
+                                        <th>
+                                            <FormattedMessage
+                                                id={formattedMessages.guests.id}
+                                                defaultMessage={formattedMessages.guests.defaultMessage}
+                                            />
+                                        </th>
+                                    }
                                     <th>
                                         <FormattedMessage
                                             id={formattedMessages.members.id}
@@ -340,7 +348,7 @@ export default class ChannelModeration extends React.Component<Props> {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.props.channelPermissions && this.props.channelPermissions.map((entry) => {
+                                {channelPermissions && channelPermissions.map((entry) => {
                                     return (
                                         <ChannelModerationTableRow
                                             key={entry.name}
@@ -349,8 +357,9 @@ export default class ChannelModeration extends React.Component<Props> {
                                             guestsDisabled={!entry.roles.guests?.['enabled']}
                                             members={entry.roles.members.value}
                                             membersDisabled={!entry.roles.members.enabled}
-                                            onClick={this.props.onChannelPermissionsChanged}
+                                            onClick={onChannelPermissionsChanged}
                                             errorMessages={this.errorMessagesToDisplay(entry)}
+                                            guestAccountsEnabled={guestAccountsEnabled}
                                         />
                                     );
                                 })}
