@@ -27,6 +27,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
+              key="isFavorite-undefined"
               onEntering={[Function]}
               overlay={
                 <Tooltip
@@ -236,6 +237,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
+              key="isFavorite-undefined"
               onEntering={[Function]}
               overlay={
                 <Tooltip
@@ -445,6 +447,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
+              key="isFavorite-undefined"
               onEntering={[Function]}
               overlay={
                 <Tooltip
@@ -803,6 +806,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
+              key="isFavorite-undefined"
               onEntering={[Function]}
               overlay={
                 <Tooltip
@@ -1053,6 +1057,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
+              key="isFavorite-undefined"
               onEntering={[Function]}
               overlay={
                 <Tooltip
@@ -1326,6 +1331,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
             <Overlay
               animation={[Function]}
               onEnter={[Function]}
+              onHide={[Function]}
               placement="bottom"
               rootClose={true}
               show={false}

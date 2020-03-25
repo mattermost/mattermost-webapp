@@ -26,7 +26,7 @@ function verifyLastPostStyle(codeTheme) {
 
 function navigateToThemeSettings() {
     // Change theme to desired theme (keeps settings modal open)
-    cy.toAccountSettingsModal(null, true);
+    cy.toAccountSettingsModal();
     cy.get('#displayButton').click();
     cy.get('#displaySettingsTitle').should('exist');
 
