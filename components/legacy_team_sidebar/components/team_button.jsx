@@ -177,17 +177,19 @@ class TeamButton extends React.Component {
             </OverlayTrigger>
         );
 
-        let teamButton;
-        if (isDesktopApp()) {
-            teamButton = (
-                <button
-                    className={'btn btn-link ' + disabled}
-                    onClick={handleClick}
-                >
-                    {btn}
-                </button>
-            );
+        let teamButton = (
+            <Link
+                id={`${this.props.url.slice(1)}TeamButton`}
+                aria-label={ariaLabel}
+                className={disabled}
+                to={this.props.url}
+                onClick={handleClick}
+            >
+                {btn}
+            </Link>
+        );
 
+        if (isDesktopApp()) {
             // if this is not a "special" team button, give it a context menu
             if (isNotCreateTeamButton) {
                 teamButton = (
@@ -199,18 +201,6 @@ class TeamButton extends React.Component {
                     </CopyUrlContextMenu>
                 );
             }
-        } else {
-            teamButton = (
-                <Link
-                    id={`${this.props.url.slice(1)}TeamButton`}
-                    aria-label={ariaLabel}
-                    className={disabled}
-                    to={this.props.url}
-                    onClick={handleClick}
-                >
-                    {btn}
-                </Link>
-            );
         }
 
         return isDraggable ? (
