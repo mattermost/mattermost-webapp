@@ -23,12 +23,6 @@ describe('Search teams', () => {
         cy.wrap([]).as('createdTeamIDs');
     });
 
-    afterEach(function() {
-        this.createdTeamIDs.forEach((teamID) => {
-            cy.apiDeleteTeam(teamID);
-        });
-    });
-
     it('loads with no search text', () => {
         // * Check the search input is empty.
         cy.findByTestId('search-input').should('be.visible').and('have.text', '');

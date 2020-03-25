@@ -277,6 +277,8 @@ const postChannelMentionsAndVerifySystemMessageNotExist = () => {
 };
 
 describe('Channel Moderation Test', () => {
+    let autemChannelId;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -368,7 +370,7 @@ describe('Channel Moderation Test', () => {
     });
 
     describe('MM-23102 - Post Reactions', () => {
-        before(() => {
+        beforeEach(() => {
             // Post a few messages in the channel
             visitAutemChannel('sysadmin');
             cy.findByTestId('post_textbox').clear().type('test123{enter}');

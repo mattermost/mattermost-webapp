@@ -8,7 +8,7 @@
 // ***************************************************************
 
 import users from '../../fixtures/users.json';
-import TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 function searchAndValidate(query, expectedResults = []) {
     cy.reload();

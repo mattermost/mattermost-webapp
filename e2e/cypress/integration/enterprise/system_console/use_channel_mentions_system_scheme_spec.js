@@ -121,7 +121,10 @@ const resetPermissionsToDefault = () => {
 };
 
 describe('System Scheme Channel Mentions Permissions Test', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // * Check if server has license
         cy.requireLicense();
 

@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Search', () => {
     beforeEach(() => {
