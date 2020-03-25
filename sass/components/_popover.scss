@@ -31,6 +31,14 @@
 
         &.chanel-header__popover--lhs_offset {
             margin-left: 61px;
+
+            &.chanel-header__popover--new_sidebar {
+                margin-left: 82px;
+            }
+        }
+
+        &.chanel-header__popover--new_sidebar {
+            margin-left: 20px;
         }
 
         .popover-content {
