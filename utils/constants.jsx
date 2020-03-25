@@ -193,6 +193,7 @@ export const ActionTypes = keyMirror({
     POST_UNREAD_SUCCESS: null,
 
     SET_UNREAD_FILTER_ENABLED: null,
+    UPDATE_TOAST_STATUS: null,
 });
 
 export const PostRequestTypes = keyMirror({
