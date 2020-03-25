@@ -15,6 +15,7 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+import {getEmojiMap} from 'selectors/emojis';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
@@ -47,6 +48,7 @@ function isConsecutivePost(state, ownProps) {
 function mapStateToProps(state, ownProps) {
     const getReactionsForPost = makeGetReactionsForPost();
     const getDisplayName = makeGetDisplayName();
+    const emojiMap = getEmojiMap(state);
 
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
@@ -69,6 +71,7 @@ function mapStateToProps(state, ownProps) {
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
+        emojiMap,
     };
 }
 

@@ -10,7 +10,8 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-const testSamlMetadataUrl = 'http://testsamlmetadataurl';
+const testSamlMetadataUrl = 'http://test_saml_metadata_url';
+const testIdpUrl = 'http://test_idp_url';
 const getSamlMetadataErrorMessage = 'SAML Metadata URL did not connect and pull data successfully';
 
 let config;
@@ -21,7 +22,13 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
         cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('SAML');
 
-        cy.apiUpdateConfig({SamlSettings: {Enable: true, IdpMetadataUrl: ''}});
+        cy.apiUpdateConfig({
+            SamlSettings: {
+                Enable: true,
+                IdpMetadataUrl: '',
+                IdpUrl: testIdpUrl
+            },
+        });
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });

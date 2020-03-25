@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import users from '../../fixtures/users.json';
+
 describe("Click another user's emoji reaction to add it", () => {
     it("M15113 - Click another user's emoji reaction to add it", () => {
         // # Login as "user-1" and go to /
@@ -20,7 +22,8 @@ describe("Click another user's emoji reaction to add it", () => {
         cy.apiLogout();
 
         // # Login as "user-2" and go to /
-        cy.apiLogin('user-2');
+        const user2 = users['user-2'];
+        cy.apiLogin(user2.username, user2.password);
         cy.visit('/ad-1/channels/town-square');
 
         // # Mouseover the last post

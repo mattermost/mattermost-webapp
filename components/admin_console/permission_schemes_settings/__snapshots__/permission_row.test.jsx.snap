@@ -7,6 +7,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   onClick={[Function]}
 >
   <PermissionCheckbox
+    id="uniqId-checkbox"
     value="checked"
   />
   <span
@@ -38,6 +39,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   onClick={[Function]}
 >
   <PermissionCheckbox
+    id="uniqId-checkbox"
     value="checked"
   />
   <span
@@ -64,6 +66,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   onClick={[Function]}
 >
   <PermissionCheckbox
+    id="uniqId-checkbox"
     value="checked"
   />
   <span
@@ -90,6 +93,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   onClick={[Function]}
 >
   <PermissionCheckbox
+    id="uniqId-checkbox"
     value="checked"
   />
   <span

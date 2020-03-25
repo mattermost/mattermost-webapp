@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -77,6 +76,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
 
         return (
             <SidebarChannel
+                key={channel.id}
                 channelId={channel.id}
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
