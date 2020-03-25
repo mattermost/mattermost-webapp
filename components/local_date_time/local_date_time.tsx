@@ -48,14 +48,25 @@ class LocalDateTime extends React.PureComponent<Props> {
             titleString = momentDate.toString() + ' (' + momentDate.tz() + ')';
         }
 
-        const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
         const options = {
-            ...timezoneProps,
-            hour12: !useMilitaryTime,
+            hour: 'numeric',
+            minute: 'numeric',
         };
-        let formattedTime = this.props.intl.formatTime(date, options);
+        if (enableTimezone && timeZone) {
+            options.timeZone = timeZone;
+        }
+        if (useMilitaryTime) {
+            options.hourCycle = 'h23';
+        } else {
+            options.hourCycle = 'h12';
+        }
 
-        if (formattedTime === String(date)) {
+        let formattedTime;
+        try {
+            formattedTime = (new Intl.DateTimeFormat(this.props.intl.locale, options)).format(date);
+        } catch {
+            // Fallback to Moment.js as a default rendering strategy. We could probably just
+            // use `en-US` as a locale with Intl.DateTimeFormat as well.
             const format = useMilitaryTime ? 'HH:mm' : 'hh:mm A';
             formattedTime = momentDate.format(format);
         }
