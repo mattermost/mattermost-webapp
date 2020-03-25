@@ -166,8 +166,7 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    copyLink = (e) => {
-        e.preventDefault();
+    copyLink = () => {
         const postUrl = `${this.props.currentTeamUrl}/pl/${this.props.post.id}`;
 
         const clipboard = navigator.clipboard;
@@ -240,12 +239,11 @@ export default class DotMenu extends React.PureComponent {
             const rect = menuRef.rect();
             const buttonRect = this.buttonRef.current.getBoundingClientRect();
             const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
-            const height = rect.height;
             const windowHeight = window.innerHeight;
 
             const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y;
-            const spaceOnBottom = (totalSpace - (spaceOnTop - height));
+            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
 
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),

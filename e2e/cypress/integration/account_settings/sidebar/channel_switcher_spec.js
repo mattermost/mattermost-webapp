@@ -14,20 +14,16 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     let testTeam;
 
     before(() => {
-        // # Login and visit "/"
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
 
         // # Create a test team and channels
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
-            cy.visit(`/${testTeam.name}`);
-        });
+        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
+            testTeam = teamRes.body;
 
-        cy.getCurrentTeamId().then((teamId) => {
             const numberOfChannels = 14;
             Cypress._.forEach(Array(numberOfChannels), (_, index) => {
-                cy.apiCreateChannel(teamId, 'channel-switcher', `Channel Switcher ${index.toString()}`).then((response) => {
+                cy.apiCreateChannel(testTeam.id, 'channel-switcher', `Channel Switcher ${index.toString()}`).then((response) => {
                     if (index === 0) {
                         testChannel = response.body;
                     }

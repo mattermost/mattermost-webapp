@@ -6,8 +6,11 @@ import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/actions/users';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
+import {Preferences} from 'utils/constants';
 
 export function removeUserFromTeamAndGetStats(teamId, userId) {
     return async (dispatch, getState) => {
@@ -86,5 +89,19 @@ export function switchTeam(url) {
         }
 
         browserHistory.push(url);
+    };
+}
+
+export function updateTeamsOrderForUser(teamIds) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const teamOrderPreferences = [{
+            user_id: currentUserId,
+            name: '',
+            category: Preferences.TEAMS_ORDER,
+            value: teamIds.join(','),
+        }];
+        dispatch(savePreferences(currentUserId, teamOrderPreferences));
     };
 }
