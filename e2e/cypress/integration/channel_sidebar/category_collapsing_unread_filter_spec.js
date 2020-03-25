@@ -81,6 +81,9 @@ describe('Channel sidebar', () => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
                 cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
 
+                // Force a reload to ensure the unread message displays
+                cy.reload();
+
                 // * Verify that all channels are visible
                 cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
                 cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible').should('has.class', 'unread');
@@ -181,6 +184,9 @@ describe('Channel sidebar', () => {
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
                 cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
+
+                // Force a reload to ensure the unread message displays
+                cy.reload();
 
                 // * Verify that all channels are visible
                 cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
