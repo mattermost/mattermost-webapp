@@ -115,7 +115,7 @@ class ToastWrapper extends React.PureComponent {
     componentDidMount() {
         this.mounted = true;
         const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = this.state;
-        const toastPresent = showUnreadToast || showNewMessagesToast || showMessageHistoryToast;
+        const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast);
         document.addEventListener('keydown', this.handleShortcut);
         this.props.actions.updateToastStatus(toastPresent);
     }

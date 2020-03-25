@@ -139,7 +139,7 @@ function lastGetPosts(state = {}, action) {
     }
 }
 
-function toastStatus(state = {}, action) {
+function toastStatus(state = false, action) {
     switch (action.type) {
     case ActionTypes.SELECT_CHANNEL_WITH_MEMBER:
         return false;
