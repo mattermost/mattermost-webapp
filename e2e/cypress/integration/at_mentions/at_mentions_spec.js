@@ -11,7 +11,7 @@ import users from '../../fixtures/users.json';
 
 function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}) {
     // Navigate to settings modal
-    cy.toAccountSettingsModal('user-1');
+    cy.toAccountSettingsModal();
 
     // Select "Notifications"
     cy.get('#notificationsButton').click();
@@ -77,6 +77,9 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
 
     // Verify that we now have a Notification property
     cy.window().should('have.property', 'Notification');
+
+    // # Navigate to a channel we are NOT going to post to
+    cy.get('#sidebarItem_saepe-5').scrollIntoView().click({force: true});
 }
 
 const receiver = users['user-1'];
@@ -86,9 +89,28 @@ let townsquareChannelId;
 let offTopicChannelId;
 
 describe('at-mention', () => {
+    function ignoreUncaughtException() {
+        cy.on('uncaught:exception', (err) => {
+            expect(err.message).to.include('.close is not a function');
+
+            return false;
+        });
+    }
+
     before(() => {
+        // # Update Configs
+        cy.apiLogin('sysadmin');
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelOrganization: true,
+            },
+        });
+        cy.apiLogout();
+
         // # Login as receiver and go to "/"
         cy.apiLogin(receiver.username);
+        cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiSaveSidebarSettingPreference();
 
         // # Navigate to the channel we were mention to
         // clear the notification gem and get the channelId
@@ -96,18 +118,16 @@ describe('at-mention', () => {
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });
-        cy.visit('/ad-1/channels/off-topic');
+
+        cy.get('#sidebarItem_off-topic').click({force: true});
         cy.getCurrentChannelId().then((id) => {
             offTopicChannelId = id;
         });
     });
 
-    beforeEach(() => {
-        // # Navigate to a channel we are NOT going to post to
-        cy.get('#sidebarItem_saepe-5').scrollIntoView().click({force: true});
-    });
-
     it('N14571 still triggers notification if username is not listed in words that trigger mentions', () => {
+        ignoreUncaughtException();
+
         // # Set Notification settings
         setNotificationSettings({first: false, username: true, shouts: true, custom: true});
 
@@ -117,6 +137,12 @@ describe('at-mention', () => {
         cy.postMessageAs({sender, message, channelId: townsquareChannelId});
 
         const body = `@${sender.username}: ${message}`;
+
+        cy.get('@notifySpy').should('have.been.calledWithMatch', 'Town Square', (args) => {
+            expect(args.body, `Notification body: "${args.body}" should match: "${body}"`).to.equal(body);
+            expect(args.tag, `Notification tag: "${args.tag}" should match: "${body}"`).to.equal(body);
+            return true;
+        });
 
         cy.get('@notifySpy').should('have.been.calledWithMatch',
             'Town Square', {body, tag: body, requireInteraction: false, silent: false});
@@ -151,6 +177,8 @@ describe('at-mention', () => {
     });
 
     it('N14570 does not trigger notifications with "Your non-case sensitive username" unchecked', () => {
+        ignoreUncaughtException();
+
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: true, custom: true});
 
@@ -189,6 +217,8 @@ describe('at-mention', () => {
     });
 
     it('N14572 does not trigger notifications with "channel-wide mentions" unchecked', () => {
+        ignoreUncaughtException();
+
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: false, custom: true});
 
@@ -230,6 +260,8 @@ describe('at-mention', () => {
     });
 
     it('M17445 - Words that trigger mentions support Chinese', () => {
+        ignoreUncaughtException();
+
         var customText = '番茄';
 
         // # Set Notification settings

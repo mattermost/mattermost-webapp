@@ -10,8 +10,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import accountSettingSections from '../../fixtures/account_setting_sections.json';
 
-let origConfig;
-
 function verifySections(sections) {
     // * Verify Accessibility support in the specified sections
     sections.forEach((section, index) => {
@@ -32,26 +30,11 @@ describe('Verify Accessibility Support in different sections in Account Settings
     before(() => {
         cy.apiLogin('sysadmin');
 
-        // Get config
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-            origConfig = {
-                DisplaySettings: {
-                    ExperimentalTimezone: config.DisplaySettings.ExperimentalTimezone,
-                },
-                SamlSettings: {
-                    Enable: config.SamlSettings.Enable,
-                },
-                ServiceSettings: {
-                    EnableMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication,
-                },
-            };
-        });
-
         // # Update Configs
-        cy.apiUpdateConfigBasic({
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
+                ExperimentalChannelOrganization: false,
             },
             DisplaySettings: {
                 ExperimentalTimezone: true,
@@ -67,15 +50,15 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
     beforeEach(() => {
         // # Open Account Settings
-        cy.toAccountSettingsModal(null, true).wait(TIMEOUTS.TINY);
+        cy.toAccountSettingsModal();
 
         // # Wait until the content in the settings are loaded
         cy.get('.settings-content > div').should('be.visible');
     });
 
-    after(() => {
-        // # Revert Config
-        cy.apiUpdateConfig(origConfig);
+    afterEach(() => {
+        // # Click "x" button to close Account Settings modal
+        cy.get('#accountSettingsHeader > .close').click();
     });
 
     it('MM-22628 Verify Label & Tab behavior in section links', () => {

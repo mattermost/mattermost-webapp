@@ -17,6 +17,8 @@ import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
 
+const PERIOD_TO_SLASH_REGEX = /\./g;
+
 const formattedMessages: any = defineMessages({
     [Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST]: {
         title: {
@@ -124,7 +126,7 @@ const formattedMessages: any = defineMessages({
 
     title: {
         id: t('admin.channel_settings.channel_moderation.title'),
-        defaultMessage: 'Channel Moderation',
+        defaultMessage: 'Channel Moderation (Beta)',
     },
     subtitle: {
         id: t('admin.channel_settings.channel_moderation.subtitle'),
@@ -161,17 +163,21 @@ interface RowProps {
     errorMessages?: any;
 }
 
-const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
+export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
     return (
         <tr>
             <td>
-                <label>
+                <label
+                    data-testid={formattedMessages[props.name].title.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
+                >
                     <FormattedMessage
                         id={formattedMessages[props.name].title.id}
                         defaultMessage={formattedMessages[props.name].title.defaultMessage}
                     />
                 </label>
-                <div>
+                <div
+                    data-testid={formattedMessages[props.name].description.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
+                >
                     <FormattedMessage
                         id={formattedMessages[props.name].description.id}
                         defaultMessage={formattedMessages[props.name].description.defaultMessage}
@@ -229,7 +235,10 @@ export default class ChannelModeration extends React.Component<Props> {
             const createPostsObject = this.props.channelPermissions && this.props.channelPermissions!.find((permission) => permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST);
             if (!createPostsObject!.roles.guests!.value && !createPostsObject!.roles.members!.value) {
                 errorMessages.push(
-                    <div key={formattedMessages[entry.name].disabledBothDueToCreatePosts.id}>
+                    <div
+                        data-testid={formattedMessages[entry.name].disabledBothDueToCreatePosts.id.replace(PERIOD_TO_SLASH_REGEX, '-')}
+                        key={formattedMessages[entry.name].disabledBothDueToCreatePosts.id}
+                    >
                         <FormattedMessage
                             id={formattedMessages[entry.name].disabledBothDueToCreatePosts.id}
                             defaultMessage={formattedMessages[entry.name].disabledBothDueToCreatePosts.defaultMessage}
@@ -245,7 +254,10 @@ export default class ChannelModeration extends React.Component<Props> {
 
             if (createPostsKey !== '') {
                 errorMessages.push(
-                    <div key={formattedMessages[entry.name][createPostsKey].id}>
+                    <div
+                        data-testid={formattedMessages[entry.name][createPostsKey].id.replace(PERIOD_TO_SLASH_REGEX, '-')}
+                        key={formattedMessages[entry.name][createPostsKey].id}
+                    >
                         <FormattedMessage
                             id={formattedMessages[entry.name][createPostsKey].id}
                             defaultMessage={formattedMessages[entry.name][createPostsKey].defaultMessage}
@@ -271,7 +283,10 @@ export default class ChannelModeration extends React.Component<Props> {
                 schemeLink = `team_override_scheme/${this.props.teamSchemeID}`;
             }
             errorMessages.push(
-                <div key={formattedMessages[entry.name][disabledKey].id}>
+                <div
+                    data-testid={formattedMessages[entry.name][disabledKey].id.replace(PERIOD_TO_SLASH_REGEX, '-')}
+                    key={formattedMessages[entry.name][disabledKey].id}
+                >
                     <FormattedMarkdownMessage
                         id={formattedMessages[entry.name][disabledKey].id}
                         defaultMessage={formattedMessages[entry.name][disabledKey].defaultMessage}

@@ -3,21 +3,20 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {createSelector} from 'reselect';
 
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
 
@@ -35,21 +34,6 @@ export function isFirstReply(post, previousPost) {
 
     // This post is not a reply
     return false;
-}
-
-export function makeGetReplyCount() {
-    return createSelector(
-        (state) => state.entities.posts.posts,
-        (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
-        (allPosts, postIds) => {
-            if (!postIds) {
-                return 0;
-            }
-
-            // Count the number of non-ephemeral posts in the thread
-            return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
-        }
-    );
 }
 
 function makeMapStateToProps() {

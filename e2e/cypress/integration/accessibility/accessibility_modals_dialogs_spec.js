@@ -11,6 +11,7 @@ import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 let selectedRowText;
+const user1 = users['user-1'];
 const user2 = users['user-2'];
 
 function verifyMainMenuModal(modalName, modalId, modalLabel, expectedModalName) {
@@ -190,8 +191,12 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     it('MM-22623 Accessibility Support in Manage Channel Members Dialog screen', () => {
         cy.visit('/ad-1/channels/off-topic');
 
-        // # Adding atleast one other user in the channel
+        // # Adding at least two other users in the channel
         cy.getCurrentChannelId().then((channelId) => {
+            cy.apiGetUserByEmail(user1.email).then((res) => {
+                const user = res.body;
+                cy.apiAddUserToChannel(channelId, user.id);
+            });
             cy.apiGetUserByEmail(user2.email).then((res) => {
                 const user = res.body;
                 cy.apiAddUserToChannel(channelId, user.id);

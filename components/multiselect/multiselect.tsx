@@ -362,7 +362,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
         return (
             <div className='filtered-user-list'>
                 <div className='filter-row filter-row--full'>
-                    <div className='multi-select__container'>
+                    <div className='multi-select__container react-select'>
                         <ReactSelect
                             id='selectItems'
                             ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
@@ -387,6 +387,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
                             getOptionLabel={this.props.ariaLabelRenderer}
                             aria-label={this.props.placeholderText}
                             className={this.state.a11yActive ? 'multi-select__focused' : ''}
+                            classNamePrefix='react-select-auto react-select'
                         />
                         <SaveButton
                             id='saveItems'
@@ -452,34 +453,6 @@ const styles = {
             paddingRight: '15px',
             verticalAlign: 'top',
             width: '100%',
-        };
-    },
-    control: (base: React.CSSProperties) => {
-        return {
-            ...base,
-            borderRadius: '1px',
-            borderColor: 'hsl(0,0%,80%)',
-            minHeight: '36px',
-            '&:hover': {},
-            boxShadow: '',
-            backgroundColor: 'hsl(0,0%,100%)',
-        };
-    },
-    multiValue: (base: React.CSSProperties): React.CSSProperties => {
-        return {
-            ...base,
-            whiteSpace: 'nowrap',
-            border: '1px solid rgba(0, 126, 255, 0.24)',
-            backgroundColor: 'rgba(0, 126, 255, 0.08)',
-            color: '#007eff',
-        };
-    },
-    multiValueRemove: (base: React.CSSProperties) => {
-        return {
-            ...base,
-            ':hover': {
-                backgroundColor: 'rgba(0, 126, 255, 0.15)',
-            },
         };
     },
 };
