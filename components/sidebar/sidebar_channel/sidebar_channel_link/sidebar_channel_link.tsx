@@ -135,7 +135,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     icon={icon}
                 />
                 <span
-                    className={classNames(['SidebarChannelLinkLabel', {muted: isMuted}])}
+                    className={'SidebarChannelLinkLabel'}
                     ref={this.labelRef}
                 >
                     {label}
@@ -160,7 +160,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     menuId={channel.id}
                 >
                     <button
-                        className={'btn btn-link SidebarLink'}
+                        className={classNames(['btn btn-link SidebarLink', {muted: isMuted}])}
                         aria-label={this.getAriaLabel()}
                         onClick={this.handleClick}
                     >
@@ -171,7 +171,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } else {
             element = (
                 <Link
-                    className={'SidebarLink'}
+                    className={classNames(['SidebarLink', {muted: isMuted}])}
                     id={`sidebarItem_${channel.name}`}
                     aria-label={this.getAriaLabel()}
                     to={link}
