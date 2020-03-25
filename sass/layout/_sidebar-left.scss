@@ -35,8 +35,8 @@
     .badge {
         background: var(--mention-bg);
         color: var(--mention-color);
-        margin-right: 20px;
-        height: 16px;
+        margin-right: 16px;
+        height: 17px;
         min-width: 16px;
     }
 
@@ -358,8 +358,6 @@
       
         i.icon-chevron-down {
             max-width: 16px;
-            max-height: 16px;
-            line-height: 18px;
 
             &.hide-arrow {
                 visibility: hidden;
@@ -459,7 +457,7 @@
             width: 24px;
             height: 20px;
             line-height: 16px;
-            margin-right: 7px;
+            margin-right: 16px;
             text-align: center;
 
             &:hover {
@@ -508,6 +506,12 @@
         border-top: 0;
         border-bottom: 0;
         height: 32px;
+
+
+        &.muted {
+            opacity: 0.4;
+            font-weight: 300;
+        }
     }
     .SidebarChannel .SidebarLink:focus {
         /* box-shadow: inset 0 0 0 2px orange; */
