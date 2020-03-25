@@ -38,12 +38,11 @@ describe('channel name tooltips', () => {
     let timestamp;
 
     beforeEach(() => {
-        timestamp = Date.now();
-
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // # Create new team and add user to team
+        timestamp = Date.now();
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
             team = response.body;
 

@@ -48,33 +48,48 @@ function changeTimezone(timezone) {
 }
 
 describe('SF15699 Search Date Filter', () => {
-    // Store unique timestamp
-    const timestamp = Date.now();
-
-    // Setup Messages
-    const todayMessage = `Today's message ${timestamp}`;
-    const firstMessage = `First message ${timestamp}`;
-    const secondMessage = `Second message ${timestamp}`;
-    const firstOffTopicMessage = `Off topic 1 ${timestamp}`;
-    const secondOffTopicMessage = `Off topic 2 ${timestamp}`;
-
-    // Store messages in expected order they'd appear
-    const allMessagesInOrder = [
-        todayMessage,
-        secondOffTopicMessage,
-        secondMessage,
-        firstOffTopicMessage,
-        firstMessage,
-    ];
-
-    // Get dates for query and in ms for usage below
-    const firstDateEarly = getMsAndQueryForDate(Date.UTC(2018, 5, 5, 9, 30)); // June 5th, 2018 @ 9:30am
-    const firstDateLater = getMsAndQueryForDate(Date.UTC(2018, 5, 5, 9, 45)); // June 5th, 2018 @ 9:45am
-    const secondDateEarly = getMsAndQueryForDate(Date.UTC(2018, 9, 15, 13, 15)); // October 15th, 2018 @ 1:15pm
-    const secondDateLater = getMsAndQueryForDate(Date.UTC(2018, 9, 15, 13, 25)); // October 15th, 2018 @ 1:25pm
-
     const baseUrl = Cypress.config('baseUrl');
+
+    let timestamp;
+    let todayMessage;
+    let firstMessage;
+    let secondMessage;
+    let firstOffTopicMessage;
+    let secondOffTopicMessage;
+    let allMessagesInOrder;
+    let firstDateEarly;
+    let firstDateLater;
+    let secondDateEarly;
+    let secondDateLater;
+    let timestamp;
     let newAdmin;
+
+    function initMessagesAndDates() {
+        // Store unique timestamp
+        timestamp = Date.now();
+
+        // Setup Messages
+        todayMessage = `Today's message ${timestamp}`;
+        firstMessage = `First message ${timestamp}`;
+        secondMessage = `Second message ${timestamp}`;
+        firstOffTopicMessage = `Off topic 1 ${timestamp}`;
+        secondOffTopicMessage = `Off topic 2 ${timestamp}`;
+
+        // Store messages in expected order they'd appear
+        allMessagesInOrder = [
+            todayMessage,
+            secondOffTopicMessage,
+            secondMessage,
+            firstOffTopicMessage,
+            firstMessage,
+        ];
+
+        // Get dates for query and in ms for usage below
+        firstDateEarly = getMsAndQueryForDate(Date.UTC(2018, 5, 5, 9, 30)); // June 5th, 2018 @ 9:30am
+        firstDateLater = getMsAndQueryForDate(Date.UTC(2018, 5, 5, 9, 45)); // June 5th, 2018 @ 9:45am
+        secondDateEarly = getMsAndQueryForDate(Date.UTC(2018, 9, 15, 13, 15)); // October 15th, 2018 @ 1:15pm
+        secondDateLater = getMsAndQueryForDate(Date.UTC(2018, 9, 15, 13, 25)); // October 15th, 2018 @ 1:25pm
+    }
 
     beforeEach(() => {
         // # Login as sysadmin
@@ -90,6 +105,9 @@ describe('SF15699 Search Date Filter', () => {
         cy.get('@team').then((team) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
+
+        // # Initialize messages and dates
+        initMessagesAndDates();
 
         // # Create a post from today
         cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');

@@ -47,7 +47,7 @@ describe('Channels', () => {
         });
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList').should('be.visible').within(() => {
+        cy.get('#publicChannelList', {timeout: TIMEOUTS.SMALL}).should('be.visible').within(() => {
             cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 

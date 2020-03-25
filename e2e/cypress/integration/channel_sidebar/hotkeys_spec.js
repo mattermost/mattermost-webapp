@@ -25,9 +25,8 @@ describe('Channel switching', () => {
             },
         });
 
-        // # Login as user-1
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     const cmdOrCtrl = Cypress.platform === 'darwin' ? '{cmd}' : '{ctrl}';

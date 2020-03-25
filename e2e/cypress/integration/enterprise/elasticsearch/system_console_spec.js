@@ -88,8 +88,11 @@ describe('Elasticsearch system console', () => {
     });
 
     it('autocomplete queries can be disabled', () => {
+        // # Click the Index Now button to start the index
+        cy.contains('button', 'Index Now').click();
+
         //  Check the false checkbox for enable autocomplete
-        cy.get('#enableAutocompletefalse').check().should('be.checked');
+        cy.get('#enableAutocompletefalse', {timeout: TIMEOUTS.SMALL}).check().should('be.checked');
 
         // # Save the settings
         cy.get('#saveSetting').click();

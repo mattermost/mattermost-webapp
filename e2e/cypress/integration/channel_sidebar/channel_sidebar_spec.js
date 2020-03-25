@@ -25,9 +25,8 @@ describe('Channel sidebar', () => {
             },
         });
 
-        // # Login as user-1
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('should switch channels when clicking on a channel in the sidebar', () => {

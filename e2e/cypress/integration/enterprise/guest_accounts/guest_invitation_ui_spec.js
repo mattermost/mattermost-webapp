@@ -145,7 +145,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the header has changed in the modal
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', 'Invite Guests to Test Team');
+            cy.get('h1').should('have.text', `Invite Guests to ${testTeam.display_name}`);
         });
 
         // * Verify Invite Guests button is disabled by default
@@ -282,7 +282,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
-        cy.findByTestId('invitationModal').find('h1').should('have.text', 'Invite Members to Test Team');
+        cy.findByTestId('invitationModal').find('h1').should('have.text', `Invite Members to ${testTeam.display_name}`);
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {

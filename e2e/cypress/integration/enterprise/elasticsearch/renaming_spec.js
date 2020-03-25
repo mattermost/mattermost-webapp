@@ -16,7 +16,7 @@ function searchAndVerifyChannel(channel) {
     cy.typeCmdOrCtrl().type('k');
 
     // # Search for channel's display name
-    cy.get('#quickSwitchInput').
+    cy.get('#quickSwitchInput', {timeout: TIMEOUTS.SMALL}).
         should('be.visible').
         as('input').
         clear().
@@ -32,7 +32,7 @@ function searchAndVerifyChannel(channel) {
 
 function searchAndVerifyUser(user) {
     // # Start @ mentions autocomplete with username
-    cy.get('#post_textbox').
+    cy.get('#post_textbox', {timeout: TIMEOUTS.SMALL}).
         as('input').
         should('be.visible').
         clear().
@@ -49,7 +49,7 @@ function searchAndVerifyUser(user) {
 }
 
 describe('renaming', () => {
-    const timestamp = Date.now();
+    let timestamp;
     let team;
 
     beforeEach(() => {
@@ -63,6 +63,7 @@ describe('renaming', () => {
         cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
+        timestamp = Date.now();
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
             team = response.body;
         });

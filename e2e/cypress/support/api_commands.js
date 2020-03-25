@@ -3,8 +3,6 @@
 
 import merge from 'merge-deep';
 
-import {getRandomInt} from '../utils';
-
 import users from '../fixtures/users.json';
 import partialDefaultConfig from '../fixtures/partial_default_config.json';
 
@@ -89,9 +87,9 @@ Cypress.Commands.add('apiGetBots', () => {
  * All parameters required except purpose and header
  */
 Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '') => {
-    const suffix = `${getRandomInt(9999).toString()}`;
-    const uniqueName = `${name}-${suffix}`;
-    const uniqueDisplayName = `${displayName}-${suffix}`;
+    const timestamp = Date.now();
+    const uniqueName = `${name}-${timestamp}`;
+    const uniqueDisplayName = `${displayName}-${timestamp}`;
 
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -283,9 +281,9 @@ Cypress.Commands.add('apiCreateCommand', (command = {}) => {
  * All parameters required
  */
 Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
-    const suffix = `${getRandomInt(9999).toString()}`;
-    const uniqueName = `${name}-${suffix}`;
-    const uniqueDisplayName = `${displayName}-${suffix}`;
+    const timestamp = Date.now();
+    const uniqueName = `${name}-${timestamp}`;
+    const uniqueDisplayName = `${displayName}-${timestamp}`;
 
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},

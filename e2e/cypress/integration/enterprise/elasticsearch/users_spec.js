@@ -9,89 +9,91 @@
 
 import {withTimestamp, createEmail, enableElasticSearch, disableElasticSearch} from './helpers';
 
-const timestamp = Date.now();
-
-const testUsers = {
-    ironman: {
-        username: withTimestamp('ironman', timestamp),
-        firstName: 'Tony',
-        lastName: 'Stark',
-        email: createEmail('ironman', timestamp),
-        nickname: withTimestamp('protoncannon', timestamp),
-    },
-    hulk: {
-        username: withTimestamp('hulk', timestamp),
-        firstName: 'Bruce',
-        lastName: 'Banner',
-        email: createEmail('hulk', timestamp),
-        nickname: withTimestamp('gammaray', timestamp),
-    },
-    hawkeye: {
-        username: withTimestamp('hawkeye', timestamp),
-        firstName: 'Clint',
-        lastName: 'Barton',
-        email: createEmail('hawkeye', timestamp),
-        nickname: withTimestamp('ronin', timestamp),
-    },
-    deadpool: {
-        username: withTimestamp('deadpool', timestamp),
-        firstName: 'Wade',
-        lastName: 'Wilson',
-        email: createEmail('deadpool', timestamp),
-        nickname: withTimestamp('merc', timestamp),
-    },
-    captainamerica: {
-        username: withTimestamp('captainamerica', timestamp),
-        firstName: 'Steve',
-        lastName: 'Rogers',
-        email: createEmail('captainamerica', timestamp),
-        nickname: withTimestamp('professional', timestamp),
-    },
-    doctorstrange: {
-        username: withTimestamp('doctorstrange', timestamp),
-        firstName: 'Stephen',
-        lastName: 'Strange',
-        email: createEmail('doctorstrange', timestamp),
-        nickname: withTimestamp('sorcerersupreme', timestamp),
-    },
-    thor: {
-        username: withTimestamp('thor', timestamp),
-        firstName: 'Thor',
-        lastName: 'Odinson',
-        email: createEmail('thor', timestamp),
-        nickname: withTimestamp('mjolnir', timestamp),
-    },
-    loki: {
-        username: withTimestamp('loki', timestamp),
-        firstName: 'Loki',
-        lastName: 'Odinson',
-        email: createEmail('loki', timestamp),
-        nickname: withTimestamp('trickster', timestamp),
-    },
-    dot: {
-        username: withTimestamp('dot.dot', timestamp),
-        firstName: 'z1First',
-        lastName: 'z1Last',
-        email: createEmail('dot', timestamp),
-        nickname: 'z1Nick',
-    },
-    dash: {
-        username: withTimestamp('dash-dash', timestamp),
-        firstName: 'z2First',
-        lastName: 'z2Last',
-        email: createEmail('dash', timestamp),
-        nickname: 'z2Nick',
-    },
-    underscore: {
-        username: withTimestamp('under_score', timestamp),
-        firstName: 'z3First',
-        lastName: 'z3Last',
-        email: createEmail('undercore', timestamp),
-        nickname: 'z3Nick',
-    },
-};
+function createTestUsers(timestamp) {
+    return {
+        ironman: {
+            username: withTimestamp('ironman', timestamp),
+            firstName: 'Tony',
+            lastName: 'Stark',
+            email: createEmail('ironman', timestamp),
+            nickname: withTimestamp('protoncannon', timestamp),
+        },
+        hulk: {
+            username: withTimestamp('hulk', timestamp),
+            firstName: 'Bruce',
+            lastName: 'Banner',
+            email: createEmail('hulk', timestamp),
+            nickname: withTimestamp('gammaray', timestamp),
+        },
+        hawkeye: {
+            username: withTimestamp('hawkeye', timestamp),
+            firstName: 'Clint',
+            lastName: 'Barton',
+            email: createEmail('hawkeye', timestamp),
+            nickname: withTimestamp('ronin', timestamp),
+        },
+        deadpool: {
+            username: withTimestamp('deadpool', timestamp),
+            firstName: 'Wade',
+            lastName: 'Wilson',
+            email: createEmail('deadpool', timestamp),
+            nickname: withTimestamp('merc', timestamp),
+        },
+        captainamerica: {
+            username: withTimestamp('captainamerica', timestamp),
+            firstName: 'Steve',
+            lastName: 'Rogers',
+            email: createEmail('captainamerica', timestamp),
+            nickname: withTimestamp('professional', timestamp),
+        },
+        doctorstrange: {
+            username: withTimestamp('doctorstrange', timestamp),
+            firstName: 'Stephen',
+            lastName: 'Strange',
+            email: createEmail('doctorstrange', timestamp),
+            nickname: withTimestamp('sorcerersupreme', timestamp),
+        },
+        thor: {
+            username: withTimestamp('thor', timestamp),
+            firstName: 'Thor',
+            lastName: 'Odinson',
+            email: createEmail('thor', timestamp),
+            nickname: withTimestamp('mjolnir', timestamp),
+        },
+        loki: {
+            username: withTimestamp('loki', timestamp),
+            firstName: 'Loki',
+            lastName: 'Odinson',
+            email: createEmail('loki', timestamp),
+            nickname: withTimestamp('trickster', timestamp),
+        },
+        dot: {
+            username: withTimestamp('dot.dot', timestamp),
+            firstName: 'z1First',
+            lastName: 'z1Last',
+            email: createEmail('dot', timestamp),
+            nickname: 'z1Nick',
+        },
+        dash: {
+            username: withTimestamp('dash-dash', timestamp),
+            firstName: 'z2First',
+            lastName: 'z2Last',
+            email: createEmail('dash', timestamp),
+            nickname: 'z2Nick',
+        },
+        underscore: {
+            username: withTimestamp('under_score', timestamp),
+            firstName: 'z3First',
+            lastName: 'z3Last',
+            email: createEmail('undercore', timestamp),
+            nickname: 'z3Nick',
+        },
+    };
+}
 
 describe('Autocomplete', () => {
+    let timestamp;
+    let testUsers;
     let team;
 
     beforeEach(() => {
@@ -105,6 +107,8 @@ describe('Autocomplete', () => {
         cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
+        timestamp = Date.now();
+        testUsers = createTestUsers(timestamp);
         cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
             team = response.body;
 

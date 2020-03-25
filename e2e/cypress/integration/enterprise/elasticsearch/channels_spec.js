@@ -11,8 +11,6 @@ import users from '../../../fixtures/users.json';
 
 import {withTimestamp, createEmail, enableElasticSearch, disableElasticSearch} from './helpers';
 
-const timestamp = Date.now();
-
 function createPrivateChannel(teamId, userToAdd = null) {
     const baseUrl = Cypress.config('baseUrl');
 
@@ -70,6 +68,7 @@ function searchForChannel(name) {
 }
 
 describe('search for channel with', () => {
+    let timestamp;
     let team = {};
     let user;
 
@@ -81,6 +80,7 @@ describe('search for channel with', () => {
         cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team to run tests against
+        timestamp = Date.now();
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
             team = response.body;
 

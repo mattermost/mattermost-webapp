@@ -15,8 +15,8 @@ const sysadmin = users.sysadmin;
 
 describe('Channel sidebar', () => {
     beforeEach(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
         // Enable Experimental Channel Sidebar Organization
         cy.apiUpdateConfig({
