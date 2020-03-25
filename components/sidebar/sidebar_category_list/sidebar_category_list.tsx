@@ -77,7 +77,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
     scrollAnimation: Spring;
-    closedDirectChannel: boolean;
 
     constructor(props: Props) {
         super(props);
@@ -88,7 +87,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             showBottomUnread: false,
         };
         this.scrollbar = React.createRef();
-        this.closedDirectChannel = false;
 
         this.animate = new SpringSystem();
         this.scrollAnimation = this.animate.createSpring();
@@ -124,11 +122,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
         // close the LHS on mobile when you change channels
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            if (this.closedDirectChannel) {
-                this.closedDirectChannel = false;
-            } else {
-                this.props.actions.close();
-            }
+            this.props.actions.close();
         }
 
         this.updateUnreadIndicators();
