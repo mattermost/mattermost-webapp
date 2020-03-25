@@ -45,7 +45,7 @@ describe('Post Header', () => {
             cy.get(divPostId).should('be.visible').should('have.class', 'post--highlight');
 
             // * Check that the "jump to recent messages" is visible
-            cy.get('#archive-link-home').
+            cy.get('#archive-link-home', {timeout: TIMEOUTS.SMALL}).
                 should('be.visible').
                 should('contain', 'Click here to jump to recent messages.');
 
@@ -249,7 +249,7 @@ describe('Post Header', () => {
         // * Verify that the RHS for pinned posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
             // * Check that searching indicator appears before the pinned posts are loaded
-            cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+            cy.get('#loadingSpinner', {timeout: TIMEOUTS.SMALL}).should('be.visible').and('have.text', 'Searching...');
             cy.get('#search-items-container').should('be.visible');
 
             // # Close the RHS

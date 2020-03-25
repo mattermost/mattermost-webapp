@@ -7,6 +7,8 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     beforeEach(() => {
         // # resize window to mobile view
@@ -44,7 +46,7 @@ describe('Messaging', () => {
                 cy.get('li').should('have.length.greaterThan', 0);
 
                 // * Check if one of the options are as follows
-                cy.findByText('Add Reaction').should('be.visible');
+                cy.findByText('Add Reaction', {timeout: TIMEOUTS.TINY}).should('be.visible');
                 cy.findByText('Mark as Unread').should('be.visible');
                 cy.findByText('Copy Link').should('be.visible');
                 cy.findByText('Flag').should('be.visible');

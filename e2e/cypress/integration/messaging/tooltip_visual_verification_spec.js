@@ -10,8 +10,8 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     beforeEach(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
         // # Create new user and DM
         cy.apiCreateNewUser().then((res) => {

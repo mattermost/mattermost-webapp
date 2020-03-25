@@ -132,6 +132,7 @@ describe('Teams Suite', () => {
 
         // # Login as user added to Team, update teammate name display preference to "username" and reload
         cy.apiLogin(user1.username);
+        cy.apiPatchMe({locale: 'en'});
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.reload();
 

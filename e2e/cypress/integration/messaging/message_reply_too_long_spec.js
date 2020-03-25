@@ -6,6 +6,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Message Reply too long', () => {
     beforeEach(() => {
         // # Login and navigate to town-square
@@ -41,7 +43,7 @@ describe('Message Reply too long', () => {
         cy.get('#reply_textbox').type('{enter}');
 
         // * Check warning
-        cy.get('.post-error').should('be.visible').and('have.class', 'animation--highlight').and('have.text', `Your message is too long. Character count: ${replyTooLong.length}/${maxReplyLength}`);
+        cy.get('.post-error', {timeout: TIMEOUTS.TINY}).should('be.visible').and('have.class', 'animation--highlight').and('have.text', `Your message is too long. Character count: ${replyTooLong.length}/${maxReplyLength}`);
         cy.get('#reply_textbox').should('be.visible');
 
         // * Check last reply is the last valid one

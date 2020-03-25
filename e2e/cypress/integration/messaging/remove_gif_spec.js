@@ -16,6 +16,7 @@ describe('Messaging', () => {
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
+        cy.apiPatchMe({locale: 'en'});
 
         // # Save Show Preview Preference to true
         // # Save Preview Collapsed Preference to false

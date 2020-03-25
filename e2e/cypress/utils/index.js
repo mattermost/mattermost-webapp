@@ -5,7 +5,7 @@ import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
 
 export function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+    return Math.floor((Math.random() * Math.floor(max)) + (Math.random() * Math.floor(max)));
 }
 
 export function getEmailUrl(baseUrl) {

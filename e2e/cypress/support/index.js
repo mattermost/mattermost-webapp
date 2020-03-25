@@ -89,4 +89,5 @@ beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
     cy.apiLogin('sysadmin');
     cy.apiUpdateConfig();
+    cy.apiPatchMe({locale: 'en'});
 });
