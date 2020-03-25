@@ -111,7 +111,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         const channelId = testChannel.id;
         cy.apiGetTeamByName('ad-1').then((res) => {
             for (let i = 0; i < 5; i++) {
-                cy.createNewUser({}, [res.body.id]).then((user) => {
+                cy.apiCreateNewUser({}, [res.body.id]).then((user) => {
                     cy.apiAddUserToChannel(channelId, user.id);
                 });
             }

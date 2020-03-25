@@ -25,7 +25,7 @@ describe('Email notification', () => {
         });
 
         cy.apiGetTeamByName('ad-1').then((res) => {
-            cy.createNewUser({}, [res.body.id]).then((user) => {
+            cy.apiCreateNewUser({}, [res.body.id]).then((user) => {
                 mentionedUser = user;
             });
         });
