@@ -93,7 +93,7 @@ describe('search for channel with', () => {
             };
 
             // # Setup new channel and user
-            cy.createNewUser(daredevil, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(daredevil, [team.id]).then((userResponse) => {
                 user = userResponse;
             });
         });
