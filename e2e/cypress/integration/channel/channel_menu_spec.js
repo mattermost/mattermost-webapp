@@ -25,6 +25,9 @@ describe('Channel header menu', () => {
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
+        
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Accounts
         cy.apiUpdateConfig({

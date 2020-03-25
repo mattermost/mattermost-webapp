@@ -51,6 +51,9 @@ describe('Verify Accessibility Support in different input fields', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Accounts
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
