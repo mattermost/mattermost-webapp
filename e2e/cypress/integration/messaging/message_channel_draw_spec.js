@@ -70,7 +70,7 @@ describe('Draw plugin : Post message', () => {
 
         // # Open file upload options - Select your computer plugin
         cy.get('#fileUploadButton').click();
-        cy.get('#fileUploadOptions', {timeout: TIMEOUTS.TINY}).findByText('Your computer').click();
+        cy.get('#fileUploadOptions', {timeout: TIMEOUTS.SMALL}).findByText('Your computer').click();
 
         // * Click on my computer and verify drafted message still exist in textbox
         cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TINY).

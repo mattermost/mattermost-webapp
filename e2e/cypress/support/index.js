@@ -87,7 +87,9 @@ Cypress.on('test:after:run', (test, runnable) => {
 // Reset config before each test
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
-    cy.apiLogin('sysadmin');
-    cy.apiUpdateConfig();
+    cy.apiLogin('user-1');
     cy.apiPatchMe({locale: 'en'});
+    cy.apiLogin('sysadmin');
+    cy.apiPatchMe({locale: 'en'});
+    cy.apiUpdateConfig();
 });

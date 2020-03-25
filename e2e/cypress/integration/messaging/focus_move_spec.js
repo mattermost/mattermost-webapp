@@ -59,7 +59,7 @@ describe('Messaging', () => {
         cy.get('#channelHeaderFlagButton').click();
 
         //#Making sure Flagged Posts is present on the page
-        cy.contains('Flagged Posts').should('be.visible');
+        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Flagged Posts').should('be.visible');
         cy.get('#post_textbox').should('not.be.focused');
 
         //#Push a character key such as "A"

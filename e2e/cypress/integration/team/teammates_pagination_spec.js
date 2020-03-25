@@ -13,7 +13,6 @@ describe('Teams Suite', () => {
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiPatchMe({locale: 'en'});
 
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((createResponse) => {

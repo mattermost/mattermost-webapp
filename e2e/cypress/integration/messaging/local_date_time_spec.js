@@ -56,7 +56,7 @@ describe('Messaging', () => {
         [
             {
                 name: 'in English',
-                channelIntro: 'Beginning of Channel Test',
+                channelIntro: /Beginning of Channel Test/,
                 locale: 'en',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -67,7 +67,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'in other locale like Spanish',
-                channelIntro: 'Inicio de Channel Test',
+                channelIntro: /Inicio de Channel Test/,
                 locale: 'es',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -78,7 +78,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'for react-intl unsupported timezone',
-                channelIntro: 'Inicio de Channel Test',
+                channelIntro: /Inicio de Channel Test/,
                 locale: 'es',
                 manualTimezone: 'NZ-CHAT',
                 localTimes: [

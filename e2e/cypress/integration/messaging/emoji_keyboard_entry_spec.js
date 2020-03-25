@@ -7,6 +7,8 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('M16738 - Use keyboard navigation in emoji picker', () => {
     beforeEach(() => {
         // # Login as user-1
@@ -25,7 +27,7 @@ describe('M16738 - Use keyboard navigation in emoji picker', () => {
     ['right', 'down'].forEach((dir) => {
         it(`${dir} keypress should select the first emoji on start without prior selection`, () => {
             // # Type arrow key
-            cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
+            cy.get('#emojiPickerSearch').type(`{${dir}arrow}`).wait(TIMEOUTS.TINY);
 
             // * The first emoji in the "People" category should be selected
             testSelectedIndex((idx) => expect(idx).to.equal(0));
@@ -38,7 +40,7 @@ describe('M16738 - Use keyboard navigation in emoji picker', () => {
     ['left', 'up'].forEach((dir) => {
         it(`${dir} keypress should select nothing on start without prior selection`, () => {
             // # Type arrow key
-            cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
+            cy.get('#emojiPickerSearch').type(`{${dir}arrow}`).wait(TIMEOUTS.TINY);
 
             // * There should be no selection
             cy.get('.emoji-picker__item.selected').should('not.exist');
@@ -69,7 +71,7 @@ describe('M16738 - Use keyboard navigation in emoji picker', () => {
         for (const direction of Object.keys(pressCounts)) {
             for (let i = 0; i < pressCounts[direction]; i += 1) {
                 // # Press arrow key
-                cy.get('#emojiPickerSearch').type(`{${direction}arrow}`);
+                cy.get('#emojiPickerSearch').type(`{${direction}arrow}`).wait(TIMEOUTS.TINY);
 
                 // * id of selected emoji should be different from last iteration
                 cy.get('.emoji-picker__item.selected img').invoke('attr', 'id').then(checkSelectionId);
@@ -85,7 +87,7 @@ describe('M16738 - Use keyboard navigation in emoji picker', () => {
 
     it('should post selected emoji', () => {
         // # Press arrow keys
-        cy.get('#emojiPickerSearch').type('{rightarrow}{downarrow}');
+        cy.get('#emojiPickerSearch').type('{rightarrow}{downarrow}').wait(TIMEOUTS.TINY);
 
         cy.get('#emojiPickerAliasesPreview').invoke('text').then((selectedEmoji) => {
             // # Select chosen emoji

@@ -28,7 +28,7 @@ Cypress.Commands.add('getSubpath', () => {
             }
 
             // Remove trailing slash
-            return url.replace(origin, '').substring(0, url.length - origin.length - 1);
+            return url.replace(origin, '').substring(0, url.length - origin.length);
         });
     });
 });
@@ -416,7 +416,7 @@ Cypress.Commands.add('createAndVisitNewChannel', () => {
  */
 Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png', mimeType = 'image/png') => {
     cy.fixture(fileName).then((fileContent) => {
-        cy.get(targetInput).upload(
+        cy.get(targetInput, {timeout: TIMEOUTS.SMALL}).upload(
             {fileContent, fileName, mimeType},
             {subjectType: 'input', force: true},
         );

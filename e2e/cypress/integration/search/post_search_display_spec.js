@@ -11,7 +11,6 @@ describe('Post search display', () => {
     it('S14252 After clearing search query, search options display', () => {
         // # Login as user-1
         cy.apiLogin('user-1');
-        cy.apiPatchMe({locale: 'en'});
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
