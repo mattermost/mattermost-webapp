@@ -4,6 +4,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
 <div
   className="SidebarNavContainer a11y__region"
   data-a11y-sort-order="7"
+  id="sidebar-left"
 >
   <UnreadChannelIndicator
     content={
@@ -76,6 +77,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
 <div
   className="SidebarNavContainer a11y__region disabled"
   data-a11y-sort-order="7"
+  id="sidebar-left"
 >
   <UnreadChannelIndicator
     content={
