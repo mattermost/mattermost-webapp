@@ -164,9 +164,12 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 focusedPostId: 'asdasd',
                 atLatestPost: false,
+                atBottom: null
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showMessageHistoryToast')).toBe(undefined);
 
+            wrapper.setProps({atBottom: false});
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
         });
 
