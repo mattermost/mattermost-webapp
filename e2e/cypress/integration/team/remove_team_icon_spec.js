@@ -34,10 +34,12 @@ function openTeamSettingsDialog() {
 
 describe('Teams Settings', () => {
     before(() => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
 
         // # Login as new user
-        cy.loginAsNewUser().then(() => {
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 team = response.body;

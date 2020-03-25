@@ -387,7 +387,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
                             getOptionLabel={this.props.ariaLabelRenderer}
                             aria-label={this.props.placeholderText}
                             className={this.state.a11yActive ? 'multi-select__focused' : ''}
-                            classNamePrefix='react-select'
+                            classNamePrefix='react-select-auto react-select'
                         />
                         <SaveButton
                             id='saveItems'

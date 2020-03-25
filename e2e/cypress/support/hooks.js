@@ -6,6 +6,7 @@
 export function testWithConfig(config) {
     before(() => {
         let originalConfig;
+        cy.apiLogin('sysadmin');
         cy.apiGetConfig().then((resp) => {
             originalConfig = resp.body;
         });
@@ -13,6 +14,8 @@ export function testWithConfig(config) {
         cy.apiUpdateConfig(config);
 
         after(() => {
+            // # Logging in again since another user session may happen between before and after
+            cy.apiLogin('sysadmin');
             cy.apiUpdateConfig(originalConfig);
         });
     });
