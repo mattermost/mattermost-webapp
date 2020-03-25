@@ -6,8 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
+import debounce from 'lodash/debounce';
 
-import {debounce} from 'mattermost-redux/actions/helpers';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
