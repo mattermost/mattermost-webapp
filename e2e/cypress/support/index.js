@@ -83,6 +83,12 @@ Cypress.on('test:after:run', (test, runnable) => {
     }
 });
 
+// Reset config
+before(() => {
+    cy.apiLogin('sysadmin');
+    cy.apiUpdateConfig();
+});
+
 // Add login cookies to whitelist to preserve it
 // Reset config before each test
 beforeEach(() => {
