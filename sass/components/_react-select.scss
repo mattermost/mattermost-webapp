@@ -19,7 +19,36 @@
     }
 
     .react-select__multi-value {
-        background: v(center-channel-color-15);
+        align-items: center;
+        background: var(--center-channel-color-10);
+        padding: 2px;
+        border-radius: 16px;
+        color: var(--center-channel-color);
+        margin: 4px;
+        &:nth-last-child(2) {
+            margin: 4px 0px 4px 4px;
+        }
+    }
+
+    .react-select__multi-value__remove {
+        cursor: pointer;
+        span {
+            height: 16px;
+            width: 16px;
+            display: flex;
+        }
+        &:hover {
+            background: none;
+        }
+        svg {
+            height: 16px;
+            width: 16px;
+            fill: var(--center-channel-color-60);
+            &:hover {
+                fill: var(--center-channel-color-80);
+            }
+            opacity: .6;
+        }
     }
 
     .react-select__control {
