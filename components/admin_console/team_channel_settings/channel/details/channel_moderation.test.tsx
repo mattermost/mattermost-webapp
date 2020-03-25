@@ -234,7 +234,6 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
         expect(wrapper).toMatchSnapshot();
     });
 
-
     describe('errorMessages function', () => {
         test('Should not return any error messages', () => {
             const wrapper = shallow(
