@@ -9,23 +9,24 @@
 
 import users from '../../fixtures/users';
 
-import {testWithConfig} from '../../support/hooks';
-
 import {getRandomInt} from '../../utils';
 
 const sysadmin = users.sysadmin;
 
 describe('Channel sidebar', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
-        cy.visit('/');
+        // Enable Experimental Channel Sidebar Organization
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('should display collapsed state when collapsed', () => {

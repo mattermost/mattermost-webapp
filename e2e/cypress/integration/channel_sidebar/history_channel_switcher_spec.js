@@ -7,21 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {testWithConfig} from '../../support/hooks';
-
 import {getRandomInt} from '../../utils';
 
 describe('Channel sidebar', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
-        cy.visit('/');
+        // Enable Experimental Channel Sidebar Organization
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('should not show history arrows on the regular webapp', () => {
