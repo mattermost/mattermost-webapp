@@ -19,7 +19,7 @@ import {
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
@@ -78,7 +78,8 @@ function makeMapStateToProps() {
             hasGuests: stats.guest_count > 0,
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
-            currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state)
+            currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
+            newSideBarPreference: getNewSidebarPreference(state)
         };
     };
 }
