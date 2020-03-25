@@ -94,7 +94,7 @@ describe('Actions', () => {
             const path = getPathFromIdentifier(initialState, 'channels', '3y8ujrgtbfn78ja5nfms3qm5jw__3y8ujrgtbfn78ja5nfms3qm5jw');
             expect(path).toEqual('direct_channel_user_ids');
         });
-        test('Should return channel_name if name looks like a group id but channel exists and is an open channel', () => {
+        test('Should return channel by name path if identifier looks like a group id but matching channel is an open channel', () => {
             const path = getPathFromIdentifier(initialState, 'channels', 'additional-abilities---community-systems');
             expect(path).toEqual('channel_name');
         });
