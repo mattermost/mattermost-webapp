@@ -234,6 +234,23 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('Should match seventh Snapshot', () => {
+        const wrapper = shallow(
+            <ChannelModerationTableRow
+                key={channelPermissions[0].name}
+                name={channelPermissions[0].name}
+                guests={channelPermissions[0].roles.guests?.['value']}
+                guestsDisabled={!channelPermissions[0].roles.guests?.['enabled']}
+                members={channelPermissions[0].roles.members.value}
+                membersDisabled={!channelPermissions[0].roles.members.enabled}
+                onClick={onChannelPermissionsChanged}
+                errorMessages={jest.fn().mockResolvedValue([])}
+                guestAccountsEnabled={false}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     describe('errorMessages function', () => {
         test('Should not return any error messages', () => {
             const wrapper = shallow(

@@ -286,6 +286,42 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
 </tr>
 `;
 
+exports[`admin_console/team_channel_settings/channel/ChannelModeration Should match seventh Snapshot 1`] = `
+<tr>
+  <td>
+    <label
+      data-testid="admin-channel_settings-channel_moderation-createPosts"
+    >
+      <FormattedMessage
+        defaultMessage="Create Posts"
+        id="admin.channel_settings.channel_moderation.createPosts"
+        values={Object {}}
+      />
+    </label>
+    <div
+      data-testid="admin-channel_settings-channel_moderation-createPostsDesc"
+    >
+      <FormattedMessage
+        defaultMessage="The ability for members and guests to create posts in the channel."
+        id="admin.channel_settings.channel_moderation.createPostsDesc"
+        values={Object {}}
+      />
+    </div>
+    <Component />
+  </td>
+  <td>
+    <button
+      className="checkbox checked"
+      data-testid="create_post-members"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <CheckboxCheckedIcon />
+    </button>
+  </td>
+</tr>
+`;
+
 exports[`admin_console/team_channel_settings/channel/ChannelModeration Should match sixth Snapshot 1`] = `
 <AdminPanel
   className=""
