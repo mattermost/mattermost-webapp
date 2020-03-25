@@ -10,29 +10,32 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-const testSamlMetadataUrl = 'http://testsamlmetadataurl';
+const testSamlMetadataUrl = 'http://test_saml_metadata_url';
+const testIdpUrl = 'http://test_idp_url';
 const getSamlMetadataErrorMessage = 'SAML Metadata URL did not connect and pull data successfully';
 
 let config;
 
 describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
     before(() => {
-        cy.apiUpdateConfig({SamlSettings: {Enable: true, IdpMetadataUrl: ''}});
+        // * Check if server has license for SAML
+        cy.apiLogin('sysadmin');
+        cy.requireLicenseForFeature('SAML');
+
+        cy.apiUpdateConfig({
+            SamlSettings: {
+                Enable: true,
+                IdpMetadataUrl: '',
+                IdpUrl: testIdpUrl
+            },
+        });
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
 
-        // # Login as "sysadmin"
-        cy.apiLogin('sysadmin');
-
         //make sure we can navigate to SAML settings
         cy.visit('/admin_console/authentication/saml');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'SAML 2.0');
-    });
-
-    afterEach(() => {
-        // # Reload current page after each test
-        cy.reload();
     });
 
     it('fail to fetch metadata from Idp Metadata Url', () => {
@@ -61,7 +64,7 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
             Cypress.$(elem).val() === config.SamlSettings.IdpDescriptorUrl;
         });
 
-        //verify that we can succezsfully save the settings (we have not affected previous state)
+        //verify that we can successfully save the settings (we have not affected previous state)
         cy.get('#saveSetting').click();
     });
 });

@@ -18,15 +18,14 @@ describe('Email notification', () => {
     let mentionedUser;
 
     before(() => {
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({EmailSettings: {SendEmailNotifications: true}});
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
 
-        cy.visit('/ad-1/channels/town-square');
-
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.createNewUser({}, [teamId]).then((user) => {
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            cy.apiCreateNewUser({}, [res.body.id]).then((user) => {
                 mentionedUser = user;
             });
         });
@@ -35,6 +34,7 @@ describe('Email notification', () => {
     it('post a message that mentions a user', () => {
         // # Login as user-1 and visit town-square channel
         cy.apiLogin('user-1');
+        cy.apiSaveTeammateNameDisplayPreference('username');
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message mentioning the new user

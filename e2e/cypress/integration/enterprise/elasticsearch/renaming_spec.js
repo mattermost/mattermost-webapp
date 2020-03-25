@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {createEmail, withTimestamp, enableElasticSearch, disableElasticSearch} from './helpers';
 
@@ -20,7 +23,7 @@ function searchAndVerifyChannel(channel) {
         type(channel.display_name);
 
     // * Suggestions should appear
-    cy.get('#suggestionList').should('be.visible');
+    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
     // * Channel should appear
     cy.findByTestId(channel.name).
@@ -36,7 +39,7 @@ function searchAndVerifyUser(user) {
         type(`@${user.username}`);
 
     // * Suggestion list should appear
-    cy.get('#suggestionList').should('be.visible');
+    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
     // # Verify user appears in results post-change
     return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
@@ -52,6 +55,10 @@ describe('renaming', () => {
     before(() => {
         // # Login as admin
         cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
+
+        // * Check if server has license for Elasticsearch
+        cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
@@ -77,7 +84,7 @@ describe('renaming', () => {
             };
 
             // # Create a new user
-            cy.createNewUser(spiderman, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
                 const user = userResponse;
                 cy.visit(`/${team.name}`);
 
@@ -131,7 +138,7 @@ describe('renaming', () => {
                 };
 
                 // # Setup new channel and user
-                cy.createNewUser(punisher, [team.id]).then((userResponse) => {
+                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals
@@ -188,7 +195,7 @@ describe('renaming', () => {
             };
 
             // # Create a new user
-            cy.createNewUser(spiderman, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
                 const user = userResponse;
                 cy.visit(`/${team.name}`);
 
@@ -242,7 +249,7 @@ describe('renaming', () => {
                 };
 
                 // # Setup new channel and user
-                cy.createNewUser(punisher, [team.id]).then((userResponse) => {
+                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals

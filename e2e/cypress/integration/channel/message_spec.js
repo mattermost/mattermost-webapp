@@ -97,8 +97,9 @@ describe('Message', () => {
         // # Change settings to allow @channel messages
         cy.apiPatchMe({notify_props: {channel: 'true'}});
 
-        // # Login as new user
-        cy.loginAsNewUser().then(() => {
+        // # Login as sysadmin the create/login as new user
+        cy.apiLogin('sysadmin');
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 cy.visit(`/${response.body.name}`);

@@ -85,13 +85,15 @@ function closeAndComplete() {
 
 describe('Invite Members', () => {
     before(() => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig(
             {EmailSettings: {RequireEmailVerification: false}},
             {ServiceSettings: {EnableAPITeamDeletion: true}},
         );
 
         // # Login as new user
-        cy.loginAsNewUser().then(() => {
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 testTeam = response.body;
@@ -151,7 +153,7 @@ describe('Invite Members', () => {
         verifyInviteMembersModal();
 
         // # invite existing user
-        inviteUser(user2);
+        inviteUser({...user2, username: 'user-2'});
 
         // * verify Invitation was created successfully
         verifyInvitationSuccess();

@@ -16,8 +16,11 @@ describe('System Console', () => {
     it('SC14734 Demoted user cannot continue to view System Console', () => {
         const baseUrl = Cypress.config('baseUrl');
 
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // # Login as new user
-        cy.loginAsNewUser().as('newuser');
+        cy.apiCreateAndLoginAsNewUser().as('newuser');
 
         // # Set user to be a sysadmin, so it can access the system console
         cy.get('@newuser').then((user) => {
