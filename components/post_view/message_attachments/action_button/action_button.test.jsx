@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 
-import {Constants, STATUS_COLORS} from 'utils/constants';
+import {Constants} from 'utils/constants';
 import ActionButton from 'components/post_view/message_attachments/action_button/action_button';
 
 describe('components/post_view/message_attachments/action_button.jsx', () => {
@@ -43,6 +43,22 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         expect(buttonStyles).toHaveProperty('color', Constants.THEMES.default.onlineIndicator);
     });
 
+    test('should have correct styles when provided color from not default theme', () => {
+        const props = {
+            ...baseProps,
+            theme: Constants.THEMES.mattermostDark,
+            action: {...baseProps.action, style: 'danger'},
+        };
+
+        const wrapper = shallow(<ActionButton {...props}/>);
+        const buttonStyles = wrapper.find('button').prop('style');
+
+        expect(buttonStyles).toHaveProperty('backgroundColor', '#ffffff');
+        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.mattermostDark.errorTextColor, 0.25));
+        expect(buttonStyles).toHaveProperty('borderWidth', 2);
+        expect(buttonStyles).toHaveProperty('color', Constants.THEMES.mattermostDark.errorTextColor);
+    });
+
     test('should have correct styles when provided status color', () => {
         const props = {
             ...baseProps,
@@ -53,9 +69,9 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const buttonStyles = wrapper.find('button').prop('style');
 
         expect(buttonStyles).toHaveProperty('backgroundColor', '#ffffff');
-        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(STATUS_COLORS[props.action.style], 0.25));
+        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.default.onlineIndicator, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
-        expect(buttonStyles).toHaveProperty('color', STATUS_COLORS[props.action.style]);
+        expect(buttonStyles).toHaveProperty('color', Constants.THEMES.default.onlineIndicator);
     });
 
     test('should have correct styles when provided hex color', () => {
@@ -73,7 +89,7 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         expect(buttonStyles).toHaveProperty('color', props.action.style);
     });
 
-    test('should have no styles when provided wrong hex color', () => {
+    test('should have no styles when provided invalid hex color', () => {
         const props = {
             ...baseProps,
             action: {...baseProps.action, style: '#wrong'},

@@ -6,7 +6,6 @@ import React from 'react';
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 
 import Markdown from 'components/markdown';
-import {STATUS_COLORS} from 'utils/constants';
 
 export default class ActionButton extends React.PureComponent {
     static propTypes = {
@@ -16,11 +15,23 @@ export default class ActionButton extends React.PureComponent {
         theme: PropTypes.object.isRequired,
     }
 
+    getStatusColors(theme) {
+        return {
+            good: '#00c100',
+            warning: '#dede01',
+            danger: theme.errorTextColor,
+            default: theme.centerChannelColor,
+            primary: theme.buttonBg,
+            success: theme.onlineIndicator,
+        };
+    }
+
     render() {
         const {action, handleAction, disabled, theme} = this.props;
         let customButtonStyle;
 
         if (action.style) {
+            const STATUS_COLORS = this.getStatusColors(theme);
             const hexColor =
                 STATUS_COLORS[action.style] ||
                 theme[action.style] ||
