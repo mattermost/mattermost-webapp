@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
+import {getToastStatus} from 'selectors/views/channel';
+
 import FloatingTimestamp from './floating_timestamp';
 
 function mapStateToProps(state, ownProps) {
@@ -18,8 +20,10 @@ function mapStateToProps(state, ownProps) {
 
     const post = getPost(state, postId);
 
+    const toastPresent = getToastStatus(state);
     return {
         createAt: post ? post.create_at : 0,
+        toastPresent,
     };
 }
 
