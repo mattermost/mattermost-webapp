@@ -183,7 +183,7 @@ interface RowProps {
 
 export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (props: RowProps): JSX.Element => {
     let descriptionId = formattedMessages[props.name].description.id;
-    let descriptionDefaultMessage = formattedMessages[props.name].description.default;
+    let descriptionDefaultMessage = formattedMessages[props.name].description.defaultMessage;
     if (!props.guestAccountsEnabled && formattedMessages[props.name].descriptionMembers) {
         descriptionId = formattedMessages[props.name].descriptionMembers.id;
         descriptionDefaultMessage = formattedMessages[props.name].descriptionMembers.defaultMessage;
