@@ -158,7 +158,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="style--none channel-header__icon wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -368,7 +368,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="style--none channel-header__icon wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -578,7 +578,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon active"
+      buttonClass="style--none channel-header__icon wide active"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -727,7 +727,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="style--none channel-header__icon wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -972,7 +972,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="style--none channel-header__icon wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -1188,7 +1188,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="style--none channel-header__icon wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -1435,13 +1435,233 @@ exports[`components/ChannelHeader should render properly when populated with cha
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="style--none channel-header__icon wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
           className="icon icon__pin"
         />
+      }
+      onClick={[Function]}
+      tooltipKey="pinnedPosts"
+    />
+    <HeaderIconWrapper
+      ariaLabel={true}
+      buttonId="channelHeaderSearchButton"
+      iconComponent={
+        <SearchIcon
+          aria-hidden="true"
+          className="icon icon__search icon--stroke"
+        />
+      }
+      onClick={[Function]}
+      tooltipKey="search"
+    />
+    <HeaderIconWrapper
+      ariaLabel={true}
+      buttonClass="style--none channel-header__icon"
+      buttonId="channelHeaderMentionButton"
+      iconComponent={
+        <MentionsIcon
+          aria-hidden="true"
+          className="icon icon__mentions"
+        />
+      }
+      onClick={[Function]}
+      tooltipKey="recentMentions"
+    />
+    <HeaderIconWrapper
+      ariaLabel={true}
+      buttonClass="style--none channel-header__icon"
+      buttonId="channelHeaderFlagButton"
+      iconComponent={
+        <FlagIcon
+          className="icon icon__flag"
+        />
+      }
+      onClick={[Function]}
+      tooltipKey="flaggedPosts"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/ChannelHeader should render the pinned icon with the pinned posts count 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="channel_id"
+  id="channel-header"
+  role="banner"
+  tabIndex="-1"
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  bsClass="tooltip"
+                  id="favoriteTooltip"
+                  placement="right"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon fa fa-star-o"
+                />
+              </button>
+            </OverlayTrigger>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none"
+                >
+                  <strong
+                    aria-level="2"
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span />
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="fa fa-angle-down header-dropdown__icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+          </div>
+        </div>
+        <div
+          className="channel-header__description light"
+          id="channelHeaderDescription"
+        >
+          <Connect(ChannelPermissionGate)
+            channelId="channel_id"
+            permissions={
+              Array [
+                "manage_public_channel_properties",
+              ]
+            }
+            teamId="team_id"
+          >
+            <button
+              className="style--none"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add a channel description"
+                id="channel_header.addChannelHeader"
+                values={Object {}}
+              />
+              <FormattedMessage
+                defaultMessage="(Edit)"
+                id="channel_header.editLink"
+                values={Object {}}
+              >
+                <Component />
+              </FormattedMessage>
+            </button>
+          </Connect(ChannelPermissionGate)>
+        </div>
+      </div>
+    </div>
+    <div
+      className="flex-child"
+    >
+      <Connect(PopoverListMembers)
+        channel={
+          Object {
+            "delete_at": 0,
+            "id": "channel_id",
+            "name": "Test",
+            "team_id": "team_id",
+          }
+        }
+      />
+    </div>
+    <Connect(ChannelHeaderPlug)
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <HeaderIconWrapper
+      ariaLabel={true}
+      buttonClass="style--none channel-header__icon wide"
+      buttonId="channelHeaderPinButton"
+      iconComponent={
+        <div
+          className="flex-child"
+        >
+          <span
+            className="icon__text"
+            id="channelPinnedPostCountText"
+          >
+            2
+          </span>
+          <PinIcon
+            aria-hidden="true"
+            className="icon icon__pin"
+          />
+        </div>
       }
       onClick={[Function]}
       tooltipKey="pinnedPosts"
