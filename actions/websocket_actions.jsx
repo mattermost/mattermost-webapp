@@ -730,7 +730,7 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export function handleUserRemovedEvent(msg) {
+export async function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
@@ -742,6 +742,11 @@ export function handleUserRemovedEvent(msg) {
         if (msg.data.channel_id === rhsChannelId) {
             dispatch(closeRightHandSide());
         }
+
+        await dispatch({
+            type: ChannelTypes.LEAVE_CHANNEL,
+            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+        });
 
         if (msg.data.channel_id === currentChannel.id) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
@@ -764,10 +769,6 @@ export function handleUserRemovedEvent(msg) {
             }
         }
 
-        dispatch({
-            type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-        });
         if (isGuest(currentUser)) {
             dispatch(removeNotVisibleUsers());
         }
