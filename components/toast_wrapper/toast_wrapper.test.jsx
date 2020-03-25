@@ -32,6 +32,9 @@ describe('components/ToastWrapper', () => {
         scrollToLatestMessages: jest.fn(),
         updateLastViewedBottomAt: jest.fn(),
         lastViewedAt: 12344,
+        actions: {
+            updateToastStatus: jest.fn(),
+        }
     };
 
     describe('unread count logic', () => {
@@ -386,6 +389,22 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
             wrapper.setProps({postListIds: baseProps.postListIds});
             expect(wrapper.state('showNewMessagesToast')).toBe(false);
+        });
+
+        test('Should call updateToastStatus on toasts state change', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5
+            };
+            const updateToastStatus = baseProps.actions.updateToastStatus;
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+            expect(updateToastStatus).toHaveBeenCalledWith(true);
+            wrapper.setProps({atBottom: true, atLatestPost: true});
+            expect(updateToastStatus).toHaveBeenCalledTimes(2);
+            expect(updateToastStatus).toHaveBeenCalledWith(false);
         });
     });
 });
