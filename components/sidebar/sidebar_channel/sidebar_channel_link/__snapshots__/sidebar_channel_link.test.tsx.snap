@@ -222,7 +222,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
 exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match snapshot with aria label prefix and unread mentions 1`] = `
 <Link
   aria-label="channel_label aria_label_prefix_ 2 mentions"
-  className="SidebarLink"
+  className="SidebarLink unread-title"
   id="sidebarItem_"
   onClick={[Function]}
   to="http://a.fake.link"
