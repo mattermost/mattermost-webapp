@@ -148,6 +148,9 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         );
 
         let element;
+
+        // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
+        const oldUnreadClass = this.showChannelAsUnread() ? ' unread-title' : '';
         if (isDesktopApp()) {
             element = (
                 <CopyUrlContextMenu
@@ -155,7 +158,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     menuId={channel.id}
                 >
                     <button
-                        className={'btn btn-link SidebarLink'}
+                        className={`btn btn-link SidebarLink${oldUnreadClass}`}
                         aria-label={this.getAriaLabel()}
                         onClick={this.handleClick}
                     >
@@ -166,7 +169,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } else {
             element = (
                 <Link
-                    className={'SidebarLink'}
+                    className={`SidebarLink${oldUnreadClass}`}
                     id={`sidebarItem_${channel.name}`}
                     aria-label={this.getAriaLabel()}
                     to={link}
