@@ -34,11 +34,6 @@ describe('Interactive Menu', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Save Teammate Name Disaply Preference to username
-        // # Save Message Display Preference to clean
-        cy.apiSaveTeammateNameDisplayPreference('username');
-        cy.apiSaveMessageDisplayPreference('clean');
-
         // # Enable Allowed Untrusted Internal Connections, Post Username Override and Post Icon Override
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -47,6 +42,11 @@ describe('Interactive Menu', () => {
                 EnablePostIconOverride: true,
             },
         });
+
+        // # Save Teammate Name Disaply Preference to username
+        // # Save Message Display Preference to clean
+        cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiSaveMessageDisplayPreference('clean');
 
         // # Create and visit new channel and create incoming webhook
         cy.createAndVisitNewChannel().then((data) => {

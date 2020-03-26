@@ -26,9 +26,6 @@ describe('Interactive Dialog', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Save Teammate Name Disaply Preference to username
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Enable Allowed Untrusted Internal Connections, Post Username Override and Post Icon Override
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -37,6 +34,9 @@ describe('Interactive Dialog', () => {
                 EnablePostIconOverride: true,
             },
         });
+
+        // # Save Teammate Name Disaply Preference to username
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {

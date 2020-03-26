@@ -12,17 +12,17 @@ describe('Messaging', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Save Show Preview Preference to true
-        // # Save Preview Collapsed Preference to false
-        cy.apiSaveShowPreviewPreference('true');
-        cy.apiSavePreviewCollapsedPreference('false');
-
         // # Enable Link Previews
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
             },
         });
+
+        // # Save Show Preview Preference to true
+        // # Save Preview Collapsed Preference to false
+        cy.apiSaveShowPreviewPreference('true');
+        cy.apiSavePreviewCollapsedPreference('false');
 
         // # Login as user-1
         cy.apiLogin('user-1');

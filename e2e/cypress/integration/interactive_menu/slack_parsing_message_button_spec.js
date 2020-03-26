@@ -17,23 +17,24 @@ let channel;
 let incomingWebhook;
 
 describe('Interactive Menu', () => {
-    before(() => {
+    beforeEach(() => {
+        // * Check if webhook server is running
         cy.requireWebhookServer();
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // Set required ServiceSettings
-        const newSettings = {
+        // # Enable Post Username Override and Post Icon Override
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 AllowedUntrustedInternalConnections: 'localhost',
                 EnablePostUsernameOverride: true,
                 EnablePostIconOverride: true,
             },
-        };
-        cy.apiUpdateConfig(newSettings);
+        });
 
-        // # Update teammate name display setting is set to default 'username'
+        // # Save Teammate Name Disaply Preference to username
+        // # Save Message Display Preference to clean
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference('clean');
 

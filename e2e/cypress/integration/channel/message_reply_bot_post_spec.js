@@ -21,15 +21,15 @@ describe('Messaging', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Save Teammate Name Display Preference to username
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Enable Bot Account Creation
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableBotAccountCreation: true,
             },
         });
+
+        // # Save Teammate Name Display Preference to username
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {

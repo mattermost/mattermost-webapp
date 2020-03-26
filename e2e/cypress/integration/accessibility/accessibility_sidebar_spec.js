@@ -49,15 +49,15 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Reset sidebar setting preference
-        cy.apiSaveSidebarSettingPreference();
-
         // # Enable Experimental Channel Organization
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelOrganization: true,
             },
         });
+
+        // # Reset sidebar setting preference
+        cy.apiSaveSidebarSettingPreference();
 
         // # Visit the Off-Topic channel
         cy.visit('/ad-1/channels/off-topic');
