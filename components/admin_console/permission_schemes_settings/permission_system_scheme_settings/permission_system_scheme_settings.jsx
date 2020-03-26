@@ -39,6 +39,7 @@ const GUEST_INCLUDED_PERMISSIONS = [
     Permissions.DELETE_POST,
     Permissions.ADD_REACTION,
     Permissions.REMOVE_REACTION,
+    Permissions.USE_CHANNEL_MENTIONS,
 ];
 
 export default class PermissionSystemSchemeSettings extends React.Component {
@@ -440,6 +441,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                         />
                     </BlockableLink>
                     <a
+                        data-testid='resetPermissionsToDefault'
                         onClick={() => this.setState({showResetDefaultModal: true})}
                         className='cancel-button reset-defaults-btn'
                     >

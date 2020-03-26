@@ -66,6 +66,36 @@ const allShortcuts = defineMessages({
             defaultMessage: 'Next unread channel:\t⌥|Shift|Down',
         },
     },
+    teamNavPrev: {
+        default: {
+            id: t('shortcuts.team_nav.prev'),
+            defaultMessage: 'Previous team:\tCtrl|Alt|Up',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.prev.mac'),
+            defaultMessage: 'Previous team:\t⌘|⌥|Up',
+        },
+    },
+    teamNavNext: {
+        default: {
+            id: t('shortcuts.team_nav.next'),
+            defaultMessage: 'Next team:\tCtrl|Alt|Down',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.next.mac'),
+            defaultMessage: 'Next team:\t⌘|⌥|Down',
+        },
+    },
+    teamNavSwitcher: {
+        default: {
+            id: t('shortcuts.team_nav.switcher'),
+            defaultMessage: 'Switch to a specific team:\tCtrl|Alt|[1-9]',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.switcher.mac'),
+            defaultMessage: 'Switch to a specific team:\t⌘|⌥|[1-9]',
+        },
+    },
     navSwitcher: {
         default: {
             id: t('shortcuts.nav.switcher'),
@@ -177,6 +207,16 @@ const allShortcuts = defineMessages({
     msgCompEmoji: {
         id: t('shortcuts.msgs.comp.emoji'),
         defaultMessage: 'Emoji:\t:|[a-z]|Tab',
+    },
+    msgLastReaction: {
+        default: {
+            id: t('shortcuts.msgs.comp.last_reaction'),
+            defaultMessage: 'React to last message: \tCtrl|Shift|\u29F5',
+        },
+        mac: {
+            id: t('shortcuts.msgs.comp.last_reaction.mac'),
+            defaultMessage: 'React to last message: \t⌘|Shift|\u29F5',
+        },
     },
     filesHeader: {
         id: t('shortcuts.files.header'),
@@ -339,6 +379,9 @@ class ShortcutsModal extends React.PureComponent {
                                         {renderShortcut(formatMessage(shortcuts.navNext))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadNext))}
+                                        {renderShortcut(formatMessage(shortcuts.teamNavPrev))}
+                                        {renderShortcut(formatMessage(shortcuts.teamNavNext))}
+                                        {renderShortcut(formatMessage(shortcuts.teamNavSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navDMMenu))}
                                         {renderShortcut(formatMessage(shortcuts.navSettings))}
@@ -356,6 +399,7 @@ class ShortcutsModal extends React.PureComponent {
                                         <div className='subsection'>
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
                                             {renderShortcut(formatMessage(shortcuts.msgReply))}
+                                            {renderShortcut(formatMessage(shortcuts.msgLastReaction))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintPrev))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintNext))}
                                         </div>

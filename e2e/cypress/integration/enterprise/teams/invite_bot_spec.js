@@ -12,8 +12,12 @@ describe('Group Synced Team - Bot invitation flow', () => {
     let bot;
 
     before(() => {
-        // # Login as sysadmin to perform setup
+        // * Check if server has license for LDAP Groups
+        cy.requireLicenseForFeature('LDAPGroups');
+
+        // # Login as sysadmin and enable LDAP
         cy.apiLogin('sysadmin');
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Get the first group constrained team available on the server
         cy.apiGetAllTeams().then((response) => {
@@ -35,7 +39,8 @@ describe('Group Synced Team - Bot invitation flow', () => {
             return;
         }
 
-        // # Login as an LDAP Group synced user
+        // # Logout sysadmin and login as an LDAP Group synced user
+        cy.apiLogout();
         cy.apiLogin('test.one', 'Password1');
 
         // # Visit the group constrained team

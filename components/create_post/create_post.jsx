@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
     containsAtChannel,
@@ -35,7 +35,7 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
-import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -185,7 +185,6 @@ class CreatePost extends React.PureComponent {
         useChannelMentions: PropTypes.bool.isRequired,
 
         intl: intlShape.isRequired,
-
         actions: PropTypes.shape({
 
             /**
@@ -259,8 +258,12 @@ class CreatePost extends React.PureComponent {
              * Function to get the users timezones in the channel
              */
             getChannelTimezones: PropTypes.func.isRequired,
-
             scrollPostListToBottom: PropTypes.func.isRequired,
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }).isRequired,
     }
 
@@ -622,6 +625,9 @@ class CreatePost extends React.PureComponent {
         post.parent_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
+        if (!this.props.useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
+            post.props.mentionHighlightDisabled = true;
+        }
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
@@ -662,6 +668,11 @@ class CreatePost extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
+        const postTextboxDisabled = this.props.readOnlyChannel || this.props.canPost;
+        if (this.refs.textbox && postTextboxDisabled) {
+            this.refs.textbox.getWrappedInstance().blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
+            return;
+        }
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.getWrappedInstance().focus();
         }
@@ -880,10 +891,17 @@ class CreatePost extends React.PureComponent {
     }
 
     documentKeyHandler = (e) => {
-        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+
+        if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
+            return;
+        } else if (lastMessageReactionKeyCombo) {
+            this.reactToLastMessage(e);
             return;
         }
 
@@ -985,6 +1003,22 @@ class CreatePost extends React.PureComponent {
     loadNextMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+    }
+
+    reactToLastMessage = (e) => {
+        e.preventDefault();
+
+        const {rhsExpanded, actions: {emitShortcutReactToLastPostFrom}} = this.props;
+        const noModalsAreOpen = document.getElementsByClassName(A11yClassNames.MODAL).length === 0;
+        const noPopupsDropdownsAreOpen = document.getElementsByClassName(A11yClassNames.POPUP).length === 0;
+
+        // Block keyboard shortcut react to last message when :
+        // - RHS is completely expanded
+        // - Any dropdown/popups are open
+        // - Any modals are open
+        if (!rhsExpanded && noModalsAreOpen && noPopupsDropdownsAreOpen) {
+            emitShortcutReactToLastPostFrom(Locations.CENTER);
+        }
     }
 
     handleBlur = () => {
@@ -1335,6 +1369,7 @@ class CreatePost extends React.PureComponent {
                     </div>
                     <div
                         id='postCreateFooter'
+                        role='form'
                         className={postFooterClassName}
                     >
                         <div className='d-flex justify-content-between'>

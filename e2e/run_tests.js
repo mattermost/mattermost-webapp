@@ -81,6 +81,7 @@ async function runTests() {
     await fse.remove('results');
     await fse.remove('screenshots');
 
+    const BROWSER = process.env.BROWSER ? process.env.BROWSER : 'chrome';
     const testDirs = fse.readdirSync('cypress/integration/');
     let failedTests = 0;
 
@@ -88,6 +89,8 @@ async function runTests() {
 
     for (const dir of testDirs) {
         const {totalFailed} = await cypress.run({
+            browser: `${BROWSER}`,
+            headless: 'true',
             spec: `./cypress/integration/${dir}/**/*`,
             config: {
                 screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
@@ -116,7 +119,7 @@ async function runTests() {
     }
 
     // Merge all json reports into one single json report
-    const jsonReport = await merge({reportDir: mochawesomeReportDir});
+    const jsonReport = await merge({files: [`${mochawesomeReportDir}/*.json`]});
 
     // Generate short summary, write to file and then send report via webhook
     const summary = generateShortSummary(jsonReport);
@@ -138,7 +141,7 @@ const result = [
 ];
 
 function generateReport(summary) {
-    const {BRANCH, BUILD_ID} = process.env;
+    const {BRANCH, BROWSER, BUILD_ID} = process.env;
     const {statsFieldValue, stats} = summary;
 
     let testResult;
@@ -157,8 +160,12 @@ function generateReport(summary) {
             author_name: 'Cypress UI Test',
             author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             author_link: 'https://www.mattermost.com',
-            title: `[${BRANCH}] Cypress UI Test Automation #${BUILD_ID} ${testResult.status}!`,
+            title: `Cypress UI Test Automation #${BUILD_ID} ${testResult.status}!`,
             fields: [{
+                short: false,
+                title: 'Environment',
+                value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
+            }, {
                 short: false,
                 title: 'Test Report',
                 value: `[Link to the report](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/artifact/mattermost-webapp/e2e/results/mochawesome-report/mochawesome.html)`,
@@ -182,18 +189,21 @@ function generateReport(summary) {
 
 async function sendReport(summary) {
     const data = generateReport(summary);
+    try {
+        const response = await axios({
+            method: 'post',
+            url: process.env.WEBHOOK_URL,
+            data,
+        });
 
-    const response = await axios({
-        method: 'post',
-        url: process.env.WEBHOOK_URL,
-        data,
-    });
-
-    if (response.data) {
-        console.log('Successfully sent report via webhook');
+        if (response.data) {
+            console.log('Successfully sent report via webhook');
+        }
+        return response;
+    } catch (er) {
+        console.log('Something went wrong while sending report via webhook', er);
+        return false;
     }
-
-    return response;
 }
 
 runTests();

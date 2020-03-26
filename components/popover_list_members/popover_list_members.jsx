@@ -7,7 +7,6 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -17,7 +16,7 @@ import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
 import TeamMembersModal from 'components/team_members_modal';
 
-import PopoverListMembersItem from './popover_list_members_item';
+import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
 
 export default class PopoverListMembers extends React.Component {
     static propTypes = {
@@ -27,11 +26,13 @@ export default class PopoverListMembers extends React.Component {
         memberCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
         teamUrl: PropTypes.string,
+        manageMembers: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
+        sortedUsers: PropTypes.array,
     };
 
     constructor(props) {
@@ -45,7 +46,6 @@ export default class PopoverListMembers extends React.Component {
             showChannelInviteModal: false,
             users: props.users,
             statuses: props.statuses,
-            sortedUsers: this.sortUsers(props.users, props.statuses),
         };
     }
 
@@ -54,15 +54,10 @@ export default class PopoverListMembers extends React.Component {
             return {
                 users: nextProps.users,
                 statuses: nextProps.statuses,
-                sortedUsers: Utils.sortUsersByStatusAndDisplayName(nextProps.users, nextProps.statuses),
             };
         }
         return null;
     }
-
-    sortUsers = (users, statuses) => {
-        return Utils.sortUsersByStatusAndDisplayName(users, statuses);
-    };
 
     handleShowDirectChannel = (user) => {
         const {actions} = this.props;
@@ -120,7 +115,7 @@ export default class PopoverListMembers extends React.Component {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const items = this.state.sortedUsers.map((user) => (
+        const items = this.props.sortedUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
@@ -140,10 +135,9 @@ export default class PopoverListMembers extends React.Component {
                 />
             );
 
-            const manageMembers = canManageMembers(this.props.channel);
             const isDefaultChannel = this.props.channel.name === Constants.DEFAULT_CHANNEL;
 
-            if (isDefaultChannel || !manageMembers) {
+            if (isDefaultChannel || !this.props.manageMembers) {
                 membersName = (
                     <FormattedMessage
                         id='members_popover.viewMembers'
@@ -234,7 +228,7 @@ export default class PopoverListMembers extends React.Component {
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='bottom'
-                        overlay={channelMembersTooltip}
+                        overlay={this.state.showPopover ? <></> : channelMembersTooltip}
                     >
                         <div>
                             <span

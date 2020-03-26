@@ -9,14 +9,12 @@
 
 describe('System Console', () => {
     before(() => {
+        // # Login as sysadmin, update config and visit town-square channel
+        cy.apiLogin('sysadmin');
         const newSettings = {
             TeamSettings: {SiteName: 'Mattermost'},
         };
         cy.apiUpdateConfig(newSettings);
-
-        // # Login as System Admin
-        cy.apiLogin('sysadmin');
-
         cy.visit('/ad-1/channels/town-square');
     });
 

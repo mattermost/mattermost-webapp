@@ -10,7 +10,7 @@ import './team_icon.scss';
 type Props = {
 
     /** Team icon URL (when available) */
-    url?: string;
+    url?: string | null;
 
     /** Team display name (used for the initials) if icon URL is not set */
     name: string;
@@ -38,6 +38,8 @@ export class TeamIcon extends React.PureComponent<Props> {
     public render() {
         const {name, url, size, withHover} = this.props;
         const hoverCss = withHover ? '' : 'no-hover';
+
+        // FIXME Nowhere does imageURLForTeam seem to check for display_name.
         const teamIconUrl = url || imageURLForTeam({display_name: name});
         let icon;
         if (teamIconUrl) {

@@ -24,6 +24,10 @@ function verifyGuest(userStatus = 'Guest ') {
 
 describe('Guest Account - Verify Manage Guest Users', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.apiLogin('sysadmin');
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
@@ -31,16 +35,13 @@ describe('Guest Account - Verify Manage Guest Users', () => {
             },
         });
 
-        // # Login as new user
-        cy.loginAsNewUser().then((userResponse) => {
+        // # Create guest user account
+        cy.apiCreateNewUser().then((userResponse) => {
             guest = userResponse;
 
             // # Demote the current member to a guest user
             cy.demoteUser(guest.id);
         });
-
-        // # Login as SysAdmin
-        cy.apiLogin('sysadmin');
 
         // # Visit System Console Users page
         cy.visit('/admin_console/user_management/users');
@@ -153,7 +154,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.get('#cancelModalButton').click();
         cy.get('#confirmModal').should('not.exist');
 
-        // # Login as Guest User to verify if Revoke Session works
+        // # Logout sysadmin and login as Guest User to verify if Revoke Session works
+        cy.apiLogout();
         cy.apiLogin(guest.username, guest.password);
         cy.visit('/ad-1/channels/town-square');
         cy.get('#sidebarItem_town-square').click({force: true});

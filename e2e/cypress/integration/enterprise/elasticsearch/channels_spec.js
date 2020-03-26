@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -76,6 +77,9 @@ describe('search for channel with', () => {
         // # Login
         cy.apiLogin('sysadmin');
 
+        // * Check if server has license for Elasticsearch
+        cy.requireLicenseForFeature('Elasticsearch');
+
         // # Create new team to run tests against
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
             team = response.body;
@@ -89,7 +93,7 @@ describe('search for channel with', () => {
             };
 
             // # Setup new channel and user
-            cy.createNewUser(daredevil, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(daredevil, [team.id]).then((userResponse) => {
                 user = userResponse;
             });
         });
@@ -98,7 +102,9 @@ describe('search for channel with', () => {
     describe('elastic search enabled', () => {
         before(() => {
             // # Execute the before hook based on current config
+            cy.apiLogin('sysadmin');
             enableElasticSearch();
+            cy.apiLogout();
 
             // # Login and navigate to team with new user
             cy.apiLogin(user.username, user.password);
@@ -238,7 +244,9 @@ describe('search for channel with', () => {
     describe('elastic search disabled', () => {
         before(() => {
             // # Execute the before hook based on current config
+            cy.apiLogin('sysadmin');
             disableElasticSearch();
+            cy.apiLogout();
 
             // # Login and navigate to team with new user
             cy.apiLogin(user.username, user.password);
@@ -316,6 +324,8 @@ describe('search for channel with', () => {
             let channelId;
 
             before(() => {
+                cy.apiLogout();
+
                 // # Login as admin
                 cy.apiLogin('sysadmin');
                 cy.visit(`/${team.name}`);

@@ -98,6 +98,7 @@ export const Preferences = {
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
+    TEAMS_ORDER: 'teams_order',
 };
 
 export const ActionTypes = keyMirror({
@@ -124,7 +125,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_POST_LINK_MODAL: null,
     TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
     TOGGLE_GET_PUBLIC_LINK_MODAL: null,
     TOGGLE_QUICK_SWITCH_MODAL: null,
@@ -133,6 +133,8 @@ export const ActionTypes = keyMirror({
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
+
+    EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
 
@@ -189,6 +191,9 @@ export const ActionTypes = keyMirror({
     FILTER_MARKETPLACE_PLUGINS: null,
 
     POST_UNREAD_SUCCESS: null,
+
+    SET_UNREAD_FILTER_ENABLED: null,
+    UPDATE_TOAST_STATUS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -201,6 +206,7 @@ export const ModalIdentifiers = {
     TEAM_SETTINGS: 'team_settings',
     CHANNEL_INFO: 'channel_info',
     DELETE_CHANNEL: 'delete_channel',
+    UNARCHIVE_CHANNEL: 'unarchive_channel',
     CHANNEL_NOTIFICATIONS: 'channel_notifications',
     CHANNEL_INVITE: 'channel_invite',
     CHANNEL_MEMBERS: 'channel_members',
@@ -284,9 +290,11 @@ export const SocketEvents = {
     CHANNEL_CONVERTED: 'channel_converted',
     CHANNEL_CREATED: 'channel_created',
     CHANNEL_DELETED: 'channel_deleted',
+    CHANNEL_UNARCHIVED: 'channel_restored',
     CHANNEL_UPDATED: 'channel_updated',
     CHANNEL_VIEWED: 'channel_viewed',
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
+    CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
     DIRECT_ADDED: 'direct_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
@@ -344,6 +352,7 @@ export const PostTypes = {
     CONVERT_CHANNEL: 'system_convert_channel',
     PURPOSE_CHANGE: 'system_purpose_change',
     CHANNEL_DELETED: 'system_channel_deleted',
+    CHANNEL_UNARCHIVED: 'system_channel_restored',
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
@@ -438,6 +447,7 @@ export const StoragePrefixes = {
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
+    CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
 };
 
 export const LandingPreferenceTypes = {
@@ -627,6 +637,7 @@ export const PermissionsScope = {
     [Permissions.CREATE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
+    [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -662,9 +673,16 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
+        Permissions.CREATE_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
     team_admin: [
         Permissions.EDIT_OTHERS_POSTS,
@@ -679,6 +697,24 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OUTGOING_WEBHOOKS,
         Permissions.DELETE_POST,
         Permissions.DELETE_OTHERS_POSTS,
+        Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS,
+        Permissions.ADD_REACTION,
+        Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.CREATE_POST,
+        Permissions.REMOVE_REACTION,
+    ],
+    guests: [
+        Permissions.EDIT_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_SLASH_COMMANDS,
+        Permissions.READ_CHANNEL,
+        Permissions.UPLOAD_FILE,
+        Permissions.CREATE_POST,
     ],
 };
 
@@ -687,6 +723,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
+    NO_WHERE: 'NO_WHERE'
 };
 
 export const PostListRowListIds = {
@@ -746,6 +783,7 @@ export const Constants = {
     PRESENTATION_TYPES: ['ppt', 'pptx'],
     SPREADSHEET_TYPES: ['xlsx', 'csv'],
     WORD_TYPES: ['doc', 'docx'],
+    CHANNEL_HEADER_HEIGHT: 62,
     CODE_TYPES: ['applescript', 'as', 'atom', 'bas', 'bash', 'boot', 'c', 'c++', 'cake', 'cc', 'cjsx', 'cl2', 'clj', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', '_coffee', 'coffee', 'cpp', 'cs', 'csharp', 'cson', 'css', 'd', 'dart', 'delphi', 'dfm', 'di', 'diff', 'django', 'docker', 'dockerfile', 'dpr', 'erl', 'ex', 'exs', 'f90', 'f95', 'freepascal', 'fs', 'fsharp', 'gcode', 'gemspec', 'go', 'groovy', 'gyp', 'h', 'h++', 'handlebars', 'hbs', 'hic', 'hpp', 'hs', 'html', 'html.handlebars', 'html.hbs', 'hx', 'iced', 'irb', 'java', 'jinja', 'jl', 'js', 'json', 'jsp', 'jsx', 'kt', 'ktm', 'kts', 'lazarus', 'less', 'lfm', 'lisp', 'log', 'lpr', 'lua', 'm', 'mak', 'matlab', 'md', 'mk', 'mkd', 'mkdown', 'ml', 'mm', 'nc', 'obj-c', 'objc', 'osascript', 'pas', 'pascal', 'perl', 'php', 'php3', 'php4', 'php5', 'php6', 'pl', 'plist', 'podspec', 'pp', 'ps', 'ps1', 'py', 'r', 'rb', 'rs', 'rss', 'ruby', 'scala', 'scm', 'scpt', 'scss', 'sh', 'sld', 'sql', 'st', 'styl', 'swift', 'tex', 'thor', 'txt', 'v', 'vb', 'vbnet', 'vbs', 'veo', 'xhtml', 'xml', 'xsl', 'yaml', 'zsh'],
     PDF_TYPES: ['pdf'],
     PATCH_TYPES: ['patch'],
@@ -803,6 +841,7 @@ export const Constants = {
     SIGNIN_VERIFIED: 'verified',
     CREATE_LDAP: 'create_ldap',
     SESSION_EXPIRED: 'expired',
+    POST_AREA_HEIGHT: 80,
     POST_CHUNK_SIZE: 60,
     PROFILE_CHUNK_SIZE: 100,
     POST_FOCUS_CONTEXT_RADIUS: 10,
@@ -1302,6 +1341,7 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
+    PERMALINK_FADEOUT: 6000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
