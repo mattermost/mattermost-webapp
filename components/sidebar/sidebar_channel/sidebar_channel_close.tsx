@@ -16,11 +16,7 @@ type Props = {
     closeHandler?: (callback: () => void) => void;
 };
 
-type State = {
-
-};
-
-export default class SidebarChannelClose extends React.PureComponent<Props, State> {
+export default class SidebarChannelClose extends React.PureComponent<Props> {
     isLeaving: boolean;
 
     constructor(props: Props) {
