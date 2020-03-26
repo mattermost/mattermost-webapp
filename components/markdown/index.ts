@@ -15,11 +15,12 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {getSiteURL} from 'utils/url';
+import {ChannelNamesMap} from 'utils/text_formatting';
 
 import Markdown from './markdown';
 
 type Props = {
-    channelNamesMap?: Record<string, any>;
+    channelNamesMap?: ChannelNamesMap;
 }
 
 function makeGetChannelNamesMap() {

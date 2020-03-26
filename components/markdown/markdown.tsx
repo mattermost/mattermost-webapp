@@ -3,26 +3,26 @@
 
 import React from 'react';
 
+import {Team} from 'mattermost-redux/types/teams';
+import {PostImage, PostType} from 'mattermost-redux/types/posts';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import EmojiMap from 'utils/emoji_map';
-import * as TextFormatting from 'utils/text_formatting';
-
-type Options = {
-    mentionHighlight?: boolean;
-}
+import {ChannelNamesMap, TextFormattingOptions, formatText, MentionKey} from 'utils/text_formatting';
 
 type Props = {
 
     /*
      * An object mapping channel names to channels for the current team
      */
-    channelNamesMap?: object;
+    channelNamesMap?: ChannelNamesMap;
 
     /*
      * An array of URL schemes that should be turned into links. Anything that looks
      * like a link will be turned into a link if this is not provided.
      */
-    autolinkedUrlSchemes?: Array<any>;
+    autolinkedUrlSchemes?: Array<string>;
 
     /*
      * Whether or not to do Markdown rendering
@@ -37,7 +37,7 @@ type Props = {
     /*
      * An array of words that can be used to mention a user
      */
-    mentionKeys?: Array<object>;
+    mentionKeys?: Array<MentionKey>;
 
     /*
      * The text to be rendered
@@ -47,7 +47,7 @@ type Props = {
     /*
      * Any additional text formatting options to be used
      */
-    options: Options;
+    options: TextFormattingOptions;
 
     /*
      * The root Site URL for the page
@@ -57,7 +57,7 @@ type Props = {
     /*
      * The current team
      */
-    team?: object;
+    team?: Team;
 
     /**
      * If an image proxy is enabled.
@@ -82,7 +82,7 @@ type Props = {
     /**
      * prop for passed down to image component for dimensions
      */
-    imagesMetadata?: object;
+    imagesMetadata?: Dictionary<PostImage>;
 
     /**
      * Whether or not to place the LinkTooltip component inside links
@@ -97,7 +97,7 @@ type Props = {
     /**
      * Post id prop passed down to markdown image
      */
-    postType?: string;
+    postType?: PostType;
     emojiMap: EmojiMap;
 }
 
@@ -126,7 +126,7 @@ export default class Markdown extends React.PureComponent<Props> {
             minimumHashtagLength: this.props.minimumHashtagLength,
         }, this.props.options);
 
-        const htmlFormattedText = TextFormatting.formatText(this.props.message, options, this.props.emojiMap);
+        const htmlFormattedText = formatText(this.props.message, options, this.props.emojiMap);
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,
             imagesMetadata: this.props.imagesMetadata,
