@@ -47,11 +47,6 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
         // # Visit System Console Users page
         cy.visit('/admin_console/user_management/users');
-    });
-
-    beforeEach(() => {
-        // # Reload current page before each test
-        cy.reload();
 
         // # Search for Guest User by username
         cy.get('#searchUsers').should('be.visible').type(guest.username);
