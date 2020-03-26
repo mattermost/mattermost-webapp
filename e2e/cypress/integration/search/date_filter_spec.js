@@ -61,7 +61,6 @@ describe('SF15699 Search Date Filter', () => {
     let firstDateLater;
     let secondDateEarly;
     let secondDateLater;
-    let timestamp;
     let newAdmin;
 
     function initMessagesAndDates() {
