@@ -155,7 +155,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         verifySearchAutocomplete(0, 'channel');
     });
 
-    it.only('MM-22625 Verify Accessibility Support in Message Autocomplete', () => {
+    it('MM-22625 Verify Accessibility Support in Message Autocomplete', () => {
         // # Adding at least one other user in the channel
         cy.getCurrentChannelId().then((channelId) => {
             cy.apiGetUserByEmail(user1.email).then((res) => {
