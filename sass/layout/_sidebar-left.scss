@@ -509,6 +509,17 @@
             opacity: 0.4;
             font-weight: 300;
         }
+
+        .badge {
+            line-height: 14px;
+            font-weight: 400;
+            font-optical-sizing: auto;
+            -webkit-font-smoothing: subpixel-antialiased;
+            text-rendering: optimizeLegibility;
+            font-size: 12px;
+            height: 18px;
+            min-width: 18px;
+        }
     }
     .SidebarChannel .SidebarLink:focus {
         /* box-shadow: inset 0 0 0 2px orange; */
