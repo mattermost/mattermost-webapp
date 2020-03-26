@@ -54,7 +54,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('matches elements', () => {
+    it('should parse text into Slack-compatible markdown depending on "skip_slack_parsing" property on response', () => {
         const payload = getPayload(Cypress.env().webhookBaseUrl);
 
         // # Post an incoming webhook
