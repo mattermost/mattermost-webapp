@@ -371,24 +371,25 @@ describe('components/EditPostModal', () => {
 
     it('should handle edition on key down enter depending on the conditions', () => {
         const options = new ReactRouterEnzymeContext();
+        const eventMethods = {preventDefault: jest.fn(), stopPropagation: jest.fn()};
         var wrapper = shallowWithIntl(createEditPost({ctrlSend: true}), {context: options.get()});
         var instance = wrapper.instance();
         instance.handleEdit = jest.fn();
-        instance.handleKeyDown({keyCode: 1, ctrlKey: true});
+        instance.handleKeyDown({keyCode: 1, ctrlKey: true, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true, ...eventMethods});
         expect(instance.handleEdit).toBeCalled();
 
         wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
         instance = wrapper.instance();
         instance.handleEdit = jest.fn();
-        instance.handleKeyDown({keyCode: 1, ctrlKey: true});
+        instance.handleKeyDown({keyCode: 1, ctrlKey: true, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
     });
 
