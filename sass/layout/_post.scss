@@ -315,6 +315,10 @@
         top: 98px;
     }
 
+    &.toastAdjustment {
+        top: 50px;
+    }
+
     > div {
         @include border-radius(3px);
         @include font-smoothing(initial);
