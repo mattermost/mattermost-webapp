@@ -255,7 +255,12 @@ export async function elasticsearchPurgeIndexes(success, error) {
 }
 
 export async function blevePurgeIndexes(success, error) {
-    const {data, error: err} = await AdminActions.purgeBleveIndexes()(dispatch, getState);
+    const purgeBleveIndexes = bindClientFunc({
+        clientFunc: Client4.purgeBleveIndexes,
+        params: [],
+    });
+
+    const {data, error: err} = await purgeBleveIndexes()(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
