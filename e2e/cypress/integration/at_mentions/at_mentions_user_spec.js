@@ -10,10 +10,10 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 function verifySuggestionList({input, expected, withoutSuggestion}) {
-    cy.get('#post_textbox').clear().type(input);
+    cy.get('#post_textbox').clear().type(input).wait(TIMEOUTS.TINY);
 
     if (withoutSuggestion) {
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+        cy.get('#suggestionList').should('not.exist');
     } else {
         const re = new RegExp(expected, 'g');
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').within(() => {

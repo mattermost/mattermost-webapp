@@ -36,10 +36,10 @@ describe('Messaging', () => {
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist');
 
         // # Write the second tilde
-        cy.get('#edit_textbox').type('{home}{rightarrow}~');
+        cy.get('#edit_textbox').type('{home}{rightarrow}~').wait(TIMEOUTS.TINY);
 
         // * Channel autocomplete should have closed
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+        cy.get('#suggestionList').should('not.exist');
 
         // # Go to the end of the line and type the first tilde
         cy.get('#edit_textbox').type('{end} ~');
@@ -51,13 +51,13 @@ describe('Messaging', () => {
         cy.get('#edit_textbox').type('{end}~');
 
         // * Channel autocomplete should close
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+        cy.get('#suggestionList').should('not.exist');
 
         // # Remove the whitespace
         cy.get('#edit_textbox').type('{end}{leftarrow}{leftarrow}{backspace}');
 
         // * Channel autocomplete should still not exist
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+        cy.get('#suggestionList').should('not.exist');
 
         // # Save the changes
         cy.get('#editButton').click({force: true});

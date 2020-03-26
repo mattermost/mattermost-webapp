@@ -36,12 +36,12 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // # Go to test Channel B on sidebar
-        cy.get('#sidebarItem_autem-2').click({force: true});
+        cy.get('#sidebarItem_autem-2').click({force: true}).wait(TIMEOUTS.TINY);
 
         // * Validate if the newly navigated channel is open
         // * autocomplete should not be visible in channel
         cy.url().should('include', '/channels/autem-2');
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
+        cy.get('#suggestionList').should('not.be.visible');
 
         // # Start a draft in Channel B containing just "@"
         cy.get('#post_textbox').type('@');

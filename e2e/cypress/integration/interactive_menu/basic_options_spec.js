@@ -83,7 +83,7 @@ describe('Interactive Menu', () => {
             cy.get('.select-suggestion-container').should('be.visible');
 
             // * Suggestion list should not be visible before dropdown is clicked
-            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
+            cy.get('#suggestionList').should('not.be.visible');
 
             // # Click on the suggestion dropdown input
             cy.findByPlaceholderText('Select an option...').scrollIntoView().should('be.visible').click();
@@ -299,7 +299,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // * Message attachment menu dropdown should be closed
-                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+                cy.get('#suggestionList').should('not.exist');
 
                 // // # Open the message attachment menu dropdown
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
@@ -366,7 +366,7 @@ describe('Interactive Menu', () => {
                 cy.get('@optionInputField').type('{enter}');
 
                 // * Since option was clicked dropdown should be closed
-                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+                cy.get('#suggestionList').should('not.exist');
 
                 // * Verify the input has the selected value
                 cy.findByDisplayValue(selectedOption).should('exist');
@@ -389,7 +389,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // * Message attachment menu dropdown should be closed
-                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+                cy.get('#suggestionList').should('not.exist');
 
                 // // # Open the message attachment menu dropdown
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().click();

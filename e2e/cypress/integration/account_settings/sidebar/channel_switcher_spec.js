@@ -86,10 +86,10 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+L
-        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L');
+        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L').wait(TIMEOUTS.TINY);
 
         // * Suggestion list should be visible
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
+        cy.get('#suggestionList').should('not.be.visible');
 
         // * focus should be on the input box
         cy.get('#post_textbox').should('be.focused');
@@ -113,7 +113,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}M');
 
         // * Suggestion list should be visible
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
+        cy.get('#suggestionList').should('not.be.visible');
 
         // * searchbox should appear
         cy.get('#searchBox').should('have.attr', 'value', 'user-1 @user-1 ');

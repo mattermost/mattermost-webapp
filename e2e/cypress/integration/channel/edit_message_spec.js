@@ -32,13 +32,13 @@ describe('Edit Message', () => {
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').focus().type('{esc}');
+        cy.get('#edit_textbox').focus().type('{esc}').wait(TIMEOUTS.TINY);
 
         // * Check if the textbox contains expected text
         cy.get('#edit_textbox').should('have.value', 'Hello World! @');
 
         // * Assert user autocomplete is not visible
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+        cy.get('#suggestionList').should('not.exist');
 
         // # In the modal type ~
         cy.get('#edit_textbox').type(' ~');
@@ -53,7 +53,7 @@ describe('Edit Message', () => {
         cy.get('#edit_textbox').should('have.value', 'Hello World! @ ~');
 
         // * Assert channel autocomplete is not visible
-        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+        cy.get('#suggestionList').should('not.exist');
 
         // # In the modal click the emoji picker icon
         cy.get('#editPostEmoji').click();
@@ -65,7 +65,7 @@ describe('Edit Message', () => {
         cy.get('#edit_textbox').type('{esc}');
 
         // * Assert emoji picker is not visible
-        cy.get('#emojiPicker', {timeout: TIMEOUTS.SMALL}).should('not.exist');
+        cy.get('#emojiPicker').should('not.exist');
     });
 
     it('M13482 Display correct timestamp for edited message', () => {
