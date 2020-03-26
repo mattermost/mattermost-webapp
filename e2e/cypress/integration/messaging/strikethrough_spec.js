@@ -31,35 +31,33 @@ describe('Messaging', () => {
 
         // # Type first tilde (a{backspace} used so cursor is in the textbox and {home} gets us to the beginning of the line)
         cy.get('#edit_textbox').type('a{backspace}{home}~');
-        cy.wait(TIMEOUTS.TINY);
 
         // # Channel autocomplete should show
-        cy.get('#suggestionList').should('exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist');
 
         // # Write the second tilde
         cy.get('#edit_textbox').type('{home}{rightarrow}~');
 
         // * Channel autocomplete should have closed
-        cy.get('#suggestionList').should('not.exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
         // # Go to the end of the line and type the first tilde
         cy.get('#edit_textbox').type('{end} ~');
-        cy.wait(TIMEOUTS.TINY);
 
         // # Channel autocomplete should show
-        cy.get('#suggestionList').should('exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist');
 
         // # Write the second tilde
         cy.get('#edit_textbox').type('{end}~');
 
         // * Channel autocomplete should close
-        cy.get('#suggestionList').should('not.exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
         // # Remove the whitespace
         cy.get('#edit_textbox').type('{end}{leftarrow}{leftarrow}{backspace}');
 
         // * Channel autocomplete should still not exist
-        cy.get('#suggestionList').should('not.exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
         // # Save the changes
         cy.get('#editButton').click({force: true});

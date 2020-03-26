@@ -7,14 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function verifySuggestionList({input, expected, withoutSuggestion}) {
     cy.get('#post_textbox').clear().type(input);
 
     if (withoutSuggestion) {
-        cy.get('#suggestionList').should('not.exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
     } else {
         const re = new RegExp(expected, 'g');
-        cy.get('#suggestionList').should('be.visible').within(() => {
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').within(() => {
             cy.findByText(re).should('be.visible');
         });
     }

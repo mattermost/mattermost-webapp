@@ -83,15 +83,15 @@ describe('Interactive Menu', () => {
             cy.get('.select-suggestion-container').should('be.visible');
 
             // * Suggestion list should not be visible before dropdown is clicked
-            cy.get('#suggestionList').should('not.be.visible');
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
 
             // # Click on the suggestion dropdown input
             cy.findByPlaceholderText('Select an option...').scrollIntoView().should('be.visible').click();
 
             // * Suggestion list should now be open
-            cy.get('#suggestionList').should('be.visible').children().should('have.length', options.length);
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').children().should('have.length', options.length);
 
-            cy.get('#suggestionList').children().each(($el, index) => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).children().each(($el, index) => {
                 cy.wrap($el).should('have.text', options[index].text);
             });
         });
@@ -187,10 +187,10 @@ describe('Interactive Menu', () => {
             cy.findByPlaceholderText('Select an option...').scrollIntoView().click().clear({force: true}).type('sea');
 
             // * Message attachment menu dropdown should now be open
-            cy.get('#suggestionList').should('exist').children().should('have.length', 2);
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').children().should('have.length', 2);
 
             // # Checking values inside the attachment menu dropdown
-            cy.get('#suggestionList').within(() => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                 // * Each dropdown should contain the searchOptions text
                 cy.findByText(searchOptions[0].text).should('exist');
                 cy.findByText(searchOptions[1].text).should('exist');
@@ -211,7 +211,7 @@ describe('Interactive Menu', () => {
                 // # Type the missing user in the select input
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().click().clear({force: true}).type(`${missingUser}`);
 
-                cy.get('#suggestionList').within(() => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                     // * Check if we get appropriate message when no options matches entered text
                     cy.get('.suggestion-list__no-results').should('be.visible').should('have.text', `No items match ${missingUser}`);
                 });
@@ -233,13 +233,13 @@ describe('Interactive Menu', () => {
         cy.get('@messageAttachmentList').within(() => {
             cy.findByPlaceholderText('Select an option...').scrollIntoView().as('optionInputField');
             cy.get('@optionInputField').click();
-            cy.get('#suggestionList').should('be.visible');
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
             // # Hit the down arrow two times
             cy.get('@optionInputField').type('{downarrow}{downarrow}');
 
             // # Verify the correct option has been selected
-            cy.get('#suggestionList').within(() => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                 cy.get('.suggestion--selected').should('have.text', options[2].text);
             });
 
@@ -247,7 +247,7 @@ describe('Interactive Menu', () => {
             cy.get('@optionInputField').type('{uparrow}{uparrow}');
 
             // # Verify the correct option has been selected
-            cy.get('#suggestionList').within(() => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                 cy.get('.suggestion--selected').should('have.text', options[0].text);
             });
         });
@@ -299,16 +299,16 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // * Message attachment menu dropdown should be closed
-                cy.get('#suggestionList').should('not.exist');
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
                 // // # Open the message attachment menu dropdown
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
 
                 // * Message attachment menu dropdown should now be open
-                cy.get('#suggestionList').should('exist').children().should('have.length', options.length);
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').children().should('have.length', options.length);
 
                 // # Checking values inside the attachment menu dropdown
-                cy.get('#suggestionList').within(() => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                     // * Each dropdown should contain the options text
                     cy.findByText(options[0].text).should('exist');
                     cy.findByText(options[1].text).should('exist');
@@ -338,7 +338,7 @@ describe('Interactive Menu', () => {
                 cy.get('@optionInputField').click();
 
                 // * Message attachment menu dropdown should now be open
-                cy.get('#suggestionList').should('exist').children().should('have.length', distinctOptions.length);
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').children().should('have.length', distinctOptions.length);
 
                 // # Lets make the last option we are interested in finding
                 const selectedOption = distinctOptions[5].text;
@@ -347,7 +347,7 @@ describe('Interactive Menu', () => {
                 cy.get('@optionInputField').type(selectedOption);
 
                 // # Checking values inside the attachment menu dropdown
-                cy.get('#suggestionList').within(() => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                     // * All other options should not be there
                     cy.findByText(distinctOptions[0].text).should('not.exist');
                     cy.findByText(distinctOptions[1].text).should('not.exist');
@@ -366,7 +366,7 @@ describe('Interactive Menu', () => {
                 cy.get('@optionInputField').type('{enter}');
 
                 // * Since option was clicked dropdown should be closed
-                cy.get('#suggestionList').should('not.exist');
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
                 // * Verify the input has the selected value
                 cy.findByDisplayValue(selectedOption).should('exist');
@@ -389,18 +389,18 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // * Message attachment menu dropdown should be closed
-                cy.get('#suggestionList').should('not.exist');
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
                 // // # Open the message attachment menu dropdown
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
 
                 // * Message attachment menu dropdown should now be open
-                cy.get('#suggestionList').should('exist').children().should('have.length', manyOptions.length);
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').children().should('have.length', manyOptions.length);
 
                 const lenghtOfLongListOptions = manyOptions.length;
 
                 // # Scroll to bottom of the options
-                cy.get('#suggestionList').scrollTo('bottom').then((listContainer) => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).scrollTo('bottom').then((listContainer) => {
                     // * When scrolled to bottom, the top options should be not visible but should exist in dom
                     cy.findByText(manyOptions[0].text, {listContainer}).should('exist').and('not.be.visible');
                     cy.findByText(manyOptions[1].text, {listContainer}).should('exist').and('not.be.visible');
@@ -411,7 +411,7 @@ describe('Interactive Menu', () => {
                 });
 
                 // # Scroll to top of the options
-                cy.get('#suggestionList').scrollTo('top').then((listContainer) => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).scrollTo('top').then((listContainer) => {
                     // * When scrolled to top, the bottom options should be not visible
                     cy.findByText(manyOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('not.be.visible');
                     cy.findByText(manyOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('not.be.visible');
@@ -444,7 +444,7 @@ describe('Interactive Menu', () => {
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${firstFewLettersOfSelectedItem}`);
 
                 // * Message attachment dropdown with the selected item should be visible
-                cy.get('#suggestionList').should('exist').within(() => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').within(() => {
                     cy.findByText(selectedItem).should('exist');
                 });
 
@@ -494,7 +494,7 @@ describe('Interactive Menu', () => {
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
 
                 // * Message attachment dropdown with the selected item should be visible
-                cy.get('#suggestionList').should('exist').within(() => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').within(() => {
                     // # Make a first selection from the given options
                     cy.findByText(firstSelectedItem).should('exist').click();
                 });
@@ -518,7 +518,7 @@ describe('Interactive Menu', () => {
                 cy.findByDisplayValue(firstSelectedItem).should('exist').click();
 
                 // * Message attachment dropdown with the selected item should be visible
-                cy.get('#suggestionList').should('exist').within(() => {
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').within(() => {
                     // # Make a second selection different from first from options
                     cy.findByText(secondSelectedItem).should('exist').click();
                 });
@@ -560,7 +560,7 @@ describe('Interactive Menu', () => {
                         // # Find and select the user, we just added
                         cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${longUsername}`);
 
-                        cy.get('#suggestionList').within(() => {
+                        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                             // * Newly added username should be there in the search list
                             cy.findByText(`@${longUsername}`).should('exist').click();
                         });
@@ -600,7 +600,7 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
         } else {
             // # Select an option (long) in center view
             cy.findByPlaceholderText('Select an option...').scrollIntoView().should('be.visible').click();
-            cy.get('#suggestionList').should('be.visible').children().first().click({force: true});
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').children().first().click({force: true});
         }
 
         // * Verify exact height, width and padding of suggestion container and its input

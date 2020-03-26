@@ -55,10 +55,9 @@ describe('Message Draft and Switch Channels', () => {
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.get('#quickSwitchInput').type('tow');
-        cy.wait(TIMEOUTS.TINY);
 
         // * Suggestion list should be visible
-        cy.get('#suggestionList').should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // * Validate if the draft icon is visible to left of the channel name in the filtered list
         cy.get('#publicChannel').scrollIntoView();

@@ -31,13 +31,13 @@ describe('Messaging', () => {
         cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.TINY).type('{home}~');
 
         // * autocomplete opens
-        cy.get('#suggestionList').should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // # Delete the tilde by backspacing
         cy.get('#edit_textbox').type('{home}{rightarrow}{backspace}');
 
         // * autocomplete closes
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
 
         // close the edit modal
         cy.get('#editButton').click();

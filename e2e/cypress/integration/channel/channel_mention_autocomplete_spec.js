@@ -47,12 +47,12 @@ describe('Channel', () => {
 
     it('Channel autocomplete should have both lists populated correctly', () => {
         // # Type "~"
-        cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.TINY);
-        cy.get('#loadingSpinner').should('not.exist');
+        cy.get('#post_textbox').should('be.visible').clear().type('~');
+        cy.get('#loadingSpinner', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
         // * Should open up suggestion list for channels
         // * Should match each channel item and group label
-        cy.get('#suggestionList').should('be.visible').children().within((el) => {
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').children().within((el) => {
             cy.wrap(el).eq(0).should('contain', 'My Channels');
             cy.wrap(el).eq(1).should('contain', 'Off-Topic');
             cy.wrap(el).eq(2).should('contain', 'Town Square');
@@ -66,12 +66,12 @@ describe('Channel', () => {
         joinChannel(testTeam, testChannel);
 
         // # Type "~"
-        cy.get('#post_textbox').should('be.visible').type('~').wait(TIMEOUTS.TINY);
-        cy.get('#loadingSpinner').should('not.exist');
+        cy.get('#post_textbox').should('be.visible').type('~');
+        cy.get('#loadingSpinner', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
         // * Should open up suggestion list for channels
         // * Should match each channel item and group label
-        cy.get('#suggestionList').should('be.visible').children().within((el) => {
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').children().within((el) => {
             cy.wrap(el).eq(0).should('contain', 'My Channels');
             cy.wrap(el).eq(1).should('contain', 'Off-Topic');
             cy.wrap(el).eq(2).should('contain', testChannel.display_name);
@@ -95,12 +95,12 @@ describe('Channel', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Type "~"
-            cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.TINY);
-            cy.get('#loadingSpinner').should('not.exist');
+            cy.get('#post_textbox').should('be.visible').clear().type('~');
+            cy.get('#loadingSpinner', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
             // * Should open up suggestion list for channels
             // * Should match each channel item and group label
-            cy.get('#suggestionList').should('be.visible').children().within((el) => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').children().within((el) => {
                 cy.wrap(el).eq(0).should('contain', 'My Channels');
                 cy.wrap(el).eq(1).should('contain', 'Off-Topic');
                 cy.wrap(el).eq(2).should('contain', 'Town Square');

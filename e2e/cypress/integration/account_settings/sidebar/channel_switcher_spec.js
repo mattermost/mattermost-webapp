@@ -89,7 +89,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L');
 
         // * Suggestion list should be visible
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
 
         // * focus should be on the input box
         cy.get('#post_textbox').should('be.focused');
@@ -113,7 +113,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}M');
 
         // * Suggestion list should be visible
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
 
         // * searchbox should appear
         cy.get('#searchBox').should('have.attr', 'value', 'user-1 @user-1 ');
@@ -127,10 +127,9 @@ function verifyChannelSwitch(team, channel) {
 
     // # Type channel display name on Channel switcher input
     cy.get('#quickSwitchInput').type(channel.display_name);
-    cy.wait(TIMEOUTS.TINY);
 
     // * Suggestion list should be visible
-    cy.get('#suggestionList').should('be.visible');
+    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
     // # Press enter
     cy.get('#quickSwitchInput').type('{enter}');

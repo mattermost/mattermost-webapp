@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 import {withTimestamp, createEmail, enableElasticSearch, disableElasticSearch} from './helpers';
 
 function createTestUsers(timestamp) {
@@ -132,7 +134,7 @@ describe('Autocomplete', () => {
                 cy.get('@input').clear().type(string);
 
                 // * Suggestion list should appear
-                cy.get('#suggestionList').should('be.visible');
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
             }
 
             describe('search for user in message input box', () => {
@@ -481,7 +483,7 @@ describe('Autocomplete', () => {
                 cy.get('@input').clear().type(string);
 
                 // * Suggestion list should appear
-                cy.get('#suggestionList').should('be.visible');
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
             }
 
             describe('search for user in message input box', () => {

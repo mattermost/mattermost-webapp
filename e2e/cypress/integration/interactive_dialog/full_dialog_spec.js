@@ -11,6 +11,8 @@
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 const webhookUtils = require('../../../utils/webhook_utils');
 
 let createdCommand;
@@ -101,9 +103,9 @@ describe('Interactive Dialog', () => {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
 
                     // * Verify that the suggestion list or autocomplete open up on click of input element
-                    cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
+                    cy.wrap($elForm).find('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.be.visible');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
+                    cy.wrap($elForm).find('#suggestionList', {timeout: TIMEOUTS.SMALL}).scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 

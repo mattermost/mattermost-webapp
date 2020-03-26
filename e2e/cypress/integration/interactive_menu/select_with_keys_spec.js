@@ -11,6 +11,7 @@
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getMessageMenusPayload} from '../../utils';
 
 const searchOptions = [
@@ -78,10 +79,10 @@ describe('Interactive Menu', () => {
             cy.findByPlaceholderText('Select an option...').click().clear().type('sea');
 
             // * Message attachment menu dropdown should now be open
-            cy.get('#suggestionList').should('exist').children().should('have.length', 2);
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('exist').children().should('have.length', 2);
 
             // # Checking values inside the attachment menu dropdown
-            cy.get('#suggestionList').within(() => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                 // * Each dropdown should contain the searchOptions text
                 cy.findByText(searchOptions[0].text).should('exist');
                 cy.findByText(searchOptions[1].text).should('exist');
@@ -93,7 +94,7 @@ describe('Interactive Menu', () => {
 
             // # Type downarrow to select next option
             cy.findByPlaceholderText('Select an option...').type('{downarrow}');
-            cy.get('#suggestionList').within(() => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                 // * Second element should be highlighted and first should not
                 cy.findByText(searchOptions[0].text).should('not.have.class', 'suggestion--selected');
                 cy.findByText(searchOptions[1].text).should('have.class', 'suggestion--selected');
@@ -101,7 +102,7 @@ describe('Interactive Menu', () => {
 
             // # Type uparrow to select previous option
             cy.findByPlaceholderText('Select an option...').type('{uparrow}');
-            cy.get('#suggestionList').within(() => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).within(() => {
                 // * First element should be highlighted and second should not
                 cy.findByText(searchOptions[0].text).should('have.class', 'suggestion--selected');
                 cy.findByText(searchOptions[1].text).should('not.have.class', 'suggestion--selected');

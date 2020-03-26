@@ -48,7 +48,7 @@ function addAutocompleteThenVerifyNoOverlap() {
     cy.get('#post_textbox').type('{shift}{enter}').type('@');
 
     cy.get('#channel-header').then((header) => {
-        cy.get('#suggestionList').then((list) => {
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).then((list) => {
             // # Wait for suggestions to be fully loaded
             cy.wait(TIMEOUTS.TINY).then(() => {
                 // * Suggestion list should visibly render just within the channel header

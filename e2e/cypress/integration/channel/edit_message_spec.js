@@ -29,43 +29,43 @@ describe('Edit Message', () => {
         cy.get('#edit_textbox').type(' @');
 
         // * Assert user autocomplete is visible
-        cy.get('#suggestionList').should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).focus().type('{esc}');
+        cy.get('#edit_textbox').focus().type('{esc}');
 
         // * Check if the textbox contains expected text
         cy.get('#edit_textbox').should('have.value', 'Hello World! @');
 
         // * Assert user autocomplete is not visible
-        cy.get('#suggestionList').should('not.exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
         // # In the modal type ~
         cy.get('#edit_textbox').type(' ~');
 
         // * Assert channel autocomplete is visible
-        cy.get('#suggestionList').should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).type('{esc}');
+        cy.get('#edit_textbox').type('{esc}');
 
         // * Check if the textbox contains expected text
         cy.get('#edit_textbox').should('have.value', 'Hello World! @ ~');
 
         // * Assert channel autocomplete is not visible
-        cy.get('#suggestionList').should('not.exist');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('not.exist');
 
         // # In the modal click the emoji picker icon
         cy.get('#editPostEmoji').click();
 
         // * Assert emoji picker is visible
-        cy.get('#emojiPicker').should('be.visible');
+        cy.get('#emojiPicker', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // * Press the escape key
-        cy.get('#edit_textbox').wait(TIMEOUTS.TINY).type('{esc}');
+        cy.get('#edit_textbox').type('{esc}');
 
         // * Assert emoji picker is not visible
-        cy.get('#emojiPicker').should('not.exist');
+        cy.get('#emojiPicker', {timeout: TIMEOUTS.SMALL}).should('not.exist');
     });
 
     it('M13482 Display correct timestamp for edited message', () => {

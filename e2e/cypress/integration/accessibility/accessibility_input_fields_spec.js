@@ -29,7 +29,7 @@ function verifySearchAutocomplete(index, type = 'user') {
 }
 
 function verifyMessageAutocomplete(index, type = 'user') {
-    cy.get('#suggestionList').find('.mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
+    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).find('.mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
             cy.wrap(el).invoke('text').then((text) => {
                 const username = text.replace('- ', '').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
@@ -168,10 +168,10 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).clear().focus();
 
         // # Ensure User list is cached once in UI
-        cy.get('#post_textbox').type('@').wait(TIMEOUTS.SMALL);
+        cy.get('#post_textbox').type('@');
 
         // # Select the first user in the list
-        cy.get('#suggestionList').find('.mentions__name').eq(0).within((el) => {
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).find('.mentions__name').eq(0).within((el) => {
             cy.get('.mention--align').invoke('text').then((text) => {
                 cy.wrap(el).parents('body').find('#post_textbox').clear().type(text);
             });

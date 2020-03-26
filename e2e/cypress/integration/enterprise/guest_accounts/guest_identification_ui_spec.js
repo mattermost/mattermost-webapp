@@ -154,10 +154,10 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('#sidebarSwitcherButton').click();
 
         // # Type the guest user name on Channel switcher input
-        cy.get('#quickSwitchInput').type(guest.username).wait(TIMEOUTS.TINY);
+        cy.get('#quickSwitchInput').type(guest.username);
 
         // * Verify if Guest badge is displayed for the guest user in the Switch Channel Dialog
-        cy.get('#suggestionList').should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
         cy.findByTestId(guest.username).within(($el) => {
             cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
         });
@@ -211,7 +211,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('#post_textbox').type('@user');
 
         // * Verify Guest Badge is displayed at mention auto-complete
-        cy.get('#suggestionList').should('be.visible');
+        cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
         cy.findByTestId(`mentionSuggestion_${guest.username}`).within(($el) => {
             cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
         });

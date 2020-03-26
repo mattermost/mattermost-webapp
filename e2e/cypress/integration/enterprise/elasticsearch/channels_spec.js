@@ -8,6 +8,7 @@
 // ***************************************************************
 
 import users from '../../../fixtures/users.json';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {withTimestamp, createEmail, enableElasticSearch, disableElasticSearch} from './helpers';
 
@@ -136,7 +137,7 @@ describe('search for channel with', () => {
                 searchForChannel(channel.name);
 
                 // * Suggestion list should appear
-                cy.get('#suggestionList').should('be.visible');
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
                 // * Channel should appear in the list
                 cy.queryByTestId(channel.name).
@@ -276,7 +277,7 @@ describe('search for channel with', () => {
                 searchForChannel(channel.name);
 
                 // * Suggestion list should appear
-                cy.get('#suggestionList').should('be.visible');
+                cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
                 // * Channel should appear in the list
                 cy.queryByTestId(channel.name).

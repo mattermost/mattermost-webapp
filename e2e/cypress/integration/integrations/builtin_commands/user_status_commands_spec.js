@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 const testCases = [
     {command: '/away', ariaLabel: 'Away Icon', message: 'You are now away'},
     {command: '/dnd', ariaLabel: 'Do Not Disturb Icon', message: 'Do Not Disturb is enabled. You will not receive desktop or mobile push notifications until Do Not Disturb is turned off.'},
@@ -43,7 +45,7 @@ describe('Integrations', () => {
             cy.get('#post_textbox').clear().type('/');
 
             // # Verify that the suggestion list is visible
-            cy.get('#suggestionList').should('be.visible').then((container) => {
+            cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible').then((container) => {
                 // # Find command and click
                 cy.findByText(new RegExp(testCase.command), {container}).click({force: true});
             });

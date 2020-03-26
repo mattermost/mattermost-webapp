@@ -34,7 +34,7 @@ describe('Search channels', () => {
         cy.findByTestId('search-input').should('be.visible').and('have.text', '');
     });
 
-    it('returns results', function() {
+    it('returns results', () => {
         const displayName = uuid();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
@@ -50,7 +50,7 @@ describe('Search channels', () => {
         });
     });
 
-    it('results are paginated', function() {
+    it('results are paginated', () => {
         const displayName = uuid();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
@@ -74,7 +74,7 @@ describe('Search channels', () => {
         });
     });
 
-    it('clears the results when "x" is clicked', function() {
+    it('clears the results when "x" is clicked', () => {
         const displayName = uuid();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
@@ -99,7 +99,7 @@ describe('Search channels', () => {
         });
     });
 
-    it('clears the results when the search term is deleted with backspace', function() {
+    it('clears the results when the search term is deleted with backspace', () => {
         const displayName = uuid();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
