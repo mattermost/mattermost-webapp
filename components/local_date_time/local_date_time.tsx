@@ -5,6 +5,11 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import moment from 'moment-timezone';
 
+// Feature test the browser for support of hourCycle.
+// Note that ResolvedDateTimeFormatOptions doesn't yet support hourCycle.
+// See https://github.com/microsoft/TypeScript/issues/34399
+const supportsHourCycle = Boolean(((new Intl.DateTimeFormat('en-US', {hour: 'numeric'})).resolvedOptions() as {hourCycle?: string}).hourCycle);
+
 type Props = {
 
     /*
@@ -55,6 +60,7 @@ class LocalDateTime extends React.PureComponent<Props> {
             minute?: string;
             timeZone?: string;
             hourCycle?: string;
+            hour12?: boolean;
         } = {
             hour: 'numeric',
             minute: 'numeric',
@@ -62,10 +68,14 @@ class LocalDateTime extends React.PureComponent<Props> {
         if (enableTimezone && timeZone) {
             options.timeZone = timeZone;
         }
-        if (useMilitaryTime) {
-            options.hourCycle = 'h23';
+        if (supportsHourCycle) {
+            if (useMilitaryTime) {
+                options.hourCycle = 'h23';
+            } else {
+                options.hourCycle = 'h12';
+            }
         } else {
-            options.hourCycle = 'h12';
+            options.hour12 = !useMilitaryTime;
         }
 
         let formattedTime;
