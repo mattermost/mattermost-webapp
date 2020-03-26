@@ -76,13 +76,11 @@ function verifyInvitationSuccess(user, successText) {
 describe('Guest Account - Member Invitation Flow', () => {
     before(() => {
         // * Check if server has license for Guest Accounts
+        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Login as "sysadmin" and go to /
-        cy.apiLogin('sysadmin');
-
         // # Enable Guest Account Settings
-        cy.apiUpdateConfigBasic({
+        cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
             },
@@ -189,8 +187,11 @@ describe('Guest Account - Member Invitation Flow', () => {
 
     it('MM-18040 Verify Invite New/Existing Users', () => {
         // # Login as new user and get the user id
-        cy.createNewUser().then((newUser) => {
+        cy.apiCreateNewUser().then((newUser) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id);
+
+            // # Logout sysadmin, then login as new user
+            cy.apiLogout();
             cy.apiLogin(newUser.username, newUser.password);
             cy.visit(`/${testTeam.name}`);
         });
