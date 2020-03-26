@@ -30,7 +30,7 @@ describe('Identical Message Drafts', () => {
         cy.url().should('include', '/channels/town-square');
 
         // # Start a draft in Channel A containing just "@"
-        cy.get('#post_textbox').should('be.visible').type('@');
+        cy.get('#post_textbox').should('be.visible').type('@').wait(TIMEOUTS.SMALL);
 
         // * At mention auto-complete appears in Channel A
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
@@ -44,7 +44,7 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList').should('not.be.visible');
 
         // # Start a draft in Channel B containing just "@"
-        cy.get('#post_textbox').type('@');
+        cy.get('#post_textbox').type('@').wait(TIMEOUTS.SMALL);
 
         // * At mention auto-complete appears in Channel B
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');

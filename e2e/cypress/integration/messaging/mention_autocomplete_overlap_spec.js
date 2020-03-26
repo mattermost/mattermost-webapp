@@ -45,7 +45,7 @@ function addAutocompleteThenVerifyNoOverlap() {
     cy.get('#post_textbox').type(message);
 
     // # Add the mention
-    cy.get('#post_textbox').type('{shift}{enter}').type('@');
+    cy.get('#post_textbox').type('{shift}{enter}').type('@').wait(TIMEOUTS.SMALL);
 
     cy.get('#channel-header').then((header) => {
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).then((list) => {

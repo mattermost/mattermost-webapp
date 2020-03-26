@@ -106,7 +106,7 @@ describe('Interactive Dialog', () => {
                     expect(element.name).to.equal('somechannelselector');
                     cy.wrap($elForm).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).first().should('be.visible');
                     cy.wrap($elForm).find('.form-control').type('{downarrow}'.repeat(10));
-                    cy.wrap($elForm).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).first().should('not.be.visible');
+                    cy.wrap($elForm).find('.mentions__name').first().should('not.be.visible');
                     cy.wrap($elForm).find('.form-control').type('{uparrow}'.repeat(10));
                     cy.wrap($elForm).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).first().should('be.visible');
                 }

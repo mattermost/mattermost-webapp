@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getRandomInt} from '../../../utils';
 import users from '../../../fixtures/users.json';
 
@@ -717,7 +718,7 @@ describe('Channel Moderation Test', () => {
 
             visitAutemChannel('user-1');
 
-            cy.findByTestId('post_textbox').clear().type('@');
+            cy.findByTestId('post_textbox').clear().type('@').wait(TIMEOUTS.SMALL);
 
             // * Ensure that @here, @all, and @channel do not show up in the autocomplete list
             cy.findAllByTestId('mentionSuggestion_here').should('not.exist');

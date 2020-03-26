@@ -155,7 +155,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         verifySearchAutocomplete(0, 'channel');
     });
 
-    it('MM-22625 Verify Accessibility Support in Message Autocomplete', () => {
+    it.only('MM-22625 Verify Accessibility Support in Message Autocomplete', () => {
         // # Adding at least one other user in the channel
         cy.getCurrentChannelId().then((channelId) => {
             cy.apiGetUserByEmail(user1.email).then((res) => {
@@ -168,7 +168,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).clear().focus();
 
         // # Ensure User list is cached once in UI
-        cy.get('#post_textbox').type('@');
+        cy.get('#post_textbox').type('@').wait(TIMEOUTS.SMALL);
 
         // # Select the first user in the list
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).eq(0).within((el) => {

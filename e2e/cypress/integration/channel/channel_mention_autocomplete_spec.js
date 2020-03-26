@@ -47,7 +47,7 @@ describe('Channel', () => {
 
     it('Channel autocomplete should have both lists populated correctly', () => {
         // # Type "~"
-        cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.TINY);
+        cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.SMALL);
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
@@ -66,7 +66,7 @@ describe('Channel', () => {
         joinChannel(testTeam, testChannel);
 
         // # Type "~"
-        cy.get('#post_textbox').should('be.visible').type('~');
+        cy.get('#post_textbox').should('be.visible').type('~').wait(TIMEOUTS.SMALL);
         cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
@@ -95,7 +95,7 @@ describe('Channel', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Type "~"
-            cy.get('#post_textbox').should('be.visible').clear().type('~');
+            cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.SMALL);
             cy.get('#loadingSpinner').should('not.exist');
 
             // * Should open up suggestion list for channels
