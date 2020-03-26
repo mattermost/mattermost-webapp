@@ -3,14 +3,15 @@
 
 import {createSelector} from 'reselect';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post, PostType} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
-import {GlobalState, RhsState} from 'types/store';
+import {GlobalState} from 'types/store';
+import {RhsState} from 'types/store/rhs';
 
 export function getSelectedPostId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostId;
@@ -54,7 +55,7 @@ export const getSelectedPost = createSelector(
         return {
             id: selectedPostId,
             exists: false,
-            type: PostTypes.FAKE_PARENT_DELETED,
+            type: PostTypes.FAKE_PARENT_DELETED as PostType,
             message: localizeMessage('rhs_thread.rootPostDeletedMessage.body', 'Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.'),
             channel_id: selectedPostChannelId,
             user_id: currentUserId,

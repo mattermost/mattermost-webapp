@@ -9,14 +9,14 @@ export type RhsViewState = {
     selectedPostId: $ID<Post>;
     selectedPostFocussedAt: number;
     selectedPostCardId: $ID<Post>;
-    selectedChannelId: $ID<Channe>;
+    selectedChannelId: $ID<Channel>;
     previousRhsState: RhsState;
     rhsState: RhsState;
     searchTerms: string;
     pluginId: string;
     searchResultsTerms: string;
-    isSearchingFlaggedPosts: boolean;
-    isSearchingPinnedPosts: boolean;
+    isSearchingFlaggedPost: boolean;
+    isSearchingPinnedPost: boolean;
     isSidebarOpen: boolean;
     isSidebarExpanded: boolean;
     isMenuOpen: boolean;
