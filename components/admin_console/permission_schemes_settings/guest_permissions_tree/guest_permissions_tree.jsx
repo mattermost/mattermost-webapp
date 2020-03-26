@@ -54,6 +54,7 @@ export default class GuestPermissionsTree extends React.Component {
                     Permissions.REMOVE_REACTION,
                 ],
             },
+            Permissions.USE_CHANNEL_MENTIONS,
         ];
     }
 

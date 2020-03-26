@@ -669,7 +669,7 @@ Cypress.Commands.add('apiPatchMe', (data) => {
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
 
-Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
+Cypress.Commands.add('apiCreateNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
     const timestamp = Date.now();
 
     const {
@@ -749,7 +749,7 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
 Cypress.Commands.add('apiCreateAndLoginAsNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
-    return cy.createNewUser(user, teamIds, bypassTutorial).then((newUser) => {
+    return cy.apiCreateNewUser(user, teamIds, bypassTutorial).then((newUser) => {
         return cy.apiLogin(newUser.username, newUser.password).then((response) => {
             expect(response.status).to.equal(200);
 
@@ -924,7 +924,7 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
         });
 
         // #Create New User
-        return cy.createNewUser(user, [team.id], bypassTutorial).then((newUser) => {
+        return cy.apiCreateNewUser(user, [team.id], bypassTutorial).then((newUser) => {
             // # Demote Regular Member to Guest User
             cy.demoteUser(newUser.id);
             cy.apiLogin(newUser.username, newUser.password).then(() => {
@@ -1202,6 +1202,35 @@ Cypress.Commands.add('patchRole', (roleID, patch) => {
         method: 'PUT',
         timeout: 60000,
         body: patch,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get all schemes in the system - must have PERMISSION_MANAGE_SYSTEM
+ *
+ * @param {String} scope - either "team" or "channel"
+ */
+Cypress.Commands.add('apiGetSchemes', (scope) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/schemes?scope=${scope}`,
+        method: 'GET',
+    });
+});
+
+/**
+ * Delete a scheme directly via API
+ *
+ * @param {String} schemeId - the id of the scheme to delete
+ */
+Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/schemes/' + schemeId,
+        method: 'DELETE',
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
