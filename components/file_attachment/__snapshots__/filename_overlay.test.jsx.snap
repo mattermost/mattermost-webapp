@@ -64,7 +64,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, stand
           id="file-name__tooltip"
           placement="right"
         >
-          download
+          Download
         </Tooltip>
       }
       placement="top"
@@ -101,7 +101,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, with 
           id="file-name__tooltip"
           placement="right"
         >
-          download
+          Download
         </Tooltip>
       }
       placement="top"

@@ -14,6 +14,7 @@ let config;
 describe('Login page', () => {
     before(() => {
         // Disable other auth options
+        cy.apiLogin('sysadmin');
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
@@ -42,7 +43,7 @@ describe('Login page', () => {
         // * Check elements in the body
         cy.get('#login_section').should('be.visible');
         cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
-        cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
+        cy.get('#site_description').should('contain', config.TeamSettings.CustomDescriptionText);
         cy.get('#loginId').
             should('be.visible').
             and(($loginTextbox) => {

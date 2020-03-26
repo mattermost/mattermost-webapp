@@ -1459,7 +1459,7 @@ export function fillArray(value, length) {
 // Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
 export function isFileTransfer(files) {
     if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-        return files.types != null && files.types.contains('Files');
+        return files.types != null && files.types.includes('Files');
     }
 
     return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));

@@ -37,6 +37,7 @@ interface ChannelDetailsProps {
     channelPermissions?: Array<ChannelPermissions>;
     allGroups: {[gid: string]: Group}; // hashmap of groups
     teamScheme?: Scheme;
+    guestAccountsEnabled: boolean;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -498,6 +499,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
                             teamSchemeID={teamScheme?.['id']}
                             teamSchemeDisplayName={teamScheme?.['display_name']}
+                            guestAccountsEnabled={this.props.guestAccountsEnabled}
                         />
 
                         <ChannelGroups
