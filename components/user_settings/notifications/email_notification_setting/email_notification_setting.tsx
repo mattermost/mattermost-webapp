@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -17,7 +16,7 @@ const SECONDS_PER_MINUTE = 60;
 type Props = {
     currentUserId: string;
     activeSection: string;
-    updateSection: (func: () => void) => void | string;
+    updateSection: (section: string) => void;
     enableEmail: boolean;
     emailInterval: number;
     onSubmit: () => void;
@@ -26,21 +25,21 @@ type Props = {
     serverError?: string;
     saving?: boolean;
     focused?: boolean;
-    sendEmailNotifications?: boolean;
-    enableEmailBatching?: boolean;
+    sendEmailNotifications: boolean;
+    enableEmailBatching: number;
     actions: {
         savePreferences: (currentUserId: string, emailIntervalPreference: {}) =>
-            Promise<{}>;
-    }; 
+        Promise<{}>;
+    };
 };
 
 type State = {
     activeSection: string;
     emailInterval: number;
     enableEmail: boolean;
-    enableEmailBatching?: boolean;
-    sendEmailNotifications?: boolean;
-    newInterval: () => void;
+    enableEmailBatching: number;
+    sendEmailNotifications: boolean;
+    newInterval: number;
 };
 
 export default class EmailNotificationSetting extends React.PureComponent<Props, State> {
@@ -104,12 +103,12 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
         return null;
     }
 
-    handleChange = (e) => {
-        const enableEmail = e.currentTarget.getAttribute('data-enable-email');
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const enableEmail = JSON.parse(e.currentTarget.getAttribute('data-enable-email')!);
 
         this.setState({
             enableEmail,
-            newInterval: parseInt(e.currentTarget.getAttribute('data-email-interval'), 10),
+            newInterval: parseInt(e.currentTarget.getAttribute('data-email-interval')!, 10),
         });
 
         this.props.onChange(enableEmail);
@@ -135,7 +134,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
         }
     }
 
-    handleUpdateSection = (section) => {
+    handleUpdateSection = (section?: string) => {
         if (section) {
             this.props.updateSection(section);
         } else {
@@ -214,7 +213,6 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             <SettingItemMin
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 describe={description}
-                focused={focused}
                 section={'email'}
                 updateSection={this.handleUpdateSection}
             />
