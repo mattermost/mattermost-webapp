@@ -104,7 +104,7 @@ describe('Interactive Dialog', () => {
                     cy.wrap($elForm).find('.suggestion-list__item', {timeout: TIMEOUTS.SMALL}).first().should('be.visible');
                 } else if (index === 1) {
                     expect(element.name).to.equal('somechannelselector');
-                    cy.wrap($elForm).find('.mentions__name').first().should('be.visible');
+                    cy.wrap($elForm).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).first().should('be.visible');
                     cy.wrap($elForm).find('.form-control').type('{downarrow}'.repeat(10));
                     cy.wrap($elForm).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).first().should('not.be.visible');
                     cy.wrap($elForm).find('.form-control').type('{uparrow}'.repeat(10));
@@ -112,7 +112,7 @@ describe('Interactive Dialog', () => {
                 }
 
                 // # Select one element to close the dropdown
-                cy.wrap($elForm).find('.mentions__name').first().click();
+                cy.wrap($elForm).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).first().click();
 
                 if (element.help_text) {
                     cy.wrap($elForm).find('.help-text').should('be.visible').and('have.text', element.help_text);
