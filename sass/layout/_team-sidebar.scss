@@ -45,22 +45,27 @@
             text-align: center;
             width: 100%;
 
-            &:not(.special):before{
+            &.isDragging:before {
+                transform: translateX(-100%) scaleY(0);
+            }
+
+            &:not(.special, .unread):before {
                 @include border-radius(4px);
                 content: '';
-                height: 0px;
+
+                height: 32px;
+                transform: translateX(-8px) scaleY(0);
+                transform-origin: center center;
                 position: absolute;
-                left: -8px;
-                top: 18px;
-                transition: all ease-in-out 0.1s;
+                top: 8px;
+                left: 0;
+                transition: all 0.1s;
                 width: 8px;
                 background: $black;
             }
 
             &:hover::before {
-                height: 32px;
-                left: -4px;
-                top: 8px;
+                transform: translateX(-4px) scaleY(1);
             }
 
             a {
@@ -100,31 +105,39 @@
                 left: -4px;
                 position: absolute;
                 top: 3px;
-                transition: all ease-in-out 0.1s;
                 width: 8px;
+                transform: translateX(0) scaleY(1);
             }
 
-            &.active:hover::before {
-                height: 32px;
-                top: 8px;
+            &.active {
+                &:hover::before {
+                    height: 32px;
+                    top: 8px;
+                }
+
+                &.isDragging {
+                    &::before {
+                        transform: translateX(-100%) scaleY(0);
+                    }
+                }
             }
 
             &.unread:before {
                 background: $black;
                 border-radius: 8px;
                 content: '';
-                height: 8px;
-                left: -4px;
+                height: 6px;
+                left: 0;
                 position: absolute;
-                top: 18px;
-                transition: all ease-in-out 0.1s;
-                width: 8px;
+                top: 20px;
+                width: 6px;
             }
 
             &.unread:hover::before {
-                height: 16px;
-                top: 15px;
+                height: 32px;
                 width: 8px;
+                top: 8px;
+                left: -0.5px;
             }
 
             a.team-disabled {
