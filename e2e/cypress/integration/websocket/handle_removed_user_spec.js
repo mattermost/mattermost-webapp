@@ -42,9 +42,10 @@ describe('Handle removed user - old sidebar', () => {
             const userId = res.body.id;
             return cy.removeUserFromChannel(channelId, userId);
         }).then(() => {
-            // * Verify that the channel changed back to Town Square
+            // * Verify that the channel changed back to Town Square and that Off-Topic has been removed
             cy.url().should('include', `/${teamName}/channels/town-square`);
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+            cy.get('.SidebarChannel:contains(Off-Topic)').should('not.exist');
         });
     });
 });
