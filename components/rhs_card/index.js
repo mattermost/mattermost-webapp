@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {getSelectedPostCard} from 'selectors/rhs.jsx';
+import {getSelectedPostCard} from 'selectors/rhs';
 
 import RhsCard from './rhs_card.jsx';
 

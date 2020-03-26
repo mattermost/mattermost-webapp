@@ -3,36 +3,40 @@
 
 import {createSelector} from 'reselect';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from 'mattermost-redux/types/channels';
+import {$ID} from 'mattermost-redux/types/utilities';
 
 import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
+import {GlobalState, RhsState} from 'types/store';
 
-export function getSelectedPostId(state) {
+export function getSelectedPostId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostId;
 }
 
-export function getSelectedPostFocussedAt(state) {
+export function getSelectedPostFocussedAt(state: GlobalState): number {
     return state.views.rhs.selectedPostFocussedAt;
 }
 
-export function getSelectedPostCardId(state) {
+export function getSelectedPostCardId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostCardId;
 }
 
-export function getSelectedPostCard(state) {
+export function getSelectedPostCard(state: GlobalState) {
     return state.entities.posts.posts[getSelectedPostCardId(state)];
 }
 
-export function getSelectedChannelId(state) {
+export function getSelectedChannelId(state: GlobalState) {
     return state.views.rhs.selectedChannelId;
 }
 
-export function getPluginId(state) {
+export function getPluginId(state: GlobalState) {
     return state.views.rhs.pluginId;
 }
 
-function getRealSelectedPost(state) {
+function getRealSelectedPost(state: GlobalState) {
     return state.entities.posts.posts[getSelectedPostId(state)];
 }
 
@@ -41,7 +45,7 @@ export const getSelectedPost = createSelector(
     getRealSelectedPost,
     getSelectedChannelId,
     getCurrentUserId,
-    (selectedPostId, selectedPost, selectedPostChannelId, currentUserId) => {
+    (selectedPostId: $ID<Post>, selectedPost: Post, selectedPostChannelId: $ID<Channel>, currentUserId): Post => {
         if (selectedPost) {
             return selectedPost;
         }
@@ -58,39 +62,39 @@ export const getSelectedPost = createSelector(
     }
 );
 
-export function getRhsState(state) {
+export function getRhsState(state: GlobalState): RhsState {
     return state.views.rhs.rhsState;
 }
 
-export function getPreviousRhsState(state) {
+export function getPreviousRhsState(state: GlobalState): RhsState {
     return state.views.rhs.previousRhsState;
 }
 
-export function getSearchTerms(state) {
+export function getSearchTerms(state: GlobalState): string {
     return state.views.rhs.searchTerms;
 }
 
-export function getSearchResultsTerms(state) {
+export function getSearchResultsTerms(state: GlobalState): string {
     return state.views.rhs.searchResultsTerms;
 }
 
-export function getIsSearchingTerm(state) {
+export function getIsSearchingTerm(state: GlobalState): boolean {
     return state.entities.search.isSearchingTerm;
 }
 
-export function getIsSearchingFlaggedPost(state) {
+export function getIsSearchingFlaggedPost(state: GlobalState): boolean {
     return state.views.rhs.isSearchingFlaggedPost;
 }
 
-export function getIsSearchingPinnedPost(state) {
+export function getIsSearchingPinnedPost(state: GlobalState): boolean {
     return state.views.rhs.isSearchingPinnedPost;
 }
 
-export function getIsSearchGettingMore(state) {
+export function getIsSearchGettingMore(state: GlobalState): boolean {
     return state.entities.search.isSearchGettingMore;
 }
 
-export function getPostDraft(state, prefixId, suffixId) {
+export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): Post {
     const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: []};
     const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
 
@@ -105,14 +109,14 @@ export function getPostDraft(state, prefixId, suffixId) {
     return defaultDraft;
 }
 
-export function getIsRhsOpen(state) {
+export function getIsRhsOpen(state: GlobalState): boolean {
     return state.views.rhs.isSidebarOpen;
 }
 
-export function getIsRhsMenuOpen(state) {
+export function getIsRhsMenuOpen(state: GlobalState): boolean {
     return state.views.rhs.isMenuOpen;
 }
 
-export function getIsRhsExpanded(state) {
+export function getIsRhsExpanded(state: GlobalState): boolean {
     return state.views.rhs.isSidebarExpanded;
 }
