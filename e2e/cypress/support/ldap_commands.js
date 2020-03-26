@@ -10,7 +10,7 @@ Cypress.Commands.add('doLDAPExistingLogin', () => {
 Cypress.Commands.add('doLDAPLogin', (settings = {}, useEmail = false) => {
     // # Go to login page
     cy.apiLogout();
-    cy.visit('/login');
+    cy.visit('/login').wait(TIMEOUTS.TINY);
     cy.checkLoginPage(settings);
     cy.performLDAPLogin(settings, useEmail);
 });
@@ -110,11 +110,10 @@ Cypress.Commands.add('doInviteMember', (user, settings = {}) => {
     });
 });
 
-Cypress.Commands.add('setLDAPTestSettings', (config) => {
-    return {
-        siteName: config.TeamSettings.SiteName,
-        siteUrl: config.ServiceSettings.SiteURL,
-        teamName: '',
-        user: null
-    };
+Cypress.Commands.add('doSkipTutorial', (settings = {}) => {
+    cy.get('body').then((body) => {
+        if (body.find('#tutorialSkipLink').length > 0) {
+            cy.get('#tutorialSkipLink').click().wait(TIMEOUTS.TINY);
+        }
+    });
 });

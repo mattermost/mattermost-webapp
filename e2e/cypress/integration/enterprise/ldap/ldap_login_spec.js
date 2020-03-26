@@ -4,17 +4,24 @@
 import users from '../../../fixtures/ldap_users.json';
 import {getRandomInt} from '../../../utils';
 
-// TODO: UPDATE THIS
+function setLDAPTestSettings(config) {
+    return {
+        siteName: config.TeamSettings.SiteName,
+        siteUrl: config.ServiceSettings.SiteURL,
+        teamName: '',
+        user: null
+    };
+}
+
 // assumes thet CYPRESS_* variables are set
 // assumes that E20 license is uploaded
-
+// for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
     const user1 = users['test-1'];
     const guest1 = users['board-1'];
     const guest2 = users['board-2'];
     const admin1 = users['dev-1'];
 
-    // const admin2 = users['dev-2'];
     let testSettings;
 
     const newConfig = {
@@ -24,8 +31,8 @@ context('ldap', () => {
         LdapSettings: {
             Enable: true,
             EnableSync: false,
-            LdapServer: Cypress.env('ldapServer'), // 'ldap.e2e.dev.spinmint.com' 'localhost'
-            LdapPort: Cypress.env('ldapPort'), //389,
+            LdapServer: Cypress.env('ldapServer'),
+            LdapPort: Cypress.env('ldapPort'),
             ConnectionSecurity: '',
             BaseDN: 'dc=mm,dc=test,dc=com',
             BindUsername: 'cn=admin,dc=mm,dc=test,dc=com',
@@ -60,16 +67,15 @@ context('ldap', () => {
         },
     };
 
-    describe('LDAP Login flow - Admin Login', () => {
+    describe('LDAP Login flow - Admin Login', () => { 
         before(() => {
             // * Check if server has license for LDAP
             cy.requireLicenseForFeature('LDAP');
 
+            cy.apiLogin('sysadmin');
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.apiGetConfig().then((response) => {
-                    cy.setLDAPTestSettings(response.body).then((_response) => {
-                        testSettings = _response;
-                    });
+                    testSettings = setLDAPTestSettings(response.body);
                 });
             });
         });
@@ -83,6 +89,9 @@ context('ldap', () => {
                     // new user create team
                     const randomTeam = String(getRandomInt(10000));
                     cy.skipOrCreateTeam(testSettings, randomTeam).then(() => {
+                        cy.get('#headerTeamName').should('be.visible').then((teamName) =>{
+                            testSettings.teamName = teamName.text();
+                        });
                         cy.doLDAPLogout(testSettings);
                     });
                 });
@@ -101,9 +110,11 @@ context('ldap', () => {
         it('Invalid login with user filter', () => {
             testSettings.user = user1;
             newConfig.LdapSettings.UserFilter = '(cn=no_users)';
-            cy.apiUpdateConfig(newConfig).then(() => {
-                cy.doLDAPLogin(testSettings).then(() => {
-                    cy.checkLoginFailed(testSettings);
+            cy.apiLogin('sysadmin').then(() => {
+                cy.apiUpdateConfig(newConfig).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        cy.checkLoginFailed(testSettings);
+                    });
                 });
             });
         });
@@ -111,9 +122,11 @@ context('ldap', () => {
         it('LDAP login, new MM user, no channels', () => {
             testSettings.user = user1;
             newConfig.LdapSettings.UserFilter = '(cn=test*)';
-            cy.apiUpdateConfig(newConfig).then(() => {
-                cy.doLDAPLogin(testSettings).then(() => {
-                    cy.doMemberLogout(testSettings);
+            cy.apiLogin('sysadmin').then(() => {
+                cy.apiUpdateConfig(newConfig).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        cy.doMemberLogout(testSettings);
+                    });
                 });
             });
         });
@@ -124,9 +137,11 @@ context('ldap', () => {
         it('Invalid login with guest filter', () => {
             testSettings.user = guest1;
             newConfig.LdapSettings.GuestFilter = '(cn=no_guests)';
-            cy.apiUpdateConfig(newConfig).then(() => {
-                cy.doLDAPLogin(testSettings).then(() => {
-                    cy.checkLoginFailed(testSettings);
+            cy.apiLogin('sysadmin').then(() => {
+                cy.apiUpdateConfig(newConfig).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        cy.checkLoginFailed(testSettings);
+                    });
                 });
             });
         });
@@ -134,22 +149,34 @@ context('ldap', () => {
         it('LDAP login, new guest, no channels', () => {
             testSettings.user = guest1;
             newConfig.LdapSettings.GuestFilter = '(cn=board*)';
-            cy.apiUpdateConfig(newConfig).then(() => {
-                cy.doLDAPLogin(testSettings).then(() => {
-                    cy.doGuestLogout(testSettings);
+            cy.apiLogin('sysadmin').then(() => {
+                cy.apiUpdateConfig(newConfig).then(() => {
+                    cy.doLDAPLogin(testSettings).then(() => {
+                        cy.doGuestLogout(testSettings);
+                    });
                 });
             });
         });
     });
 
     describe('LDAP Add Member and Guest to teams and test logins', () => {
-        // Add to teams
-        it('Add LDAP Member/Guest to team', () => {
-            testSettings.user = admin1;
-            cy.doLDAPLogin(testSettings).then(() => {
-                cy.doInviteGuest(guest1, testSettings).then(() => {
-                    cy.doInviteMember(user1, testSettings).then(() => {
-                        cy.doLDAPLogout(testSettings);
+        before(() => {
+            cy.apiLogin('sysadmin');
+
+            cy.apiGetTeamByName(testSettings.teamName).then((r) => {
+                const teamId = r.body.id;
+                cy.apiGetChannelByName(testSettings.teamName, "town-square").then((r2) => {
+                    const channelId = r2.body.id;
+                    cy.apiGetUserByEmail(guest1.email).then((res) => {
+                        const user = res.body;
+                        cy.apiAddUserToTeam(teamId, user.id).then(() => {
+                            cy.apiAddUserToChannel(channelId, user.id);
+                        });
+                    });
+                    // add member user to team
+                    cy.apiGetUserByEmail(user1.email).then((res) => {
+                        const user = res.body;            
+                        cy.apiAddUserToTeam(teamId, user.id);
                     });
                 });
             });

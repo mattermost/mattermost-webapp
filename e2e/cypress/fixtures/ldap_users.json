@@ -8,7 +8,7 @@
     "dev-2": {
         "username": "dev.two",
         "password": "Password1",
-        "email": "dev.two",
+        "email": "success+testtwo@simulator.amazonses.com",
         "userType": "Admin"
     },
     "test-1": {
