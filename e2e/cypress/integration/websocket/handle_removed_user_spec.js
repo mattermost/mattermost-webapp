@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import users from '../../fixtures/users';
-
 import {testWithConfig} from '../../support/hooks';
 
 import {getRandomInt} from '../../utils';
