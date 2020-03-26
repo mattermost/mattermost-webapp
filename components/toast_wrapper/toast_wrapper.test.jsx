@@ -32,6 +32,9 @@ describe('components/ToastWrapper', () => {
         scrollToLatestMessages: jest.fn(),
         updateLastViewedBottomAt: jest.fn(),
         lastViewedAt: 12344,
+        actions: {
+            updateToastStatus: jest.fn(),
+        }
     };
 
     describe('unread count logic', () => {
@@ -161,9 +164,12 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 focusedPostId: 'asdasd',
                 atLatestPost: false,
+                atBottom: null
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showMessageHistoryToast')).toBe(undefined);
 
+            wrapper.setProps({atBottom: false});
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
         });
 
@@ -386,6 +392,71 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
             wrapper.setProps({postListIds: baseProps.postListIds});
             expect(wrapper.state('showNewMessagesToast')).toBe(false);
+        });
+
+        test('Should call updateToastStatus on toasts state change', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5
+            };
+            const updateToastStatus = baseProps.actions.updateToastStatus;
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+            expect(updateToastStatus).toHaveBeenCalledWith(true);
+            wrapper.setProps({atBottom: true, atLatestPost: true});
+            expect(updateToastStatus).toHaveBeenCalledTimes(2);
+            expect(updateToastStatus).toHaveBeenCalledWith(false);
+        });
+
+        test('Should call updateNewMessagesAtInChannel on addition of posts at the bottom of channel and user not at bottom', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+                atBottom: true,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            wrapper.setProps({atBottom: null});
+            wrapper.setProps({
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ]
+            });
+
+            //should not call if atBottom is null
+            expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(0);
+
+            wrapper.setProps({
+                atBottom: false,
+                postListIds: [
+                    'post0',
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            });
+            expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
         });
     });
 });

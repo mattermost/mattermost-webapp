@@ -7,6 +7,7 @@ import {Tooltip} from 'react-bootstrap';
 import {injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Draggable} from 'react-beautiful-dnd';
+import classNames from 'classnames';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
@@ -177,17 +178,19 @@ class TeamButton extends React.Component {
             </OverlayTrigger>
         );
 
-        let teamButton;
-        if (isDesktopApp()) {
-            teamButton = (
-                <button
-                    className={'btn btn-link ' + disabled}
-                    onClick={handleClick}
-                >
-                    {btn}
-                </button>
-            );
+        let teamButton = (
+            <Link
+                id={`${this.props.url.slice(1)}TeamButton`}
+                aria-label={ariaLabel}
+                className={disabled}
+                to={this.props.url}
+                onClick={handleClick}
+            >
+                {btn}
+            </Link>
+        );
 
+        if (isDesktopApp()) {
             // if this is not a "special" team button, give it a context menu
             if (isNotCreateTeamButton) {
                 teamButton = (
@@ -199,18 +202,6 @@ class TeamButton extends React.Component {
                     </CopyUrlContextMenu>
                 );
             }
-        } else {
-            teamButton = (
-                <Link
-                    id={`${this.props.url.slice(1)}TeamButton`}
-                    aria-label={ariaLabel}
-                    className={disabled}
-                    to={this.props.url}
-                    onClick={handleClick}
-                >
-                    {btn}
-                </Link>
-            );
         }
 
         return isDraggable ? (
@@ -218,13 +209,13 @@ class TeamButton extends React.Component {
                 draggableId={teamId}
                 index={teamIndex}
             >
-                {(provided) => {
+                {(provided, snapshot) => {
                     return (
                         <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`team-container ${teamClass}`}
+                            className={classNames([`team-container ${teamClass}`, {isDragging: snapshot.isDragging}])}
                         >
                             {teamButton}
                             {orderIndicator}
