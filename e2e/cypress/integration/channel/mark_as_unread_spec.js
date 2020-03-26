@@ -2,11 +2,15 @@
 // See LICENSE.txt for license information.
 
 import users from '../../fixtures/users.json';
+import TIMEOUTS from '../../fixtures/timeouts';
 
 const user1 = users['user-1'];
 const sysadmin = users.sysadmin;
 
 describe('Mark as Unread', () => {
+    let sysadminId;
+    let team;
+
     let channelA;
     let channelB;
 
@@ -16,32 +20,43 @@ describe('Mark as Unread', () => {
 
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+
+        // # Create a team and add sysadmin into it
+        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
+            team = teamRes.body;
+            cy.apiGetUserByEmail(sysadmin.email).then((emailResponse) => {
+                sysadminId = emailResponse.body.id;
+                cy.apiAddUserToTeam(team.id, sysadminId);
+            });
+        });
     });
 
     beforeEach(() => {
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-a', 'Channel A').then((resp) => {
-                channelA = resp.body;
+        cy.apiCreateChannel(team.id, 'channel-a', 'Channel A').then((resp) => {
+            channelA = resp.body;
 
-                // Another user creates posts in the channel since you can't mark your own posts unread currently
-                cy.postMessageAs({sender: sysadmin, message: 'post1', channelId: channelA.id}).then((p1) => {
-                    post1 = p1;
+            // # Add sysadmin to channel A
+            cy.apiAddUserToChannel(channelA.id, sysadminId);
 
-                    cy.postMessageAs({sender: sysadmin, message: 'post2', channelId: channelA.id}).then((p2) => {
-                        post2 = p2;
+            // Another user creates posts in the channel since you can't mark your own posts unread currently
+            cy.postMessageAs({sender: sysadmin, message: 'post1', channelId: channelA.id}).then((p1) => {
+                post1 = p1;
 
-                        cy.postMessageAs({sender: sysadmin, message: 'post3', channelId: channelA.id, rootId: post1.id}).then((post) => {
-                            post3 = post;
-                        });
+                cy.postMessageAs({sender: sysadmin, message: 'post2', channelId: channelA.id}).then((p2) => {
+                    post2 = p2;
+
+                    cy.postMessageAs({sender: sysadmin, message: 'post3', channelId: channelA.id, rootId: post1.id}).then((post) => {
+                        post3 = post;
                     });
                 });
             });
-
-            cy.apiCreateChannel(teamId, 'channel-b', 'Channel B').then((resp) => {
-                channelB = resp.body;
-            });
         });
+
+        cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
+            channelB = resp.body;
+        });
+
+        cy.visit(`/${team.name}/channels/town-square`);
     });
 
     afterEach(() => {
@@ -279,6 +294,9 @@ function switchToChannel(channel) {
     cy.get(`#sidebarItem_${channel.name}`).click();
 
     cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+    // # Wait some time for the channel to set state
+    cy.wait(TIMEOUTS.TINY);
 }
 
 function beRead(items) {
