@@ -48,7 +48,14 @@ class LocalDateTime extends React.PureComponent<Props> {
             titleString = momentDate.toString() + ' (' + momentDate.tz() + ')';
         }
 
-        const options = {
+        // Ideally, we'd use Intl.DateTimeFormatOptions, but hourCycle is not yet supported.
+        // See https://github.com/microsoft/TypeScript/issues/34399
+        const options: {
+            hour?: string;
+            minute?: string;
+            timeZone?: string;
+            hourCycle?: string;
+        } = {
             hour: 'numeric',
             minute: 'numeric',
         };
