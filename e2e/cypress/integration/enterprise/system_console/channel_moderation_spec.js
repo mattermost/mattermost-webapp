@@ -312,6 +312,7 @@ describe('Channel Moderation Test', () => {
         });
 
         visitAutemChannel('user-1');
+
         // # Demote user to Channel Member
         cy.apiGetMe().then((res) => {
             demoteToChannelOrTeamMember(res.body.id, autemChannelId);
@@ -319,9 +320,9 @@ describe('Channel Moderation Test', () => {
 
         // # Demote user to Team Member
         cy.apiGetMe().then((res) => {
-            cy.getCurrentTeamId().then((teamId) => { 
+            cy.getCurrentTeamId().then((teamId) => {
                 demoteToChannelOrTeamMember(res.body.id, teamId, 'teams');
-            })
+            });
         });
     });
 
@@ -1029,6 +1030,7 @@ describe('Channel Moderation Test', () => {
 
             // # View members modal
             viewManageChannelMembersModal('Manage');
+
             // * Add Members button does not exist
             cy.get('#showInviteModal').should('exist');
 
@@ -1041,9 +1043,9 @@ describe('Channel Moderation Test', () => {
             enableDisableAllChannelModeratedPermissionsViaAPI(autemChannelId, false);
             visitAutemChannel('user-1');
             cy.apiGetMe().then((res) => {
-                cy.getCurrentTeamId().then((teamId) => { 
+                cy.getCurrentTeamId().then((teamId) => {
                     promoteToChannelOrTeamAdmin(res.body.id, teamId, 'teams');
-                })
+                });
             });
 
             // * Assert user can post message and user channel mentions
@@ -1058,13 +1060,14 @@ describe('Channel Moderation Test', () => {
 
             // # View members modal
             viewManageChannelMembersModal('Manage');
+
             // * Add Members button does not exist
             cy.get('#showInviteModal').should('exist');
 
             cy.apiGetMe().then((res) => {
-                cy.getCurrentTeamId().then((teamId) => { 
+                cy.getCurrentTeamId().then((teamId) => {
                     demoteToChannelOrTeamMember(res.body.id, teamId, 'teams');
-                })
+                });
             });
         });
     });
