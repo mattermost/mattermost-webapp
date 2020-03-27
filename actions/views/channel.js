@@ -327,3 +327,12 @@ export function markChannelAsReadOnFocus(channelId) {
         dispatch(markChannelAsRead(channelId));
     };
 }
+
+export function updateToastStatus(status) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.UPDATE_TOAST_STATUS,
+            data: status,
+        });
+    };
+}
