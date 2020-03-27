@@ -11,7 +11,7 @@ import Constants from 'utils/constants';
 import {getShortenedURL, cleanUpUrlable} from 'utils/url';
 import {t} from 'utils/i18n';
 
-export type Props = {
+type Props = {
 
     /**
      * Set whether to show the modal or not
@@ -21,17 +21,17 @@ export type Props = {
     /**
      * Set to change the title of the modal
      */
-    title: JSX.Element | string;
+    title?: React.ReactNode;
 
     /**
      * Set to change the submit button text
      */
-    submitButtonText: JSX.Element | string;
+    submitButtonText?: React.ReactNode;
 
     /**
      * Set to change the current URL
      */
-    currentURL: string;
+    currentURL?: string;
 
     /**
      * Set to the current team URL
@@ -41,7 +41,7 @@ export type Props = {
     /**
      * Server error from failed channel creation
      */
-    serverError: JSX.Element | string | null;
+    serverError?: React.ReactNode;
 
     /**
      * Function to call when modal is submitted
@@ -54,13 +54,13 @@ export type Props = {
     onModalExited?: () => void;
 
     /**
-     * Function to call when modal is dimissed
+     * Function to call when modal is dismissed
      */
     onModalDismissed: () => void;
 }
 
 type State = {
-    currentURL: string;
+    currentURL?: string;
     urlError: JSX.Element[] | string;
     userEdit: boolean;
 };
@@ -146,7 +146,7 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
 
     onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const url = this.urlInput.current ? this.urlInput.current.value : '';
+        const url = this.urlInput?.current?.value || '';
         const cleanedURL = cleanUpUrlable(url);
         if (cleanedURL !== url || url.length < 2 || url.indexOf('__') > -1) {
             this.setState({urlError: this.getURLError(url)});
