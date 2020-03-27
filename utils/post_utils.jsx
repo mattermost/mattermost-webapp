@@ -129,7 +129,9 @@ export const groupsMentionedInText = (text, groups) => {
     if (!text || text.startsWith('/')) {
         return [];
     }
-    const mentions = allAtMentions(text);
+
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    const mentions = allAtMentions(mentionableText);
     return mentions.length > 0 && groups.filter((group) => mentions.includes(`@${group.name}`));
 };
 
