@@ -34,7 +34,8 @@ function verifyChannel(res, verifyExistence = true) {
 describe('channel name tooltips', () => {
     let loggedUser;
     let longUser;
-    let team;
+    let testTeam;
+    let testChannel;
     let timestamp;
 
     beforeEach(() => {
@@ -44,7 +45,7 @@ describe('channel name tooltips', () => {
         // # Create new team and add user to team
         timestamp = Date.now();
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            team = response.body;
+            testTeam = response.body;
 
             // # Create test user with long username
             cy.apiCreateNewUser({
@@ -54,11 +55,11 @@ describe('channel name tooltips', () => {
                 lastName: `thisIsALongLast${timestamp}`,
                 nickname: `thisIsALongNickname${timestamp}`,
                 password: 'password123',
-            }, [team.id]).then((user) => {
+            }, [testTeam.id]).then((user) => {
                 longUser = user;
             });
 
-            cy.apiCreateAndLoginAsNewUser({}, [team.id]).then((user) => {
+            cy.apiCreateAndLoginAsNewUser({}, [testTeam.id]).then((user) => {
                 loggedUser = user;
 
                 // # Go to Town Square channel
@@ -67,13 +68,20 @@ describe('channel name tooltips', () => {
         });
     });
 
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
+    });
+
     it('Should show tooltip on hover - open/public channel with long name', () => {
         // # Create new test channel
         cy.apiCreateChannel(
-            team.id,
+            testTeam.id,
             'channel-test',
             `Public channel with a long name-${timestamp}`
         ).then((res) => {
+            testChannel = res.body;
             verifyChannel(res);
         });
     });
@@ -81,11 +89,12 @@ describe('channel name tooltips', () => {
     it('Should show tooltip on hover - private channel with long name', () => {
         // # Create new test channel
         cy.apiCreateChannel(
-            team.id,
+            testTeam.id,
             'channel-test',
             `Private channel with a long name-${timestamp}`,
             'P'
         ).then((res) => {
+            testChannel = res.body;
             verifyChannel(res);
         });
     });
@@ -93,10 +102,11 @@ describe('channel name tooltips', () => {
     it('Should not show tooltip on hover - open/public channel with short name', () => {
         // # Create new test channel
         cy.apiCreateChannel(
-            team.id,
+            testTeam.id,
             'channel-test',
             'Public channel',
         ).then((res) => {
+            testChannel = res.body;
             verifyChannel(res, false);
         });
     });
@@ -104,11 +114,12 @@ describe('channel name tooltips', () => {
     it('Should not show tooltip on hover - private channel with short name', () => {
         // # Create new test channel
         cy.apiCreateChannel(
-            team.id,
+            testTeam.id,
             'channel-test',
             'Private channel',
             'P'
         ).then((res) => {
+            testChannel = res.body;
             verifyChannel(res, false);
         });
     });

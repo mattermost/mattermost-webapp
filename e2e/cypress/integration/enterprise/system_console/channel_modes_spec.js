@@ -8,6 +8,8 @@
 // ***************************************************************
 
 describe('Test channel public/private toggle', () => {
+    let testChannel;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -26,19 +28,25 @@ describe('Test channel public/private toggle', () => {
         cy.checkRunLDAPSync();
     });
 
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
+    });
+
     it('Verify that System Admin can change channel privacy using toggle', () => {
         cy.visit('/ad-1/channels/town-square');
         cy.getCurrentTeamId().then((teamId) => {
             return cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel');
         }).then((res) => {
-            const channel = res.body;
-            assert(channel.type === 'O');
-            cy.visit(`/admin_console/user_management/channels/${channel.id}`);
-            cy.get('#channel_profile').contains(channel.display_name);
+            testChannel = res.body;
+            assert(testChannel.type === 'O');
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.get('#channel_profile').contains(testChannel.display_name);
             cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(1).click();
             cy.get('#saveSetting').click();
             cy.get('#confirmModalButton').click();
-            return cy.apiGetChannel(channel.id);
+            return cy.apiGetChannel(testChannel.id);
         }).then((res) => {
             const channel = res.body;
             assert(channel.type === 'P');
@@ -59,10 +67,10 @@ describe('Test channel public/private toggle', () => {
         cy.getCurrentTeamId().then((teamId) => {
             return cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel');
         }).then((res) => {
-            const channel = res.body;
-            assert(channel.type === 'O');
-            cy.visit(`/admin_console/user_management/channels/${channel.id}`);
-            cy.get('#channel_profile').contains(channel.display_name);
+            testChannel = res.body;
+            assert(testChannel.type === 'O');
+            cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+            cy.get('#channel_profile').contains(testChannel.display_name);
             cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(0).click();
             cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(0).click();
             cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(1).contains('Public');

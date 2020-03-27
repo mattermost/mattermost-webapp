@@ -85,10 +85,18 @@ function createNewChannel(name, isPrivate = false) {
 }
 
 describe('Channel', () => {
+    let testChannel;
+
     beforeEach(() => {
         // Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('Mult14635 Should not create new channel with existing public channel name', () => {
@@ -97,6 +105,7 @@ describe('Channel', () => {
         cy.reload();
 
         cy.get('@channel').then((channel) => {
+            testChannel = channel;
             // * Verify new public or private channel cannot be created with existing private channel name:
             channelNameTest('PUBLIC CHANNELS', channel);
         });
@@ -108,6 +117,7 @@ describe('Channel', () => {
         cy.reload();
 
         cy.get('@channel').then((channel) => {
+            testChannel = channel;
             // * Verify new public or private channel cannot be created with existing private channel name:
             channelNameTest('PRIVATE CHANNELS', channel);
         });

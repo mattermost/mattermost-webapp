@@ -14,6 +14,8 @@ import {getRandomInt} from '../../utils';
 const sysadmin = users.sysadmin;
 
 describe('Channel sidebar', () => {
+    let testChannel;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -27,6 +29,12 @@ describe('Channel sidebar', () => {
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('should display collapsed state when collapsed', () => {
@@ -80,7 +88,8 @@ describe('Channel sidebar', () => {
         // Create a new channel and post a message into it
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
+                testChannel = res.body;
+                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: testChannel.id});
 
                 // Force a reload to ensure the unread message displays
                 cy.reload();
@@ -184,7 +193,8 @@ describe('Channel sidebar', () => {
         // # Create a new channel and post a message into it
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: res.body.id});
+                testChannel = res.body;
+                cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: testChannel.id});
 
                 // Force a reload to ensure the unread message displays
                 cy.reload();

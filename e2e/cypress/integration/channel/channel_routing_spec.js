@@ -8,6 +8,8 @@
 // ***************************************************************
 
 describe('Channel routing', () => {
+    let testChannel;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
@@ -17,6 +19,12 @@ describe('Channel routing', () => {
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('should go to town square channel view', () => {
@@ -31,14 +39,16 @@ describe('Channel routing', () => {
         cy.getCurrentTeamId().then((teamId) => {
             // # Create a private channel
             cy.apiCreateChannel(teamId, 'private-channel', 'Private channel', 'P').then((response) => {
+                testChannel = response.body;
+
                 // # Go to the newly created channel
-                cy.visit(`/ad-1/channels/${response.body.name}`);
+                cy.visit(`/ad-1/channels/${testChannel.name}`);
 
                 // * Check you can go to the channel without problem
                 cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel');
 
                 // # Remove the created channel
-                cy.apiDeleteChannel(response.body.id);
+                cy.apiDeleteChannel(testChannel.id);
             });
         });
     });

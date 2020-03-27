@@ -45,6 +45,12 @@ describe('Channel', () => {
         });
     });
 
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
+    });
+
     it('Channel autocomplete should have both lists populated correctly', () => {
         // # Type "~"
         cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.SMALL);

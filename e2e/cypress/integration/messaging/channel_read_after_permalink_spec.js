@@ -10,6 +10,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
+    let testChannel;
+    
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -22,6 +24,12 @@ describe('Messaging', () => {
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/town-square');
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('M18713-Channel is removed from Unreads section if user navigates out of it via permalink', () => {
@@ -65,7 +73,7 @@ describe('Messaging', () => {
 
             // # Create public channel to post permalink
             cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
-                const testChannel = response.body;
+                testChannel = response.body;
 
                 // # Post the message on the channel
                 postMessageOnChannel(testChannel, linkText);

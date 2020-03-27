@@ -14,6 +14,9 @@ import {getRandomInt} from '../../utils';
 const sysadmin = users.sysadmin;
 
 describe('Channel switching', () => {
+    const cmdOrCtrl = Cypress.platform === 'darwin' ? '{cmd}' : '{ctrl}';
+    let testChannel;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -29,7 +32,11 @@ describe('Channel switching', () => {
         cy.visit('/ad-1/channels/town-square');
     });
 
-    const cmdOrCtrl = Cypress.platform === 'darwin' ? '{cmd}' : '{ctrl}';
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
+    });
 
     it('should switch channels when pressing the alt + arrow hotkeys', () => {
         // # Start with a new team
@@ -68,6 +75,7 @@ describe('Channel switching', () => {
         // cy.createAndVisitNewChannel().as('testChannel');
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
+                testChannel = response.body;
                 expect(response.status).to.equal(201);
 
                 cy.wrap(response.body).as('testChannel');

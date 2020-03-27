@@ -96,7 +96,8 @@ function createTestUsers(timestamp) {
 describe('Autocomplete', () => {
     let timestamp;
     let testUsers;
-    let team;
+    let testTeam;
+    let testChannelIdList = [];
 
     beforeEach(() => {
         // # Login as sysadmin
@@ -112,12 +113,18 @@ describe('Autocomplete', () => {
         timestamp = Date.now();
         testUsers = createTestUsers(timestamp);
         cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
-            team = response.body;
+            testTeam = response.body;
 
             // # Create pool of users for tests
             Cypress._.forEach(testUsers, (user) => {
-                cy.apiCreateNewUser(user, [team.id]);
+                cy.apiCreateNewUser(user, [testTeam.id]);
             });
+        });
+    });
+
+    afterEach(() => {
+        testChannelIdList.forEach((channelId) => {
+            cy.apiDeleteChannel(channelId);
         });
     });
 
@@ -157,7 +164,7 @@ describe('Autocomplete', () => {
 
                 beforeEach(() => {
                     // # Navigate to the new teams town square
-                    cy.visit(`/${team.name}/channels/town-square`);
+                    cy.visit(`/${testTeam.name}/channels/town-square`);
                 });
 
                 describe('by @username', () => {
@@ -280,7 +287,7 @@ describe('Autocomplete', () => {
 
                 beforeEach(() => {
                     // # Navigate to the new teams town square
-                    cy.visit(`/${team.name}/channels/town-square`);
+                    cy.visit(`/${testTeam.name}/channels/town-square`);
                     cy.typeCmdOrCtrl().type('k');
                     cy.get('#quickSwitchInput').should('be.visible');
                 });
@@ -391,7 +398,7 @@ describe('Autocomplete', () => {
                 const loki = testUsers.loki;
 
                 // # Navigate to town square
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // # Get the current team id, create new channel, and add user to channel
                 cy.getCurrentTeamId().then((teamId) => {
@@ -399,13 +406,14 @@ describe('Autocomplete', () => {
 
                     cy.apiCreateChannel(teamId, channelName, channelName).then((channelResponse) => {
                         const channel = channelResponse.body;
+                        testChannelIdList.push(channel.id);
 
                         cy.apiGetUserByEmail(thor.email).then((emailResponse) => {
                             const user = emailResponse.body;
                             cy.apiAddUserToChannel(channel.id, user.id);
                         });
 
-                        cy.visit(`/${team.name}/channels/${channel.name}`);
+                        cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                     });
                 });
 
@@ -506,7 +514,7 @@ describe('Autocomplete', () => {
 
                 beforeEach(() => {
                     // # Navigate to the new teams town square
-                    cy.visit(`/${team.name}/channels/town-square`);
+                    cy.visit(`/${testTeam.name}/channels/town-square`);
                 });
 
                 describe('by @username', () => {
@@ -629,7 +637,7 @@ describe('Autocomplete', () => {
 
                 beforeEach(() => {
                     // # Navigate to the new teams town square
-                    cy.visit(`/${team.name}/channels/town-square`);
+                    cy.visit(`/${testTeam.name}/channels/town-square`);
                     cy.typeCmdOrCtrl().type('k');
                     cy.get('#quickSwitchInput').should('be.visible');
                 });
@@ -740,7 +748,7 @@ describe('Autocomplete', () => {
                 const loki = testUsers.loki;
 
                 // # Navigate to town square
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // # Get the current team id, create new channel, and add user to channel
                 cy.getCurrentTeamId().then((teamId) => {
@@ -748,13 +756,14 @@ describe('Autocomplete', () => {
 
                     cy.apiCreateChannel(teamId, channelName, channelName).then((channelResponse) => {
                         const channel = channelResponse.body;
+                        testChannelIdList.push(channel.id);
 
                         cy.apiGetUserByEmail(thor.email).then((emailResponse) => {
                             const user = emailResponse.body;
                             cy.apiAddUserToChannel(channel.id, user.id);
                         });
 
-                        cy.visit(`/${team.name}/channels/${channel.name}`);
+                        cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                     });
                 });
 

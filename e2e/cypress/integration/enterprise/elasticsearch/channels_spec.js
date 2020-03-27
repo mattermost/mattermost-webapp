@@ -178,6 +178,7 @@ describe('search for channel with', () => {
         });
 
         describe('channel with', () => {
+            let testChannel;
             let channelId;
 
             beforeEach(() => {
@@ -191,11 +192,18 @@ describe('search for channel with', () => {
 
                 // # Create a new channel
                 cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
-                    channelId = channelResponse.body.id;
+                    testChannel = channelResponse.body;
+                    channelId = testChannel.id;
                 });
 
                 // * Verify channel without special characters appears normally
                 searchForChannel(name);
+            });
+
+            afterEach(() => {
+                if (testChannel && testChannel.id) {
+                    cy.apiDeleteChannel(testChannel.id);
+                }
             });
 
             it('dots appears', () => {
@@ -318,6 +326,7 @@ describe('search for channel with', () => {
         });
 
         describe('channel with', () => {
+            let testChannel;
             let channelId;
 
             beforeEach(() => {
@@ -329,11 +338,18 @@ describe('search for channel with', () => {
 
                 // # Create a new channel
                 cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
-                    channelId = channelResponse.body.id;
+                    testChannel = channelResponse.body;
+                    channelId = testChannel.id;
                 });
 
                 // * Verify channel without special characters appears normally
                 searchForChannel(name);
+            });
+
+            afterEach(() => {
+                if (testChannel && testChannel.id) {
+                    cy.apiDeleteChannel(testChannel.id);
+                }
             });
 
             it('dots appears', () => {

@@ -50,7 +50,8 @@ function searchAndVerifyUser(user) {
 
 describe('renaming', () => {
     let timestamp;
-    let team;
+    let testTeam;
+    let testChannelIdList = [];
 
     beforeEach(() => {
         // # Login as sysadmin
@@ -65,7 +66,13 @@ describe('renaming', () => {
         // # Create new team for tests
         timestamp = Date.now();
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
-            team = response.body;
+            testTeam = response.body;
+        });
+    });
+
+    afterEach(() => {
+        testChannelIdList.forEach((channelId) => {
+            cy.apiDeleteChannel(channelId);
         });
     });
 
@@ -87,9 +94,9 @@ describe('renaming', () => {
             };
 
             // # Create a new user
-            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(spiderman, [testTeam.id]).then((userResponse) => {
                 const user = userResponse;
-                cy.visit(`/${team.name}`);
+                cy.visit(`/${testTeam.name}`);
 
                 // # Verify user appears in search results pre-change
                 searchAndVerifyUser(user);
@@ -110,8 +117,9 @@ describe('renaming', () => {
             const newChannelName = 'updatedchannel' + Date.now();
 
             // # Create a new channel
-            cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
+            cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
                 const channel = channelResponse.body;
+                testChannelIdList.push(channel.id);
 
                 // # Channel should appear in search results pre-change
                 searchAndVerifyChannel(channel);
@@ -141,7 +149,7 @@ describe('renaming', () => {
                 };
 
                 // # Setup new channel and user
-                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
+                cy.apiCreateNewUser(punisher, [testTeam.id]).then((userResponse) => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals
@@ -154,8 +162,9 @@ describe('renaming', () => {
                 const channelName = 'another-channel' + Date.now();
 
                 // # Create a new channel
-                cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
+                cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
                     channel = channelResponse.body;
+                    testChannelIdList.push(channel.id);
 
                     // # Channel should appear in search results pre-change
                     searchAndVerifyChannel(channel);
@@ -165,7 +174,7 @@ describe('renaming', () => {
                 });
 
                 // # Rename the channel
-                cy.apiPatchTeam(team.id, {name: 'updatedteam' + timestamp});
+                cy.apiPatchTeam(testTeam.id, {name: 'updatedteam' + timestamp});
             });
 
             it('correctly searches for user', () => {
@@ -198,9 +207,9 @@ describe('renaming', () => {
             };
 
             // # Create a new user
-            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(spiderman, [testTeam.id]).then((userResponse) => {
                 const user = userResponse;
-                cy.visit(`/${team.name}`);
+                cy.visit(`/${testTeam.name}`);
 
                 // # Verify user appears in search results pre-change
                 searchAndVerifyUser(user);
@@ -221,8 +230,9 @@ describe('renaming', () => {
             const newChannelName = 'updatedchannel' + Date.now();
 
             // # Create a new channel
-            cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
+            cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
                 const channel = channelResponse.body;
+                testChannelIdList.push(channel.id);
 
                 // # Channel should appear in search results pre-change
                 searchAndVerifyChannel(channel);
@@ -252,7 +262,7 @@ describe('renaming', () => {
                 };
 
                 // # Setup new channel and user
-                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
+                cy.apiCreateNewUser(punisher, [testTeam.id]).then((userResponse) => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals
@@ -265,8 +275,9 @@ describe('renaming', () => {
                 const channelName = 'another-channel' + Date.now();
 
                 // # Create a new channel
-                cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
+                cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
                     channel = channelResponse.body;
+                    testChannelIdList.push(channel.id);
 
                     // # Channel should appear in search results pre-change
                     searchAndVerifyChannel(channel);
@@ -276,7 +287,7 @@ describe('renaming', () => {
                 });
 
                 // # Rename the channel
-                cy.apiPatchTeam(team.id, {name: 'updatedteam' + timestamp});
+                cy.apiPatchTeam(testTeam.id, {name: 'updatedteam' + timestamp});
             });
 
             it('correctly searches for user', () => {

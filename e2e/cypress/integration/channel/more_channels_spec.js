@@ -9,9 +9,9 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-let channel;
-
 describe('Channels', () => {
+    let testChannel;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -20,12 +20,18 @@ describe('Channels', () => {
         cy.apiGetTeamByName('ad-1').then((teamRes) => {
             // # Create new test channel
             cy.apiCreateChannel(teamRes.body.id, 'a-channel-test', 'A Channel Test').then((channelRes) => {
-                channel = channelRes.body;
+                testChannel = channelRes.body;
             });
         });
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('MM-19337 Verify UI of More channels modal with archived selection', () => {
@@ -59,29 +65,29 @@ describe('Channels', () => {
             // * Dropdown should be visible, defaulting to "Public Channels"
             cy.get('#channelsMoreDropdown').should('be.visible').and('contain', 'Show: Public Channels');
 
-            cy.get('#searchChannelsTextbox').type(channel.display_name).wait(TIMEOUTS.TINY);
+            cy.get('#searchChannelsTextbox').type(testChannel.display_name).wait(TIMEOUTS.TINY);
             cy.get('#moreChannelsList').children().should('have.length', 1).within(() => {
-                cy.findByText(channel.display_name).scrollIntoView().should('be.visible');
+                cy.findByText(testChannel.display_name).scrollIntoView().should('be.visible');
             });
             cy.get('#searchChannelsTextbox').clear();
 
             // * Channel test should be visible as a public channel in the list
             cy.get('#moreChannelsList').should('be.visible').within(() => {
                 // # Click to join the channel
-                cy.findByText(channel.display_name).scrollIntoView().should('be.visible').click();
+                cy.findByText(testChannel.display_name).scrollIntoView().should('be.visible').click();
             });
         });
 
         // # Verify that the modal is closed and it's redirected to the selected channel
         cy.get('#moreChannelsModal').should('not.exist');
-        cy.url().should('include', `/ad-1/channels/${channel.name}`);
+        cy.url().should('include', `/ad-1/channels/${testChannel.name}`);
 
         // # Login as channel admin and go directly to the channel
         cy.apiLogin('user-1');
-        cy.visit(`/ad-1/channels/${channel.name}`);
+        cy.visit(`/ad-1/channels/${testChannel.name}`);
 
         // # Click channel header to open channel menu
-        cy.get('#channelHeaderTitle').should('contain', channel.display_name).click();
+        cy.get('#channelHeaderTitle').should('contain', testChannel.display_name).click();
 
         // * Verify that the menu is opened
         cy.get('.Menu__content').should('be.visible').within(() => {
@@ -111,16 +117,16 @@ describe('Channels', () => {
                 cy.wrap(el).should('contain', 'Show: Archived Channels');
             });
 
-            cy.get('#searchChannelsTextbox').type(channel.display_name).wait(TIMEOUTS.TINY);
+            cy.get('#searchChannelsTextbox').type(testChannel.display_name).wait(TIMEOUTS.TINY);
             cy.get('#moreChannelsList').children().should('have.length', 1).within(() => {
-                cy.findByText(channel.display_name).scrollIntoView().should('be.visible');
+                cy.findByText(testChannel.display_name).scrollIntoView().should('be.visible');
             });
             cy.get('#searchChannelsTextbox').clear();
 
             // * Test channel should be visible as a archived channel in the list
             cy.get('#moreChannelsList').should('be.visible').within(() => {
                 // # Click to view archived channel
-                cy.findByText(channel.display_name).scrollIntoView().should('be.visible').click();
+                cy.findByText(testChannel.display_name).scrollIntoView().should('be.visible').click();
             });
         });
 
@@ -132,7 +138,7 @@ describe('Channels', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // * Assert that archived channel doesn't show up in LHS list
-        cy.get('#publicChannelList', {timeout: TIMEOUTS.LARGE}).should('not.contain', channel.display_name);
+        cy.get('#publicChannelList', {timeout: TIMEOUTS.LARGE}).should('not.contain', testChannel.display_name);
     });
 });
 

@@ -21,6 +21,15 @@ describe('Message Draft with attachment and Switch Channels', () => {
         cy.visit('/ad-1/channels/town-square');
     });
 
+    afterEach(() => {
+        if (testChannel1 && testChannel1.id) {
+            cy.apiDeleteChannel(testChannel1.id);
+        }
+        if (testChannel2 && testChannel2.id) {
+            cy.apiDeleteChannel(testChannel2.id);
+        }
+    });
+
     it('M14126 Message Draft Pencil Icon - No text, only file attachment', () => {
         // # Create new test channel
         cy.getCurrentTeamId().then((teamId) => {

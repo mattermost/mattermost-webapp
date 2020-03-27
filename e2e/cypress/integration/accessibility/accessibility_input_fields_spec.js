@@ -70,6 +70,12 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
     });
 
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
+    });
+
     it('MM-22625 Verify Accessibility Support in Input fields in Invite People Flow', () => {
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();

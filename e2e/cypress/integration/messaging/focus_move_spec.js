@@ -46,12 +46,20 @@ function verifyFocusInAddChannelMemberModal() {
 }
 
 describe('Messaging', () => {
+    let testChannel;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('M15406 - Focus move from Recent Mentions to main input box when a character key is selected', () => {
@@ -130,18 +138,16 @@ describe('Messaging', () => {
     });
 
     it('M17452 Focus does not move when it has already been set elsewhere', () => {
-        let channel;
-
         cy.getCurrentTeamId().then((teamId) => {
             // # Create new test channel
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                channel = res.body;
+                testChannel = res.body;
 
                 // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).click({force: true});
+                cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
                 // * Channel's display name should be visible at the top of the center pane
-                cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+                cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
 
                 // # Verify Focus in add channel member modal
                 verifyFocusInAddChannelMemberModal();

@@ -22,6 +22,8 @@ function promoteGuestToUser(user) {
 }
 
 describe('Channel header menu', () => {
+    let testChannel;
+    
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -40,22 +42,26 @@ describe('Channel header menu', () => {
         cy.apiCreateAndLoginAsNewUser().as('newuser');
     });
 
-    it('MM-14490 show/hide properly menu dividers', () => {
-        let channel;
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
+    });
 
+    it('MM-14490 show/hide properly menu dividers', () => {
         // # Go to "/"
         cy.visit('/ad-1/channels/town-square');
 
         cy.getCurrentTeamId().then((teamId) => {
             // # Create new test channel
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                channel = res.body;
+                testChannel = res.body;
 
                 // # Select channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).click();
+                cy.get(`#sidebarItem_${testChannel.name}`).click();
 
                 // * Channel's display name should be visible at the top of the center pane
-                cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+                cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
 
                 // # Then click it to access the drop-down menu
                 cy.get('#channelHeaderTitle').click();

@@ -10,8 +10,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 // ***************************************************************
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
-    let testChannel;
     let testTeam;
+    let testChannel;
 
     beforeEach(() => {
         // # Login as user-1
@@ -30,6 +30,12 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
                 });
             });
         });
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('set channel switcher setting to On and test on click of sidebar switcher button', () => {

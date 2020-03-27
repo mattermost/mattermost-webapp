@@ -9,10 +9,10 @@ const sysadmin = users.sysadmin;
 
 describe('Mark as Unread', () => {
     let sysadminId;
-    let team;
+    let testTeam;
 
-    let channelA;
-    let channelB;
+    let testChannelA;
+    let testChannelB;
 
     let post1;
     let post2;
@@ -24,27 +24,27 @@ describe('Mark as Unread', () => {
 
         // # Create a team and add sysadmin into it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
-            team = teamRes.body;
+            testTeam = teamRes.body;
             cy.apiGetUserByEmail(sysadmin.email).then((emailResponse) => {
                 sysadminId = emailResponse.body.id;
-                cy.apiAddUserToTeam(team.id, sysadminId);
+                cy.apiAddUserToTeam(testTeam.id, sysadminId);
             });
 
             // # Create Channel A
-            cy.apiCreateChannel(team.id, 'channel-a', 'Channel A').then((resp) => {
-                channelA = resp.body;
+            cy.apiCreateChannel(testTeam.id, 'channel-a', 'Channel A').then((resp) => {
+                testChannelA = resp.body;
 
                 // # Add sysadmin to channel A
-                cy.apiAddUserToChannel(channelA.id, sysadminId);
+                cy.apiAddUserToChannel(testChannelA.id, sysadminId);
 
                 // Another user creates posts in the channel since you can't mark your own posts unread currently
-                cy.postMessageAs({sender: sysadmin, message: 'post1', channelId: channelA.id}).then((p1) => {
+                cy.postMessageAs({sender: sysadmin, message: 'post1', channelId: testChannelA.id}).then((p1) => {
                     post1 = p1;
 
-                    cy.postMessageAs({sender: sysadmin, message: 'post2', channelId: channelA.id}).then((p2) => {
+                    cy.postMessageAs({sender: sysadmin, message: 'post2', channelId: testChannelA.id}).then((p2) => {
                         post2 = p2;
 
-                        cy.postMessageAs({sender: sysadmin, message: 'post3', channelId: channelA.id, rootId: post1.id}).then((post) => {
+                        cy.postMessageAs({sender: sysadmin, message: 'post3', channelId: testChannelA.id, rootId: post1.id}).then((post) => {
                             post3 = post;
                         });
                     });
@@ -52,42 +52,51 @@ describe('Mark as Unread', () => {
             });
 
             // # Create Channel B
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
-                channelB = resp.body;
+            cy.apiCreateChannel(testTeam.id, 'channel-b', 'Channel B').then((resp) => {
+                testChannelB = resp.body;
             });
 
             // # Visit the Town Square channel
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
+    });
+
+    afterEach(() => {
+        if (testChannelA && testChannelA.id) {
+            cy.apiDeleteChannel(testChannelA.id);
+        }
+        if (testChannelB && testChannelB.id) {
+            cy.apiDeleteChannel(testChannelB.id);
+        }
     });
 
     it('Channel should appear unread after switching away from channel and be read after switching back', () => {
         // Starts unread
-        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beUnread);
 
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // Then becomes read when you view the channel
-        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beRead);
 
         markAsUnreadFromPost(post2);
 
         // Then becomes unread when the channel is marked as unread
-        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beUnread);
 
-        switchToChannel(channelB);
+        switchToChannel(testChannelB);
 
         // Then stays unread when switching away
-        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beUnread);
 
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // And becomes read when switching back
-        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beRead);
     });
 
     it('New messages line should remain after switching back to channel', () => {
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // Starts not visible
         cy.get('.NotificationSeparator').should('not.exist');
@@ -97,21 +106,21 @@ describe('Mark as Unread', () => {
         // Then becomes visible
         cy.get('.NotificationSeparator').should('exist');
 
-        switchToChannel(channelB);
-        switchToChannel(channelA);
+        switchToChannel(testChannelB);
+        switchToChannel(testChannelA);
 
         // Then stays visible when switching back to channel
         cy.get('.NotificationSeparator').should('exist');
 
-        switchToChannel(channelB);
-        switchToChannel(channelA);
+        switchToChannel(testChannelB);
+        switchToChannel(testChannelA);
 
         // Then finally disappears when switching back a second time
         cy.get('.NotificationSeparator').should('not.exist');
     });
 
     it('Should be able to mark channel as unread by alt-clicking', () => {
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         markAsUnreadFromPost(post2);
 
@@ -133,7 +142,7 @@ describe('Mark as Unread', () => {
     });
 
     it('Should be able to mark channel as unread from post menu', () => {
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         markAsUnreadFromMenu(post2);
 
@@ -155,7 +164,7 @@ describe('Mark as Unread', () => {
     });
 
     it('Should be able to mark channel as unread by alt-clicking on RHS', () => {
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // Show the RHS
         cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
@@ -174,7 +183,7 @@ describe('Mark as Unread', () => {
     });
 
     it('Should be able to mark channel as unread from RHS post menu', () => {
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // Show the RHS
         cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
@@ -211,7 +220,7 @@ describe('Mark as Unread', () => {
             `#rhsPost_${post3.id}`,
         ];
 
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // Show the RHS
         cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
@@ -239,48 +248,48 @@ describe('Mark as Unread', () => {
     });
 
     it('Marking a channel as unread from another session while viewing channel', () => {
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
-        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beRead);
 
         markAsUnreadFromAnotherSession(post2);
 
         // The channel should now be unread
-        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beUnread);
 
         // The New Messages line should appear above the selected post
         cy.get('.NotificationSeparator').should('exist');
         cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
 
-        switchToChannel(channelB);
+        switchToChannel(testChannelB);
 
         // Then stays unread when switching away
-        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beUnread);
 
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // And becomes read when switching back
-        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beRead);
 
         cy.get('.NotificationSeparator').should('exist');
         cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
     });
 
     it('Marking a channel as unread from another session while viewing another channel', () => {
-        switchToChannel(channelA);
-        switchToChannel(channelB);
+        switchToChannel(testChannelA);
+        switchToChannel(testChannelB);
 
-        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beRead);
 
         markAsUnreadFromAnotherSession(post2);
 
         // The channel should now be unread
-        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beUnread);
 
-        switchToChannel(channelA);
+        switchToChannel(testChannelA);
 
         // And becomes read when switching back
-        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        cy.get(`#sidebarItem_${testChannelA.name}`).should(beRead);
 
         cy.get('.NotificationSeparator').should('exist');
         cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');

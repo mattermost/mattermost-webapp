@@ -11,11 +11,11 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import * as MESSAGES from '../../fixtures/messages';
 import users from '../../fixtures/users.json';
 
-const newChannelName = `channel-react-to-last-message-${Date.now()}`;
-let channelId = '';
-let newChannel = {};
-
 describe('Keyboard shortcut for adding reactions to last message in channel or thread', () => {
+    const newChannelName = `channel-react-to-last-message-${Date.now()}`;
+    let testChannel;
+    let channelId;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -38,15 +38,19 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         // # Create a new channel for later use such as when channel is empty test
         cy.getCurrentTeamId().then((teamId) => {
             // eslint-disable-next-line no-magic-numbers
-            cy.apiCreateChannel(teamId, newChannelName, newChannelName).then(
-                (response) => {
-                    newChannel = Object.assign({}, response.body);
-                }
-            );
+            cy.apiCreateChannel(teamId, newChannelName, newChannelName).then((response) => {
+                testChannel = response.body;
+            });
         });
 
         // # Make sure there is at least a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('Should open emoji picker for last message by shortcut in the channel view when focus is on the center text box', () => {
@@ -532,7 +536,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should not open emoji picker by shortcut if last post is a system message', () => {
         // # Visit the new empty channel
-        cy.visit(`/ad-1/channels/${newChannel.name}`);
+        cy.visit(`/ad-1/channels/${testChannel.name}`);
 
         // * Check that there are no posts except you joined message
         cy.findAllByTestId('postView').should('have.length', 1);
@@ -567,7 +571,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.postMessage(MESSAGES.TINY);
 
         // # Archive the channel after posting a message
-        cy.apiDeleteChannel(newChannel.id);
+        cy.apiDeleteChannel(testChannel.id);
 
         // # Emulate react to last message shortcut
         pressShortcutReactToLastMessage();

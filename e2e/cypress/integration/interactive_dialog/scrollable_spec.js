@@ -19,6 +19,8 @@ let createdCommand;
 let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
+    let testChannelIdList = [];
+    
     beforeEach(() => {
         // * Check if webhook server is running
         cy.requireWebhookServer();
@@ -43,7 +45,9 @@ describe('Interactive Dialog', () => {
             const team = teamResponse.body;
 
             for (let i = 0; i < 20; i++) {
-                cy.apiCreateChannel(team.id, 'name' + i + Date.now(), 'name' + i + Date.now());
+                cy.apiCreateChannel(team.id, 'name' + i + Date.now(), 'name' + i + Date.now()).then((cResponse) => {
+                    testChannelIdList.push(cResponse.body.id);
+                });
             }
 
             cy.visit(`/${team.name}`);
@@ -66,6 +70,12 @@ describe('Interactive Dialog', () => {
                 createdCommand = data;
                 userAndChannelDialog = webhookUtils.getUserAndChannelDialog(createdCommand.id, webhookBaseUrl);
             });
+        });
+    });
+
+    afterEach(() => {
+        testChannelIdList.forEach((channelId) => {
+            cy.apiDeleteChannel(channelId);
         });
     });
 

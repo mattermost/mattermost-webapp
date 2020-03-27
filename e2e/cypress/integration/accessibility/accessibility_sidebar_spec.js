@@ -11,6 +11,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
 
 const otherUser = users['user-2'];
+let testChannelIdList = [];
 
 function markAsFavorite(channelId) {
     // # Visit the channel
@@ -33,6 +34,7 @@ function markNewChannelAsUnread(channelName) {
     cy.getCurrentTeamId().then((teamId) => {
         cy.apiCreateChannel(teamId, `${channelName}-${timestamp}`, `${channelName}-${timestamp}`).then((res) => {
             const channelId = res.body.id;
+            testChannelIdList.push(channelId);
             cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
                 const user = emailResponse.body;
                 cy.apiAddUserToChannel(channelId, user.id);
@@ -70,6 +72,12 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
         cy.get('#postListContent').should('be.visible');
+    });
+
+    afterEach(() => {
+        testChannelIdList.forEach((channelId) => {
+            cy.apiDeleteChannel(channelId);
+        });
     });
 
     it('MM-22630 Verify Up & Down Arrow support in Channel Sidebar', () => {
@@ -139,8 +147,10 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     it('MM-22630 Verify Tab Support in Public Channels section', () => {
         // # Create some Public Channels
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'public', 'public').then(() => {
-                cy.apiCreateChannel(teamId, 'public2', 'public2').then(() => {
+            cy.apiCreateChannel(teamId, 'public', 'public').then((publicRes) => {
+                testChannelIdList.push(publicRes.body.id);
+                cy.apiCreateChannel(teamId, 'public2', 'public2').then((public2Res) => {
+                    testChannelIdList.push(public2Res.body.id);
                     // # Wait for few seconds
                     cy.wait(TIMEOUTS.SMALL);
 
@@ -166,8 +176,10 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     it('MM-22630 Verify Tab Support in Private Channels section', () => {
         // # Create some Private Channels
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'private', 'private', 'P').then(() => {
-                cy.apiCreateChannel(teamId, 'private2', 'private2', 'P').then(() => {
+            cy.apiCreateChannel(teamId, 'private', 'private', 'P').then((privateRes) => {
+                testChannelIdList.push(privateRes.body.id);
+                cy.apiCreateChannel(teamId, 'private2', 'private2', 'P').then((private2Res) => {
+                    testChannelIdList.push(private2Res.body.id);
                     // # Wait for few seconds
                     cy.wait(TIMEOUTS.SMALL);
 

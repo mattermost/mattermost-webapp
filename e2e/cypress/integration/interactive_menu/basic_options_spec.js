@@ -27,6 +27,8 @@ let incomingWebhook;
 let longUsername;
 
 describe('Interactive Menu', () => {
+    let testChannel;
+
     beforeEach(() => {
         // * Check if webhook server is running
         cy.requireWebhookServer();
@@ -63,6 +65,12 @@ describe('Interactive Menu', () => {
                 incomingWebhook = hook;
             });
         });
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('matches elements', () => {
@@ -280,7 +288,9 @@ describe('Interactive Menu', () => {
 
         cy.getCurrentTeamId().then((teamId) => {
             // # Create channel with long display name
-            cy.apiCreateChannel(teamId, 'test-channel', `AAAA Very Long Display Name of a Channel ${Date.now()}`).then(() => {
+            cy.apiCreateChannel(teamId, 'test-channel', `AAAA Very Long Display Name of a Channel ${Date.now()}`).then((res) => {
+                testChannel = res.body;
+
                 // # Post an incoming webhook for interactive menu with channel options and verify the post
                 cy.postIncomingWebhook({url: incomingWebhook.url, data: channelOptions}).then(() => {
                     verifyLastPost();

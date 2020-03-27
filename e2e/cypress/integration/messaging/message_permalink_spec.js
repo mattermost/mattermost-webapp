@@ -10,6 +10,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Message permalink', () => {
+    let testChannel;
+    
     function ignoreUncaughtException() {
         cy.on('uncaught:exception', (err) => {
             expect(err.message).to.include('Cannot clear timer: timer created');
@@ -24,6 +26,12 @@ describe('Message permalink', () => {
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('M13675-Copy a permalink and paste into another channel', () => {
@@ -66,7 +74,7 @@ describe('Message permalink', () => {
         cy.getCurrentTeamId().then((teamId) => {
             // # create public channel to post permalink
             cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
-                const testChannel = response.body;
+                testChannel = response.body;
 
                 cy.apiSaveMessageDisplayPreference('compact');
                 verifyPermalink(message, testChannel, linkText, permalinkId);

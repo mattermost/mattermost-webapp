@@ -11,6 +11,8 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
+    let testChannelIdList = [];
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -29,6 +31,12 @@ describe('Search channels', () => {
         cy.visit('/admin_console/user_management/channels');
     });
 
+    afterEach(() => {
+        testChannelIdList.forEach((channelId) => {
+            cy.apiDeleteChannel(channelId);
+        });
+    });
+
     it('loads with no search text', () => {
         // * Check that text input loads empty.
         cy.findByTestId('search-input').should('be.visible').and('have.text', '');
@@ -40,7 +48,9 @@ describe('Search channels', () => {
             const teamID = response.body[0].id;
 
             // # Create a channel.
-            cy.apiCreateChannel(teamID, 'channel-search', displayName);
+            cy.apiCreateChannel(teamID, 'channel-search', displayName).then((cResponse) => {
+                testChannelIdList.push(cResponse.body.id);
+            });
 
             // # Search for the channel.
             cy.findByTestId('search-input').type(displayName + '{enter}');
@@ -57,7 +67,9 @@ describe('Search channels', () => {
 
             // # Create enough new channels with common name prefixes to get multiple pages of search results.
             for (let i = 0; i < PAGE_SIZE + 2; i++) {
-                cy.apiCreateChannel(teamID, 'channel-search-paged-' + i, displayName + ' ' + i);
+                cy.apiCreateChannel(teamID, 'channel-search-paged-' + i, displayName + ' ' + i).then((cResponse) => {
+                    testChannelIdList.push(cResponse.body.id);
+                });
             }
 
             // # Search using the common channel name prefix.
@@ -80,7 +92,9 @@ describe('Search channels', () => {
             const teamID = response.body[0].id;
 
             // # Create a new channel.
-            cy.apiCreateChannel(teamID, 'channel-search', displayName);
+            cy.apiCreateChannel(teamID, 'channel-search', displayName).then((cResponse) => {
+                testChannelIdList.push(cResponse.body.id);
+            });
 
             // # Search for the channel.
             cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
@@ -105,7 +119,9 @@ describe('Search channels', () => {
             const teamID = response.body[0].id;
 
             // # Create a channel.
-            cy.apiCreateChannel(teamID, 'channel-search', displayName);
+            cy.apiCreateChannel(teamID, 'channel-search', displayName).then((cResponse) => {
+                testChannelIdList.push(cResponse.body.id);
+            });
 
             // # Search for the channel.
             cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
