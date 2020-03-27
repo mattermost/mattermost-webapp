@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with draft 1`] = `
+<Link
+  aria-label="test-channel-name unread"
+  className="test-class"
+  id="sidebarItem_test-channel-name"
+  onClick={[Function]}
+  to="test-link"
+>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    hasDraft={true}
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    <span>
+      test-channel-name
+    </span>
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    badge={false}
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
+</Link>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with mentions badge 1`] = `
+<Link
+  aria-label="test-channel-name 6 mentions"
+  className="test-class"
+  id="sidebarItem_test-channel-name"
+  onClick={[Function]}
+  to="test-link"
+>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    hasDraft={false}
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    <span>
+      test-channel-name
+    </span>
+  </span>
+  <span
+    className="badge"
+    id="unreadMentions"
+  >
+    6
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    badge={true}
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
+</Link>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop without badge 1`] = `
+<Link
+  aria-label="test-channel-name 6 mentions"
+  className="test-class"
+  id="sidebarItem_test-channel-name"
+  onClick={[Function]}
+  to="test-link"
+>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    hasDraft={false}
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    <span>
+      test-channel-name
+    </span>
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
+</Link>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on non-desktop with mentions badge 1`] = `
+<Link
+  aria-label="test-channel-name 6 mentions"
+  className="test-class"
+  id="sidebarItem_test-channel-name"
+  onClick={[Function]}
+  to="test-link"
+>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    hasDraft={false}
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    <span>
+      test-channel-name
+    </span>
+  </span>
+  <span
+    className="badge"
+    id="unreadMentions"
+  >
+    6
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    badge={true}
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
+</Link>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on non-desktop without badge 1`] = `
+<Link
+  aria-label="test-channel-name 6 mentions"
+  className="test-class"
+  id="sidebarItem_test-channel-name"
+  onClick={[Function]}
+  to="test-link"
+>
+  <SidebarChannelButtonOrLinkIcon
+    channelIsArchived={false}
+    channelStatus="test"
+    channelType="D"
+    hasDraft={false}
+    membersCount={3}
+    teammateDeletedAt={1}
+    teammateId="test-teammate-id"
+  />
+  <span
+    className="sidebar-item__name"
+  >
+    <span>
+      test-channel-name
+    </span>
+  </span>
+  <SidebarChannelButtonOrLinkCloseButton
+    channelId="test-channel-id"
+    channelType="D"
+    handleClose={[MockFunction]}
+    teammateId="test-teammate-id"
+  />
+</Link>
+`;

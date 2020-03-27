@@ -40,6 +40,7 @@ const GUEST_INCLUDED_PERMISSIONS = [
     Permissions.ADD_REACTION,
     Permissions.REMOVE_REACTION,
     Permissions.USE_GROUP_MENTIONS,
+    Permissions.USE_CHANNEL_MENTIONS,
 ];
 
 export default class PermissionSystemSchemeSettings extends React.Component {
