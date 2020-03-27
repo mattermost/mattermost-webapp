@@ -15,6 +15,7 @@ export const GUEST_INCLUDED_PERMISSIONS = [
     Permissions.DELETE_POST,
     Permissions.ADD_REACTION,
     Permissions.REMOVE_REACTION,
+    Permissions.USE_CHANNEL_MENTIONS,
 ];
 
 function mapStateToProps(state) {
