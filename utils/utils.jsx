@@ -911,7 +911,10 @@ export function applyTheme(theme) {
         variables: {
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
+            'sidebar-text-30': changeOpacity(theme.sidebarText, 0.3),
+            'sidebar-text-50': changeOpacity(theme.sidebarText, 0.5),
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
+            'sidebar-text-72': changeOpacity(theme.sidebarText, 0.72),
             'sidebar-text-80': changeOpacity(theme.sidebarText, 0.8),
             'sidebar-unread-text': theme.sidebarUnreadText,
             'sidebar-text-hover-bg': theme.sidebarTextHoverBg,
@@ -930,6 +933,7 @@ export function applyTheme(theme) {
             'center-channel-color-90': changeOpacity(theme.centerChannelColor, 0.9),
             'center-channel-bg-80': changeOpacity(theme.centerChannelBg, 0.8),
             'center-channel-color-80': changeOpacity(theme.centerChannelColor, 0.8),
+            'center-channel-color-72': changeOpacity(theme.centerChannelColor, 0.72),
             'center-channel-bg-60': changeOpacity(theme.centerChannelBg, 0.6),
             'center-channel-color-60': changeOpacity(theme.centerChannelColor, 0.6),
             'center-channel-bg-50': changeOpacity(theme.centerChannelBg, 0.5),
@@ -1455,7 +1459,7 @@ export function fillArray(value, length) {
 // Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
 export function isFileTransfer(files) {
     if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-        return files.types != null && files.types.contains('Files');
+        return files.types != null && files.types.includes('Files');
     }
 
     return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));
