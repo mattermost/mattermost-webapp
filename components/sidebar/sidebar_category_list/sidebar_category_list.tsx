@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
+import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
@@ -11,7 +12,6 @@ import debounce from 'lodash/debounce';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {Constants} from 'utils/constants';
@@ -310,11 +310,12 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         }
     };
 
-    renderCategory = (category: ChannelCategory) => {
+    renderCategory = (category: ChannelCategory, index: number) => {
         return (
             <SidebarCategory
                 key={category.id}
                 category={category}
+                categoryIndex={index}
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
                 getChannelRef={this.getChannelRef}
@@ -329,6 +330,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     onTransitionEnd = debounce(() => {
         this.updateUnreadIndicators();
     }, 100);
+
+    onDragEnd = (result: DropResult) => {
+        console.log(result);
+    }
 
     render() {
         const {categories} = this.props;
@@ -382,7 +387,26 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
                 >
-                    {renderedCategories}
+                    <DragDropContext
+                        onDragEnd={this.onDragEnd}
+                    >
+                        <Droppable 
+                            droppableId='droppable-categories'
+                            type='SIDEBAR_CATEGORY'
+                        >
+                            {(provided) => {
+                                return (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        {renderedCategories}
+                                        {provided.placeholder}
+                                    </div>
+                                );
+                            }}
+                        </Droppable>
+                    </DragDropContext>
                 </Scrollbars>
             </div>
         );

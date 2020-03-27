@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
+import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -19,6 +20,7 @@ import SidebarChannel from '../sidebar_channel';
 
 type Props = {
     category: ChannelCategory;
+    categoryIndex: number;
     channels: Channel[];
     setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
@@ -71,12 +73,13 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         }
     }
 
-    renderChannel = (channel: Channel) => {
+    renderChannel = (channel: Channel, index: number) => {
         const {isCollapsed, setChannelRef, getChannelRef} = this.props;
 
         return (
             <SidebarChannel
                 key={channel.id}
+                channelIndex={index}
                 channelId={channel.id}
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
@@ -103,7 +106,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     render() {
-        const {category, isCollapsed, channels} = this.props;
+        const {category, categoryIndex, isCollapsed, channels} = this.props;
         if (!category) {
             return null;
         }
@@ -114,7 +117,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
 
         const renderedChannels = channels.map(this.renderChannel);
 
-        let directMessagesModalButton;
+        let directMessagesModalButton: JSX.Element;
         let hideArrow = false;
         if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             const helpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
@@ -155,35 +158,60 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         }
 
         return (
-            <div className='SidebarChannelGroup a11y__section'>
-                <div className='SidebarChannelGroupHeader'>
-                    <button
-                        ref={this.categoryTitleRef}
-                        className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
-                        onClick={this.handleCollapse}
-                        aria-label={displayName}
-                    >
-                        <i
-                            className={classNames('icon icon-chevron-down', {
-                                'icon-rotate-minus-90': isCollapsed,
-                                'hide-arrow': hideArrow,
-                            })}
-                        />
-                        <div>
-                            {displayName}
+            <Draggable
+                draggableId={category.id}
+                index={categoryIndex}
+            >
+                {(provided, snapshot) => {
+                    return (
+                        <div 
+                            className='SidebarChannelGroup a11y__section'
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                        >
+                            <div className='SidebarChannelGroupHeader'>
+                                <button
+                                    ref={this.categoryTitleRef}
+                                    className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
+                                    onClick={this.handleCollapse}
+                                    aria-label={displayName}
+                                >
+                                    <i
+                                        className={classNames('icon icon-chevron-down', {
+                                            'icon-rotate-minus-90': isCollapsed,
+                                            'hide-arrow': hideArrow,
+                                        })}
+                                    />
+                                    <div {...provided.dragHandleProps}>
+                                        {displayName}
+                                    </div>
+                                    {directMessagesModalButton}
+                                </button>
+                            </div>
+                            <div className='SidebarChannelGroup_content'>
+                                <Droppable 
+                                    droppableId={`droppable-channels_${category.id}`}
+                                    type='SIDEBAR_CHANNEL'
+                                >
+                                    {(provided) => {
+                                        return (
+                                            <ul
+                                                role='list'
+                                                className='NavGroupContent'
+                                                ref={provided.innerRef}
+                                                {...provided.droppableProps}
+                                            >
+                                                {renderedChannels}
+                                                {provided.placeholder}
+                                            </ul>
+                                        );
+                                    }}
+                                </Droppable>
+                            </div>
                         </div>
-                        {directMessagesModalButton}
-                    </button>
-                </div>
-                <div className='SidebarChannelGroup_content'>
-                    <ul
-                        role='list'
-                        className='NavGroupContent'
-                    >
-                        {renderedChannels}
-                    </ul>
-                </div>
-            </div>
+                    );
+                }}
+            </Draggable>
         );
     }
 }

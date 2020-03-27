@@ -11,6 +11,7 @@ import Constants from 'utils/constants';
 import SidebarBaseChannel from './sidebar_base_channel';
 import SidebarDirectChannel from './sidebar_direct_channel';
 import SidebarGroupChannel from './sidebar_group_channel';
+import { Draggable } from 'react-beautiful-dnd';
 
 type Props = {
 
@@ -18,6 +19,8 @@ type Props = {
      * The channel object for this channel list item
      */
     channel: Channel;
+
+    channelIndex: number;
 
     /**
      * If in a DM, the name of the user your DM is with
@@ -98,12 +101,15 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return this.props.getChannelRef(this.props.channel.id);
     }
 
-    setRef = (ref: HTMLLIElement) => {
-        this.props.setChannelRef(this.props.channel.id, ref);
+    setRef = (refMethod: (element: HTMLLIElement) => any) => {
+        return (ref: HTMLLIElement) => {
+            this.props.setChannelRef(this.props.channel.id, ref);
+            refMethod(ref);
+        }
     }
 
     render() {
-        const {channel, currentTeamName} = this.props;
+        const {channel, currentTeamName, channelIndex} = this.props;
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string}> = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {
@@ -113,22 +119,33 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         }
 
         return (
-            <li
-                role='listitem'
-                draggable='false'
-                ref={this.setRef}
-                className={classNames('SidebarChannel', {
-                    collapsed: this.isCollapsed(this.props),
-                    unread: this.isUnread(),
-                    active: this.props.isCurrentChannel,
-                })}
-                onTransitionEnd={this.removeAnimation}
+            <Draggable
+                draggableId={channel.id}
+                index={channelIndex}
             >
-                <ChannelComponent
-                    channel={channel}
-                    currentTeamName={currentTeamName}
-                />
-            </li>
+                {(provided, snapshot) => {
+                    return (
+                        <li
+                            role='listitem'
+                            draggable='false'
+                            ref={this.setRef(provided.innerRef)}
+                            className={classNames('SidebarChannel', {
+                                collapsed: this.isCollapsed(this.props),
+                                unread: this.isUnread(),
+                                active: this.props.isCurrentChannel,
+                            })}
+                            onTransitionEnd={this.removeAnimation}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                        >
+                            <ChannelComponent
+                                channel={channel}
+                                currentTeamName={currentTeamName}
+                            />
+                        </li>
+                    );
+                }}
+            </Draggable>
         );
     }
 }
