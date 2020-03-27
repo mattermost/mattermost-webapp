@@ -41,7 +41,7 @@ describe('Interactive Menu', () => {
                 EnablePostIconOverride: true,
             },
         };
-        cy.apiUpdateConfigBasic(newSettings);
+        cy.apiUpdateConfig(newSettings);
 
         // # Update teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
@@ -544,7 +544,7 @@ describe('Interactive Menu', () => {
             longUsername = `name-of-64-abcdefghijklmnopqrstuvwxyz-123456789-${Date.now()}`;
 
             // # Create a new user with 64 chars length
-            cy.createNewUser({username: longUsername}, [teamId]).then((user) => {
+            cy.apiCreateNewUser({username: longUsername}, [teamId]).then((user) => {
                 cy.visit(`/ad-1/channels/${channel.name}`);
                 cy.apiAddUserToChannel(channel.id, user.id);
 

@@ -135,6 +135,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
             textareaPlaceholder = (
                 <div
                     {...otherProps as any}
+                    data-testid={`${id}_placeholder`}
                     style={style.placeholder}
                 >
                     {placeholder}
@@ -147,6 +148,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
                 {textareaPlaceholder}
                 <textarea
                     ref='textarea'
+                    data-testid={id}
                     id={id}
                     {...heightProps}
                     {...otherProps}

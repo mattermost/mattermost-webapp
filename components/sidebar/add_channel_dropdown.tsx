@@ -11,6 +11,8 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 type Props = {
     intl: IntlShape;
+    canCreateChannel: boolean;
+    canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
     showNewChannelModal: () => void;
 };
@@ -20,8 +22,47 @@ type State = {
 };
 
 class AddChannelDropdown extends React.PureComponent<Props, State> {
+    renderDropdownItems = () => {
+        const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
+
+        let joinPublicChannel;
+        if (canJoinPublicChannel) {
+            joinPublicChannel = (
+                <Menu.ItemAction
+                    id='showMoreChannels'
+                    onClick={this.props.showMoreChannelsModal}
+                    icon={<i className='icon-globe'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'})}
+                />
+            );
+        }
+
+        let createChannel;
+        if (canCreateChannel) {
+            createChannel = (
+                <Menu.ItemAction
+                    id='showNewChannel'
+                    onClick={this.props.showNewChannelModal}
+                    icon={<i className='icon-plus'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
+                />
+            );
+        }
+
+        return (
+            <Menu.Group>
+                {joinPublicChannel}
+                {createChannel}
+            </Menu.Group>
+        );
+    }
+
     render() {
-        const {formatMessage} = this.props.intl;
+        const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
+
+        if (!(canCreateChannel || canJoinPublicChannel)) {
+            return null;
+        }
 
         const tooltip = (
             <Tooltip
@@ -39,7 +80,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             <MenuWrapper className='AddChannelDropdown'>
                 <button
                     className='AddChannelDropdown_dropdownButton'
-                    aria-label={formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+                    aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                 >
                     <OverlayTrigger
                         delayShow={500}
@@ -51,22 +92,9 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 </button>
                 <Menu
                     id='AddChannelDropdown'
-                    ariaLabel={formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+                    ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                 >
-                    <Menu.Group>
-                        <Menu.ItemAction
-                            id='showMoreChannels'
-                            onClick={this.props.showMoreChannelsModal}
-                            icon={<i className='icon-globe'/>}
-                            text={formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'})}
-                        />
-                        <Menu.ItemAction
-                            id='showNewChannel'
-                            onClick={this.props.showNewChannelModal}
-                            icon={<i className='icon-plus'/>}
-                            text={formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
-                        />
-                    </Menu.Group>
+                    {this.renderDropdownItems()}
                 </Menu>
             </MenuWrapper>
         );

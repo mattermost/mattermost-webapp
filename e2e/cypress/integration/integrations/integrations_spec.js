@@ -11,7 +11,8 @@ import {getRandomInt} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
-        // # Set ServiceSettings to expected values
+        // # Login as sysadmin and set ServiceSettings to expected values
+        cy.apiLogin('sysadmin');
         const newSettings = {
             ServiceSettings: {
                 EnableOAuthServiceProvider: true,
@@ -22,9 +23,6 @@ describe('Integrations page', () => {
             },
         };
         cy.apiUpdateConfig(newSettings);
-
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
 
         // # Go to integrations
         cy.visit('/ad-1/integrations');
