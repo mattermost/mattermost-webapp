@@ -11,11 +11,13 @@ import {getRandomInt} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 const permissions = ['create_private_channel', 'edit_post', 'delete_post', 'reactions', 'use_channel_mentions'];
+const getButtonId = (permission) => {
+    return 'guests-' + permission + '-checkbox';
+};
 
 const disableAllGuestPermissions = () => {
     permissions.forEach((permission) => {
-        let buttonId = "guests-" + permission + "-checkbox"
-        cy.findByTestId(buttonId).then((btn) => {
+        cy.findByTestId(getButtonId(permission)).then((btn) => {
             if (btn.hasClass('checked')) {
                 btn.click();
             }
@@ -25,8 +27,7 @@ const disableAllGuestPermissions = () => {
 
 const enableAllGuestPermissions = () => {
     permissions.forEach((permission) => {
-        let buttonId = "guests-" + permission + "-checkbox"
-        cy.findByTestId(buttonId).then((btn) => {
+        cy.findByTestId(getButtonId(permission)).then((btn) => {
             if (!btn.hasClass('checked')) {
                 btn.click();
             }
@@ -36,11 +37,10 @@ const enableAllGuestPermissions = () => {
 
 const verifyAllGuestPermissions = (selected) => {
     permissions.forEach((permission) => {
-        let buttonId = "guests-" + permission + "-checkbox"
-        if(selected){
-            cy.findByTestId(buttonId).should('have.class', 'checked');
+        if (selected) {
+            cy.findByTestId(getButtonId(permission)).should('have.class', 'checked');
         } else {
-            cy.findByTestId(buttonId).should('not.have.class', 'checked');
+            cy.findByTestId(getButtonId(permission)).should('not.have.class', 'checked');
         }
     });
 };
@@ -82,7 +82,7 @@ describe('Team Scheme Guest Permissions Test', () => {
         cy.get('#saveSetting').click().wait(TIMEOUTS.TINY);
 
         // #Reload the team scheme.
-        cy.findByText(`TestScheme-${uniqueNumber}`).siblings('.actions').children('.edit-button').click().wait(TIMEOUTS.TINY); 
+        cy.findByText(`TestScheme-${uniqueNumber}`).siblings('.actions').children('.edit-button').click().wait(TIMEOUTS.TINY);
 
         // * Ensure all checkboxes have the correct unchecked state
         verifyAllGuestPermissions(false);
@@ -92,6 +92,5 @@ describe('Team Scheme Guest Permissions Test', () => {
         //Clean up - Delete scheme
         cy.findByText(`TestScheme-${uniqueNumber}`).siblings('.actions').children('.delete-button').click().wait(TIMEOUTS.TINY);
         cy.get('#confirmModalButton').click();
-
     });
 });
