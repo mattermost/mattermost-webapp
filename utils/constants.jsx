@@ -193,6 +193,7 @@ export const ActionTypes = keyMirror({
     POST_UNREAD_SUCCESS: null,
 
     SET_UNREAD_FILTER_ENABLED: null,
+    UPDATE_TOAST_STATUS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -676,6 +677,12 @@ export const DefaultRolePermissions = {
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
+        Permissions.CREATE_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
     team_admin: [
         Permissions.EDIT_OTHERS_POSTS,
@@ -690,13 +697,24 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OUTGOING_WEBHOOKS,
         Permissions.DELETE_POST,
         Permissions.DELETE_OTHERS_POSTS,
+        Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS,
+        Permissions.ADD_REACTION,
+        Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.CREATE_POST,
+        Permissions.REMOVE_REACTION,
     ],
     guests: [
         Permissions.EDIT_POST,
-        Permissions.DELETE_POST,
         Permissions.ADD_REACTION,
         Permissions.REMOVE_REACTION,
         Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_SLASH_COMMANDS,
+        Permissions.READ_CHANNEL,
+        Permissions.UPLOAD_FILE,
+        Permissions.CREATE_POST,
     ],
 };
 
