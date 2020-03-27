@@ -26,7 +26,7 @@ type Props = {
     saving?: boolean;
     focused?: boolean;
     sendEmailNotifications: boolean;
-    enableEmailBatching: number;
+    enableEmailBatching: boolean;
     actions: {
         savePreferences: (currentUserId: string, emailIntervalPreference: {}) =>
         Promise<{}>;
@@ -37,7 +37,7 @@ type State = {
     activeSection: string;
     emailInterval: number;
     enableEmail: boolean;
-    enableEmailBatching: number;
+    enableEmailBatching: boolean;
     sendEmailNotifications: boolean;
     newInterval: number;
 };

@@ -22,7 +22,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         serverError: '',
         saving: false,
         sendEmailNotifications: true,
-        enableEmailBatching: 0,
+        enableEmailBatching: false,
         actions: {
             savePreferences: jest.fn(),
         },
@@ -41,7 +41,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
     test('should match snapshot, enabled email batching', () => {
         const props = {
             ...requiredProps,
-            enableEmailBatching: 1,
+            enableEmailBatching: true,
         };
         const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
 
@@ -170,7 +170,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         const nextProps = {
             enableEmail: true,
             emailInterval: Preferences.INTERVAL_IMMEDIATE,
-            enableEmailBatching: 1,
+            enableEmailBatching: true,
             sendEmailNotifications: true,
         };
         const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);

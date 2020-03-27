@@ -33,7 +33,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         currentUserId: getCurrentUserId(state),
         emailInterval,
-        enableEmailBatching: 1,
+        enableEmailBatching: true,
         sendEmailNotifications: config.SendEmailNotifications === 'true',
     };
 }
