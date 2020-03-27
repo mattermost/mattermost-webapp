@@ -81,7 +81,7 @@ Cypress.Commands.add('skipOrCreateTeam', (settings, userId) => {
     let teamName = '';
 
     cy.get('body').then((body) => {
-        if (body.text().includes("Create a team")) {
+        if (body.text().includes('Create a team')) {
             cy.checkCreateTeamPage(settings);
 
             teamName = 't' + userId.substring(0, 14);

@@ -19,7 +19,6 @@ function setLDAPTestSettings(config) {
 context('ldap', () => {
     const user1 = users['test-1'];
     const guest1 = users['board-1'];
-    const guest2 = users['board-2'];
     const admin1 = users['dev-1'];
 
     let testSettings;
@@ -67,7 +66,7 @@ context('ldap', () => {
         },
     };
 
-    describe('LDAP Login flow - Admin Login', () => { 
+    describe('LDAP Login flow - Admin Login', () => {
         before(() => {
             // * Check if server has license for LDAP
             cy.requireLicenseForFeature('LDAP');
@@ -89,7 +88,7 @@ context('ldap', () => {
                     // new user create team
                     const randomTeam = String(getRandomInt(10000));
                     cy.skipOrCreateTeam(testSettings, randomTeam).then(() => {
-                        cy.get('#headerTeamName').should('be.visible').then((teamName) =>{
+                        cy.get('#headerTeamName').should('be.visible').then((teamName) => {
                             testSettings.teamName = teamName.text();
                         });
                         cy.doLDAPLogout(testSettings);
@@ -103,7 +102,7 @@ context('ldap', () => {
             cy.doLDAPLogin(testSettings).then(() => {
                 cy.doLDAPLogout(testSettings);
             });
-        });        
+        });
     });
 
     describe('LDAP Login flow - Member Login)', () => {
@@ -131,7 +130,6 @@ context('ldap', () => {
             });
         });
     });
-
 
     describe('LDAP Login flow - Guest Login', () => {
         it('Invalid login with guest filter', () => {
@@ -165,7 +163,7 @@ context('ldap', () => {
 
             cy.apiGetTeamByName(testSettings.teamName).then((r) => {
                 const teamId = r.body.id;
-                cy.apiGetChannelByName(testSettings.teamName, "town-square").then((r2) => {
+                cy.apiGetChannelByName(testSettings.teamName, 'town-square').then((r2) => {
                     const channelId = r2.body.id;
                     cy.apiGetUserByEmail(guest1.email).then((res) => {
                         const user = res.body;
@@ -173,9 +171,10 @@ context('ldap', () => {
                             cy.apiAddUserToChannel(channelId, user.id);
                         });
                     });
+
                     // add member user to team
                     cy.apiGetUserByEmail(user1.email).then((res) => {
-                        const user = res.body;            
+                        const user = res.body;
                         cy.apiAddUserToTeam(teamId, user.id);
                     });
                 });

@@ -22,7 +22,7 @@ Cypress.Commands.add('doSamlLogin', (settings = {}) => {
 });
 
 Cypress.Commands.add('doSamlLogout', (settings = {}) => {
-    cy.checklLeftSideBar(settings);
+    cy.checkLeftSideBar(settings);
 
     // # Click hamburger main menu button
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
@@ -33,7 +33,7 @@ Cypress.Commands.add('doSamlLogout', (settings = {}) => {
 });
 
 Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
-    cy.checklLeftSideBar(settings);
+    cy.checkLeftSideBar(settings);
 
     // # Click hamburger main menu button
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {

@@ -46,14 +46,6 @@ class FullScreenModal extends React.Component<Props> {
         });
     }
 
-    public resetFocus = () => {
-        setTimeout(() => {
-            if (this.modal && this.modal.current) {
-                this.modal.current.focus();
-            }
-        });
-    }
-    
     private handleKeypress = (e: KeyboardEvent) => {
         if (e.key === 'Escape' && this.props.show) {
             this.close();

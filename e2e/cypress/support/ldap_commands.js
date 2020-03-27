@@ -24,12 +24,11 @@ Cypress.Commands.add('performLDAPLogin', (settings = {}, useEmail = false) => {
     cy.findByText('Sign in').click().wait(TIMEOUTS.SMALL);
 });
 
-
 Cypress.Commands.add('doGuestLogout', (settings = {}) => {
     cy.get('body').then((body) => {
         if (body.text().includes('Logout')) {
             cy.doLogoutFromSignUp();
-        }else{
+        } else {
             cy.doLDAPLogout(settings);
         }
     });
@@ -39,7 +38,7 @@ Cypress.Commands.add('doMemberLogout', (settings = {}) => {
     cy.get('body').then((body) => {
         if (body.text().includes('Logout')) {
             cy.doMemberLogoutFromSignUp();
-        }else{
+        } else {
             cy.doLDAPLogout(settings);
         }
     });
@@ -110,7 +109,7 @@ Cypress.Commands.add('doInviteMember', (user, settings = {}) => {
     });
 });
 
-Cypress.Commands.add('doSkipTutorial', (settings = {}) => {
+Cypress.Commands.add('doSkipTutorial', () => {
     cy.get('body').then((body) => {
         if (body.find('#tutorialSkipLink').length > 0) {
             cy.get('#tutorialSkipLink').click().wait(TIMEOUTS.TINY);
