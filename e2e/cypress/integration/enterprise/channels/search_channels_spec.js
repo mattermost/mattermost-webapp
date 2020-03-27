@@ -11,10 +11,10 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
-    let testChannelIdList;
+    const testChannelIdList = [];
 
     beforeEach(() => {
-        testChannelIdList = [];
+        testChannelIdList.length = 0;
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');

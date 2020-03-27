@@ -48,6 +48,8 @@ describe('Verify Accessibility Support in different input fields', () => {
     let testChannel;
 
     beforeEach(() => {
+        testChannel = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

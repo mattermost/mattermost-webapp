@@ -92,6 +92,8 @@ describe('SF15699 Search Date Filter', () => {
     }
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

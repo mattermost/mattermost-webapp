@@ -14,6 +14,9 @@ describe('Message Draft with attachment and Switch Channels', () => {
     let testChannel2;
 
     beforeEach(() => {
+        testChannel1 = null;
+        testChannel2 = null;
+
         // # Login as user-1
         cy.apiLogin('user-1');
 

@@ -34,6 +34,8 @@ describe('Negative search filters will omit results', () => {
     }
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

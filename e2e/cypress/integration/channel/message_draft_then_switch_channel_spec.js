@@ -13,6 +13,8 @@ describe('Message Draft and Switch Channels', () => {
     let testTeam;
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

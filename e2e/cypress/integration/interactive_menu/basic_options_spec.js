@@ -30,6 +30,8 @@ describe('Interactive Menu', () => {
     let testChannel;
 
     beforeEach(() => {
+        testChannel = null;
+
         // * Check if webhook server is running
         cy.requireWebhookServer();
 

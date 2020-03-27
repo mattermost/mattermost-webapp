@@ -49,6 +49,8 @@ describe('Messaging', () => {
     let testChannel;
 
     beforeEach(() => {
+        testChannel = null;
+
         // # Login as user-1
         cy.apiLogin('user-1');
 

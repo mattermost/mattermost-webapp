@@ -13,6 +13,8 @@ describe('Keyboard Shortcuts', () => {
     let privateChannel;
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

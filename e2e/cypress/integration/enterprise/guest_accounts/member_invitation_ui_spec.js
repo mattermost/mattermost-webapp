@@ -75,6 +75,8 @@ function verifyInvitationSuccess(user, successText) {
 
 describe('Guest Account - Member Invitation Flow', () => {
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

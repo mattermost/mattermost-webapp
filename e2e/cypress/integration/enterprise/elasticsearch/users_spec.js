@@ -94,13 +94,14 @@ function createTestUsers(timestamp) {
 }
 
 describe('Autocomplete', () => {
-    let testChannelIdList;
     let timestamp;
     let testUsers;
     let testTeam;
+    const testChannelIdList = [];
 
     beforeEach(() => {
-        testChannelIdList = [];
+        testTeam = null;
+        testChannelIdList.length = 0;
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');

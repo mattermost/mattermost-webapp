@@ -11,10 +11,10 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search teams', () => {
-    let testTeamIdList;
+    const testTeamIdList = [];
 
     beforeEach(() => {
-        testTeamIdList = [];
+        testTeamIdList.length = 0;
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');

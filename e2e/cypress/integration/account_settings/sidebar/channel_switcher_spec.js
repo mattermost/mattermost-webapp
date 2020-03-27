@@ -14,6 +14,9 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     let testChannel;
 
     beforeEach(() => {
+        testTeam = null;
+        testChannel = null;
+
         // # Login as user-1
         cy.apiLogin('user-1');
 

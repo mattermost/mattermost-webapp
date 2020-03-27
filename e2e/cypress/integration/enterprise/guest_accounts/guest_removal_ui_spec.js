@@ -40,6 +40,8 @@ function removeUserFromAllChannels(verifyAlert) {
 
 describe('Guest Account - Guest User Removal Experience', () => {
     beforeEach(() => {
+        testTeam2 = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

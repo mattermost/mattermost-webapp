@@ -36,6 +36,9 @@ describe('Interactive Dialog', () => {
     let testTeam;
 
     before(() => {
+        testTeam = null;
+
+        // * Check if webhook server is running
         cy.requireWebhookServer();
 
         // # Login as sysadmin

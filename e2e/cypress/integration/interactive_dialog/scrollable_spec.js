@@ -19,11 +19,12 @@ let createdCommand;
 let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
-    let testChannelIdList;
     let testTeam;
+    const testChannelIdList = [];
 
     beforeEach(() => {
-        testChannelIdList = [];
+        testTeam = null;
+        testChannelIdList.length = 0;
 
         // * Check if webhook server is running
         cy.requireWebhookServer();

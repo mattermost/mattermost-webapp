@@ -20,6 +20,8 @@ describe('Interactive Dialog', () => {
     let testTeam;
 
     beforeEach(() => {
+        testTeam = null;
+
         // * Check if webhook server is running
         cy.requireWebhookServer();
 

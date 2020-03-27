@@ -30,6 +30,8 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
     let testTeam;
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

@@ -74,6 +74,8 @@ describe('search for channel with', () => {
     let user;
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
@@ -189,6 +191,8 @@ describe('search for channel with', () => {
             let channelId;
 
             beforeEach(() => {
+                testChannel = null;
+
                 // # Login as sysadmin
                 cy.apiLogin('sysadmin');
 
@@ -338,6 +342,8 @@ describe('search for channel with', () => {
             let channelId;
 
             beforeEach(() => {
+                testChannel = null;
+
                 // # Login as sysadmin
                 cy.apiLogin('sysadmin');
                 cy.visit(`/${testTeam.name}`);

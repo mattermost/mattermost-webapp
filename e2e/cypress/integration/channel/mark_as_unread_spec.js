@@ -19,6 +19,10 @@ describe('Mark as Unread', () => {
     let post3;
 
     beforeEach(() => {
+        testTeam = null;
+        testChannelA = null;
+        testChannelB = null;
+
         // # Login as user-1
         cy.apiLogin('user-1');
 

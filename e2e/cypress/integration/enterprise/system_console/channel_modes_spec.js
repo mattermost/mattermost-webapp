@@ -11,6 +11,8 @@ describe('Test channel public/private toggle', () => {
     let testChannel;
 
     beforeEach(() => {
+        testChannel = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

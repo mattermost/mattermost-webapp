@@ -49,12 +49,13 @@ function searchAndVerifyUser(user) {
 }
 
 describe('renaming', () => {
-    let testChannelIdList;
     let timestamp;
     let testTeam;
+    const testChannelIdList = [];
 
     beforeEach(() => {
-        testChannelIdList = [];
+        testTeam = null;
+        testChannelIdList.length = 0;
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');

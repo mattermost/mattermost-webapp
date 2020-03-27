@@ -37,6 +37,8 @@ describe('Message', () => {
     let testTeam;
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as user-1
         cy.apiLogin('user-1');
 

@@ -34,6 +34,8 @@ describe('Teams Settings', () => {
     let testTeam;
 
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

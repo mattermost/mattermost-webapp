@@ -85,6 +85,8 @@ function closeAndComplete() {
 
 describe('Invite Members', () => {
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

@@ -13,6 +13,8 @@ describe('Channels', () => {
     let testChannel;
 
     beforeEach(() => {
+        testChannel = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

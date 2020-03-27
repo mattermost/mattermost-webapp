@@ -23,6 +23,9 @@ describe('Channel', () => {
     let testChannel;
 
     beforeEach(() => {
+        testTeam = null;
+        testChannel = null;
+
         // # Login as user-1
         cy.apiLogin('user-1');
 

@@ -17,6 +17,8 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     let channelId;
 
     beforeEach(() => {
+        testChannel = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

@@ -11,7 +11,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
 
 const otherUser = users['user-2'];
-let testChannelIdList;
+const testChannelIdList = [];
 
 function markAsFavorite(channelId) {
     // # Visit the channel
@@ -48,7 +48,7 @@ function markNewChannelAsUnread(channelName) {
 
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     beforeEach(() => {
-        testChannelIdList = [];
+        testChannelIdList.length = 0;
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');

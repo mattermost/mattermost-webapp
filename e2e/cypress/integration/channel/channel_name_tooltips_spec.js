@@ -39,6 +39,9 @@ describe('channel name tooltips', () => {
     let timestamp;
 
     beforeEach(() => {
+        testTeam = null;
+        testChannel = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 

@@ -108,6 +108,8 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 
 describe('Guest Account - Guest User Invitation Flow', () => {
     beforeEach(() => {
+        testTeam = null;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
