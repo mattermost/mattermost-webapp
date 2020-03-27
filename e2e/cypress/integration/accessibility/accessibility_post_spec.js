@@ -48,7 +48,7 @@ function postAndPerformActions() {
         cy.get(`#pin_post_${postId}`).click();
 
         cy.clickPostDotMenu(postId);
-        cy.get('body').type('{esc}');
+        cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
     });
 }
 

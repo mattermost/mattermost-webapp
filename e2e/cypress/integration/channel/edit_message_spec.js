@@ -26,7 +26,7 @@ describe('Edit Message', () => {
         cy.get('#post_textbox').type('{uparrow}');
 
         // # In the modal type @
-        cy.get('#edit_textbox').type(' @');
+        cy.get('#edit_textbox').type(' @').wait(TIMEOUTS.SMALL);
 
         // * Assert user autocomplete is visible
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
@@ -41,13 +41,13 @@ describe('Edit Message', () => {
         cy.get('#suggestionList').should('not.exist');
 
         // # In the modal type ~
-        cy.get('#edit_textbox').type(' ~');
+        cy.get('#edit_textbox').type(' ~').wait(TIMEOUTS.SMALL);
 
         // * Assert channel autocomplete is visible
         cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // # Press the escape key
-        cy.get('#edit_textbox').type('{esc}');
+        cy.get('#edit_textbox').type('{esc}').wait(TIMEOUTS.TINY);
 
         // * Check if the textbox contains expected text
         cy.get('#edit_textbox').should('have.value', 'Hello World! @ ~');
@@ -62,7 +62,7 @@ describe('Edit Message', () => {
         cy.get('#emojiPicker', {timeout: TIMEOUTS.SMALL}).should('be.visible');
 
         // * Press the escape key
-        cy.get('#edit_textbox').type('{esc}');
+        cy.get('#edit_textbox').type('{esc}').wait(TIMEOUTS.TINY);
 
         // * Assert emoji picker is not visible
         cy.get('#emojiPicker').should('not.exist');

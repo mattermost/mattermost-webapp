@@ -20,7 +20,6 @@ describe('Search teams', () => {
 
         // # Visit admin user management teams
         cy.visit('/admin_console/user_management/teams');
-        cy.wrap([]).as('createdTeamIDs');
     });
 
     it('loads with no search text', () => {
@@ -32,9 +31,7 @@ describe('Search teams', () => {
         const displayName = uuid();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
-        });
+        cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the new team.
         cy.findByTestId('search-input').type(displayName + '{enter}');
@@ -48,9 +45,7 @@ describe('Search teams', () => {
 
         // # Create enough new teams with common name prefixes to get multiple pages of search results.
         for (let i = 0; i < PAGE_SIZE + 2; i++) {
-            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i).then((response) => {
-                this.createdTeamIDs.push(response.body.id);
-            });
+            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i);
         }
 
         // # Search using the common team name prefix.
@@ -70,9 +65,7 @@ describe('Search teams', () => {
         const displayName = uuid();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
-        });
+        cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the team.
         cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
@@ -94,9 +87,7 @@ describe('Search teams', () => {
         const displayName = uuid();
 
         // # Create a team.
-        cy.apiCreateTeam('team-search', displayName).then((response) => {
-            this.createdTeamIDs.push(response.body.id);
-        });
+        cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the team.
         cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');

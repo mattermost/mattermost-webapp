@@ -648,13 +648,13 @@ function verifyShortcutReactToLastMessageIsBlocked(from) {
 }
 
 function openMainMenuOptions(menu) {
-    cy.get('body').type('{esc}');
+    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
     cy.findByLabelText('main menu').click();
     cy.findByText(menu).scrollIntoView().click();
 }
 
 function openChannelMainOptions(menu) {
-    cy.get('body').type('{esc}');
+    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
     cy.findByLabelText('channel menu').click();
     cy.findByText(menu).scrollIntoView().should('be.visible').click();
 }

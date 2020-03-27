@@ -12,20 +12,24 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 let channel;
 
 describe('Channels', () => {
-    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
-        // # Login as sysadmin and update config
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Create new channel
         cy.apiGetTeamByName('ad-1').then((teamRes) => {
             // # Create new test channel
-            cy.apiCreateChannel(teamRes.body.id, 'channel-test', 'Channel Test' + Date.now()).then((channelRes) => {
+            cy.apiCreateChannel(teamRes.body.id, 'a-channel-test', 'A Channel Test').then((channelRes) => {
                 channel = channelRes.body;
             });
         });
 
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
 
+    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
         verifyMoreChannelsModalWithArchivedSelection(false);
-
         verifyMoreChannelsModalWithArchivedSelection(true);
     });
 
@@ -47,7 +51,7 @@ describe('Channels', () => {
         });
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList', {timeout: TIMEOUTS.SMALL}).should('be.visible').within(() => {
+        cy.get('#publicChannelList', {timeout: TIMEOUTS.LARGE}).should('be.visible').within(() => {
             cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 
@@ -57,7 +61,7 @@ describe('Channels', () => {
 
             cy.get('#searchChannelsTextbox').type(channel.display_name).wait(TIMEOUTS.TINY);
             cy.get('#moreChannelsList').children().should('have.length', 1).within(() => {
-                cy.findByText(channel.display_name).should('be.visible');
+                cy.findByText(channel.display_name).scrollIntoView().should('be.visible');
             });
             cy.get('#searchChannelsTextbox').clear();
 
@@ -92,7 +96,8 @@ describe('Channels', () => {
         });
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList').should('be.visible').within(() => {
+        cy.reload();
+        cy.get('#publicChannelList', {timeout: TIMEOUTS.LARGE}).should('be.visible').within(() => {
             cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 
@@ -108,7 +113,7 @@ describe('Channels', () => {
 
             cy.get('#searchChannelsTextbox').type(channel.display_name).wait(TIMEOUTS.TINY);
             cy.get('#moreChannelsList').children().should('have.length', 1).within(() => {
-                cy.findByText(channel.display_name).should('be.visible');
+                cy.findByText(channel.display_name).scrollIntoView().should('be.visible');
             });
             cy.get('#searchChannelsTextbox').clear();
 
@@ -127,7 +132,7 @@ describe('Channels', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // * Assert that archived channel doesn't show up in LHS list
-        cy.get('#publicChannelList').should('not.contain', channel.display_name);
+        cy.get('#publicChannelList', {timeout: TIMEOUTS.LARGE}).should('not.contain', channel.display_name);
     });
 });
 
@@ -154,7 +159,7 @@ function verifyMoreChannelsModal(isEnabled) {
     cy.visit('/ad-1/channels/town-square');
 
     // # Select "More..." on the left hand side menu
-    cy.get('#publicChannelList').should('be.visible').within(() => {
+    cy.get('#publicChannelList', {timeout: TIMEOUTS.LARGE}).should('be.visible').within(() => {
         cy.findByText('More...').scrollIntoView().should('be.visible').click({force: true});
     });
 

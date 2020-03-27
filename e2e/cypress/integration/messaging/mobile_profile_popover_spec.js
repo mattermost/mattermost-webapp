@@ -32,7 +32,7 @@ describe('Profile popover', () => {
 
             // * Popover should have rendered to screen
             cy.get('#user-profile-popover').should('be.visible');
-            cy.get('body').type('{esc}');
+            cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
         });
     });
 

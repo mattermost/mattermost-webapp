@@ -145,7 +145,7 @@ describe('renaming', () => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals
-                    cy.get('body').type('{esc}');
+                    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
 
                     // # Verify user appears in search results pre-change
                     searchAndVerifyUser(user);
@@ -161,7 +161,7 @@ describe('renaming', () => {
                     searchAndVerifyChannel(channel);
 
                     // # Hit escape to close the modal
-                    cy.get('body').type('{esc}');
+                    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
                 });
 
                 // # Rename the channel
@@ -169,12 +169,12 @@ describe('renaming', () => {
             });
 
             it('correctly searches for user', () => {
-                cy.get('body').type('{esc}');
+                cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
                 searchAndVerifyUser(user);
             });
 
             it('correctly searches for channel', () => {
-                cy.get('body').type('{esc}');
+                cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
                 searchAndVerifyChannel(channel);
             });
         });
@@ -256,7 +256,7 @@ describe('renaming', () => {
                     user = userResponse;
 
                     // # Hit escape to close and lingering modals
-                    cy.get('body').type('{esc}');
+                    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
 
                     // # Verify user appears in search results pre-change
                     searchAndVerifyUser(user);
@@ -272,7 +272,7 @@ describe('renaming', () => {
                     searchAndVerifyChannel(channel);
 
                     // # Hit escape to close the modal
-                    cy.get('body').type('{esc}');
+                    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
                 });
 
                 // # Rename the channel
@@ -280,12 +280,12 @@ describe('renaming', () => {
             });
 
             it('correctly searches for user', () => {
-                cy.get('body').type('{esc}');
+                cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
                 searchAndVerifyUser(user);
             });
 
             it('correctly searches for channel', () => {
-                cy.get('body').type('{esc}');
+                cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
                 searchAndVerifyChannel(channel);
             });
         });

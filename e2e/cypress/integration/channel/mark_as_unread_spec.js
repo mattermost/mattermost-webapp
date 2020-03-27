@@ -29,36 +29,36 @@ describe('Mark as Unread', () => {
                 sysadminId = emailResponse.body.id;
                 cy.apiAddUserToTeam(team.id, sysadminId);
             });
-        });
 
-        // # Create Channel A
-        cy.apiCreateChannel(team.id, 'channel-a', 'Channel A').then((resp) => {
-            channelA = resp.body;
+            // # Create Channel A
+            cy.apiCreateChannel(team.id, 'channel-a', 'Channel A').then((resp) => {
+                channelA = resp.body;
 
-            // # Add sysadmin to channel A
-            cy.apiAddUserToChannel(channelA.id, sysadminId);
+                // # Add sysadmin to channel A
+                cy.apiAddUserToChannel(channelA.id, sysadminId);
 
-            // Another user creates posts in the channel since you can't mark your own posts unread currently
-            cy.postMessageAs({sender: sysadmin, message: 'post1', channelId: channelA.id}).then((p1) => {
-                post1 = p1;
+                // Another user creates posts in the channel since you can't mark your own posts unread currently
+                cy.postMessageAs({sender: sysadmin, message: 'post1', channelId: channelA.id}).then((p1) => {
+                    post1 = p1;
 
-                cy.postMessageAs({sender: sysadmin, message: 'post2', channelId: channelA.id}).then((p2) => {
-                    post2 = p2;
+                    cy.postMessageAs({sender: sysadmin, message: 'post2', channelId: channelA.id}).then((p2) => {
+                        post2 = p2;
 
-                    cy.postMessageAs({sender: sysadmin, message: 'post3', channelId: channelA.id, rootId: post1.id}).then((post) => {
-                        post3 = post;
+                        cy.postMessageAs({sender: sysadmin, message: 'post3', channelId: channelA.id, rootId: post1.id}).then((post) => {
+                            post3 = post;
+                        });
                     });
                 });
             });
-        });
 
-        // # Create Channel B
-        cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
-            channelB = resp.body;
-        });
+            // # Create Channel B
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
+                channelB = resp.body;
+            });
 
-        // # Visit the Town Square channel
-        cy.visit(`/${team.name}/channels/town-square`);
+            // # Visit the Town Square channel
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('Channel should appear unread after switching away from channel and be read after switching back', () => {
