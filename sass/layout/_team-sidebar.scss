@@ -49,7 +49,7 @@
                 transform: translateX(-100%) scaleY(0);
             }
 
-            &:not(.special):before{
+            &:not(.special, .unread):before {
                 @include border-radius(4px);
                 content: '';
 
@@ -126,18 +126,18 @@
                 background: $black;
                 border-radius: 8px;
                 content: '';
-                height: 8px;
-                left: -4px;
+                height: 6px;
+                left: 0;
                 position: absolute;
-                top: 18px;
-                transition: all ease-in-out 0.1s;
-                width: 8px;
+                top: 20px;
+                width: 6px;
             }
 
             &.unread:hover::before {
-                height: 16px;
-                top: 15px;
+                height: 32px;
                 width: 8px;
+                top: 8px;
+                left: -0.5px;
             }
 
             a.team-disabled {

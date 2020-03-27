@@ -164,9 +164,12 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 focusedPostId: 'asdasd',
                 atLatestPost: false,
+                atBottom: null
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showMessageHistoryToast')).toBe(undefined);
 
+            wrapper.setProps({atBottom: false});
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
         });
 
@@ -405,6 +408,55 @@ describe('components/ToastWrapper', () => {
             wrapper.setProps({atBottom: true, atLatestPost: true});
             expect(updateToastStatus).toHaveBeenCalledTimes(2);
             expect(updateToastStatus).toHaveBeenCalledWith(false);
+        });
+
+        test('Should call updateNewMessagesAtInChannel on addition of posts at the bottom of channel and user not at bottom', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+                atBottom: true,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            wrapper.setProps({atBottom: null});
+            wrapper.setProps({
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ]
+            });
+
+            //should not call if atBottom is null
+            expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(0);
+
+            wrapper.setProps({
+                atBottom: false,
+                postListIds: [
+                    'post0',
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            });
+            expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
         });
     });
 });
