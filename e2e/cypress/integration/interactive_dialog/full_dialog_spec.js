@@ -33,6 +33,7 @@ const optionsLength = {
 
 describe('Interactive Dialog', () => {
     let config;
+    let testTeam;
 
     before(() => {
         cy.requireWebhookServer();
@@ -56,8 +57,8 @@ describe('Interactive Dialog', () => {
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            const team = teamResponse.body;
-            cy.visit(`/${team.name}`);
+            testTeam = teamResponse.body;
+            cy.visit(`/${testTeam.name}`);
 
             const webhookBaseUrl = Cypress.env().webhookBaseUrl;
 
@@ -67,7 +68,7 @@ describe('Interactive Dialog', () => {
                 display_name: 'Dialog',
                 icon_url: '',
                 method: 'P',
-                team_id: team.id,
+                team_id: testTeam.id,
                 trigger: 'dialog' + Date.now(),
                 url: `${webhookBaseUrl}/dialog_request`,
                 username: '',
@@ -78,6 +79,12 @@ describe('Interactive Dialog', () => {
                 fullDialog = webhookUtils.getFullDialog(createdCommand.id, webhookBaseUrl);
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('ID15888 - UI check', () => {

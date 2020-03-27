@@ -19,8 +19,9 @@ let createdCommand;
 let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
-    let testChannelIdList = [];
-    
+    const testChannelIdList = [];
+    let testTeam;
+
     beforeEach(() => {
         // * Check if webhook server is running
         cy.requireWebhookServer();
@@ -42,15 +43,15 @@ describe('Interactive Dialog', () => {
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            const team = teamResponse.body;
+            testTeam = teamResponse.body;
 
             for (let i = 0; i < 20; i++) {
-                cy.apiCreateChannel(team.id, 'name' + i + Date.now(), 'name' + i + Date.now()).then((cResponse) => {
+                cy.apiCreateChannel(testTeam.id, 'name' + i + Date.now(), 'name' + i + Date.now()).then((cResponse) => {
                     testChannelIdList.push(cResponse.body.id);
                 });
             }
 
-            cy.visit(`/${team.name}`);
+            cy.visit(`/${testTeam.name}`);
 
             const webhookBaseUrl = Cypress.env().webhookBaseUrl;
 
@@ -60,7 +61,7 @@ describe('Interactive Dialog', () => {
                 display_name: 'Dialog with user and channel',
                 icon_url: '',
                 method: 'P',
-                team_id: team.id,
+                team_id: testTeam.id,
                 trigger: 'user_and_channel_dialog' + Date.now(),
                 url: `${webhookBaseUrl}/user_and_channel_dialog_request`,
                 username: '',
@@ -77,6 +78,9 @@ describe('Interactive Dialog', () => {
         testChannelIdList.forEach((channelId) => {
             cy.apiDeleteChannel(channelId);
         });
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('ID21031 - Individual "User" and "Channel" screens are scrollable', () => {

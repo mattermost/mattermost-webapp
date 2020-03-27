@@ -14,7 +14,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 let guest;
 let team1;
-let team2;
+let testTeam2;
 
 function removeUserFromAllChannels(verifyAlert) {
     // # Remove the Guest user from all channels of a team as a sysadmin
@@ -62,11 +62,17 @@ describe('Guest Account - Guest User Removal Experience', () => {
 
                 // # Create new team and visit its URL
                 cy.apiCreateTeam('test-team2', 'Test Team2').then((response) => {
-                    team2 = {id: response.body.id, name: response.body.name};
-                    cy.visit(`/${team2.name}/channels/town-square`);
+                    testTeam2 = {id: response.body.id, name: response.body.name};
+                    cy.visit(`/${testTeam2.name}/channels/town-square`);
                 });
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam2 && testTeam2.id) {
+            cy.apiDeleteTeam(testTeam2.id);
+        }
     });
 
     it('MM-18044 Verify behavior when Guest User is removed from channel', () => {
@@ -94,7 +100,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
 
         // Login as sysadmin and verify test team 2
         cy.apiLogin('sysadmin');
-        cy.reload().visit(`/${team2.name}/channels/town-square`);
+        cy.reload().visit(`/${testTeam2.name}/channels/town-square`);
 
         // * Verify if status is displayed indicating guest user is removed from the channel
         cy.getLastPost().

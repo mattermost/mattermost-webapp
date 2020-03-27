@@ -11,7 +11,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
 
 const otherUser = users['user-2'];
-let testChannelIdList = [];
+const testChannelIdList = [];
 
 function markAsFavorite(channelId) {
     // # Visit the channel
@@ -151,6 +151,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
                 testChannelIdList.push(publicRes.body.id);
                 cy.apiCreateChannel(teamId, 'public2', 'public2').then((public2Res) => {
                     testChannelIdList.push(public2Res.body.id);
+
                     // # Wait for few seconds
                     cy.wait(TIMEOUTS.SMALL);
 
@@ -180,6 +181,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
                 testChannelIdList.push(privateRes.body.id);
                 cy.apiCreateChannel(teamId, 'private2', 'private2', 'P').then((private2Res) => {
                     testChannelIdList.push(private2Res.body.id);
+
                     // # Wait for few seconds
                     cy.wait(TIMEOUTS.SMALL);
 

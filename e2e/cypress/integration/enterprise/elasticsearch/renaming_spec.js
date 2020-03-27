@@ -49,9 +49,9 @@ function searchAndVerifyUser(user) {
 }
 
 describe('renaming', () => {
+    const testChannelIdList = [];
     let timestamp;
     let testTeam;
-    let testChannelIdList = [];
 
     beforeEach(() => {
         // # Login as sysadmin
@@ -74,6 +74,9 @@ describe('renaming', () => {
         testChannelIdList.forEach((channelId) => {
             cy.apiDeleteChannel(channelId);
         });
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     describe('with elastic search enabled', () => {

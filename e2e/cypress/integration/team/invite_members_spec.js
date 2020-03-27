@@ -109,6 +109,12 @@ describe('Invite Members', () => {
         });
     });
 
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
+    });
+
     // By default, member don't have "InviteGuest" permission
     // should go directly to "InviteMembers" modal
     it('Invite Members to Team as Member', () => {

@@ -99,6 +99,12 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
+    });
+
     it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
 

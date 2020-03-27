@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-let testTeam;
-
 function verifyImageInPostFooter(verifyExistence = true) {
     if (verifyExistence) {
         // * Verify that the image exists in the post message footer
@@ -39,6 +37,8 @@ function postAttachments() {
 }
 
 describe('M14322 Long post with multiple attachments', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -49,6 +49,12 @@ describe('M14322 Long post with multiple attachments', () => {
             cy.apiCreateAndLoginAsNewUser({}, [testTeam.id]);
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('Attachment previews/thumbnails display as expected, when viewing full or partial post', () => {

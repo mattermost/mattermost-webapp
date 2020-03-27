@@ -5,6 +5,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Negative search filters will omit results', () => {
     const message = 'negative' + Date.now();
+    let testTeam;
 
     function search(query) {
         cy.reload();
@@ -37,7 +38,10 @@ describe('Negative search filters will omit results', () => {
         cy.apiLogin('sysadmin');
 
         // # Create a new team
-        cy.apiCreateTeam('filter-test', 'filter-test').its('body').as('team');
+        cy.apiCreateTeam('filter-test', 'filter-test').then((response) => {
+            testTeam = response.body;
+            cy.wrap(response.body).as('team');
+        });
 
         // # Get team name and visit that team
         cy.get('@team').then((team) => {
@@ -47,6 +51,12 @@ describe('Negative search filters will omit results', () => {
         // # Create a post from today
         cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
         cy.postMessage(message);
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('just search query', () => {

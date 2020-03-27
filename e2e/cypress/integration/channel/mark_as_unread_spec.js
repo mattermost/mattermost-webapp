@@ -68,6 +68,9 @@ describe('Mark as Unread', () => {
         if (testChannelB && testChannelB.id) {
             cy.apiDeleteChannel(testChannelB.id);
         }
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('Channel should appear unread after switching away from channel and be read after switching back', () => {

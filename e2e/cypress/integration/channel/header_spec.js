@@ -10,14 +10,23 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Header', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Create new test team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
             cy.visit(`/${response.body.name}`);
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('M13564 Ellipsis indicates the channel header is too long', () => {

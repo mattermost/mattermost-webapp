@@ -101,11 +101,12 @@ describe('Channel', () => {
 
     it('Mult14635 Should not create new channel with existing public channel name', () => {
         // # Create a new private channel
-        createNewChannel(`unique-public-${Date.now()}`, true).as('channel');
-        cy.reload();
+        createNewChannel(`unique-public-${Date.now()}`, true).then((response) => {
+            testChannel = response.body;
+            cy.wrap(response.body).as('channel');
+        });
 
         cy.get('@channel').then((channel) => {
-            testChannel = channel;
             // * Verify new public or private channel cannot be created with existing private channel name:
             channelNameTest('PUBLIC CHANNELS', channel);
         });
@@ -113,11 +114,12 @@ describe('Channel', () => {
 
     it('Mult14635 Should not create new channel with existing private channel name', () => {
         // # Create a new private channel
-        createNewChannel(`unique-private-${Date.now()}`, true).as('channel');
-        cy.reload();
+        createNewChannel(`unique-private-${Date.now()}`, true).then((response) => {
+            testChannel = response.body;
+            cy.wrap(response.body).as('channel');
+        });
 
         cy.get('@channel').then((channel) => {
-            testChannel = channel;
             // * Verify new public or private channel cannot be created with existing private channel name:
             channelNameTest('PRIVATE CHANNELS', channel);
         });

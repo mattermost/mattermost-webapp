@@ -20,6 +20,8 @@ function verifyImageInPostFooter(verifyExistence = true) {
 }
 
 describe('Image attachment', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -28,9 +30,16 @@ describe('Image attachment', () => {
         cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                testTeam = response.body;
                 cy.visit(`/${response.body.name}`);
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('Image smaller than 48px in both width and height', () => {

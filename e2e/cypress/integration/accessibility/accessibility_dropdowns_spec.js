@@ -27,6 +27,8 @@ function verifyMenuItems(menuEl, labels) {
 }
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -34,13 +36,19 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         // # Ensure an open team is available to join
         cy.getCurrentUserId().then((userId) => {
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                const teamId = response.body.id;
-                cy.removeUserFromTeam(teamId, userId);
+                testTeam = response.body;
+                cy.removeUserFromTeam(testTeam.id, userId);
             });
         });
 
         // Visit the Off Topic channel
         cy.visit('/ad-1/channels/off-topic');
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('MM-22627 Accessibility Support in Channel Menu Dropdown', () => {

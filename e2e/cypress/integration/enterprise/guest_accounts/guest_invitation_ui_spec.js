@@ -131,6 +131,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
     });
 
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
+    });
+
     it('MM-18041 Verify UI Elements of Guest User Invitation Flow', () => {
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();

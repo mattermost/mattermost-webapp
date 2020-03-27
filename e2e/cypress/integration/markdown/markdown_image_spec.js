@@ -9,6 +9,7 @@
 
 describe('Markdown', () => {
     const baseUrl = Cypress.config('baseUrl');
+    let testTeam;
 
     beforeEach(() => {
         // # Login as sysadmin
@@ -26,9 +27,16 @@ describe('Markdown', () => {
         cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                testTeam = response.body;
                 cy.visit(`/${response.body.name}`);
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('with in-line images 1', () => {

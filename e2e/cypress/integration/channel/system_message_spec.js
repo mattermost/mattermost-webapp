@@ -47,6 +47,8 @@ function getLines(e) {
 }
 
 describe('System Message', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
@@ -56,8 +58,15 @@ describe('System Message', () => {
 
         // # Create new test team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
             cy.visit(`/${response.body.name}`);
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {

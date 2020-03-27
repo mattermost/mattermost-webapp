@@ -70,7 +70,7 @@ function searchForChannel(name) {
 
 describe('search for channel with', () => {
     let timestamp;
-    let team = {};
+    let testTeam;
     let user;
 
     beforeEach(() => {
@@ -83,7 +83,7 @@ describe('search for channel with', () => {
         // # Create new team to run tests against
         timestamp = Date.now();
         cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
-            team = response.body;
+            testTeam = response.body;
 
             const daredevil = {
                 username: withTimestamp('daredevil', timestamp),
@@ -94,10 +94,16 @@ describe('search for channel with', () => {
             };
 
             // # Setup new channel and user
-            cy.apiCreateNewUser(daredevil, [team.id]).then((userResponse) => {
+            cy.apiCreateNewUser(daredevil, [testTeam.id]).then((userResponse) => {
                 user = userResponse;
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     describe('elastic search enabled', () => {
@@ -111,12 +117,12 @@ describe('search for channel with', () => {
             // # Login and navigate to team with new user
             cy.apiLogout();
             cy.apiLogin(user.username, user.password);
-            cy.visit(`/${team.name}`);
+            cy.visit(`/${testTeam.name}`);
         });
 
         it("private channel I don't belong to does not appear", () => {
             // # Create private channel, do not add new user to it (sets @privateChannel alias)
-            createPrivateChannel(team.id);
+            createPrivateChannel(testTeam.id);
 
             cy.get('@privateChannel').then((channel) => {
                 // # Search for the private channel
@@ -130,7 +136,7 @@ describe('search for channel with', () => {
 
         it('private channel I do belong to appears', () => {
             // # Create private channel and add new user to it (sets @privateChannel alias)
-            createPrivateChannel(team.id, user);
+            createPrivateChannel(testTeam.id, user);
 
             cy.get('@privateChannel').then((channel) => {
                 // # Search for the private channel
@@ -186,12 +192,12 @@ describe('search for channel with', () => {
                 cy.apiLogin('sysadmin');
 
                 // # Visit team name
-                cy.visit(`/${team.name}`);
+                cy.visit(`/${testTeam.name}`);
 
                 const name = 'hellothere';
 
                 // # Create a new channel
-                cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
+                cy.apiCreateChannel(testTeam.id, name, name).then((channelResponse) => {
                     testChannel = channelResponse.body;
                     channelId = testChannel.id;
                 });
@@ -259,12 +265,12 @@ describe('search for channel with', () => {
             // # Login and navigate to team with new user
             cy.apiLogout();
             cy.apiLogin(user.username, user.password);
-            cy.visit(`/${team.name}`);
+            cy.visit(`/${testTeam.name}`);
         });
 
         it("private channel I don't belong to does not appear", () => {
             // # Create private channel, do not add new user to it (sets @privateChannel alias)
-            createPrivateChannel(team.id);
+            createPrivateChannel(testTeam.id);
 
             cy.get('@privateChannel').then((channel) => {
                 // # Search for the private channel
@@ -278,7 +284,7 @@ describe('search for channel with', () => {
 
         it('private channel I do belong to appears', () => {
             // # Create private channel and add new user to it (sets @privateChannel alias)
-            createPrivateChannel(team.id, user);
+            createPrivateChannel(testTeam.id, user);
 
             cy.get('@privateChannel').then((channel) => {
                 // # Search for the private channel
@@ -332,12 +338,12 @@ describe('search for channel with', () => {
             beforeEach(() => {
                 // # Login as sysadmin
                 cy.apiLogin('sysadmin');
-                cy.visit(`/${team.name}`);
+                cy.visit(`/${testTeam.name}`);
 
                 const name = 'hellothere';
 
                 // # Create a new channel
-                cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
+                cy.apiCreateChannel(testTeam.id, name, name).then((channelResponse) => {
                     testChannel = channelResponse.body;
                     channelId = testChannel.id;
                 });

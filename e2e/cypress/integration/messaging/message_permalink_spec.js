@@ -11,7 +11,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Message permalink', () => {
     let testChannel;
-    
+
     function ignoreUncaughtException() {
         cy.on('uncaught:exception', (err) => {
             expect(err.message).to.include('Cannot clear timer: timer created');

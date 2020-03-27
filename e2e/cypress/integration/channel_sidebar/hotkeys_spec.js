@@ -72,18 +72,17 @@ describe('Channel switching', () => {
         cy.getCurrentChannelId().as('townSquareId');
 
         // # Create a new channel
-        // cy.createAndVisitNewChannel().as('testChannel');
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then((response) => {
                 testChannel = response.body;
                 expect(response.status).to.equal(201);
 
-                cy.wrap(response.body).as('testChannel');
+                cy.wrap(response.body).as('channel');
             });
         });
 
         // # Have another user post a message in the new channel
-        cy.get('@testChannel').then((testChannel) => cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: testChannel.id}));
+        cy.get('@channel').then((channel) => cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id}));
 
         // # Press alt + shift + up
         cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});

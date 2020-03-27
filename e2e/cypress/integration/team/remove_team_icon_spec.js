@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-let testTeam;
-
 function openTeamSettingsDialog() {
     // validating the side bar is visible
     cy.get('#sidebarHeaderDropdownButton').should('be.visible');
@@ -33,6 +31,8 @@ function openTeamSettingsDialog() {
 }
 
 describe('Teams Settings', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -52,6 +52,12 @@ describe('Teams Settings', () => {
                 cy.visit(`/${testTeam.name}`);
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('TS14632 Remove Team Icon', () => {

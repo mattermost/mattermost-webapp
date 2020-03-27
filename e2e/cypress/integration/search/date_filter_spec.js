@@ -62,6 +62,7 @@ describe('SF15699 Search Date Filter', () => {
     let secondDateEarly;
     let secondDateLater;
     let newAdmin;
+    let testTeam;
 
     function initMessagesAndDates() {
         // Store unique timestamp
@@ -98,7 +99,10 @@ describe('SF15699 Search Date Filter', () => {
         changeTimezone('UTC');
 
         // # Create a new team
-        cy.apiCreateTeam('filter-test', 'filter-test').its('body').as('team');
+        cy.apiCreateTeam('filter-test', 'filter-test').then((response) => {
+            testTeam = response.body;
+            cy.wrap(response.body).as('team');
+        });
 
         // # Get team name and visit that team
         cy.get('@team').then((team) => {
@@ -148,6 +152,12 @@ describe('SF15699 Search Date Filter', () => {
                 cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms});
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     describe('input date filter', () => {

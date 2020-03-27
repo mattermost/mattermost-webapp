@@ -36,6 +36,9 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('set channel switcher setting to On and test on click of sidebar switcher button', () => {

@@ -11,10 +11,11 @@ import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const otherUser = users['user-2'];
-let testTeam;
 let townsquareChannelId;
 
 describe('toasts', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
@@ -46,6 +47,12 @@ describe('toasts', () => {
         // * Verify that off-topic channel is loaded
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Off-Topic');
         cy.findAllByTestId('postView').should('be.visible');
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('Unread messages toast is shown when visiting a channel with unreads and should disappear if scrolled to bottom', () => {

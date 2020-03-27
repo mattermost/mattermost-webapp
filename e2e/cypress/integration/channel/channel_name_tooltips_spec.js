@@ -72,6 +72,9 @@ describe('channel name tooltips', () => {
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('Should show tooltip on hover - open/public channel with long name', () => {

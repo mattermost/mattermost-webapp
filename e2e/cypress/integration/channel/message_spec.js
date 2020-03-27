@@ -34,12 +34,20 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 }
 
 describe('Message', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('M13701 Consecutive message does not repeat profile info', () => {
@@ -104,6 +112,7 @@ describe('Message', () => {
         cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                testTeam = response.body;
                 cy.visit(`/${response.body.name}`);
             });
         });

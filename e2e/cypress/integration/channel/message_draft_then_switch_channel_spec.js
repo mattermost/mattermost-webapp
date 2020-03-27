@@ -9,9 +9,9 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-let testTeam;
-
 describe('Message Draft and Switch Channels', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -24,6 +24,12 @@ describe('Message Draft and Switch Channels', () => {
                 cy.visit(`/${testTeam.name}`);
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('M14358 Message Draft Pencil Icon Visible in Channel Switcher', () => {

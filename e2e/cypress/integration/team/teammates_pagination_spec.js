@@ -10,13 +10,15 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Teams Suite', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((createResponse) => {
-            const testTeam = createResponse.body;
+            testTeam = createResponse.body;
             cy.visit(`/${testTeam.name}`);
 
             const users = [];
@@ -41,6 +43,12 @@ describe('Teams Suite', () => {
                 });
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('TS14868 Team Admin can use Next button to page through list in Manage Members', () => {

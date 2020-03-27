@@ -7,9 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-let testTeam;
-
 describe('Message Draft', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -22,6 +22,12 @@ describe('Message Draft', () => {
                 cy.visit(`/${testTeam.name}`);
             });
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('M13473 Message Draft - Pencil Icon', () => {

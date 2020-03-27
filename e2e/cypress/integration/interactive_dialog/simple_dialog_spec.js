@@ -20,6 +20,8 @@ let simpleDialog;
 
 describe('Interactive Dialog', () => {
     describe('ID17212 Interactive Dialog without element', () => {
+        let testTeam;
+
         beforeEach(() => {
             // * Check if webhook server is running
             cy.requireWebhookServer();
@@ -41,8 +43,8 @@ describe('Interactive Dialog', () => {
 
             // # Create new team and create command on it
             cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-                const team = teamResponse.body;
-                cy.visit(`/${team.name}`);
+                testTeam = teamResponse.body;
+                cy.visit(`/${testTeam.name}`);
 
                 const webhookBaseUrl = Cypress.env().webhookBaseUrl;
 
@@ -52,7 +54,7 @@ describe('Interactive Dialog', () => {
                     display_name: 'Simple Dialog without element',
                     icon_url: '',
                     method: 'P',
-                    team_id: team.id,
+                    team_id: testTeam.id,
                     trigger: 'simple_dialog' + Date.now(),
                     url: `${webhookBaseUrl}/simple_dialog_request`,
                     username: '',
@@ -63,6 +65,12 @@ describe('Interactive Dialog', () => {
                     simpleDialog = webhookUtils.getSimpleDialog(createdCommand.id, webhookBaseUrl);
                 });
             });
+        });
+
+        afterEach(() => {
+            if (testTeam && testTeam.id) {
+                cy.apiDeleteTeam(testTeam.id);
+            }
         });
 
         it('UI check', () => {

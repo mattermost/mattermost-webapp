@@ -23,7 +23,7 @@ function promoteGuestToUser(user) {
 
 describe('Channel header menu', () => {
     let testChannel;
-    
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');

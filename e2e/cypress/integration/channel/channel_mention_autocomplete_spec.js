@@ -49,6 +49,9 @@ describe('Channel', () => {
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('Channel autocomplete should have both lists populated correctly', () => {

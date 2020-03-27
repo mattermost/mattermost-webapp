@@ -11,7 +11,7 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
-    let testChannelIdList = [];
+    const testChannelIdList = [];
 
     beforeEach(() => {
         // # Login as sysadmin

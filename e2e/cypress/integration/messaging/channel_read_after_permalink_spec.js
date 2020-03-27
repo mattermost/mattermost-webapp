@@ -11,7 +11,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     let testChannel;
-    
+
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');

@@ -22,12 +22,15 @@ function pinPost(index) {
 }
 
 describe('Messaging', () => {
+    let testTeam;
+
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Create a new team and visit default town-square channel
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
             cy.visit(`/${response.body.name}`);
         });
 
@@ -35,6 +38,12 @@ describe('Messaging', () => {
         pinnedPosts.forEach((pinnedPost) => {
             cy.apiUnpinPosts(pinnedPost);
         });
+    });
+
+    afterEach(() => {
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('M15010 Pinning or un-pinning older post does not cause it to display at bottom of channel', () => {

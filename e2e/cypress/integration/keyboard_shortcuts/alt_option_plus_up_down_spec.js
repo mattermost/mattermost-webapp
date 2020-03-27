@@ -8,7 +8,7 @@
 // ***************************************************************
 
 describe('Keyboard Shortcuts', () => {
-    let team;
+    let testTeam;
     let publicChannel;
     let privateChannel;
 
@@ -29,12 +29,12 @@ describe('Keyboard Shortcuts', () => {
 
         // # Create a test team and channel, then visit
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
-            team = teamResponse.body;
-            cy.apiCreateChannel(team.id, 'public-a', 'Public A').then((channelResponse) => {
+            testTeam = teamResponse.body;
+            cy.apiCreateChannel(testTeam.id, 'public-a', 'Public A').then((channelResponse) => {
                 publicChannel = channelResponse.body;
             });
 
-            cy.apiCreateChannel(team.id, 'private-a', 'Private B', 'P').then((channelResponse) => {
+            cy.apiCreateChannel(testTeam.id, 'private-a', 'Private B', 'P').then((channelResponse) => {
                 privateChannel = channelResponse.body;
             });
         });
@@ -47,6 +47,9 @@ describe('Keyboard Shortcuts', () => {
         if (privateChannel && privateChannel.id) {
             cy.apiDeleteChannel(privateChannel.id);
         }
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     const sysadmin = {display_name: 'sysadmin', name: 'sysadmin', type: 'D'};
@@ -54,35 +57,35 @@ describe('Keyboard Shortcuts', () => {
     const offTopic = {display_name: 'Off-Topic', name: 'off-topic', type: 'O'};
 
     it('Alt/Option + Up', () => {
-        cy.visit(`/${team.name}/messages/@sysadmin`);
+        cy.visit(`/${testTeam.name}/messages/@sysadmin`);
 
         // * Verify that the channel is loaded
         cy.get('#channelHeaderTitle').should('contain', 'sysadmin');
 
         // * Switch to channels by Alt+Up/Down keypress and verify
-        verifyChannelSwitch(team.name, privateChannel, sysadmin, '{uparrow}');
-        verifyChannelSwitch(team.name, townSquare, privateChannel, '{uparrow}');
-        verifyChannelSwitch(team.name, publicChannel, townSquare, '{uparrow}');
-        verifyChannelSwitch(team.name, offTopic, publicChannel, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, privateChannel, sysadmin, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, townSquare, privateChannel, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, publicChannel, townSquare, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, offTopic, publicChannel, '{uparrow}');
 
         // * Should switch to bottom of channel list when current channel is at the very top
-        verifyChannelSwitch(team.name, sysadmin, offTopic, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, sysadmin, offTopic, '{uparrow}');
     });
 
     it('Alt/Option + Down', () => {
-        cy.visit(`/${team.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // * Verify that the channel is loaded
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
 
         // # Switch to channels by Alt+Up/Down keypress and verify
-        verifyChannelSwitch(team.name, publicChannel, offTopic, '{downarrow}');
-        verifyChannelSwitch(team.name, townSquare, publicChannel, '{downarrow}');
-        verifyChannelSwitch(team.name, privateChannel, townSquare, '{downarrow}');
-        verifyChannelSwitch(team.name, sysadmin, privateChannel, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, publicChannel, offTopic, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, townSquare, publicChannel, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, privateChannel, townSquare, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, sysadmin, privateChannel, '{downarrow}');
 
         // * Should switch to top of channel list when current channel is at the very bottom
-        verifyChannelSwitch(team.name, offTopic, sysadmin, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, offTopic, sysadmin, '{downarrow}');
     });
 });
 
