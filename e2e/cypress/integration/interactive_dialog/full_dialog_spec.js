@@ -32,8 +32,9 @@ const optionsLength = {
 };
 
 describe('Interactive Dialog', () => {
-    beforeEach(() => {
-        // * Check if webhook server is running
+    let config;
+
+    before(() => {
         cy.requireWebhookServer();
 
         // # Login as sysadmin
@@ -46,6 +47,8 @@ describe('Interactive Dialog', () => {
                 EnablePostUsernameOverride: true,
                 EnablePostIconOverride: true,
             },
+        }).then((res) => {
+            config = res.body;
         });
 
         // # Save Teammate Name Disaply Preference to username
@@ -105,7 +108,13 @@ describe('Interactive Dialog', () => {
                     // * Verify that the suggestion list or autocomplete open up on click of input element
                     cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList', {timeout: TIMEOUTS.SMALL}).scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
+                    cy.wrap($elForm).find('#suggestionList', {timeout: TIMEOUTS.SMALL}).scrollIntoView().should('be.visible').children().then((el) => {
+                        if (element.name === 'someuserselector' && config.ElasticsearchSettings.EnableIndexing) {
+                            return;
+                        }
+
+                        cy.wrap(el).should('have.length', optionsLength[element.name]);
+                    });
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 

@@ -66,6 +66,7 @@
         "MaxUsersPerTeam": 2000,
         "EnableCustomBrand": false,
         "EnableOpenServer": true,
+        "ExperimentalTownSquareIsReadOnly": false,
         "ExperimentalViewArchivedChannels": false,
         "LockTeammateNameDisplay": false,
         "SiteName": "Mattermost",

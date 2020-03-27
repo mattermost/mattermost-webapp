@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import AdvancedTab from './advanced';
@@ -11,19 +10,19 @@ import NotificationsTab from './notifications';
 import SecurityTab from './security';
 import SidebarTab from './sidebar';
 
-export default class UserSettings extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        activeTab: PropTypes.string,
-        activeSection: PropTypes.string,
-        updateSection: PropTypes.func,
-        updateTab: PropTypes.func,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        setEnforceFocus: PropTypes.func.isRequired,
-        setRequireConfirm: PropTypes.func.isRequired,
-    }
+type Props = {
+    user: {};
+    activeTab?: string;
+    activeSection?: string;
+    updateSection?: () => void;
+    updateTab?: () => void;
+    closeModal: () => void;
+    collapseModal: () => void;
+    setEnforceFocus: () => void;
+    setRequireConfirm: () => void;
+}
 
+export default class UserSettings extends React.PureComponent<Props, {}> {
     render() {
         if (this.props.activeTab === 'general') {
             return (

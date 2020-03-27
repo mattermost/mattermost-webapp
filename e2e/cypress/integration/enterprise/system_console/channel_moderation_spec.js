@@ -797,7 +797,7 @@ describe('Channel Moderation Test', () => {
         it('Effect of changing System Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
             // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
             const randomChannelName = 'NeverModifiedChannel' + getRandomInt(1000);
-            createNewChannel(randomChannelName, 'user-1');
+            createNewChannel(randomChannelName, 'sysadmin');
 
             goToSystemScheme();
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
@@ -820,7 +820,7 @@ describe('Channel Moderation Test', () => {
         it('Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
             // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
             const randomChannelName = 'NeverModifiedChannel' + getRandomInt(1000);
-            createNewChannel(randomChannelName, 'user-1');
+            createNewChannel(randomChannelName, 'sysadmin');
             goToPermissionsAndCreateTeamOverrideScheme(`${randomChannelName}`);
             deleteOrEditTeamScheme(`${randomChannelName}`, 'edit');
             cy.get('#all_users-public_channel-manage_public_channel_members').click();
