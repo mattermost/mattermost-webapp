@@ -184,47 +184,50 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                         >
-                            <div className='SidebarChannelGroupHeader'>
-                                <button
-                                    ref={this.categoryTitleRef}
-                                    className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
-                                    onClick={this.handleCollapse}
-                                    aria-label={displayName}
-                                >
-                                    <i
-                                        className={classNames('icon icon-chevron-down', {
-                                            'icon-rotate-minus-90': isCollapsed,
-                                            'hide-arrow': hideArrow,
-                                        })}
-                                    />
-                                    <div {...provided.dragHandleProps}>
-                                        {displayName}
-                                    </div>
-                                    {directMessagesModalButton}
-                                </button>
-                            </div>
-                            <div className='SidebarChannelGroup_content'>
-                                <Droppable 
-                                    droppableId={category.id}
-                                    type='SIDEBAR_CHANNEL'
-                                    mode='virtual'
-                                    isDropDisabled={this.isDropDisabled()}
-                                >
-                                    {(provided) => {
-                                        return (
-                                            <ul
-                                                role='list'
-                                                className='NavGroupContent'
-                                                ref={provided.innerRef}
-                                                {...provided.droppableProps}
-                                            >
-                                                {renderedChannels}
-                                                {provided.placeholder}
-                                            </ul>
-                                        );
-                                    }}
-                                </Droppable>
-                            </div>
+                            <Droppable 
+                                droppableId={category.id}
+                                type='SIDEBAR_CHANNEL'
+                                mode='virtual'
+                                isDropDisabled={this.isDropDisabled()}
+                            >
+                                {(droppableProvided) => {
+                                    return (
+                                        <div
+                                            {...droppableProvided.droppableProps}
+                                            ref={droppableProvided.innerRef}
+                                        >
+                                            <div className='SidebarChannelGroupHeader'>
+                                                <button
+                                                    ref={this.categoryTitleRef}
+                                                    className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
+                                                    onClick={this.handleCollapse}
+                                                    aria-label={displayName}
+                                                >
+                                                    <i
+                                                        className={classNames('icon icon-chevron-down', {
+                                                            'icon-rotate-minus-90': isCollapsed,
+                                                            'hide-arrow': hideArrow,
+                                                        })}
+                                                    />
+                                                    <div {...provided.dragHandleProps}>
+                                                        {displayName}
+                                                    </div>
+                                                    {directMessagesModalButton}
+                                                </button>
+                                            </div>
+                                            <div className='SidebarChannelGroup_content'>
+                                                <ul
+                                                    role='list'
+                                                    className='NavGroupContent'
+                                                >
+                                                    {renderedChannels}
+                                                    {droppableProvided.placeholder}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    );
+                                }}
+                            </Droppable>
                         </div>
                     );
                 }}
