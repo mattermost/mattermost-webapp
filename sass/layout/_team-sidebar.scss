@@ -64,8 +64,11 @@
             }
 
             &.isDragging {
+                transition-timing-function: ease-in;
                 &:before,
-                &:hover::before {
+                &:hover::before,
+                &.unread:before,
+                &.active:before  {
                     transform: translateX(-100%) translateY(22%) scaleY(0);
                 }
             }
