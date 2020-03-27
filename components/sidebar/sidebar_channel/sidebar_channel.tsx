@@ -11,7 +11,7 @@ import Constants from 'utils/constants';
 import SidebarBaseChannel from './sidebar_base_channel';
 import SidebarDirectChannel from './sidebar_direct_channel';
 import SidebarGroupChannel from './sidebar_group_channel';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, NotDraggingStyle, DraggingStyle, DraggableStateSnapshot } from 'react-beautiful-dnd';
 
 type Props = {
 
@@ -66,6 +66,8 @@ type Props = {
      * Is the channel the currently focused channel
      */
     isCurrentChannel: boolean;
+
+    isDMCategory: boolean
 };
 
 type State = {
@@ -108,6 +110,17 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         }
     }
 
+    getStyle = (style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) => {
+        if (this.props.isDMCategory && !snapshot.isDragging) {
+            return {
+                ...style,
+                transform: 'none',
+            };
+        }
+
+        return {...style};
+    }
+
     render() {
         const {channel, currentTeamName, channelIndex} = this.props;
 
@@ -137,6 +150,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                             onTransitionEnd={this.removeAnimation}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            style={this.getStyle(provided.draggableProps.style, snapshot)}
                         >
                             <ChannelComponent
                                 channel={channel}

@@ -77,7 +77,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     renderChannel = (channel: Channel, index: number) => {
-        const {isCollapsed, setChannelRef, getChannelRef} = this.props;
+        const {isCollapsed, setChannelRef, getChannelRef, category} = this.props;
 
         return (
             <SidebarChannel
@@ -87,6 +87,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
                 isCategoryCollapsed={isCollapsed}
+                isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
             />
         );
     }
