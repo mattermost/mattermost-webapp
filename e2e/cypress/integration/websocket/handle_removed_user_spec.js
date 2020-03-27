@@ -7,15 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {testWithConfig} from '../../support/hooks';
-
 import {getRandomInt} from '../../utils';
 
 describe('Handle removed user - old sidebar', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as user-1
         cy.apiLogin('user-1');
 
-        cy.visit('/');
+        // Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('should be redirected to last channel when a user is removed from their current channel', () => {
@@ -51,16 +51,22 @@ describe('Handle removed user - old sidebar', () => {
 });
 
 describe('Handle removed user - new sidebar', () => {
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
-    before(() => {
+        // # Enable Experimental Channel Sidebar Organization
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
+        // # Login as user-1
         cy.apiLogin('user-1');
 
-        cy.visit('/');
+        // Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('should be redirected to last channel when a user is removed from their current channel', () => {
