@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
-import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable, DropResult, DragStart} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
@@ -19,6 +19,7 @@ import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
+import { General } from 'mattermost-redux/constants';
 
 export function renderView(props: any) {
     return (
@@ -61,6 +62,8 @@ type Props = {
 type State = {
     showTopUnread: boolean;
     showBottomUnread: boolean;
+    isDraggingDM: boolean;
+    isDraggingChannel: boolean;
 };
 
 // scrollMargin is the margin at the edge of the channel list that we leave when scrolling to a channel.
@@ -86,6 +89,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.state = {
             showTopUnread: false,
             showBottomUnread: false,
+            isDraggingChannel: false,
+            isDraggingDM: false,
         };
         this.scrollbar = React.createRef();
 
@@ -319,6 +324,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
                 getChannelRef={this.getChannelRef}
+                isDraggingDM={this.state.isDraggingDM}
+                isDraggingChannel={this.state.isDraggingChannel}
             />
         );
     }
@@ -331,8 +338,25 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }, 100);
 
+    onDragStart = (initial: DragStart) => {
+        console.log(initial);
+
+        if (initial.type === 'SIDEBAR_CHANNEL') {
+            const channel = this.props.displayedChannels.find((channel) => channel.id === initial.draggableId);
+            if (channel?.type === General.DM_CHANNEL || channel?.type === General.GM_CHANNEL) {
+                this.setState({isDraggingDM: true});
+            } else {
+                this.setState({isDraggingChannel: true});
+            }
+        }
+    }
+
     onDragEnd = (result: DropResult) => {
         console.log(result);
+        this.setState({
+            isDraggingDM: false,
+            isDraggingChannel: false,
+        });
     }
 
     render() {
@@ -389,10 +413,12 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 >
                     <DragDropContext
                         onDragEnd={this.onDragEnd}
+                        onDragStart={this.onDragStart}
                     >
                         <Droppable 
                             droppableId='droppable-categories'
                             type='SIDEBAR_CATEGORY'
+                            mode='virtual'
                         >
                             {(provided) => {
                                 return (

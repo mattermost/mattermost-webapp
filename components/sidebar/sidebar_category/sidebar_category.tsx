@@ -26,6 +26,8 @@ type Props = {
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
     isCollapsed: boolean;
+    isDraggingChannel: boolean;
+    isDraggingDM: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
     };
@@ -103,6 +105,18 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
+    }
+
+    isDropDisabled = () => {
+        const {isDraggingChannel, isDraggingDM, category} = this.props;
+
+        if (category.type === CategoryTypes.DIRECT_MESSAGES) {
+            return isDraggingChannel;
+        } else if (category.type === CategoryTypes.PUBLIC || category.type === CategoryTypes.PRIVATE) {
+            return isDraggingDM;
+        }
+
+        return false;
     }
 
     render() {
@@ -192,6 +206,8 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                                 <Droppable 
                                     droppableId={`droppable-channels_${category.id}`}
                                     type='SIDEBAR_CHANNEL'
+                                    mode='virtual'
+                                    isDropDisabled={this.isDropDisabled()}
                                 >
                                     {(provided) => {
                                         return (
