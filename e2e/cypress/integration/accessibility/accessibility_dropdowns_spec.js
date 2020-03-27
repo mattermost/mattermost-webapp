@@ -46,6 +46,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }

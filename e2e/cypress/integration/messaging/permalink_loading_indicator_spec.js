@@ -24,6 +24,7 @@ describe('Messaging', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testPrivateChannel && testPrivateChannel.id) {
             cy.apiDeleteChannel(testPrivateChannel.id);
         }

@@ -94,12 +94,14 @@ function createTestUsers(timestamp) {
 }
 
 describe('Autocomplete', () => {
-    const testChannelIdList = [];
+    let testChannelIdList;
     let timestamp;
     let testUsers;
     let testTeam;
 
     beforeEach(() => {
+        testChannelIdList = [];
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
@@ -123,6 +125,7 @@ describe('Autocomplete', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         testChannelIdList.forEach((channelId) => {
             cy.apiDeleteChannel(channelId);
         });

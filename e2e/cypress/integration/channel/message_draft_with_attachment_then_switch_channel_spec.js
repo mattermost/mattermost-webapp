@@ -22,6 +22,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testChannel1 && testChannel1.id) {
             cy.apiDeleteChannel(testChannel1.id);
         }

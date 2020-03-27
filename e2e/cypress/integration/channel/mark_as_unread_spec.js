@@ -62,6 +62,7 @@ describe('Mark as Unread', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testChannelA && testChannelA.id) {
             cy.apiDeleteChannel(testChannelA.id);
         }

@@ -132,6 +132,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }

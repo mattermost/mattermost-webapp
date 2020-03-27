@@ -155,6 +155,7 @@ describe('SF15699 Search Date Filter', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }

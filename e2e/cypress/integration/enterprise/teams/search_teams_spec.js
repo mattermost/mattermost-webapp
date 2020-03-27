@@ -11,9 +11,11 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search teams', () => {
-    const testTeamIdList = [];
+    let testTeamIdList;
 
     beforeEach(() => {
+        testTeamIdList = [];
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
@@ -25,6 +27,7 @@ describe('Search teams', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         testTeamIdList.forEach((teamId) => {
             cy.apiDeleteTeam(teamId);
         });

@@ -71,6 +71,7 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }

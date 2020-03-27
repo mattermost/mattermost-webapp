@@ -48,6 +48,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }

@@ -41,6 +41,7 @@ describe('Keyboard Shortcuts', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (publicChannel && publicChannel.id) {
             cy.apiDeleteChannel(publicChannel.id);
         }

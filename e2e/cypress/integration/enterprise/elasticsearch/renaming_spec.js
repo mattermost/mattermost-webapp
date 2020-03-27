@@ -49,11 +49,13 @@ function searchAndVerifyUser(user) {
 }
 
 describe('renaming', () => {
-    const testChannelIdList = [];
+    let testChannelIdList;
     let timestamp;
     let testTeam;
 
     beforeEach(() => {
+        testChannelIdList = [];
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
@@ -71,6 +73,7 @@ describe('renaming', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         testChannelIdList.forEach((channelId) => {
             cy.apiDeleteChannel(channelId);
         });

@@ -11,9 +11,11 @@ import uuid from 'uuid/v4';
 const PAGE_SIZE = 10;
 
 describe('Search channels', () => {
-    const testChannelIdList = [];
+    let testChannelIdList;
 
     beforeEach(() => {
+        testChannelIdList = [];
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
@@ -32,6 +34,7 @@ describe('Search channels', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         testChannelIdList.forEach((channelId) => {
             cy.apiDeleteChannel(channelId);
         });

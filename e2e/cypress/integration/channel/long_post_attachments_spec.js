@@ -52,6 +52,7 @@ describe('M14322 Long post with multiple attachments', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }

@@ -19,10 +19,12 @@ let createdCommand;
 let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
-    const testChannelIdList = [];
+    let testChannelIdList;
     let testTeam;
 
     beforeEach(() => {
+        testChannelIdList = [];
+
         // * Check if webhook server is running
         cy.requireWebhookServer();
 
@@ -75,6 +77,7 @@ describe('Interactive Dialog', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         testChannelIdList.forEach((channelId) => {
             cy.apiDeleteChannel(channelId);
         });

@@ -70,6 +70,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testTeam2 && testTeam2.id) {
             cy.apiDeleteTeam(testTeam2.id);
         }

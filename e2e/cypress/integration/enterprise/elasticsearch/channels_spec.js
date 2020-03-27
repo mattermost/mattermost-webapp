@@ -101,6 +101,7 @@ describe('search for channel with', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }
@@ -207,6 +208,7 @@ describe('search for channel with', () => {
             });
 
             afterEach(() => {
+                cy.apiLogin('sysadmin');
                 if (testChannel && testChannel.id) {
                     cy.apiDeleteChannel(testChannel.id);
                 }
@@ -353,6 +355,7 @@ describe('search for channel with', () => {
             });
 
             afterEach(() => {
+                cy.apiLogin('sysadmin');
                 if (testChannel && testChannel.id) {
                     cy.apiDeleteChannel(testChannel.id);
                 }

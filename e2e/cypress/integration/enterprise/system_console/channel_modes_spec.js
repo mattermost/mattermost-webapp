@@ -29,6 +29,7 @@ describe('Test channel public/private toggle', () => {
     });
 
     afterEach(() => {
+        cy.apiLogin('sysadmin');
         if (testChannel && testChannel.id) {
             cy.apiDeleteChannel(testChannel.id);
         }
