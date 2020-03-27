@@ -668,6 +668,11 @@ class CreatePost extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
+        const postTextboxDisabled = this.props.readOnlyChannel || !this.props.canPost;
+        if (this.refs.textbox && postTextboxDisabled) {
+            this.refs.textbox.getWrappedInstance().blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
+            return;
+        }
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.getWrappedInstance().focus();
         }
