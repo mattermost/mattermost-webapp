@@ -36,12 +36,14 @@ describe('Actions', () => {
     const channel1 = {id: 'channel_id1', name: 'achannel', team_id: 'team_id1'};
     const channel2 = {id: 'channel_id2', name: 'achannel', team_id: 'team_id2'};
     const channel3 = {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'};
+    const channel4 = {id: 'channel_id4', name: 'additional-abilities---community-systems', team_id: 'team_id1', type: 'O'};
+    const channel5 = {id: 'channel_id5', name: 'some-group-channel', team_id: 'team_id1', type: 'G'};
 
     const initialState = {
         entities: {
             channels: {
                 currentChannelId: 'channel_id1',
-                channels: {channel_id1: channel1, channel_id2: channel2, channel_id3: channel3},
+                channels: {channel_id1: channel1, channel_id2: channel2, channel_id3: channel3, channel_id4: channel4, channel_id5: channel5},
                 myMembers: {channel_id1: {channel_id: 'channel_id1', user_id: 'current_user_id'}, channel_id2: {channel_id: 'channel_id2', user_id: 'current_user_id'}},
                 channelsInTeam: {team_id1: ['channel_id1'], team_id2: ['channel_id2']},
             },
@@ -80,6 +82,10 @@ describe('Actions', () => {
             const path = getPathFromIdentifier(initialState, 'channels', '9c992e32cc7b3e5651f68b0ead4935fdf40d67ff');
             expect(path).toEqual('group_channel_group_id');
         });
+        test('Should return group_id path if channel exists and is type G', () => {
+            const path = getPathFromIdentifier(initialState, 'channels', 'some-group-channel');
+            expect(path).toEqual('group_channel_group_id');
+        });
         test('Should return group_id path if identifier is a group id', () => {
             const path = getPathFromIdentifier(initialState, 'messages', '9c992e32cc7b3e5651f68b0ead4935fdf40d67ff');
             expect(path).toEqual('group_channel_group_id');
@@ -87,6 +93,10 @@ describe('Actions', () => {
         test('Should return direct channel path if identifier is in the format userid__userid2', () => {
             const path = getPathFromIdentifier(initialState, 'channels', '3y8ujrgtbfn78ja5nfms3qm5jw__3y8ujrgtbfn78ja5nfms3qm5jw');
             expect(path).toEqual('direct_channel_user_ids');
+        });
+        test('Should return channel by name path if identifier looks like a group id but matching channel is an open channel', () => {
+            const path = getPathFromIdentifier(initialState, 'channels', 'additional-abilities---community-systems');
+            expect(path).toEqual('channel_name');
         });
         test('Should return channel by name path if identifier is in the format userid--userid2', () => {
             const path = getPathFromIdentifier(initialState, 'channels', '3y8ujrgtbfn78ja5nfms3qm5jw--3y8ujrgtbfn78ja5nfms3qm5jw');
