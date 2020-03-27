@@ -109,7 +109,7 @@ export default class LegacyTeamSidebar extends React.Component {
 
                 // prevents reloading the current team, while still capturing the keyboard shortcut
                 if (teams[idx].id === currentTeamId) {
-                    return;
+                    return false;
                 }
                 const team = teams[idx];
                 this.props.actions.switchTeam(`/${team.name}`);
