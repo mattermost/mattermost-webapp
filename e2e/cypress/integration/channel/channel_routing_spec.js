@@ -46,9 +46,6 @@ describe('Channel routing', () => {
 
                 // * Check you can go to the channel without problem
                 cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel');
-
-                // # Remove the created channel
-                cy.apiDeleteChannel(testChannel.id);
             });
         });
     });
@@ -120,6 +117,7 @@ describe('Channel routing', () => {
             });
         });
     });
+
     it('should go group channel using group id', () => {
         const users = ['user-1', 'aaron.peterson', 'sysadmin'];
         cy.apiGetUsers(users).then((userResponse) => {
