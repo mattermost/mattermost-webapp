@@ -28,6 +28,7 @@ type Props = {
     isCollapsed: boolean;
     isDraggingChannel: boolean;
     isDraggingDM: boolean;
+    isDraggingCategory: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
     };
@@ -204,7 +205,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                             </div>
                             <div className='SidebarChannelGroup_content'>
                                 <Droppable 
-                                    droppableId={`droppable-channels_${category.id}`}
+                                    droppableId={category.id}
                                     type='SIDEBAR_CHANNEL'
                                     mode='virtual'
                                     isDropDisabled={this.isDropDisabled()}

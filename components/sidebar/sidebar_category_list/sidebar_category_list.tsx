@@ -64,6 +64,7 @@ type State = {
     showBottomUnread: boolean;
     isDraggingDM: boolean;
     isDraggingChannel: boolean;
+    isDraggingCategory: boolean;
 };
 
 // scrollMargin is the margin at the edge of the channel list that we leave when scrolling to a channel.
@@ -91,6 +92,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             showBottomUnread: false,
             isDraggingChannel: false,
             isDraggingDM: false,
+            isDraggingCategory: false,
         };
         this.scrollbar = React.createRef();
 
@@ -326,6 +328,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 getChannelRef={this.getChannelRef}
                 isDraggingDM={this.state.isDraggingDM}
                 isDraggingChannel={this.state.isDraggingChannel}
+                isDraggingCategory={this.state.isDraggingCategory}
             />
         );
     }
@@ -348,6 +351,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             } else {
                 this.setState({isDraggingChannel: true});
             }
+        } else if (initial.type === 'SIDEBAR_CATEGORY') {
+            this.setState({isDraggingCategory: true});
         }
     }
 
@@ -356,6 +361,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.setState({
             isDraggingDM: false,
             isDraggingChannel: false,
+            isDraggingCategory: false,
         });
     }
 
