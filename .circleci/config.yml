@@ -162,8 +162,6 @@ jobs:
           command: |
             export TAG="${CIRCLE_SHA1:0:7}"
 
-            mkdir -p ~/.ssh/
-            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
             git clone https://github.com/mattermost/mattermost-server.git
 
             cd mattermost-server
