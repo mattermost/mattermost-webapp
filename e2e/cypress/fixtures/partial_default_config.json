@@ -1,0 +1,74 @@
+{
+    "DisplaySettings": {
+        "ExperimentalTimezone": false
+    },
+    "ElasticsearchSettings": {
+        "EnableAutocomplete": true,
+        "EnableIndexing": true,
+        "EnableSearching": true,
+        "Sniff": false
+    },
+    "ExperimentalSettings": {
+        "UseNewSAMLLibrary": false
+    },
+    "EmailSettings": {
+        "PushNotificationContents": "generic",
+        "RequireEmailVerification": false,
+        "SendEmailNotifications": true
+    },
+    "GuestAccountsSettings": {
+        "Enable": true,
+        "RestrictCreationToDomains": ""
+    },
+    "ImageProxySettings": {
+        "Enable": false
+    },
+    "LdapSettings": {
+        "Enable": false
+    },
+    "NativeAppSettings": {
+        "AppDownloadLink": "https://about.mattermost.com/downloads/"
+    },
+    "Office365Settings": {
+        "Enable": false
+    },
+    "PluginSettings": {
+        "Enable": true,
+        "EnableMarketplace": true,
+        "EnableRemoteMarketplace": true,
+        "MarketplaceUrl": "https://api.integrations.mattermost.com",
+        "RequirePluginSignature": false
+    },
+    "SamlSettings": {
+        "Enable": false
+    },
+    "ServiceSettings": {
+        "AllowedUntrustedInternalConnections": "localhost",
+        "EnableAPITeamDeletion": true,
+        "EnableBotAccountCreation": true,
+        "EnableCommands": true,
+        "EnableEmailInvitations": true,
+        "EnableIncomingWebhooks": true,
+        "EnableLinkPreviews": false,
+        "EnableMultifactorAuthentication": true,
+        "EnableOAuthServiceProvider": true,
+        "EnableOutgoingWebhooks": true,
+        "EnablePostUsernameOverride": true,
+        "EnablePostIconOverride": true,
+        "ExperimentalChannelOrganization": false,
+        "ExperimentalChannelSidebarOrganization": "disabled",
+        "IdleTimeout": 300
+    },
+    "SupportSettings": {
+        "SupportEmail": "feedback@mattermost.com"
+    },
+    "TeamSettings": {
+        "EnableCustomBrand": false,
+        "EnableOpenServer": true,
+        "ExperimentalTownSquareIsReadOnly": false,
+        "ExperimentalViewArchivedChannels": false,
+        "LockTeammateNameDisplay": false,
+        "SiteName": "Mattermost",
+        "TeammateNameDisplay": "username"
+    }
+}

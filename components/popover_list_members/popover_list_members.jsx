@@ -228,7 +228,7 @@ export default class PopoverListMembers extends React.Component {
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='bottom'
-                        overlay={channelMembersTooltip}
+                        overlay={this.state.showPopover ? <></> : channelMembersTooltip}
                     >
                         <div>
                             <span

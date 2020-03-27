@@ -98,6 +98,7 @@ export const Preferences = {
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
+    TEAMS_ORDER: 'teams_order',
 };
 
 export const ActionTypes = keyMirror({
@@ -190,6 +191,9 @@ export const ActionTypes = keyMirror({
     FILTER_MARKETPLACE_PLUGINS: null,
 
     POST_UNREAD_SUCCESS: null,
+
+    SET_UNREAD_FILTER_ENABLED: null,
+    UPDATE_TOAST_STATUS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -290,6 +294,7 @@ export const SocketEvents = {
     CHANNEL_UPDATED: 'channel_updated',
     CHANNEL_VIEWED: 'channel_viewed',
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
+    CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
     DIRECT_ADDED: 'direct_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
@@ -442,6 +447,7 @@ export const StoragePrefixes = {
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
+    CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
 };
 
 export const LandingPreferenceTypes = {
@@ -671,6 +677,12 @@ export const DefaultRolePermissions = {
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
+        Permissions.CREATE_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.USE_CHANNEL_MENTIONS,
     ],
     team_admin: [
         Permissions.EDIT_OTHERS_POSTS,
@@ -685,13 +697,24 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OUTGOING_WEBHOOKS,
         Permissions.DELETE_POST,
         Permissions.DELETE_OTHERS_POSTS,
+        Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS,
+        Permissions.ADD_REACTION,
+        Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.CREATE_POST,
+        Permissions.REMOVE_REACTION,
     ],
     guests: [
         Permissions.EDIT_POST,
-        Permissions.DELETE_POST,
         Permissions.ADD_REACTION,
         Permissions.REMOVE_REACTION,
         Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_SLASH_COMMANDS,
+        Permissions.READ_CHANNEL,
+        Permissions.UPLOAD_FILE,
+        Permissions.CREATE_POST,
     ],
 };
 

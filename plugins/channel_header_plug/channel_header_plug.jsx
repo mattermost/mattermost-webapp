@@ -165,7 +165,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         <OverlayTrigger
                             delayShow={Constants.OVERLAY_TIME_DELAY}
                             placement='bottom'
-                            overlay={(
+                            overlay={this.state.dropdownOpen ? <></> : (
                                 <Tooltip id='removeIcon'>
                                     <div aria-hidden={true}>
                                         <FormattedMessage

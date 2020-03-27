@@ -23,7 +23,8 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
         sanitize: true,
         gfm: true,
         tables: true,
-        mangle: false
+        mangle: false,
+        breaks: true,
     };
 
     return marked(text, markdownOptions).trim();
