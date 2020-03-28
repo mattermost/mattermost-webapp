@@ -313,7 +313,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         value=""
       />
       <Popover
-        className="search-help-popover visible"
+        className="search-help-popover visible a11y__popup"
         id="searchbar-help-popup"
         placement="bottom"
         popoverSize="sm"
