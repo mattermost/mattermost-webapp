@@ -14,6 +14,8 @@ describe('Draw Plugin - Upload', () => {
     const fileType = 'application/gzip';
     const pluginId = 'com.mattermost.draw-plugin';
     before(() => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -21,13 +23,12 @@ describe('Draw Plugin - Upload', () => {
             },
         });
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        // # Visit town-square channel
         cy.visit('/ad-1/channels/town-square');
 
         // #If draw plugin is already enabled , unInstall it
         cy.uninstallPluginById(pluginId);
-        cy.systemConsolePluginManagement();
+        cy.visit('/admin_console/plugins/plugin_management');
     });
 
     /**
