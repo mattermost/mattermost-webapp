@@ -52,7 +52,8 @@ describe('Header', () => {
         cy.get('#channelHeaderDescription').click();
 
         // * Check that no elippsis is present
-        cy.get('#header-popover > div.popover-content').should('have.html', `<blockquote>\n<p>${header}</p>\n</blockquote>`);
+        cy.get('#header-popover > div.popover-content').
+            should('have.html', `<span><blockquote>\n<p>${header}</p>\n</blockquote></span>`);
 
         cy.apiSaveMessageDisplayPreference();
     });
@@ -95,7 +96,7 @@ function updateAndVerifyChannelHeader(prefix, header) {
     }
 
     // * Check if channel header description has ellipsis
-    cy.get('#channelHeaderDescription').find('p').
+    cy.get('#channelHeaderDescription > .header-description__text').find('p').
         should('have.text', header).
         and('have.css', 'overflow', 'hidden').
         and('have.css', 'text-overflow', 'ellipsis');

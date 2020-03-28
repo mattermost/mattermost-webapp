@@ -1,0 +1,44 @@
+{
+    "general": [
+      {"key": "name", "label": "Full Name", "type": "text"},
+      {"key": "username", "label": "Username", "type": "text"},
+      {"key": "nickname", "label": "Nickname", "type": "text"},
+      {"key": "position", "label": "Position", "type": "text"},
+      {"key": "email", "label": "Email", "type": "text"},
+      {"key": "picture", "label": "Profile Picture", "type": "image"}
+    ],
+    "security": [
+      {"key": "password", "label": "Password", "type": "text"},
+      {"key": "mfa", "label": "Multi-factor Authentication", "type": "optional"},
+      {"key": "apps", "label": "OAuth 2.0 Applications", "type": "none"},
+      {"key": "signin", "label": "Sign-in Method", "type": "optional"}
+    ],
+    "notifications": [
+      {"key": "desktop", "label": "Desktop Notifications", "type": "radio"},
+      {"key": "email", "label": "Email Notifications", "type": "radio"},
+      {"key": "push", "label": "Mobile Push Notifications", "type": "radio"},
+      {"key": "keys", "label": "Words That Trigger Mentions", "type": "checkbox"},
+      {"key": "comments", "label": "Reply notifications", "type": "radio"}
+    ],
+    "display": [
+      {"key": "theme", "label": "Theme", "type": "radio"},
+      {"key": "clock", "label": "Clock Display", "type": "radio"},
+      {"key": "name_format", "label": "Teammate Name Display", "type": "none"},
+      {"key": "timezone", "label": "Timezone", "type": "none"},
+      {"key": "linkpreview", "label": "Website Link Previews", "type": "radio"},
+      {"key": "collapse", "label": "Default Appearance of Image Previews", "type": "radio"},
+      {"key": "message_display", "label": "Message Display", "type": "radio"},
+      {"key": "channel_display_mode", "label": "Channel Display", "type": "radio"},
+      {"key": "languages", "label": "Language", "type": "dropdown"}
+    ],
+    "sidebar": [
+      {"key": "groupChannels", "label": "Channel Grouping and Sorting", "type": "multiple"},
+      {"key": "channelSwitcher", "label": "Channel Switcher", "type": "radio"}
+    ],
+    "advanced": [
+      {"key": "advancedCtrlSend", "label": "Send Messages on", "type": "radio"},
+      {"key": "formatting", "label": "Enable Post Formatting", "type": "radio"},
+      {"key": "joinLeave", "label": "Enable Join/Leave Messages", "type": "radio"},
+      {"key": "advancedPreviewFeatures", "label": "Preview Pre-release Features", "type": "checkbox"}
+    ]
+}

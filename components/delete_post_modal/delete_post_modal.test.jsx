@@ -9,6 +9,12 @@ import {browserHistory} from 'utils/browser_history';
 
 import DeletePostModal from 'components/delete_post_modal/delete_post_modal.jsx';
 
+jest.mock('utils/browser_history', () => ({
+    browserHistory: {
+        replace: jest.fn(),
+    },
+}));
+
 describe('components/delete_post_modal', () => {
     const post = {
         id: '123',
@@ -96,13 +102,15 @@ describe('components/delete_post_modal', () => {
     });
 
     test('should have called actions.deleteAndRemovePost when handleDelete is called', async () => {
-        browserHistory.push = jest.fn();
         const deleteAndRemovePost = jest.fn().mockReturnValueOnce({data: true});
         const props = {
             ...baseProps,
             actions: {
                 deleteAndRemovePost,
             },
+            location: {
+                pathname: '/teamname/messages/@username'
+            }
         };
         const wrapper = shallow(
             <DeletePostModal {...props}/>
@@ -116,24 +124,48 @@ describe('components/delete_post_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should call browserHistory.push on handleDelete with post.id === focusedPostId && channelName', async () => {
-        browserHistory.push = jest.fn();
+    test('should have called browserHistory.replace when permalink post is deleted for DM/GM', async () => {
+        const deleteAndRemovePost = jest.fn().mockReturnValueOnce({data: true});
         const props = {
             ...baseProps,
-            focusedPostId: '123',
-            channelName: 'channel_name',
-            teamName: 'team_name',
             actions: {
-                deleteAndRemovePost: jest.fn().mockReturnValueOnce({data: true}),
+                deleteAndRemovePost,
             },
+            location: {
+                pathname: '/teamname/messages/@username/123'
+            }
         };
+
         const wrapper = shallow(
             <DeletePostModal {...props}/>
         );
 
-        await wrapper.instance().handleDelete();
-        expect(browserHistory.push).toHaveBeenCalledTimes(1);
-        expect(browserHistory.push).toHaveBeenCalledWith('/team_name/channels/channel_name');
+        wrapper.setState({show: true});
+        wrapper.instance().handleDelete();
+        await expect(deleteAndRemovePost).toHaveBeenCalledTimes(1);
+        expect(browserHistory.replace).toHaveBeenCalledWith('/teamname/messages/@username');
+    });
+
+    test('should have called browserHistory.replace when permalink post is deleted for a channel', async () => {
+        const deleteAndRemovePost = jest.fn().mockReturnValueOnce({data: true});
+        const props = {
+            ...baseProps,
+            actions: {
+                deleteAndRemovePost,
+            },
+            location: {
+                pathname: '/teamname/channels/channelName/123'
+            }
+        };
+
+        const wrapper = shallow(
+            <DeletePostModal {...props}/>
+        );
+
+        wrapper.setState({show: true});
+        wrapper.instance().handleDelete();
+        await expect(deleteAndRemovePost).toHaveBeenCalledTimes(1);
+        expect(browserHistory.replace).toHaveBeenCalledWith('/teamname/channels/channelName');
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {

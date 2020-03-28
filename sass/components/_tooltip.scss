@@ -11,11 +11,20 @@
         font-weight: 500;
         padding: 5px 10px 6px;
         word-break: break-word;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        line-height: 18px;
     }
 
     &.text-nowrap {
         .tooltip-inner {
             white-space: nowrap;
         }
+    }
+
+    .tooltip-help {
+        color: rgba(255, 255, 255, 0.64);
     }
 }

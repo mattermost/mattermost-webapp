@@ -25,6 +25,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
@@ -58,7 +59,8 @@ function makeMapStateToProps() {
             }
         );
         const useChannelMentions = haveIChannelPermission(state, {
-            channel: ownProps.channelId,
+            channel: channel.id,
+            team: channel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
 
@@ -135,6 +137,7 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
+            emitShortcutReactToLastPostFrom
         }, dispatch);
     };
 }

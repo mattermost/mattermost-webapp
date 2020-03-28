@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
+<div
+  className="SidebarNavContainer a11y__region"
+  data-a11y-sort-order="7"
+  id="sidebar-left"
+  onTransitionEnd={[Function]}
+>
+  <UnreadChannelIndicator
+    content={
+      <FormattedMessage
+        defaultMessage="More unreads"
+        id="sidebar.unreads"
+        values={Object {}}
+      />
+    }
+    extraClass="nav-pills__unread-indicator-top"
+    name="Top"
+    onClick={[Function]}
+    show={false}
+  />
+  <UnreadChannelIndicator
+    content={
+      <FormattedMessage
+        defaultMessage="More unreads"
+        id="sidebar.unreads"
+        values={Object {}}
+      />
+    }
+    extraClass="nav-pills__unread-indicator-bottom"
+    name="Bottom"
+    onClick={[Function]}
+    show={false}
+  />
+  <Scrollbars
+    autoHeight={false}
+    autoHeightMax={200}
+    autoHeightMin={0}
+    autoHide={true}
+    autoHideDuration={500}
+    autoHideTimeout={500}
+    hideTracksWhenNotNeeded={false}
+    onScroll={[Function]}
+    renderThumbHorizontal={[Function]}
+    renderThumbVertical={[Function]}
+    renderTrackHorizontal={[Function]}
+    renderTrackVertical={[Function]}
+    renderView={[Function]}
+    style={
+      Object {
+        "position": "absolute",
+      }
+    }
+    tagName="div"
+    thumbMinSize={30}
+    universal={false}
+  >
+    <Connect(SidebarCategory)
+      category={
+        Object {
+          "display_name": "custom_category_1",
+          "id": "category1",
+          "team_id": "team1",
+          "type": "custom",
+        }
+      }
+      getChannelRef={[Function]}
+      handleOpenMoreDirectChannelsModal={[MockFunction]}
+      key="category1"
+      setChannelRef={[Function]}
+    />
+  </Scrollbars>
+</div>
+`;
+
+exports[`components/sidebar/sidebar_category_list should match snapshot when unread filter is enabled 1`] = `
+<div
+  className="SidebarNavContainer a11y__region disabled"
+  data-a11y-sort-order="7"
+  id="sidebar-left"
+  onTransitionEnd={[Function]}
+>
+  <UnreadChannelIndicator
+    content={
+      <FormattedMessage
+        defaultMessage="More unreads"
+        id="sidebar.unreads"
+        values={Object {}}
+      />
+    }
+    extraClass="nav-pills__unread-indicator-top"
+    name="Top"
+    onClick={[Function]}
+    show={false}
+  />
+  <UnreadChannelIndicator
+    content={
+      <FormattedMessage
+        defaultMessage="More unreads"
+        id="sidebar.unreads"
+        values={Object {}}
+      />
+    }
+    extraClass="nav-pills__unread-indicator-bottom"
+    name="Bottom"
+    onClick={[Function]}
+    show={false}
+  />
+  <Scrollbars
+    autoHeight={false}
+    autoHeightMax={200}
+    autoHeightMin={0}
+    autoHide={true}
+    autoHideDuration={500}
+    autoHideTimeout={500}
+    hideTracksWhenNotNeeded={false}
+    onScroll={[Function]}
+    renderThumbHorizontal={[Function]}
+    renderThumbVertical={[Function]}
+    renderTrackHorizontal={[Function]}
+    renderTrackVertical={[Function]}
+    renderView={[Function]}
+    style={
+      Object {
+        "position": "absolute",
+      }
+    }
+    tagName="div"
+    thumbMinSize={30}
+    universal={false}
+  >
+    <Connect(SidebarCategory)
+      category={
+        Object {
+          "display_name": "custom_category_1",
+          "id": "category1",
+          "team_id": "team1",
+          "type": "custom",
+        }
+      }
+      getChannelRef={[Function]}
+      handleOpenMoreDirectChannelsModal={[MockFunction]}
+      key="category1"
+      setChannelRef={[Function]}
+    />
+  </Scrollbars>
+</div>
+`;
