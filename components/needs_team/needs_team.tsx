@@ -40,6 +40,7 @@ type Props = {
     };
     currentChannelId?: string;
     currentTeamId?: string;
+    useLegacyLHS: boolean;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{data: {channels: Channel[]; members: ChannelMembership[]}}>;
         getMyTeamUnreads: () => Promise<{}>;
@@ -279,6 +280,7 @@ export default class NeedsTeam extends React.Component<Props, State> {
                             pathName={renderProps.location.pathname}
                             teamType={teamType}
                             fetchingChannels={!this.state.finishedFetchingChannels}
+                            useLegacyLHS={this.props.useLegacyLHS}
                         />
                     )}
                 />

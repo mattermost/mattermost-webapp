@@ -95,12 +95,12 @@ describe('Autocomplete', () => {
     let team;
 
     before(() => {
-        // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
-
         // # Login as admin
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
+
+        // * Check if server has license for Elasticsearch
+        cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
         cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
@@ -108,7 +108,7 @@ describe('Autocomplete', () => {
 
             // # Create pool of users for tests
             Cypress._.forEach(testUsers, (user) => {
-                cy.createNewUser(user, [team.id]);
+                cy.apiCreateNewUser(user, [team.id]);
             });
         });
     });
@@ -116,7 +116,6 @@ describe('Autocomplete', () => {
     describe('with elastic search enabled', () => {
         before(() => {
             enableElasticSearch();
-            cy.apiLogin('sysadmin');
         });
 
         describe('autocomplete', () => {
@@ -465,7 +464,6 @@ describe('Autocomplete', () => {
     describe('with elastic search disabled', () => {
         before(() => {
             disableElasticSearch();
-            cy.apiLogin('sysadmin');
         });
 
         describe('autocomplete', () => {

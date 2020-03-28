@@ -37,6 +37,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         teamIsGroupConstrained: PropTypes.bool,
         creatorName: PropTypes.string.isRequired,
         teammate: PropTypes.object.isRequired,
+        teammateName: PropTypes.string,
     };
 
     render() {
@@ -51,6 +52,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
             channelProfiles,
             teamIsGroupConstrained,
             teammate,
+            teammateName,
         } = this.props;
 
         let centeredIntro = '';
@@ -59,7 +61,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         }
 
         if (channel.type === Constants.DM_CHANNEL) {
-            return createDMIntroMessage(channel, centeredIntro, teammate);
+            return createDMIntroMessage(channel, centeredIntro, teammate, teammateName);
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
@@ -126,15 +128,9 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
     );
 }
 
-function createDMIntroMessage(channel, centeredIntro, teammate) {
+function createDMIntroMessage(channel, centeredIntro, teammate, teammateName) {
     const channelIntroId = 'channelIntro';
-
     if (teammate) {
-        var teammateName = teammate.username;
-        if (teammate.nickname.length > 0) {
-            teammateName = teammate.nickname;
-        }
-
         return (
             <div
                 id={channelIntroId}

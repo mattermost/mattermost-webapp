@@ -14,7 +14,7 @@ describe('Messaging', () => {
         cy.apiLogin('user-1');
 
         // # Use the API to create a new user
-        cy.createNewUser().then((res) => {
+        cy.apiCreateNewUser().then((res) => {
             // # Start DM with new user
             cy.visit(`/ad-1/messages/@${res.username}`);
         });
