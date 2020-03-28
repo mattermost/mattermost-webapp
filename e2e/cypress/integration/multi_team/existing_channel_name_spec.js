@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+let testChannel;
+
 /**
 * Creates a channel with existing name and verify that error is shown
 * @param {String} channelTypeID - ID of public or private channel to create
@@ -52,7 +54,7 @@ function channelNameTest(channelTypeHeading, channel) {
     cy.get('#sidebarChannelContainer').should('contain', channel.display_name);
 
     // * Verify new public channel cannot be created with existing public channel name; see verifyExistingChannelError function
-    verifyExistingChannelError(channel.name);
+    verifyExistingChannelError(channel.name, false);
 
     // # Click on Cancel button to move out of New Channel Modal
     cy.get('#cancelNewChannel').contains('Cancel').click();
@@ -76,17 +78,17 @@ function channelNameTest(channelTypeHeading, channel) {
  * @returns body of request
  */
 function createNewChannel(name, isPrivate = false) {
-    const makePrivate = isPrivate ? 'P' : '0';
+    const makePrivate = isPrivate ? 'P' : 'O';
 
-    return cy.getCurrentTeamId().then((teamId) => {
-        return cy.apiCreateChannel(teamId, name, name, makePrivate, 'Let us chat here').
-            its('body');
+    cy.getCurrentTeamId().then((teamId) => {
+        cy.apiCreateChannel(teamId, name, name, makePrivate, 'Let us chat here').then((response) => {
+            testChannel = response.body;
+            cy.wrap(response.body).as('channel');
+        });
     });
 }
 
 describe('Channel', () => {
-    let testChannel;
-
     beforeEach(() => {
         testChannel = null;
 
@@ -105,11 +107,9 @@ describe('Channel', () => {
     });
 
     it('Mult14635 Should not create new channel with existing public channel name', () => {
-        // # Create a new private channel
-        createNewChannel(`unique-public-${Date.now()}`, true).then((response) => {
-            testChannel = response.body;
-            cy.wrap(response.body).as('channel');
-        });
+        // # Create a new public channel
+        createNewChannel(`unique-public-${Date.now()}`, false);
+        cy.reload();
 
         cy.get('@channel').then((channel) => {
             // * Verify new public or private channel cannot be created with existing private channel name:
@@ -119,10 +119,8 @@ describe('Channel', () => {
 
     it('Mult14635 Should not create new channel with existing private channel name', () => {
         // # Create a new private channel
-        createNewChannel(`unique-private-${Date.now()}`, true).then((response) => {
-            testChannel = response.body;
-            cy.wrap(response.body).as('channel');
-        });
+        createNewChannel(`unique-private-${Date.now()}`, true);
+        cy.reload();
 
         cy.get('@channel').then((channel) => {
             // * Verify new public or private channel cannot be created with existing private channel name:

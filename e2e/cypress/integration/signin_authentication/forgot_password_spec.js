@@ -25,10 +25,13 @@ describe('Signin/Authentication', () => {
     });
 
     it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
-        cy.apiCreateAndLoginAsNewUser().then((user) => {
-            cy.apiLogout();
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            const team = res.body;
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).then((user) => {
+                cy.apiLogout();
 
-            resetPasswordAndLogin(user, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
+                resetPasswordAndLogin(user, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
+            });
         });
     });
 });

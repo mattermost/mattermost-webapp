@@ -46,13 +46,10 @@ describe('Teams Settings', () => {
             },
         });
 
-        // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-                testTeam = response.body;
-                cy.visit(`/${testTeam.name}`);
-            });
+        // # Create new team and visit its URL
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -82,7 +79,7 @@ describe('Teams Settings', () => {
         // close the team settings dialog
         cy.get('#teamSettingsModalLabel > .close').click();
 
-        cy.get(`#${testTeam.name}TeamButton`).within(() => {
+        cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
             cy.findByTestId('teamIconImage').should('be.visible');
             cy.findByTestId('teamIconInitial').should('not.exist');
         });
@@ -100,7 +97,7 @@ describe('Teams Settings', () => {
         cy.get('#teamSettingsModalLabel > .close').click();
 
         // verify the team icon image is visible and initial team holder is not visible
-        cy.get(`#${testTeam.name}TeamButton`).within(() => {
+        cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
             cy.findByTestId('teamIconImage').should('be.visible');
             cy.findByTestId('teamIconInitial').should('not.exist');
         });

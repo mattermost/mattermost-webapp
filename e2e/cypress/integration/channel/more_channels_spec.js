@@ -11,9 +11,11 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Channels', () => {
     let testChannel;
+    let isArchived;
 
     beforeEach(() => {
         testChannel = null;
+        isArchived = false;
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -32,7 +34,7 @@ describe('Channels', () => {
 
     afterEach(() => {
         cy.apiLogin('sysadmin');
-        if (testChannel && testChannel.id) {
+        if (testChannel && testChannel.id && !isArchived) {
             cy.apiDeleteChannel(testChannel.id);
         }
     });
@@ -102,6 +104,7 @@ describe('Channels', () => {
         cy.get('#deleteChannelModal').should('be.visible').within(() => {
             // # Confirm archive
             cy.findByText('Archive').should('be.visible').click();
+            isArchived = true;
         });
 
         // # Go to LHS and click "More..." under Public Channels group

@@ -25,6 +25,16 @@ function createNewDMChannel(channelname) {
 }
 
 describe('Search in DMs', () => {
+    let testUser;
+
+    beforeEach(() => {
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            cy.apiCreateNewUser({}, [res.body.id]).then((user) => {
+                testUser = user;
+            });
+        });
+    });
+    
     it('S14672 Search "in:[username]" returns results in DMs', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
@@ -35,7 +45,7 @@ describe('Search in DMs', () => {
         cy.get('#directChannel').scrollIntoView().should('be.visible');
 
         // # Create new DM channel with user's email
-        createNewDMChannel(users['user-2'].email);
+        createNewDMChannel(testUser.email);
 
         // # Post message to user
         cy.postMessage(message);
@@ -44,10 +54,10 @@ describe('Search in DMs', () => {
         cy.get('#searchBox').type('in:');
 
         // # Select user from suggestion list
-        cy.contains('.search-autocomplete__item', `@${users['user-2'].username}`).scrollIntoView().click();
+        cy.contains('.search-autocomplete__item', `@${testUser.username}`).scrollIntoView().click();
 
         // # Validate searchbox contains the username
-        cy.get('#searchBox').should('have.value', 'in:@' + users['user-2'].username + ' ');
+        cy.get('#searchBox').should('have.value', 'in:@' + testUser.username + ' ');
 
         // # Press Enter in searchbox
         cy.get('#searchBox').type(message).type('{enter}');

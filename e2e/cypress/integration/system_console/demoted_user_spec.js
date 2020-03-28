@@ -20,7 +20,10 @@ describe('System Console', () => {
         cy.apiLogin('sysadmin');
 
         // # Login as new user
-        cy.apiCreateAndLoginAsNewUser().as('newuser');
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            const team = res.body;
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).as('newuser');
+        });
 
         // # Set user to be a sysadmin, so it can access the system console
         cy.get('@newuser').then((user) => {

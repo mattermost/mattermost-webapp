@@ -15,15 +15,15 @@ describe('Search', () => {
         cy.apiLogin('sysadmin');
 
         // # Create and login as a new user
-        cy.apiCreateAndLoginAsNewUser().then(() => {
-            cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiGetTeamByName('ad-1').then((tRes) => {
+            const team = tRes.body;
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).then(() => {
+                cy.apiSaveTeammateNameDisplayPreference('username');
 
-            cy.apiGetUsers(groupMembers).then((res) => {
-                const userIds = res.body.map((user) => user.id);
+                cy.apiGetUsers(groupMembers).then((gRes) => {
+                    const userIds = gRes.body.map((user) => user.id);
 
-                cy.apiCreateGroupChannel(userIds).then((resp) => {
-                    cy.apiGetTeams().then((response) => {
-                        const team = response.body[0];
+                    cy.apiCreateGroupChannel(userIds).then((resp) => {
                         cy.visit(`/${team.name}/messages/${resp.body.name}`);
                     });
                 });

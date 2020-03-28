@@ -174,7 +174,10 @@ describe('Teams Suite', () => {
         });
 
         // # Login as new user
-        cy.apiCreateAndLoginAsNewUser();
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            const team = res.body;
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]);
+        });
 
         // # Leave all teams
         cy.apiGetTeams().then((response) => {

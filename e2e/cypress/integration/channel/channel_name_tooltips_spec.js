@@ -66,7 +66,7 @@ describe('channel name tooltips', () => {
                 loggedUser = user;
 
                 // # Go to Town Square channel
-                cy.visit(`/${response.body.name}/town-square`);
+                cy.visit(`/${response.body.name}/channels/town-square`);
             });
         });
     });
