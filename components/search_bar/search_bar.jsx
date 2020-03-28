@@ -161,7 +161,7 @@ export default class SearchBar extends React.Component {
 
         let helpClass = 'search-help-popover';
         if (!this.props.searchTerms && this.state.focused) {
-            helpClass += ' visible';
+            helpClass += ' visible a11y__popup';
         }
 
         return (
