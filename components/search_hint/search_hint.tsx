@@ -13,7 +13,7 @@ type Props = {
 export default class SearchHint extends PureComponent<Props> {
     public render() {
         return (
-            <div aria-label='Search options'>
+            <React.Fragment>
                 {this.props.withTitle &&
                 <h4>
                     <FormattedMessage
@@ -26,7 +26,7 @@ export default class SearchHint extends PureComponent<Props> {
                     id='search_bar.usage.tips'
                     defaultMessage='* Use **"quotation marks"** to search for phrases\n* Use **from:** to find posts from specific users\n * Use **in:** to find posts in specific channels\n* Use **on:** to find posts on a specific date\n* Use **before:** to find posts before a specific date\n* Use **after:** to find posts after a specific date\n* Use **dash** "-" to exclude search terms and modifiers'
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }
