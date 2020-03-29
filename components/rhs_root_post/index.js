@@ -18,6 +18,7 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
+import {getReactionsStatistics} from '../../utils/post_utils';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
@@ -32,6 +33,7 @@ function mapStateToProps(state, ownProps) {
     const channel = getChannel(state, ownProps.post.channel_id) || {};
     const emojiMap = getEmojiMap(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+    const getReactionCount = getReactionsStatistics(getReactionsForPost(state, ownProps.post.id));
 
     return {
         author: getDisplayName(state, ownProps.post.user_id),
@@ -44,6 +46,9 @@ function mapStateToProps(state, ownProps) {
         teamId,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: isArchivedChannel(channel),
+        channelType: channel.type,
+        channelDisplayName: channel.display_name,
+        reactionCount: getReactionCount,
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,

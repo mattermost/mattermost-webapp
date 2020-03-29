@@ -53,6 +53,30 @@ export function isEdited(post) {
     return post.edit_at > 0;
 }
 
+export function getReactionsMap(reactions) {
+    const reactionsByName = new Map();
+    const emojiNames = [];
+
+    if (reactions) {
+        for (const reaction of Object.values(reactions)) {
+            const emojiName = reaction.emoji_name;
+
+            if (reactionsByName.has(emojiName)) {
+                reactionsByName.get(emojiName).push(reaction);
+            } else {
+                emojiNames.push(emojiName);
+                reactionsByName.set(emojiName, [reaction]);
+            }
+        }
+    }
+    return {reactionsByName, emojiNames};
+}
+
+export function getReactionsStatistics(reactions) {
+    const {emojiNames} = getReactionsMap(reactions);
+    return emojiNames.length;
+}
+
 export function getImageSrc(src, hasImageProxy) {
     if (!src) {
         return src;

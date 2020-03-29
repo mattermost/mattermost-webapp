@@ -122,6 +122,9 @@ export default class PostInfo extends React.PureComponent {
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }).isRequired,
 
+        /** Specifies the number of reactions this post has received*/
+        reactionCount: PropTypes.number,
+
         shouldShowDotMenu: PropTypes.bool.isRequired,
     };
 
@@ -176,7 +179,7 @@ export default class PostInfo extends React.PureComponent {
             return null;
         }
 
-        const {isMobile, isReadOnly} = this.props;
+        const {isMobile, isReadOnly, reactionCount} = this.props;
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
@@ -194,8 +197,8 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker;
-        let postReaction;
+        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker && reactionCount < Constants.POST_REACTIONS_LIMIT;
+        let postReaction = null;
         if (showReactionIcon) {
             postReaction = (
                 <PostReaction

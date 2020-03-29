@@ -67,6 +67,10 @@ class RhsRootPost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
+
+        /** Specifies the number of reactions this post has received*/
+        reactionCount: PropTypes.number,
+
         emojiMap: PropTypes.object.isRequired,
     };
 
@@ -225,15 +229,15 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName, reactionCount} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
-        let postReaction;
-        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
+        let postReaction = null;
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived && reactionCount < Constants.POST_REACTIONS_LIMIT) {
             postReaction = (
                 <PostReaction
                     channelId={post.channel_id}

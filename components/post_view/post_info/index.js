@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {removePost} from 'mattermost-redux/actions/posts';
@@ -11,6 +12,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
+import {getReactionsStatistics} from 'utils/post_utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
@@ -25,6 +27,8 @@ function mapStateToProps(state, ownProps) {
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+    const getReactionsForPost = makeGetReactionsForPost();
+    const getReactionCount = getReactionsStatistics(getReactionsForPost(state, ownProps.post.id));
 
     return {
         teamId,
@@ -35,6 +39,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
         shortcutReactToLastPostEmittedFrom,
+        reactionCount: getReactionCount,
     };
 }
 

@@ -42,6 +42,7 @@ describe('components/RhsRootPost', () => {
         currentUserId: 'user_id',
         compactDisplay: true,
         commentCount: 0,
+        reactionCount: 27,
         author: 'Author',
         reactions: {},
         isFlagged: false,
