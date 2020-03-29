@@ -77,7 +77,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
           }
         >
           <button
-            aria-label="add a reaction"
+            aria-label="add reaction"
             className="style--none post-reaction"
             onClick={[Function]}
           >
