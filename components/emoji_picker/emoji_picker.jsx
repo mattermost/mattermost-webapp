@@ -398,7 +398,7 @@ export default class EmojiPicker extends React.PureComponent {
 
     handleKeyDown = (e) => {
         switch (e.key) {
-       case 'ArrowRight':
+        case 'ArrowRight':
             if ((this.state.cursor[0] !== -1 || this.state.cursor[1] !== -1) || e.target.selectionStart + 1 > this.state.filter.length) {
                 e.preventDefault();
                 this.selectNextEmoji();
@@ -433,7 +433,6 @@ export default class EmojiPicker extends React.PureComponent {
                 this.selectPrevEmoji(EMOJI_PER_ROW);
             }
             break;
-        case 'ArrowDown':
         case 'ArrowDown':
             if (e.shiftKey) {
                 e.target.selectionEnd = this.state.filter.length;
@@ -651,7 +650,8 @@ export default class EmojiPicker extends React.PureComponent {
                             type='text'
                             onChange={this.handleFilterChange}
                             onKeyDown={this.handleKeyDown}
-                            placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search emojis'}}
+                            autocomplete='off'
+                            placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
                         />
                     )}
                 </FormattedMessage>

@@ -20,5 +20,12 @@
         "emailname": "user-2",
         "firstName": "Samuel",
         "lastName": "Tucker"
+    },
+    "guest": {
+        "username": "guest",
+        "password": "SampleGu@st1",
+        "email": "guest@sample.mattermost.com",
+        "firstName": "Howard",
+        "lastName": "Stewart"
     }
 }

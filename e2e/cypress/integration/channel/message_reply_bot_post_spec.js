@@ -17,7 +17,8 @@ describe('Messaging', () => {
     let botToken;
     let yesterdaysDate;
     before(() => {
-        // # Set ServiceSettings to expected values
+        // # Login as sysadmin and set ServiceSettings to expected values
+        cy.apiLogin('sysadmin');
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
@@ -25,8 +26,7 @@ describe('Messaging', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {

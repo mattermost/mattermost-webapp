@@ -62,7 +62,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
               placement="right"
             >
               <FormattedMessage
-                defaultMessage="Add a reaction"
+                defaultMessage="Add reaction"
                 id="reaction_list.addReactionTooltip"
                 values={Object {}}
               />

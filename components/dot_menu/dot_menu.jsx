@@ -166,8 +166,7 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    copyLink = (e) => {
-        e.preventDefault();
+    copyLink = () => {
         const postUrl = `${this.props.currentTeamUrl}/pl/${this.props.post.id}`;
 
         const clipboard = navigator.clipboard;

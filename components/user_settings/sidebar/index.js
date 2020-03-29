@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {get as getPreference, getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference, getSidebarPreferences, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import UserSettingsSidebar from './user_settings_sidebar.jsx';
@@ -29,6 +29,7 @@ function mapStateToProps(state) {
         'true'
     );
 
+    const channelSidebarOrganizationOption = getNewSidebarPreference(state);
     const sidebarPreference = getSidebarPreferences(state);
 
     return {
@@ -37,7 +38,9 @@ function mapStateToProps(state) {
         unreadsAtTop: sidebarPreference.unreads_at_top,
         favoriteAtTop: sidebarPreference.favorite_at_top,
         channelSwitcherOption,
+        channelSidebarOrganizationOption: String(channelSidebarOrganizationOption),
         showChannelOrganization: config.ExperimentalChannelOrganization === 'true',
+        showChannelSidebarOrganization: config.ExperimentalChannelSidebarOrganization !== 'disabled',
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         user: getCurrentUser(state),
     };

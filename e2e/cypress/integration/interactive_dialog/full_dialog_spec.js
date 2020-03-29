@@ -30,7 +30,15 @@ const optionsLength = {
 };
 
 describe('Interactive Dialog', () => {
+    let config;
+
     before(() => {
+        cy.requireWebhookServer();
+
+        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
+        cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
+
         // Set required ServiceSettings
         const newSettings = {
             ServiceSettings: {
@@ -39,11 +47,9 @@ describe('Interactive Dialog', () => {
                 EnablePostIconOverride: true,
             },
         };
-        cy.apiUpdateConfig(newSettings);
-
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-        cy.apiLogin('sysadmin');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiUpdateConfig(newSettings).then((res) => {
+            config = res.body;
+        });
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
@@ -96,7 +102,7 @@ describe('Interactive Dialog', () => {
             cy.get('.modal-body').should('be.visible').children().each(($elForm, index) => {
                 const element = fullDialog.dialog.elements[index];
 
-                cy.wrap($elForm).find('label.control-label').scrollIntoView().should('be.visible').and('have.text', `${element.display_name} ${element.optional ? '(optional)' : '*'}`);
+                cy.wrap($elForm).find('label.control-label').scrollIntoView().should('exist').and('have.text', `${element.display_name} ${element.optional ? '(optional)' : '*'}`);
 
                 if (['someuserselector', 'somechannelselector', 'someoptionselector'].includes(element.name)) {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
@@ -104,7 +110,13 @@ describe('Interactive Dialog', () => {
                     // * Verify that the suggestion list or autocomplete open up on click of input element
                     cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
+                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().then((el) => {
+                        if (element.name === 'someuserselector' && config.ElasticsearchSettings.EnableIndexing) {
+                            return;
+                        }
+
+                        cy.wrap(el).should('have.length', optionsLength[element.name]);
+                    });
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 
@@ -131,7 +143,7 @@ describe('Interactive Dialog', () => {
                 }
 
                 if (element.help_text) {
-                    cy.wrap($elForm).find('.help-text').should('be.visible').and('have.text', element.help_text);
+                    cy.wrap($elForm).find('.help-text').should('exist').and('have.text', element.help_text);
                 }
             });
 
