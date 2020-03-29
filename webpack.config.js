@@ -194,7 +194,8 @@ var config = {
                 ],
             },
             {
-                test: /\.(png|eot|tiff|svg|woff2|woff|ttf|gif|mp3|jpg)$/,
+                // svg and ttf are certainly not compressed already
+                test: /\.(svg|ttf)$/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -205,6 +206,20 @@ var config = {
                     {
                         loader: 'image-webpack-loader',
                         options: {},
+                    },
+                ],
+            },
+            {
+                // all these file formats are certainly already compressed
+                // There is virtually no disk space savings in compressing them again.
+                // tiff is a strange exception.  It's sometimes compressed.
+                test: /\.(png|eot|tiff|woff2|woff|gif|mp3|jpg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'files/[hash].[ext]',
+                        },
                     },
                 ],
             },
