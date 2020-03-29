@@ -96,7 +96,7 @@ export default class TeamSidebar extends React.PureComponent {
                     tip={
                         <FormattedMessage
                             id='team_sidebar.join'
-                            defaultMessage='Other teams you can join'
+                            defaultMessage='Other teams you can join.'
                         />
                     }
                     content={'+'}
