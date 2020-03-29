@@ -9,11 +9,13 @@ import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
 
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
+import UserProfile from '../../user_profile/user_profile';
 
 export default class CommentedOn extends PureComponent {
     static propTypes = {
         displayName: PropTypes.string,
         enablePostUsernameOverride: PropTypes.bool,
+        parentPostUser: PropTypes.object,
         onCommentClick: PropTypes.func.isRequired,
         post: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -59,14 +61,18 @@ export default class CommentedOn extends PureComponent {
     render() {
         const username = this.makeUsername();
         const message = this.makeCommentedOnMessage();
+        const parentPostUser = this.props.parentPostUser;
+        const parentPostUserId = parentPostUser && parentPostUser.id && parentPostUser.id;
 
-        const name = (
-            <a
-                className='theme'
-                onClick={this.handleOnClick}
-            >
-                {username}
-            </a>
+        const parentUserProfile = (
+            <UserProfile
+                user={parentPostUser}
+                userId={parentPostUserId}
+                displayName={username}
+                hasMention={true}
+                disablePopover={false}
+                showGuestBadge={false}
+            />
         );
 
         return (
@@ -79,7 +85,7 @@ export default class CommentedOn extends PureComponent {
                         id='post_body.commentedOn'
                         defaultMessage="Commented on {name}'s message: "
                         values={{
-                            name,
+                            name: <a className='theme'>{parentUserProfile}</a>,
                         }}
                     />
                     <a
