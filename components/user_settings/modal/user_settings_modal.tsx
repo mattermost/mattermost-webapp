@@ -79,10 +79,10 @@ type Props = {
 }
 
 type State = {
-    active_tab: string;
+    active_tab?: string;
     active_section: string;
     showConfirmModal: boolean;
-    enforceFocus: boolean;
+    enforceFocus?: boolean;
     show: boolean;
     resendStatus: string;
 }
@@ -239,7 +239,7 @@ class UserSettingsModal extends React.Component<Props, State> {
         }
     }
 
-    updateTab = (tab: string, skipConfirm?: boolean) => {
+    updateTab = (tab?: string, skipConfirm?: boolean) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateTab(tab, true));
         } else {
@@ -250,12 +250,12 @@ class UserSettingsModal extends React.Component<Props, State> {
         }
     }
 
-    updateSection = (section: string, skipConfirm: boolean) => {
+    updateSection = (section?: string, skipConfirm?: boolean) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
             this.setState({
-                active_section: section,
+                active_section: section!,
             });
         }
     }
@@ -319,11 +319,11 @@ class UserSettingsModal extends React.Component<Props, State> {
                                     updateTab={this.updateTab}
                                     closeModal={this.closeModal}
                                     collapseModal={this.collapseModal}
-                                    setEnforceFocus={(enforceFocus: boolean) => this.setState({enforceFocus})}
+                                    setEnforceFocus={(enforceFocus?: boolean) => this.setState({enforceFocus})}
                                     setRequireConfirm={
-                                        (requireConfirm: boolean, customConfirmAction: () => () => void) => {
-                                            this.requireConfirm = requireConfirm;
-                                            this.customConfirmAction = customConfirmAction;
+                                        (requireConfirm?: boolean, customConfirmAction?: () => () => void) => {
+                                            this.requireConfirm = requireConfirm!;
+                                            this.customConfirmAction = customConfirmAction!;
                                         }
                                     }
                                 />
