@@ -24,13 +24,6 @@ export default class CommentedOn extends PureComponent {
         }).isRequired,
     }
 
-    handleOnClick = () => {
-        const {actions} = this.props;
-        const displayName = this.makeUsername();
-        actions.updateSearchTerms(displayName);
-        actions.showSearchResults();
-    }
-
     makeUsername = () => {
         const postProps = this.props.post.props;
         let username = this.props.displayName;
