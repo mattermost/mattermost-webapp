@@ -3,6 +3,7 @@
 
 import {getRandomInt} from '../../../utils';
 import users from '../../../fixtures/users.json';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
@@ -175,6 +176,7 @@ const deleteOrEditTeamScheme = (schemeDisplayName, editOrDelete) => {
 const visitChannel = (loginAs, channelName) => {
     cy.apiLogin(loginAs);
     cy.visit(`/ad-1/channels/${channelName}`);
+    cy.get('#postListContent', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 };
 
 const visitAutemChannel = (loginAs) => {
