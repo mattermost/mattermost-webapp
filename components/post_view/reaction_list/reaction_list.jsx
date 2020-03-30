@@ -150,7 +150,7 @@ export default class ReactionList extends React.PureComponent {
                             permissions={[Permissions.ADD_REACTION]}
                         >
                             <button
-                                aria-label={localizeMessage('reaction.add.ariaLabel', 'add reaction')}
+                                aria-label={localizeMessage('reaction.add.ariaLabel', 'Add reaction')}
                                 className='style--none post-reaction'
                                 onClick={this.toggleEmojiPicker}
                             >
