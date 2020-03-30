@@ -34,15 +34,15 @@
 
     &.dragging {
         & + div {
-            cursor: no-drop;
+            cursor: no-drop !important;
         }
 
         > :not(.SidebarNavContainer) {
-            cursor: no-drop;
+            cursor: no-drop !important;
         }
 
         .dropDisabled {
-            cursor: no-drop;
+            cursor: no-drop !important;
         }
     }
 

@@ -36,6 +36,7 @@ type Props = {
 
 export default class SidebarCategory extends React.PureComponent<Props> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
+    expandOnHoverTimeout?: NodeJS.Timeout;
 
     constructor(props: Props) {
         super(props);
@@ -121,6 +122,24 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         return false;
     }
 
+    onMouseOver = () => {
+        if (!this.isDropDisabled() && this.props.isCollapsed && (this.props.isDraggingChannel || this.props.isDraggingDM)) {
+            console.log('start timeout');
+            this.expandOnHoverTimeout = setTimeout(() => {
+                console.log('do the thing');
+                this.handleCollapse();
+            }, 500);
+        }
+    }
+
+    onMouseOut = () => {
+        if (this.expandOnHoverTimeout) {
+            console.log('clear the thing');
+            clearTimeout(this.expandOnHoverTimeout);
+            Reflect.deleteProperty(this, 'expandOnHoverTimeout');
+        }
+    }
+
     render() {
         const {category, categoryIndex, isCollapsed, channels} = this.props;
         if (!category) {
@@ -181,7 +200,9 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 {(provided, snapshot) => {
                     return (
                         <div 
-                            className='SidebarChannelGroup a11y__section'
+                            className={classNames('SidebarChannelGroup a11y__section', {
+                                dropDisabled: this.isDropDisabled(),
+                            })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                         >
@@ -196,15 +217,14 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                                         <div
                                             {...droppableProvided.droppableProps}
                                             ref={droppableProvided.innerRef}
-                                            className={classNames({
-                                                dropDisabled: this.isDropDisabled(),
-                                            })}
                                         >
                                             <div className='SidebarChannelGroupHeader'>
                                                 <button
                                                     ref={this.categoryTitleRef}
                                                     className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
                                                     onClick={this.handleCollapse}
+                                                    onMouseOver={this.onMouseOver}
+                                                    onMouseOut={this.onMouseOut}
                                                     aria-label={displayName}
                                                 >
                                                     <i
