@@ -37,6 +37,7 @@
     "cypress:run:electron:enterprise": "cypress run --browser electron --spec='cypress/integration/enterprise/**/*_spec.js'",
     "start:webhook": "node webhook_serve.js",
     "test": "start-test start:webhook 3000 test:ci",
-    "test:ci": "node run_tests.js"
+    "test:ci": "node run_tests.js",
+    "uniq-meta": "grep -r \"^// $META:\" cypress | grep -ow '@\\w*' | sort | uniq"
   }
 }

@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging @smoke
+// Group: @messaging
 
 let team;
 
