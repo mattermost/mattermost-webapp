@@ -3,6 +3,41 @@
 
 /* eslint-disable no-await-in-loop, no-console */
 
+/*
+ * This command, which normally use in CI, runs Cypress test in full or partial depending on test metadata
+ * and environment capabilities, collects test reports and publishes into Mattermost channel via Webhook.
+ *
+ * Usage: node run_tests.js [options]
+ *
+ * Options:
+ *   --stage=[stage]
+ *      Selects spec files with matching stage. It can be of multiple values separated by comma.
+ *      E.g. "--stage='@prod,@smoke'" will select files with either @prod or @smoke.
+ *   --group=[group]
+ *      Selects spec files with matching group. It can be of multiple values separated by comma.
+ *      E.g. "--group='@channel,@messaging'" will select files with either @channel or @messaging.
+ *   --invert
+ *      Selected files are those not matching any of the specified stage or group.
+ *
+ * Environment:
+ *   BROWSER=[browser]      : Chrome by default. Set to run test on other browser such as Chrome, Edge, Electron and Firefox.
+ *                            The environment should have the specified browser to successfully run.
+ *   HEADLESS=[boolean]     : Headless by default (true) or false to run on headed mode.
+ *   BRANCH=[branch]        : Branch identifier from CI
+ *   BUILD_ID=[build_id]    : Build identifier from CI
+ *   WEBHOOK_URL=[url]      : Webhook URL where to send test report
+ *
+ * Example:
+ * 1. "node run_tests.js"
+ *      - will run all the specs on default test environment, except those matching skipped metadata
+ * 2. "node run_tests.js --stage='@prod'"
+ *      - will run all production tests, except those matching skipped metadata
+ * 3. "node run_tests.js --stage='@prod' --invert"
+ *      - will run all non-production tests
+ * 4. "BRANCH='chrome' HEADLESS='false' node run_tests.js --stage='@prod' --group='@channel,@messaging'"
+ *      - will run spec files matching stage and group values in Chrome (headed)
+ */
+
 const os = require('os');
 
 const axios = require('axios');
