@@ -45,27 +45,64 @@
             text-align: center;
             width: 100%;
 
-            &.isDragging:before {
-                transform: translateX(-100%) scaleY(0);
-            }
-
-            &:not(.special, .unread):before {
+            &:before {
                 @include border-radius(4px);
                 content: '';
-
-                height: 32px;
-                transform: translateX(-8px) scaleY(0);
                 transform-origin: center center;
                 position: absolute;
-                top: 8px;
+                top: 0;
                 left: 0;
                 transition: all 0.1s;
                 width: 8px;
-                background: $black;
+                height: 32px;
+            }
+
+            &:not(.unread) {
+                &:before {
+                    transform: translateX(-100%) translateY(22%) scaleY(0);
+                }
+            }
+
+            &.isDragging {
+                transition-timing-function: ease-in;
+                &:before,
+                &:hover::before,
+                &.unread:before,
+                &.active:before  {
+                    transform: translateX(-100%) translateY(22%) scaleY(0);
+                }
             }
 
             &:hover::before {
-                transform: translateX(-4px) scaleY(1);
+                transform: translateX(-50%) translateY(22%) scaleY(1);
+            }
+
+            &.special {
+                &:before {
+                    display: none;
+                }
+            }
+
+            &.active {
+                &:before {
+                    transform: translateX(-50%) translateY(22%) scaleY(1.25);
+                }
+
+                &:hover::before {
+                    transform: translateX(-50%) translateY(22%) scaleY(1);
+                }
+            }
+
+            &.unread {
+                &:before {
+                    border-radius: 100%;
+                    transform: translateX(0px) translateY(22%) scaleX(0.8) scaleY(0.2);
+                }
+
+                &:hover::before {
+                    border-radius: 8px;
+                    transform: translateX(-50%) translateY(22%) scaleY(1);
+                }
             }
 
             a {
@@ -97,48 +134,6 @@
                 text-decoration: none;
             }
 
-            &.active:before {
-                @include border-radius(4px);
-                background: $black;
-                content: '';
-                height: 41px;
-                left: -4px;
-                position: absolute;
-                top: 3px;
-                width: 8px;
-                transform: translateX(0) scaleY(1);
-            }
-
-            &.active {
-                &:hover::before {
-                    height: 32px;
-                    top: 8px;
-                }
-
-                &.isDragging {
-                    &::before {
-                        transform: translateX(-100%) scaleY(0);
-                    }
-                }
-            }
-
-            &.unread:before {
-                background: $black;
-                border-radius: 8px;
-                content: '';
-                height: 6px;
-                left: 0;
-                position: absolute;
-                top: 20px;
-                width: 6px;
-            }
-
-            &.unread:hover::before {
-                height: 32px;
-                width: 8px;
-                top: 8px;
-                left: -0.5px;
-            }
 
             a.team-disabled {
                 @include opacity(.5);
