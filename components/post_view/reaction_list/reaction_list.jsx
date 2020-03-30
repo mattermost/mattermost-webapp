@@ -139,15 +139,15 @@ export default class ReactionList extends React.PureComponent {
                         rightOffset={rightOffset}
                         topOffset={-5}
                     />
-                    <OverlayTrigger
-                        placement='top'
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        overlay={addReactionTooltip}
+                    <ChannelPermissionGate
+                        channelId={this.props.post.channel_id}
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_REACTION]}
                     >
-                        <ChannelPermissionGate
-                            channelId={this.props.post.channel_id}
-                            teamId={this.props.teamId}
-                            permissions={[Permissions.ADD_REACTION]}
+                        <OverlayTrigger
+                            placement='top'
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            overlay={addReactionTooltip}
                         >
                             <button
                                 aria-label={localizeMessage('reaction.add.ariaLabel', 'add reaction')}
@@ -162,8 +162,8 @@ export default class ReactionList extends React.PureComponent {
                                     {'+'}
                                 </span>
                             </button>
-                        </ChannelPermissionGate>
-                    </OverlayTrigger>
+                        </OverlayTrigger>
+                    </ChannelPermissionGate>
                 </span>
             );
         }
