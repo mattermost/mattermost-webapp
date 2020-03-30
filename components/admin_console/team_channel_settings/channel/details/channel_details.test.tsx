@@ -84,6 +84,10 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             loadScheme: jest.fn(),
         };
 
+        const additionalProps = {
+            guestAccountsEnabled: true,
+        };
+
         if (!testChannel.id) {
             return;
         }
@@ -98,6 +102,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channel={testChannel}
                 channelID={testChannel.id}
                 allGroups={allGroups}
+                {...additionalProps}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -112,6 +117,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channel={testChannel}
                 channelID={testChannel.id}
                 allGroups={allGroups}
+                {...additionalProps}
             />
         );
         expect(wrapper).toMatchSnapshot();
