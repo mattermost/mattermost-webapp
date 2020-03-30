@@ -7,7 +7,7 @@
  * This command, which normally use in CI, runs Cypress test in full or partial depending on test metadata
  * and environment capabilities, collects test reports and publishes into Mattermost channel via Webhook.
  *
- * Usage: node run_tests.js [options]
+ * Usage: [ENVIRONMENT] node run_tests.js [options]
  *
  * Options:
  *   --stage=[stage]
@@ -20,7 +20,7 @@
  *      Selected files are those not matching any of the specified stage or group.
  *
  * Environment:
- *   BROWSER=[browser]      : Chrome by default. Set to run test on other browser such as Chrome, Edge, Electron and Firefox.
+ *   BROWSER=[browser]      : Chrome by default. Set to run test on other browser such as chrome, edge, electron and firefox.
  *                            The environment should have the specified browser to successfully run.
  *   HEADLESS=[boolean]     : Headless by default (true) or false to run on headed mode.
  *   BRANCH=[branch]        : Branch identifier from CI
@@ -34,7 +34,7 @@
  *      - will run all production tests, except those matching skipped metadata
  * 3. "node run_tests.js --stage='@prod' --invert"
  *      - will run all non-production tests
- * 4. "BRANCH='chrome' HEADLESS='false' node run_tests.js --stage='@prod' --group='@channel,@messaging'"
+ * 4. "BROWSER='chrome' HEADLESS='false' node run_tests.js --stage='@prod' --group='@channel,@messaging'"
  *      - will run spec files matching stage and group values in Chrome (headed)
  */
 
