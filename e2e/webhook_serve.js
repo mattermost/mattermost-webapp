@@ -25,8 +25,19 @@ server.post('/simple_dialog_request', onSimpleDialogRequest);
 server.post('/user_and_channel_dialog_request', onUserAndChannelDialogRequest);
 server.post('/dialog_submit', onDialogSubmit);
 server.post('/boolean_dialog_request', onBooleanDialogRequest);
+server.post('/slack_compatible_message_response', postSlackCompatibleMessageResponse);
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`)); // eslint-disable-line no-console
+
+function postSlackCompatibleMessageResponse(req, res) {
+    const {spoiler, skipSlackParsing} = req.body.context;
+
+    res.setHeader('Content-Type', 'application/json');
+    return res.json({
+        ephemeral_text: spoiler,
+        skip_slack_parsing: skipSlackParsing,
+    });
+}
 
 function postMessageMenus(req, res) {
     let responseData = {};

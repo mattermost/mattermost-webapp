@@ -68,7 +68,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
         href="#"
       >
         <FormattedMessage
-          defaultMessage="Get Public Link"
+          defaultMessage="Get a public link"
           id="view_image_popover.publicLink"
           values={Object {}}
         />

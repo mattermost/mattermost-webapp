@@ -27,7 +27,7 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
           compactDisplay={false}
           fileInfo={
             Object {
-              "name": "file",
+              "id": "file",
               "percent": 50,
               "type": "image/png",
             }
@@ -99,7 +99,7 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
           compactDisplay={false}
           fileInfo={
             Object {
-              "name": "file",
+              "id": "file",
               "percent": undefined,
               "type": "image/png",
             }
@@ -115,7 +115,9 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
             id="admin.plugin.uploading"
             values={Object {}}
           />
-          <span />
+          <span>
+             (0%)
+          </span>
         </span>
       </div>
     </div>
