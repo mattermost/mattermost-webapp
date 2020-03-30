@@ -252,7 +252,7 @@ export default class TeamMembersDropdown extends React.Component {
                     <Menu
                         openLeft={true}
                         openUp={openUp}
-                        ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                        ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                     >
                         <Menu.ItemAction
                             id='removeFromTeam'
