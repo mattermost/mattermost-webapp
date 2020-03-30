@@ -16,7 +16,8 @@ import {dismissNotice} from 'actions/views/notice';
 import AnnouncementBarController from './announcement_bar_controller.jsx';
 
 function mapStateToProps(state) {
-    const canViewSystemErrors = haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM});
+	const canViewSystemErrors = haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM});
+	const canAccessSystemConsole = haveISystemPermission(state, {permission: Permissions.ACCESS_SYSTEM_CONSOLE});
     const license = getLicense(state);
     const config = getConfig(state);
     const user = getCurrentUser(state);
@@ -31,7 +32,8 @@ function mapStateToProps(state) {
         license,
         config,
         user,
-        canViewSystemErrors,
+		canViewSystemErrors,
+		canAccessSystemConsole,
         latestError,
         totalUsers,
     };

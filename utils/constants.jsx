@@ -637,7 +637,8 @@ export const PermissionsScope = {
     [Permissions.CREATE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
-    [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
+	[Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
+	[Permissions.ACCESS_SYSTEM_CONSOLE]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {

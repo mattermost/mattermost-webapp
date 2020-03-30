@@ -25,7 +25,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         intl: intlShape.isRequired,
         license: PropTypes.object,
         user: PropTypes.object,
-        canViewSystemErrors: PropTypes.bool.isRequired,
+		canViewSystemErrors: PropTypes.bool.isRequired,
+		canAccessSystemConsole: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
@@ -131,7 +132,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             );
         }
 
-        if (this.props.canViewSystemErrors && this.props.config.SiteURL === '') {
+        if (this.props.canViewSystemErrors && this.props.canAccessSystemConsole && this.props.config.SiteURL === '') {
             let id;
             let defaultMessage;
             if (this.props.config.EnableSignUpWithGitLab === 'true') {

@@ -17,7 +17,8 @@ export default class AnnouncementBarController extends React.PureComponent {
             email: PropTypes.string.isRequired,
             email_verified: PropTypes.bool,
         }),
-        canViewSystemErrors: PropTypes.bool.isRequired,
+		canViewSystemErrors: PropTypes.bool.isRequired,
+		canAccessSystemConsole: PropTypes.bool.isRequired,
         latestError: PropTypes.object,
         totalUsers: PropTypes.number,
         actions: PropTypes.shape({
@@ -58,7 +59,8 @@ export default class AnnouncementBarController extends React.PureComponent {
                 <ConfigurationAnnouncementBar
                     config={this.props.config}
                     license={this.props.license}
-                    canViewSystemErrors={this.props.canViewSystemErrors}
+					canViewSystemErrors={this.props.canViewSystemErrors}
+					canAccessSystemConsole={this.props.canAccessSystemConsole}
                     totalUsers={this.props.totalUsers}
                     user={this.props.user}
                 />
