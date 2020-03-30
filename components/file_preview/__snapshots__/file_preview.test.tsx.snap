@@ -72,6 +72,7 @@ exports[`FilePreview should match snapshot 1`] = `
     fileInfo={
       Object {
         "extension": "image/png",
+        "id": "file_id_1",
         "name": "file",
         "percent": 50,
       }
@@ -154,6 +155,7 @@ exports[`FilePreview should match snapshot when props are changed 1`] = `
     fileInfo={
       Object {
         "extension": "image/png",
+        "id": "file_id_1",
         "name": "file",
         "percent": 50,
       }
