@@ -34,6 +34,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         unreadMentions: 0,
         unreadMsgs: 0,
         showUnreadForMsgs: false,
+        isMuted: false,
     };
 
     test('should match snapshot', () => {

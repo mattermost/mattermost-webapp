@@ -20,7 +20,7 @@
         position: relative;
     }
 }
-    
+
 #SidebarContainer {
     background-color: var(--sidebar-bg);
     width: 240px;
@@ -32,12 +32,27 @@
     height: 100%;
     z-index: 12;
 
+    body.announcement-bar--fixed & {
+        height: calc(100% - #{$announcement-bar-height});
+    }
+
     .badge {
-        background: var(--mention-bg);
+        display: inline-block;
+        flex-shrink: 0;
+        margin-right: 14px;
+        padding: 0 6px;
+        min-width: 22px;
+        height: auto;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 18px;
+        letter-spacing: 0px;
+        text-align: center;
         color: var(--mention-color);
-        margin-right: 16px;
-        height: 17px;
-        min-width: 16px;
+        border-radius: 9px;
+        background: var(--mention-bg);
+        -webkit-font-smoothing: subpixel-antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     .a11y--focused {
@@ -56,7 +71,7 @@
         .status-wrapper {
             height: 36px;
             width: 36px;
-        
+
             .status {
                 bottom: -5px;
                 height: 19px;
@@ -86,7 +101,7 @@
 
         button {
             font-size: 16px;
-            line-height: 16px;
+            line-height: 15px;
             height: 28px;
             min-width: 28px;
             vertical-align: middle;
@@ -135,13 +150,6 @@
         .SidebarChannelNavigator_forwardButton {
             border-radius: 0px 4px 4px 0px;
             padding: 0;
-        }
-
-        i {
-            font-size: 16px;
-            line-height: 18px;
-            margin: 0;
-            vertical-align: middle;
         }
     }
 
@@ -236,7 +244,7 @@
     .AddChannelDropdown_dropdownButton:focus {
         outline-style: none;
     }
-    
+
     .nav-pills__unread-indicator {
         display: flex;
         justify-content: center;
@@ -314,7 +322,7 @@
             }
         }
     }
-    
+
     .SidebarChannelGroup .SidebarChannelGroupHeader {
         height: 32px;
         font-family: 'Open Sans', sans-serif;
@@ -355,7 +363,7 @@
         > div {
             flex: 1 1 auto;
         }
-      
+
         i.icon-chevron-down {
             max-width: 16px;
 
@@ -371,7 +379,7 @@
         i.icon-chevron-down {
             visibility: hidden;
         }
-    } 
+    }
 
     .SidebarChannelGroup .SidebarChannelGroupHeader.stuck {
         /* box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.33);
@@ -381,7 +389,7 @@
         color: var(--sidebar-text);
         cursor: pointer;
     }
-    
+
     .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:focus {
         /* box-shadow: inset 0 0 0 2px orange; */
         outline-style: none;
@@ -397,7 +405,7 @@
         animation-duration: 0.25s;
         animation-timing-function: linear;
     }
-    
+
     .SidebarChannelGroupHeader_addButton {
         padding: 0;
         z-index: 1;
@@ -420,17 +428,17 @@
     .SidebarChannelGroupHeader_addButton:focus {
         outline-style: none;
     }
-    
+
     /* Content */
     .SidebarChannelGroup_content {
         padding-bottom: 14px;
     }
-    
+
     .SidebarChannelGroup_content ul {
         margin: 0;
         padding: 0;
     }
-    
+
     /* Channels */
     .SidebarChannel {
         display: block;
@@ -465,18 +473,18 @@
             }
         }
     }
-    
+
     .SidebarChannel:hover {
         /* background: rgba(255, 255, 255, 0.16); */
     }
-    
-    
+
+
     .SidebarChannel.animating {
         transition-property: height, padding, color;
         transition-duration: 0.15s; /* collapse animation speed */
         transition-timing-function: ease-out;
     }
-    
+
     .SidebarChannel.collapsed {
         height: 0 !important;
         padding-top: 0;
@@ -485,14 +493,14 @@
         border-bottom: none;
         overflow-y: hidden;
     }
-    
+
     /* fade out collapsing list item */
     .SidebarChannel.animating .SidebarLink {
         transition-property: color;
         transition-duration: 0.15s; /* speed should match collapse animation speed */
         transition-timing-function: ease-out;
     }
-    
+
     .SidebarChannel .SidebarLink {
         position: relative;
         font-size: 14px;
@@ -506,12 +514,18 @@
         border-top: 0;
         border-bottom: 0;
         height: 32px;
+
+
+        &.muted {
+            opacity: 0.4;
+            font-weight: 300;
+        }
     }
     .SidebarChannel .SidebarLink:focus {
         /* box-shadow: inset 0 0 0 2px orange; */
         outline-style: none;
     }
-    
+
     .SidebarChannel .SidebarLink:hover {
         background: rgba(255, 255, 255, 0.08);
     }
@@ -521,7 +535,7 @@
         .SidebarChannelLinkLabel {
             color: var(--sidebar-text);
         }
-        
+
     }
 
     .SidebarChannel.active .SidebarLink::before {
@@ -534,7 +548,7 @@
         background: var(--sidebar-text);
         border-radius: 4px;
     }
-    
+
     .SidebarChannel.unread .SidebarChannelLinkLabel,
     .SidebarChannel.unread .SidebarLink:hover .SidebarChannelLinkLabel {
         font-weight: 600;
@@ -558,18 +572,18 @@
         text-align: justify;
         height: 18px;
     }
-    
+
     /* .SidebarChannel__absolute {
         height: 44px;
         list-style-type: none;
         width: 100%;
         position: relative;
     }
-    
+
     .SidebarChannel__absolute:hover {
         background: rgba(255, 255, 255, 0.16);
     }
-    
+
     .SidebarChannel__absolute > a {
         text-decoration: none;
         position: absolute;
@@ -580,11 +594,11 @@
         left: 24px;
         color: #BCCDE7;
     }
-    
+
     .SidebarChannel__absolute > a:hover {
         color: #BCCDE7;
     } */
-    
+
     .icon {
         display: inline-block;
         font-size: inherit;

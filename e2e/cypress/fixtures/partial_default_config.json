@@ -65,6 +65,7 @@
     "TeamSettings": {
         "EnableCustomBrand": false,
         "EnableOpenServer": true,
+        "ExperimentalTownSquareIsReadOnly": false,
         "ExperimentalViewArchivedChannels": false,
         "LockTeammateNameDisplay": false,
         "SiteName": "Mattermost",

@@ -689,7 +689,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        assert.ok(ariaLabel.indexOf(author) === 0);
+        assert.ok(ariaLabel.indexOf(author));
         assert.ok(ariaLabel.indexOf(testPost.message));
         assert.ok(ariaLabel.indexOf('3 attachments'));
         assert.ok(ariaLabel.indexOf('2 reactions'));
