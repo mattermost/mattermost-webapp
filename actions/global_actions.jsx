@@ -14,7 +14,7 @@ import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -275,7 +275,7 @@ export function emitBrowserFocus(focus) {
     });
 }
 
-async function getTeamRedirectChannelIfIsAccesible(user, team) {
+export async function getTeamRedirectChannelIfIsAccesible(user, team) {
     let state = getState();
     let channel = null;
 
@@ -292,8 +292,14 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
 
-    let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
+    const channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
     channel = teamChannels[channelName];
+
+    if (typeof channel === 'undefined') {
+        const dmList = getAllDirectChannels(state);
+        channel = dmList.find((directChannel) => directChannel.name === channelName);
+    }
+
     let channelMember = getMyChannelMember(state, channel && channel.id);
 
     if (!channel || !channelMember) {
@@ -306,8 +312,8 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
     }
 
     if (!channel || !channelMember) {
-        channelName = getRedirectChannelNameForTeam(state, team.id);
-        channel = teamChannels[channelName];
+        const redirectedChannelName = getRedirectChannelNameForTeam(state, team.id);
+        channel = teamChannels[redirectedChannelName];
         channelMember = getMyChannelMember(state, channel && channel.id);
     }
 
