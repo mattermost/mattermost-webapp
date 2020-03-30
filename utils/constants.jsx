@@ -459,6 +459,7 @@ export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
     OAUTH_ACCESS_DENIED: 'oauth_access_denied',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
+    OAUTH_INVALID_PARAM: 'oauth_invalid_param',
     PAGE_NOT_FOUND: 'page_not_found',
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
