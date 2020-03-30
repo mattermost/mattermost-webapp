@@ -6,14 +6,22 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {Theme} from 'mattermost-redux/types/preferences';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 
 const ActionTypes = Constants.ActionTypes;
 
-export default class ImportThemeModal extends React.Component {
-    constructor(props) {
+type State = {
+    value: string;
+    inputError: any;
+    show: boolean;
+    callback: ((args: {}) => void) | null;
+}
+
+export default class ImportThemeModal extends React.Component<{}, State> {
+    public constructor(props: {}) {
         super(props);
 
         this.state = {
@@ -24,22 +32,22 @@ export default class ImportThemeModal extends React.Component {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         ModalStore.addModalListener(ActionTypes.TOGGLE_IMPORT_THEME_MODAL, this.updateShow);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         ModalStore.removeModalListener(ActionTypes.TOGGLE_IMPORT_THEME_MODAL, this.updateShow);
     }
 
-    updateShow = (show, args) => {
+    private updateShow = (show: boolean, args: {callback: null}) => {
         this.setState({
             show,
             callback: args.callback,
         });
     }
 
-    handleSubmit = (e) => {
+    private handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
         const text = this.state.value;
@@ -59,26 +67,26 @@ export default class ImportThemeModal extends React.Component {
         const colors = text.split(',');
         const theme = {type: 'custom'};
 
-        theme.sidebarBg = colors[0];
-        theme.sidebarText = colors[5];
-        theme.sidebarUnreadText = colors[5];
-        theme.sidebarTextHoverBg = colors[4];
-        theme.sidebarTextActiveBorder = colors[2];
-        theme.sidebarTextActiveColor = colors[3];
-        theme.sidebarHeaderBg = colors[1];
-        theme.sidebarHeaderTextColor = colors[5];
-        theme.onlineIndicator = colors[6];
-        theme.mentionBg = colors[7];
-        setThemeDefaults(theme);
+        (theme as Theme).sidebarBg = colors[0];
+        (theme as Theme).sidebarText = colors[5];
+        (theme as Theme).sidebarUnreadText = colors[5];
+        (theme as Theme).sidebarTextHoverBg = colors[4];
+        (theme as Theme).sidebarTextActiveBorder = colors[2];
+        (theme as Theme).sidebarTextActiveColor = colors[3];
+        (theme as Theme).sidebarHeaderBg = colors[1];
+        (theme as Theme).sidebarHeaderTextColor = colors[5];
+        (theme as Theme).onlineIndicator = colors[6];
+        (theme as Theme).mentionBg = colors[7];
+        setThemeDefaults(theme as Theme);
 
-        this.state.callback(theme);
+        this.state.callback!(theme);
         this.setState({
             show: false,
             callback: null,
         });
     }
 
-    isInputValid(text) {
+    private isInputValid(text: string) {
         if (text.length === 0) {
             return false;
         }
@@ -112,7 +120,7 @@ export default class ImportThemeModal extends React.Component {
         return true;
     }
 
-    handleChange = (e) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         this.setState({value});
 

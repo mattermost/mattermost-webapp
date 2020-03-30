@@ -67,6 +67,7 @@ class ChannelHeader extends React.PureComponent {
         rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
         intl: intlShape.isRequired,
+        pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
@@ -84,6 +85,7 @@ class ChannelHeader extends React.PureComponent {
         }).isRequired,
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
+        newSideBarPreference: PropTypes.bool,
     };
 
     constructor(props) {
@@ -289,6 +291,7 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
             teammateNameDisplaySetting,
+            newSideBarPreference,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -436,7 +439,10 @@ class ChannelHeader extends React.PureComponent {
                     popoverSize='lg'
                     style={{maxWidth: `${this.state.popoverOverlayWidth}px`}}
                     placement='bottom'
-                    className={classNames(['channel-header__popover', {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam}])}
+                    className={classNames(['channel-header__popover',
+                        {'chanel-header__popover--dm': isDirect,
+                            'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
+                            'chanel-header__popover--new_sidebar': newSideBarPreference}])}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}
@@ -624,7 +630,7 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon';
+        let pinnedIconClass = 'channel-header__icon wide';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
         }
@@ -638,6 +644,23 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.FLAG) {
             flaggedIconClass += ' active';
         }
+        const pinnedIcon = (this.props.pinnedPostsCount ?
+            (<div className='flex-child'>
+                <span
+                    id='channelPinnedPostCountText'
+                    className='icon__text'
+                >
+                    {this.props.pinnedPostsCount}
+                </span>
+                <PinIcon
+                    className='icon icon__pin'
+                    aria-hidden='true'
+                />
+            </div>) : (
+                <PinIcon
+                    className='icon icon__pin'
+                    aria-hidden='true'
+                />));
 
         let title = (
             <React.Fragment>
@@ -731,18 +754,14 @@ class ChannelHeader extends React.PureComponent {
                         channelMember={channelMember}
                     />
                     <HeaderIconWrapper
-                        iconComponent={
-                            <PinIcon
-                                className='icon icon__pin'
-                                aria-hidden='true'
-                            />
-                        }
+                        iconComponent={pinnedIcon}
                         ariaLabel={true}
                         buttonClass={'style--none ' + pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
+
                     {this.state.showSearchBar ? (
                         <div
                             id='searchbarContainer'

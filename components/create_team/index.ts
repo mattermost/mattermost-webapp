@@ -6,16 +6,17 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import CreateTeam from './create_team';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
 
-    const customDescriptionText = config.CustomDescriptionText;
-    const siteName = config.SiteName;
+    const customDescriptionText = config.CustomDescriptionText!;
+    const siteName = config.SiteName!;
 
     return {
         currentChannel,

@@ -2,24 +2,30 @@
 
 exports[`components/admin_console/group_settings/group_details/GroupProfile should match snapshot 1`] = `
 <div
-  className="group-profile"
+  className="group-profile form-horizontal"
 >
   <div
-    className="group-profile-field"
+    className="group-profile-field form-group mb-0"
   >
-    <label>
+    <label
+      className="control-label col-sm-4"
+    >
       <FormattedMessage
         defaultMessage="Name:"
         id="admin.group_settings.group_details.group_profile.name"
         values={Object {}}
       />
     </label>
-    <input
-      className="form-control"
-      disabled={true}
-      type="text"
-      value="Test"
-    />
+    <div
+      className="col-sm-8"
+    >
+      <input
+        className="form-control"
+        disabled={true}
+        type="text"
+        value="Test"
+      />
+    </div>
   </div>
 </div>
 `;
