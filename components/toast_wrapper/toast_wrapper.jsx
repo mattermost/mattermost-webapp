@@ -78,7 +78,7 @@ class ToastWrapper extends React.PureComponent {
             showUnreadToast = unreadCount > 0 && !props.atBottom;
         }
 
-        if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '') {
+        if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '' && props.atBottom !== null) {
             showMessageHistoryToast = props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost;
         }
 

@@ -65,13 +65,20 @@ export function onChannelByIdentifierEnter({match, history}) {
 
 export function getPathFromIdentifier(state, path, identifier) {
     if (path === 'channels') {
+        // It's hard to tell an ID apart from a channel name of the same length, so check first if
+        // the identifier matches a channel that we have
+        const channelsByName = getChannelByName(state, identifier);
+        const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
+
         if (identifier.length === LENGTH_OF_ID) {
-            // It's hard to tell an ID apart from a channel name of the same length, so check first if
-            // the identifier matches a channel that we have
-            const channelsByName = getChannelByName(state, identifier);
-            const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
             return channelsByName || moreChannelsByName ? 'channel_name' : 'channel_id';
-        } else if (identifier.length === LENGTH_OF_GROUP_ID) {
+        } else if (
+            (!channelsByName && !moreChannelsByName && identifier.length === LENGTH_OF_GROUP_ID) ||
+            (
+                (channelsByName && channelsByName.type === Constants.GM_CHANNEL) ||
+                (moreChannelsByName && moreChannelsByName.type === Constants.GM_CHANNEL)
+            )
+        ) {
             return 'group_channel_group_id';
         } else if (isDirectChannelIdentifier(identifier)) {
             return 'direct_channel_user_ids';
