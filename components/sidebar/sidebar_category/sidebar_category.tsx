@@ -196,6 +196,9 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                                         <div
                                             {...droppableProvided.droppableProps}
                                             ref={droppableProvided.innerRef}
+                                            className={classNames({
+                                                dropDisabled: this.isDropDisabled(),
+                                            })}
                                         >
                                             <div className='SidebarChannelGroupHeader'>
                                                 <button

@@ -51,8 +51,12 @@ type Props = {
     categories: ChannelCategory[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
-    handleOpenMoreDirectChannelsModal: (e: Event) => void;
     displayedChannels: Channel[];
+
+    handleOpenMoreDirectChannelsModal: (e: Event) => void;
+    onDragStart: (initial: DragStart) => void;
+    onDragEnd: (result: DropResult) => void;
+
     actions: {
         switchToChannelById: (channelId: string) => void;
         close: () => void;
@@ -343,6 +347,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     onDragStart = (initial: DragStart) => {
         console.log(initial);
+        this.props.onDragStart(initial);
 
         if (initial.type === 'SIDEBAR_CHANNEL') {
             const channel = this.props.displayedChannels.find((channel) => channel.id === initial.draggableId);
@@ -358,6 +363,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     onDragEnd = (result: DropResult) => {
         console.log(result);
+        this.props.onDragEnd(result);
+
         this.setState({
             isDraggingDM: false,
             isDraggingChannel: false,

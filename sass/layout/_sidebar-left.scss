@@ -32,6 +32,20 @@
     height: 100%;
     z-index: 12;
 
+    &.dragging {
+        & + div {
+            cursor: no-drop;
+        }
+
+        > :not(.SidebarNavContainer) {
+            cursor: no-drop;
+        }
+
+        .dropDisabled {
+            cursor: no-drop;
+        }
+    }
+
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
     }
