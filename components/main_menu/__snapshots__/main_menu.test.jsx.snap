@@ -215,7 +215,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "access_system_console",
         ]
       }
     >
@@ -491,7 +491,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "access_system_console",
         ]
       }
     >
@@ -813,7 +813,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "access_system_console",
         ]
       }
     >
@@ -1113,7 +1113,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "access_system_console",
         ]
       }
     >
@@ -1435,7 +1435,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "access_system_console",
         ]
       }
     >
@@ -1752,7 +1752,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "access_system_console",
         ]
       }
     >
@@ -2091,7 +2091,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "access_system_console",
         ]
       }
     >
