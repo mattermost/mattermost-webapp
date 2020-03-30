@@ -3,10 +3,11 @@
 
 import {connect} from 'react-redux';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-import UserSettings from './user_settings.jsx';
+import UserSettings from './user_settings';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         user: getCurrentUser(state),
     };

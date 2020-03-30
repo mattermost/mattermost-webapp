@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
@@ -10,29 +9,41 @@ import RemoveIcon from 'components/widgets/icons/fa_remove_icon';
 import Constants, {FileTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import FileProgressPreview from './file_progress_preview.jsx';
+import FileProgressPreview from './file_progress_preview';
 
-export default class FilePreview extends React.PureComponent {
-    static propTypes = {
-        enableSVGs: PropTypes.bool.isRequired,
-        onRemove: PropTypes.func.isRequired,
-        fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
-        uploadsInProgress: PropTypes.array,
-        uploadsProgressPercent: PropTypes.object,
-    };
+export type FilePreviewInfo = {
+    extension?: string;
+    id: string;
+    width?: number;
+    height?: number;
+    has_preview_image?: boolean;
+    size?: number;
+    create_at?: string;
+    percent?: number;
+    type?: string;
+}
 
+type Props = {
+    enableSVGs: boolean;
+    onRemove: (id: string) => void;
+    fileInfos: FilePreviewInfo[];
+    uploadsInProgress?: string[];
+    uploadsProgressPercent?: {[clientID: string]: FilePreviewInfo};
+}
+
+export default class FilePreview extends React.PureComponent<Props> {
     static defaultProps = {
         fileInfos: [],
         uploadsInProgress: [],
         uploadsProgressPercent: {},
     };
 
-    handleRemove = (id) => {
+    handleRemove = (id: string) => {
         this.props.onRemove(id);
     }
 
     render() {
-        const previews = [];
+        const previews: ReactNode[] = [];
 
         this.props.fileInfos.forEach((info, idx) => {
             const type = Utils.getFileType(info.extension);
@@ -50,7 +61,7 @@ export default class FilePreview extends React.PureComponent {
             } else if (type === FileTypes.IMAGE) {
                 let imageClassName = 'post-image';
 
-                if (info.width < Constants.THUMBNAIL_WIDTH && info.height < Constants.THUMBNAIL_HEIGHT) {
+                if ((info.width && info.width < Constants.THUMBNAIL_WIDTH) && (info.height && info.height < Constants.THUMBNAIL_HEIGHT)) {
                     imageClassName += ' small';
                 } else {
                     imageClassName += ' normal';
@@ -93,7 +104,7 @@ export default class FilePreview extends React.PureComponent {
                                     compactDisplay={false}
                                     canDownload={false}
                                 />
-                                <span className='post-image__type'>{info.extension.toUpperCase()}</span>
+                                {info.extension && <span className='post-image__type'>{info.extension.toUpperCase()}</span>}
                                 <span className='post-image__size'>{Utils.fileSizeToString(info.size)}</span>
                             </div>
                         </div>
@@ -110,16 +121,20 @@ export default class FilePreview extends React.PureComponent {
             );
         });
 
-        this.props.uploadsInProgress.forEach((clientId) => {
-            previews.push(
-                <FileProgressPreview
-                    key={clientId}
-                    clientId={clientId}
-                    fileInfo={this.props.uploadsProgressPercent[clientId]}
-                    handleRemove={this.handleRemove}
-                />
-            );
-        });
+        if (this.props.uploadsInProgress && this.props.uploadsProgressPercent) {
+            const uploadsProgressPercent = this.props.uploadsProgressPercent;
+            this.props.uploadsInProgress.forEach((clientId) => {
+                const fileInfo = uploadsProgressPercent[clientId];
+                previews.push(
+                    <FileProgressPreview
+                        key={clientId}
+                        clientId={clientId}
+                        fileInfo={fileInfo}
+                        handleRemove={this.handleRemove}
+                    />
+                );
+            });
+        }
 
         return (
             <div

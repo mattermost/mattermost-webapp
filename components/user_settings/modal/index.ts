@@ -2,14 +2,25 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
-import UserSettingsModal from './user_settings_modal.jsx';
+import UserSettingsModal from './user_settings_modal';
 
-function mapStateToProps(state) {
+type Actions = {
+    sendVerificationEmail: (email: string) => Promise<{
+        data: {};
+        error: {
+            err: string;
+        };
+    }>;
+}
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
@@ -26,9 +37,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             sendVerificationEmail,
         }, dispatch),
     };
