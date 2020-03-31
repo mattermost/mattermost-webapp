@@ -163,6 +163,11 @@ export const ActionTypes = keyMirror({
     OPEN_LHS: null,
     CLOSE_LHS: null,
 
+    SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
+    SET_SHOW_PREVIEW_ON_CREATE_POST: null,
+    SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
+    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
+
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
@@ -459,6 +464,7 @@ export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
     OAUTH_ACCESS_DENIED: 'oauth_access_denied',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
+    OAUTH_INVALID_PARAM: 'oauth_invalid_param',
     PAGE_NOT_FOUND: 'page_not_found',
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',

@@ -4,14 +4,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FileProgressPreview from './file_progress_preview.jsx';
+import FileProgressPreview from './file_progress_preview';
 
 describe('component/file_preview/file_progress_preview', () => {
     const handleRemove = jest.fn();
-
+    const fiftyPercent = 50;
     const fileInfo = {
-        name: 'file',
-        percent: 50,
+        id: 'file',
+        percent: fiftyPercent,
         type: 'image/png',
     };
 
