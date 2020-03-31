@@ -10,6 +10,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
       className="style--none post-action icon icon--attachment"
       id="fileUploadButton"
       onClick={[Function]}
+      onTouchEnd={[Function]}
       type="button"
     >
       <AttachmentIcon />
