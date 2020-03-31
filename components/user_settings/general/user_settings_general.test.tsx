@@ -12,6 +12,15 @@ import UserSettingsGeneral from './user_settings_general.jsx';
 describe('components/user_settings/general/UserSettingsGeneral', () => {
     const user = {
         id: 'user_id',
+        username: 'user_name',
+        first_name: 'first_name',
+        last_name: 'last_name',
+        nickname: 'nickname',
+        position: '',
+        email: '',
+        password: '',
+        auth_service: '',
+        last_picture_update: 0,
     };
 
     const requiredProps = {
