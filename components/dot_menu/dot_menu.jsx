@@ -20,6 +20,7 @@ import Pluggable from 'plugins/pluggable';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -35,6 +36,7 @@ export default class DotMenu extends React.PureComponent {
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
         handleAddReactionClick: PropTypes.func,
+        isMenuOpen: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
@@ -315,10 +317,12 @@ export default class DotMenu extends React.PureComponent {
                         ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
                         aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More actions').toLowerCase()}
-                        className='post__dropdown color--link style--none'
+                        className={`post-menu__item ${this.props.isMenuOpen && 'post-menu__item--active'}`}
                         type='button'
                         aria-expanded='false'
-                    />
+                    >
+                        <DotsHorizontalIcon className={'icon icon--small'}/>
+                    </button>
                 </OverlayTrigger>
                 <Menu
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}

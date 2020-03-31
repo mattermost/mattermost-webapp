@@ -219,6 +219,7 @@ export default class PostInfo extends React.PureComponent {
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
+                    isMenuOpen={this.state.showDotMenu}
                     isReadOnly={isReadOnly}
                     enableEmojiPicker={this.props.enableEmojiPicker}
                 />
@@ -229,7 +230,7 @@ export default class PostInfo extends React.PureComponent {
             <div
                 ref='dotMenu'
                 data-testid={`post-menu-${post.id}`}
-                className={'col col__reply'}
+                className={'col post-menu'}
             >
                 {dotMenu}
                 {postReaction}

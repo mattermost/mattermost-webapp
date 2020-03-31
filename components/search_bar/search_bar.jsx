@@ -189,12 +189,12 @@ export default class SearchBar extends React.Component {
                 <HeaderIconWrapper
                     iconComponent={
                         <MentionsIcon
-                            className='icon icon__mentions'
+                            className='icon icon--standard'
                             aria-hidden='true'
                         />
                     }
                     ariaLabel={true}
-                    buttonClass={'channel-header__icon style--none ' + mentionBtnClass}
+                    buttonClass={'cheader-icon style--none ' + mentionBtnClass}
                     buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderMentionButton' : 'channelHeaderMentionButton'}
                     onClick={this.searchMentions}
                     tooltipKey={'recentMentions'}
@@ -207,10 +207,10 @@ export default class SearchBar extends React.Component {
             flagBtn = (
                 <HeaderIconWrapper
                     iconComponent={
-                        <FlagIcon className='icon icon__flag'/>
+                        <FlagIcon className='icon icon--standard'/>
                     }
                     ariaLabel={true}
-                    buttonClass={'channel-header__icon style--none ' + flagBtnClass}
+                    buttonClass={'cheader-icon style--none ' + flagBtnClass}
                     buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderFlagButton' : 'channelHeaderFlagButton'}
                     onClick={this.getFlagged}
                     tooltipKey={'flaggedPosts'}
@@ -221,7 +221,7 @@ export default class SearchBar extends React.Component {
 
         let searchFormClass = 'search__form';
         if (this.state.focused) {
-            searchFormClass += ' focused';
+            searchFormClass += ' search__form--focused';
         }
 
         return (
@@ -266,6 +266,7 @@ export default class SearchBar extends React.Component {
                             id={this.props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}
                             tabIndex='0'
                             className='search-bar a11y__region'
+                            containerClass='w-full'
                             data-a11y-sort-order='9'
                             aria-describedby={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
                             aria-label={Utils.localizeMessage('search_bar.search', 'Search')}

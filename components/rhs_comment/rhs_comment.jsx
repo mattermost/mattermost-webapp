@@ -441,6 +441,7 @@ class RhsComment extends React.PureComponent {
                     handleDropdownOpened={this.handleDropdownOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
+                    isMenuOpen={this.state.dropdownOpened}
                     enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
@@ -448,7 +449,7 @@ class RhsComment extends React.PureComponent {
             options = (
                 <div
                     ref='dotMenu'
-                    className='col col__reply'
+                    className='col post-menu'
                 >
                     {dotMenu}
                     {postReaction}

@@ -347,6 +347,7 @@ class RhsRootPost extends React.PureComponent {
                 handleDropdownOpened={this.handleDropdownOpened}
                 handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
+                isMenuOpen={this.state.dropdownOpened}
                 isReadOnly={isReadOnly || channelIsArchived}
                 enableEmojiPicker={this.props.enableEmojiPicker}
             />
@@ -357,7 +358,7 @@ class RhsRootPost extends React.PureComponent {
             dotMenuContainer = (
                 <div
                     ref='dotMenu'
-                    className='col col__reply'
+                    className='col post-menu'
                 >
                     {dotMenu}
                     {postReaction}
