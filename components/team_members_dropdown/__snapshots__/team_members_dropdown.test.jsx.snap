@@ -23,7 +23,7 @@ exports[`components/team_members_dropdown should match snapshot for a bot with g
   </button>
   <div>
     <Menu
-      ariaLabel="Team member role change"
+      ariaLabel="Change the role of a team member"
       openLeft={true}
       openUp={false}
     >
@@ -71,7 +71,7 @@ exports[`components/team_members_dropdown should match snapshot for team_members
   </button>
   <div>
     <Menu
-      ariaLabel="Team member role change"
+      ariaLabel="Change the role of a team member"
       openLeft={true}
       openUp={false}
     >
@@ -119,7 +119,7 @@ exports[`components/team_members_dropdown should match snapshot opening dropdown
   </button>
   <div>
     <Menu
-      ariaLabel="Team member role change"
+      ariaLabel="Change the role of a team member"
       openLeft={true}
       openUp={true}
     >
@@ -167,7 +167,7 @@ exports[`components/team_members_dropdown should match snapshot with group-const
   </button>
   <div>
     <Menu
-      ariaLabel="Team member role change"
+      ariaLabel="Change the role of a team member"
       openLeft={true}
       openUp={false}
     >

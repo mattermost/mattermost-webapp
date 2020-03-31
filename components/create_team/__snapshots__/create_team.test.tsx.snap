@@ -4,7 +4,6 @@ exports[`/components/create_team should match snapshot 1`] = `
 <div>
   <Connect(AnnouncementBarController) />
   <BackButton
-    onClick={[Function]}
     url="/test-team/channels/test-channel"
   />
   <div
@@ -22,15 +21,15 @@ exports[`/components/create_team should match snapshot 1`] = `
       >
         <Switch>
           <Route
-            path="http://localhost:8065/create_team/display_name"
+            path="/route/1/display_name"
             render={[Function]}
           />
           <Route
-            path="http://localhost:8065/create_team/team_url"
+            path="/route/1/team_url"
             render={[Function]}
           />
           <Redirect
-            to="http://localhost:8065/create_team/display_name"
+            to="/route/1/display_name"
           />
         </Switch>
       </div>
