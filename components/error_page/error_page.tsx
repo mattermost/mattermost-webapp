@@ -108,6 +108,8 @@ export default class ErrorPage extends React.PureComponent<Props> {
                     />
                 </Link>
             );
+        } else if (type === ErrorPageTypes.OAUTH_INVALID_PARAM) {
+            backButton = null;
         } else {
             backButton = (
                 <Link to='/'>

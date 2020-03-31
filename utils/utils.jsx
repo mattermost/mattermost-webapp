@@ -1592,6 +1592,7 @@ export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');
     const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
+    const channelMentionTeamAttribute = e.target.getAttributeNode('data-channel-mention-team');
 
     if (hashtagAttribute) {
         e.preventDefault();
@@ -1605,6 +1606,9 @@ export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
 
             browserHistory.push(linkAttribute.value);
         }
+    } else if (channelMentionAttribute && channelMentionTeamAttribute) {
+        e.preventDefault();
+        browserHistory.push(channelMentionTeamAttribute + '/channels/' + channelMentionAttribute.value);
     } else if (channelMentionAttribute) {
         e.preventDefault();
         browserHistory.push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
