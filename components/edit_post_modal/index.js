@@ -13,6 +13,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
+import {setShowPreviewOnEditPostModal} from 'actions/views/textbox';
+import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {hideEditPostModal} from 'actions/post_actions';
 import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
@@ -41,6 +43,7 @@ function mapStateToProps(state) {
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config,
         editingPost,
+        shouldShowPreview: showPreviewOnEditPostModal(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
     };
 }
@@ -52,6 +55,7 @@ function mapDispatchToProps(dispatch) {
             editPost,
             hideEditPostModal,
             openModal,
+            setShowPreview: setShowPreviewOnEditPostModal,
         }, dispatch),
     };
 }
