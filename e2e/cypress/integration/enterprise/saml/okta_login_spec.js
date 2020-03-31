@@ -117,7 +117,7 @@ context('Okta', () => {
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
                             cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                                cy.doSamlLogoutFromSignUp().then(() => {
+                                cy.doLogoutFromSignUp().then(() => {
                                     cy.oktaDeleteSession(oktaUserId);
                                 });
                             });
@@ -130,7 +130,7 @@ context('Okta', () => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
-                            cy.doSamlLogoutFromSignUp().then(() => {
+                            cy.doLogoutFromSignUp().then(() => {
                                 cy.oktaDeleteSession(oktaUserId);
                             });
                         });
@@ -150,7 +150,7 @@ context('Okta', () => {
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
                             cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                                cy.doSamlLogoutFromSignUp().then(() => {
+                                cy.doLogoutFromSignUp().then(() => {
                                     cy.oktaDeleteSession(oktaUserId);
                                 });
                             });
@@ -163,7 +163,7 @@ context('Okta', () => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
-                            cy.doSamlLogoutFromSignUp().then(() => {
+                            cy.doLogoutFromSignUp().then(() => {
                                 cy.oktaDeleteSession(oktaUserId);
                             });
                         });
@@ -261,7 +261,7 @@ context('Okta', () => {
                                             //login the guest
                                             cy.doSamlLogin(testSettings).then(() => {
                                                 cy.doOktaLogin(testSettings.user).then(() => {
-                                                    cy.doSamlLogoutFromSignUp();
+                                                    cy.doLogoutFromSignUp();
                                                     cy.oktaDeleteSession(_oktaUserId);
                                                 });
                                             });
