@@ -8,6 +8,7 @@ import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds} from 'utils/constants';
+import {browserHistory} from 'utils/browser_history';
 
 import ToastWrapper from './toast_wrapper.jsx';
 
@@ -34,6 +35,11 @@ describe('components/ToastWrapper', () => {
         lastViewedAt: 12344,
         actions: {
             updateToastStatus: jest.fn(),
+        },
+        match: {
+            params: {
+                team: 'team',
+            }
         }
     };
 
@@ -408,6 +414,40 @@ describe('components/ToastWrapper', () => {
             wrapper.setProps({atBottom: true, atLatestPost: true});
             expect(updateToastStatus).toHaveBeenCalledTimes(2);
             expect(updateToastStatus).toHaveBeenCalledWith(false);
+        });
+    });
+
+    describe('Histroy toast', () => {
+        test('Replace browser history when not at latest posts and in permalink view with call to scrollToLatestMessages', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: 'asdasd',
+                atLatestPost: false,
+                atBottom: false
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showMessageHistoryToast')).toBe(true);
+
+            const instance = wrapper.instance();
+            browserHistory.replace = jest.fn();
+            instance.scrollToLatestMessages();
+            expect(browserHistory.replace).toHaveBeenCalledWith('/team');
+        });
+
+        test('Replace browser history when not at latest posts and in permalink view with call to scrollToNewMessage', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: 'asdasd',
+                atLatestPost: false,
+                atBottom: false
+            };
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showMessageHistoryToast')).toBe(true);
+
+            const instance = wrapper.instance();
+            browserHistory.replace = jest.fn();
+            instance.scrollToNewMessage();
+            expect(browserHistory.replace).toHaveBeenCalledWith('/team');
         });
     });
 });
