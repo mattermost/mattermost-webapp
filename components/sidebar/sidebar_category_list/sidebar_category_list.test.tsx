@@ -85,6 +85,9 @@ describe('components/sidebar/sidebar_category_list', () => {
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),
+            setCategoryOrder: jest.fn(),
+            setCategoriesOrder: jest.fn(),
+            removeFromCategory: jest.fn(),
         },
     };
 

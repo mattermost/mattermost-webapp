@@ -58,6 +58,9 @@ type Props = {
     onDragEnd: (result: DropResult) => void;
 
     actions: {
+        setCategoryOrder: (teamId: string, categoryId: string, channelId: string, newIndex: number) => void;
+        removeFromCategory: (teamId: string, categoryId: string, channelId: string) => void;
+        setCategoriesOrder: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
         close: () => void;
     };
@@ -362,6 +365,18 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     onDragEnd = (result: DropResult) => {
         this.props.onDragEnd(result);
+
+        if (result.reason === 'DROP' && result.destination) {
+            if (result.type === 'SIDEBAR_CHANNEL') {
+                if (result.source.droppableId !== result.destination.droppableId) {
+                    this.props.actions.removeFromCategory(this.props.currentTeam.id, result.source.droppableId, result.draggableId);
+                }
+
+                this.props.actions.setCategoryOrder(this.props.currentTeam.id, result.destination.droppableId, result.draggableId, result.destination.index);
+            } else if (result.type === 'SIDEBAR_CATEGORY') {
+                this.props.actions.setCategoriesOrder(this.props.currentTeam.id, result.draggableId, result.destination.index);
+            }
+        }
 
         this.setState({
             isDraggingDM: false,

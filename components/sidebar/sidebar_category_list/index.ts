@@ -10,6 +10,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
+import {setCategoryOrder, setCategoriesOrder, removeFromCategory} from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
 import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
@@ -40,6 +41,9 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             close,
             switchToChannelById,
+            setCategoryOrder,
+            setCategoriesOrder,
+            removeFromCategory,
         }, dispatch),
     };
 }
