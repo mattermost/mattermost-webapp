@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import assert from 'assert';
-import {GeneralTypes} from 'mattermost-redux/action_types';
+import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import store from 'stores/redux_store.jsx';
 
@@ -732,5 +732,37 @@ describe('Utils.getSortedUsers', () => {
             users,
             ['You', 'username_2', 'username_3']
         );
+    });
+});
+
+describe('Utils.imageURLForUser', () => {
+    test('should return url when user object is given', () => {
+        const imageUrl = Utils.imageURLForUser({
+            id: 'foobar-123',
+            last_picture_update: 123456,
+        });
+        expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=123456');
+    });
+
+    test('should get user from store if user exists in the store and id is given', () => {
+        store.dispatch({
+            type: UserTypes.RECEIVED_PROFILES,
+            data: {
+                user_id: {
+                    id: 'user_id',
+                    last_picture_update: 1,
+                },
+                user_id_2: {
+                    id: 'user_id_2',
+                    last_picture_update: 2,
+                },
+            },
+        });
+
+        expect(Utils.imageURLForUser('user_id')).toEqual('/api/v4/users/user_id/image?_=1');
+    });
+
+    test('should use given user id if user does not exist in store', () => {
+        expect(Utils.imageURLForUser('user_id_3')).toEqual('/api/v4/users/user_id_3/image?_=0');
     });
 });
