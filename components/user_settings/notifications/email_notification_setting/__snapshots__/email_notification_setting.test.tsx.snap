@@ -11,7 +11,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   currentUserId="current_user_id"
   emailInterval={0}
   enableEmail={false}
-  enableEmailBatching={0}
+  enableEmailBatching={false}
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -329,7 +329,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   currentUserId="current_user_id"
   emailInterval={0}
   enableEmail={false}
-  enableEmailBatching={1}
+  enableEmailBatching={true}
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
