@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import StatusAwayAvatarIcon from 'components/widgets/icons/status_away_avatar_icon';
@@ -13,14 +12,14 @@ import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import StatusOnlineAvatarIcon from 'components/widgets/icons/status_online_avatar_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 
-export default class StatusIcon extends React.PureComponent {
-    static propTypes = {
-        button: PropTypes.bool,
-        status: PropTypes.string,
-        className: PropTypes.string,
-        type: PropTypes.string,
-    };
+type Props = {
+    button?: boolean;
+    status?: string;
+    className?: string;
+    type?: string;
+}
 
+export default class StatusIcon extends React.PureComponent<Props> {
     static defaultProps = {
         className: '',
         button: false,
@@ -36,10 +35,11 @@ export default class StatusIcon extends React.PureComponent {
         let className = 'status ' + this.props.className;
 
         if (button) {
-            className = this.props.className;
+            className = this.props.className || '';
         }
 
-        let IconComponent = 'span';
+        let IconComponent: React.ComponentType | string = 'span';
+        const iconComponentProps = {className};
         if (type === 'avatar') {
             if (status === 'online') {
                 IconComponent = StatusOnlineAvatarIcon;
@@ -60,6 +60,6 @@ export default class StatusIcon extends React.PureComponent {
             IconComponent = StatusOfflineIcon;
         }
 
-        return <IconComponent className={className}/>;
+        return <IconComponent {...iconComponentProps}/>;
     }
 }
