@@ -132,6 +132,7 @@ export default class PostBody extends React.PureComponent {
         let comment;
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
+
         //We want to show the commented on component even if the post was deleted
         if (this.props.isFirstReply && parentPost && post.type !== Constants.PostTypes.EPHEMERAL) {
             comment = (
