@@ -25,6 +25,7 @@ const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoti
 export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
+        team_name: string;
     };
 };
 
@@ -370,19 +371,26 @@ function autolinkChannelMentions(
     function channelMentionExists(c: string) {
         return Boolean(channelNamesMap[c]);
     }
-    function addToken(channelName: string, mention: string, displayName: string) {
+    function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
         const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
-        if (team) {
+        if (teamName) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href = ((window as any).basename || '') + '/' + teamName + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention-team="${teamName}" "data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
+        } else if (team) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             href = ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
         }
 
-        tokens.set(alias, {
-            value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
-            originalText: mention,
-        });
         return alias;
     }
 
@@ -397,6 +405,7 @@ function autolinkChannelMentions(
             // Exact match
             const alias = addToken(
                 channelNameLower,
+                channelNamesMap[channelNameLower].team_name,
                 mention,
                 escapeHtml(channelNamesMap[channelNameLower].display_name)
             );
@@ -414,6 +423,7 @@ function autolinkChannelMentions(
                     const suffix = originalChannelName.substr(c - 1);
                     const alias = addToken(
                         channelNameLower,
+                        channelNamesMap[channelNameLower].team_name,
                         '~' + channelNameLower,
                         escapeHtml(channelNamesMap[channelNameLower].display_name)
                     );
