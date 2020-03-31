@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Draggable, NotDraggingStyle, DraggingStyle, DraggableStateSnapshot} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -11,7 +12,6 @@ import Constants from 'utils/constants';
 import SidebarBaseChannel from './sidebar_base_channel';
 import SidebarDirectChannel from './sidebar_direct_channel';
 import SidebarGroupChannel from './sidebar_group_channel';
-import { Draggable, NotDraggingStyle, DraggingStyle, DraggableStateSnapshot } from 'react-beautiful-dnd';
 
 type Props = {
 
@@ -67,7 +67,7 @@ type Props = {
      */
     isCurrentChannel: boolean;
 
-    isDMCategory: boolean
+    isDMCategory: boolean;
 };
 
 type State = {
@@ -107,7 +107,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return (ref: HTMLLIElement) => {
             this.props.setChannelRef(this.props.channel.id, ref);
             refMethod(ref);
-        }
+        };
     }
 
     getStyle = (style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) => {

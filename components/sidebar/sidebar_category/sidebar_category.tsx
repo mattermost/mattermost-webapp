@@ -124,9 +124,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
 
     onMouseOver = () => {
         if (!this.isDropDisabled() && this.props.isCollapsed && (this.props.isDraggingChannel || this.props.isDraggingDM)) {
-            console.log('start timeout');
             this.expandOnHoverTimeout = setTimeout(() => {
-                console.log('do the thing');
                 this.handleCollapse();
             }, 500);
         }
@@ -134,7 +132,6 @@ export default class SidebarCategory extends React.PureComponent<Props> {
 
     onMouseOut = () => {
         if (this.expandOnHoverTimeout) {
-            console.log('clear the thing');
             clearTimeout(this.expandOnHoverTimeout);
             Reflect.deleteProperty(this, 'expandOnHoverTimeout');
         }
@@ -199,14 +196,14 @@ export default class SidebarCategory extends React.PureComponent<Props> {
             >
                 {(provided, snapshot) => {
                     return (
-                        <div 
+                        <div
                             className={classNames('SidebarChannelGroup a11y__section', {
                                 dropDisabled: this.isDropDisabled(),
                             })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                         >
-                            <Droppable 
+                            <Droppable
                                 droppableId={category.id}
                                 type='SIDEBAR_CHANNEL'
                                 mode='virtual'

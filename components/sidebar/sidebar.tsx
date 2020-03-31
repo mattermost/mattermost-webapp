@@ -137,7 +137,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 id='SidebarContainer'
                 className={classNames({
                     'move--right': this.props.isOpen && Utils.isMobile(),
-                    'dragging': this.state.isDragging,
+                    dragging: this.state.isDragging,
                 })}
             >
                 <SidebarHeader/>
@@ -157,7 +157,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     </div>
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
-                <SidebarCategoryList 
+                <SidebarCategoryList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}

@@ -56,20 +56,22 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
     thumbMinSize={30}
     universal={false}
   >
-    <Connect(SidebarCategory)
-      category={
-        Object {
-          "display_name": "custom_category_1",
-          "id": "category1",
-          "team_id": "team1",
-          "type": "custom",
-        }
-      }
-      getChannelRef={[Function]}
-      handleOpenMoreDirectChannelsModal={[MockFunction]}
-      key="category1"
-      setChannelRef={[Function]}
-    />
+    <DragDropContext
+      onDragEnd={[Function]}
+      onDragStart={[Function]}
+    >
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="droppable-categories"
+        ignoreContainerClipping={false}
+        isCombineEnabled={false}
+        isDropDisabled={false}
+        mode="virtual"
+        type="SIDEBAR_CATEGORY"
+      >
+        <Component />
+      </Connect(Droppable)>
+    </DragDropContext>
   </Scrollbars>
 </div>
 `;
@@ -130,20 +132,22 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
     thumbMinSize={30}
     universal={false}
   >
-    <Connect(SidebarCategory)
-      category={
-        Object {
-          "display_name": "custom_category_1",
-          "id": "category1",
-          "team_id": "team1",
-          "type": "custom",
-        }
-      }
-      getChannelRef={[Function]}
-      handleOpenMoreDirectChannelsModal={[MockFunction]}
-      key="category1"
-      setChannelRef={[Function]}
-    />
+    <DragDropContext
+      onDragEnd={[Function]}
+      onDragStart={[Function]}
+    >
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="droppable-categories"
+        ignoreContainerClipping={false}
+        isCombineEnabled={false}
+        isDropDisabled={false}
+        mode="virtual"
+        type="SIDEBAR_CATEGORY"
+      >
+        <Component />
+      </Connect(Droppable)>
+    </DragDropContext>
   </Scrollbars>
 </div>
 `;

@@ -80,6 +80,8 @@ describe('components/sidebar/sidebar_category_list', () => {
         displayedChannels: [currentChannel, unreadChannel],
         isUnreadFilterEnabled: false,
         handleOpenMoreDirectChannelsModal: jest.fn(),
+        onDragStart: jest.fn(),
+        onDragEnd: jest.fn(),
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),

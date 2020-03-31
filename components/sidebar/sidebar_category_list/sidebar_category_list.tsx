@@ -9,6 +9,7 @@ import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 
+import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
@@ -19,7 +20,6 @@ import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
-import { General } from 'mattermost-redux/constants';
 
 export function renderView(props: any) {
     return (
@@ -346,12 +346,11 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }, 100);
 
     onDragStart = (initial: DragStart) => {
-        console.log(initial);
         this.props.onDragStart(initial);
 
         if (initial.type === 'SIDEBAR_CHANNEL') {
-            const channel = this.props.displayedChannels.find((channel) => channel.id === initial.draggableId);
-            if (channel?.type === General.DM_CHANNEL || channel?.type === General.GM_CHANNEL) {
+            const draggingChannel = this.props.displayedChannels.find((channel) => channel.id === initial.draggableId);
+            if (draggingChannel?.type === General.DM_CHANNEL || draggingChannel?.type === General.GM_CHANNEL) {
                 this.setState({isDraggingDM: true});
             } else {
                 this.setState({isDraggingChannel: true});
@@ -362,7 +361,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     onDragEnd = (result: DropResult) => {
-        console.log(result);
         this.props.onDragEnd(result);
 
         this.setState({
@@ -428,7 +426,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                         onDragEnd={this.onDragEnd}
                         onDragStart={this.onDragStart}
                     >
-                        <Droppable 
+                        <Droppable
                             droppableId='droppable-categories'
                             type='SIDEBAR_CATEGORY'
                             mode='virtual'
