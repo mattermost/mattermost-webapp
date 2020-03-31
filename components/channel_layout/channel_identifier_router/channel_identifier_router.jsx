@@ -39,6 +39,7 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (this.props.match.params.team !== prevProps.match.params.team ||
             this.props.match.params.identifier !== prevProps.match.params.identifier) {
+            clearTimeout(this.replaceUrlTimeout);
             this.props.actions.onChannelByIdentifierEnter(this.props);
             this.replaceUrlIfPermalink();
         }
