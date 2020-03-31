@@ -8,9 +8,9 @@ import {bindActionCreators, Dispatch} from 'redux';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 
 import Sidebar from './sidebar';

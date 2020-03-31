@@ -11,7 +11,7 @@ import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {GlobalState} from 'types/store';
-import {RhsState} from 'types/store/rhs';
+import {RhsState, FakePost, PostDraft} from 'types/store/rhs';
 
 export function getSelectedPostId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostId;
@@ -46,7 +46,7 @@ export const getSelectedPost = createSelector(
     getRealSelectedPost,
     getSelectedChannelId,
     getCurrentUserId,
-    (selectedPostId: $ID<Post>, selectedPost: Post, selectedPostChannelId: $ID<Channel>, currentUserId): Post => {
+    (selectedPostId: $ID<Post>, selectedPost: Post, selectedPostChannelId: $ID<Channel>, currentUserId): Post|FakePost => {
         if (selectedPost) {
             return selectedPost;
         }
@@ -95,7 +95,7 @@ export function getIsSearchGettingMore(state: GlobalState): boolean {
     return state.entities.search.isSearchGettingMore;
 }
 
-export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): Post {
+export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
     const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: []};
     const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
 
