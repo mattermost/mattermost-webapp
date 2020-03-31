@@ -32,8 +32,10 @@ describe('components/EditChannelHeaderModal', () => {
         channel,
         ctrlSend: false,
         show: false,
+        shouldShowPreview: false,
         actions: {
             closeModal: jest.fn(),
+            setShowPreview: jest.fn(),
             patchChannel: jest.fn().mockResolvedValueOnce({error: serverError}).mockResolvedValue({}),
         },
     };

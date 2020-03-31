@@ -25,6 +25,7 @@ describe('FilePreview', () => {
             name: 'file',
             percent: 50,
             extension: 'image/png',
+            id: 'file_id_1',
         },
     };
 
@@ -66,10 +67,11 @@ describe('FilePreview', () => {
     test('should call handleRemove when file removed', () => {
         const newOnRemove = jest.fn();
         const props = {...baseProps, onRemove: newOnRemove};
-        const wrapper = shallow(
+        const wrapper = shallow<FilePreview>(
             <FilePreview {...props}/>
         );
-        wrapper.instance().handleRemove();
+
+        wrapper.instance().handleRemove('');
         expect(newOnRemove).toHaveBeenCalled();
     });
 

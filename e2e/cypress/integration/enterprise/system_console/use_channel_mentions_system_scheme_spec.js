@@ -165,13 +165,13 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
         removePermission(usersTestId);
         saveConfig();
 
-        // * Ensure that the permission is removed from all roles
-        testIds.forEach((testId) => {
-            cy.findByTestId(testId).should('not.have.class', 'checked');
-        });
+        // * Ensure that the permission is not removed from all roles except All Members
+        cy.findByTestId(usersTestId).should('not.have.class', 'checked');
+        cy.findByTestId(channelTestId).should('have.class', 'checked');
+        cy.findByTestId(teamTestId).should('have.class', 'checked');
 
-        // # Enable permission for team admins and save
-        enablePermission(teamTestId);
+        // # Remove permission for channel admins and save
+        removePermission(channelTestId);
         saveConfig();
 
         // * Ensure that the permission is removed from all roles except team admins

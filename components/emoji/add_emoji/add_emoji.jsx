@@ -237,7 +237,7 @@ export default class AddEmoji extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_emoji.name.help'
-                                        defaultMessage="Choose a name for your emoji made of up to 64 characters consisting of lowercase letters, numbers, and the symbols '-' and '_'."
+                                        defaultMessage="Name your emoji. The name can be up to 64 characters, and can contain lowercase letters, numbers, and the symbols '-' and '_'."
                                     />
                                 </div>
                             </div>
@@ -273,7 +273,7 @@ export default class AddEmoji extends React.Component {
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_emoji.image.help'
-                                            defaultMessage='Choose the image for your emoji. The image can be a gif, png, or jpeg file with a max size of 64 KB and dimensions up to 128 by 128 pixels.'
+                                            defaultMessage='Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels.'
                                         />
                                     </div>
                                 </div>
