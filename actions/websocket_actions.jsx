@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 import {
     ChannelTypes,
     EmojiTypes,
+    GroupTypes,
     PostTypes,
     TeamTypes,
     UserTypes,
@@ -417,6 +418,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.OPEN_DIALOG:
         handleOpenDialogEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP:
+        handleGroupUpdatedEvent(msg);
         break;
 
     default:
@@ -1081,4 +1086,12 @@ function handleOpenDialogEvent(msg) {
     }
 
     store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
+}
+
+function handleGroupUpdatedEvent(msg) {
+    const data = JSON.parse(msg.data.group);
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP,
+        data,
+    });
 }
