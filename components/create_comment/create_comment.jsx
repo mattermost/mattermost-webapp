@@ -69,11 +69,6 @@ class CreateComment extends React.PureComponent {
         }).isRequired,
 
         /**
-         * Whether the submit button is enabled
-         */
-        enableAddButton: PropTypes.bool.isRequired,
-
-        /**
          * Force message submission on CTRL/CMD + ENTER
          */
         codeBlockOnCtrlEnter: PropTypes.bool,
@@ -488,11 +483,6 @@ class CreateComment extends React.PureComponent {
         }
 
         const {draft} = this.state;
-        const enableAddButton = this.shouldEnableAddButton();
-
-        if (!enableAddButton) {
-            return;
-        }
 
         if (draft.uploadsInProgress.length > 0) {
             return;
@@ -805,14 +795,6 @@ class CreateComment extends React.PureComponent {
         return this.refs.createCommentControls;
     }
 
-    shouldEnableAddButton = () => {
-        if (this.props.enableAddButton) {
-            return true;
-        }
-
-        return isErrorInvalidSlashCommand(this.state.serverError);
-    }
-
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.getWrappedInstance().focus();
@@ -845,7 +827,6 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
-        const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
         const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
 
