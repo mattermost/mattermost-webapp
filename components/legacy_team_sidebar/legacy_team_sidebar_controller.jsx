@@ -228,7 +228,7 @@ export default class LegacyTeamSidebar extends React.Component {
                     tip={
                         <FormattedMessage
                             id='team_sidebar.join'
-                            defaultMessage='Other teams you can join.'
+                            defaultMessage='Other teams you can join'
                         />
                     }
                     content={'+'}

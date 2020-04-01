@@ -574,7 +574,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
               component="i"
               title={
                 Object {
-                  "defaultMessage": "Send Post Icon",
+                  "defaultMessage": "Create a post",
                   "id": "create_post.icon",
                 }
               }
