@@ -58,7 +58,7 @@ describe('Email Address', () => {
         cy.get('#teamsYouCanJoinContent').should('be.visible');
 
         // * Verify the link to create a new team is available
-        cy.get('#createNewTeamLink').should('have.attr', 'href', '/create_team').and('be.visible', 'contain', 'Create a new team');
+        cy.get('#createNewTeamLink').should('have.attr', 'href', '/create_team').and('be.visible', 'contain', 'Create a team');
 
         // # Logout and signup another user with the same email but different username and password
         cy.apiLogout();

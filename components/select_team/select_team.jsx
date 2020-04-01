@@ -281,7 +281,7 @@ export default class SelectTeam extends React.Component {
                     >
                         <FormattedMessage
                             id='login.createTeam'
-                            defaultMessage='Create a new team'
+                            defaultMessage='Create a team'
                         />
                     </Link>
                 </div>
