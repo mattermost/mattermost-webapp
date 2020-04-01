@@ -73,6 +73,7 @@
         }
 
         .post__body {
+            padding-left: 0;
             width: 100%;
         }
 
@@ -110,10 +111,15 @@
                     }
                 }
             }
+
+            .post__img {
+                width: 16px;
+            }
         }
 
         .post__img {
-            padding: 2px 8px 0 0;
+            width: 60px;
+            padding: 2px 12px 0 0;
         }
     }
 

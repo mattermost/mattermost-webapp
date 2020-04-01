@@ -229,7 +229,7 @@
                 &.post--comment {
                     &:not(.post--compact) {
                         .post__pinned-badge {
-                            margin-left: 7px;
+                            margin-left: 0;
                         }
                     }
                 }
@@ -444,7 +444,7 @@
                     }
 
                     .post__pinned-badge {
-                        margin-right: 5px;
+                        margin: 0 5px 0 0;
                     }
                 }
 
@@ -469,11 +469,11 @@
                     .post__permalink {
                         position: absolute;
                         left: -18px;
-                        top: 3px;
+                        top: 2px;
 
                         .sidebar--right & {
                             left: -18px;
-                            top: 4px;
+                            top: 1px;
                         }
                     }
 
