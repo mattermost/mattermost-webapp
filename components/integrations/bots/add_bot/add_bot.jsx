@@ -408,9 +408,9 @@ export default class AddBot extends React.Component {
         let imageStyles = null;
         if (this.props.bot && !this.state.pictureFile) {
             if (this.props.user) {
-                imageURL = Utils.imageURLForUser(this.props.user);
+                imageURL = Utils.imageURLForUser(this.props.user.id, this.props.user.last_picture_update);
             } else {
-                imageURL = Utils.imageURLForUser({id: this.props.bot.user_id});
+                imageURL = Utils.imageURLForUser(this.props.bot.user_id);
             }
         } else {
             imageURL = this.state.image;
