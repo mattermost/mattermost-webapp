@@ -46,7 +46,7 @@ const verifyAllGuestPermissions = (selected) => {
 };
 
 describe('Team Scheme Guest Permissions Test', () => {
-    before(() => {
+    beforeEach(() => {
         // * Check if server has license
         cy.requireLicense();
         cy.apiLogin('sysadmin');

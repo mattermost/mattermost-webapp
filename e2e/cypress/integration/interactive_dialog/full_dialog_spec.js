@@ -38,7 +38,7 @@ describe('Interactive Dialog', () => {
     let config;
     let testTeam;
 
-    before(() => {
+    beforeEach(() => {
         testTeam = null;
 
         // * Check if webhook server is running

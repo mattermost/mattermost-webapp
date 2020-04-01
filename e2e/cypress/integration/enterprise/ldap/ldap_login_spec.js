@@ -76,7 +76,7 @@ context('ldap', () => {
     };
 
     describe('LDAP Login flow - Admin Login', () => {
-        before(() => {
+        beforeEach(() => {
             // * Check if server has license for LDAP
             cy.requireLicenseForFeature('LDAP');
 
@@ -167,7 +167,7 @@ context('ldap', () => {
     });
 
     describe('LDAP Add Member and Guest to teams and test logins', () => {
-        before(() => {
+        beforeEach(() => {
             cy.apiLogin('sysadmin');
 
             cy.apiGetTeamByName(testSettings.teamName).then((r) => {
