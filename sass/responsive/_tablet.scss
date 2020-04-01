@@ -229,7 +229,7 @@
                 &.post--comment {
                     &:not(.post--compact) {
                         .post__pinned-badge {
-                            margin-left: 7px;
+                            margin-left: 0;
                         }
                     }
                 }
