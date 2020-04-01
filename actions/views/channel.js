@@ -149,6 +149,15 @@ export function leaveChannel(channelId) {
     };
 }
 
+export function leaveDirectChannel() {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const currentTeam = getCurrentTeam(state);
+        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+    };
+}
+
 export function autocompleteUsersInChannel(prefix, channelId) {
     return async (dispatch, getState) => {
         const state = getState();
