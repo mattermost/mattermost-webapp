@@ -6,13 +6,13 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 type Props = {
-    showPreview: boolean
-    characterLimit: number,
-    previewMessageLink: string,
-    updatePreview: (showPreview: boolean) => void,
-    message: string,
-    isMarkdownPreviewEnabled: boolean,
-}
+    showPreview: boolean;
+    characterLimit: number;
+    previewMessageLink: string;
+    updatePreview: (showPreview: boolean) => void;
+    message: string;
+    isMarkdownPreviewEnabled: boolean;
+};
 
 export default class TextboxLinks extends React.PureComponent<Props> {
     static propTypes = {

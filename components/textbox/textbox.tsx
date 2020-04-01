@@ -4,51 +4,52 @@
 import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
+import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
 import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+
 import * as Utils from 'utils/utils.jsx';
-import {Channel} from 'mattermost-redux/types/channels';
-import Provider from 'components/suggestion/provider';
 
 type Props = {
-    id: string,
-    channelId?: string,
-    value: string,
-    onChange: (e: ChangeEvent) => void,
-    onKeyPress: (e: KeyboardEvent) => void,
-    onComposition?: () => void,
-    onHeightChange?: (height: number, maxHeight: number) => void,
-    createMessage: string,
-    onKeyDown?: (e: KeyboardEvent) => void,
-    onMouseUp?: (e: MouseEvent) => void,
-    onKeyUp?: (e: KeyboardEvent) => void,
-    onBlur?: (e: FocusEvent) => void,
-    supportsCommands: boolean,
-    handlePostError?: (message: JSX.Element | null) => void,
-    suggestionListStyle?: string,
-    emojiEnabled?: boolean,
-    isRHS?: boolean,
-    characterLimit: number,
-    disabled?: boolean,
-    badConnection?: boolean,
-    listenForMentionKeyClick?: boolean,
-    currentUserId: string,
-    preview?: boolean,
-    profilesInChannel: UserProfile[],
-    profilesNotInChannel: UserProfile[],
+    id: string;
+    channelId?: string;
+    value: string;
+    onChange: (e: ChangeEvent) => void;
+    onKeyPress: (e: KeyboardEvent) => void;
+    onComposition?: () => void;
+    onHeightChange?: (height: number, maxHeight: number) => void;
+    createMessage: string;
+    onKeyDown?: (e: KeyboardEvent) => void;
+    onMouseUp?: (e: MouseEvent) => void;
+    onKeyUp?: (e: KeyboardEvent) => void;
+    onBlur?: (e: FocusEvent) => void;
+    supportsCommands: boolean;
+    handlePostError?: (message: JSX.Element | null) => void;
+    suggestionListStyle?: string;
+    emojiEnabled?: boolean;
+    isRHS?: boolean;
+    characterLimit: number;
+    disabled?: boolean;
+    badConnection?: boolean;
+    listenForMentionKeyClick?: boolean;
+    currentUserId: string;
+    preview?: boolean;
+    profilesInChannel: UserProfile[];
+    profilesNotInChannel: UserProfile[];
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>,
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>, 
+        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
     },
-    useChannelMentions: boolean,
+    useChannelMentions: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -176,6 +177,7 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.message.current) {
             return this.message.current.getTextbox();
         }
+        return undefined;
     }
 
     focus = () => {

@@ -12,13 +12,13 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {autocompleteChannels} from 'actions/channel_actions';
 
-import Textbox from './textbox'
+import Textbox from './textbox';
 
 type Props = {
-    channelId: string,
-    currentUserId: string,
-    profilesInChannel: UserProfile[],
-    profilesNotInChannel: UserProfile[],
+    channelId: string;
+    currentUserId: string;
+    profilesInChannel: UserProfile[];
+    profilesNotInChannel: UserProfile[];
 };
 
 const makeMapStateToProps = () => {
