@@ -4,19 +4,48 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Textbox from 'components/textbox/textbox.jsx';
+import Textbox from 'components/textbox/textbox';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+const mkUserProfile = (id: string): UserProfile => ({
+    id,
+    create_at: 0,
+    update_at: 0,
+    delete_at: 0,
+    username: `username-${id}`,
+    auth_data: '',
+    auth_service: '',
+    email: `${id}@email.test`,
+    email_verified: true,
+    nickname: id,
+    first_name: `name-${id}`,
+    last_name: `name-${id}`,
+    position: '',
+    roles: '',
+    locale: '',
+    notify_props: {
+        desktop: 'default',
+        desktop_sound: 'true',
+        email: 'true',
+        mark_unread: 'all',
+        push: 'default',
+        push_status: 'ooo',
+        comments: 'never',
+        first_name: 'true',
+        channel: 'true',
+        mention_keys: '',
+    },
+    terms_of_service_id: `tos-${id}`,
+    terms_of_service_create_at: 0,
+    is_bot: false,
+    last_picture_update: 0
+});
 
 describe('components/TextBox', () => {
     const baseProps = {
         currentUserId: 'currentUserId',
-        profilesInChannel: [
-            {id: 'id1'},
-            {id: 'id2'},
-        ],
-        profilesNotInChannel: [
-            {id: 'id3'},
-            {id: 'id4'},
-        ],
+        profilesInChannel: ['id1', 'id2'].map(mkUserProfile),
+        profilesNotInChannel: ['id3', 'id4'].map(mkUserProfile),
         actions: {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),
@@ -47,7 +76,7 @@ describe('components/TextBox', () => {
 
         // this mock function should be called when the textbox value is too long
         var gotError = false;
-        function handlePostError(msg) {
+        function handlePostError(msg: JSX.Element | null) {
             gotError = msg !== null;
         }
 
@@ -74,7 +103,7 @@ describe('components/TextBox', () => {
 
         // this mock function should be called when the textbox value is too long
         var gotError = false;
-        function handlePostError(msg) {
+        function handlePostError(msg: JSX.Element | null) {
             gotError = msg !== null;
         }
 
