@@ -189,9 +189,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let usersToRemove = 0;
         if (this.state.isSynced) {
             try {
-                if (groups.length === 0) {
-                    serverError = <NeedGroupsError/>;
-                } else {
+                if (groups.length !== 0) {
                     if (!channelID) {
                         return;
                     }
@@ -306,9 +304,6 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 isPublic,
                 isPrivacyChanging
             });
-            if (this.state.groups.length === 0) {
-                return;
-            }
         }
         if (isPrivacyChanging && usersToRemove > 0) {
             this.setState({showConvertAndRemoveConfirmModal: true});
