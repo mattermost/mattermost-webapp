@@ -1459,7 +1459,7 @@ export function fillArray(value, length) {
 // Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
 export function isFileTransfer(files) {
     if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-        return files.types != null && files.types.contains('Files');
+        return files.types != null && files.types.includes('Files');
     }
 
     return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));
@@ -1592,6 +1592,7 @@ export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');
     const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
+    const channelMentionTeamAttribute = e.target.getAttributeNode('data-channel-mention-team');
 
     if (hashtagAttribute) {
         e.preventDefault();
@@ -1605,6 +1606,9 @@ export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
 
             browserHistory.push(linkAttribute.value);
         }
+    } else if (channelMentionAttribute && channelMentionTeamAttribute) {
+        e.preventDefault();
+        browserHistory.push(channelMentionTeamAttribute + '/channels/' + channelMentionAttribute.value);
     } else if (channelMentionAttribute) {
         e.preventDefault();
         browserHistory.push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);

@@ -73,6 +73,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
+    setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -133,6 +134,7 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
+            shouldShowPreview={false}
             isTimezoneEnabled={false}
             canPost={true}
             useChannelMentions={true}
@@ -214,7 +216,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
 
         wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
@@ -264,10 +266,6 @@ describe('components/create_post', () => {
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
-
-        wrapper.setState({
-            showPreview: false,
-        });
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});

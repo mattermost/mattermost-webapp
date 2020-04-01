@@ -18,7 +18,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="More Actions"
+          defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
           values={Object {}}
         />
@@ -143,7 +143,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="More Actions"
+          defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
           values={Object {}}
         />

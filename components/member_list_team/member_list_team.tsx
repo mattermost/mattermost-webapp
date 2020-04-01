@@ -4,7 +4,8 @@
 import React from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership, GetTeamMembersOpts} from 'mattermost-redux/types/teams';
+import {Teams} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -24,7 +25,7 @@ type Props = {
     totalTeamMembers: number;
     canManageTeamMembers?: boolean;
     actions: {
-        getTeamMembers: (teamId: string) => Promise<{data: {}}>;
+        getTeamMembers: (teamId: string, page?: number, perPage?: number, options?: GetTeamMembersOpts) => Promise<{data: {}}>;
         searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
         getTeamStats: (teamId: string) => Promise<{data: {}}>;
         loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
@@ -62,7 +63,12 @@ export default class MemberListTeam extends React.Component<Props, State> {
     async componentDidMount() {
         await Promise.all([
             this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId),
-            this.props.actions.getTeamMembers(this.props.currentTeamId),
+            this.props.actions.getTeamMembers(this.props.currentTeamId, 0, Constants.DEFAULT_MAX_USERS_PER_TEAM,
+                {
+                    sort: Teams.SORT_USERNAME_OPTION,
+                    exclude_deleted_users: true
+                } as GetTeamMembersOpts
+            ),
             this.props.actions.getTeamStats(this.props.currentTeamId),
         ]);
         this.loadComplete();
@@ -116,8 +122,16 @@ export default class MemberListTeam extends React.Component<Props, State> {
         this.setState({loading: false});
     }
 
-    nextPage = (page: number) => {
-        this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
+    nextPage = async (page: number) => {
+        this.setState({loading: true});
+        this.props.actions.loadProfilesAndTeamMembers(page, USERS_PER_PAGE);
+        await this.props.actions.getTeamMembers(this.props.currentTeamId, page, Constants.DEFAULT_MAX_USERS_PER_TEAM,
+            {
+                sort: Teams.SORT_USERNAME_OPTION,
+                exclude_deleted_users: true
+            } as GetTeamMembersOpts
+        );
+        this.loadComplete();
     }
 
     search = (term: string) => {

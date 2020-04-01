@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getScheme, makeGetSchemeTeams} from 'mattermost-redux/selectors/entities/schemes';
 
 import {getScheme as loadScheme, patchScheme, createScheme, getSchemeTeams as loadSchemeTeams} from 'mattermost-redux/actions/schemes';
@@ -23,6 +24,8 @@ function makeMapStateToProps() {
     return (state, ownProps) => {
         const schemeId = ownProps.match.params.scheme_id;
         return {
+            config: getConfig(state),
+            license: getLicense(state),
             schemeId,
             scheme: schemeId ? getScheme(state, schemeId) : null,
             teams: schemeId ? getSchemeTeams(state, {schemeId}) : null,
