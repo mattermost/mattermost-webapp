@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ChannelCategoryTypes} from 'mattermost-redux/action_types';
 import {makeGetChannelsForCategory, makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -50,8 +51,9 @@ export function setCategoryOrder(teamId: string, categoryId: string, channelId: 
 
         channelIds.splice(newIndex, 0, channelId);
 
-        // Call the final function
-        // setCategoryOrder(categoryId, channelIds);
+        // TODO: Will need to call an actual redux action so that this also goes to the server
+        // But for now, this will update the redux state correctly.
+        dispatch({type: ChannelCategoryTypes.RECEIVED_CATEGORY, data: {...category, channel_ids: channelIds}});
     };
 }
 
@@ -68,8 +70,9 @@ export function setCategoriesOrder(teamId: string, categoryId: string, newIndex:
 
         categoryIds.splice(newIndex, 0, categoryId);
 
-        // Call the final function
-        // setCategoriesOrder(teamId, categoryIds);
+        // TODO: Will need to call an actual redux action so that this also goes to the server
+        // But for now, this will update the redux state correctly.
+        dispatch({type: ChannelCategoryTypes.RECEIVED_CATEGORY_ORDER, data: {teamId, categoryIds}});
     };
 }
 
@@ -90,7 +93,8 @@ export function removeFromCategory(teamId: string, categoryId: string, channelId
             channelIds.splice(channelIds.indexOf(channelId), 1);
         }
 
-        // Call the final function
-        // setCategoryOrder(categoryId, channelIds);
+        // TODO: Will need to call an actual redux action so that this also goes to the server
+        // But for now, this will update the redux state correctly.
+        dispatch({type: ChannelCategoryTypes.RECEIVED_CATEGORY, data: {...category, channel_ids: channelIds}});
     };
 }
