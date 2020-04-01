@@ -6,10 +6,10 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 type Props = {
-    showPreview: boolean;
+    showPreview?: boolean;
     characterLimit: number;
-    previewMessageLink: string;
-    updatePreview: (showPreview: boolean) => void;
+    previewMessageLink?: string;
+    updatePreview?: (showPreview: boolean) => void;
     message: string;
     isMarkdownPreviewEnabled: boolean;
 };
@@ -24,7 +24,7 @@ export default class TextboxLinks extends React.PureComponent<Props> {
 
     togglePreview = (e: MouseEvent) => {
         e.preventDefault();
-        this.props.updatePreview(!this.props.showPreview);
+        this.props.updatePreview?.(!this.props.showPreview);
     }
 
     render() {
