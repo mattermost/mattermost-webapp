@@ -14,8 +14,8 @@ export default class FlagIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            width='15px'
-                            height='17px'
+                            width='14px'
+                            height='16px'
                             viewBox='0 0 15 17'
                             role='img'
                             aria-label={ariaLabel}

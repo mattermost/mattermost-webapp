@@ -22,8 +22,8 @@
     justify-content: center;
     width: 28px;
     height: 28px;
-    fill: v(center-channel-color-56);
-    color: v(center-channel-color-56);
+    fill: v(center-channel-color-40);
+    color: v(center-channel-color-40);
 
     &:hover {
         background: v(center-channel-color-04);
@@ -63,6 +63,10 @@
         display: none;
     }
 
+    .post-menu__item--show {
+        display: block;
+    }
+
     .post {
         &:hover,
         &.post--hovered,
@@ -75,6 +79,8 @@
 
             .post-menu__item {
                 display: inline-flex;
+                fill: v(center-channel-color-56);
+                color: v(center-channel-color-56);
             }
         }
     }

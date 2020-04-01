@@ -4,7 +4,7 @@
     .custom-textarea {
         border-radius: 4px;
         background: transparent;
-        border: 1px solid v(center-channel-color-40);
+        border: 1px solid v(center-channel-color-24);
         height: 100%;
         line-height: 20px;
         min-height: 36px;
@@ -14,8 +14,9 @@
         word-wrap: break-word;
 
         &:focus {
-            border-color: v(center-channel-color-64);
+            border: 2px solid v(center-channel-color-32);
             box-shadow: none;
+            padding: 11px 0 11px 14px;
         }
 
         &.bad-connection {

@@ -179,7 +179,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                             <React.Fragment>
                                 <PluginChannelHeaderIcon
                                     id='pluginChannelHeaderIcon'
-                                    className='icon icon__pluginChannelHeader'
+                                    className='icon icon--standard icon__pluginChannelHeader'
                                     aria-hidden='true'
                                 />
                                 <span

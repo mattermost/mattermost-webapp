@@ -14,8 +14,8 @@ export default class SearchIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            width='17px'
-                            height='17px'
+                            width='14px'
+                            height='14px'
                             viewBox='0 0 17 17'
                             role='img'
                             aria-label={ariaLabel}

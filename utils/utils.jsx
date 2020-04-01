@@ -937,6 +937,7 @@ export function applyTheme(theme) {
             'center-channel-bg-20': changeOpacity(theme.centerChannelBg, 0.2),
             'center-channel-color-20': changeOpacity(theme.centerChannelColor, 0.2),
             'center-channel-bg-16': changeOpacity(theme.centerChannelBg, 0.16),
+            'center-channel-color-24': changeOpacity(theme.centerChannelColor, 0.24),
             'center-channel-color-16': changeOpacity(theme.centerChannelColor, 0.16),
             'center-channel-bg-10': changeOpacity(theme.centerChannelBg, 0.1),
             'center-channel-color-10': changeOpacity(theme.centerChannelColor, 0.1),
