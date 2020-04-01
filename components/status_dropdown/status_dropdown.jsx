@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
-import StatusIcon from 'components/status_icon.jsx';
+import StatusIcon from 'components/status_icon';
 
 import Avatar from 'components/widgets/users/avatar';
 import Menu from 'components/widgets/menu/menu';
@@ -132,7 +132,10 @@ export default class StatusDropdown extends React.Component {
                         {dropdownIcon}
                     </span>
                 </div>
-                <Menu ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}>
+                <Menu
+                    ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                    id='statusDropdownMenu'
+                >
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}

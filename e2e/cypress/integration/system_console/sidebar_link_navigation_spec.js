@@ -7,17 +7,18 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @system_console
+
 describe('System Console', () => {
     before(() => {
+        // # Login as sysadmin, update config and visit town-square channel
+        cy.apiLogin('sysadmin');
         const newSettings = {
             TeamSettings: {SiteName: 'Mattermost'},
         };
         cy.apiUpdateConfig(newSettings);
-
-        // # Login as System Admin
-        cy.apiLogin('sysadmin');
-
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('can go to admin console by clicking System Console', () => {

@@ -7,10 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 describe('Account Settings > Display > Message Display', () => {
     before(() => {
         // # Change message display setting to compact
         cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
         cy.changeMessageDisplaySetting('COMPACT');
     });
 

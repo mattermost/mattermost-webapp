@@ -7,20 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Plugin Marketplace', () => {
-    after(() => {
-        // # Restore default configuration
-        const newSettings = {
-            PluginSettings: {
-                Enable: true,
-                EnableMarketplace: true,
-                EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-    });
+// Stage: @prod
+// Group: @plugin_marketplace
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
+describe('Plugin Marketplace', () => {
     describe('should not render in main menu', () => {
         afterEach(() => {
             cy.get('#lhsHeader').should('be.visible').within(() => {
@@ -36,7 +28,8 @@ describe('Plugin Marketplace', () => {
         });
 
         it('for non-admin', () => {
-            // # Configure marketplace as enabled
+            // # Login as sysadmin and configure marketplace as enabled
+            cy.apiLogin('sysadmin');
             const newSettings = {
                 PluginSettings: {
                     Enable: true,
@@ -48,11 +41,12 @@ describe('Plugin Marketplace', () => {
 
             // # Login as non admin user
             cy.apiLogin('user-1');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
         });
 
         it('when marketplace disabled', () => {
             // # Configure marketplace as disabled
+            cy.apiLogin('sysadmin');
             const newSettings = {
                 PluginSettings: {
                     Enable: true,
@@ -62,13 +56,13 @@ describe('Plugin Marketplace', () => {
             };
             cy.apiUpdateConfig(newSettings);
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
-            cy.visit('/');
+            // # Visit town-square channel
+            cy.visit('/ad-1/channels/town-square');
         });
 
         it('when plugins disabled', () => {
             // # Configure plugins as disabled
+            cy.apiLogin('sysadmin');
             const newSettings = {
                 PluginSettings: {
                     Enable: false,
@@ -78,14 +72,15 @@ describe('Plugin Marketplace', () => {
             };
             cy.apiUpdateConfig(newSettings);
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
-            cy.visit('/');
+            // # Visit town-square channel
+            cy.visit('/ad-1/channels/town-square');
         });
     });
+
     describe('invalid marketplace, should', () => {
         before(() => {
-            // # Set ServiceSettings to expected values
+            // # Login as sysadmin and set ServiceSettings to expected values
+            cy.apiLogin('sysadmin');
             const newSettings = {
                 PluginSettings: {
                     Enable: true,
@@ -95,16 +90,13 @@ describe('Plugin Marketplace', () => {
                 },
             };
             cy.apiUpdateConfig(newSettings);
-
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
         });
 
         beforeEach(() => {
             // # Go to main channel
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -116,7 +108,7 @@ describe('Plugin Marketplace', () => {
             });
         });
 
-        after(() => {
+        afterEach(() => {
             // * cleanup installed plugins
             uninstallAllPlugins();
         });
@@ -125,6 +117,7 @@ describe('Plugin Marketplace', () => {
             // * Should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
+
         it('show an error bar on failing to filter', () => {
             // # Set ServiceSettings to expected values
             const newSettings = {
@@ -134,7 +127,7 @@ describe('Plugin Marketplace', () => {
                     MarketplaceUrl: 'example.com',
                 },
             };
-            cy.apiUpdateConfigBasic(newSettings);
+            cy.apiUpdateConfig(newSettings);
 
             // # filter to jira plugin only
             cy.get('#searchMarketplaceTextbox').type('jira', {force: true});
@@ -176,11 +169,10 @@ describe('Plugin Marketplace', () => {
             };
             cy.apiUpdateConfig(newSettings);
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
-            cy.visit('/');
+            // # Visit town-square-channel
+            cy.visit('/ad-1/channels/town-square');
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -195,7 +187,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.be.visible');
 
             // * search should be visible
-            cy.findByPlaceholderText('Search Plugins').should('be.visible').click();
+            cy.findByPlaceholderText('Search Plugins').should('be.visible');
 
             // * tabs should be visible
             cy.get('#marketplaceTabs').should('exist');
@@ -207,7 +199,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-tab-installed').should('be.visible');
         });
 
-        after(() => {
+        afterEach(() => {
             // * cleanup installed plugins
             uninstallAllPlugins();
         });
@@ -215,6 +207,7 @@ describe('Plugin Marketplace', () => {
         it('autofocus on search plugin input box', () => {
             cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
         });
+
         it('render the list of all plugins by default', () => {
             // * all plugins tab should be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
@@ -263,7 +256,7 @@ describe('Plugin Marketplace', () => {
                     MarketplaceUrl: 'example.com',
                 },
             };
-            cy.apiUpdateConfigBasic(newSettings);
+            cy.apiUpdateConfig(newSettings);
 
             // # filter to jira plugin only
             cy.findByPlaceholderText('Search Plugins').should('be.visible').type('jira');
@@ -344,11 +337,6 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
 
-        after(() => {
-            // # uninstall all user`s plugins
-            uninstallAllPlugins();
-        });
-
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
         it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
@@ -398,12 +386,11 @@ describe('Plugin Marketplace', () => {
             };
             cy.apiUpdateConfig(newSettings);
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
-            cy.visit('/');
+            // # Visit town-square channel
+            cy.visit('/ad-1/channels/town-square');
 
             // # Click hamburger main menu
-            cy.get('#sidebarHeaderDropdownButton').click();
+            cy.wait(TIMEOUTS.TINY).get('#sidebarHeaderDropdownButton').click();
 
             // # Open up marketplace modal
             cy.get('#marketplaceModal').click();
@@ -428,6 +415,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
     });
+
     function uninstallAllPlugins() {
         cy.getAllPlugins().then((response) => {
             const {active, inactive} = response.body;

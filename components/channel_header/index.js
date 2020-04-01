@@ -19,7 +19,8 @@ import {
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getTeammateNameDisplaySetting, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getUser,
@@ -48,6 +49,8 @@ function makeMapStateToProps() {
     return function mapStateToProps(state) {
         const channel = getCurrentChannel(state) || {};
         const user = getCurrentUser(state);
+        const teams = getMyTeams(state);
+        const hasMoreThanOneTeam = teams.length > 1;
 
         let dmUser;
         let gmMembers;
@@ -57,7 +60,7 @@ function makeMapStateToProps() {
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
-        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0};
+        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
 
         return {
             teamId: getCurrentTeamId(state),
@@ -73,6 +76,11 @@ function makeMapStateToProps() {
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
+            pinnedPostsCount: stats.pinnedpost_count,
+            hasMoreThanOneTeam,
+            teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
+            currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
+            newSideBarPreference: getNewSidebarPreference(state)
         };
     };
 }

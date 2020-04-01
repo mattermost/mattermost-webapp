@@ -20,6 +20,7 @@ export default function HeaderIconWrapper({
     onClick,
     tooltipKey,
     tooltipText,
+    isRhsOpen,
 }) {
     const toolTips = {
         flaggedPosts: {
@@ -92,7 +93,7 @@ export default function HeaderIconWrapper({
                     trigger={['hover']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
-                    overlay={tooltip}
+                    overlay={isRhsOpen ? <></> : tooltip}
                 >
                     <button
                         id={buttonId}
@@ -127,5 +128,6 @@ HeaderIconWrapper.propTypes = {
     iconComponent: PropTypes.element.isRequired,
     onClick: PropTypes.func.isRequired,
     tooltipKey: PropTypes.string,
-    tooltipText: PropTypes.string,
+    tooltipText: PropTypes.node,
+    isRhsOpen: PropTypes.bool,
 };

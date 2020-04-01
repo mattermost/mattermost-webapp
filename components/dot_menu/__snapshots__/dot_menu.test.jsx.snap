@@ -75,7 +75,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="permalink_post_id_1"
       onClick={[Function]}
       show={true}
-      text="Permalink"
+      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}
@@ -200,7 +200,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="permalink_post_id_1"
       onClick={[Function]}
       show={true}
-      text="Permalink"
+      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}

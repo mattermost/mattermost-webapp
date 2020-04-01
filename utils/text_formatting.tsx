@@ -7,8 +7,6 @@ import emojiRegex from 'emoji-regex';
 import {Renderer} from 'marked';
 
 import {formatWithRenderer} from 'utils/markdown';
-import {getEmojiMap} from 'selectors/emojis';
-import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
@@ -27,6 +25,7 @@ const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoti
 export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
+        team_name: string;
     };
 };
 
@@ -177,7 +176,8 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 
 export function formatText(
     text: string,
-    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS
+    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS,
+    emojiMap: EmojiMap
 ) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -197,10 +197,10 @@ export function formatText(
 
     if (options.renderer) {
         output = formatWithRenderer(output, options.renderer);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
-        output = Markdown.format(output, options);
+        output = Markdown.format(output, options, emojiMap);
         if (output.includes('class="markdown-inline-img"')) {
             /*
             ** remove p tag to allow other divs to be nested,
@@ -213,7 +213,7 @@ export function formatText(
         }
     } else {
         output = sanitizeHtml(output);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     }
 
     // replace newlines with spaces if necessary
@@ -229,7 +229,7 @@ export function formatText(
 }
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
-export function doFormatText(text: string, options: TextFormattingOptions) {
+export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap) {
     let output = text;
 
     const tokens = new Map();
@@ -264,7 +264,6 @@ export function doFormatText(text: string, options: TextFormattingOptions) {
     }
 
     if (!('emoticons' in options) || options.emoticons) {
-        const emojiMap = getEmojiMap(store.getState());
         output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
 
@@ -372,19 +371,26 @@ function autolinkChannelMentions(
     function channelMentionExists(c: string) {
         return Boolean(channelNamesMap[c]);
     }
-    function addToken(channelName: string, mention: string, displayName: string) {
+    function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
         const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
-        if (team) {
+        if (teamName) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href = ((window as any).basename || '') + '/' + teamName + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention-team="${teamName}" "data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
+        } else if (team) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             href = ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
         }
 
-        tokens.set(alias, {
-            value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
-            originalText: mention,
-        });
         return alias;
     }
 
@@ -399,6 +405,7 @@ function autolinkChannelMentions(
             // Exact match
             const alias = addToken(
                 channelNameLower,
+                channelNamesMap[channelNameLower].team_name,
                 mention,
                 escapeHtml(channelNamesMap[channelNameLower].display_name)
             );
@@ -416,6 +423,7 @@ function autolinkChannelMentions(
                     const suffix = originalChannelName.substr(c - 1);
                     const alias = addToken(
                         channelNameLower,
+                        channelNamesMap[channelNameLower].team_name,
                         '~' + channelNameLower,
                         escapeHtml(channelNamesMap[channelNameLower].display_name)
                     );
@@ -482,10 +490,7 @@ function highlightCurrentMentions(
     for (const [alias, token] of tokens) {
         const tokenTextLower = token.originalText.toLowerCase();
 
-        if (
-            mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !==
-      -1
-        ) {
+        if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}$`;
 
@@ -794,7 +799,21 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
     // replace all occurances of unicode emoji with additional markup
     output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
-        const emojiCode = emojiMatch.codePointAt(0)!.toString(16);
+        const codePoints = [fixedCharCodeAt(emojiMatch, 0)];
+
+        if (emojiMatch.length > 2) {
+            for (let i = 2; i < emojiMatch.length; i++) {
+                const codePoint = fixedCharCodeAt(emojiMatch, i);
+                if (codePoint === -1) {
+                    // Not a complete character
+                    continue;
+                }
+
+                codePoints.push(codePoint);
+            }
+        }
+
+        const emojiCode = codePoints.map((codePoint) => codePoint.toString(16)).join('-');
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
         if (emojiMap.hasUnicode(emojiCode)) {
@@ -806,5 +825,35 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         // wrap unsupported unicode emoji in span to style as needed
         return `<span class="emoticon emoticon--unicode">${emojiMatch}</span>`;
     });
+
     return output;
+}
+
+// Gets the unicode character code of a character starting at the given index in the string
+// Adapted from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
+function fixedCharCodeAt(str: string, idx = 0) {
+    // ex. fixedCharCodeAt('\uD800\uDC00', 0); // 65536
+    // ex. fixedCharCodeAt('\uD800\uDC00', 1); // false
+    const code = str.charCodeAt(idx);
+
+    // High surrogate (could change last hex to 0xDB7F to treat high
+    // private surrogates as single characters)
+    if (code >= 0xD800 && code <= 0xDBFF) {
+        const hi = code;
+        const low = str.charCodeAt(idx + 1);
+
+        if (isNaN(low)) {
+            console.log('High surrogate not followed by low surrogate in fixedCharCodeAt()'); // eslint-disable-line
+        }
+
+        return ((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+    }
+
+    if (code >= 0xDC00 && code <= 0xDFFF) { // Low surrogate
+        // We return false to allow loops to skip this iteration since should have
+        // already handled high surrogate above in the previous iteration
+        return -1;
+    }
+
+    return code;
 }

@@ -7,11 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 describe('AS14318 Theme Colors - Settings View', () => {
     before(() => {
-        // # Set default theme preference
+        // # Login as user-1, set default theme preference and visit town-square channel
         cy.apiLogin('user-1');
         cy.apiSaveThemePreference();
+        cy.visit('/ad-1/channels/town-square');
     });
 
     after(() => {
@@ -20,8 +24,8 @@ describe('AS14318 Theme Colors - Settings View', () => {
     });
 
     it('Theme Display should render in min setting view', () => {
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal(null, true);
+        // # Go to Account Settings
+        cy.toAccountSettingsModal();
 
         // * Check that the Display tab is loaded
         cy.get('#displayButton').should('be.visible');

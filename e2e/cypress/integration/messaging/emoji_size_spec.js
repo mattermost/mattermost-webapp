@@ -6,6 +6,10 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod @smoke
+// Group: @messaging
+
 /**
  * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
  * @param  message {string[]} [this is the message we send along with some emojis attached to it ]
@@ -27,7 +31,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M15381 - Whitespace with emojis does not affect size', () => {

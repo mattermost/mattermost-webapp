@@ -7,8 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @markdown
+
 describe('Markdown', () => {
     before(() => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             ImageProxySettings: {
                 Enable: true,
@@ -17,7 +22,7 @@ describe('Markdown', () => {
         });
 
         // # Login as new user
-        cy.loginAsNewUser().then(() => {
+        cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
                 cy.visit(`/${response.body.name}`);

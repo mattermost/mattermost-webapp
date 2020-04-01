@@ -3,6 +3,7 @@
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on default data 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -67,6 +68,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
@@ -78,6 +80,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage
@@ -121,6 +124,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on more than eight teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -185,6 +189,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
@@ -196,6 +201,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage
@@ -314,6 +320,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
 exports[`components/admin_console/permission_schemes_settings/permissions_scheme_summary should match snapshot on no teams 1`] = `
 <div
   className="permissions-scheme-summary"
+  data-testid="permissions-scheme-summary"
   onClick={[Function]}
 >
   <div
@@ -378,6 +385,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
     >
       <Link
         className="edit-button"
+        data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
         <FormattedMessage
@@ -389,6 +397,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       -
       <a
         className="delete-button"
+        data-testid="Test-delete"
         onClick={[Function]}
       >
         <FormattedMessage

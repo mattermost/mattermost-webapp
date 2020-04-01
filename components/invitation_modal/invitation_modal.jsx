@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
 
 import {InviteTypes} from 'utils/constants';
@@ -255,6 +255,7 @@ export default class InvitationModal extends React.Component {
                                 teamName={this.props.currentTeam.display_name}
                                 goToMembers={this.goToMembers}
                                 goToGuests={this.goToGuests}
+                                emailInvitationsEnabled={this.props.emailInvitationsEnabled}
                             />
                         }
                         {this.state.step === STEPS_INVITE_MEMBERS &&

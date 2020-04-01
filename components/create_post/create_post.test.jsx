@@ -73,6 +73,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
+    setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -133,7 +134,10 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
+            shouldShowPreview={false}
             isTimezoneEnabled={false}
+            canPost={true}
+            useChannelMentions={true}
         />
     );
 }
@@ -212,7 +216,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
 
         wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
@@ -263,10 +267,6 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
-        wrapper.setState({
-            showPreview: false,
-        });
-
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
@@ -291,6 +291,66 @@ describe('components/create_post', () => {
 
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
+    it('Should set mentionHighlightDisabled prop when useChannelMentions disabled before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: false,
+        });
+
+        const post = {message: 'message with @here mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual({...post, props: {mentionHighlightDisabled: true}});
+    });
+
+    it('Should not set mentionHighlightDisabled prop when useChannelMentions enabled before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: true,
+        });
+
+        const post = {message: 'message with @here mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
+    });
+
+    it('Should not set mentionHighlightDisabled prop when useChannelMentions disabled but message does not contain channel metion before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: false,
+        });
+
+        const post = {message: 'message without mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
     });
 
     it('onSubmit test for @all with timezones', () => {
@@ -783,6 +843,11 @@ describe('components/create_post', () => {
 
     it('should match snapshot for read only channel', () => {
         const wrapper = shallowWithIntl(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot when cannot post', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false}));
         expect(wrapper).toMatchSnapshot();
     });
 

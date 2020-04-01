@@ -2,10 +2,13 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. # Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @search
 
 import users from '../../fixtures/users.json';
 
@@ -28,7 +31,7 @@ describe('Search in DMs', () => {
     it('S14672 Search "in:[username]" returns results in DMs', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         const message = 'Hello' + Date.now();
 
         // # Ensure Direct Message is visible in LHS sidebar

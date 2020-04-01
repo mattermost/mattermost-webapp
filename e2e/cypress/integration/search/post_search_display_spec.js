@@ -2,16 +2,19 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. # Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod @smoke
+// Group: @search
 
 describe('Post search display', () => {
     it('S14252 After clearing search query, search options display', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         const searchWord = 'Hello';
 
         // # post message

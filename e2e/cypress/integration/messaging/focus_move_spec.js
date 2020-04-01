@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @messaging
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 function verifyFocusInAddChannelMemberModal() {
@@ -51,7 +54,7 @@ describe('Messaging', () => {
     });
 
     beforeEach(() => {
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M15406 - Focus move from Recent Mentions to main input box when a character key is selected', () => {
@@ -149,12 +152,6 @@ describe('Messaging', () => {
         });
     });
     it('M17455 - Focus does not move for non-character keys', () => {
-        //# Make sure main input is visible and focused
-        cy.get('#post_textbox').should('be.visible').and('be.focused');
-
-        //#Click anywhere in the body to move the focus out of the main input box
-        cy.get('body').click();
-
         //# Make sure main input is not focused
         cy.get('#post_textbox').should('not.be.focused');
 

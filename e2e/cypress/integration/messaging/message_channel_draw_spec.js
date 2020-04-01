@@ -1,6 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @messaging @plugin
+
 /**
  * Note : This test requires draw plugin tar file under fixtures folder.
  * Download from : https://integrations.mattermost.com/draw-plugin/
@@ -10,11 +19,11 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Draw plugin : Post message', () => {
-    const fileName = 'com.mattermost.draw-plugin.tar.gz';
-    const fileType = 'application/gzip';
     const pluginId = 'com.mattermost.draw-plugin';
 
     before(() => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -22,19 +31,20 @@ describe('Draw plugin : Post message', () => {
             },
         });
 
-        // # Login with admin access .upload Draw plugin & Enable the plugin
-        cy.apiLogin('sysadmin').visit('/');
-        cy.uploadBinaryFileByName(fileName, fileType);
-        cy.enablePluginById(pluginId);
+        // # Upload and enable Draw plugin
+        cy.uploadBinaryFileByName('com.mattermost.draw-plugin.tar.gz').then(() => {
+            cy.enablePluginById(pluginId);
 
-        // # Login with user-1
-        cy.apiLogin('user-1').visit('/');
-        cy.get('#post_textbox').clear().type('This check is for draw plugin');
+            // # Login as user-1 and go to town-square channel
+            cy.apiLogin('user-1');
+            cy.visit('/ad-1/channels/town-square');
+            cy.get('#post_textbox').clear().type('This check is for draw plugin');
+        });
     });
 
     after(() => {
         // # UnInstall Draw plugin
-        cy.apiLogin('sysadmin').visit('/');
+        cy.apiLogin('sysadmin');
         cy.uninstallPluginById(pluginId);
     });
 

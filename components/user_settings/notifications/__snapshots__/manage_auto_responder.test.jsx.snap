@@ -34,7 +34,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           </label>
         </div>,
         <div
-          className="margin-top x3"
+          className="mt-5"
         >
           <FormattedHTMLMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
@@ -110,7 +110,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               </label>
             </div>
             <div
-              className="margin-top x3"
+              className="mt-5"
               key="autoResponderHint"
             >
               <FormattedHTMLMessage
@@ -245,7 +245,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           id="autoResponderMessage"
         >
           <div
-            className="padding-top"
+            className="pt-2"
           >
             <AutosizeTextarea
               className="form-control"
@@ -264,7 +264,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           </div>
         </div>,
         <div
-          className="margin-top x3"
+          className="mt-5"
         >
           <FormattedHTMLMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
@@ -344,7 +344,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               key="autoResponderMessage"
             >
               <div
-                className="padding-top"
+                className="pt-2"
               >
                 <AutosizeTextarea
                   className="form-control"
@@ -364,6 +364,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     <textarea
                       aria-label="message"
                       className="form-control"
+                      data-testid="autoResponderMessageInput"
                       height={0}
                       id="autoResponderMessageInput"
                       maxLength={200}
@@ -406,7 +407,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               </div>
             </div>
             <div
-              className="margin-top x3"
+              className="mt-5"
               key="autoResponderHint"
             >
               <FormattedHTMLMessage

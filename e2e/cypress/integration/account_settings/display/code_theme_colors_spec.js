@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @account_setting
+
 const THEMES = [{name: 'github', backgroundColor: 'rgb(248, 248, 248)', color: 'rgb(51, 51, 51)'},
     {name: 'monokai', backgroundColor: 'rgb(39, 40, 34)', color: 'rgb(221, 221, 221)'},
     {name: 'solarized-light', backgroundColor: 'rgb(253, 246, 227)', color: 'rgb(101, 123, 131)'},
@@ -26,7 +29,7 @@ function verifyLastPostStyle(codeTheme) {
 
 function navigateToThemeSettings() {
     // Change theme to desired theme (keeps settings modal open)
-    cy.toAccountSettingsModal(null, true);
+    cy.toAccountSettingsModal();
     cy.get('#displayButton').click();
     cy.get('#displaySettingsTitle').should('exist');
 
@@ -40,7 +43,7 @@ describe('AS14319 Theme Colors - Code', () => {
     before(() => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Enter in code block for message
         cy.get('#post_textbox').clear().type('```\ncode\n```{enter}');

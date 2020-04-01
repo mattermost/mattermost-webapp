@@ -1,0 +1,365 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
+<Connect(TutorialTip)
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Channels"
+            id="sidebar.tutorialScreen1.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
+            id="sidebar.tutorialScreen1.body"
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            id="sidebar.tutorialScreen2.title"
+            values={
+              Object {
+                "offtopic": "TestOffTopic",
+                "townsquare": "TestTownSquare",
+              }
+            }
+          />
+        </h4>
+        <p>
+          <FormattedMessage
+            defaultMessage="Here are two public channels to start:"
+            id="sidebar.tutorialScreen2.body1"
+            values={Object {}}
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            id="sidebar.tutorialScreen2.body2"
+            values={
+              Object {
+                "townsquare": "TestTownSquare",
+              }
+            }
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
+            id="sidebar.tutorialScreen2.body3"
+            values={
+              Object {
+                "offtopic": "TestOffTopic",
+              }
+            }
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Creating and Joining Channels"
+            id="sidebar.tutorialScreen3.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
+            id="sidebar.tutorialScreen3.body1"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
+            id="sidebar.tutorialScreen3.body2"
+          />
+        </p>
+      </div>,
+    ]
+  }
+/>
+`;
+
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
+<Connect(TutorialTip)
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Channels"
+            id="sidebar.tutorialScreen1.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
+            id="sidebar.tutorialScreen1.body"
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            id="sidebar.tutorialScreen2.title"
+            values={
+              Object {
+                "offtopic": "Off-Topic",
+                "townsquare": "TestTownSquare",
+              }
+            }
+          />
+        </h4>
+        <p>
+          <FormattedMessage
+            defaultMessage="Here are two public channels to start:"
+            id="sidebar.tutorialScreen2.body1"
+            values={Object {}}
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            id="sidebar.tutorialScreen2.body2"
+            values={
+              Object {
+                "townsquare": "TestTownSquare",
+              }
+            }
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
+            id="sidebar.tutorialScreen2.body3"
+            values={
+              Object {
+                "offtopic": "Off-Topic",
+              }
+            }
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Creating and Joining Channels"
+            id="sidebar.tutorialScreen3.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
+            id="sidebar.tutorialScreen3.body1"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
+            id="sidebar.tutorialScreen3.body2"
+          />
+        </p>
+      </div>,
+    ]
+  }
+/>
+`;
+
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
+<Connect(TutorialTip)
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Channels"
+            id="sidebar.tutorialScreen1.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
+            id="sidebar.tutorialScreen1.body"
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            id="sidebar.tutorialScreen2.title"
+            values={
+              Object {
+                "offtopic": "TestOffTopic",
+                "townsquare": "Town Square",
+              }
+            }
+          />
+        </h4>
+        <p>
+          <FormattedMessage
+            defaultMessage="Here are two public channels to start:"
+            id="sidebar.tutorialScreen2.body1"
+            values={Object {}}
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            id="sidebar.tutorialScreen2.body2"
+            values={
+              Object {
+                "townsquare": "Town Square",
+              }
+            }
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
+            id="sidebar.tutorialScreen2.body3"
+            values={
+              Object {
+                "offtopic": "TestOffTopic",
+              }
+            }
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Creating and Joining Channels"
+            id="sidebar.tutorialScreen3.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
+            id="sidebar.tutorialScreen3.body1"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
+            id="sidebar.tutorialScreen3.body2"
+          />
+        </p>
+      </div>,
+    ]
+  }
+/>
+`;
+
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
+<Connect(TutorialTip)
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Channels"
+            id="sidebar.tutorialScreen1.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
+            id="sidebar.tutorialScreen1.body"
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
+            id="sidebar.tutorialScreen2.title"
+            values={
+              Object {
+                "offtopic": "Off-Topic",
+                "townsquare": "Town Square",
+              }
+            }
+          />
+        </h4>
+        <p>
+          <FormattedMessage
+            defaultMessage="Here are two public channels to start:"
+            id="sidebar.tutorialScreen2.body1"
+            values={Object {}}
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
+            id="sidebar.tutorialScreen2.body2"
+            values={
+              Object {
+                "townsquare": "Town Square",
+              }
+            }
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
+            id="sidebar.tutorialScreen2.body3"
+            values={
+              Object {
+                "offtopic": "Off-Topic",
+              }
+            }
+          />
+        </p>
+      </div>,
+      <div>
+        <h4>
+          <FormattedMessage
+            defaultMessage="Creating and Joining Channels"
+            id="sidebar.tutorialScreen3.title"
+            values={Object {}}
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
+            id="sidebar.tutorialScreen3.body1"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
+            id="sidebar.tutorialScreen3.body2"
+          />
+        </p>
+      </div>,
+    ]
+  }
+/>
+`;

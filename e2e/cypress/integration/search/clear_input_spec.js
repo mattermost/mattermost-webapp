@@ -2,10 +2,13 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. # Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @search
 
 import TIMEOUTS from '../../fixtures/timeouts';
 
@@ -13,7 +16,7 @@ describe('Search', () => {
     before(() => {
         // # Login as the sysadmin.
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('QuickInput clear X', () => {
