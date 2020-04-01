@@ -48,7 +48,7 @@ type Props = {
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
-    },
+    };
     useChannelMentions: boolean;
 };
 
@@ -177,7 +177,7 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.message.current) {
             return this.message.current.getTextbox();
         }
-        return undefined;
+        return null;
     }
 
     focus = () => {
@@ -218,7 +218,10 @@ export default class Textbox extends React.PureComponent<Props> {
             textboxClassName += ' bad-connection';
         }
         if (this.wrapper.current) {
-            wrapperHeight = this.getInputBox().clientHeight;
+            const inputBox = this.getInputBox();
+            if (inputBox) {
+                wrapperHeight = inputBox.clientHeight;
+            }
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
