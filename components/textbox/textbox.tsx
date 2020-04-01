@@ -117,8 +117,8 @@ export default class Textbox extends React.PureComponent<Props> {
         }
     }
     componentDidUpdate(prevProps: Props) {
-        if (!prevProps.preview && this.props.preview && this.preview.current) {
-            this.preview.current.focus();
+        if (!prevProps.preview && this.props.preview) {
+            this.preview.current?.focus();
         }
 
         this.updateSuggestions(prevProps);
@@ -144,46 +144,32 @@ export default class Textbox extends React.PureComponent<Props> {
     }
 
     handleKeyDown = (e: KeyboardEvent) => {
-        if (this.props.onKeyDown) {
-            this.props.onKeyDown(e);
-        }
+        this.props.onKeyDown?.(e);
     }
 
     handleMouseUp = (e: MouseEvent) => {
-        if (this.props.onMouseUp) {
-            this.props.onMouseUp(e);
-        }
+        this.props.onMouseUp?.(e);
     }
 
     handleKeyUp = (e: KeyboardEvent) => {
-        if (this.props.onKeyUp) {
-            this.props.onKeyUp(e);
-        }
+        this.props.onKeyUp?.(e);
     }
 
     handleBlur = (e: FocusEvent) => {
-        if (this.props.onBlur) {
-            this.props.onBlur(e);
-        }
+        this.props.onBlur?.(e);
     }
 
     handleHeightChange = (height: number, maxHeight: number) => {
-        if (this.props.onHeightChange) {
-            this.props.onHeightChange(height, maxHeight);
-        }
+        this.props.onHeightChange?.(height, maxHeight);
     }
 
     getInputBox = () => {
-        if (this.message.current) {
-            return this.message.current.getTextbox();
-        }
-        return null;
+        return this.message.current?.getTextbox();
     }
 
     focus = () => {
-        if (this.message.current) {
-            const textbox = this.message.current.getTextbox();
-
+        const textbox = this.getInputBox();
+        if (textbox) {
             textbox.focus();
             Utils.placeCaretAtEnd(textbox);
 
@@ -193,16 +179,11 @@ export default class Textbox extends React.PureComponent<Props> {
     }
 
     blur = () => {
-        if (this.message.current) {
-            const textbox = this.message.current.getTextbox();
-            textbox.blur();
-        }
+        this.getInputBox()?.blur();
     };
 
     recalculateSize = () => {
-        if (this.message.current) {
-            this.message.current.recalculateSize();
-        }
+        this.message.current?.recalculateSize();
     }
 
     render() {
@@ -218,10 +199,7 @@ export default class Textbox extends React.PureComponent<Props> {
             textboxClassName += ' bad-connection';
         }
         if (this.wrapper.current) {
-            const inputBox = this.getInputBox();
-            if (inputBox) {
-                wrapperHeight = inputBox.clientHeight;
-            }
+            wrapperHeight = this.getInputBox()?.clientHeight;
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
