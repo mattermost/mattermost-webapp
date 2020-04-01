@@ -31,7 +31,7 @@ export default class CommentIcon extends React.PureComponent<Props> {
         let commentCountSpan: JSX.Element | null = null;
         let iconStyle = 'post-menu__item post-menu__item--wide post-menu__item--comment';
         if (this.props.commentCount > 0) {
-            iconStyle += ' icon--show';
+            iconStyle += ' post-menu__item--show';
             commentCountSpan = (
                 <span className='post-menu__comment-count'>
                     {this.props.commentCount}

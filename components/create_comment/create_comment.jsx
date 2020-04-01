@@ -937,11 +937,6 @@ class CreateComment extends React.PureComponent {
             );
         }
 
-        let addButtonClass = 'btn btn-primary comment-btn';
-        if (!enableAddButton) {
-            addButtonClass += ' disabled';
-        }
-
         let fileUpload;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
@@ -1084,14 +1079,6 @@ class CreateComment extends React.PureComponent {
                         </div>
                         <div className='text-right mt-2'>
                             {uploadsInProgressText}
-                            <input
-                                type='button'
-                                disabled={!enableAddButton}
-                                id='addCommentButton'
-                                className={addButtonClass}
-                                value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
-                                onClick={this.handleSubmit}
-                            />
                             {preview}
                             {serverError}
                         </div>

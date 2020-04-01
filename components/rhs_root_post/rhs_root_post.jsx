@@ -394,7 +394,7 @@ class RhsRootPost extends React.PureComponent {
                     }
                 >
                     <button
-                        className='card-icon__container icon--show style--none'
+                        className='post-menu__item post-menu__item--show'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);

@@ -315,7 +315,7 @@ export default class PostInfo extends React.PureComponent {
                     }
                 >
                     <button
-                        className={'card-icon__container icon--show style--none ' + (this.props.isCardOpen ? 'active' : '')}
+                        className={'post-menu__item post-menu__item--show ' + (this.props.isCardOpen ? 'active' : '')}
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);

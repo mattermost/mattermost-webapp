@@ -1,25 +1,27 @@
 @charset 'UTF-8';
 
-.custom-textarea {
-    border-radius: 4px;
-    background: transparent;
-    border: 1px solid v(center-channel-color-16);
-    height: 100%;
-    line-height: 20px;
-    min-height: 36px;
-    overflow: hidden;
-    resize: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+.app__body {
+    .custom-textarea {
+        border-radius: 4px;
+        background: transparent;
+        border: 1px solid v(center-channel-color-40);
+        height: 100%;
+        line-height: 20px;
+        min-height: 36px;
+        overflow: hidden;
+        resize: none;
+        white-space: pre-wrap;
+        word-wrap: break-word;
 
-    &:focus {
-        border-color: v(center-channel-color-40);
-        box-shadow: none;
-    }
+        &:focus {
+            border-color: v(center-channel-color-64);
+            box-shadow: none;
+        }
 
-    &.bad-connection {
-        background: #ffffac !important;
-        color: #d04444 !important;
+        &.bad-connection {
+            background: #ffffac !important;
+            color: #d04444 !important;
+        }
     }
 }
 

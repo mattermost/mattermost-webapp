@@ -666,7 +666,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .search-item-container, .app__body .post-right__container .post.post--root', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .modal .custom-textarea:focus', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .channel-intro, .app__body .modal .settings-modal .settings-table .settings-content .divider-dark, .app__body hr, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .modal .settings-modal .settings-table .settings-content .appearance-section .theme-elements__header, .app__body .user-settings .authorized-app:not(:last-child)', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('.app__body .post.current--user .post__body, .app__body .post.post--comment.other--root.current--user .post-comment, .app__body pre, .app__body .post-right__container .post.post--root', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
+        changeCss('.app__body .post.post--comment.other--root.current--user .post-comment, .app__body pre, .app__body .post-right__container .post.post--root', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
         changeCss('.app__body .post.post--comment.other--root.current--user .post-comment, .app__body .more-modal__list .more-modal__row, .app__body .member-div:first-child, .app__body .member-div, .app__body .access-history__table .access__report, .app__body .activity-log__table', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(max-width: 1800px){.app__body .inner-wrap.move--left .post.post--comment.same--root', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .post.post--hovered', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
@@ -933,7 +933,7 @@ export function applyTheme(theme) {
             'center-channel-bg-40': changeOpacity(theme.centerChannelBg, 0.4),
             'center-channel-color-40': changeOpacity(theme.centerChannelColor, 0.4),
             'center-channel-bg-30': changeOpacity(theme.centerChannelBg, 0.3),
-            'center-channel-color-30': changeOpacity(theme.centerChannelColor, 0.3),
+            'center-channel-color-32': changeOpacity(theme.centerChannelColor, 0.32),
             'center-channel-bg-20': changeOpacity(theme.centerChannelBg, 0.2),
             'center-channel-color-20': changeOpacity(theme.centerChannelColor, 0.2),
             'center-channel-bg-16': changeOpacity(theme.centerChannelBg, 0.16),

@@ -14,7 +14,7 @@
 }
 
 .post-menu__item {
-    display: none;
+    display: inline-flex;
     border: none;
     background: transparent;
     border-radius: 4px;
@@ -44,6 +44,10 @@
     }
 }
 
+.post-menu__item--show {
+    display: block;
+}
+
 .post-menu__item--wide {
     width: auto;
     padding: 0 6px;
@@ -55,6 +59,10 @@
 }
 
 @media (min-width: 768px) {
+    .post-menu__item {
+        display: none;
+    }
+
     .post {
         &:hover,
         &.post--hovered,
