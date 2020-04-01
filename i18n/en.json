@@ -2140,7 +2140,6 @@
   "convert_channel.title": "Convert {display_name} to a Private Channel?",
   "copy_url_context_menu.getChannelLink": "Copy Link",
   "create_comment.addComment": "Add a comment...",
-  "create_comment.comment": "Add Comment",
   "create_comment.commentTitle": "Comment",
   "create_comment.file": "File uploading",
   "create_comment.files": "Files uploading",
