@@ -25,7 +25,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants';
 
-import {leaveChannel} from 'actions/views/channel';
+import {leaveChannel, leaveDirectChannel} from 'actions/views/channel';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {getPostDraft} from 'selectors/rhs';
 
@@ -144,6 +144,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             savePreferences,
             leaveChannel,
+            leaveDirectChannel,
             openLhs,
         }, dispatch),
     };
