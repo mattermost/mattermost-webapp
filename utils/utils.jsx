@@ -1348,12 +1348,7 @@ export function displayEntireNameForUser(user) {
     return displayName;
 }
 
-export function imageURLForUser(userIdOrObject) {
-    let user = userIdOrObject;
-    if (typeof userIdOrObject === 'string') {
-        const state = store.getState();
-        user = getUser(state, userIdOrObject) || {id: userIdOrObject};
-    }
+export function imageURLForUser(user) {
     return Client4.getUsersRoute() + '/' + user.id + '/image?_=' + (user.last_picture_update || 0);
 }
 

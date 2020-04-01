@@ -35,7 +35,7 @@ export default class PostProfilePicture extends React.PureComponent {
         if (user && user.id === post.user_id) {
             return Utils.imageURLForUser(user);
         } else if (post.user_id) {
-            return Utils.imageURLForUser(post.user_id);
+            return Utils.imageURLForUser({id: post.user_id});
         }
 
         return '';
