@@ -1348,8 +1348,8 @@ export function displayEntireNameForUser(user) {
     return displayName;
 }
 
-export function imageURLForUser(user) {
-    return Client4.getUsersRoute() + '/' + user.id + '/image?_=' + (user.last_picture_update || 0);
+export function imageURLForUser(userId, lastPictureUpdate = 0) {
+    return Client4.getUsersRoute() + '/' + userId + '/image?_=' + lastPictureUpdate;
 }
 
 export function defaultImageURLForUser(userId) {

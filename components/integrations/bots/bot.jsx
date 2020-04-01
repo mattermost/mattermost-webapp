@@ -449,7 +449,7 @@ export default class Bot extends React.PureComponent {
             );
         }
 
-        const imageURL = Utils.imageURLForUser(this.props.user);
+        const imageURL = Utils.imageURLForUser(this.props.user.id, this.props.user.last_picture_update);
 
         return (
             <div className='backstage-list__item'>
