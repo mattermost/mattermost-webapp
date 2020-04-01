@@ -123,7 +123,7 @@ class TeamButton extends React.Component {
             />
         );
 
-        let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
         let orderIndicator;
         if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
             let toolTipHelp;

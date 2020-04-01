@@ -1373,7 +1373,7 @@ class CreatePost extends React.PureComponent {
                                         className='fa fa-paper-plane'
                                         title={{
                                             id: t('create_post.icon'),
-                                            defaultMessage: 'Send Post Icon',
+                                            defaultMessage: 'Create a post',
                                         }}
                                     />
                                 </a>
