@@ -27,6 +27,8 @@ import {
 } from 'actions/views/create_comment';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
+import {showPreviewOnCreateComment} from 'selectors/views/textbox';
+import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 
 import CreateComment from './create_comment.jsx';
 
@@ -84,6 +86,7 @@ function makeMapStateToProps() {
             selectedPostFocussedAt: getSelectedPostFocussedAt(state),
             canPost,
             useChannelMentions,
+            shouldShowPreview: showPreviewOnCreateComment(state),
         };
     };
 }
@@ -137,7 +140,8 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
-            emitShortcutReactToLastPostFrom
+            emitShortcutReactToLastPostFrom,
+            setShowPreview: setShowPreviewOnCreateComment,
         }, dispatch);
     };
 }

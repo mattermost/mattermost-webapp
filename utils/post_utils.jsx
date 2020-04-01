@@ -349,7 +349,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
     if (post.root_id) {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.replyMessage',
-            defaultMessage: '{authorName} at {time} {date} wrote a reply, {message}',
+            defaultMessage: 'At {time} {date}, {authorName} replied, {message}',
         },
         {
             authorName: author,
@@ -360,7 +360,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
     } else {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.message',
-            defaultMessage: '{authorName} at {time} {date} wrote, {message}',
+            defaultMessage: 'At {time} {date}, {authorName} wrote, {message}',
         },
         {
             authorName: author,

@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @accessibility
+
 // * Verify the accessibility support in the menu items
 function verifyMenuItems(menuEl, labels) {
     cy.get(`${menuEl} .MenuItem`).each((child, index) => {

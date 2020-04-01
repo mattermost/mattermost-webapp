@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @markdown
+
 describe('Markdown', () => {
     const baseUrl = Cypress.config('baseUrl');
     let testTeam;

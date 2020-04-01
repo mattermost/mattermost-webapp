@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @messaging
+
 describe('Messaging', () => {
     beforeEach(() => {
         // # Login as user-1

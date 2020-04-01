@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 function toAccountSettingsChannelDisplayMode() {
     // # Go to Account Settings
     cy.toAccountSettingsModal();

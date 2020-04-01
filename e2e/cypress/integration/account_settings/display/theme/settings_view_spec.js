@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 describe('AS14318 Theme Colors - Settings View', () => {
     beforeEach(() => {
         // # Login as user-1

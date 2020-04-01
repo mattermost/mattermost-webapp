@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @account_setting
+
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     beforeEach(() => {
         // # Login as sysadmin

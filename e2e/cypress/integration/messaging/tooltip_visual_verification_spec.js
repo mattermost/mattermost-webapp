@@ -6,6 +6,10 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
@@ -28,7 +32,7 @@ describe('Messaging', () => {
 
     it('M18697 - Visual verification of tooltips on post hover menu', () => {
         cy.getLastPostId().then((postId) => {
-            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More Actions');
+            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More actions');
 
             verifyToolTip(postId, `#CENTER_reaction_${postId}`, 'Add Reaction');
 

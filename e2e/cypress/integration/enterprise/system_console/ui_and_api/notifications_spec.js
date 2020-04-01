@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @enterprise @system_console
+
 describe('System Console', () => {
     beforeEach(() => {
         // # Login as sysadmin
