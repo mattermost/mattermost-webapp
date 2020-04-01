@@ -16,9 +16,6 @@ import Textbox from './textbox';
 
 type Props = {
     channelId: string;
-    currentUserId: string;
-    profilesInChannel: UserProfile[];
-    profilesNotInChannel: UserProfile[];
 };
 
 const makeMapStateToProps = () => {
