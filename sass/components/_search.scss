@@ -29,6 +29,9 @@
     top: 7px;
 
     svg {
+        width: 14px;
+        height: 14px;
+
         body.enable-animations & {
             @include single-transition(all, $transition-quick, ease-out);
         }
