@@ -162,7 +162,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
                     cy.wait(TIMEOUTS.SMALL);
 
                     // # Press tab to the Add Public Channel button
-                    cy.get('#createPublicChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create new public channel');
+                    cy.get('#createPublicChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a public channel');
 
                     // * Verify if the Plus button is round when it has focus
                     cy.get('#createPublicChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
@@ -173,8 +173,8 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
                         cy.focused().tab();
                     });
 
-                    // * Verify if focus is on the more public channels
-                    cy.get('#sidebarPublicChannelsMore').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more public channels');
+                    // * Verify if focus is on the See more public channels
+                    cy.get('#sidebarPublicChannelsMore').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'See more public channels');
                 });
             });
         });
@@ -192,7 +192,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
                     cy.wait(TIMEOUTS.SMALL);
 
                     // # Press tab to the Add Private Channel button
-                    cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create new private channel');
+                    cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a private channel');
 
                     // * Verify if the Plus button is round when it has focus
                     cy.get('#createPrivateChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
@@ -222,7 +222,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.wait(TIMEOUTS.SMALL);
 
         // # Press tab to the Create DM button
-        cy.get('#addDirectChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create new direct message');
+        cy.get('#addDirectChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'write a direct message');
 
         // * Verify if the Plus button is round when it has focus
         cy.get('#addDirectChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
@@ -233,7 +233,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
             cy.focused().tab();
         });
 
-        // * Verify if focus is on the more public channels
-        cy.get('#moreDirectMessage').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'more direct messages');
+        // * Verify if focus is on the See more public channels
+        cy.get('#moreDirectMessage').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'See more direct messages');
     });
 });
