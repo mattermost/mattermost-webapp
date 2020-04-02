@@ -90,8 +90,13 @@ Cypress.on('test:after:run', (test, runnable) => {
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
     cy.apiLogin('user-1');
-    cy.apiPatchMe({locale: 'en'});
+    resetUserProps();
+
     cy.apiLogin('sysadmin');
-    cy.apiPatchMe({locale: 'en'});
     cy.apiUpdateConfig();
+    resetUserProps();
 });
+
+function resetUserProps() {
+    cy.apiPatchMe({locale: 'en'});
+}
