@@ -27,17 +27,17 @@
     &.channel-header__popover {
         z-index: 999;
         margin-left: -4px;
-        font-size: em(12px);
+        font-size: 12px;
 
         &.chanel-header__popover--dm {
-            margin-left: 70px;
+            margin-left: 69.5px;
         }
 
         &.chanel-header__popover--lhs_offset {
             margin-left: 61px;
             
             &.chanel-header__popover--dm {
-                margin-left: 135px;
+                margin-left: 134.5px;
             }
 
             &.chanel-header__popover--new_sidebar {
@@ -48,12 +48,11 @@
         &.chanel-header__popover--new_sidebar {
             margin-left: 16px;
 
-
             &.chanel-header__popover--dm {
-                margin-left: 91px;
+                margin-left: 89.5px;
 
                 &.chanel-header__popover--lhs_offset {
-                    margin-left: 155px;
+                    margin-left: 154.5px;
                 }
             }
         }
