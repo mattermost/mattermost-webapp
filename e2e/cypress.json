@@ -1,8 +1,8 @@
 {
     "baseUrl": "http://localhost:8065",
     "viewportWidth": 1300,
-    "defaultCommandTimeout": 20000,
-    "taskTimeout": 20000,
+    "defaultCommandTimeout": 60000,
+    "taskTimeout": 60000,
     "video": false,
     "ignoreTestFiles": "**/node_modules/**/*",
     "integrationFolder": "..",
