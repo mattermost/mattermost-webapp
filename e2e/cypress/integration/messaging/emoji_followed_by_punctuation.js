@@ -8,8 +8,8 @@
 // ***************************************************************
 function emojiVerification(postId) {
     // # set the postMessageTextId var
-    const postMessageTextId = `#postMessageText_${postId}`
-	;
+    const postMessageTextId = `#postMessageText_${postId}`;
+
     // * Check for the emoji attr of :) is exists
     cy.get(`${postMessageTextId} p span span.emoticon`).should('have.attr', 'title', ':slightly_smiling_face:');
 
