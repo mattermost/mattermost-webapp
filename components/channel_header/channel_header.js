@@ -630,19 +630,19 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'cheader-icon';
+        let pinnedIconClass = 'channel-header-icon';
         if (rhsState === RHSStates.PIN) {
-            pinnedIconClass += ' cheader-icon--active';
+            pinnedIconClass += ' channel-header-icon--active';
         }
 
-        let mentionsIconClass = 'cheader-icon';
+        let mentionsIconClass = 'channel-header-icon';
         if (rhsState === RHSStates.MENTION) {
-            mentionsIconClass += ' cheader-icon--active';
+            mentionsIconClass += ' channel-header-icon--active';
         }
 
-        let flaggedIconClass = 'cheader-icon';
+        let flaggedIconClass = 'channel-header-icon';
         if (rhsState === RHSStates.FLAG) {
-            flaggedIconClass += ' cheader-icon--active';
+            flaggedIconClass += ' channel-header-icon--active';
         }
         const pinnedIcon = (this.props.pinnedPostsCount ?
             (<React.Fragment>
