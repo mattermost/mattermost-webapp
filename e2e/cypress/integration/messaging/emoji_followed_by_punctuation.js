@@ -7,15 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 function emojiVerification(postId) {
-    // # set the postMessageTextId Var
-    const postMessageTextId=`#postMessageText_${postId}`;
+    // # set the postMessageTextId var
+    const postMessageTextId = `#postMessageText_${postId}`
+	;
     // * Check for the emoji attr of :) is exists
-    cy.get(`${postMessageTextId} p span span.emoticon`).should('have.attr','title',':slightly_smiling_face:');
+    cy.get(`${postMessageTextId} p span span.emoticon`).should('have.attr', 'title', ':slightly_smiling_face:');
+
     // * Check for the punctuation('=') is exists without space
-    cy.get(`${postMessageTextId} p`).should('same.text','=');
+    cy.get(`${postMessageTextId} p`).should('same.text', '=');
 }
-
-
 
 describe('Messaging', () => {
     it('M23360 - Emoji characters followed by punctuation', () => {
