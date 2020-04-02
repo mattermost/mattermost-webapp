@@ -8,26 +8,28 @@
 // ***************************************************************
 
 // Stage: @prod @smoke
-// Group: @markdown
+// Group: @markdown @visual-diff
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const testCases = [
-    {name: 'Markdown - basic', fileKey: 'markdown_basic'},
-    {name: 'Markdown - text style', fileKey: 'markdown_text_style'},
-    {name: 'Markdown - carriage return', fileKey: 'markdown_carriage_return'},
-    {name: 'Markdown - code block', fileKey: 'markdown_code_block'},
-    {name: 'Markdown - should not render inside the code block', fileKey: 'markdown_not_in_code_block'},
-    {name: 'Markdown - should not auto-link or generate previews', fileKey: 'markdown_not_autolink'},
-    {name: 'Markdown - should appear as a carriage return separating two lines of text', fileKey: 'markdown_carriage_return_two_lines'},
-    {name: 'Markdown - in-line code', fileKey: 'markdown_inline_code'},
-    {name: 'Markdown - lines', fileKey: 'markdown_lines'},
-    {name: 'Markdown - headings', fileKey: 'markdown_headings'},
-    {name: 'Markdown - escape characters', fileKey: 'markdown_escape_characters'},
-    {name: 'Markdown - block quotes 1', fileKey: 'markdown_block_quotes_1'},
+    {name: 'Markdown - basic', fileKey: 'markdown_basic', keyText: 'Basic Markdown Testing'},
+    {name: 'Markdown - text style', fileKey: 'markdown_text_style', keyText: 'Text Style'},
+    {name: 'Markdown - carriage return', fileKey: 'markdown_carriage_return', keyText: 'Carriage Return'},
+    {name: 'Markdown - code block', fileKey: 'markdown_code_block', keyText: 'Code Blocks'},
+    {name: 'Markdown - should not render inside the code block', fileKey: 'markdown_not_in_code_block', keyText: 'The following markdown should not render:'},
+    {name: 'Markdown - should not auto-link or generate previews', fileKey: 'markdown_not_autolink', keyText: 'The following links should not auto-link or generate previews:'},
+    {name: 'Markdown - should appear as a carriage return separating two lines of text', fileKey: 'markdown_carriage_return_two_lines', keyText: 'The following should appear as a carriage return separating two lines of text:'},
+    {name: 'Markdown - in-line code', fileKey: 'markdown_inline_code', keyText: 'In-line Code'},
+    {name: 'Markdown - lines', fileKey: 'markdown_lines', keyText: 'Lines'},
+    {name: 'Markdown - headings', fileKey: 'markdown_headings', keyText: 'Headings'},
+    {name: 'Markdown - escape characters', fileKey: 'markdown_escape_characters', keyText: 'Escaped Characters'},
+    {name: 'Markdown - block quotes 1', fileKey: 'markdown_block_quotes_1', keyText: 'Block Quotes'},
 ];
 
 describe('Markdown message', () => {
+    let team;
+
     before(() => {
         // # Login as sysadmin and enable local image proxy so our expected URLs match
         cy.apiLogin('sysadmin');
@@ -45,35 +47,66 @@ describe('Markdown message', () => {
         cy.apiCreateAndLoginAsNewUser().then(() => {
             // # Create new team and visit its URL
             cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                team = response.body;
                 cy.visit(`/${response.body.name}`);
             });
         });
     });
 
-    testCases.forEach((testCase) => {
-        it(testCase.name, () => {
-            // #  Post markdown message
-            cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.SMALL);
+    afterEach(() => {
+        cy.closeVisualWindow();
+    });
 
-            // * Verify that HTML Content is correct
-            cy.compareLastPostHTMLContentFromFile(`markdown/${testCase.fileKey}.html`);
+    function openVisualWindow(testName) {
+        cy.openVisualWindow({
+            browser: [{width: 1024, height: 1000, name: 'chrome'}],
+            batchName: 'Markdown Text',
+            appName: 'Mattermost Webapp',
+            testName
+        });
+    }
+
+    testCases.forEach((testCase, index) => {
+        it(testCase.name, () => {
+            openVisualWindow(testCase.name);
+
+            cy.apiCreateChannel(team.id, `md-text-${index}`, `Markdown Test ${index}`).then((res) => {
+                cy.visit(`/${team.name}/channels/${res.body.name}`);
+
+                // #  Post markdown message
+                cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.TINY);
+
+                // * Verify that HTML Content is correct
+                cy.getLastPostId().then((postId) => {
+                    const postMessageTextId = `#postMessageText_${postId}`;
+                    cy.get(postMessageTextId).should('be.visible').within(() => {
+                        cy.findByText(testCase.keyText);
+
+                        cy.saveScreenshot();
+                    });
+                });
+            });
         });
     });
 
     it('Markdown - block quotes 2', () => {
-        const baseUrl = Cypress.config('baseUrl');
-        const expectedHtml = `<h3 class="markdown__heading">Block Quotes</h3><p><strong>The following markdown should render within the block quote:</strong></p>
-<blockquote>
-<h4 class="markdown__heading">Heading 4</h4><p><em>Italics</em>, <em>Italics</em>, <strong>Bold</strong>, <strong><em>Bold-italics</em></strong>, <strong><em>Bold-italics</em></strong>, <del>Strikethrough</del>
-<span data-emoticon="slightly_smiling_face"><span alt=":slightly_smiling_face:" class="emoticon" title=":slightly_smiling_face:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f642.png&quot;);"></span></span> <span data-emoticon="slightly_smiling_face"><span alt=":slightly_smiling_face:" class="emoticon" title=":slightly_smiling_face:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f642.png&quot;);"></span></span> <span data-emoticon="wink"><span alt=":wink:" class="emoticon" title=":wink:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f609.png&quot;);"></span></span> <span data-emoticon="scream"><span alt=":scream:" class="emoticon" title=":scream:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f631.png&quot;);"></span></span> <span data-emoticon="bamboo"><span alt=":bamboo:" class="emoticon" title=":bamboo:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f38d.png&quot;);"></span></span> <span data-emoticon="gift_heart"><span alt=":gift_heart:" class="emoticon" title=":gift_heart:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f49d.png&quot;);"></span></span> <span data-emoticon="dolls"><span alt=":dolls:" class="emoticon" title=":dolls:" style="background-image: url(&quot;${baseUrl}/static/emoji/1f38e.png&quot;);"></span></span></p>
-</blockquote>`;
+        openVisualWindow('Markdown - block quotes 2');
 
-        // #  Post markdown message
-        cy.postMessageFromFile('markdown/markdown_block_quotes_2.md').wait(TIMEOUTS.SMALL);
+        cy.apiCreateChannel(team.id, 'md-text-12', 'Markdown Test 12').then((res) => {
+            cy.visit(`/${team.name}/channels/${res.body.name}`);
 
-        // * Verify that HTML Content is correct
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.MEDIUM}).should('have.html', expectedHtml);
+            // #  Post markdown message
+            cy.postMessageFromFile('markdown/markdown_block_quotes_2.md').wait(TIMEOUTS.TINY);
+
+            // * Verify that HTML Content is correct
+            cy.getLastPostId().then((postId) => {
+                const postMessageTextId = `#postMessageText_${postId}`;
+                cy.get(postMessageTextId).should('be.visible').within(() => {
+                    cy.findByText('The following markdown should render within the block quote:');
+
+                    cy.saveScreenshot();
+                });
+            });
         });
     });
 });

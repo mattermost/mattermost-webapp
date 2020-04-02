@@ -19,6 +19,9 @@
  *   --invert
  *      Selected files are those not matching any of the specified stage or group.
  *
+ *  --visual
+ *      Enable visual testing given that the required API key is set in the environment.
+ *
  * Environment:
  *   BROWSER=[browser]      : Chrome by default. Set to run test on other browser such as chrome, edge, electron and firefox.
  *                            The environment should have the specified browser to successfully run.
@@ -50,6 +53,8 @@ const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 const shell = require('shelljs');
 const argv = require('yargs').argv;
+
+require('dotenv').config();
 
 const users = require('./cypress/fixtures/users.json');
 
@@ -194,9 +199,9 @@ function getTestFiles() {
 function getSkippedFiles(initialTestFiles, platform, browser, headless) {
     const platformFiles = grepFiles(grepCommand(`@${platform}`));
     const browserFiles = grepFiles(grepCommand(`@${browser}`));
-    const headlessFiles = grepFiles(grepCommand(`@${headless ? 'headless' : 'headed'}`));
+    const headModeFiles = grepFiles(grepCommand(`@${headless ? 'headless' : 'headed'}`));
 
-    const initialSkippedFiles = platformFiles.concat(browserFiles, headlessFiles);
+    const initialSkippedFiles = platformFiles.concat(browserFiles, headModeFiles);
     const skippedFiles = intersection(initialTestFiles, initialSkippedFiles);
     const finalTestFiles = without(initialTestFiles, ...skippedFiles);
 
@@ -217,18 +222,27 @@ async function runTests() {
     await fse.remove('results');
     await fse.remove('screenshots');
 
-    const BROWSER = process.env.BROWSER || 'chrome';
-    const HEADLESS = typeof process.env.HEADLESS === 'undefined' ? true : process.env.HEADLESS === 'true';
+    const {
+        CYPRESS_baseUrl, // eslint-disable-line camelcase
+        BROWSER,
+        HEADLESS,
+        APPLITOOLS_API_KEY,
+        WEBHOOK_URL,
+        DIAGNOSTIC_WEBHOOK_URL,
+    } = process.env;
+
+    const browser = BROWSER || 'chrome';
+    const headless = typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
 
     const initialTestFiles = getTestFiles().sort((a, b) => a.localeCompare(b));
-    const {finalTestFiles} = getSkippedFiles(initialTestFiles, os.platform(), BROWSER, HEADLESS);
+    const {finalTestFiles} = getSkippedFiles(initialTestFiles, os.platform(), browser, headless);
 
     if (!finalTestFiles.length) {
         console.log(chalk.red('Nothing to test!'));
     }
 
     const mochawesomeReportDir = 'results/mochawesome-report';
-    const {invert, group, stage} = argv;
+    const {invert, group, stage, visual} = argv;
     let failedTests = 0;
 
     for (let i = 0; i < finalTestFiles.length; i++) {
@@ -241,30 +255,33 @@ async function runTests() {
         console.log(chalk.magenta(`(Testing ${i + 1} of ${finalTestFiles.length})  - `, testFile));
 
         const {totalFailed} = await cypress.run({
-            browser: BROWSER,
-            headless: HEADLESS,
+            browser,
+            headless,
             spec: testFile,
             config: {
                 screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
                 trashAssetsBeforeRuns: false,
             },
+            env: {
+                enableVisualTest: visual,
+                enableApplitools: Boolean(APPLITOOLS_API_KEY),
+            },
             reporter: 'cypress-multi-reporters',
-            reporterOptions:
-                {
-                    reporterEnabled: 'mocha-junit-reporters, mochawesome',
-                    mochaJunitReportersReporterOptions: {
-                        mochaFile: 'results/junit/test_results[hash].xml',
-                        toConsole: false,
-                    },
-                    mochawesomeReporterOptions: {
-                        reportDir: mochawesomeReportDir,
-                        reportFilename: `json/${testFile}`,
-                        quiet: true,
-                        overwrite: false,
-                        html: false,
-                        json: true,
-                    },
+            reporterOptions: {
+                reporterEnabled: 'mocha-junit-reporters, mochawesome',
+                mochaJunitReportersReporterOptions: {
+                    mochaFile: 'results/junit/test_results[hash].xml',
+                    toConsole: false,
                 },
+                mochawesomeReporterOptions: {
+                    reportDir: mochawesomeReportDir,
+                    reportFilename: `json/${testFile}`,
+                    quiet: true,
+                    overwrite: false,
+                    html: false,
+                    json: true,
+                },
+            },
         });
 
         failedTests += totalFailed;
@@ -281,23 +298,23 @@ async function runTests() {
     writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
 
     // Send test report via webhook
-    if (process.env.WEBHOOK_URL) {
+    if (WEBHOOK_URL) {
         const data = generateTestReport(summary);
         await sendReport('test', {
             method: 'post',
-            url: process.env.WEBHOOK_URL,
+            url: WEBHOOK_URL,
             data,
         });
     }
 
     // Send diagnostic report via webhook
-    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const baseUrl = CYPRESS_baseUrl || 'http://localhost:8065'; // eslint-disable-line camelcase
     const serverInfo = await getServerInfo(baseUrl);
-    if (serverInfo.enableDiagnostics && process.env.DIAGNOSTIC_WEBHOOK_URL) {
+    if (serverInfo.enableDiagnostics && DIAGNOSTIC_WEBHOOK_URL) {
         const data = generateDiagnosticReport(summary, serverInfo);
         await sendReport('diagnostic', {
             method: 'post',
-            url: process.env.DIAGNOSTIC_WEBHOOK_URL,
+            url: DIAGNOSTIC_WEBHOOK_URL,
             data
         });
     }

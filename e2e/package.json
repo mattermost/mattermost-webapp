@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@applitools/eyes-cypress": "3.9.20",
     "@testing-library/cypress": "5.3.0",
     "axios": "0.19.2",
     "body-parser": "1.19.0",
@@ -10,6 +11,7 @@
     "cypress-multi-reporters": "1.2.4",
     "cypress-plugin-tab": "1.0.5",
     "cypress-wait-until": "1.6.1",
+    "dotenv": "8.2.0",
     "express": "4.17.1",
     "lodash": "4.17.15",
     "lodash.intersection": "4.4.0",
@@ -38,6 +40,7 @@
     "start:webhook": "node webhook_serve.js",
     "test": "start-test start:webhook 3000 test:ci",
     "test:ci": "node run_tests.js",
-    "uniq-meta": "grep -r \"^// $META:\" cypress | grep -ow '@\\w*' | sort | uniq"
+    "uniq-meta": "grep -r \"^// $META:\" cypress | grep -ow '@\\w*' | sort | uniq",
+    "visual-diff": "node run_tests.js --group='@visual-diff' --visual"
   }
 }

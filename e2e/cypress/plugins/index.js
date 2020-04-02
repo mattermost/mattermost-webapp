@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+const chalk = require('chalk');
+
 const postMessageAs = require('./post_message_as');
 const postBotMessage = require('./post_bot_message');
 const externalRequest = require('./external_request');
@@ -10,16 +12,22 @@ const postIncomingWebhook = require('./post_incoming_webhook');
 const oktaRequest = require('./okta_request');
 const urlHealthCheck = require('./url_health_check');
 
+function log(message) {
+    console.log(chalk.cyan(message)); // eslint-disable-line no-console
+    return null;
+}
+
 module.exports = (on, config) => {
     on('task', {
-        postMessageAs,
-        postBotMessage,
         externalRequest,
         getClipboard,
         getRecentEmail,
+        log,
+        postBotMessage,
         postIncomingWebhook,
+        postMessageAs,
         oktaRequest,
-        urlHealthCheck
+        urlHealthCheck,
     });
 
     if (!config.env.setChromeWebSecurity) {
@@ -41,3 +49,5 @@ module.exports = (on, config) => {
 
     return config;
 };
+
+require('@applitools/eyes-cypress')(module); // eslint-disable-line global-require

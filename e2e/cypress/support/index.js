@@ -7,19 +7,22 @@
 
 /* eslint-disable no-loop-func */
 
-import './ui_commands';
-import './api_commands';
-import './task_commands';
-import './fetch_commands';
-import './storybook_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
-import 'cypress-wait-until';
 import 'cypress-plugin-tab';
-import './okta_commands';
-import './saml_commands';
-import './ldap_commands';
+import 'cypress-wait-until';
+
+import './api_commands';
+import './applitools_commands';
 import './common_login_commands';
+import './fetch_commands';
+import './ldap_commands';
+import './okta_commands';
+import './overwrite_commands';
+import './saml_commands';
+import './storybook_commands';
+import './task_commands';
+import './ui_commands';
 
 import addContext from 'mochawesome/addContext';
 
