@@ -72,6 +72,7 @@ class RhsComment extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func
         }),
+        emojiMap: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -271,8 +272,8 @@ class RhsComment extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
+        const {post, author, reactions, isFlagged, intl, emojiMap} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap)});
     }
 
     render() {

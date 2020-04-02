@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getTeamStats, getTeamMembers} from 'mattermost-redux/actions/teams';
+import {GetTeamMembersOpts} from 'mattermost-redux/types/teams';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getMembersInCurrentTeam, getCurrentTeamStats} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentTeam, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
@@ -26,7 +27,7 @@ type Props = {
 }
 
 type Actions = {
-    getTeamMembers: (teamId: string) => Promise<{data: {}}>;
+    getTeamMembers: (teamId: string, page?: number, perPage?: number, options?: GetTeamMembersOpts) => Promise<{data: {}}>;
     searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
     getTeamStats: (teamId: string) => Promise<{data: {}}>;
     loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{

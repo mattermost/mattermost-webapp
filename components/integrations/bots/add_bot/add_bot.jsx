@@ -39,6 +39,11 @@ export default class AddBot extends React.Component {
         bot: PropTypes.object,
 
         /**
+        *  Bot user
+        */
+        user: PropTypes.object,
+
+        /**
         *  Roles of the bot to edit (if editing)
         */
         roles: PropTypes.string,
@@ -402,7 +407,11 @@ export default class AddBot extends React.Component {
         );
         let imageStyles = null;
         if (this.props.bot && !this.state.pictureFile) {
-            imageURL = Utils.imageURLForUser(this.props.bot.user_id);
+            if (this.props.user) {
+                imageURL = Utils.imageURLForUser(this.props.user.id, this.props.user.last_picture_update);
+            } else {
+                imageURL = Utils.imageURLForUser(this.props.bot.user_id);
+            }
         } else {
             imageURL = this.state.image;
             imageStyles = this.state.orientationStyles;

@@ -6,6 +6,8 @@ import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import {formatWithRenderer} from 'utils/markdown';
 
 import * as Emoticons from './emoticons';
@@ -25,7 +27,8 @@ const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoti
 export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
-    };
+        team_name?: string;
+    } | Channel;
 };
 
 export type Tokens = Map<
@@ -370,19 +373,26 @@ function autolinkChannelMentions(
     function channelMentionExists(c: string) {
         return Boolean(channelNamesMap[c]);
     }
-    function addToken(channelName: string, mention: string, displayName: string) {
+    function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
         const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
-        if (team) {
+        if (teamName) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href = ((window as any).basename || '') + '/' + teamName + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention-team="${teamName}" "data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
+        } else if (team) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             href = ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
         }
 
-        tokens.set(alias, {
-            value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
-            originalText: mention,
-        });
         return alias;
     }
 
@@ -395,10 +405,16 @@ function autolinkChannelMentions(
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
+            let teamName = '';
+            const channelValue = channelNamesMap[channelNameLower];
+            if ('team_name' in channelValue) {
+                teamName = channelValue.team_name || '';
+            }
             const alias = addToken(
                 channelNameLower,
+                teamName,
                 mention,
-                escapeHtml(channelNamesMap[channelNameLower].display_name)
+                escapeHtml(channelValue.display_name)
             );
             return alias;
         }
@@ -412,10 +428,16 @@ function autolinkChannelMentions(
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
+                    let teamName = '';
+                    const channelValue = channelNamesMap[channelNameLower];
+                    if ('team_name' in channelValue) {
+                        teamName = channelValue.team_name || '';
+                    }
                     const alias = addToken(
                         channelNameLower,
+                        teamName,
                         '~' + channelNameLower,
-                        escapeHtml(channelNamesMap[channelNameLower].display_name)
+                        escapeHtml(channelValue.display_name)
                     );
                     return alias + suffix;
                 }

@@ -283,7 +283,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.displayName.help'
-                                        defaultMessage='Choose a title to be displayed on the webhook settings page. Maximum 64 characters.'
+                                        defaultMessage='Specify a title, of up to 64 characters, for the webhook settings page.'
                                     />
                                 </div>
                             </div>
@@ -310,7 +310,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.description.help'
-                                        defaultMessage='Description for your incoming webhook.'
+                                        defaultMessage='Describe your outgoing webhook.'
                                     />
                                 </div>
                             </div>
@@ -345,19 +345,19 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help1'
-                                        defaultMessage='Choose the content type by which the request will be sent.'
+                                        defaultMessage='Specify the content type by which to send the request.'
                                     />
                                 </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help2'
-                                        defaultMessage='If application/x-www-form-urlencoded is chosen, the server will encode the parameters in a URL format in the request body.'
+                                        defaultMessage='For the server to encode the parameters in a URL format in the request body, select application/x-www-form-urlencoded.'
                                     />
                                 </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.contentType.help3'
-                                        defaultMessage='If application/json is chosen, the server will format the request body as JSON.'
+                                        defaultMessage='For the server to format the request body as JSON, select application/json.'
                                     />
                                 </div>
                             </div>
@@ -382,7 +382,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.channel.help'
-                                        defaultMessage='Public channel that delivers payload to webhook. Optional if at least one Trigger Word is specified.'
+                                        defaultMessage='This field is optional if you specify at least one trigger word. Specify the public channel that delivers the payload to the webhook.'
                                     />
                                 </div>
                             </div>
@@ -409,7 +409,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.triggerWords.help'
-                                        defaultMessage='Messages that start with one of the specified words will trigger the outgoing webhook. Optional if Channel is selected.'
+                                        defaultMessage='Specify the trigger words that send an HTTP POST request to your application.  The trigger can be for the channel, the outgoing webhook, or both. If you select only Channel, trigger words are optional. If you select both, the message must match both values.'
                                     />
                                 </div>
                             </div>
@@ -444,7 +444,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.triggerWordsTriggerWhen.help'
-                                        defaultMessage='Choose when to trigger the outgoing webhook; if the first word of a message matches a Trigger Word exactly, or if it starts with a Trigger Word.'
+                                        defaultMessage='Specify when to trigger the outgoing webhook.'
                                     />
                                 </div>
                             </div>
@@ -471,7 +471,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.callbackUrls.help'
-                                        defaultMessage='The URL that messages will be sent to. If the URL is private, add it as a {link}.'
+                                        defaultMessage='Specify the URL that the messages will be sent to. If the URL is private, add it as a {link}.'
                                         values={{
                                             link: (
                                                 <a
@@ -513,7 +513,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_outgoing_webhook.username.help'
-                                            defaultMessage='Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols "-", "_", and ".".'
+                                            defaultMessage='Specify the username this integration will post as. Usernames can be up to 22 characters, and contain lowercase letters, numbers and the symbols \"-\", \"_\", and \".\". If left blank, the name specified by the webhook creator is used.'
                                         />
                                     </div>
                                 </div>
@@ -542,7 +542,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_outgoing_webhook.icon_url.help'
-                                            defaultMessage='Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels.'
+                                            defaultMessage='Enter the URL of a .png or .jpg file for this integration to use as the profile picture when posting. The file should be at least 128 pixels by 128 pixels. If left blank, the profile picture specified by the webhook creator is used.'
                                         />
                                     </div>
                                 </div>

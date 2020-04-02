@@ -315,6 +315,10 @@
         top: 98px;
     }
 
+    &.toastAdjustment {
+        top: 50px;
+    }
+
     > div {
         @include border-radius(3px);
         @include font-smoothing(initial);
@@ -695,6 +699,10 @@
     position: relative;
     word-wrap: break-word;
 
+    &:hover {
+        background-color: v(center-channel-color-04);
+    }
+
     .browser--ie & {
         .post__header {
             .col__reply {
@@ -815,7 +823,7 @@
                     .flag-icon__container, .card-icon__container {
                         left: 37px;
                         position: absolute;
-                        top: 6px;
+                        top: 3px;
                     }
                 }
             }
@@ -1138,7 +1146,7 @@
             .flag-icon__container, .card-icon__container {
                 left: 37px;
                 position: absolute;
-                top: 6px;
+                top: 3px;
             }
 
             .post__img {
@@ -1497,7 +1505,7 @@
 
     .post__body {
         @include legacy-pie-clearfix;
-        padding: .2em .5em;
+        padding: 0 0 0.2em;
         width: 100%;
         word-wrap: break-word;
 

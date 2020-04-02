@@ -32,6 +32,11 @@ export default class Bots extends React.PureComponent {
         */
         owners: PropTypes.object.isRequired,
 
+        /**
+        *  Map from botUserId to user.
+        */
+        users: PropTypes.object.isRequired,
+
         createBots: PropTypes.bool,
 
         actions: PropTypes.shape({
@@ -149,6 +154,7 @@ export default class Bots extends React.PureComponent {
                 key={bot.user_id}
                 bot={bot}
                 owner={this.props.owners[bot.user_id]}
+                user={this.props.users[bot.user_id]}
                 accessTokens={this.props.accessTokens[bot.user_id] || {}}
                 actions={this.props.actions}
                 team={this.props.team}

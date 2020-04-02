@@ -29,8 +29,25 @@
         margin-left: -4px;
         font-size: em(12px);
 
+        &.chanel-header__popover--dm {
+            margin-left: 73px;
+        }
+
         &.chanel-header__popover--lhs_offset {
             margin-left: 61px;
+
+            &.chanel-header__popover--new_sidebar {
+                margin-left: 81px;
+            }
+        }
+
+        &.chanel-header__popover--new_sidebar {
+            margin-left: 16px;
+
+
+            &.chanel-header__popover--dm {
+                margin-left: 91px;
+            }
         }
 
         .popover-content {

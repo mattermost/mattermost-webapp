@@ -438,6 +438,10 @@
         top: 0;
         width: 50px;
 
+        span {
+            display: inline-block;
+        }
+
         svg {
             @include opacity(.7);
             @include single-transition(all, .1s, linear);
