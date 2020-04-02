@@ -7,6 +7,7 @@ import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 import {isMobile} from 'utils/user_agent';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
@@ -16,6 +17,7 @@ jest.mock('actions/global_actions.jsx', () => ({
 }));
 
 jest.mock('utils/user_agent', () => ({
+    ...jest.requireActual('utils/user_agent'),
     isMobile: jest.fn().mockReturnValue(false),
 }));
 
@@ -527,4 +529,21 @@ describe('components/EditPostModal', () => {
         wrapper.setState({editText: ''});
         expect(wrapper).toMatchSnapshot();
     });
+
+    testComponentForLineBreak((value) => {
+        return createEditPost({
+            editingPost: {
+                postId: '123',
+                post: {
+                    id: '123',
+                    message: value,
+                    channel_id: '5',
+                },
+                commentCount: 3,
+                refocusId: 'test',
+                show: true,
+                title: 'test',
+            },
+        });
+    }, (instance) => instance.state().editText);
 });

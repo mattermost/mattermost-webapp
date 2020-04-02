@@ -3,6 +3,7 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx';
 import Constants from 'utils/constants';
 
@@ -257,4 +258,17 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
     });
+
+    testComponentForLineBreak((value) => (
+        <EditChannelPurposeModal
+            channel={{
+                ...channel,
+                purpose: value,
+            }}
+            ctrlSend={true}
+            onHide={jest.fn()}
+            onModalDismissed={jest.fn()}
+            actions={{patchChannel: jest.fn()}}
+        />
+    ), (instance) => instance.state().purpose);
 });

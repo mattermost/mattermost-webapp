@@ -78,14 +78,16 @@ export function isKeyPressed(event, key) {
 }
 
 /**
- * check keydown event for line break combo. Should always catch alt/option + enter
+ * check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
  * @param  {object}  e - keydown event
  * @return {boolean}
  */
 export function isUnhandledLineBreakKeyCombo(e) {
-    return isKeyPressed(e, Constants.KeyCodes.ENTER) &&
-        !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-        (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)); // alt/option + enter is already handled in Safari, so don't handle again
+    return Boolean(
+        isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)) // alt/option + enter is already handled in Safari, so don't handle again
+    );
 }
 
 /**
