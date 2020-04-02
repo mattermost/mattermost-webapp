@@ -129,6 +129,29 @@ function removePluginComponent(state, action) {
     return state;
 }
 
+function loadedPlugins(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.LOADED_PLUGIN: {
+        if (action.data) {
+            const nextState = {...state};
+            nextState[action.data.id] = action.data;
+            return nextState;
+        }
+        return state;
+    }
+    case ActionTypes.UNLOADED_PLUGIN: {
+        if (action.data && state[action.data.id]) {
+            const nextState = {...state};
+            Reflect.deleteProperty(nextState, action.data.id);
+            return nextState;
+        }
+        return state;
+    }
+    default:
+        return state;
+    }
+}
+
 function plugins(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_WEBAPP_PLUGINS: {
@@ -320,6 +343,10 @@ function adminConsoleCustomComponents(state = {}, action) {
 }
 
 export default combineReducers({
+
+    // object where every key is a plugin id and values are webapp plugin manifests
+    // tracks which plugins have been added as script tags to the page
+    loadedPlugins,
 
     // object where every key is a plugin id and values are webapp plugin manifests
     plugins,

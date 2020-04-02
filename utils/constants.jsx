@@ -138,6 +138,8 @@ export const ActionTypes = keyMirror({
 
     BROWSER_CHANGE_FOCUS: null,
 
+    LOADED_PLUGIN: null,
+    UNLOADED_PLUGIN: null,
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
     RECEIVED_PLUGIN_POST_COMPONENT: null,
