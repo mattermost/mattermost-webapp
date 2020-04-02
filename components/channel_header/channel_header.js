@@ -447,7 +447,7 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.handleFormattedTextClick}
                     >
                         <Markdown
-                            message={headerText.replace(/\n/, ' ')}
+                            message={headerText}
                             options={this.getPopoverMarkdownOptions(channelNamesMap)}
                         />
                     </span>
