@@ -4,6 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -956,7 +957,9 @@ class CreateComment extends React.PureComponent {
                         aria-label={emojiButtonAriaLabel}
                         type='button'
                         onClick={this.toggleEmojiPicker}
-                        className={`emoji-picker__container post-action ${this.state.showEmojiPicker ? 'post-action--active' : ''}`}
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
                         <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
                     </button>

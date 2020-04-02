@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -98,7 +99,9 @@ export default class PostReaction extends React.PureComponent {
                             data-testid='post-reaction-emoji-icon'
                             id={`${location}_reaction_${postId}`}
                             aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
-                            className={`post-menu__item post-menu__item--reactions ${showEmojiPicker && 'post-menu__item--active'}`}
+                            className={classNames('post-menu__item', 'post-menu__item--reactions', {
+                                'post-menu__item--active': showEmojiPicker,
+                            })}
                             onClick={this.props.toggleEmojiPicker}
                         >
                             <EmojiIcon className='icon icon--small'/>

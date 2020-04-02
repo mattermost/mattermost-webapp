@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
@@ -183,8 +184,6 @@ export default class SearchBar extends React.Component {
         let mentionBtn;
         let flagBtn;
         if (this.props.showMentionFlagBtns) {
-            var mentionBtnClass = this.props.isMentionSearch ? 'channel-header-icon--active' : '';
-
             mentionBtn = (
                 <HeaderIconWrapper
                     iconComponent={
@@ -194,7 +193,9 @@ export default class SearchBar extends React.Component {
                         />
                     }
                     ariaLabel={true}
-                    buttonClass={'channel-header-icon ' + mentionBtnClass}
+                    buttonClass={classNames('channel-header-icon', {
+                        'channel-header-icon--active': this.props.isMentionSearch,
+                    })}
                     buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderMentionButton' : 'channelHeaderMentionButton'}
                     onClick={this.searchMentions}
                     tooltipKey={'recentMentions'}

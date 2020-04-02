@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -1287,7 +1288,9 @@ class CreatePost extends React.PureComponent {
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                        className={`emoji-picker__container post-action ${this.state.showEmojiPicker ? 'post-action--active' : ''}`}
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
                         <EmojiIcon
                             id='emojiPickerButton'

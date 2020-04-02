@@ -70,7 +70,7 @@ exports[`components/create_post Show tutorial 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action "
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -263,7 +263,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action "
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -552,7 +552,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action "
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -714,7 +714,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action "
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -876,7 +876,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action "
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >

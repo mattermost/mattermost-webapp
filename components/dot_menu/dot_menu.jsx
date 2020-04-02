@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
@@ -317,7 +318,9 @@ export default class DotMenu extends React.PureComponent {
                         ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
                         aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More actions').toLowerCase()}
-                        className={`post-menu__item ${this.props.isMenuOpen && 'post-menu__item--active'}`}
+                        className={classNames('post-menu__item', {
+                            'post-menu__item--active': this.props.isMenuOpen,
+                        })}
                         type='button'
                         aria-expanded='false'
                     >
