@@ -333,22 +333,6 @@
 
 .group-profile {
     padding: 20px;
-
-    .group-profile-field {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 5px;
-
-        label {
-            flex-grow: 1;
-            width: 33.3%;
-        }
-
-        .form-control {
-            flex-grow: 3;
-            width: 100%;
-        }
-    }
 }
 
 .group-users {

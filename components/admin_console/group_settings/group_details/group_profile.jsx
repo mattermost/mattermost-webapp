@@ -18,22 +18,24 @@ export default class GroupProfile extends React.PureComponent {
 
         return (
             <div
-                className='group-profile'
+                className='group-profile form-horizontal'
                 id={customID}
             >
-                <div className='group-profile-field'>
-                    <label>
+                <div className='group-profile-field form-group mb-0'>
+                    <label className='control-label col-sm-4'>
                         <FormattedMessage
                             id={title}
                             defaultMessage={titleDefault}
                         />
                     </label>
-                    <input
-                        type='text'
-                        className='form-control'
-                        value={name}
-                        disabled={true}
-                    />
+                    <div className='col-sm-8'>
+                        <input
+                            type='text'
+                            className='form-control'
+                            value={name}
+                            disabled={true}
+                        />
+                    </div>
                 </div>
             </div>
         );
