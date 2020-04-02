@@ -11,15 +11,22 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+
 import {getEmojiMap} from 'selectors/emojis';
 import {getSiteURL} from 'utils/url';
+import {ChannelNamesMap} from 'utils/text_formatting';
 
 import Markdown from './markdown';
+
+type Props = {
+    channelNamesMap?: ChannelNamesMap;
+}
 
 function makeGetChannelNamesMap() {
     return createSelector(
         getChannelsNameMapInCurrentTeam,
-        (state, props) => props && props.channelNamesMap,
+        (state: GlobalState, props: Props) => props && props.channelNamesMap,
         (channelNamesMap, channelMentions) => {
             if (channelMentions) {
                 return Object.assign({}, channelMentions, channelNamesMap);
@@ -33,7 +40,7 @@ function makeGetChannelNamesMap() {
 function makeMapStateToProps() {
     const getChannelNamesMap = makeGetChannelNamesMap();
 
-    return function mapStateToProps(state, ownProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const config = getConfig(state);
 
         return {
@@ -44,7 +51,7 @@ function makeMapStateToProps() {
             siteURL: getSiteURL(),
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',
-            minimumHashtagLength: parseInt(config.MinimumHashtagLength, 10),
+            minimumHashtagLength: parseInt(config.MinimumHashtagLength || '', 10),
             emojiMap: getEmojiMap(state)
         };
     };

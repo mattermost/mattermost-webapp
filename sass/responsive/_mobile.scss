@@ -28,6 +28,7 @@
 
 
     .backstage-list__item {
+
         .item-actions,
         .actions {
             margin: 10px 0;
@@ -103,34 +104,29 @@
         height: auto !important;
         flex-grow: 1;
 
-        .emoji-picker-items__container {
+        .emoji-picker__category-header {
+            font-size: 14px;
+            padding-top: 8px;
+        }
+    }
 
-            .emoji-picker__category-header {
-                font-size: 14px;
-                padding-top: 8px;
-            }
+    .emoji-picker__item {
+        margin: calc(100% / 45);
+        padding: 0;
+        padding-top: calc(100% / 15);
+        width: calc(100% / 15);
+        height: auto;
 
-            .emoji-picker__item {
-                margin: calc(100% / 45);
-                padding: 0;
-                padding-top: calc(100% / 15);
-                width: calc(100% / 15);
-                height: auto;
-
-                >div {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    width: 30px;
-                    height: 30px;
-                    transform: translate(-50%, -50%);
-
-                    >img {
-                        top: -17px;
-                        left: -17px;
-                    }
-                }
-            }
+        > div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 
@@ -189,8 +185,9 @@
                 }
 
                 .MenuItem {
-                    > button,
-                    > a {
+
+                    >button,
+                    >a {
                         height: auto;
                         padding: 3px 16px;
                         font-size: 15px;
@@ -214,10 +211,12 @@
             >li {
                 >div {
                     border-top-color: var(--center-channel-color-10) !important;
+
                     .SubMenu__icon {
                         padding: 0 5px 0 8px !important;
                     }
                 }
+
                 >div,
                 >button {
                     @include border-radius(0);
@@ -227,6 +226,7 @@
                 }
 
                 &:first-child {
+
                     div,
                     button {
                         border: none;
@@ -1538,7 +1538,7 @@
         border: none;
         width: 290px;
 
-        + .inner-wrap #app-content {
+        +.inner-wrap #app-content {
             margin-left: 0;
         }
 
@@ -1600,7 +1600,8 @@
                 .SidebarChannel {
                     height: 45px;
 
-                    a, button {
+                    a,
+                    button {
                         height: 45px;
                     }
 
@@ -1807,11 +1808,12 @@
             margin-left: 0;
         }
 
-        #SidebarContainer + .inner-wrap #app-content {
+        #SidebarContainer+.inner-wrap #app-content {
             margin-left: 0;
         }
 
-        .sidebar--left, #SidebarContainer {
+        .sidebar--left,
+        #SidebarContainer {
             left: 0;
 
             &.move--right {
@@ -2109,14 +2111,10 @@
         left: 50px !important;
     }
 
-    .emoji-picker__items {
-        .emoji-picker-items__container {
-            .emoji-picker__item {
-                margin: 0;
-                padding-top: calc(100% / #{$emoji-per-row});
-                width: calc(100% / #{$emoji-per-row});
-            }
-        }
+    .emoji-picker__item {
+        margin: 0;
+        padding-top: calc(100% / #{$emoji-per-row});
+        width: calc(100% / #{$emoji-per-row});
     }
 
     .post {
@@ -2138,15 +2136,6 @@
             a {
                 font-size: .9em;
                 padding: 6px 11px;
-            }
-        }
-    }
-
-    .emoji-picker {
-        &.emoji-picker--single {
-            .emoji-picker__inner {
-                margin-top: 59px;
-                height: calc(100vh - 60px);
             }
         }
     }
@@ -2222,7 +2211,8 @@
         }
     }
 
-    .sidebar--left, #SidebarContainer {
+    .sidebar--left,
+    #SidebarContainer {
         @include translate3d(-260px, 0, 0);
         width: 260px;
 
@@ -2339,7 +2329,9 @@
     }
 
     .multi-teams {
-        .sidebar--left, #SidebarContainer {
+
+        .sidebar--left,
+        #SidebarContainer {
             width: 220px;
 
             .nav-pills__unread-indicator {
@@ -2444,6 +2436,7 @@ label {
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
+
     select,
     textarea,
     input {

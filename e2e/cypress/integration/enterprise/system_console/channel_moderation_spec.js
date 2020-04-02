@@ -295,6 +295,12 @@ describe('Channel Moderation Test', () => {
             autemChannelId = channelId;
         });
 
+        // # Make the guest user as Active
+        cy.apiGetUserByEmail(users.guest.email).then((res) => {
+            const user = res.body;
+            cy.apiActivateUser(user.id, true);
+        });
+
         // Reset permissions in system scheme to defaults.
         resetSystemSchemePermissionsToDefault();
 
