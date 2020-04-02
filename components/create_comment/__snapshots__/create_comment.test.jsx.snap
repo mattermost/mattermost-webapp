@@ -314,7 +314,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action false"
+              className="emoji-picker__container post-action "
               onClick={[Function]}
               type="button"
             >
@@ -613,7 +613,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action false"
+              className="emoji-picker__container post-action "
               onClick={[Function]}
               type="button"
             >
@@ -768,7 +768,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             />
             <button
               aria-label="emoji picker"
-              className="emoji-picker__container post-action false"
+              className="emoji-picker__container post-action "
               onClick={[Function]}
               type="button"
             >

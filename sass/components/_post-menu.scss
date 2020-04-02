@@ -81,6 +81,14 @@
                 display: inline-flex;
                 fill: v(center-channel-color-56);
                 color: v(center-channel-color-56);
+
+                &:active,
+                &--active,
+                &--active:hover {
+                    background: v(link-color-08);
+                    fill: v(link-color);
+                    color: v(link-color);
+                }
             }
         }
     }

@@ -1287,7 +1287,7 @@ class CreatePost extends React.PureComponent {
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                        className={`emoji-picker__container post-action ${this.state.showEmojiPicker && 'post-action--active'}`}
+                        className={`emoji-picker__container post-action ${this.state.showEmojiPicker ? 'post-action--active' : ''}`}
                     >
                         <EmojiIcon
                             id='emojiPickerButton'

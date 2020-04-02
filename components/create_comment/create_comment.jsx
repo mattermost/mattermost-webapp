@@ -956,7 +956,7 @@ class CreateComment extends React.PureComponent {
                         aria-label={emojiButtonAriaLabel}
                         type='button'
                         onClick={this.toggleEmojiPicker}
-                        className={`emoji-picker__container post-action ${this.state.showEmojiPicker && 'post-action--active'}`}
+                        className={`emoji-picker__container post-action ${this.state.showEmojiPicker ? 'post-action--active' : ''}`}
                     >
                         <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
                     </button>
