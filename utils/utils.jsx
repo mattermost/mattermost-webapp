@@ -922,6 +922,7 @@ export function applyTheme(theme) {
             'sidebar-text-active-color': theme.sidebarTextActiveColor,
             'sidebar-header-bg': theme.sidebarHeaderBg,
             'sidebar-header-text-color': theme.sidebarHeaderTextColor,
+            'sidebar-header-text-color-80': changeOpacity(theme.sidebarHeaderTextColor, 0.8),
             'online-indicator': theme.onlineIndicator,
             'away-indicator': theme.awayIndicator,
             'dnd-indicator': theme.dndIndicator,
