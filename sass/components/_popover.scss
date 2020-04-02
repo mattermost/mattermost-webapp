@@ -30,11 +30,15 @@
         font-size: em(12px);
 
         &.chanel-header__popover--dm {
-            margin-left: 73px;
+            margin-left: 70px;
         }
 
         &.chanel-header__popover--lhs_offset {
             margin-left: 61px;
+            
+            &.chanel-header__popover--dm {
+                margin-left: 135px;
+            }
 
             &.chanel-header__popover--new_sidebar {
                 margin-left: 81px;
@@ -47,6 +51,10 @@
 
             &.chanel-header__popover--dm {
                 margin-left: 91px;
+
+                &.chanel-header__popover--lhs_offset {
+                    margin-left: 155px;
+                }
             }
         }
 
