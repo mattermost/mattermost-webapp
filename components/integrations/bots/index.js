@@ -15,16 +15,24 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const createBots = config.EnableBotAccountCreation === 'true';
     const bots = getBotAccounts(state);
-    const owners = Object.values(bots).
+    const botValues = Object.values(bots);
+    const owners = botValues.
         reduce((result, bot) => {
             result[bot.user_id] = UserSelectors.getUser(state, bot.owner_id);
             return result;
         }, {});
+    const users = botValues.
+        reduce((result, bot) => {
+            result[bot.user_id] = UserSelectors.getUser(state, bot.user_id);
+            return result;
+        }, {});
+
     return {
         createBots,
         bots,
         accessTokens: state.entities.admin.userAccessTokensByUser,
         owners,
+        users,
     };
 }
 

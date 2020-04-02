@@ -289,6 +289,12 @@ describe('Channel Moderation Test', () => {
         cy.getCurrentChannelId().then((channelId) => {
             autemChannelId = channelId;
         });
+
+        // # Make the guest user as Active
+        cy.apiGetUserByEmail(users.guest.email).then((res) => {
+            const user = res.body;
+            cy.apiActivateUser(user.id, true);
+        });
     });
 
     beforeEach(() => {

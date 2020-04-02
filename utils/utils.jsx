@@ -1319,8 +1319,8 @@ export function displayEntireNameForUser(user) {
     return displayName;
 }
 
-export function imageURLForUser(userIdOrObject) {
-    return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
+export function imageURLForUser(userId, lastPictureUpdate = 0) {
+    return Client4.getUsersRoute() + '/' + userId + '/image?_=' + lastPictureUpdate;
 }
 
 export function defaultImageURLForUser(userId) {
@@ -1328,8 +1328,8 @@ export function defaultImageURLForUser(userId) {
 }
 
 // in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
-export function imageURLForTeam(teamIdOrObject) {
-    return teamIdOrObject.last_team_icon_update ? Client4.getTeamIconUrl(teamIdOrObject.id, teamIdOrObject.last_team_icon_update) : null;
+export function imageURLForTeam(team) {
+    return team.last_team_icon_update ? Client4.getTeamIconUrl(team.id, team.last_team_icon_update) : null;
 }
 
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
