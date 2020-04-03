@@ -47,7 +47,7 @@ function itemToName(item) {
                     <i className='icon light icon--standard icon--no-spacing icon-globe'/>
                 </div>
                 <span className='ml-3'>{item.display_name}</span>
-                <span className='ml-2 light small'>{'~'}{item.name}</span>
+                <span className='ml-2 light'>{'~'}{item.name}</span>
             </React.Fragment>
         );
     }
@@ -59,7 +59,7 @@ function itemToName(item) {
                     <i className='icon light icon--standard icon--no-spacing icon-lock-outline'/>
                 </div>
                 <span className='ml-3'>{item.display_name}</span>
-                <span className='ml-2 light small'>{'~'}{item.name}</span>
+                <span className='ml-2 light'>{'~'}{item.name}</span>
             </React.Fragment>
         );
     }

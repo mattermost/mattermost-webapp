@@ -141,7 +141,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         show={Boolean(user.is_bot)}
                         className='badge-autocomplete'
                     />
-                    <span className='light ml-2 small'>
+                    <span className='light ml-2'>
                         {description}
                         {youElement}
                     </span>

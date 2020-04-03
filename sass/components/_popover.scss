@@ -13,6 +13,12 @@
     white-space: nowrap;
 }
 
+.app__body {
+    .popover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        border-color: v(center-channel-color-15);
+    }
+}
 
 .popover {
     @include border-radius($border-rad * 2);
@@ -329,7 +335,7 @@
         }
 
         .status--group {
-            background-color: v(center-channel-color-15);
+            background-color: v(center-channel-color-20);
             margin: 0;
             width: 1.8rem;
             height: 1.8rem;

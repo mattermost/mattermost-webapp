@@ -47,7 +47,11 @@
     }
 
     .LoadingSpinner {
-        margin: 6px 11px;
+        margin: 0 24px;
+        display: block;
+        height: 40px;
+        position: relative;
+        top: 4px;
     }
 }
 
@@ -64,7 +68,7 @@
     border-radius: 4px;
     -webkit-overflow-scrolling: touch;
     background-color: v(center-channel-bg);
-    border: 1px solid v(center-channel-color-08);
+    border: 1px solid v(center-channel-color-15);
     max-height: 292px;
     overflow-x: auto;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -72,6 +76,15 @@
     padding-bottom: 12px;
     max-width: 100%;
     width: 496px;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
 
     .Avatar {
         margin: 0 12px 0 0;

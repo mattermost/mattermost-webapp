@@ -53,7 +53,7 @@ class SearchUserSuggestion extends Suggestion {
                         show={Boolean(item.is_bot)}
                         className='badge-autocomplete'
                     />
-                    <span className='ml-2 mention__fullname small'>
+                    <span className='ml-2 mention__fullname'>
                         {description}
                     </span>
                 </div>

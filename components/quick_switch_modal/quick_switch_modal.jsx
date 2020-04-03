@@ -255,7 +255,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             help = (
                 <FormattedMarkdownMessage
                     id='quick_switch_modal.help_no_team'
-                    defaultMessage='Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss.'
+                    defaultMessage='Type to find a channel. Use **▲/▼** to browse, **ENTER** to select, **ESC** to dismiss.'
                 />
             );
         }
