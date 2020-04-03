@@ -44,6 +44,22 @@ const holders = defineMessages({
         id: t('rename_channel.handleHolder'),
         defaultMessage: 'lowercase alphanumeric characters',
     },
+    minLength: {
+        id: t('change_url.longer'),
+        defaultMessage: 'URL must be two or more characters.',
+    },
+    startWithLetter: {
+        id: t('change_url.startWithLetter'),
+        defaultMessage: 'URL must start with a letter or number.',
+    },
+    endWithLetter: {
+        id: t('change_url.endWithLetter'),
+        defaultMessage: 'URL must end with a letter or number.',
+    },
+    noUnderscore: {
+        id: t('change_url.noUnderscore'),
+        defaultMessage: 'URL can not contain two underscores in a row.',
+    },
 });
 
 export class RenameChannelModal extends React.PureComponent {
@@ -93,7 +109,7 @@ export class RenameChannelModal extends React.PureComponent {
             displayName: props.channel.display_name,
             channelName: props.channel.name,
             serverError: '',
-            nameError: '',
+            urlError: [],
             displayNameError: '',
             invalid: false,
             show: true,
@@ -112,6 +128,17 @@ export class RenameChannelModal extends React.PureComponent {
         Utils.placeCaretAtEnd(this.textbox);
     }
 
+    formattedError = (error, values = {}) => {
+        return (<span key={error.id}>
+            <FormattedMessage
+                id={error.id}
+                defaultMessage={error.defaultMessage}
+                values={values}
+            />
+            <br/>
+        </span>);
+    }
+
     handleHide = (e) => {
         if (e) {
             e.preventDefault();
@@ -119,7 +146,7 @@ export class RenameChannelModal extends React.PureComponent {
 
         this.setState({
             serverError: '',
-            nameError: '',
+            urlError: [],
             displayNameError: '',
             invalid: false,
             show: false,
@@ -161,20 +188,39 @@ export class RenameChannelModal extends React.PureComponent {
         }
 
         channel.name = this.state.channelName.trim();
-        if (!channel.name) {
-            state.nameError = formatMessage(holders.required);
-            state.invalid = true;
-        } else if (channel.name.length > Constants.MAX_CHANNELNAME_LENGTH) {
-            state.nameError = formatMessage(holders.maxLength, {maxLength: Constants.MAX_CHANNELNAME_LENGTH});
-            state.invalid = true;
-        } else {
-            const cleanedName = cleanUpUrlable(channel.name);
-            if (cleanedName === channel.name) {
-                state.nameError = '';
-            } else {
-                state.nameError = formatMessage(holders.lowercase);
-                state.invalid = true;
+        const urlErrors = [];
+        const url = channel.name;
+        if (url) {
+            if (url.length < 2) {
+                urlErrors.push(this.formattedError(holders.minLength));
             }
+
+            if (url.charAt(0) === '-' || url.charAt(0) === '_') {
+                urlErrors.push(this.formattedError(holders.startWithLetter));
+            }
+
+            if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
+                urlErrors.push(this.formattedError(holders.endWithLetter));
+            }
+
+            if (url.indexOf('__') > -1) {
+                urlErrors.push(this.formattedError(holders.noUnderscore));
+            }
+
+            if (url.length > Constants.MAX_CHANNELNAME_LENGTH) {
+                urlErrors.push(this.formattedError(holders.maxLength, {maxLength: Constants.MAX_CHANNELNAME_LENGTH}));
+            }
+
+            if (cleanUpUrlable(url) !== url) {
+                urlErrors.push(this.formattedError(holders.lowercase));
+            }
+        } else {
+            urlErrors.push(this.formattedError(holders.required));
+        }
+
+        state.urlError = urlErrors;
+        if (urlErrors.length > 0) {
+            state.invalid = true;
         }
 
         this.setState(state);
@@ -231,11 +277,11 @@ export class RenameChannelModal extends React.PureComponent {
             displayNameClass += ' has-error';
         }
 
-        let nameError = null;
-        let nameClass = 'form-group';
-        if (this.state.nameError) {
-            nameError = <label className='control-label'>{this.state.nameError}</label>;
-            nameClass += ' has-error';
+        let urlError = null;
+        let urlClass = 'form-group';
+        if (this.state.urlError.length > 0) {
+            urlError = <label className='control-label'>{this.state.urlError}</label>;
+            urlClass += ' has-error';
         }
 
         let serverError = null;
@@ -302,7 +348,7 @@ export class RenameChannelModal extends React.PureComponent {
                             />
                             {displayNameError}
                         </div>
-                        <div className={nameClass}>
+                        <div className={urlClass}>
                             <label className='control-label'>{urlInputLabel}</label>
 
                             <div className='input-group input-group--limit'>
@@ -325,7 +371,7 @@ export class RenameChannelModal extends React.PureComponent {
                                     aria-label={formatMessage({id: 'rename_channel.title', defaultMessage: 'Rename Channel'}).toLowerCase()}
                                 />
                             </div>
-                            {nameError}
+                            {urlError}
                         </div>
                         {serverError}
                     </Modal.Body>
