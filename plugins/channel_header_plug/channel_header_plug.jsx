@@ -66,13 +66,13 @@ class CustomToggle extends React.PureComponent {
 
         let activeClass = '';
         if (this.props.dropdownOpen) {
-            activeClass = ' channel-header-icon--active';
+            activeClass = ' channel-header__icon--active';
         }
 
         return (
             <button
                 id='pluginChannelHeaderButtonDropdown'
-                className={'channel-header-icon channel-header-icon--wide ' + activeClass}
+                className={'channel-header__icon channel-header__icon--wide ' + activeClass}
                 type='button'
                 onClick={this.handleClick}
             >
@@ -122,7 +122,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     createButton = (plug) => {
         return (
             <HeaderIconWrapper
-                buttonClass='channel-header-icon style--none'
+                buttonClass='channel-header__icon style--none'
                 iconComponent={plug.icon}
                 onClick={() => plug.action(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}

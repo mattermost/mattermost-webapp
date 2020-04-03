@@ -1,4 +1,4 @@
-.channel-header-icon {
+.channel-header__icon {
     @include border-radius(4px);
     border: none;
     background: transparent;
@@ -39,7 +39,7 @@
     }
 }
 
-.channel-header-icon--wide {
+.channel-header__icon--wide {
     width: auto;
     padding: 0 6px;
 }

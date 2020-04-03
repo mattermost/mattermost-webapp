@@ -193,8 +193,8 @@ export default class SearchBar extends React.Component {
                         />
                     }
                     ariaLabel={true}
-                    buttonClass={classNames('channel-header-icon', {
-                        'channel-header-icon--active': this.props.isMentionSearch,
+                    buttonClass={classNames('channel-header__icon', {
+                        'channel-header__icon--active': this.props.isMentionSearch,
                     })}
                     buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderMentionButton' : 'channelHeaderMentionButton'}
                     onClick={this.searchMentions}
@@ -203,7 +203,7 @@ export default class SearchBar extends React.Component {
                 />
             );
 
-            var flagBtnClass = this.props.isFlaggedPosts ? 'channel-header-icon--active' : '';
+            var flagBtnClass = this.props.isFlaggedPosts ? 'channel-header__icon--active' : '';
 
             flagBtn = (
                 <HeaderIconWrapper
@@ -211,7 +211,7 @@ export default class SearchBar extends React.Component {
                         <FlagIcon className='icon icon--standard'/>
                     }
                     ariaLabel={true}
-                    buttonClass={'channel-header-icon ' + flagBtnClass}
+                    buttonClass={'channel-header__icon ' + flagBtnClass}
                     buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderFlagButton' : 'channelHeaderFlagButton'}
                     onClick={this.getFlagged}
                     tooltipKey={'flaggedPosts'}
