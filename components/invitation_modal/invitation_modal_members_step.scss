@@ -92,7 +92,7 @@
             max-width: 720px;
             width: calc(100% - 40px);
             margin: 45px 0;
-            border-color: var(--center-channel-color-10);
+            border-color: var(--center-channel-color-08);
         }
         div {
             text-align: center;
@@ -122,7 +122,7 @@
                 border-color: transparent;
             }
             &.btn-inactive {
-                background: var(--center-channel-color-10);
+                background: var(--center-channel-color-08);
                 color: var(--center-channel-color-56);
             }
         }
