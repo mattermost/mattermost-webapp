@@ -57,28 +57,6 @@
         margin-right: 5px;
     }
 
-    .icon {
-        width: 16px;
-        opacity: 0.56;
-        display: inline-block;
-        margin: 0 12px 0 0;
-        position: relative;
-        text-align: center;
-        vertical-align: top;
-        font-size: 16px;
-        fill: v(center-channel-color);
-
-        &.icon--lg {
-            width: 24px;
-        }
-
-        &.icon__globe {
-            &:before {
-                margin: 0;
-            }
-        }
-    }
-
     .status {
         font-size: 15px;
         text-align: center;
@@ -119,8 +97,8 @@
     }
 }
 
-.mention__fullname, .mention__you {
-    @include opacity(.5);
+.mention__fullname {
+    @include opacity(.56);
     margin: 0 0 0 4px;
     overflow: hidden;
     text-overflow: ellipsis;

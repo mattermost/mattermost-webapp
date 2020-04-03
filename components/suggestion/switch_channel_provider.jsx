@@ -85,27 +85,39 @@ class SwitchChannelSuggestion extends Suggestion {
         let icon = null;
         if (channelIsArchived) {
             icon = (
-                <ArchiveIcon className='icon icon__archive'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-archive-outline'/>
+                </div>
             );
         } else if (this.props.hasDraft) {
             icon = (
-                <DraftIcon className='icon icon__draft icon--body'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-pencil-outline'/>
+                </div>
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <GlobeIcon className='icon icon__globe icon--body'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-globe'/>
+                </div>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <LockIcon className='icon icon__lock icon--body'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-lock-outline'/>
+                </div>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
-            icon = <div className='status status--group'>{'G'}</div>;
+            icon = (
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <div className='status status--group'>{'G'}</div>
+                </div>
+            );
         } else {
             icon = (
                 <div className='pull-left'>
                     <Avatar
-                        size='xs'
+                        size='sm'
                         url={userImageUrl}
                     />
                 </div>
