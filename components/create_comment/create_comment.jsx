@@ -70,6 +70,11 @@ class CreateComment extends React.PureComponent {
         }).isRequired,
 
         /**
+         * Whether the submit button is enabled
+         */
+        enableAddButton: PropTypes.bool.isRequired,
+
+        /**
          * Force message submission on CTRL/CMD + ENTER
          */
         codeBlockOnCtrlEnter: PropTypes.bool,
@@ -484,6 +489,11 @@ class CreateComment extends React.PureComponent {
         }
 
         const {draft} = this.state;
+        const enableAddButton = this.shouldEnableAddButton();
+
+        if (!enableAddButton) {
+            return;
+        }
 
         if (draft.uploadsInProgress.length > 0) {
             return;
@@ -802,6 +812,14 @@ class CreateComment extends React.PureComponent {
         }
     }
 
+    shouldEnableAddButton = () => {
+        if (this.props.enableAddButton) {
+            return true;
+        }
+
+        return isErrorInvalidSlashCommand(this.state.serverError);
+    }
+
     showPostDeletedModal = () => {
         this.setState({
             showPostDeletedModal: true,
@@ -828,6 +846,7 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
+        const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
         const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
 
@@ -917,6 +936,11 @@ class CreateComment extends React.PureComponent {
                     )}
                 </span>
             );
+        }
+
+        let addButtonClass = 'btn btn-primary comment-btn';
+        if (!enableAddButton) {
+            addButtonClass += ' disabled';
         }
 
         let fileUpload;
@@ -1063,6 +1087,14 @@ class CreateComment extends React.PureComponent {
                         </div>
                         <div className='text-right mt-2'>
                             {uploadsInProgressText}
+                            <input
+                                type='button'
+                                disabled={!enableAddButton}
+                                id='addCommentButton'
+                                className={addButtonClass}
+                                value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
+                                onClick={this.handleSubmit}
+                            />
                             {preview}
                             {serverError}
                         </div>

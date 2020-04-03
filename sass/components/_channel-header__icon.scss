@@ -16,7 +16,7 @@
     color: v(center-channel-color-56);
 
     &:hover {
-        background: v(center-channel-color-04);
+        background: v(center-channel-color-08);
         fill: v(center-channel-color-72);
         color: v(center-channel-color-72);
     }
@@ -24,9 +24,9 @@
     &:active,
     &--active,
     &--active:hover {
-        background: v(link-color-08);
-        fill: v(link-color);
-        color: v(link-color);
+        background: v(button-bg-08);
+        fill: v(button-bg);
+        color: v(button-bg);
     }
 
     .icon__text {

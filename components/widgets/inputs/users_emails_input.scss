@@ -95,7 +95,7 @@
             border-radius: 0 0 4px 4px;
         }
         &--is-focused {
-            background: var(--button-bg-10);
+            background: var(--button-bg-08);
         }
         &--no-matches:hover{
             background: none;
@@ -171,7 +171,7 @@
             svg {
                 width: 18px;
                 height: 18px;
-                fill: var(--button-color-90);
+                fill: var(--button-color-88);
             }
         }
         .Avatar {

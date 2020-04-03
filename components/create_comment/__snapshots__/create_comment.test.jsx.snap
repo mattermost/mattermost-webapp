@@ -78,7 +78,16 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       </div>
       <div
         className="text-right mt-2"
-      />
+      >
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -198,7 +207,16 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
       </div>
       <div
         className="text-right mt-2"
-      />
+      >
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -353,7 +371,16 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       </div>
       <div
         className="text-right mt-2"
-      />
+      >
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -485,6 +512,14 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <div
         className="text-right mt-2"
       >
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
         <Connect(FilePreview)
           fileInfos={
             Array [
@@ -652,7 +687,16 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       </div>
       <div
         className="text-right mt-2"
-      />
+      >
+        <input
+          className="btn btn-primary comment-btn disabled"
+          disabled={true}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
     </div>
   </div>
   <PostDeletedModal
@@ -817,6 +861,14 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             values={Object {}}
           />
         </span>
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
         <Connect(FilePreview)
           fileInfos={
             Array [
