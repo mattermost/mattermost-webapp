@@ -435,7 +435,7 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
 </Modal>
 `;
 
-exports[`components/ChangeURLModal should match snapshot, on urlError 1`] = `
+exports[`components/ChangeURLModal should match snapshot, on urlErrors 1`] = `
 <Modal
   animation={true}
   aria-labelledby="changeUrlModalLabel"

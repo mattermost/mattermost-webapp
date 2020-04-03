@@ -11,7 +11,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {intlShape} from 'utils/react_intl';
-import {cleanUpUrlable, getShortenedURL} from 'utils/url';
+import {getShortenedURL, validateChannelUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -43,22 +43,6 @@ const holders = defineMessages({
     handleHolder: {
         id: t('rename_channel.handleHolder'),
         defaultMessage: 'lowercase alphanumeric characters',
-    },
-    minLength: {
-        id: t('change_url.longer'),
-        defaultMessage: 'URL must be two or more characters.',
-    },
-    startWithLetter: {
-        id: t('change_url.startWithLetter'),
-        defaultMessage: 'URL must start with a letter or number.',
-    },
-    endWithLetter: {
-        id: t('change_url.endWithLetter'),
-        defaultMessage: 'URL must end with a letter or number.',
-    },
-    noUnderscore: {
-        id: t('change_url.noUnderscore'),
-        defaultMessage: 'URL can not contain two underscores in a row.',
     },
 });
 
@@ -109,7 +93,7 @@ export class RenameChannelModal extends React.PureComponent {
             displayName: props.channel.display_name,
             channelName: props.channel.name,
             serverError: '',
-            urlError: [],
+            urlErrors: '',
             displayNameError: '',
             invalid: false,
             show: true,
@@ -128,11 +112,11 @@ export class RenameChannelModal extends React.PureComponent {
         Utils.placeCaretAtEnd(this.textbox);
     }
 
-    formattedError = (error, values = {}) => {
-        return (<span key={error.id}>
+    formattedError = (id, defaultMessage, values = {}) => {
+        return (<span key={id}>
             <FormattedMessage
-                id={error.id}
-                defaultMessage={error.defaultMessage}
+                id={id}
+                defaultMessage={defaultMessage}
                 values={values}
             />
             <br/>
@@ -146,7 +130,7 @@ export class RenameChannelModal extends React.PureComponent {
 
         this.setState({
             serverError: '',
-            urlError: [],
+            urlErrors: '',
             displayNameError: '',
             invalid: false,
             show: false,
@@ -188,40 +172,15 @@ export class RenameChannelModal extends React.PureComponent {
         }
 
         channel.name = this.state.channelName.trim();
-        const urlErrors = [];
-        const url = channel.name;
-        if (url) {
-            if (url.length < 2) {
-                urlErrors.push(this.formattedError(holders.minLength));
-            }
-
-            if (url.charAt(0) === '-' || url.charAt(0) === '_') {
-                urlErrors.push(this.formattedError(holders.startWithLetter));
-            }
-
-            if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
-                urlErrors.push(this.formattedError(holders.endWithLetter));
-            }
-
-            if (url.indexOf('__') > -1) {
-                urlErrors.push(this.formattedError(holders.noUnderscore));
-            }
-
-            if (url.length > Constants.MAX_CHANNELNAME_LENGTH) {
-                urlErrors.push(this.formattedError(holders.maxLength, {maxLength: Constants.MAX_CHANNELNAME_LENGTH}));
-            }
-
-            if (cleanUpUrlable(url) !== url) {
-                urlErrors.push(this.formattedError(holders.lowercase));
-            }
-        } else {
-            urlErrors.push(this.formattedError(holders.required));
-        }
-
-        state.urlError = urlErrors;
+        const formattedUrlErrors = [];
+        const urlErrors = validateChannelUrl(channel.name);
         if (urlErrors.length > 0) {
+            urlErrors.forEach((error) => {
+                formattedUrlErrors.push(this.formattedError(t(error.id), error.defaultMessage));
+            });
             state.invalid = true;
         }
+        state.urlErrors = formattedUrlErrors;
 
         this.setState(state);
 
@@ -258,7 +217,8 @@ export class RenameChannelModal extends React.PureComponent {
     }
 
     onNameChange = (e) => {
-        this.setState({channelName: e.target.value});
+        const name = e.target.value.trim().replace(/[^A-Za-z0-9-_]/g, '').toLowerCase();
+        this.setState({channelName: name});
     }
 
     onDisplayNameChange = (e) => {
@@ -277,10 +237,10 @@ export class RenameChannelModal extends React.PureComponent {
             displayNameClass += ' has-error';
         }
 
-        let urlError = null;
+        let urlErrors = null;
         let urlClass = 'form-group';
-        if (this.state.urlError.length > 0) {
-            urlError = <label className='control-label'>{this.state.urlError}</label>;
+        if (this.state.urlErrors.length > 0) {
+            urlErrors = <label className='control-label'>{this.state.urlErrors}</label>;
             urlClass += ' has-error';
         }
 
@@ -371,7 +331,7 @@ export class RenameChannelModal extends React.PureComponent {
                                     aria-label={formatMessage({id: 'rename_channel.title', defaultMessage: 'Rename Channel'}).toLowerCase()}
                                 />
                             </div>
-                            {urlError}
+                            {urlErrors}
                         </div>
                         {serverError}
                     </Modal.Body>

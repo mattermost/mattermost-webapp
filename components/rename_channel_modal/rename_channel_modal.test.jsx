@@ -68,9 +68,7 @@ describe('components/RenameChannelModal', () => {
                     <RenameChannelModal {...baseProps}/>
                 );
 
-                wrapper.find('#channel_name').simulate(
-                    'change', {preventDefault: jest.fn(), target: {value: testCaseProps.value}}
-                );
+                wrapper.setState({channelName: testCaseProps.value});
 
                 wrapper.find('#save-button').simulate('click');
                 if (patchShouldHaveBeenCalled) {

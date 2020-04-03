@@ -89,3 +89,35 @@ export function getScheme(url: string): string | null {
 
     return match && match[1];
 }
+
+type ErrorMessage = {
+    id: string;
+    defaultMessage: string;
+}
+export function validateChannelUrl(url: string): ErrorMessage[] {
+    const errors: ErrorMessage[] = [];
+
+    const cleanedURL = cleanUpUrlable(url);
+    const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
+    if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url || url.indexOf('__') > -1) {
+        if (url.length < 2) {
+            errors.push({id: 'change_url.longer', defaultMessage: 'URL must be two or more characters.'});
+        }
+        if (url.charAt(0) === '-' || url.charAt(0) === '_') {
+            errors.push({id: 'change_url.startWithLetter', defaultMessage: 'URL must start with a letter or number.'});
+        }
+        if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
+            errors.push({id: 'change_url.endWithLetter', defaultMessage: 'URL must end with a letter or number.'});
+        }
+        if (url.indexOf('__') > -1) {
+            errors.push({id: 'change_url.noUnderscore', defaultMessage: 'URL can not contain two underscores in a row.'});
+        }
+
+        // In case of error we don't detect
+        if (errors.length === 0) {
+            errors.push({id: 'change_url.invalidUrl', defaultMessage: 'Invalid URL'});
+        }
+    }
+
+    return errors;
+}
