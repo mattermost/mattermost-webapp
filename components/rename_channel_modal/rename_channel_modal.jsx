@@ -112,17 +112,6 @@ export class RenameChannelModal extends React.PureComponent {
         Utils.placeCaretAtEnd(this.textbox);
     }
 
-    formattedError = (id, defaultMessage, values = {}) => {
-        return (<span key={id}>
-            <FormattedMessage
-                id={id}
-                defaultMessage={defaultMessage}
-                values={values}
-            />
-            <br/>
-        </span>);
-    }
-
     handleHide = (e) => {
         if (e) {
             e.preventDefault();
@@ -172,15 +161,11 @@ export class RenameChannelModal extends React.PureComponent {
         }
 
         channel.name = this.state.channelName.trim();
-        const formattedUrlErrors = [];
         const urlErrors = validateChannelUrl(channel.name);
         if (urlErrors.length > 0) {
-            urlErrors.forEach((error) => {
-                formattedUrlErrors.push(this.formattedError(t(error.id), error.defaultMessage));
-            });
             state.invalid = true;
         }
-        state.urlErrors = formattedUrlErrors;
+        state.urlErrors = urlErrors;
 
         this.setState(state);
 

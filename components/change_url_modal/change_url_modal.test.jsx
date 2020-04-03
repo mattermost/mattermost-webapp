@@ -108,65 +108,6 @@ describe('components/ChangeURLModal', () => {
         expect(wrapper.state('userEdit')).toEqual(false);
     });
 
-    test('should match when formatUrlErrors is called with a non specific error', () => {
-        const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
-        );
-        const param = 'EXAMPLEURL';
-
-        wrapper.instance().formattedError = jest.fn();
-        wrapper.update();
-
-        const returned = wrapper.instance().formatUrlErrors(param);
-        expect(returned.length).toEqual(1);
-        expect(wrapper.instance().formattedError).toBeCalledWith(
-            'change_url.invalidUrl',
-            'Invalid URL'
-        );
-    });
-
-    test('should match when formatUrlErrors is called with a 1 character url', () => {
-        const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
-        );
-        const param = 'a';
-
-        wrapper.instance().formattedError = jest.fn();
-        wrapper.update();
-
-        const returned = wrapper.instance().formatUrlErrors(param);
-        expect(returned.length).toEqual(1);
-        expect(wrapper.instance().formattedError).toBeCalledWith(
-            'change_url.longer',
-            'URL must be two or more characters.'
-        );
-    });
-
-    test('should match when formatUrlErrors is called with a non alphanumeric start, end and two undescores', () => {
-        const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
-        );
-        const param = '_a__';
-
-        wrapper.instance().formattedError = jest.fn();
-        wrapper.update();
-
-        const returned = wrapper.instance().formatUrlErrors(param);
-        expect(returned.length).toEqual(3);
-        expect(wrapper.instance().formattedError).toBeCalledWith(
-            'change_url.startWithLetter',
-            'URL must start with a letter or number.'
-        );
-        expect(wrapper.instance().formattedError).toBeCalledWith(
-            'change_url.endWithLetter',
-            'URL must end with a letter or number.'
-        );
-        expect(wrapper.instance().formattedError).toBeCalledWith(
-            'change_url.noUnderscore',
-            'URL can not contain two underscores in a row.'
-        );
-    });
-
     test('should update current url when not editing', () => {
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>

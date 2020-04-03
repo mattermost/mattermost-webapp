@@ -10,7 +10,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
-import {t} from 'utils/i18n';
 
 export default class ChangeURLModal extends React.PureComponent {
     static propTypes = {
@@ -93,31 +92,10 @@ export default class ChangeURLModal extends React.PureComponent {
         this.setState({currentURL: url.replace(/[^A-Za-z0-9-_]/g, '').toLowerCase(), userEdit: true});
     }
 
-    formattedError = (id, message) => {
-        return (<span key={id}>
-            <FormattedMessage
-                id={id}
-                defaultMessage={message}
-            />
-            <br/>
-        </span>);
-    }
-
-    formatUrlErrors = (url) => {
-        let formattedErrors = []; //eslint-disable-line prefer-const
-        const errors = validateChannelUrl(url);
-
-        errors.forEach((error) => {
-            formattedErrors.push(this.formattedError(t(error.id), error.defaultMessage));
-        });
-
-        return formattedErrors;
-    }
-
     onSubmit = (e) => {
         e.preventDefault();
         const url = this.refs.urlinput.value;
-        const urlErrors = this.formatUrlErrors(url);
+        const urlErrors = validateChannelUrl(url);
         if (urlErrors.length > 0) {
             this.setState({urlErrors});
             return;
