@@ -159,6 +159,7 @@ export default class QuickSwitchModal extends React.PureComponent {
 
     render() {
         let providers = this.channelProviders;
+        let renderDividers = true;
         let header = (
             <h1>
                 <FormattedMessage
@@ -166,8 +167,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                     defaultMessage='Switch Channels'
                 />
             </h1>
-        )
-        let renderDividers = true;
+        );
 
         let channelShortcut = t('quick_switch_modal.channelsShortcut.windows');
         let defaultChannelShortcut = 'CTRL+K';

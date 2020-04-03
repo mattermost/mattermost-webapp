@@ -10,7 +10,6 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 import store from 'stores/redux_store.jsx';
 
 import {Constants} from 'utils/constants';
-import GlobeIcon from 'components/widgets/icons/globe_icon';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
