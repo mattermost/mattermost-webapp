@@ -414,7 +414,6 @@ class ChannelHeader extends React.PureComponent {
         if (isDirect && !dmUser.delete_at && !dmUser.is_bot) {
             dmHeaderIconStatus = (
                 <StatusIcon
-                    type='avatar'
                     status={channel.status}
                 />
             );

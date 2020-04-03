@@ -15,6 +15,7 @@ export default class AtMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
         const user = this.props.item;
+        let fullNameClass = '';
 
         let username;
         let description;
@@ -34,7 +35,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 >
                     {(title) => (
                         <i
-                            className='mention__image fa fa-users fa-2x'
+                            className='icon icon--lg icon-account-multiple-outline'
                             title={title}
                         />
                     )}
@@ -55,7 +56,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 >
                     {(title) => (
                         <i
-                            className='mention__image fa fa-users fa-2x'
+                            className='icon icon--lg icon-account-multiple-outline'
                             title={title}
                         />
                     )}
@@ -76,7 +77,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 >
                     {(title) => (
                         <i
-                            className='mention__image fa fa-users fa-2x'
+                            className='icon icon--lg icon-account-multiple-outline'
                             title={title}
                         />
                     )}
@@ -84,6 +85,10 @@ export default class AtMentionSuggestion extends Suggestion {
             );
         } else {
             username = user.username;
+
+            if (user.first_name || user.last_name || user.nickname) {
+                fullNameClass = 'small';
+            }
 
             if ((user.first_name || user.last_name) && user.nickname) {
                 description = `- ${Utils.getFullName(user)} (${user.nickname})`;
@@ -95,7 +100,7 @@ export default class AtMentionSuggestion extends Suggestion {
 
             icon = (
                 <Avatar
-                    size='xs'
+                    size='sm'
                     username={user && user.username}
                     url={Utils.imageURLForUser(user.id, user.last_picture_update)}
                 />
@@ -134,7 +139,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     show={Boolean(user.is_bot)}
                     className='badge-autocomplete'
                 />
-                <span className='mention__fullname'>
+                <span className={`mention__fullname ${fullNameClass}`}>
                     {' '}
                     {description}
                 </span>

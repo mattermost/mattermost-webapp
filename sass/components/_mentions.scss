@@ -58,19 +58,23 @@
     }
 
     .icon {
-        @include opacity(.5);
+        width: 16px;
+        opacity: 0.56;
         display: inline-block;
-        margin: 0 7px 0 0;
+        margin: 0 12px 0 0;
         position: relative;
         text-align: center;
-        top: 2px;
         vertical-align: top;
-        width: 16px;
+        font-size: 16px;
+        fill: v(center-channel-color);
+
+        &.icon--lg {
+            width: 24px;
+        }
 
         &.icon__globe {
-            svg {
-                height: 14px;
-                width: 14px;
+            &:before {
+                margin: 0;
             }
         }
     }

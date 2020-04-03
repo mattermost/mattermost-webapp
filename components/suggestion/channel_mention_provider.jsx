@@ -10,6 +10,7 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 import store from 'stores/redux_store.jsx';
 
 import {Constants} from 'utils/constants';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -20,14 +21,14 @@ class ChannelMentionSuggestion extends Suggestion {
         const item = this.props.item;
 
         const channelName = item.channel.display_name;
-        const purpose = item.channel.purpose;
+        const channelIcon = (<i className='icon icon--no-spacing icon-globe'/>);
 
         let className = 'mentions__name no-flex';
         if (isSelection) {
             className += ' suggestion--selected';
         }
 
-        const description = '(~' + item.channel.name + ')';
+        const description = '~' + item.channel.name;
 
         return (
             <div
@@ -38,15 +39,14 @@ class ChannelMentionSuggestion extends Suggestion {
             >
                 <div className='mention__align'>
                     <span>
+                        {channelIcon}
+                    </span>
+                    <span>
                         {channelName}
                     </span>
-                    <span className='mention__channelname'>
-                        {' '}
+                    <span className='mention__channelname small ml-2'>
                         {description}
                     </span>
-                </div>
-                <div className='mention__purpose'>
-                    {purpose}
                 </div>
             </div>
         );

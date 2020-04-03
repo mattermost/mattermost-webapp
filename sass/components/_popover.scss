@@ -243,10 +243,58 @@
     text-overflow: ellipsis;
 }
 
+.hidden-label + .search-autocomplete__divider {
+    &:before {
+        display: none;
+    }
+}
+
+.search-autocomplete__icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-autocomplete__divider {
+    font-size: 12px;
+    color: v(center-channel-color-60);
+    height: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 1.2rem 0 0;
+    padding: 0 0 0 2.4rem;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: 600;
+
+    &:first-child {
+        &:before {
+            display: none;
+        }
+    }
+
+    &:before {
+        content: '';
+        height: 1px;
+        background: v(center-channel-color-08);
+        position: absolute;
+        top: -7px;
+        left: 0;
+        width: 100%;
+    }
+}
+
+.search-autocomplete__name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .search-help-popover {
-    font-size: em(13px);
     max-width: 350px;
-    top: 36px;
+    top: 23px;
     @include opacity(0);
     visibility: hidden;
     width: 298px;
@@ -258,38 +306,9 @@
 
         .popover-content {
             max-height: 60vh;
-            padding: 10px;
+            padding: 0 0 12px;
             position: relative;
             -webkit-overflow-scrolling: touch;
-        }
-    }
-
-    .search-autocomplete__divider {
-        line-height: 21px;
-        margin: 10px 0 5px;
-        position: relative;
-
-        &:first-child {
-            margin-top: 5px;
-        }
-
-        > span {
-            background: $white;
-            display: inline-block;
-            padding-right: 10px;
-            position: relative;
-            z-index: 5;
-        }
-
-        &:before {
-            @include opacity(.2);
-            background: $dark-gray;
-            content: '';
-            height: 1px;
-            left: 0;
-            position: absolute;
-            top: 10px;
-            width: 100%;
         }
     }
 
@@ -298,25 +317,30 @@
         cursor: pointer;
         display: flex;
         align-items: center;
-        margin: 3px 0 0 5px;
         overflow: hidden;
-        padding: 6px 8px;
         text-overflow: ellipsis;
         white-space: nowrap;
+        height: 4rem;
+        padding: 0 2.4rem;
 
         &.selected {
-            background: alpha-color($black, .2);
+            background: v(center-channel-color-04);
             box-shadow: none;
         }
 
-        .mention--align {
-            display: inline-flex;
-            overflow: hidden;
+        .status--group {
+            background-color: v(center-channel-color-15);
+            margin: 0;
+            width: 1.8rem;
+            height: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .search-autocomplete__name {
-            text-overflow: ellipsis;
+        .mention--align {
             overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .fa {
@@ -324,11 +348,6 @@
             margin-right: 5px;
             top: 1px;
             position: relative;
-        }
-
-        .Avatar {
-            margin-right: 6px;
-            margin-top: -1px;
         }
     }
 
