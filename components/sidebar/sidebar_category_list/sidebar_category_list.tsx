@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
-import {DragDropContext, Droppable, DropResult, DragStart} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
@@ -348,6 +348,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }, 100);
 
+    onBeforeCapture = (before: BeforeCapture) => {
+        if (this.props.categories.find((category) => category.id === before.draggableId)) {
+            this.setState({isDraggingCategory: true}, () => {
+                this.channelRefs.forEach((ref) => ref.classList.remove('animating'));
+            });
+        }
+    }
+
     onDragStart = (initial: DragStart) => {
         this.props.onDragStart(initial);
 
@@ -358,8 +366,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             } else {
                 this.setState({isDraggingChannel: true});
             }
-        } else if (initial.type === 'SIDEBAR_CATEGORY') {
-            this.setState({isDraggingCategory: true});
         }
     }
 
@@ -439,12 +445,12 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 >
                     <DragDropContext
                         onDragEnd={this.onDragEnd}
+                        onBeforeCapture={this.onBeforeCapture}
                         onDragStart={this.onDragStart}
                     >
                         <Droppable
                             droppableId='droppable-categories'
                             type='SIDEBAR_CATEGORY'
-                            mode='virtual'
                         >
                             {(provided) => {
                                 return (

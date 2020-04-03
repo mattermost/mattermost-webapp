@@ -78,7 +78,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     renderChannel = (channel: Channel, index: number) => {
-        const {isCollapsed, setChannelRef, getChannelRef, category} = this.props;
+        const {isCollapsed, setChannelRef, getChannelRef, category, isDraggingCategory} = this.props;
 
         return (
             <SidebarChannel
@@ -87,7 +87,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 channelId={channel.id}
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
-                isCategoryCollapsed={isCollapsed}
+                isCategoryCollapsed={isCollapsed || isDraggingCategory}
                 isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
             />
         );
@@ -193,6 +193,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
             <Draggable
                 draggableId={category.id}
                 index={categoryIndex}
+                disableInteractiveElementBlocking={true}
             >
                 {(provided, snapshot) => {
                     return (
@@ -206,7 +207,6 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                             <Droppable
                                 droppableId={category.id}
                                 type='SIDEBAR_CHANNEL'
-                                mode='virtual'
                                 isDropDisabled={this.isDropDisabled()}
                             >
                                 {(droppableProvided) => {
