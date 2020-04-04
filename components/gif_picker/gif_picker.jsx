@@ -26,9 +26,13 @@ export const appProps = {
     },
 };
 
+// shouldComponentUpdate set in constructor
+// eslint-disable-next-line react/require-optimization
 export default class GifPicker extends React.Component {
     static propTypes = {
         onGifClick: PropTypes.func.isRequired,
+        defaultSearchText: PropTypes.string,
+        handleSearchTextChange: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -37,8 +41,9 @@ export default class GifPicker extends React.Component {
         // All props are primitives or treated as immutable
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
+        const action = props.defaultSearchText ? 'search' : 'trending';
         this.state = {
-            action: 'trending',
+            action
         };
     }
 
@@ -104,6 +109,8 @@ export default class GifPicker extends React.Component {
                     onTrending={this.handleTrending}
                     onCategories={this.handleCategories}
                     onSearch={this.handleSearch}
+                    defaultSearchText={this.props.defaultSearchText}
+                    handleSearchTextChange={this.props.handleSearchTextChange}
                 >
                     {component}
                 </App>

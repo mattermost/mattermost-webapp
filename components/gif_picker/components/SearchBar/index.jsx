@@ -60,6 +60,8 @@ export class SearchBar extends Component {
         saveSearchScrollPosition: PropTypes.func,
         saveSearchBarText: PropTypes.func,
         searchTextUpdate: PropTypes.func,
+        defaultSearchText: PropTypes.string,
+        handleSearchTextChange: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -70,8 +72,11 @@ export class SearchBar extends Component {
         };
 
         this.searchTimeout = null;
-        this.props.saveSearchBarText('');
-        this.props.searchTextUpdate('');
+
+        const defaultSearchText = this.props.defaultSearchText || '';
+
+        this.props.saveSearchBarText(defaultSearchText);
+        this.props.searchTextUpdate(defaultSearchText);
     }
 
     componentDidUpdate(prevProps) {
@@ -100,6 +105,7 @@ export class SearchBar extends Component {
     updateSearchInputValue = (searchText) => {
         this.searchInput.value = searchText;
         this.props.saveSearchBarText(searchText);
+        this.props.handleSearchTextChange(searchText);
     }
 
     handleSubmit = (event) => {
@@ -122,6 +128,7 @@ export class SearchBar extends Component {
 
         const {onCategories, action} = this.props;
         this.props.saveSearchBarText(searchText);
+        this.props.handleSearchTextChange(searchText);
 
         if (searchText === '') {
             onCategories();
@@ -172,7 +179,8 @@ export class SearchBar extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return ((!nextProps.searchBarText && this.props.searchBarText) ||
             (nextProps.searchBarText && !this.props.searchBarText) ||
-            (nextState.inputFocused !== this.state.inputFocused));
+            (nextState.inputFocused !== this.state.inputFocused) ||
+            (nextProps.searchBarText !== this.props.searchBarText));
     }
 
     render() {
@@ -218,6 +226,7 @@ export class SearchBar extends Component {
                             return input;
                         }}
                         style={style.input}
+                        value={searchBarText}
                     />
                     <GifSearchIcon
                         className='ic ic-search'

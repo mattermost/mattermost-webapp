@@ -118,6 +118,8 @@ export default class EmojiPickerTabs extends PureComponent {
                     >
                         <GifPicker
                             onGifClick={this.props.onGifClick}
+                            defaultSearchText={this.state.filter}
+                            handleSearchTextChange={this.handleFilterChange}
                         />
                     </Tab>
                 </Tabs>
