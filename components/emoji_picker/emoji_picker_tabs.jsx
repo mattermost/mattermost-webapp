@@ -36,6 +36,7 @@ export default class EmojiPickerTabs extends PureComponent {
 
         this.state = {
             emojiTabVisible: true,
+            filter: ''
         };
     }
 
@@ -53,7 +54,11 @@ export default class EmojiPickerTabs extends PureComponent {
 
     handleEmojiPickerClose = () => {
         this.props.onEmojiClose();
-    }
+    };
+
+    handleFilterChange = (filter) => {
+        this.setState({filter});
+    };
 
     render() {
         let pickerStyle;
@@ -101,6 +106,8 @@ export default class EmojiPickerTabs extends PureComponent {
                             onEmojiClick={this.props.onEmojiClick}
                             customEmojis={this.props.customEmojis}
                             visible={this.state.emojiTabVisible}
+                            filter={this.state.filter}
+                            handleFilterChange={this.handleFilterChange}
                         />
                     </Tab>
                     <Tab
@@ -128,6 +135,8 @@ export default class EmojiPickerTabs extends PureComponent {
                     onEmojiClose={this.props.onEmojiClose}
                     onEmojiClick={this.props.onEmojiClick}
                     customEmojis={this.props.customEmojis}
+                    filter={this.state.filter}
+                    handleFilterChange={this.handleFilterChange}
                 />
             </div>
         );

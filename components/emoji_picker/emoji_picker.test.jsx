@@ -66,6 +66,8 @@ describe('components/emoji_picker/EmojiPicker', () => {
         emojiMap: new EmojiMap([]),
         recentEmojis: [],
         actions,
+        filter: '',
+        handleFilterChange: jest.fn()
     };
 
     test('Recent category should not exist if there are no recent emojis', () => {
