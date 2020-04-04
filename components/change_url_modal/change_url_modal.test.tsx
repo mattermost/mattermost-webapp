@@ -65,25 +65,28 @@ describe('components/ChangeURLModal', () => {
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>
         );
-        const refURLInput = wrapper.find('input[type="text"]').instance();
-        refURLInput.value = 'urlexample';
+        const value = 'urlexample';
+        const refURLInput = wrapper.find('input[type="text"]').getDOMNode() as HTMLInputElement;
+        refURLInput.value = value;
 
-        wrapper.instance().onSubmit({preventDefault: jest.fn()});
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onSubmit({preventDefault: () => {}} as React.MouseEvent<HTMLButtonElement>);
 
         expect(wrapper.state('urlError')).toEqual('');
     });
 
     test('should match state when onSubmit is called with a invalid URL', () => {
-        const value = 'a';
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>
         );
-        const refURLInput = wrapper.find('input[type="text"]').instance();
+        const value = 'a';
+        const refURLInput = wrapper.find('input[type="text"]').getDOMNode() as HTMLInputElement;
         refURLInput.value = value;
 
-        wrapper.instance().onSubmit({preventDefault: jest.fn()});
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onSubmit({preventDefault: () => {}} as React.MouseEvent<HTMLButtonElement>);
 
-        expect(wrapper.state('urlError').length).toEqual(1);
+        expect((wrapper.state('urlError') as JSX.Element[]).length).toEqual(1);
     });
 
     test('should match state when onURLChanged is called', () => {
@@ -92,7 +95,10 @@ describe('components/ChangeURLModal', () => {
         );
         const value = 'URLEXAMPLE';
         const target = {value};
-        wrapper.instance().onURLChanged({target});
+        const event = {target} as React.ChangeEvent<HTMLInputElement>;
+
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onURLChanged(event);
 
         expect(wrapper.state('userEdit')).toEqual(true);
         expect(wrapper.state('currentURL')).toEqual('urlexample');
@@ -102,7 +108,9 @@ describe('components/ChangeURLModal', () => {
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>
         );
-        wrapper.instance().onCancel();
+
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onCancel();
 
         expect(wrapper.state('urlError')).toEqual('');
         expect(wrapper.state('userEdit')).toEqual(false);
@@ -114,12 +122,13 @@ describe('components/ChangeURLModal', () => {
         );
         const param = 'exampleurl';
 
-        wrapper.instance().formattedError = jest.fn();
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.formattedError = jest.fn();
         wrapper.update();
 
-        const returned = wrapper.instance().getURLError(param);
+        const returned = instance.getURLError(param);
         expect(returned.length).toEqual(1);
-        expect(wrapper.instance().formattedError).toBeCalledWith(
+        expect(instance.formattedError).toBeCalledWith(
             'errorlast',
             'change_url.invalidUrl',
             'Invalid URL'
@@ -132,12 +141,13 @@ describe('components/ChangeURLModal', () => {
         );
         const param = 'a';
 
-        wrapper.instance().formattedError = jest.fn();
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.formattedError = jest.fn();
         wrapper.update();
 
-        const returned = wrapper.instance().getURLError(param);
+        const returned = instance.getURLError(param);
         expect(returned.length).toEqual(1);
-        expect(wrapper.instance().formattedError).toBeCalledWith(
+        expect(instance.formattedError).toBeCalledWith(
             'error1',
             'change_url.longer',
             'URL must be two or more characters.'
@@ -150,22 +160,23 @@ describe('components/ChangeURLModal', () => {
         );
         const param = '_a__';
 
-        wrapper.instance().formattedError = jest.fn();
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.formattedError = jest.fn();
         wrapper.update();
 
-        const returned = wrapper.instance().getURLError(param);
+        const returned = instance.getURLError(param);
         expect(returned.length).toEqual(3);
-        expect(wrapper.instance().formattedError).toBeCalledWith(
+        expect(instance.formattedError).toBeCalledWith(
             'error2',
             'change_url.startWithLetter',
             'URL must start with a letter or number.'
         );
-        expect(wrapper.instance().formattedError).toBeCalledWith(
+        expect(instance.formattedError).toBeCalledWith(
             'error3',
             'change_url.endWithLetter',
             'URL must end with a letter or number.'
         );
-        expect(wrapper.instance().formattedError).toBeCalledWith(
+        expect(instance.formattedError).toBeCalledWith(
             'error4',
             'change_url.noUnderscore',
             'URL can not contain two underscores in a row.'

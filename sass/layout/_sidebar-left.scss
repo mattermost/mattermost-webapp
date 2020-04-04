@@ -28,9 +28,9 @@
     flex-direction: column;
     position: fixed;
     left: 0;
-    // TODO: Devin changed
     height: 100%;
     z-index: 12;
+    border-right: 1px solid var(--center-channel-color-20);
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -67,6 +67,18 @@
 
     .SidebarHeader {
         background-color: var(--sidebar-header-bg);
+
+        .header__info {
+            color: var(--sidebar-header-text-color);
+
+            .user__name {
+                color: var(--sidebar-header-text-color-80);
+            }
+
+            &:hover .user__name {
+                color: var(--sidebar-header-text-color);
+            }
+        }
 
         .status-wrapper {
             height: 36px;
