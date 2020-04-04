@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SearchResultsHeader should match snapshot 1`] = `
+<div
+  className="sidebar--right__header"
+>
+  <span
+    className="sidebar--right__title"
+  >
+    Mentions
+  </span>
+  <div
+    className="pull-right"
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="shrinkSidebarTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Collapse Sidebar"
+            id="rhs_header.shrinkSidebarTooltip"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <button
+        aria-label="Expand"
+        className="sidebar--right__expand"
+        onClick={[MockFunction]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Expand Sidebar Icon"
+          id="rhs_header.expandSidebarTooltip.icon"
+          values={Object {}}
+        >
+          <Component />
+        </FormattedMessage>
+        <FormattedMessage
+          defaultMessage="Shrink Sidebar Icon"
+          id="rhs_header.expandTooltip.icon"
+          values={Object {}}
+        >
+          <Component />
+        </FormattedMessage>
+      </button>
+    </OverlayTrigger>
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="closeSidebarTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Close"
+            id="rhs_header.closeSidebarTooltip"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <button
+        aria-label="Close"
+        className="sidebar--right__close"
+        id="searchResultsCloseButton"
+        onClick={[MockFunction]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Close Sidebar Icon"
+          id="rhs_header.closeTooltip.icon"
+          values={Object {}}
+        >
+          <Component />
+        </FormattedMessage>
+      </button>
+    </OverlayTrigger>
+  </div>
+</div>
+`;
+
+exports[`components/SearchResultsHeader should match snapshot 2`] = `
+<div
+  className="sidebar--right__header"
+>
+  <span
+    className="sidebar--right__title"
+  >
+    Mentions
+  </span>
+  <div
+    className="pull-right"
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="expandSidebarTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Expand Sidebar"
+            id="rhs_header.expandSidebarTooltip"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <button
+        aria-label="Expand"
+        className="sidebar--right__expand"
+        onClick={[MockFunction]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Expand Sidebar Icon"
+          id="rhs_header.expandSidebarTooltip.icon"
+          values={Object {}}
+        >
+          <Component />
+        </FormattedMessage>
+        <FormattedMessage
+          defaultMessage="Shrink Sidebar Icon"
+          id="rhs_header.expandTooltip.icon"
+          values={Object {}}
+        >
+          <Component />
+        </FormattedMessage>
+      </button>
+    </OverlayTrigger>
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="closeSidebarTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Close"
+            id="rhs_header.closeSidebarTooltip"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <button
+        aria-label="Close"
+        className="sidebar--right__close"
+        id="searchResultsCloseButton"
+        onClick={[MockFunction]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Close Sidebar Icon"
+          id="rhs_header.closeTooltip.icon"
+          values={Object {}}
+        >
+          <Component />
+        </FormattedMessage>
+      </button>
+    </OverlayTrigger>
+  </div>
+</div>
+`;
