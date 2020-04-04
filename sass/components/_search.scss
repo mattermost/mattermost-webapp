@@ -86,8 +86,12 @@
 
         &--focused,
         &--focused:hover {
-            @include box-shadow(0 0 0 1px v(link-color));
-            border-color: v(link-color);
+            border: 2px solid v(button-bg);
+            padding: 0 29px;
+
+            .search__icon {
+                top: 6px;
+            }
         }
     }
 
