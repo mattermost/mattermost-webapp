@@ -300,12 +300,12 @@
 
 .search-help-popover {
     max-width: 350px;
-    top: 23px;
+    top: 25px;
     @include opacity(0);
     visibility: hidden;
-    width: 298px;
+    width: 296px;
     left: auto;
-    right: 0;
+    right: -2px;
 
     &.autocomplete {
         display: block;
