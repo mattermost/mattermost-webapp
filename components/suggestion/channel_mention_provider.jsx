@@ -43,7 +43,7 @@ class ChannelMentionSuggestion extends Suggestion {
                     <span>
                         {channelName}
                     </span>
-                    <span className='mention__channelname small ml-2'>
+                    <span className='mention__channelname ml-2'>
                         {description}
                     </span>
                 </div>

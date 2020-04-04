@@ -49,8 +49,8 @@
                 }
 
                 &:active {
-                    background-color: v(link-color-08);
-                    color: v(link-color);
+                    background-color: v(button-bg-08);
+                    color: v(button-bg);
                 }
             }
         }
@@ -70,7 +70,7 @@
             align-items: center;
             top: 1.1rem;
             position: absolute;
-            left: 3rem;
+            left: 3.4rem;
         }
 
         .badge {
@@ -87,7 +87,7 @@
 
             &:focus {
                 padding: 0 33px;
-                border: 2px solid v(link-color);
+                border: 2px solid v(button-bg);
             }
         }
 

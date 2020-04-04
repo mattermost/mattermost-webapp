@@ -98,7 +98,7 @@
 }
 
 .mention__fullname {
-    @include opacity(.56);
+    color: v(center-channel-color-56);
     margin: 0 0 0 4px;
     overflow: hidden;
     text-overflow: ellipsis;
