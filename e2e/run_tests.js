@@ -51,6 +51,8 @@ const generator = require('mochawesome-report-generator');
 const shell = require('shelljs');
 const argv = require('yargs').argv;
 
+const users = require('./cypress/fixtures/users.json');
+
 const MAX_FAILED_TITLES = 5;
 const TEST_DIR = 'cypress/integration';
 
@@ -271,13 +273,34 @@ async function runTests() {
     // Merge all json reports into one single json report
     const jsonReport = await merge({files: [`${mochawesomeReportDir}/**/*.json`]});
 
+    // Generate the html report file
+    await generator.create(jsonReport, {reportDir: mochawesomeReportDir});
+
     // Generate short summary, write to file and then send report via webhook
     const summary = generateShortSummary(jsonReport);
     writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
-    await sendReport(summary);
 
-    // Generate the html report file
-    await generator.create(jsonReport, {reportDir: mochawesomeReportDir});
+    // Send test report via webhook
+    if (process.env.WEBHOOK_URL) {
+        const data = generateTestReport(summary);
+        await sendReport('test', {
+            method: 'post',
+            url: process.env.WEBHOOK_URL,
+            data,
+        });
+    }
+
+    // Send diagnostic report via webhook
+    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const serverInfo = await getServerInfo(baseUrl);
+    if (serverInfo.enableDiagnostics && process.env.DIAGNOSTIC_WEBHOOK_URL) {
+        const data = generateDiagnosticReport(summary, serverInfo);
+        await sendReport('diagnostic', {
+            method: 'post',
+            url: process.env.DIAGNOSTIC_WEBHOOK_URL,
+            data
+        });
+    }
 
     // eslint-disable-next-line
     process.exit(failedTests); // exit with the number of failed tests
@@ -290,7 +313,7 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateReport(summary) {
+function generateTestReport(summary) {
     const {BRANCH, BROWSER, BUILD_ID} = process.env;
     const {statsFieldValue, stats} = summary;
 
@@ -337,21 +360,75 @@ function generateReport(summary) {
     };
 }
 
-async function sendReport(summary) {
-    const data = generateReport(summary);
+function generateDiagnosticReport(summary, serverInfo) {
+    const {BRANCH, BUILD_ID} = process.env;
+
+    return {
+        username: 'Cypress UI Test',
+        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+        attachments: [{
+            color: '#43A047',
+            author_name: 'Cypress UI Test',
+            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            author_link: 'https://community.mattermost.com/core/channels/ui-test-automation',
+            title: `Cypress UI Test Automation #${BUILD_ID}, **${BRANCH}** branch`,
+            fields: [{
+                short: false,
+                value: `Start: **${summary.stats.start}**\nEnd: **${summary.stats.end}**\nUser ID: **${serverInfo.sysadminId}**\nTeam ID: **${serverInfo.ad1TeamId}**`,
+            }],
+        }],
+    };
+}
+
+async function getServerInfo(baseUrl) {
+    const sysadmin = users.sysadmin;
+    const headers = {'X-Requested-With': 'XMLHttpRequest'};
+
+    const loginResponse = await axios({
+        method: 'post',
+        url: `${baseUrl}/api/v4/users/login`,
+        headers,
+        data: {login_id: sysadmin.username, password: sysadmin.password},
+    });
+
+    let cookieString = '';
+    const setCookie = loginResponse.headers['set-cookie'];
+    setCookie.forEach((cookie) => {
+        const nameAndValue = cookie.split(';')[0];
+        cookieString += nameAndValue + ';';
+    });
+
+    headers.Cookie = cookieString;
+
+    const configResponse = await axios({
+        method: 'get',
+        url: `${baseUrl}/api/v4/config`,
+        headers,
+    });
+
+    const teamResponse = await axios({
+        method: 'get',
+        url: `${baseUrl}/api/v4/teams/name/ad-1`,
+        headers,
+    });
+
+    return {
+        enableDiagnostics: configResponse.data.LogSettings.EnableDiagnostics,
+        sysadminId: loginResponse.data.id,
+        ad1TeamId: teamResponse.data.id,
+    };
+}
+
+async function sendReport(name, requestOptions) {
     try {
-        const response = await axios({
-            method: 'post',
-            url: process.env.WEBHOOK_URL,
-            data,
-        });
+        const response = await axios(requestOptions);
 
         if (response.data) {
-            console.log('Successfully sent report via webhook');
+            console.log(`Successfully sent ${name} report via webhook`);
         }
         return response;
     } catch (er) {
-        console.log('Something went wrong while sending report via webhook', er);
+        console.log(`Something went wrong while sending ${name} report via webhook`, er);
         return false;
     }
 }
