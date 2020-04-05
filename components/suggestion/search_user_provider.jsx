@@ -47,7 +47,7 @@ class SearchUserSuggestion extends Suggestion {
                 />
                 <div className='mention--align ml-3'>
                     <span>
-                        {username}
+                        {'@'}{username}
                     </span>
                     <BotBadge
                         show={Boolean(item.is_bot)}
