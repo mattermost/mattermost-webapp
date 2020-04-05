@@ -294,10 +294,10 @@
     }
 
     .modal-content {
-        @include box-shadow(0 20px 32px 0 alpha-color($black, .12));
         background: v(center-channel-bg);
-        border-color: v(center-channel-color-08);
-        border-radius: $border-rad;
+        border-color: v(center-channel-color-16);
+        border-radius: 4px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         color: v(center-channel-color);
     }
 
