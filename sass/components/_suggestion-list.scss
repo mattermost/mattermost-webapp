@@ -72,10 +72,22 @@
     max-height: 292px;
     overflow-x: auto;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-bottom: 12px;
     max-width: 100%;
     width: 496px;
+
+    &::-webkit-scrollbar-track {
+        width: 0;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border: 1px solid v(center-channel-bg);
+        background-color: v(center-channel-color-24) !important;
+        border-radius: 4px;
+    }
+
 
     &:before {
         content: '';
