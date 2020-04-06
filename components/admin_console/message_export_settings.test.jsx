@@ -2,9 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, mount} from 'enzyme';
-
-import {IntlProvider} from 'react-intl';
+import {shallow} from 'enzyme';
 
 import MessageExportSettings from 'components/admin_console/message_export_settings.jsx';
 
@@ -174,18 +172,17 @@ describe('components/MessageExportSettings/getJobDetails', () => {
     };
 
     const wrapper = shallow(<MessageExportSettings {...baseProps}/>);
-    const job = {};
 
-    function runTest(job, expectNull, expectedCount){
-        const jobDetails = wrapper.instance().getJobDetails(job);
-        if(expectNull){
+    function runTest(testJob, expectNull, expectedCount) {
+        const jobDetails = wrapper.instance().getJobDetails(testJob);
+        if (expectNull) {
             expect(jobDetails).toBe(null);
         } else {
             expect(jobDetails.length).toBe(expectedCount);
         }
-
     }
 
+    const job = {};
     test('test no data', () => {
         runTest(job, true, 0);
     });
@@ -213,19 +210,3 @@ describe('components/MessageExportSettings/getJobDetails', () => {
         runTest(job, false, 2);
     });
 });
-
-// export function wrapProvider(el) {
-//     const enTranslationData = {
-//         'test.foo': '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
-//         'test.bar': '<b>hello</b> <script>var malicious = true;</script> world!',
-//         'test.vals': '*Hi* {petName}!',
-//     };
-//     return (
-//         <IntlProvider
-//             locale={'en'}
-//             messages={enTranslationData}
-//         >
-//             {el}
-//         </IntlProvider>)
-//     ;
-// }
