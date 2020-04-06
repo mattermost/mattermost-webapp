@@ -149,7 +149,7 @@
     .channel-header {
         .search-bar__container {
             .search__form {
-                &.focused {
+                &--focused {
                     width: 300px;
                 }
             }
@@ -334,8 +334,8 @@
                         display: inline;
                     }
 
-                    .col__reply {
-                        top: -6px;
+                    .post-menu {
+                        top: -12px;
                     }
                 }
 
@@ -346,8 +346,8 @@
 
                     &.post--comment {
                         .post__header {
-                            .col__reply {
-                                top: -6px;
+                            .post-menu {
+                                top: -12px;
                             }
                         }
                     }
@@ -390,7 +390,7 @@
                     }
 
                     .post__header {
-                        .col__reply {
+                        .post-menu {
                             top: -6px;
                         }
                     }
@@ -439,7 +439,7 @@
                 .post__header {
                     float: left;
 
-                    .col__reply {
+                    .post-menu {
                         top: -21px;
                     }
 
