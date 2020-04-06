@@ -6,6 +6,8 @@ import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import {formatWithRenderer} from 'utils/markdown';
 
 import * as Emoticons from './emoticons';
@@ -25,8 +27,8 @@ const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoti
 export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
-        team_name: string;
-    };
+        team_name?: string;
+    } | Channel;
 };
 
 export type Tokens = Map<
@@ -403,11 +405,16 @@ function autolinkChannelMentions(
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
+            let teamName = '';
+            const channelValue = channelNamesMap[channelNameLower];
+            if ('team_name' in channelValue) {
+                teamName = channelValue.team_name || '';
+            }
             const alias = addToken(
                 channelNameLower,
-                channelNamesMap[channelNameLower].team_name,
+                teamName,
                 mention,
-                escapeHtml(channelNamesMap[channelNameLower].display_name)
+                escapeHtml(channelValue.display_name)
             );
             return alias;
         }
@@ -421,11 +428,16 @@ function autolinkChannelMentions(
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
+                    let teamName = '';
+                    const channelValue = channelNamesMap[channelNameLower];
+                    if ('team_name' in channelValue) {
+                        teamName = channelValue.team_name || '';
+                    }
                     const alias = addToken(
                         channelNameLower,
-                        channelNamesMap[channelNameLower].team_name,
+                        teamName,
                         '~' + channelNameLower,
-                        escapeHtml(channelNamesMap[channelNameLower].display_name)
+                        escapeHtml(channelValue.display_name)
                     );
                     return alias + suffix;
                 }

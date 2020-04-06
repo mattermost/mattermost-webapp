@@ -33,7 +33,7 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
                 <Tooltip id='remove-dm-tooltip'>
                     <FormattedMessage
                         id='sidebar.removeList'
-                        defaultMessage='Remove from list'
+                        defaultMessage='Remove from this list'
                     />
                 </Tooltip>
             );
@@ -43,7 +43,7 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
                     <Tooltip id='remove-dm-tooltip'>
                         <FormattedMessage
                             id='sidebar.leave'
-                            defaultMessage='Leave channel'
+                            defaultMessage='Leave the channel'
                         />
                     </Tooltip>
                 );

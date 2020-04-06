@@ -2,10 +2,13 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// [number] indicates a test step (e.g. # Go to a page)
+// [#] indicates a test step (e.g. # Go to a page)
 // [*] indicates an assertion (e.g. * Check the title)
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod @smoke
+// Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';

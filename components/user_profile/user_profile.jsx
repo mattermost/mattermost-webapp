@@ -68,7 +68,7 @@ export default class UserProfile extends PureComponent {
 
         let profileImg = '';
         if (user) {
-            profileImg = imageURLForUser(user);
+            profileImg = imageURLForUser(user.id, user.last_picture_update);
         }
 
         return (
