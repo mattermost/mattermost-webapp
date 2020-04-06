@@ -168,13 +168,13 @@ class RhsRootPost extends React.PureComponent {
         });
     };
 
-    getClassName = (post, isSystemMessage) => {
+    getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--root post--thread';
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
 
-        if (isSystemMessage) {
+        if (isSystemMessage || isMeMessage) {
             className += ' post--system';
         }
 
@@ -234,6 +234,7 @@ class RhsRootPost extends React.PureComponent {
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
         let channelName;
         if (channelType === 'D') {
@@ -413,7 +414,7 @@ class RhsRootPost extends React.PureComponent {
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
+                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 aria-label={this.state.currentAriaLabel}
                 onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
