@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 
 import InvitationModal from './invitation_modal.jsx';
 
