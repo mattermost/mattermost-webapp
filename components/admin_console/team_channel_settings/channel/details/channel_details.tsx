@@ -189,7 +189,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let usersToRemove = 0;
         if (this.state.isSynced) {
             try {
-                if (groups.length !== 0) {
+                if (groups.length === 0) {
+                    serverError = <NeedGroupsError warning={true}/>;
+                } else {
                     if (!channelID) {
                         return;
                     }
