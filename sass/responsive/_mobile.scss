@@ -210,7 +210,7 @@
         .dropdown-menu {
             >li {
                 >div {
-                    border-top-color: var(--center-channel-color-10) !important;
+                    border-top-color: var(--center-channel-color-08) !important;
 
                     .SubMenu__icon {
                         padding: 0 5px 0 8px !important;
@@ -567,7 +567,7 @@
 
         &.post--system {
             .post__header {
-                .col__reply {
+                .post-menu {
                     min-width: 45px;
                 }
             }
@@ -582,7 +582,7 @@
 
         .browser--ie & {
             .post__header {
-                .col__reply {
+                .post-menu {
                     .dropdown+div {
                         display: none;
                     }
@@ -590,7 +590,7 @@
             }
         }
 
-        .reacticon__container {
+        .post-menu__item--reactions {
             display: none;
         }
 
@@ -681,7 +681,7 @@
             margin-bottom: 0;
             padding-right: 70px;
 
-            .col__reply {
+            .post-menu {
                 min-width: 45px;
                 top: -6px;
                 z-index: auto;
@@ -690,7 +690,7 @@
                     width: auto;
                 }
 
-                .reacticon__container {
+                .post-menu__item--reactions {
                     display: none;
                 }
             }
@@ -753,7 +753,7 @@
         &.other--root {
             &.post--comment {
                 .post__header {
-                    .col__reply {
+                    .post-menu {
                         top: -6px;
                     }
                 }
@@ -1368,25 +1368,20 @@
             padding-left: 40px;
             width: 100%;
 
+            &:hover,
+            &--focused,
+            &--focused:hover {
+                border: none;
+            }
+
             .fa-spin {
                 font-size: 1.1em;
                 top: 9px;
             }
 
-            .search-bar {
-                font-size: 14px;
-                height: 32px;
-            }
-
             .search__icon {
                 left: 15px;
                 top: 8px;
-
-                svg {
-                    stroke: $black;
-                    stroke-opacity: .4;
-                    width: 17px;
-                }
             }
 
             .icon--refresh {

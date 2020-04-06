@@ -23,11 +23,15 @@
 }
 
 .search__icon {
+    fill: v(center-channel-color-48);
     left: 9px;
     position: absolute;
-    top: 6px;
+    top: 7px;
 
     svg {
+        width: 14px;
+        height: 14px;
+
         body.enable-animations & {
             @include single-transition(all, $transition-quick, ease-out);
         }
@@ -60,18 +64,35 @@
 }
 
 .search-bar__container {
-    padding-left: 8px;
+    padding: 0 4px 0 8px;
 }
 
 .search__form {
+    display: flex;
+    align-items: center;
     padding: 0 30px;
     position: relative;
 
     .search-bar__container & {
-        @include border-radius(50px);
-        border: 1px solid $light-gray;
+        @include border-radius(4px);
+        border: 1px solid v(center-channel-color-24);
         margin: 16px 0 0;
         width: 180px;
+        height: 32px;
+
+        &:hover {
+            border: 1px solid v(center-channel-color-40);
+        }
+
+        &--focused,
+        &--focused:hover {
+            border: 2px solid v(button-bg);
+            padding: 0 29px;
+
+            .search__icon {
+                top: 6px;
+            }
+        }
     }
 
     body.enable-animations .search-bar__container & {
