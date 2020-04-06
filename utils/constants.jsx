@@ -485,6 +485,7 @@ export const JobStatuses = {
     ERROR: 'error',
     CANCEL_REQUESTED: 'cancel_requested',
     CANCELED: 'canceled',
+    WARNING: 'warning',
 };
 
 export const AnnouncementBarTypes = {
