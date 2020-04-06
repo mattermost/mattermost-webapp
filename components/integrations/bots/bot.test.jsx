@@ -17,9 +17,13 @@ describe('components/integrations/bots/Bot', () => {
 
     it('regular bot', () => {
         const bot = TestHelper.fakeBot();
+        const user = {
+            id: bot.user_id,
+        };
         const wrapper = shallow(
             <Bot
                 bot={bot}
+                user={user}
                 owner={null}
                 accessTokens={{}}
                 team={team}
@@ -60,9 +64,13 @@ describe('components/integrations/bots/Bot', () => {
     it('disabled bot', () => {
         const bot = TestHelper.fakeBot();
         bot.delete_at = 100; // disabled
+        const user = {
+            id: bot.user_id,
+        };
         const wrapper = shallow(
             <Bot
                 bot={bot}
+                user={user}
                 owner={null}
                 accessTokens={{}}
                 team={team}
@@ -99,16 +107,20 @@ describe('components/integrations/bots/Bot', () => {
 
     it('bot with owner', () => {
         const bot = TestHelper.fakeBot();
-        const user = TestHelper.fakeUser();
+        const owner = TestHelper.fakeUser();
+        const user = {
+            id: bot.user_id,
+        };
         const wrapper = shallow(
             <Bot
                 bot={bot}
-                owner={user}
+                owner={owner}
+                user={user}
                 accessTokens={{}}
                 team={team}
             />
         );
-        expect(wrapper.contains(user.username)).toEqual(true);
+        expect(wrapper.contains(owner.username)).toEqual(true);
         expect(wrapper.contains('plugin')).toEqual(false);
 
         // if bot is not managed by plugin, ability to edit from UI is retained
@@ -135,7 +147,9 @@ describe('components/integrations/bots/Bot', () => {
     it('bot with access tokens', () => {
         const bot = TestHelper.fakeBot();
         const tokenId = TestHelper.generateId();
-
+        const user = {
+            id: bot.user_id,
+        };
         const accessTokens = {
             tokenId: {
                 id: tokenId,
@@ -149,6 +163,7 @@ describe('components/integrations/bots/Bot', () => {
             <Bot
                 bot={bot}
                 owner={null}
+                user={user}
                 accessTokens={accessTokens}
                 team={team}
             />
@@ -172,6 +187,9 @@ describe('components/integrations/bots/Bot', () => {
     it('bot with disabled access tokens', () => {
         const bot = TestHelper.fakeBot();
         const tokenId = TestHelper.generateId();
+        const user = {
+            id: bot.user_id,
+        };
 
         const accessTokens = {
             tokenId: {
@@ -186,6 +204,7 @@ describe('components/integrations/bots/Bot', () => {
             <Bot
                 bot={bot}
                 owner={null}
+                user={user}
                 accessTokens={accessTokens}
                 team={team}
             />

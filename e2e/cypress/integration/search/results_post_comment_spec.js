@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @search
+
 describe('Search', () => {
     it('S14548 Search results Right-Hand-Side: Post a comment', () => {
         // # Login and navigate to the app

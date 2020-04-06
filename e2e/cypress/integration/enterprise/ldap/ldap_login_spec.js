@@ -1,6 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. #. Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @enterprise @ldap
+
 import users from '../../../fixtures/ldap_users.json';
 import {getRandomInt} from '../../../utils';
 
@@ -13,7 +22,7 @@ function setLDAPTestSettings(config) {
     };
 }
 
-// assumes thet CYPRESS_* variables are set
+// assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
 // for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
