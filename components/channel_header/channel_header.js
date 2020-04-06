@@ -436,11 +436,10 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
-                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translateX(${this.state.leftOffset})`}}
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translateX(${this.state.leftOffset}px)`}}
                     placement='bottom'
                     className={classNames(['channel-header__popover',
-                        {'chanel-header__popover--dm': isDirect,
-                            'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
+                        {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
                             'chanel-header__popover--new_sidebar': newSideBarPreference}])}
                 >
                     <span
