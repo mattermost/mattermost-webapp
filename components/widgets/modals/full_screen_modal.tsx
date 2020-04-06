@@ -37,7 +37,7 @@ class FullScreenModal extends React.Component<Props> {
         document.removeEventListener('focus', this.enforceFocus, true);
     }
 
-    private enforceFocus = () => {
+    public enforceFocus = () => {
         setTimeout(() => {
             const currentActiveElement = document.activeElement;
             if (this.modal && this.modal.current && !this.modal.current.contains(currentActiveElement)) {
