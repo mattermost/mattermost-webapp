@@ -499,6 +499,10 @@
         transition-timing-function: ease-out;
     }
 
+    .SidebarChannel.invisible {
+        opacity: 0;
+    }
+
     .SidebarChannel.collapsed {
         height: 0 !important;
         padding-top: 0;

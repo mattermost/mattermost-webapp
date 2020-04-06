@@ -29,6 +29,7 @@ type Props = {
     isDraggingChannel: boolean;
     isDraggingDM: boolean;
     isDraggingCategory: boolean;
+    draggingCategoryId: string | null;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
     };
@@ -78,7 +79,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     renderChannel = (channel: Channel, index: number) => {
-        const {isCollapsed, setChannelRef, getChannelRef, category, isDraggingCategory} = this.props;
+        const {isCollapsed, setChannelRef, getChannelRef, category, isDraggingCategory, draggingCategoryId} = this.props;
 
         return (
             <SidebarChannel
@@ -87,7 +88,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 channelId={channel.id}
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
-                isCategoryCollapsed={isCollapsed || isDraggingCategory}
+                isCategoryCollapsed={isCollapsed || (isDraggingCategory && category.id === draggingCategoryId)}
                 isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
             />
         );

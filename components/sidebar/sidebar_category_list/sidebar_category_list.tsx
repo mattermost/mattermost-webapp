@@ -52,6 +52,7 @@ type Props = {
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     displayedChannels: Channel[];
+    channelsByCategory: Record<string, Channel[]>;
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -72,6 +73,7 @@ type State = {
     isDraggingDM: boolean;
     isDraggingChannel: boolean;
     isDraggingCategory: boolean;
+    draggingCategoryId: string | null;
 };
 
 // scrollMargin is the margin at the edge of the channel list that we leave when scrolling to a channel.
@@ -100,6 +102,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             isDraggingChannel: false,
             isDraggingDM: false,
             isDraggingCategory: false,
+            draggingCategoryId: null,
         };
         this.scrollbar = React.createRef();
 
@@ -336,6 +339,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 isDraggingDM={this.state.isDraggingDM}
                 isDraggingChannel={this.state.isDraggingChannel}
                 isDraggingCategory={this.state.isDraggingCategory}
+                draggingCategoryId={this.state.draggingCategoryId}
             />
         );
     }
@@ -349,15 +353,46 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }, 100);
 
     onBeforeCapture = (before: BeforeCapture) => {
+        // Ensure no channels are animating
+        this.channelRefs.forEach((ref) => ref.classList.remove('animating'));
+
         if (this.props.categories.find((category) => category.id === before.draggableId)) {
-            this.setState({isDraggingCategory: true}, () => {
+            // Lock scroll height so that it doesn't collapse
+            const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
+            droppable[0].style.height = `${droppable[0].scrollHeight}px`;
+            this.setState({isDraggingCategory: true, draggingCategoryId: before.draggableId}, () => {
+                // Ensure no channels are animating before drag starts after collapse
                 this.channelRefs.forEach((ref) => ref.classList.remove('animating'));
+            });
+        }
+    }
+
+    onBeforeDragStart = (initial: DragStart) => {
+        if (this.state.isDraggingCategory) {
+            this.setState({isDraggingCategory: false}, () => {
+                // Hide the channels so that they don't briefly flash before dragging
+                const categoryChannels = this.props.channelsByCategory[initial.draggableId];
+                const refs = categoryChannels.map((channel) => this.channelRefs.get(channel.id));
+                refs.forEach((ref) => ref?.classList.add('invisible'));
             });
         }
     }
 
     onDragStart = (initial: DragStart) => {
         this.props.onDragStart(initial);
+
+        if (initial.type === 'SIDEBAR_CATEGORY') {
+            const categoryChannels = this.props.channelsByCategory[initial.draggableId];
+            const refs = categoryChannels.map((channel) => this.channelRefs.get(channel.id));
+            this.setState({isDraggingCategory: true}, () => {
+                // Restore opacity
+                refs.forEach((ref) => ref?.classList.remove('invisible'));
+
+                // Re-enable scroll box resizing
+                const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
+                droppable[0].style.height = "";
+            });
+        }
 
         if (initial.type === 'SIDEBAR_CHANNEL') {
             const draggingChannel = this.props.displayedChannels.find((channel) => channel.id === initial.draggableId);
@@ -367,6 +402,8 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 this.setState({isDraggingChannel: true});
             }
         }
+
+        
     }
 
     onDragEnd = (result: DropResult) => {
@@ -388,6 +425,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             isDraggingDM: false,
             isDraggingChannel: false,
             isDraggingCategory: false,
+            draggingCategoryId: null,
         });
     }
 
@@ -445,6 +483,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 >
                     <DragDropContext
                         onDragEnd={this.onDragEnd}
+                        onBeforeDragStart={this.onBeforeDragStart}
                         onBeforeCapture={this.onBeforeCapture}
                         onDragStart={this.onDragStart}
                     >

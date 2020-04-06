@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
+import {makeGetCategoriesForTeam, makeGetChannelsByCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -19,6 +19,7 @@ import SidebarCategoryList from './sidebar_category_list';
 
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
+    const getChannelsByCategory = makeGetChannelsByCategory();
     const getCurrentlyDisplayedChannelsForTeam = makeGetCurrentlyDisplayedChannelsForTeam();
 
     return (state: GlobalState) => {
@@ -32,6 +33,7 @@ function makeMapStateToProps() {
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
             unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
             displayedChannels: getCurrentlyDisplayedChannelsForTeam(state, currentTeam.id),
+            channelsByCategory: getChannelsByCategory(state, currentTeam.id),
         };
     };
 }
