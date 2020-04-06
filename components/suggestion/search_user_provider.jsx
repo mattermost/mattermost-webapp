@@ -30,6 +30,7 @@ class SearchUserSuggestion extends Suggestion {
         } else if (item.first_name || item.last_name) {
             description = `- ${Utils.getFullName(item)}`;
         }
+
         return (
             <div
                 className={className}
