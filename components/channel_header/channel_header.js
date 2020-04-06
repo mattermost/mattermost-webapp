@@ -429,7 +429,7 @@ class ChannelHeader extends React.PureComponent {
         }
 
         let headerTextContainer;
-        const headerText = ((isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header).trim();
+        const headerText = (isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header;
         if (headerText) {
             const popoverContent = (
                 <Popover
