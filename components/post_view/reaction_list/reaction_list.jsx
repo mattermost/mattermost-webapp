@@ -123,7 +123,7 @@ export default class ReactionList extends React.PureComponent {
                 <Tooltip id='addReactionTooltip'>
                     <FormattedMessage
                         id='reaction_list.addReactionTooltip'
-                        defaultMessage='Add reaction'
+                        defaultMessage='Add a reaction'
                     />
                 </Tooltip>
             );
@@ -150,7 +150,7 @@ export default class ReactionList extends React.PureComponent {
                             overlay={addReactionTooltip}
                         >
                             <button
-                                aria-label={localizeMessage('reaction.add.ariaLabel', 'Add reaction')}
+                                aria-label={localizeMessage('reaction.add.ariaLabel', 'Add a reaction')}
                                 className='style--none post-reaction'
                                 onClick={this.toggleEmojiPicker}
                             >

@@ -155,7 +155,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const channelId = channel ? channel.id : '';
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
     const user = channel && getUser(state, channel.userId);
-    const userImageUrl = user && Utils.imageURLForUser(user);
+    const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
     let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
     if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
         dmChannelTeammate = getUser(state, channel.userId);

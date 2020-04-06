@@ -39,10 +39,8 @@ describe('toasts', () => {
 
     beforeEach(() => {
         // # Click on town-square then off-topic channels in LHS
-        cy.get('#publicChannelList').scrollIntoView().should('be.visible').within(() => {
-            cy.findByText('Town Square').scrollIntoView().should('be.visible').click();
-            cy.findByText('Off-Topic').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY);
-        });
+        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get('#sidebarItem_off-topic').should('be.visible').click().wait(TIMEOUTS.TINY);
 
         // * Verify that off-topic channel is loaded
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Off-Topic');
@@ -203,7 +201,7 @@ describe('toasts', () => {
 
             // # Visit another channel and come back to the same channel again
             cy.get('#sidebarItem_off-topic').should('be.visible').scrollIntoView().click();
-            cy.get('div.post-list__dynamic', {timeout: TIMEOUTS.MEDIUM}).should('be.visible');
+            cy.get('div.post-list__dynamic').should('be.visible');
             cy.get('#sidebarItem_town-square').should('be.visible').scrollIntoView().click();
 
             // # Scroll up so bottom is not visible
