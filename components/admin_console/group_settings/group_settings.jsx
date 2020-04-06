@@ -39,7 +39,7 @@ export default class GroupSettings extends React.PureComponent {
                             titleId={t('admin.group_settings.ldapGroupsTitle')}
                             titleDefault='AD/LDAP Groups'
                             subtitleId={t('admin.group_settings.ldapGroupsDescription')}
-                            subtitleDefault={`Connect your AD/LDAP system and create groups in Mattermost. To get started, first configure group attributes on the [AD/LDAP] (${siteURL}/admin_console/authentication/ldap) configuration page.`}
+                            subtitleDefault={`Connect AD/LDAP and create groups in Mattermost. To get started, configure group attributes on the [AD/LDAP] (${siteURL}/admin_console/authentication/ldap) configuration page.`}
                             subtitleValues={{siteURL}}
                         >
                             <GroupsList/>

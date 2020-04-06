@@ -35,7 +35,7 @@ For more information on Groups, please see [documentation](!https://www.mattermo
       <AdminPanel
         className=""
         id="ldap_groups"
-        subtitleDefault="Connect your AD/LDAP system and create groups in Mattermost. To get started, first configure group attributes on the [AD/LDAP] (http://localhost:8065/admin_console/authentication/ldap) configuration page."
+        subtitleDefault="Connect AD/LDAP and create groups in Mattermost. To get started, configure group attributes on the [AD/LDAP] (http://localhost:8065/admin_console/authentication/ldap) configuration page."
         subtitleId="admin.group_settings.ldapGroupsDescription"
         subtitleValues={
           Object {
