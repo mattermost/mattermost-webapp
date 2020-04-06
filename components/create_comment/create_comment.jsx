@@ -4,6 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -200,6 +201,16 @@ class CreateComment extends React.PureComponent {
          * To determine if the current user can send special channel mentions
          */
         useChannelMentions: PropTypes.bool.isRequired,
+
+        /**
+         * Set show preview for textbox
+         */
+        setShowPreview: PropTypes.func.isRequired,
+
+        /**
+         * Should preview be showed
+         */
+        shouldShowPreview: PropTypes.bool.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -230,13 +241,11 @@ class CreateComment extends React.PureComponent {
             showPostDeletedModal: false,
             showConfirmModal: false,
             showEmojiPicker: false,
-            showPreview: false,
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             suggestionListStyle: 'top',
         };
-
         this.lastBlurAt = 0;
         this.draftsForPost = {};
         this.doInitialScrollToBottom = false;
@@ -245,6 +254,8 @@ class CreateComment extends React.PureComponent {
     componentDidMount() {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
+        this.props.setShowPreview(false);
+
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
@@ -274,7 +285,7 @@ class CreateComment extends React.PureComponent {
         }
 
         // Focus on textbox when returned from preview mode
-        if (prevState.showPreview && !this.state.showPreview) {
+        if (prevProps.shouldShowPreview && !this.props.shouldShowPreview) {
             this.focusTextbox();
         }
 
@@ -288,8 +299,8 @@ class CreateComment extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.setState({showPreview: newState});
+    setShowPreview = (newPreviewValue) => {
+        this.props.setShowPreview(newPreviewValue);
     }
 
     focusTextboxIfNecessary = (e) => {
@@ -437,7 +448,7 @@ class CreateComment extends React.PureComponent {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        this.updatePreview(false);
+        this.setShowPreview(false);
 
         const {channelMembersCount, enableConfirmNotificationsToChannel, useChannelMentions, isTimezoneEnabled} = this.props;
         const {draft} = this.state;
@@ -556,7 +567,7 @@ class CreateComment extends React.PureComponent {
                 this.handleSubmit(e);
             }
 
-            this.updatePreview(false);
+            this.setShowPreview(false);
             setTimeout(() => {
                 this.focusTextbox();
             });
@@ -620,7 +631,7 @@ class CreateComment extends React.PureComponent {
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             (e.ctrlKey || e.metaKey)
         ) {
-            this.updatePreview(false);
+            this.setShowPreview(false);
             this.commentMsgKeyPress(e);
             return;
         }
@@ -795,18 +806,18 @@ class CreateComment extends React.PureComponent {
         return this.refs.createCommentControls;
     }
 
+    focusTextbox = (keepFocus = false) => {
+        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
+            this.refs.textbox.getWrappedInstance().focus();
+        }
+    }
+
     shouldEnableAddButton = () => {
         if (this.props.enableAddButton) {
             return true;
         }
 
         return isErrorInvalidSlashCommand(this.state.serverError);
-    }
-
-    focusTextbox = (keepFocus = false) => {
-        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
-        }
     }
 
     showPostDeletedModal = () => {
@@ -933,7 +944,7 @@ class CreateComment extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel && !this.state.showPreview) {
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -953,7 +964,7 @@ class CreateComment extends React.PureComponent {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -970,9 +981,11 @@ class CreateComment extends React.PureComponent {
                         aria-label={emojiButtonAriaLabel}
                         type='button'
                         onClick={this.toggleEmojiPicker}
-                        className='style--none emoji-picker__container post-action'
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
-                        <EmojiIcon className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}/>
+                        <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
                     </button>
                 </div>
             );
@@ -1036,7 +1049,7 @@ class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                preview={this.props.shouldShowPreview}
                                 suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
@@ -1065,8 +1078,8 @@ class CreateComment extends React.PureComponent {
                             <div className='col col-auto'>
                                 <TextboxLinks
                                     characterLimit={this.props.maxPostSize}
-                                    showPreview={this.state.showPreview}
-                                    updatePreview={this.updatePreview}
+                                    showPreview={this.props.shouldShowPreview}
+                                    updatePreview={this.setShowPreview}
                                     message={readOnlyChannel ? '' : this.state.message}
                                     isMarkdownPreviewEnabled={this.props.isMarkdownPreviewEnabled}
                                 />

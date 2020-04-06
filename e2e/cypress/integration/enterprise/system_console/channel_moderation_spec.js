@@ -11,6 +11,9 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @enterprise @system_console
+
 const checkboxesTitleToIdMap = {
     CREATE_POSTS_GUESTS: 'create_post-guests',
     CREATE_POSTS_MEMBERS: 'create_post-members',
@@ -325,6 +328,11 @@ describe('Channel Moderation Test', () => {
             cy.getCurrentTeamId().then((teamId) => {
                 demoteToChannelOrTeamMember(res.body.id, teamId, 'teams');
             });
+
+        // # Make the guest user as Active
+        cy.apiGetUserByEmail(users.guest.email).then((res) => {
+            const user = res.body;
+            cy.apiActivateUser(user.id, true);
         });
     });
 

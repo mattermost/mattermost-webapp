@@ -29,7 +29,7 @@ export const NeedDomainsError = () => (
         error={(
             <FormattedMessage
                 id='admin.team_channel_settings.need_domains'
-                defaultMessage='Please specify emails domains.'
+                defaultMessage='Please specify allowed email domains.'
             />)}
     />
 );

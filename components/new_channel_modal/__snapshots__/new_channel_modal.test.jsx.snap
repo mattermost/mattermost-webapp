@@ -103,7 +103,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
                     values={Object {}}
                   />
                   <FormattedMessage
-                    defaultMessage=" - Only invited members can join this channel."
+                    defaultMessage=" - Only invited members can join this channel"
                     id="channel_modal.privateHint"
                     values={Object {}}
                   />
@@ -399,7 +399,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
                     values={Object {}}
                   />
                   <FormattedMessage
-                    defaultMessage=" - Anyone can join this channel."
+                    defaultMessage=" - Anyone can join this channel"
                     id="channel_modal.publicHint"
                     values={Object {}}
                   />
@@ -705,7 +705,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Anyone can join this channel."
+                      defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                       values={Object {}}
                     />
@@ -736,7 +736,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Only invited members can join this channel."
+                      defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                       values={Object {}}
                     />
@@ -1043,7 +1043,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Anyone can join this channel."
+                      defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                       values={Object {}}
                     />
@@ -1074,7 +1074,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Only invited members can join this channel."
+                      defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                       values={Object {}}
                     />
@@ -1381,7 +1381,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Anyone can join this channel."
+                      defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                       values={Object {}}
                     />
@@ -1412,7 +1412,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Only invited members can join this channel."
+                      defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                       values={Object {}}
                     />
@@ -1729,7 +1729,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Anyone can join this channel."
+                      defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                       values={Object {}}
                     />
@@ -1760,7 +1760,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Only invited members can join this channel."
+                      defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                       values={Object {}}
                     />
@@ -2081,7 +2081,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Anyone can join this channel."
+                      defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                       values={Object {}}
                     />
@@ -2112,7 +2112,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                       values={Object {}}
                     />
                     <FormattedMessage
-                      defaultMessage=" - Only invited members can join this channel."
+                      defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                       values={Object {}}
                     />

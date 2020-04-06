@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 describe('AS14318 Theme Colors - Settings View', () => {
     before(() => {
         // # Login as user-1, set default theme preference and visit town-square channel

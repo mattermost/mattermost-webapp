@@ -262,54 +262,6 @@
         vertical-align: top;
     }
 
-    .emoji-picker__item {
-        border-radius: 3px;
-        cursor: pointer;
-        display: inline-block;
-        height: 26px;
-        margin: 0;
-        overflow: hidden;
-        padding: 2px;
-        position: relative;
-        vertical-align: middle;
-        width: 26px;
-        margin: 0 3px 1px;
-
-        &.selected,
-        &:hover {
-            background-color: v(center-channel-color-15);
-        }
-
-        &:active {
-            background-color: v(center-channel-color-30);
-        }
-
-        > div {
-            text-align: center;
-
-            > img {
-                left: -21px;
-                position: relative;
-                top: -21px;
-
-                &.emoji-shipit {
-                    left: -26px;
-                    top: -28px;
-                }
-
-                &.emoji-category--custom {
-                    @include transform(scale(1));
-                    height: auto;
-                    left: auto;
-                    max-height: 22px;
-                    max-width: 22px;
-                    top: auto;
-                    width: auto;
-                }
-            }
-        }
-    }
-
     .emoji-picker-items__container {
         > span {
             border-radius: 6px;
@@ -335,6 +287,49 @@
             max-width: 21px;
             min-height: 0;
             min-width: 0;
+            width: auto;
+        }
+    }
+}
+
+.emoji-picker__item {
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    margin: 0;
+    overflow: hidden;
+    padding: 2px;
+    position: relative;
+    vertical-align: middle;
+    width: 26px;
+    margin: 0 3px 4px;
+
+    &.selected,
+    &:hover {
+        background-color: v(center-channel-color-15);
+    }
+
+    &:active {
+        background-color: v(center-channel-color-30);
+    }
+
+    > div {
+        text-align: center;
+    }
+
+    img {
+        position: relative;
+
+        &.emoji-category--custom {
+            @include transform(scale(1));
+            height: auto;
+            left: auto;
+            max-height: 22px;
+            max-width: 22px;
+            top: auto;
             width: auto;
         }
     }

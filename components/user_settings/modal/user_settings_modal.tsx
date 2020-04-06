@@ -139,7 +139,7 @@ class UserSettingsModal extends React.Component<Props, State> {
     componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.active_tab !== prevState.active_tab) {
             const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as any;
-            el.scrollTop(0);
+            el.scrollTop = 0;
         }
     }
 

@@ -56,7 +56,7 @@
             p {
                 white-space: normal;
                 word-break: normal;
-    
+
                 &:last-child {
                     margin-bottom: 0;
                 }
@@ -202,7 +202,7 @@
 
             &:before {
                 position: absolute;
-                background: v(center-channel-color-05) !important;
+                background: v(center-channel-color-04) !important;
                 content: '';
                 width: 100%;
                 height: 100%;
@@ -219,7 +219,7 @@
         .popover-content {
             border-radius: 0 0 3px 3px;
             border-top: none;
-            @include box-shadow(v(center-channel-color-10) 0px 17px 50px 0px, v(center-channel-color-10) 0px 12px 15px 0px);
+            @include box-shadow(v(center-channel-color-08) 0px 17px 50px 0px, v(center-channel-color-08) 0px 12px 15px 0px);
             background: v(center-channel-bg);
         }
     }
@@ -456,11 +456,11 @@
                     height: 2em;
 
                     &:hover {
-                        background-color: v(button-bg-20);
+                        background-color: v(button-bg-24);
                     }
 
                     &:active {
-                        background-color: v(button-bg-30);
+                        background-color: v(button-bg-32);
                     }
 
                     &.a11y--focused {
