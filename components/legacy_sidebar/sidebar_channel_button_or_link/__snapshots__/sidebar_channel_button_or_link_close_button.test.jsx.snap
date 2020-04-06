@@ -15,7 +15,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       placement="right"
     >
       <FormattedMessage
-        defaultMessage="Remove from list"
+        defaultMessage="Remove from this list"
         id="sidebar.removeList"
         values={Object {}}
       />
@@ -49,7 +49,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       placement="right"
     >
       <FormattedMessage
-        defaultMessage="Remove from list"
+        defaultMessage="Remove from this list"
         id="sidebar.removeList"
         values={Object {}}
       />
@@ -83,7 +83,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       placement="right"
     >
       <FormattedMessage
-        defaultMessage="Leave channel"
+        defaultMessage="Leave the channel"
         id="sidebar.leave"
         values={Object {}}
       />
@@ -117,7 +117,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       placement="right"
     >
       <FormattedMessage
-        defaultMessage="Leave channel"
+        defaultMessage="Leave the channel"
         id="sidebar.leave"
         values={Object {}}
       />

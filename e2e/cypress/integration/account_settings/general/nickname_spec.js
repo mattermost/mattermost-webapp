@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 describe('Account Settings > Sidebar > General', () => {
     before(() => {
         // # Login as user-1 and visit town-square channel

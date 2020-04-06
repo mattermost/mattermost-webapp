@@ -443,6 +443,7 @@ class RhsComment extends React.PureComponent {
                     handleDropdownOpened={this.handleDropdownOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
+                    isMenuOpen={this.state.dropdownOpened}
                     enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
@@ -450,7 +451,7 @@ class RhsComment extends React.PureComponent {
             options = (
                 <div
                     ref='dotMenu'
-                    className='col col__reply'
+                    className='col post-menu'
                 >
                     {dotMenu}
                     {postReaction}
@@ -499,7 +500,7 @@ class RhsComment extends React.PureComponent {
                     }
                 >
                     <button
-                        className='card-icon__container icon--show style--none'
+                        className='post-menu__item post-menu__item--show'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);

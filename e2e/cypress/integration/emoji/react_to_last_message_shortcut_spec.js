@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @emoji
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import * as MESSAGES from '../../fixtures/messages';
 import users from '../../fixtures/users.json';
@@ -477,7 +480,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should not open the emoji picker by shortcut if RHS is fully expanded for search results, recent mentions, flagged and pinned posts', () => {
         // # Open the flagged message
-        cy.findByLabelText('Flagged Posts').click();
+        cy.findByLabelText('Flagged posts').click();
 
         // # Expand the flagged message
         cy.findByLabelText('Expand').click();
@@ -492,7 +495,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.findByLabelText('Expand').click();
 
         // # Open the Pinned Posts
-        cy.findByLabelText('Pinned Posts').click();
+        cy.findByLabelText('See pinned posts').click();
 
         // # Expand the Pinned Posts
         cy.findByLabelText('Expand').click();
@@ -617,7 +620,7 @@ function addingReactionWithEmojiPicker() {
         should('exist').
         within(() => {
             // # Search for an emoji and add it to message.
-            cy.findByPlaceholderText('Search Emoji').type('smile{enter}');
+            cy.findByPlaceholderText('Search emojis').type('smile{enter}');
         });
     cy.wait(TIMEOUTS.TINY);
 }

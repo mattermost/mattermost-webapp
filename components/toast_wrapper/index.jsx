@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
+import {withRouter} from 'react-router-dom';
 import {Posts} from 'mattermost-redux/constants';
 import {getAllPosts, getPostIdsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -78,4 +79,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(ToastWrapper);
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(ToastWrapper));

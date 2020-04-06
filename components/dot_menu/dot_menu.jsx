@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
@@ -20,6 +21,7 @@ import Pluggable from 'plugins/pluggable';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -35,6 +37,7 @@ export default class DotMenu extends React.PureComponent {
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
         handleAddReactionClick: PropTypes.func,
+        isMenuOpen: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
@@ -229,7 +232,7 @@ export default class DotMenu extends React.PureComponent {
         >
             <FormattedMessage
                 id='post_info.dot_menu.tooltip.more_actions'
-                defaultMessage='More Actions'
+                defaultMessage='More actions'
             />
         </Tooltip>
     )
@@ -314,11 +317,15 @@ export default class DotMenu extends React.PureComponent {
                     <button
                         ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
-                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More Actions').toLowerCase()}
-                        className='post__dropdown color--link style--none'
+                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More actions').toLowerCase()}
+                        className={classNames('post-menu__item', {
+                            'post-menu__item--active': this.props.isMenuOpen,
+                        })}
                         type='button'
                         aria-expanded='false'
-                    />
+                    >
+                        <DotsHorizontalIcon className={'icon icon--small'}/>
+                    </button>
                 </OverlayTrigger>
                 <Menu
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
