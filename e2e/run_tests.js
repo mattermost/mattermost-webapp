@@ -280,25 +280,46 @@ async function runTests() {
     const summary = generateShortSummary(jsonReport);
     writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
 
-    // Send test report via webhook
-    if (process.env.WEBHOOK_URL) {
+    const {
+        BRANCH,
+        BUILD_ID,
+        CYPRESS_baseUrl, // eslint-disable-line camelcase
+        DIAGNOSTIC_WEBHOOK_URL,
+        TEST_DASHBOARD_URL,
+        WEBHOOK_URL,
+    } = process.env;
+
+    // Send test report to "QA: UI Test Automation" channel via webhook
+    if (WEBHOOK_URL) {
         const data = generateTestReport(summary);
-        await sendReport('test', {
+        await sendReport('summary report', {
             method: 'post',
-            url: process.env.WEBHOOK_URL,
+            url: WEBHOOK_URL,
             data,
         });
     }
 
     // Send diagnostic report via webhook
-    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const baseUrl = CYPRESS_baseUrl || 'http://localhost:8065'; // eslint-disable-line camelcase
     const serverInfo = await getServerInfo(baseUrl);
-    if (serverInfo.enableDiagnostics && process.env.DIAGNOSTIC_WEBHOOK_URL) {
+    if (serverInfo.enableDiagnostics && DIAGNOSTIC_WEBHOOK_URL) {
         const data = generateDiagnosticReport(summary, serverInfo);
-        await sendReport('diagnostic', {
+        await sendReport('diagnostic report', {
             method: 'post',
-            url: process.env.DIAGNOSTIC_WEBHOOK_URL,
+            url: DIAGNOSTIC_WEBHOOK_URL,
             data
+        });
+    }
+
+    if (TEST_DASHBOARD_URL) {
+        await sendReport('dashboard data', {
+            method: 'post',
+            url: TEST_DASHBOARD_URL,
+            data: {
+                report: jsonReport,
+                branch: BRANCH,
+                build: BUILD_ID,
+            },
         });
     }
 
@@ -424,11 +445,11 @@ async function sendReport(name, requestOptions) {
         const response = await axios(requestOptions);
 
         if (response.data) {
-            console.log(`Successfully sent ${name} report via webhook`);
+            console.log(`Successfully sent ${name}.`);
         }
         return response;
     } catch (er) {
-        console.log(`Something went wrong while sending ${name} report via webhook`, er);
+        console.log(`Something went wrong while sending ${name}.`, er);
         return false;
     }
 }
