@@ -82,7 +82,7 @@ describe('Verify Accessibility Support in Post', () => {
             },
         });
 
-        // # Visit the  channel
+        // # Visit the Off-Topic channel
         cy.visit('/ad-1/channels/off-topic');
         cy.get('#postListContent').should('be.visible');
     });
