@@ -94,7 +94,7 @@ class ChannelHeader extends React.PureComponent {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -265,7 +265,7 @@ class ChannelHeader extends React.PureComponent {
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
 
         if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
-            this.setState({showChannelHeaderPopover: true});
+            this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
     }
 
@@ -437,18 +437,17 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
-                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`}}
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translateX(${this.state.leftOffset}px)`}}
                     placement='bottom'
                     className={classNames(['channel-header__popover',
-                        {'chanel-header__popover--dm': isDirect,
-                            'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
+                        {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
                             'chanel-header__popover--new_sidebar': newSideBarPreference}])}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}
                     >
                         <Markdown
-                            message={headerText.replace(/\n/, '\n\n')}
+                            message={headerText}
                             options={this.getPopoverMarkdownOptions(channelNamesMap)}
                         />
                     </span>
@@ -490,7 +489,7 @@ class ChannelHeader extends React.PureComponent {
                         >{popoverContent}</Overlay>
 
                         <Markdown
-                            message={headerText.replace(/\n/g, '\n\n')}
+                            message={headerText}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         />
                     </span>
