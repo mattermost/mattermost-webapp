@@ -328,6 +328,7 @@ describe('Channel Moderation Test', () => {
             cy.getCurrentTeamId().then((teamId) => {
                 demoteToChannelOrTeamMember(res.body.id, teamId, 'teams');
             });
+        });
 
         // # Make the guest user as Active
         cy.apiGetUserByEmail(users.guest.email).then((res) => {
