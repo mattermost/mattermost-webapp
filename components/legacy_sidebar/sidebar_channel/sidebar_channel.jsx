@@ -187,7 +187,7 @@ class SidebarChannel extends React.PureComponent {
             }
 
             const currentUserId = this.props.currentUserId;
-            this.props.actions.leaveDirectChannel();
+            this.props.actions.leaveDirectChannel(this.props.channelName);
             this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}]).then(
                 () => {
                     this.isLeaving = false;
