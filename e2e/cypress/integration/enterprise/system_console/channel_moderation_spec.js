@@ -3,12 +3,16 @@
 
 import {getRandomInt} from '../../../utils';
 import users from '../../../fixtures/users.json';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @enterprise @system_console
 
 const checkboxesTitleToIdMap = {
     CREATE_POSTS_GUESTS: 'create_post-guests',
@@ -38,6 +42,30 @@ const checkBoxes = [
     checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS,
 ];
 
+const demoteToChannelOrTeamMember = (userId, id, channelsOrTeams = 'channels') => {
+    cy.externalRequest({
+        user: users.sysadmin,
+        method: 'put',
+        path: `${channelsOrTeams}/${id}/members/${userId}/schemeRoles`,
+        data: {
+            scheme_user: true,
+            scheme_admin: false,
+        }
+    });
+};
+
+const promoteToChannelOrTeamAdmin = (userId, id, channelsOrTeams = 'channels') => {
+    cy.externalRequest({
+        user: users.sysadmin,
+        method: 'put',
+        path: `${channelsOrTeams}/${id}/members/${userId}/schemeRoles`,
+        data: {
+            scheme_user: true,
+            scheme_admin: true,
+        }
+    });
+};
+
 // # Disable (uncheck) all the permissions in the channel moderation widget
 const disableAllChannelModeratedPermissions = () => {
     checkBoxes.forEach((buttonId) => {
@@ -61,7 +89,7 @@ const enableAllChannelModeratedPermissions = () => {
 };
 
 // # Enable (check) all the permissions in the channel moderation widget through the API
-const enableAllChannelModeratedPermissionsViaAPI = (channelId) => {
+const enableDisableAllChannelModeratedPermissionsViaAPI = (channelId, enable = true) => {
     cy.externalRequest(
         {
             user: users.sysadmin,
@@ -72,28 +100,28 @@ const enableAllChannelModeratedPermissionsViaAPI = (channelId) => {
                     {
                         name: 'create_post',
                         roles: {
-                            members: true,
-                            guests: true,
+                            members: enable,
+                            guests: enable,
                         }
                     },
                     {
                         name: 'create_reactions',
                         roles: {
-                            members: true,
-                            guests: true,
+                            members: enable,
+                            guests: enable,
                         }
                     },
                     {
                         name: 'manage_members',
                         roles: {
-                            members: true,
+                            members: enable,
                         }
                     },
                     {
                         name: 'use_channel_mentions',
                         roles: {
-                            members: true,
-                            guests: true,
+                            members: enable,
+                            guests: enable,
                         }
                     },
                 ],
@@ -151,6 +179,7 @@ const deleteOrEditTeamScheme = (schemeDisplayName, editOrDelete) => {
 const visitChannel = (loginAs, channelName) => {
     cy.apiLogin(loginAs);
     cy.visit(`/ad-1/channels/${channelName}`);
+    cy.get('#postListContent', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 };
 
 const visitAutemChannel = (loginAs) => {
@@ -286,6 +315,26 @@ describe('Channel Moderation Test', () => {
         cy.getCurrentChannelId().then((channelId) => {
             autemChannelId = channelId;
         });
+
+        visitAutemChannel('user-1');
+
+        // # Demote user to Channel Member
+        cy.apiGetMe().then((res) => {
+            demoteToChannelOrTeamMember(res.body.id, autemChannelId);
+        });
+
+        // # Demote user to Team Member
+        cy.apiGetMe().then((res) => {
+            cy.getCurrentTeamId().then((teamId) => {
+                demoteToChannelOrTeamMember(res.body.id, teamId, 'teams');
+            });
+        });
+
+        // # Make the guest user as Active
+        cy.apiGetUserByEmail(users.guest.email).then((res) => {
+            const user = res.body;
+            cy.apiActivateUser(user.id, true);
+        });
     });
 
     beforeEach(() => {
@@ -296,7 +345,7 @@ describe('Channel Moderation Test', () => {
         deleteExistingTeamOverrideSchemes();
 
         // // # Reset Autem Channel Moderation settings to default (everything on)
-        enableAllChannelModeratedPermissionsViaAPI(autemChannelId);
+        enableDisableAllChannelModeratedPermissionsViaAPI(autemChannelId);
     });
 
     describe('MM-23102 - Create Posts', () => {
@@ -970,6 +1019,66 @@ describe('Channel Moderation Test', () => {
                 // * As per test case, ensure edit and delete button show up
                 cy.get(`#edit_post_${postId}`).should('exist');
                 cy.get(`#delete_post_${postId}`).should('exist');
+            });
+        });
+
+        it('Channel Moderation Settings should not be applied for Channel Admins', () => {
+            enableDisableAllChannelModeratedPermissionsViaAPI(autemChannelId, false);
+            visitAutemChannel('user-1');
+            cy.apiGetMe().then((res) => {
+                promoteToChannelOrTeamAdmin(res.body.id, autemChannelId);
+            });
+
+            // * Assert user can post message and user channel mentions
+            postChannelMentionsAndVerifySystemMessageNotExist();
+
+            // # Check Channel Admin have the permission to react to any post on a channel when all channel moderation permissions are off.
+            // * Channel Admin should see the smiley face that allows a user to react to a post
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#post_${postId}`).trigger('mouseover');
+                cy.findByTestId('post-reaction-emoji-icon').should('exist');
+            });
+
+            // # View members modal
+            viewManageChannelMembersModal('Manage');
+
+            // * Add Members button does not exist
+            cy.get('#showInviteModal').should('exist');
+
+            cy.apiGetMe().then((res) => {
+                demoteToChannelOrTeamMember(res.body.id, autemChannelId);
+            });
+        });
+
+        it('Channel Moderation Settings should not be applied for Team Admins', () => {
+            enableDisableAllChannelModeratedPermissionsViaAPI(autemChannelId, false);
+            visitAutemChannel('user-1');
+            cy.apiGetMe().then((res) => {
+                cy.getCurrentTeamId().then((teamId) => {
+                    promoteToChannelOrTeamAdmin(res.body.id, teamId, 'teams');
+                });
+            });
+
+            // * Assert user can post message and user channel mentions
+            postChannelMentionsAndVerifySystemMessageNotExist();
+
+            // # Check Channel Admin have the permission to react to any post on a channel when all channel moderation permissions are off.
+            // * Channel Admin should see the smiley face that allows a user to react to a post
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#post_${postId}`).trigger('mouseover');
+                cy.findByTestId('post-reaction-emoji-icon').should('exist');
+            });
+
+            // # View members modal
+            viewManageChannelMembersModal('Manage');
+
+            // * Add Members button does not exist
+            cy.get('#showInviteModal').should('exist');
+
+            cy.apiGetMe().then((res) => {
+                cy.getCurrentTeamId().then((teamId) => {
+                    demoteToChannelOrTeamMember(res.body.id, teamId, 'teams');
+                });
             });
         });
     });

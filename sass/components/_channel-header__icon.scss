@@ -1,0 +1,45 @@
+.channel-header__icon {
+    @include border-radius(4px);
+    border: none;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 32px;
+    margin: 16px 0 0 4px;
+    min-width: 32px;
+    position: relative;
+    text-align: center;
+    z-index: 5;
+    fill: v(center-channel-color-56);
+    color: v(center-channel-color-56);
+
+    &:hover {
+        background: v(center-channel-color-08);
+        fill: v(center-channel-color-72);
+        color: v(center-channel-color-72);
+    }
+
+    &:active,
+    &--active,
+    &--active:hover {
+        background: v(button-bg-08);
+        fill: v(button-bg);
+        color: v(button-bg);
+    }
+
+    .icon__text {
+        font-weight: 600;
+        margin: 0 2px;
+    }
+
+    .icon__search {
+        top: 1px;
+    }
+}
+
+.channel-header__icon--wide {
+    width: auto;
+    padding: 0 6px;
+}
