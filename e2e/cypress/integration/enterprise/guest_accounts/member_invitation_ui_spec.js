@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @guest_account
+
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
@@ -187,7 +190,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
     it('MM-18040 Verify Invite New/Existing Users', () => {
         // # Login as new user and get the user id
-        cy.createNewUser().then((newUser) => {
+        cy.apiCreateNewUser().then((newUser) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id);
 
             // # Logout sysadmin, then login as new user

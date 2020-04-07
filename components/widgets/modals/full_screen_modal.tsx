@@ -29,7 +29,7 @@ class FullScreenModal extends React.Component<Props> {
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
         document.addEventListener('focus', this.enforceFocus, true);
-        this.resetFocus();
+        this.enforceFocus();
     }
 
     public componentWillUnmount() {
@@ -41,14 +41,6 @@ class FullScreenModal extends React.Component<Props> {
         setTimeout(() => {
             const currentActiveElement = document.activeElement;
             if (this.modal && this.modal.current && !this.modal.current.contains(currentActiveElement)) {
-                this.modal.current.focus();
-            }
-        });
-    }
-
-    public resetFocus = () => {
-        setTimeout(() => {
-            if (this.modal && this.modal.current) {
                 this.modal.current.focus();
             }
         });

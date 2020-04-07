@@ -123,7 +123,7 @@ export default class TeamAnalytics extends React.Component {
                     description={
                         <FormattedMessage
                             id='analytics.team.noTeams'
-                            defaultMessage='There are no teams on this server for which to view statistics.'
+                            defaultMessage='This server has no teams for which to view statistics.'
                         />
                     }
                 />
@@ -139,7 +139,7 @@ export default class TeamAnalytics extends React.Component {
                 <div className='banner__content'>
                     <FormattedMessage
                         id='analytics.system.info'
-                        defaultMessage='Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team.'
+                        defaultMessage='Use data for only the chosen team. Exclude posts in direct message channels that are not tied to a team.'
                     />
                 </div>
             </div>
@@ -154,7 +154,7 @@ export default class TeamAnalytics extends React.Component {
                     <div className='banner__content'>
                         <FormattedMarkdownMessage
                             id='analytics.system.infoAndSkippedIntensiveQueries'
-                            defaultMessage='Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team. \n \n Some statistics have been omitted because they put too much load on the system to calculate. See [https://docs.mattermost.com/administration/statistics.html](!https://docs.mattermost.com/administration/statistics.html) for more details.'
+                            defaultMessage='Use data for only the chosen team. Exclude posts in direct message channels that are not tied to a team. \n \n To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html).'
                         />
                     </div>
                 </div>

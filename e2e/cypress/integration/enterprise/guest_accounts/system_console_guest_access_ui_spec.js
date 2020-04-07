@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @guest_account
+
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
@@ -30,7 +33,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
 
         // # Create guest user account
-        cy.createNewUser().then((userResponse) => {
+        cy.apiCreateNewUser().then((userResponse) => {
             guest = userResponse;
 
             // # Demote the current member to a guest user

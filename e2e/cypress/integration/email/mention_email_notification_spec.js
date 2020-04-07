@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @notification
+
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -25,7 +28,7 @@ describe('Email notification', () => {
         });
 
         cy.apiGetTeamByName('ad-1').then((res) => {
-            cy.createNewUser({}, [res.body.id]).then((user) => {
+            cy.apiCreateNewUser({}, [res.body.id]).then((user) => {
                 mentionedUser = user;
             });
         });

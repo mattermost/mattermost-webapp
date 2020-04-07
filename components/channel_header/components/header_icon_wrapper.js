@@ -27,19 +27,19 @@ export default function HeaderIconWrapper({
             class: 'text-nowrap',
             id: 'flaggedTooltip',
             messageID: t('channel_header.flagged'),
-            message: 'Flagged Posts',
+            message: 'Flagged posts',
         },
         pinnedPosts: {
             class: '',
             id: 'pinnedPostTooltip',
             messageID: t('channel_header.pinnedPosts'),
-            message: 'Pinned Posts',
+            message: 'Pinned posts',
         },
         recentMentions: {
             class: '',
             id: 'recentMentionsTooltip',
             messageID: t('channel_header.recentMentions'),
-            message: 'Recent Mentions',
+            message: 'Recent mentions',
         },
         search: {
             class: '',
@@ -98,7 +98,7 @@ export default function HeaderIconWrapper({
                     <button
                         id={buttonId}
                         aria-label={ariaLabelText}
-                        className={buttonClass || 'channel-header__icon style--none'}
+                        className={buttonClass || 'channel-header__icon'}
                         onClick={onClick}
                     >
                         {iconComponent}
@@ -112,7 +112,7 @@ export default function HeaderIconWrapper({
         <div className='flex-child'>
             <button
                 id={buttonId}
-                className={buttonClass || 'channel-header__icon style--none'}
+                className={buttonClass || 'channel-header__icon'}
                 onClick={onClick}
             >
                 {iconComponent}

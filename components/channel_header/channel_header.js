@@ -67,6 +67,7 @@ class ChannelHeader extends React.PureComponent {
         rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
         intl: intlShape.isRequired,
+        pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
@@ -84,6 +85,7 @@ class ChannelHeader extends React.PureComponent {
         }).isRequired,
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
+        newSideBarPreference: PropTypes.bool,
     };
 
     constructor(props) {
@@ -92,7 +94,7 @@ class ChannelHeader extends React.PureComponent {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -262,8 +264,8 @@ class ChannelHeader extends React.PureComponent {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
 
-        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g, ' ')) {
-            this.setState({showChannelHeaderPopover: true});
+        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
+            this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
     }
 
@@ -289,6 +291,7 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
             teammateNameDisplaySetting,
+            newSideBarPreference,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -434,9 +437,11 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
-                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`}}
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translateX(${this.state.leftOffset}px)`}}
                     placement='bottom'
-                    className={classNames(['channel-header__popover', {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam}])}
+                    className={classNames(['channel-header__popover',
+                        {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
+                            'chanel-header__popover--new_sidebar': newSideBarPreference}])}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}
@@ -462,7 +467,7 @@ class ChannelHeader extends React.PureComponent {
                         ref={this.headerPopoverTextMeasurerRef}
                     >
                         <Markdown
-                            message={headerText.replace(/\n{2,}/g, ' ')}
+                            message={headerText.replace(/\n+/g, ' ')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         /></div>
                     <span
@@ -480,6 +485,7 @@ class ChannelHeader extends React.PureComponent {
                             target={this.headerDescriptionRef.current}
                             ref='headerOverlay'
                             onEnter={this.setPopoverOverlayWidth}
+                            onHide={() => this.setState({showChannelHeaderPopover: false})}
                         >{popoverContent}</Overlay>
 
                         <Markdown
@@ -556,30 +562,26 @@ class ChannelHeader extends React.PureComponent {
         let ariaLabel = '';
 
         if (!channelIsArchived) {
-            if (isFavorite) {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.removeFromFavorites'
-                            defaultMessage='Remove from Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.removeFromFavorites', defaultMessage: 'Remove from Favorites'}).toLowerCase();
-            } else {
-                toggleFavoriteTooltip = (
-                    <Tooltip id='favoriteTooltip'>
-                        <FormattedMessage
-                            id='channelHeader.addToFavorites'
-                            defaultMessage='Add to Favorites'
-                        />
-                    </Tooltip>
-                );
-                ariaLabel = formatMessage({id: 'channelHeader.addToFavorites', defaultMessage: 'Add to Favorites'}).toLowerCase();
-            }
+            const formattedMessage = isFavorite ? {
+                id: 'channelHeader.removeFromFavorites',
+                defaultMessage: 'Remove from Favorites'
+            } : {
+                id: 'channelHeader.addToFavorites',
+                defaultMessage: 'Add to Favorites'
+            };
+
+            ariaLabel = formatMessage(formattedMessage).toLowerCase();
+            toggleFavoriteTooltip = (
+                <Tooltip id='favoriteTooltip' >
+                    <FormattedMessage
+                        {...formattedMessage}
+                    />
+                </Tooltip>
+            );
 
             toggleFavorite = (
                 <OverlayTrigger
+                    key={`isFavorite-${isFavorite}`}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
@@ -629,18 +631,35 @@ class ChannelHeader extends React.PureComponent {
 
         let pinnedIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.PIN) {
-            pinnedIconClass += ' active';
+            pinnedIconClass += ' channel-header__icon--active';
         }
 
         let mentionsIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.MENTION) {
-            mentionsIconClass += ' active';
+            mentionsIconClass += ' channel-header__icon--active';
         }
 
         let flaggedIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.FLAG) {
-            flaggedIconClass += ' active';
+            flaggedIconClass += ' channel-header__icon--active';
         }
+        const pinnedIcon = (this.props.pinnedPostsCount ?
+            (<React.Fragment>
+                <PinIcon
+                    className='icon icon--standard'
+                    aria-hidden='true'
+                />
+                <span
+                    id='channelPinnedPostCountText'
+                    className='icon__text'
+                >
+                    {this.props.pinnedPostsCount}
+                </span>
+            </React.Fragment>) : (
+                <PinIcon
+                    className='icon icon--standard'
+                    aria-hidden='true'
+                />));
 
         let title = (
             <React.Fragment>
@@ -734,18 +753,14 @@ class ChannelHeader extends React.PureComponent {
                         channelMember={channelMember}
                     />
                     <HeaderIconWrapper
-                        iconComponent={
-                            <PinIcon
-                                className='icon icon__pin'
-                                aria-hidden='true'
-                            />
-                        }
+                        iconComponent={pinnedIcon}
                         ariaLabel={true}
-                        buttonClass={'style--none ' + pinnedIconClass}
+                        buttonClass={pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
+
                     {this.state.showSearchBar ? (
                         <div
                             id='searchbarContainer'
@@ -760,7 +775,7 @@ class ChannelHeader extends React.PureComponent {
                         <HeaderIconWrapper
                             iconComponent={
                                 <SearchIcon
-                                    className='icon icon__search icon--stroke'
+                                    className='icon icon--standard'
                                     aria-hidden='true'
                                 />
                             }
@@ -773,12 +788,12 @@ class ChannelHeader extends React.PureComponent {
                     <HeaderIconWrapper
                         iconComponent={
                             <MentionsIcon
-                                className='icon icon__mentions'
+                                className='icon icon--standard'
                                 aria-hidden='true'
                             />
                         }
                         ariaLabel={true}
-                        buttonClass={'style--none ' + mentionsIconClass}
+                        buttonClass={mentionsIconClass}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -788,7 +803,7 @@ class ChannelHeader extends React.PureComponent {
                             <FlagIcon className='icon icon__flag'/>
                         }
                         ariaLabel={true}
-                        buttonClass={'style--none ' + flaggedIconClass}
+                        buttonClass={flaggedIconClass}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}

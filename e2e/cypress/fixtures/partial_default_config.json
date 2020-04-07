@@ -56,6 +56,7 @@
         "EnablePostUsernameOverride": true,
         "EnablePostIconOverride": true,
         "ExperimentalChannelOrganization": false,
+        "ExperimentalChannelSidebarOrganization": "disabled",
         "IdleTimeout": 300
     },
     "SupportSettings": {
@@ -64,6 +65,7 @@
     "TeamSettings": {
         "EnableCustomBrand": false,
         "EnableOpenServer": true,
+        "ExperimentalTownSquareIsReadOnly": false,
         "ExperimentalViewArchivedChannels": false,
         "LockTeammateNameDisplay": false,
         "SiteName": "Mattermost",

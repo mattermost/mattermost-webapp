@@ -320,23 +320,7 @@
 }
 
 .group-profile {
-    padding: 15px;
-
-    .group-profile-field {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-
-        label {
-            flex-grow: 1;
-            width: 33.3%;
-        }
-
-        .form-control {
-            flex-grow: 3;
-            width: 100%;
-        }
-    }
+    padding: 20px;
 }
 
 .group-users {
@@ -472,7 +456,7 @@
                 &:last-child{
                     td {
                         padding-bottom: 0px;
-                    }                
+                    }
                 }
             }
 
@@ -488,10 +472,10 @@
                     vertical-align: middle;
                 }
             }
-    
+
             th {
                 padding: 6px 20px;
-    
+
                 &:first-child {
                     padding-left: 0px;
                 }
@@ -592,7 +576,7 @@
                 color: #454448;
                 opacity: 50%;
             }
-            
+
             .name-no-arrow{
                 margin-left: 16px;
             }

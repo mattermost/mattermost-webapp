@@ -47,6 +47,11 @@ class EditChannelHeaderModal extends React.PureComponent {
         ctrlSend: PropTypes.bool.isRequired,
 
         /*
+         * Should preview be showed
+         */
+        shouldShowPreview: PropTypes.bool.isRequired,
+
+        /*
          * Collection of redux actions
          */
         actions: PropTypes.shape({
@@ -57,6 +62,12 @@ class EditChannelHeaderModal extends React.PureComponent {
              * patch channel redux-action
              */
             patchChannel: PropTypes.func.isRequired,
+
+            /**
+             * Set show preview for textbox
+             */
+            setShowPreview: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
@@ -64,7 +75,6 @@ class EditChannelHeaderModal extends React.PureComponent {
         super(props);
 
         this.state = {
-            preview: false,
             header: props.channel.header,
             saving: false,
         };
@@ -76,8 +86,8 @@ class EditChannelHeaderModal extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.setState({preview: newState});
+    setShowPreview = (newState) => {
+        this.props.actions.setShowPreview(newState);
     }
 
     handleChange = (e) => {
@@ -228,15 +238,15 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 id='edit_textbox'
                                 ref='editChannelHeaderTextbox'
                                 characterLimit={1024}
-                                preview={this.state.preview}
+                                preview={this.props.shouldShowPreview}
                             />
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={1024}
-                                showPreview={this.state.preview}
+                                showPreview={this.props.shouldShowPreview}
                                 ref={this.setTextboxLinksRef}
-                                updatePreview={this.updatePreview}
+                                updatePreview={this.setShowPreview}
                                 message={this.state.header}
                             />
                         </div>

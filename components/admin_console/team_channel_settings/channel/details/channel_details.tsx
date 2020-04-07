@@ -37,6 +37,7 @@ interface ChannelDetailsProps {
     channelPermissions?: Array<ChannelPermissions>;
     allGroups: {[gid: string]: Group}; // hashmap of groups
     teamScheme?: Scheme;
+    guestAccountsEnabled: boolean;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -145,7 +146,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
     private restrictChannelMentions() {
         // Disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
         let channelPermissions = this.props.channelPermissions;
-        const currentCreatePostRoles: any = channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
+        const currentCreatePostRoles: any = channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.roles;
         for (const channelRole of Object.keys(currentCreatePostRoles)) {
             channelPermissions = channelPermissions!.map((permission) => {
                 if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
@@ -237,7 +238,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let channelPermissions = [...this.state.channelPermissions!];
 
         if (name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST) {
-            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.['roles']![channelRole];
+            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.roles![channelRole];
             channelPermissions = channelPermissions.map((permission) => {
                 if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && !newValue) {
                     return {
@@ -256,8 +257,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         roles: {
                             ...permission.roles,
                             [channelRole]: {
-                                value: originalObj?.['value'],
-                                enabled: originalObj?.['enabled'],
+                                value: originalObj?.value,
+                                enabled: originalObj?.enabled,
                             }
                         }
                     };
@@ -496,8 +497,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         <ChannelModeration
                             channelPermissions={channelPermissions}
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
-                            teamSchemeID={teamScheme?.['id']}
+                            teamSchemeID={teamScheme?.id}
                             teamSchemeDisplayName={teamScheme?.['display_name']}
+                            guestAccountsEnabled={this.props.guestAccountsEnabled}
                         />
 
                         <ChannelGroups

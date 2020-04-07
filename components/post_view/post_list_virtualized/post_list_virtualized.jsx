@@ -568,7 +568,7 @@ class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
-                                        <div>{this.state.atBottom !== null && this.renderToasts(width)}</div>
+                                        <div>{this.renderToasts(width)}</div>
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}
@@ -582,7 +582,7 @@ class PostList extends React.PureComponent {
                                             onScroll={this.onScroll}
                                             initScrollToIndex={this.initScrollToIndex}
                                             canLoadMorePosts={this.props.actions.canLoadMorePosts}
-                                            skipResizeClass='col__reply'
+                                            skipResizeClass='post-menu'
                                             innerRef={this.postListRef}
                                             style={{...virtListStyles, ...dynamicListStyle}}
                                             innerListStyle={postListStyle}

@@ -3,9 +3,11 @@
 exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
 <div>
   <div
+    data-testid="undefined_placeholder"
     style={
       Object {
         "background": "none",
+        "borderColor": "transparent",
         "opacity": 0.5,
         "overflow": "hidden",
         "pointerEvents": "none",
