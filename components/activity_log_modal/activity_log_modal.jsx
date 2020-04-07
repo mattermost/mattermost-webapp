@@ -131,7 +131,7 @@ export default class ActivityLogModal extends React.PureComponent {
                     <p className='session-help-text'>
                         <FormattedMessage
                             id='activity_log.sessionsDescription'
-                            defaultMessage="Sessions are created when you log in to a new browser on a device. Sessions let you use Mattermost without having to log in again for a time period specified by the System Admin. If you want to log out sooner, use the 'Logout' button below to end a session."
+                            defaultMessage="Sessions are created when you log in through a new browser on a device. Sessions let you use Mattermost without having to log in again for a time period specified by the system administrator. To end the session sooner, use the 'Log Out' button."
                         />
                     </p>
                     {content}

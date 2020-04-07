@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -185,7 +186,18 @@ class CreatePost extends React.PureComponent {
         useChannelMentions: PropTypes.bool.isRequired,
 
         intl: intlShape.isRequired,
+
+        /**
+         * Should preview be showed
+         */
+        shouldShowPreview: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
+
+            /**
+             * Set show preview for textbox
+             */
+            setShowPreview: PropTypes.func.isRequired,
 
             /**
              *  func called after message submit.
@@ -279,7 +291,6 @@ class CreatePost extends React.PureComponent {
                 message: props.draft.message,
                 submitting: false,
                 serverError: null,
-                showPreview: false,
             };
         }
         return updatedState;
@@ -295,7 +306,6 @@ class CreatePost extends React.PureComponent {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelTimezoneCount: 0,
-            showPreview: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             currentChannel: props.currentChannel,
@@ -309,6 +319,7 @@ class CreatePost extends React.PureComponent {
 
     componentDidMount() {
         this.onOrientationChange();
+        this.props.actions.setShowPreview(false);
         this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
@@ -328,6 +339,10 @@ class CreatePost extends React.PureComponent {
             this.focusTextbox();
         }
 
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.props.actions.setShowPreview(false);
+        }
+
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
             this.focusTextbox();
@@ -345,8 +360,8 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.setState({showPreview: newState});
+    setShowPreview = (newPreviewValue) => {
+        this.props.actions.setShowPreview(newPreviewValue);
     }
 
     setOrientationListeners = () => {
@@ -701,7 +716,7 @@ class CreatePost extends React.PureComponent {
                 this.handleSubmit(e);
             }
 
-            this.updatePreview(false);
+            this.setShowPreview(false);
         }
 
         this.emitTypingEvent();
@@ -1237,7 +1252,7 @@ class CreatePost extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel && !this.state.showPreview) {
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1256,7 +1271,7 @@ class CreatePost extends React.PureComponent {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -1273,11 +1288,13 @@ class CreatePost extends React.PureComponent {
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                        className='style--none emoji-picker__container post-action'
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
                         <EmojiIcon
                             id='emojiPickerButton'
-                            className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
+                            className={'icon icon--emoji '}
                         />
                     </button>
                 </div>
@@ -1334,7 +1351,7 @@ class CreatePost extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                preview={this.props.shouldShowPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
@@ -1359,7 +1376,7 @@ class CreatePost extends React.PureComponent {
                                         className='fa fa-paper-plane'
                                         title={{
                                             id: t('create_post.icon'),
-                                            defaultMessage: 'Send Post Icon',
+                                            defaultMessage: 'Create a post',
                                         }}
                                     />
                                 </a>
@@ -1379,8 +1396,8 @@ class CreatePost extends React.PureComponent {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.state.showPreview}
-                                updatePreview={this.updatePreview}
+                                showPreview={this.props.shouldShowPreview}
+                                updatePreview={this.setShowPreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />
                         </div>

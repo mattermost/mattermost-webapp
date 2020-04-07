@@ -83,6 +83,12 @@ exports[`components/error_page/ErrorMessage should match snapshot, oauth_access_
 </p>
 `;
 
+exports[`components/error_page/ErrorMessage should match snapshot, oauth_invalid_param type 1`] = `
+<p>
+  error message
+</p>
+`;
+
 exports[`components/error_page/ErrorMessage should match snapshot, oauth_missing_code type 1`] = `
 <div>
   <p>

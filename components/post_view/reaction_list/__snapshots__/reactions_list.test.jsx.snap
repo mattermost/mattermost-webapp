@@ -44,40 +44,40 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
         target={[Function]}
         topOffset={-5}
       />
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={400}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            id="addReactionTooltip"
-            placement="right"
-          >
-            <FormattedMessage
-              defaultMessage="Add reaction"
-              id="reaction_list.addReactionTooltip"
-              values={Object {}}
-            />
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
+      <Connect(ChannelPermissionGate)
+        permissions={
           Array [
-            "hover",
-            "focus",
+            "add_reaction",
           ]
         }
+        teamId="teamId"
       >
-        <Connect(ChannelPermissionGate)
-          permissions={
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="addReactionTooltip"
+              placement="right"
+            >
+              <FormattedMessage
+                defaultMessage="Add a reaction"
+                id="reaction_list.addReactionTooltip"
+                values={Object {}}
+              />
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
             Array [
-              "add_reaction",
+              "hover",
+              "focus",
             ]
           }
-          teamId="teamId"
         >
           <button
-            aria-label="add reaction"
+            aria-label="Add a reaction"
             className="style--none post-reaction"
             onClick={[Function]}
           >
@@ -88,8 +88,8 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
               +
             </span>
           </button>
-        </Connect(ChannelPermissionGate)>
-      </OverlayTrigger>
+        </OverlayTrigger>
+      </Connect(ChannelPermissionGate)>
     </span>
   </div>
 </div>
