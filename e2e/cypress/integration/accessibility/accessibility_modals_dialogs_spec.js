@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @accessibility
+
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -73,7 +76,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-22623 Accessibility Support in Direct Messages Dialog screen', () => {
         // * Verify the aria-label in create direct message button
-        cy.get('#addDirectChannel').should('have.attr', 'aria-label', 'create new direct message').click();
+        cy.get('#addDirectChannel').should('have.attr', 'aria-label', 'write a direct message').click();
 
         // * Verify the accessibility support in Direct Messages Dialog`
         cy.get('#moreDmModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreDmModalLabel').within(() => {
@@ -109,7 +112,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-22623 Accessibility Support in More Channels Dialog screen', () => {
         // * Verify the aria-label in more public channels button
-        cy.get('#sidebarPublicChannelsMore').should('have.attr', 'aria-label', 'more public channels').click();
+        cy.get('#sidebarPublicChannelsMore').should('have.attr', 'aria-label', 'See more public channels').click();
 
         // * Verify the accessibility support in More Channels Dialog`
         cy.get('#moreChannelsModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreChannelsModalLabel').within(() => {

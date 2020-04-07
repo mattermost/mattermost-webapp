@@ -26,13 +26,13 @@ export default class ChannelCreate extends React.PureComponent {
             return null;
         }
 
-        const ariaLabelPublic = `${Utils.localizeMessage('sidebar.createChannel', 'Create new public channel').toLowerCase()}`;
+        const ariaLabelPublic = `${Utils.localizeMessage('sidebar.createChannel', 'Create a public channel').toLowerCase()}`;
 
         const tooltip = (
             <Tooltip id='new-channel-tooltip' >
                 <FormattedMessage
                     id='sidebar.createChannel'
-                    defaultMessage='Create new public channel'
+                    defaultMessage='Create a public channel'
                 />
             </Tooltip>
         );
@@ -61,13 +61,13 @@ export default class ChannelCreate extends React.PureComponent {
             return null;
         }
 
-        const ariaLabelPrivate = `${Utils.localizeMessage('sidebar.createGroup', 'Create new private channel').toLowerCase()}`;
+        const ariaLabelPrivate = `${Utils.localizeMessage('sidebar.createGroup', 'Create a private channel').toLowerCase()}`;
 
         const tooltip = (
             <Tooltip id='new-group-tooltip'>
                 <FormattedMessage
                     id='sidebar.createGroup'
-                    defaultMessage='Create new private channel'
+                    defaultMessage='Create a private channel'
                 />
             </Tooltip>
         );
@@ -92,7 +92,7 @@ export default class ChannelCreate extends React.PureComponent {
     };
 
     renderDirect = () => {
-        const ariaLabelDM = Utils.localizeMessage('sidebar.createDirectMessage', 'Create new direct message').toLowerCase();
+        const ariaLabelDM = Utils.localizeMessage('sidebar.createDirectMessage', 'Write a direct message').toLowerCase();
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'
@@ -100,7 +100,7 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <FormattedMessage
                     id='sidebar.createDirectMessage'
-                    defaultMessage='Create new direct message'
+                    defaultMessage='Write a direct message'
                 />
             </Tooltip>
         );
@@ -146,7 +146,7 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <FormattedMessage
                     id='sidebar.createPublicPrivateChannel'
-                    defaultMessage='Create new public or private channel'
+                    defaultMessage='Create a public or private channel'
                 />
             </Tooltip>
         );
