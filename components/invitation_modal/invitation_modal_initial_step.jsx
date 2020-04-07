@@ -53,7 +53,7 @@ export default class InvitationModalInitialStep extends React.Component {
                     data-testid='inviteMembersLink'
                     tabIndex='0'
                     onKeyDown={this.onMembersKeyDown}
-                    aria-labeledby='inviteMembersSectionHeader'
+                    aria-labelledby='inviteMembersSectionHeader'
                     aria-describedby='inviteMembersSectionDescription'
                 >
                     <div data-testid='inviteMembersSection'>
@@ -88,7 +88,7 @@ export default class InvitationModalInitialStep extends React.Component {
                     data-testid='inviteGuestLink'
                     tabIndex='0'
                     onKeyDown={this.onGuestsKeyDown}
-                    aria-labeledby='inviteGuestsSectionHeader'
+                    aria-labelledby='inviteGuestsSectionHeader'
                     aria-describedby='inviteGuestsSectionDescription'
                 >
                     <div>
