@@ -330,6 +330,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         if (this.state.groups.length === 0 && isSynced) {
             serverError = <NeedGroupsError/>;
             saveNeeded = true;
+            this.setState({serverError, saving: false, saveNeeded});
+            actions.setNavigationBlocked(saveNeeded);
+            return;
         } else {
             const promises = [];
             if (isPrivacyChanging) {
