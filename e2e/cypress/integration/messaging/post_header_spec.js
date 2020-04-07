@@ -26,9 +26,6 @@ describe('Post Header', () => {
         // # Post a message
         cy.postMessage('test for permalink');
 
-        // * Check initial state that "the jump to recent messages" is not visible
-        cy.get('#archive-link-home').should('not.be.visible');
-
         cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
 
@@ -45,18 +42,10 @@ describe('Post Header', () => {
             cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
-            cy.get(divPostId).should('be.visible').should('have.class', 'post--highlight');
+            cy.get(divPostId).should('be.visible').and('have.class', 'post--highlight');
 
-            // * Check that the "jump to recent messages" is visible
-            cy.get('#archive-link-home').
-                should('be.visible').
-                should('contain', 'Click here to jump to recent messages.');
-
-            // # Click "jump to recent messages" link
-            cy.get('#archive-link-home').click();
-
-            // * Check that it redirects to channel URL
-            cy.url().should('include', '/ad-1/channels/town-square');
+            // * Check that the highlight is removed after a period of time
+            cy.wait(TIMEOUTS.TINY).get(divPostId).should('be.visible').and('not.have.class', 'post--highlight');
 
             // * Check the said post not highlighted
             cy.get(divPostId).should('be.visible').should('not.have.class', 'post--highlight');
@@ -141,7 +130,7 @@ describe('Post Header', () => {
             cy.clickPostReactionIcon(postId);
 
             // * Check that the center post reaction icon of the post becomes visible
-            cy.get(`#CENTER_reaction_${postId}`).should('be.visible').should('have.attr', 'class', 'reacticon__container color--link style--none');
+            cy.get(`#CENTER_reaction_${postId}`).should('be.visible').and('have.class', 'post-menu__item--active').and('have.class', 'post-menu__item--reactions');
 
             // * Check that the emoji picker becomes visible as well
             cy.get('#emojiPicker').should('be.visible');
