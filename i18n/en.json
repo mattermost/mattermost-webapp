@@ -1099,6 +1099,8 @@
   "admin.permissions.permission.upload_file.name": "Upload file",
   "admin.permissions.permission.use_channel_mentions.description": "Notify channel members with @all, @channel and @here",
   "admin.permissions.permission.use_channel_mentions.name": "Channel Mentions",
+  "admin.permissions.permission.use_group_mentions.description": "Notify group members with a group mention",
+  "admin.permissions.permission.use_group_mentions.name": "Group Mentions",
   "admin.permissions.permission.view_team.description": "View team",
   "admin.permissions.permission.view_team.name": "View team",
   "admin.permissions.permissionSchemes": "Permission Schemes",

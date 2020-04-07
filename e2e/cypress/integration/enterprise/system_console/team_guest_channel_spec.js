@@ -10,7 +10,7 @@
 import {getRandomInt} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-const permissions = ['create_private_channel', 'edit_post', 'delete_post', 'reactions', 'use_channel_mentions'];
+const permissions = ['create_private_channel', 'edit_post', 'delete_post', 'reactions', 'use_channel_mentions', 'use_group_mentions'];
 const getButtonId = (permission) => {
     return 'guests-' + permission + '-checkbox';
 };
@@ -61,7 +61,7 @@ describe('Team Scheme Guest Permissions Test', () => {
         cy.get('#scheme-name').type(`TestScheme-${uniqueNumber}{enter}`);
 
         // // # Wait until the groups retrieved and show up
-        // cy.wait(TIMEOUTS.TINY); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(TIMEOUTS.TINY); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Check all the boxes currently unchecked
         enableAllGuestPermissions();
