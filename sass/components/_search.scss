@@ -23,7 +23,7 @@
 }
 
 .search__icon {
-    fill: v(center-channel-color-48);
+    fill: v(center-channel-color-56);
     left: 9px;
     position: absolute;
     top: 7px;
@@ -39,8 +39,8 @@
 }
 
 .input-clear {
-    @include opacity(.5);
     cursor: pointer;
+    color: v(center-channel-color-56);
     margin-right: 20px;
     position: absolute;
     right: 0;
