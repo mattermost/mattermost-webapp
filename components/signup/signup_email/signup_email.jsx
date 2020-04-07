@@ -122,7 +122,11 @@ export default class SignupEmail extends React.Component {
         this.props.actions.loginById(data.id, user.password, '').then(({error}) => {
             if (error) {
                 if (error.server_error_id === 'api.user.login.not_verified.app_error') {
-                    browserHistory.push('/should_verify_email?email=' + encodeURIComponent(user.email) + '&teamname=' + encodeURIComponent(this.state.teamName));
+                    let verifyUrl = '/should_verify_email?email=' + encodeURIComponent(user.email);
+                    if (this.state.teamName) {
+                        verifyUrl += '&teamname=' + encodeURIComponent(this.state.teamName);
+                    }
+                    browserHistory.push(verifyUrl);
                 } else {
                     this.setState({
                         serverError: error.message,
