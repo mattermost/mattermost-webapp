@@ -582,7 +582,7 @@ class PostList extends React.PureComponent {
                                             onScroll={this.onScroll}
                                             initScrollToIndex={this.initScrollToIndex}
                                             canLoadMorePosts={this.props.actions.canLoadMorePosts}
-                                            skipResizeClass='col__reply'
+                                            skipResizeClass='post-menu'
                                             innerRef={this.postListRef}
                                             style={{...virtListStyles, ...dynamicListStyle}}
                                             innerListStyle={postListStyle}

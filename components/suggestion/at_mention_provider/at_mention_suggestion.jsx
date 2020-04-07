@@ -115,7 +115,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 <Avatar
                     size='xs'
                     username={item && item.username}
-                    url={Utils.imageURLForUser(item)}
+                    url={Utils.imageURLForUser(item.id, item.last_picture_update)}
                 />
             );
         }
