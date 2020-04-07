@@ -190,7 +190,12 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         if (this.state.isSynced) {
             try {
                 if (groups.length === 0) {
-                    serverError = <NeedGroupsError warning={true}/>;
+                    serverError = (
+                        <NeedGroupsError
+                            warning={true}
+                            isChannel={true}
+                        />
+                    );
                 } else {
                     if (!channelID) {
                         return;
@@ -328,7 +333,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let saveNeeded = false;
         const {groups: origGroups, channelID, actions, channel} = this.props;
         if (this.state.groups.length === 0 && isSynced) {
-            serverError = <NeedGroupsError/>;
+            serverError = <NeedGroupsError isChannel={true}/>;
             saveNeeded = true;
             this.setState({serverError, saving: false, saveNeeded});
             actions.setNavigationBlocked(saveNeeded);
