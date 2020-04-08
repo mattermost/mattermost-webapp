@@ -12,17 +12,31 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import UsersToBeRemovedModal from './users_to_be_removed_modal';
 
-export const NeedGroupsError = ({warning}) => (
-    <FormError
-        iconClassName={`fa-exclamation-${warning ? 'circle' : 'triangle'}`}
-        textClassName={`has-${warning ? 'warning' : 'error'}`}
-        error={(
+export const NeedGroupsError = ({warning, isChannel = false}) => {
+    let error = (
+        <FormattedMessage
+            id='admin.team_channel_settings.need_groups'
+            defaultMessage='You must add at least one group to manage this team by sync group members.'
+        />
+    );
+
+    if (isChannel) {
+        error = (
             <FormattedMessage
-                id='admin.team_channel_settings.need_groups'
-                defaultMessage='You must add at least one group to manage this team by sync group members.'
-            />)}
-    />
-);
+                id='admin.team_channel_settings.need_groups_channel'
+                defaultMessage='You must add at least one group to manage this channel by sync group members.'
+            />
+        );
+    }
+
+    return (
+        <FormError
+            iconClassName={`fa-exclamation-${warning ? 'circle' : 'triangle'}`}
+            textClassName={`has-${warning ? 'warning' : 'error'}`}
+            error={error}
+        />
+    );
+};
 
 export const NeedDomainsError = () => (
     <FormError
@@ -36,6 +50,7 @@ export const NeedDomainsError = () => (
 
 NeedGroupsError.propTypes = {
     warning: PropTypes.bool,
+    isChannel: PropTypes.bool,
 };
 
 export class UsersWillBeRemovedError extends React.PureComponent {
