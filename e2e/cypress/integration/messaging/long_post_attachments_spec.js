@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @messaging
 
-let team;
-
 function verifyImageInPostFooter(verifyExistence = true) {
     if (verifyExistence) {
         // * Verify that the image exists in the post message footer

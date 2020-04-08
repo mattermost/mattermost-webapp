@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @team_settings
 
-let team;
-
 function openTeamSettingsDialog() {
     // validating the side bar is visible
     cy.get('#sidebarHeaderDropdownButton').should('be.visible');

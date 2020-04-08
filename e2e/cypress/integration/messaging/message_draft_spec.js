@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @messaging
 
-let testTeam;
-
 describe('Message Draft', () => {
     let testTeam;
 

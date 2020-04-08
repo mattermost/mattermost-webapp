@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @search
 
-import users from '../../fixtures/users.json';
-
 /**
  * create new DM channel
  * @param {String} text - DM channel name
@@ -37,7 +35,7 @@ describe('Search in DMs', () => {
             });
         });
     });
-    
+
     it('S14672 Search "in:[username]" returns results in DMs', () => {
         // # Login and navigate to the app
         cy.apiLogin('user-1');

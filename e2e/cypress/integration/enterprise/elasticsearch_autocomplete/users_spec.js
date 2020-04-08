@@ -11,6 +11,7 @@
 // Group: @elasticsearch_autocomplete
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 import {withTimestamp, createEmail, enableElasticSearch, disableElasticSearch} from './helpers';
 
 function createTestUsers(timestamp) {
