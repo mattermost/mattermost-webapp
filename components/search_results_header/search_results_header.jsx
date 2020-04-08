@@ -84,7 +84,7 @@ export default class SearchResultsHeader extends React.Component {
                             </FormattedMessage>
                             <FormattedMessage
                                 id='rhs_header.expandTooltip.icon'
-                                defaultMessage='Shrink Sidebar Icon'
+                                defaultMessage='Collapse Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i

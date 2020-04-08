@@ -50,7 +50,7 @@ exports[`components/SearchResultsHeader should match snapshot for expanded false
           <Component />
         </FormattedMessage>
         <FormattedMessage
-          defaultMessage="Shrink Sidebar Icon"
+          defaultMessage="Collapse Sidebar Icon"
           id="rhs_header.expandTooltip.icon"
           values={Object {}}
         >
@@ -152,7 +152,7 @@ exports[`components/SearchResultsHeader should match snapshot for expanded true 
           <Component />
         </FormattedMessage>
         <FormattedMessage
-          defaultMessage="Shrink Sidebar Icon"
+          defaultMessage="Collapse Sidebar Icon"
           id="rhs_header.expandTooltip.icon"
           values={Object {}}
         >
