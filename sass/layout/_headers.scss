@@ -123,128 +123,6 @@
         }
     }
 
-    .channel-header__icon {
-        @include border-radius(50%);
-        color: v(center-channel-color-40);
-        border: 1px solid v(center-channel-color-15);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        height: 30px;
-        line-height: 30px;
-        margin: 16px 0 0 8px;
-        min-width: 30px;
-        position: relative;
-        text-align: center;
-        width: 30px;
-        z-index: 5;
-
-        body.enable-animations & {
-            @include transition-property(color, border-color);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in-out);
-        }
-
-        .icon--stroke {
-            svg {
-                stroke: v(center-channel-color-40);
-            }
-
-            &.icon__search {
-                svg {
-                    stroke: v(center-channel-color-50);
-                }
-            }
-        }
-
-        svg {
-            fill: v(center-channel-color-40);
-
-            body.enable-animations & {
-                @include transition-property(fill);
-                @include transition-duration($transition-quick);
-                @include transition-delay(0s);
-                @include transition-timing-function(ease-in-out);
-            }
-        }
-
-        &.wide {
-            @include border-radius(37px);
-            line-height: 28px;
-            padding: 0;
-            white-space: nowrap;
-            width: auto;
-
-            > div {
-                padding: 0 8px;
-            }
-        }
-
-        &.text {
-            font-weight: 600;
-            padding: 0 14px;
-
-            button {
-                @include opacity(.4);
-            }
-
-            &:hover {
-                button {
-                    @include opacity(1);
-                }
-            }
-        }
-
-        .icon__text {
-            font-weight: 600;
-            margin-right: 4px;
-            position: relative;
-        }
-
-        a {
-            display: block;
-        }
-
-        .fa {
-            font-size: 15px;
-        }
-
-        & + div {
-            display: none;
-        }
-
-        .icon {
-            position: relative;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon__ellipsis {
-            padding-top: 5px;
-        }
-
-        .icon__members {
-            top: 2px;
-        }
-
-        .icon__pluginChannelHeader {
-            top: 3px;
-        }
-        .icon__mentions {
-            top: 1px;
-        }
-
-        .icon__flag {
-            top: 1px;
-        }
-
-        .icon__search {
-            top: 1px;
-        }
-    }
-
     .move--left & {
         .icon--hidden {
             display: none;
@@ -418,10 +296,6 @@
             }
         }
 
-        .status {
-            margin-right: 3px;
-        }
-
         .markdown__heading {
             font-size: 1em;
             margin: 0;
@@ -438,7 +312,7 @@
             overflow: visible;
 
             button {
-                color: v(center-channel-color-60);
+                color: v(center-channel-color-64);
 
                 .button__edit {
                     color: v(link-color);
@@ -490,11 +364,11 @@
     }
 
     .status {
-        width: 18px;
+        margin: -1px 4px 0 0;
+        width: auto;
 
         svg {
-            max-height: 20px;
-            width: 16px;
+            width: 12px;
         }
     }
 }

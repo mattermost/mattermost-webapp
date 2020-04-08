@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "Invia messaggi",
   "create_post.tutorialTip1": "Scrivi qui il messaggio e premere **Invio** per pubblicarlo.",
   "create_post.tutorialTip2": "Clicca il pulsante **Allegato** per caricare un'immagine o un file.",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "Scrivi un messaggio...",
   "create_team.agreement": "Procedendo con la creazione del tuo account e utilizzando {siteName}, acconsenti ai nostri [Termini di Utilizzo del Servizio]({TermsOfServiceLink}) e alla nostra [Politica sulla Privacy]({PrivacyPolicyLink}). Se non sei d'accordo, non puoi utilizzare {siteName}.",
   "create_team.display_name.charLength": "Il nome deve essere lungo {min} o più caratteri fino ad un massimo di {max}. Puoi aggiungere una descrizione più lunga in seguito.",
   "create_team.display_name.nameHelp": "Nome del gruppo in tutti i linguaggi. Il nome del gruppo compare nei menu e nei titoli.",

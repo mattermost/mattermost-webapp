@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "Отправить сообщение",
   "create_post.tutorialTip1": "Type here to write a message and press **Enter** to post it.",
   "create_post.tutorialTip2": "Click the **Attachment** button to upload an image or a file.",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "Ваше сообщение...",
   "create_team.agreement": "Приступая к созданию вашей учетной записи и использованию {siteName}, вы соглашаетесь с нашими [Условиями использования]({TermsOfServiceLink}) и [Политикой конфиденциальности]({PrivacyPolicyLink}). Если вы не согласны, вы не можете использовать {siteName}.",
   "create_team.display_name.charLength": "Имя должно быть длиннее {min} и меньше {max} символов. Вы можете добавить описание команды позже.",
   "create_team.display_name.nameHelp": "Название команды на любом языке. Название команды будет показано в меню и заголовках.",

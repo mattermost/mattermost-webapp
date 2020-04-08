@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @emoji
+
 describe('Custom emojis', () => {
     before(() => {
         cy.apiLogin('user-1');
