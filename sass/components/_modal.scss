@@ -8,6 +8,12 @@
     }
 }
 
+.modal-backdrop {
+    &.in {
+        @include opacity(.64);
+    }
+}
+
 .modal-body {
     max-height: calc(90vh - 80px);
     overflow: auto;
@@ -121,12 +127,6 @@
         .modal-code {
             .modal-image__content {
                 background: transparent;
-            }
-        }
-
-        .modal-backdrop {
-            &.in {
-                @include opacity(.7);
             }
         }
     }
@@ -294,8 +294,11 @@
     }
 
     .modal-content {
-        @include box-shadow(0 0 10px rgba($black, .5));
-        border-radius: $border-rad;
+        background: v(center-channel-bg);
+        border-color: v(center-channel-color-16);
+        border-radius: 4px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        color: v(center-channel-color);
     }
 
     .modal-chevron-icon {
@@ -514,69 +517,6 @@
             @include opacity(.8);
             float: right;
             margin-top: 5px;
-        }
-    }
-
-    .channel-switch__modal {
-        .suggestion-list {
-            position: relative;
-        }
-
-        .modal-content {
-            border-radius: 2px;
-        }
-
-        .modal-header {
-            background: transparent;
-            border: none;
-            min-height: 0;
-            padding: 0;
-
-            .close {
-                top: 12px;
-                opacity: .4;
-                color: v(center-channel-color);
-            }
-        }
-
-        .modal-body {
-            padding: 20px 0 0;
-        }
-
-        .modal__hint {
-            padding: 0 16px 16px;
-            margin: 0;
-        }
-    }
-
-    .channel-switch__suggestion-box {
-        .badge {
-            right: 16px;
-            top: 10px;
-        }
-
-        .form-control {
-            margin: 0 16px 16px;
-            width: calc(100% - 32px);
-        }
-
-        .suggestion-list__content {
-            box-shadow: none;
-            border: none;
-            overflow: auto;
-        }
-
-        .suggestion-list__divider {
-            margin: 4px 0 4px 12px;
-            width: calc(100% - 28px);
-
-            &:first-child {
-                margin-top: -4px;
-            }
-        }
-
-        .mentions__name {
-            padding: 8px 16px;
         }
     }
 
@@ -865,7 +805,7 @@
         }
 
         &.more-modal__row--selected  {
-            background: v(center-channel-color-05);
+            background: v(center-channel-color-08);
 
             .more-modal__actions--round {
                 opacity: .5;

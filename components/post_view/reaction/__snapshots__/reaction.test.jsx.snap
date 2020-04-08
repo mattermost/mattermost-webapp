@@ -44,6 +44,7 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
             }
           }
         />
+        <br />
       </Tooltip>
     }
     placement="top"
@@ -120,6 +121,7 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
             }
           }
         />
+        <br />
       </Tooltip>
     }
     placement="top"
@@ -197,6 +199,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
             }
           }
         />
+        <br />
         <FormattedMessage
           defaultMessage="(click to add)"
           id="reaction.clickToAdd"
@@ -279,6 +282,7 @@ exports[`components/post_view/Reaction should match snapshot when a current user
             }
           }
         />
+        <br />
         <FormattedMessage
           defaultMessage="(click to remove)"
           id="reaction.clickToRemove"

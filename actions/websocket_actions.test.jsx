@@ -580,7 +580,7 @@ describe('handleUserTypingEvent', () => {
         });
     });
 
-    test('should possibly load missing users', () => {
+    test('should possibly load missing users and not get again the state', () => {
         const testStore = configureStore(initialState);
 
         const userId = 'otheruser';
@@ -597,15 +597,23 @@ describe('handleUserTypingEvent', () => {
         testStore.dispatch(handleUserTypingEvent(msg));
 
         expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
+        expect(getStatusesByIds).not.toHaveBeenCalled();
     });
 
-    test('should load statuses for users that are not online', () => {
+    test('should load statuses for users that are not online but are in the store', async () => {
         const testStore = configureStore({
             ...initialState,
             entities: {
                 ...initialState.entities,
                 users: {
                     ...initialState.entities.users,
+                    profiles: {
+                        ...initialState.entities.users.profiles,
+                        otheruser: {
+                            id: 'otheruser',
+                            roles: 'system_user',
+                        }
+                    },
                     statuses: {
                         ...initialState.entities.users.statuses,
                         otheruser: General.AWAY,
@@ -625,7 +633,7 @@ describe('handleUserTypingEvent', () => {
             },
         };
 
-        testStore.dispatch(handleUserTypingEvent(msg));
+        await testStore.dispatch(handleUserTypingEvent(msg));
 
         expect(getStatusesByIds).toHaveBeenCalled();
     });
