@@ -46,34 +46,24 @@ export class CommandSuggestion extends Suggestion {
 }
 
 export default class CommandProvider extends Provider {
+    callback = () => {}; //eslint-disable-line no-empty-function
+
     handlePretextChanged(pretext, resultCallback) {
+        this.callback = resultCallback;
         if (pretext.startsWith('/')) {
             const command = pretext.toLowerCase();
-            Client4.getCommandsList(getCurrentTeamId(store.getState())).then(
+            Client4.getCommandAutocompleteSuggestionsList(command, getCurrentTeamId(store.getState())).then(
                 (data) => {
-                    let matches = [];
-                    data.forEach((cmd) => {
-                        if (!cmd.auto_complete) {
-                            return;
-                        }
-
-                        if (cmd.trigger !== 'shortcuts' || !UserAgent.isMobile()) {
-                            if (('/' + cmd.trigger).indexOf(command) === 0) {
-                                const s = '/' + cmd.trigger;
-                                let hint = '';
-                                if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
-                                    hint = cmd.auto_complete_hint;
-                                }
-                                matches.push({
-                                    suggestion: s,
-                                    hint,
-                                    description: cmd.auto_complete_desc,
-                                });
-                            }
+                    const matches = [];
+                    data.forEach((sug) => {
+                        if (!UserAgent.isMobile()) {
+                            matches.push({
+                                suggestion: '/' + sug.Suggestion,
+                                hint: sug.Hint,
+                                description: sug.Description,
+                            });
                         }
                     });
-
-                    matches = matches.sort((a, b) => a.suggestion.localeCompare(b.suggestion));
 
                     // pull out the suggested commands from the returned data
                     const terms = matches.map((suggestion) => suggestion.suggestion);
@@ -92,5 +82,9 @@ export default class CommandProvider extends Provider {
             return true;
         }
         return false;
+    }
+
+    handleCompleteWord(term) {
+        this.handlePretextChanged(term + ' ', this.callback);
     }
 }
