@@ -3,6 +3,7 @@
     "@testing-library/cypress": "5.3.0",
     "axios": "0.19.2",
     "body-parser": "1.19.0",
+    "chalk": "3.0.0",
     "clipboardy": "2.2.0",
     "cypress": "4.0.2",
     "cypress-file-upload": "3.5.3",
@@ -11,6 +12,8 @@
     "cypress-wait-until": "1.6.1",
     "express": "4.17.1",
     "lodash": "4.17.15",
+    "lodash.intersection": "4.4.0",
+    "lodash.without": "4.4.0",
     "merge-deep": "3.0.2",
     "mocha": "7.0.1",
     "mocha-junit-reporters": "1.23.6",
@@ -18,7 +21,9 @@
     "mochawesome": "4.1.0",
     "mochawesome-merge": "4.0.2",
     "mochawesome-report-generator": "4.1.0",
-    "start-server-and-test": "1.10.8"
+    "shelljs": "0.8.3",
+    "start-server-and-test": "1.10.8",
+    "yargs": "15.3.1"
   },
   "scripts": {
     "cypress:open": "cypress open",
@@ -32,6 +37,7 @@
     "cypress:run:electron:enterprise": "cypress run --browser electron --spec='cypress/integration/enterprise/**/*_spec.js'",
     "start:webhook": "node webhook_serve.js",
     "test": "start-test start:webhook 3000 test:ci",
-    "test:ci": "node run_tests.js"
+    "test:ci": "node run_tests.js",
+    "uniq-meta": "grep -r \"^// $META:\" cypress | grep -ow '@\\w*' | sort | uniq"
   }
 }

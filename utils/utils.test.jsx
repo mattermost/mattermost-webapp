@@ -734,3 +734,15 @@ describe('Utils.getSortedUsers', () => {
         );
     });
 });
+
+describe('Utils.imageURLForUser', () => {
+    test('should return url when user id and last_picture_update is given', () => {
+        const imageUrl = Utils.imageURLForUser('foobar-123', 123456);
+        expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=123456');
+    });
+
+    test('should return url when user id is given without last_picture_update', () => {
+        const imageUrl = Utils.imageURLForUser('foobar-123');
+        expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=0');
+    });
+});

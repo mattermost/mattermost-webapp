@@ -33,12 +33,18 @@ describe('components/integrations/bots/Bots', () => {
             [bot2.user_id]: bot2,
             [bot3.user_id]: bot3,
         };
+        const users = {
+            [bot1.user_id]: {id: bot1.user_id},
+            [bot2.user_id]: {id: bot2.user_id},
+            [bot3.user_id]: {id: bot3.user_id},
+        };
         const wrapperFull = shallow(
             <Bots
                 bots={bots}
                 team={team}
                 accessTokens={{}}
                 owners={{}}
+                users={users}
                 actions={actions}
             />
         );
@@ -50,6 +56,7 @@ describe('components/integrations/bots/Bots', () => {
                 key={bot1.user_id}
                 bot={bot1}
                 owner={undefined}
+                user={users[bot1.user_id]}
                 accessTokens={{}}
                 team={team}
                 actions={actions}
@@ -60,6 +67,7 @@ describe('components/integrations/bots/Bots', () => {
                 key={bot2.user_id}
                 bot={bot2}
                 owner={undefined}
+                user={users[bot2.user_id]}
                 accessTokens={{}}
                 team={team}
                 actions={actions}
@@ -70,6 +78,7 @@ describe('components/integrations/bots/Bots', () => {
                 key={bot3.user_id}
                 bot={bot3}
                 owner={undefined}
+                user={users[bot3.user_id]}
                 accessTokens={{}}
                 team={team}
                 actions={actions}
@@ -87,12 +96,20 @@ describe('components/integrations/bots/Bots', () => {
             user_id: 'owner',
         };
 
+        const user = {
+            id: bot1.user_id,
+        };
+
         const passedTokens = {
             id: 'token',
         };
 
         const owners = {
             [bot1.user_id]: owner,
+        };
+
+        const users = {
+            [bot1.user_id]: user,
         };
 
         const tokens = {
@@ -105,6 +122,7 @@ describe('components/integrations/bots/Bots', () => {
                 team={team}
                 accessTokens={tokens}
                 owners={owners}
+                users={users}
                 actions={actions}
             />
         );
@@ -116,6 +134,7 @@ describe('components/integrations/bots/Bots', () => {
                 key={bot1.user_id}
                 bot={bot1}
                 owner={owner}
+                user={user}
                 accessTokens={passedTokens}
                 team={team}
                 actions={actions}

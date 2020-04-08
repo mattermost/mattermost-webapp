@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @signin_authentication
+
 /*eslint max-nested-callbacks: ["error", 5]*/
 
 import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';

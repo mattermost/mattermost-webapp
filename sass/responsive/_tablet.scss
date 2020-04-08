@@ -133,6 +133,10 @@
 
 // Tablet and desktop
 @media screen and (min-width: 769px) {
+    .search-help-popover {
+        width: 306px;
+    }
+
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -149,8 +153,8 @@
     .channel-header {
         .search-bar__container {
             .search__form {
-                &.focused {
-                    width: 300px;
+                &--focused {
+                    width: 306px;
                 }
             }
         }
@@ -229,7 +233,7 @@
                 &.post--comment {
                     &:not(.post--compact) {
                         .post__pinned-badge {
-                            margin-left: 7px;
+                            margin-left: 0;
                         }
                     }
                 }
@@ -334,8 +338,8 @@
                         display: inline;
                     }
 
-                    .col__reply {
-                        top: -6px;
+                    .post-menu {
+                        top: -12px;
                     }
                 }
 
@@ -346,8 +350,8 @@
 
                     &.post--comment {
                         .post__header {
-                            .col__reply {
-                                top: -6px;
+                            .post-menu {
+                                top: -12px;
                             }
                         }
                     }
@@ -390,7 +394,7 @@
                     }
 
                     .post__header {
-                        .col__reply {
+                        .post-menu {
                             top: -6px;
                         }
                     }
@@ -439,12 +443,12 @@
                 .post__header {
                     float: left;
 
-                    .col__reply {
+                    .post-menu {
                         top: -21px;
                     }
 
                     .post__pinned-badge {
-                        margin-right: 5px;
+                        margin: 0 5px 0 0;
                     }
                 }
 
@@ -469,11 +473,11 @@
                     .post__permalink {
                         position: absolute;
                         left: -18px;
-                        top: 3px;
+                        top: 2px;
 
                         .sidebar--right & {
                             left: -18px;
-                            top: 4px;
+                            top: 1px;
                         }
                     }
 

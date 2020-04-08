@@ -7,6 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @enterprise @saml
+// Skip:  @headless @electron @firefox // run on Chrome (headed) only
+
 import users from '../../../fixtures/saml_users.json';
 
 //Manual Setup required: Follow the instructions mentioned in the mattermost/platform-private/config/saml-okta-setup.txt file
