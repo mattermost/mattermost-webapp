@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/SearchResultsHeader should match snapshot 1`] = `
+exports[`components/SearchResultsHeader should match snapshot for expanded false state 1`] = `
 <div
   className="sidebar--right__header"
 >
@@ -18,12 +18,12 @@ exports[`components/SearchResultsHeader should match snapshot 1`] = `
       overlay={
         <Tooltip
           bsClass="tooltip"
-          id="shrinkSidebarTooltip"
+          id="expandSidebarTooltip"
           placement="right"
         >
           <FormattedMessage
-            defaultMessage="Collapse Sidebar"
-            id="rhs_header.shrinkSidebarTooltip"
+            defaultMessage="Expand Sidebar"
+            id="rhs_header.expandSidebarTooltip"
             values={Object {}}
           />
         </Tooltip>
@@ -102,7 +102,7 @@ exports[`components/SearchResultsHeader should match snapshot 1`] = `
 </div>
 `;
 
-exports[`components/SearchResultsHeader should match snapshot 2`] = `
+exports[`components/SearchResultsHeader should match snapshot for expanded true state 1`] = `
 <div
   className="sidebar--right__header"
 >
@@ -120,12 +120,12 @@ exports[`components/SearchResultsHeader should match snapshot 2`] = `
       overlay={
         <Tooltip
           bsClass="tooltip"
-          id="expandSidebarTooltip"
+          id="shrinkSidebarTooltip"
           placement="right"
         >
           <FormattedMessage
-            defaultMessage="Expand Sidebar"
-            id="rhs_header.expandSidebarTooltip"
+            defaultMessage="Collapse Sidebar"
+            id="rhs_header.shrinkSidebarTooltip"
             values={Object {}}
           />
         </Tooltip>

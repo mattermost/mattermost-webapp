@@ -16,17 +16,16 @@ describe('components/SearchResultsHeader', () => {
         },
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot for expanded true state', () => {
         const wrapper = shallow(<SearchResultsHeader {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
-    const props = {
-        ...baseProps,
-        isExpanded: false
-    };
-
-    test('should match snapshot', () => {
+    test('should match snapshot for expanded false state', () => {
+        const props = {
+            ...baseProps,
+            isExpanded: false
+        };
         const wrapper = shallow(<SearchResultsHeader {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
