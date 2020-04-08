@@ -438,6 +438,10 @@
         top: 0;
         width: 50px;
 
+        span {
+            display: inline-block;
+        }
+
         svg {
             @include opacity(.7);
             @include single-transition(all, .1s, linear);
@@ -559,7 +563,7 @@
 .small-image__container {
     margin: 5px 2px;
     background: var(--center-channel-bg);
-    border: 1px solid var(--center-channel-color-30);
+    border: 1px solid var(--center-channel-color-32);
     @include border-radius(4px);
     display: flex;
     justify-content: center;

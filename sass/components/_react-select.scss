@@ -19,7 +19,36 @@
     }
 
     .react-select__multi-value {
-        background: v(center-channel-color-15);
+        align-items: center;
+        background: var(--center-channel-color-08);
+        padding: 2px;
+        border-radius: 16px;
+        color: var(--center-channel-color);
+        margin: 4px;
+        &:nth-last-child(2) {
+            margin: 4px 0px 4px 4px;
+        }
+    }
+
+    .react-select__multi-value__remove {
+        cursor: pointer;
+        span {
+            height: 16px;
+            width: 16px;
+            display: flex;
+        }
+        &:hover {
+            background: none;
+        }
+        svg {
+            height: 16px;
+            width: 16px;
+            fill: var(--center-channel-color-64);
+            &:hover {
+                fill: var(--center-channel-color-80);
+            }
+            opacity: .6;
+        }
     }
 
     .react-select__control {
@@ -71,7 +100,7 @@
     }
 
     .react-select__option--is-focused {
-        background: v(button-bg-20);
+        background: v(button-bg-24);
     }
 
     .react-select__option--is-selected {

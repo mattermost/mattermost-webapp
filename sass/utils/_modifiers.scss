@@ -35,6 +35,10 @@ $positions: 't'top,
     display: block;
 }
 
+.w-full {
+    width: 100%;
+}
+
 .a11y--focused {
     border-radius: 4px;
     box-shadow: 0 0 0 1px 2px $primary-color;
