@@ -133,6 +133,10 @@
 
 // Tablet and desktop
 @media screen and (min-width: 769px) {
+    .search-help-popover {
+        width: 306px;
+    }
+
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -150,7 +154,7 @@
         .search-bar__container {
             .search__form {
                 &--focused {
-                    width: 300px;
+                    width: 306px;
                 }
             }
         }
