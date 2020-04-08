@@ -68,6 +68,8 @@ type Props = {
     isCurrentChannel: boolean;
 
     isDMCategory: boolean;
+
+    isDragging: boolean;
 };
 
 type State = {
@@ -143,7 +145,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                             draggable='false'
                             ref={this.setRef(provided.innerRef)}
                             className={classNames('SidebarChannel', {
-                                collapsed: this.isCollapsed(this.props),
+                                collapsed: this.isCollapsed(this.props) || (this.props.isDragging && this.props.isCategoryCollapsed),
                                 unread: this.isUnread(),
                                 active: this.props.isCurrentChannel,
                             })}

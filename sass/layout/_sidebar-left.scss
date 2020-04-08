@@ -43,6 +43,10 @@
 
         .dropDisabled {
             cursor: no-drop !important;
+
+            .SidebarChannelGroupHeader_groupButton {
+                color: var(--sidebar-text-08) !important;
+            }
         }
     }
 
