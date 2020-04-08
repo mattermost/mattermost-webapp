@@ -296,10 +296,6 @@
             }
         }
 
-        .status {
-            margin-right: 3px;
-        }
-
         .markdown__heading {
             font-size: 1em;
             margin: 0;
@@ -368,11 +364,11 @@
     }
 
     .status {
-        width: 18px;
+        margin: -1px 4px 0 0;
+        width: auto;
 
         svg {
-            max-height: 20px;
-            width: 16px;
+            width: 12px;
         }
     }
 }

@@ -24,20 +24,12 @@
 
     .sidebar-item {
         .icon {
-            display: inline-block;
+            display: inline-flex;
             margin: 0 7px 0 1px;
             position: relative;
             text-align: left;
             vertical-align: top;
             width: 15px;
-        }
-
-        .icon__lock {
-            top: 1px;
-        }
-
-        .icon__globe {
-            top: 1px;
         }
 
         .icon__archive {
