@@ -100,16 +100,17 @@ export default class UsersEmailsInput extends React.Component {
         }
 
         const parts = getLongDisplayNameParts(user);
-        let fullName = null;
+        const results = [];
+        if (parts.displayName) {
+            results.push(parts.displayName);
+        }
         if (parts.fullName) {
-            fullName = parts.fullName;
+            results.push(parts.fullName);
         }
-        let nickname = null;
         if (parts.nickname) {
-            nickname = parts.nickname;
+            results.push(parts.nickname);
         }
-
-        return `${parts.displayName || ''} ${fullName || ''} ${nickname || ''}`;
+        return results.join(' ');
     }
 
     formatOptionLabel = (user, options) => {
