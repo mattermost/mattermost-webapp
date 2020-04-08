@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @toast
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import TIMEOUTS from '../../fixtures/timeouts';
 
 const otherUser = users['user-2'];
 let testTeam;

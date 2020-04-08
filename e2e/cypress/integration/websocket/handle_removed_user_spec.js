@@ -27,7 +27,7 @@ describe('Handle removed user - old sidebar', () => {
         cy.get('#headerTeamName').should('be.visible').should('be.visible').should('contain', teamName);
 
         // # Click on Off Topic
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible').click();
+        cy.get('.sidebar-item:contains(Off-Topic)').should('be.visible').click();
 
         // * Verify that the channel changed
         cy.url().should('include', `/${teamName}/channels/off-topic`);
@@ -45,7 +45,7 @@ describe('Handle removed user - old sidebar', () => {
             // * Verify that the channel changed back to Town Square and that Off-Topic has been removed
             cy.url().should('include', `/${teamName}/channels/town-square`);
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-            cy.get('.SidebarChannel:contains(Off-Topic)').should('not.exist');
+            cy.get('.sidebar-item:contains(Off-Topic)').should('not.exist');
         });
     });
 });
