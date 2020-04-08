@@ -35,10 +35,12 @@ export default class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Member Icon'
                 >
                     {(title) => (
-                        <i
-                            className='mention__image fa fa-users fa-2x'
-                            title={title}
-                        />
+                        <span className='suggestion-list__icon suggestion-list__icon--large'>
+                            <i
+                                className='icon icon-account-multiple-outline'
+                                title={title}
+                            />
+                        </span>
                     )}
                 </FormattedMessage>
             );
@@ -56,10 +58,12 @@ export default class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Member Icon'
                 >
                     {(title) => (
-                        <i
-                            className='mention__image fa fa-users fa-2x'
-                            title={title}
-                        />
+                        <span className='suggestion-list__icon suggestion-list__icon--large'>
+                            <i
+                                className='icon icon-account-multiple-outline'
+                                title={title}
+                            />
+                        </span>
                     )}
                 </FormattedMessage>
             );
@@ -77,10 +81,12 @@ export default class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Member Icon'
                 >
                     {(title) => (
-                        <i
-                            className='mention__image fa fa-users fa-2x'
-                            title={title}
-                        />
+                        <span className='suggestion-list__icon suggestion-list__icon--large'>
+                            <i
+                                className='icon icon-account-multiple-outline'
+                                title={title}
+                            />
+                        </span>
                     )}
                 </FormattedMessage>
             );
@@ -104,16 +110,16 @@ export default class AtMentionSuggestion extends Suggestion {
             itemname = item.username;
 
             if ((item.first_name || item.last_name) && item.nickname) {
-                description = `- ${Utils.getFullName(item)} (${item.nickname})`;
+                description = `${Utils.getFullName(item)} (${item.nickname})`;
             } else if (item.nickname) {
-                description = `- (${item.nickname})`;
+                description = `(${item.nickname})`;
             } else if (item.first_name || item.last_name) {
-                description = `- ${Utils.getFullName(item)}`;
+                description = `${Utils.getFullName(item)}`;
             }
 
             icon = (
                 <Avatar
-                    size='xs'
+                    size='sm'
                     username={item && item.username}
                     url={Utils.imageURLForUser(item.id, item.last_picture_update)}
                 />
@@ -123,7 +129,7 @@ export default class AtMentionSuggestion extends Suggestion {
         let youElement = null;
         if (item.isCurrentUser) {
             youElement =
-            (<span className='mention__you'>
+            (<span className='ml-1'>
                 <FormattedMessage
                     id='suggestion.user.isCurrent'
                     defaultMessage='(you)'
@@ -145,22 +151,23 @@ export default class AtMentionSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span className='mention--align'>
-                    {'@' + itemname}
+                <span>
+                    <span className='mention--align'>
+                        {'@' + itemname}
+                    </span>
+                    <BotBadge
+                        show={Boolean(item.is_bot)}
+                        className='badge-autocomplete'
+                    />
+                    <span className='light ml-2'>
+                        {description}
+                        {youElement}
+                    </span>
+                    <GuestBadge
+                        show={Utils.isGuest(item)}
+                        className='badge-autocomplete'
+                    />
                 </span>
-                <BotBadge
-                    show={Boolean(item.is_bot)}
-                    className='badge-autocomplete'
-                />
-                <span className='mention__fullname'>
-                    {' '}
-                    {description}
-                </span>
-                {youElement}
-                <GuestBadge
-                    show={Utils.isGuest(item)}
-                    className='badge-autocomplete'
-                />
             </div>
         );
     }

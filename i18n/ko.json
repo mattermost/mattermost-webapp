@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "메시지 보내기",
   "create_post.tutorialTip1": "Type here to write a message and press **Enter** to post it.",
   "create_post.tutorialTip2": "Click the **Attachment** button to upload an image or a file.",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "메시지를 입력하세요...",
   "create_team.agreement": "계정을 만들고 {siteName}을 (를) 사용하면 [서비스 약관]({TermsOfServiceLink}) 및 [개인정보 약관]({PrivacyPolicyLink})에 동의하게됩니다. 동의하지 않으면 {siteName}을 (를) 사용할 수 없습니다.",
   "create_team.display_name.charLength": "Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description later.",
   "create_team.display_name.nameHelp": "팀 이름을 자유롭게 입력하세요. 설정한 팀 이름은 메뉴와 상단의 헤더에 표시됩니다.",
