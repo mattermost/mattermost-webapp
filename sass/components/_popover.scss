@@ -13,25 +13,28 @@
     white-space: nowrap;
 }
 
+.app__body {
+    .popover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        border-color: v(center-channel-color-16);
+    }
+}
 
 .popover {
     @include border-radius($border-rad * 2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     color: lighten($black, 25%);
     font-family: inherit;
     padding: 0;
 
     .app__body & {
-        border: 1px solid v(center-channel-color-08);
+        border: 1px solid v(center-channel-color-16);
     }
 
     &.channel-header__popover {
         z-index: 999;
         margin-left: -4px;
-        font-size: em(12px);
-
-        &.chanel-header__popover--dm {
-            margin-left: 73px;
-        }
+        font-size: 12px;
 
         &.chanel-header__popover--lhs_offset {
             margin-left: 61px;
@@ -43,11 +46,6 @@
 
         &.chanel-header__popover--new_sidebar {
             margin-left: 16px;
-
-
-            &.chanel-header__popover--dm {
-                margin-left: 91px;
-            }
         }
 
         .popover-content {
@@ -56,7 +54,7 @@
             p {
                 white-space: normal;
                 word-break: normal;
-    
+
                 &:last-child {
                     margin-bottom: 0;
                 }
@@ -202,7 +200,7 @@
 
             &:before {
                 position: absolute;
-                background: v(center-channel-color-05) !important;
+                background: v(center-channel-color-04) !important;
                 content: '';
                 width: 100%;
                 height: 100%;
@@ -219,7 +217,7 @@
         .popover-content {
             border-radius: 0 0 3px 3px;
             border-top: none;
-            @include box-shadow(v(center-channel-color-10) 0px 17px 50px 0px, v(center-channel-color-10) 0px 12px 15px 0px);
+            @include box-shadow(v(center-channel-color-08) 0px 17px 50px 0px, v(center-channel-color-08) 0px 12px 15px 0px);
             background: v(center-channel-bg);
         }
     }
@@ -243,53 +241,83 @@
     text-overflow: ellipsis;
 }
 
+.hidden-label + .search-autocomplete__divider {
+    &:before {
+        display: none;
+    }
+}
+
+.search-autocomplete__icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-autocomplete__divider {
+    font-size: 12px;
+    color: v(center-channel-color-60);
+    height: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 1.2rem 0 0;
+    padding: 0 0 0 2.4rem;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: 600;
+
+    &:first-child {
+        &:before {
+            display: none;
+        }
+    }
+
+    &:before {
+        content: '';
+        height: 1px;
+        background: v(center-channel-color-08);
+        position: absolute;
+        top: -7px;
+        left: 0;
+        width: 100%;
+    }
+}
+
+.search-autocomplete__name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .search-help-popover {
-    font-size: em(13px);
     max-width: 350px;
-    top: 36px;
+    top: 25px;
     @include opacity(0);
     visibility: hidden;
-    width: 298px;
+    width: 296px;
     left: auto;
-    right: 0;
+    right: -2px;
 
     &.autocomplete {
         display: block;
 
         .popover-content {
             max-height: 60vh;
-            padding: 10px;
+            padding: 0 0 12px;
             position: relative;
             -webkit-overflow-scrolling: touch;
-        }
-    }
 
-    .search-autocomplete__divider {
-        line-height: 21px;
-        margin: 10px 0 5px;
-        position: relative;
+            &::-webkit-scrollbar-track {
+                width: 0;
+                background: transparent;
+            }
 
-        &:first-child {
-            margin-top: 5px;
-        }
-
-        > span {
-            background: $white;
-            display: inline-block;
-            padding-right: 10px;
-            position: relative;
-            z-index: 5;
-        }
-
-        &:before {
-            @include opacity(.2);
-            background: $dark-gray;
-            content: '';
-            height: 1px;
-            left: 0;
-            position: absolute;
-            top: 10px;
-            width: 100%;
+            &::-webkit-scrollbar-thumb {
+                border: 1px solid v(center-channel-bg);
+                background-color: v(center-channel-color-24) !important;
+                border-radius: 4px;
+            }
         }
     }
 
@@ -298,25 +326,30 @@
         cursor: pointer;
         display: flex;
         align-items: center;
-        margin: 3px 0 0 5px;
         overflow: hidden;
-        padding: 6px 8px;
         text-overflow: ellipsis;
         white-space: nowrap;
+        height: 4rem;
+        padding: 0 2.4rem;
 
         &.selected {
-            background: alpha-color($black, .2);
+            background: v(center-channel-color-08);
             box-shadow: none;
         }
 
-        .mention--align {
-            display: inline-flex;
-            overflow: hidden;
+        .status--group {
+            background-color: v(center-channel-color-20);
+            margin: 0;
+            width: 1.8rem;
+            height: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .search-autocomplete__name {
-            text-overflow: ellipsis;
+        .mention--align {
             overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .fa {
@@ -324,11 +357,6 @@
             margin-right: 5px;
             top: 1px;
             position: relative;
-        }
-
-        .Avatar {
-            margin-right: 6px;
-            margin-top: -1px;
         }
     }
 
@@ -456,11 +484,11 @@
                     height: 2em;
 
                     &:hover {
-                        background-color: v(button-bg-20);
+                        background-color: v(button-bg-24);
                     }
 
                     &:active {
-                        background-color: v(button-bg-30);
+                        background-color: v(button-bg-32);
                     }
 
                     &.a11y--focused {

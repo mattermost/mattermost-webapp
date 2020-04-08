@@ -80,7 +80,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
           />
         </div>
         <div
-          className="col col__reply"
+          className="col post-menu"
         >
           <Connect(DotMenu)
             commentCount={0}
@@ -88,6 +88,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}
             isFlagged={false}
+            isMenuOpen={false}
             isReadOnly={false}
             location="RHS_ROOT"
             post={
@@ -540,7 +541,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
           />
         </div>
         <div
-          className="col col__reply"
+          className="col post-menu"
         >
           <Connect(DotMenu)
             commentCount={0}
@@ -548,6 +549,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}
             isFlagged={true}
+            isMenuOpen={false}
             isReadOnly={false}
             location="RHS_ROOT"
             post={

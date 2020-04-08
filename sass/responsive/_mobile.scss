@@ -28,6 +28,7 @@
 
 
     .backstage-list__item {
+
         .item-actions,
         .actions {
             margin: 10px 0;
@@ -103,34 +104,29 @@
         height: auto !important;
         flex-grow: 1;
 
-        .emoji-picker-items__container {
+        .emoji-picker__category-header {
+            font-size: 14px;
+            padding-top: 8px;
+        }
+    }
 
-            .emoji-picker__category-header {
-                font-size: 14px;
-                padding-top: 8px;
-            }
+    .emoji-picker__item {
+        margin: calc(100% / 45);
+        padding: 0;
+        padding-top: calc(100% / 15);
+        width: calc(100% / 15);
+        height: auto;
 
-            .emoji-picker__item {
-                margin: calc(100% / 45);
-                padding: 0;
-                padding-top: calc(100% / 15);
-                width: calc(100% / 15);
-                height: auto;
-
-                >div {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    width: 30px;
-                    height: 30px;
-                    transform: translate(-50%, -50%);
-
-                    >img {
-                        top: -17px;
-                        left: -17px;
-                    }
-                }
-            }
+        > div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 
@@ -189,8 +185,9 @@
                 }
 
                 .MenuItem {
-                    > button,
-                    > a {
+
+                    >button,
+                    >a {
                         height: auto;
                         padding: 3px 16px;
                         font-size: 15px;
@@ -213,11 +210,13 @@
         .dropdown-menu {
             >li {
                 >div {
-                    border-top-color: var(--center-channel-color-10) !important;
+                    border-top-color: var(--center-channel-color-08) !important;
+
                     .SubMenu__icon {
                         padding: 0 5px 0 8px !important;
                     }
                 }
+
                 >div,
                 >button {
                     @include border-radius(0);
@@ -227,6 +226,7 @@
                 }
 
                 &:first-child {
+
                     div,
                     button {
                         border: none;
@@ -567,7 +567,7 @@
 
         &.post--system {
             .post__header {
-                .col__reply {
+                .post-menu {
                     min-width: 45px;
                 }
             }
@@ -582,7 +582,7 @@
 
         .browser--ie & {
             .post__header {
-                .col__reply {
+                .post-menu {
                     .dropdown+div {
                         display: none;
                     }
@@ -590,7 +590,7 @@
             }
         }
 
-        .reacticon__container {
+        .post-menu__item--reactions {
             display: none;
         }
 
@@ -681,7 +681,7 @@
             margin-bottom: 0;
             padding-right: 70px;
 
-            .col__reply {
+            .post-menu {
                 min-width: 45px;
                 top: -6px;
                 z-index: auto;
@@ -690,7 +690,7 @@
                     width: auto;
                 }
 
-                .reacticon__container {
+                .post-menu__item--reactions {
                     display: none;
                 }
             }
@@ -753,7 +753,7 @@
         &.other--root {
             &.post--comment {
                 .post__header {
-                    .col__reply {
+                    .post-menu {
                         top: -6px;
                     }
                 }
@@ -1368,25 +1368,20 @@
             padding-left: 40px;
             width: 100%;
 
+            &:hover,
+            &--focused,
+            &--focused:hover {
+                border: none;
+            }
+
             .fa-spin {
                 font-size: 1.1em;
                 top: 9px;
             }
 
-            .search-bar {
-                font-size: 14px;
-                height: 32px;
-            }
-
             .search__icon {
                 left: 15px;
                 top: 8px;
-
-                svg {
-                    stroke: $black;
-                    stroke-opacity: .4;
-                    width: 17px;
-                }
             }
 
             .icon--refresh {
@@ -1538,7 +1533,7 @@
         border: none;
         width: 290px;
 
-        + .inner-wrap #app-content {
+        +.inner-wrap #app-content {
             margin-left: 0;
         }
 
@@ -1600,7 +1595,8 @@
                 .SidebarChannel {
                     height: 45px;
 
-                    a, button {
+                    a,
+                    button {
                         height: 45px;
                     }
 
@@ -1807,11 +1803,12 @@
             margin-left: 0;
         }
 
-        #SidebarContainer + .inner-wrap #app-content {
+        #SidebarContainer+.inner-wrap #app-content {
             margin-left: 0;
         }
 
-        .sidebar--left, #SidebarContainer {
+        .sidebar--left,
+        #SidebarContainer {
             left: 0;
 
             &.move--right {
@@ -1912,17 +1909,6 @@
         .modal {
             overflow: hidden;
             padding: 0;
-
-            .channel-switch__modal {
-                .modal-body {
-                    max-height: 100%;
-                }
-
-                .suggestion-list__content {
-                    height: calc(100vh - 110px);
-                    max-height: 100%;
-                }
-            }
 
             .modal-dialog {
                 height: 100%;
@@ -2109,14 +2095,10 @@
         left: 50px !important;
     }
 
-    .emoji-picker__items {
-        .emoji-picker-items__container {
-            .emoji-picker__item {
-                margin: 0;
-                padding-top: calc(100% / #{$emoji-per-row});
-                width: calc(100% / #{$emoji-per-row});
-            }
-        }
+    .emoji-picker__item {
+        margin: 0;
+        padding-top: calc(100% / #{$emoji-per-row});
+        width: calc(100% / #{$emoji-per-row});
     }
 
     .post {
@@ -2138,15 +2120,6 @@
             a {
                 font-size: .9em;
                 padding: 6px 11px;
-            }
-        }
-    }
-
-    .emoji-picker {
-        &.emoji-picker--single {
-            .emoji-picker__inner {
-                margin-top: 59px;
-                height: calc(100vh - 60px);
             }
         }
     }
@@ -2222,7 +2195,8 @@
         }
     }
 
-    .sidebar--left, #SidebarContainer {
+    .sidebar--left,
+    #SidebarContainer {
         @include translate3d(-260px, 0, 0);
         width: 260px;
 
@@ -2339,7 +2313,9 @@
     }
 
     .multi-teams {
-        .sidebar--left, #SidebarContainer {
+
+        .sidebar--left,
+        #SidebarContainer {
             width: 220px;
 
             .nav-pills__unread-indicator {
@@ -2444,6 +2420,7 @@ label {
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
+
     select,
     textarea,
     input {

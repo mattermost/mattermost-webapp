@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "发送消息中",
   "create_post.tutorialTip1": "在这里输入消息后按**回车**发表。",
   "create_post.tutorialTip2": "点击**附件按钮**上传图片或文件。",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "写一个消息...",
   "create_team.agreement": "如果继续创建您的帐户和使用{siteName}，您需要同意[服务条款]({TermsOfServiceLink})以及[隐私政策]({PrivacyPolicyLink})。如果不同意，您将不能使用{siteName}。",
   "create_team.display_name.charLength": "名称必须在 {min} 于 {max} 个字符之间。您可以之后添加更长的团队描述。",
   "create_team.display_name.nameHelp": "您可以使用任何语言命名您的团队。您的团队名称将显示在菜单和标题栏上。",
