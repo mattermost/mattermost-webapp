@@ -38,10 +38,11 @@ function verifyNavSupport(element, label, tabOrder) {
 }
 
 describe('Verify Quick Navigation support across different regions in the app', () => {
-    before(() => {
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // Visit the Town Square channel
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Post few messages
