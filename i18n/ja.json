@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "メッセージ送信中",
   "create_post.tutorialTip1": "メッセージを入力し、それを投稿するために**Enter**を押してください。",
   "create_post.tutorialTip2": "画像またはファイルをアップロードするには **添付** ボタンをクリックしてください。",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "メッセージを書き込んでください...",
   "create_team.agreement": "アカウントを作成し{siteName}を利用する前に[利用規約]({TermsOfServiceLink})と[プライバシーポリシー]({PrivacyPolicyLink})に同意してください。同意できない場合は{siteName}は使用できません。",
   "create_team.display_name.charLength": "名前は{min}文字以上の{max}文字以下にしてください。後でより長いチームの説明を追加することができます。",
   "create_team.display_name.nameHelp": "チーム名はどんな言語でも使うことができます。チーム名はメニューと画面上部に表示されます。",

@@ -104,8 +104,11 @@ export default class ConfirmModal extends React.Component<Props, State> {
         document.removeEventListener('keydown', this.handleKeypress);
     }
 
-    shouldComponentUpdate(nextProps: Props) {
-        return nextProps.show !== this.props.show;
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        return (
+            nextProps.show !== this.props.show ||
+            nextState.checked !== this.state.checked
+        );
     }
 
     componentDidUpdate(prevProps: Props) {

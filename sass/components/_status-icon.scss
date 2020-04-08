@@ -145,7 +145,6 @@
         font-size: 10px;
         font-weight: 600;
         height: 15px;
-        left: 1px;
         line-height: 14px;
         margin: 0 9px 0 -1px;
         text-align: center;
@@ -153,12 +152,12 @@
         top: 0;
 
         .mentions__name & {
+            background-color: v(center-channel-color-30);
             flex: 0 0 17px;
             height: 18px;
             left: 0;
             line-height: 18px;
             margin-left: 0;
-            margin-right: 6px;
             text-align: center;
             width: 17px;
         }

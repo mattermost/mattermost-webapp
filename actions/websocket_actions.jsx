@@ -734,7 +734,7 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export function handleUserRemovedEvent(msg) {
+export async function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
@@ -746,6 +746,11 @@ export function handleUserRemovedEvent(msg) {
         if (msg.data.channel_id === rhsChannelId) {
             dispatch(closeRightHandSide());
         }
+
+        await dispatch({
+            type: ChannelTypes.LEAVE_CHANNEL,
+            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+        });
 
         if (msg.data.channel_id === currentChannel.id) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
@@ -768,10 +773,6 @@ export function handleUserRemovedEvent(msg) {
             }
         }
 
-        dispatch({
-            type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-        });
         if (isGuest(currentUser)) {
             dispatch(removeNotVisibleUsers());
         }
@@ -943,7 +944,7 @@ function addedNewDmUser(preference) {
 }
 
 export function handleUserTypingEvent(msg) {
-    return (doDispatch, doGetState) => {
+    return async (doDispatch, doGetState) => {
         const state = doGetState();
         const config = getConfig(state);
         const currentUserId = getCurrentUserId(state);
@@ -968,7 +969,11 @@ export function handleUserTypingEvent(msg) {
         }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
         if (userId !== currentUserId) {
-            doDispatch(getMissingProfilesByIds([userId]));
+            const result = await doDispatch(getMissingProfilesByIds([userId]));
+            if (result.data && result.data.length > 0) {
+                // Already loaded the user status
+                return;
+            }
         }
 
         const status = getStatusForUserId(state, userId);

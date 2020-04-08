@@ -6,6 +6,10 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @account_setting
+
 import {getRandomInt} from '../../../utils';
 
 describe('Account Settings > Sidebar > General', () => {

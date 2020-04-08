@@ -832,19 +832,20 @@ Cypress.Commands.add('requireLicense', () => {
 
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     // # Get current settings
-    cy.request('/api/v4/config').then((response) => {
+    return cy.request('/api/v4/config').then((response) => {
         const oldSettings = response.body;
 
         const settings = merge(oldSettings, partialDefaultConfig, newSettings);
 
         // # Set the modified settings
-        cy.request({
+        return cy.request({
             url: '/api/v4/config',
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             method: 'PUT',
             body: settings,
         }).then((updateResponse) => {
             expect(updateResponse.status).to.equal(200);
+            cy.wrap(response);
         });
     });
 });
@@ -1235,4 +1236,14 @@ Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
+});
+
+/**
+ * Activate/Deactivate a User directly via API
+ * @param {String} userId - The user ID
+ * @param {Boolean} active - Whether to activate or deactivate - true/false
+ */
+Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });

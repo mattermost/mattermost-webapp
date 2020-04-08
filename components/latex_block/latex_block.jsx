@@ -37,7 +37,13 @@ export default class LatexBlock extends React.Component {
         }
 
         try {
-            const html = this.state.katex.renderToString(this.props.content, {throwOnError: false, displayMode: true});
+            const katexOptions = {
+                throwOnError: false,
+                displayMode: true,
+                maxSize: 200,
+                maxExpand: 100
+            };
+            const html = this.state.katex.renderToString(this.props.content, katexOptions);
 
             return (
                 <div

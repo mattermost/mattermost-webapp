@@ -28,7 +28,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
         let guestBadge;
         if (invitation.user) {
             className = 'name';
-            const profileImg = imageURLForUser(invitation.user);
+            const profileImg = imageURLForUser(invitation.user.id, invitation.user.last_picture_update);
             icon = (
                 <Avatar
                     username={invitation.user.username}
