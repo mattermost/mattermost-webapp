@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "發送訊息",
   "create_post.tutorialTip1": "在這邊輸入訊息並按下 **Enter** 來發文。",
   "create_post.tutorialTip2": "按下**附件**按鈕來上傳圖片或是檔案。",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "輸入訊息...",
   "create_team.agreement": "一旦建立帳號使用{siteName}，即表示您同意[服務條款]({TermsOfServiceLink})以及[隱私政策]({PrivacyPolicyLink})。如果您不同意，請停止使用{siteName}。",
   "create_team.display_name.charLength": "名字必須至少有{min}個字、最多{max}。等等有增加較長團隊敘述的方法。",
   "create_team.display_name.nameHelp": "團隊可以用任何語言取名。團隊名稱將會顯示在選單跟畫面上方。",

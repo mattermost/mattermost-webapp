@@ -2,23 +2,69 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
+import {imageURLForUser} from 'utils/utils.jsx';
 import Constants from 'utils/constants';
-import SelectIcon from 'components/widgets/icons/fa_select_icon';
+import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
 import Suggestion from '../suggestion.jsx';
 
 function itemToName(item) {
+    let itemMarkup = (item);
+
     if (item.type === Constants.DM_CHANNEL) {
-        return '@' + item.display_name;
+        const profilePicture = (
+            <Avatar
+                username={item.username}
+                url={imageURLForUser(item.name.substr(0, item.name.indexOf('_')), item.last_picture_update)}
+                size='sm'
+            />
+        );
+
+        itemMarkup = (
+            <React.Fragment>
+                {profilePicture}
+                <span className='ml-3'>{'@'}{item.display_name}</span>
+            </React.Fragment>
+        );
     }
+
     if (item.type === Constants.GM_CHANNEL) {
-        return '@' + item.display_name.replace(/ /g, '');
+        itemMarkup = (
+            <React.Fragment>
+                <div className='search-autocomplete__icon'>
+                    <div className='status status--group'>{'G'}</div>
+                </div>
+                <span className='ml-3'>{'@'}{item.display_name.replace(/ /g, '')}</span>
+            </React.Fragment>
+        );
     }
-    if (item.type === Constants.OPEN_CHANNEL || item.type === Constants.PRIVATE_CHANNEL) {
-        return item.display_name + ' (~' + item.name + ')';
+
+    if (item.type === Constants.OPEN_CHANNEL) {
+        itemMarkup = (
+            <React.Fragment>
+                <div className='search-autocomplete__icon'>
+                    <i className='icon light icon--standard icon--no-spacing icon-globe'/>
+                </div>
+                <span className='ml-3'>{item.display_name}</span>
+                <span className='ml-2 light'>{'~'}{item.name}</span>
+            </React.Fragment>
+        );
     }
-    return item.name;
+
+    if (item.type === Constants.PRIVATE_CHANNEL) {
+        itemMarkup = (
+            <React.Fragment>
+                <div className='search-autocomplete__icon'>
+                    <i className='icon light icon--standard icon--no-spacing icon-lock-outline'/>
+                </div>
+                <span className='ml-3'>{item.display_name}</span>
+                <span className='ml-2 light'>{'~'}{item.name}</span>
+            </React.Fragment>
+        );
+    }
+
+    return itemMarkup;
 }
 
 export default class SearchChannelSuggestion extends Suggestion {
@@ -51,7 +97,6 @@ export default class SearchChannelSuggestion extends Suggestion {
                 }}
                 {...Suggestion.baseProps}
             >
-                <SelectIcon/>
                 <span
                     data-testid='listItem'
                     className='search-autocomplete__name'

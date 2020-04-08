@@ -98,7 +98,7 @@ export default function HeaderIconWrapper({
                     <button
                         id={buttonId}
                         aria-label={ariaLabelText}
-                        className={buttonClass || 'channel-header__icon style--none'}
+                        className={buttonClass || 'channel-header__icon'}
                         onClick={onClick}
                     >
                         {iconComponent}
@@ -112,7 +112,7 @@ export default function HeaderIconWrapper({
         <div className='flex-child'>
             <button
                 id={buttonId}
-                className={buttonClass || 'channel-header__icon style--none'}
+                className={buttonClass || 'channel-header__icon'}
                 onClick={onClick}
             >
                 {iconComponent}

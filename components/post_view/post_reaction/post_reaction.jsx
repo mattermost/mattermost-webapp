@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -66,7 +67,7 @@ export default class PostReaction extends React.PureComponent {
                 teamId={teamId}
                 permissions={[Permissions.ADD_REACTION]}
             >
-                <div>
+                <React.Fragment>
                     <EmojiPickerOverlay
                         show={showEmojiPicker}
                         target={this.props.getDotMenuRef}
@@ -98,13 +99,15 @@ export default class PostReaction extends React.PureComponent {
                             data-testid='post-reaction-emoji-icon'
                             id={`${location}_reaction_${postId}`}
                             aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
-                            className='reacticon__container color--link style--none'
+                            className={classNames('post-menu__item', 'post-menu__item--reactions', {
+                                'post-menu__item--active': showEmojiPicker,
+                            })}
                             onClick={this.props.toggleEmojiPicker}
                         >
-                            <EmojiIcon className='icon icon--emoji'/>
+                            <EmojiIcon className='icon icon--small'/>
                         </button>
                     </OverlayTrigger>
-                </div>
+                </React.Fragment>
             </ChannelPermissionGate>
         );
     }
