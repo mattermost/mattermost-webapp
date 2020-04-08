@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {favoriteChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import {ChannelCategoryTypes} from 'mattermost-redux/action_types';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {makeGetChannelsForCategory, makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -47,6 +49,8 @@ export function setCategoryOrder(teamId: string, categoryId: string, channelId: 
 
         if (channelIds.includes(channelId)) {
             channelIds.splice(channelIds.indexOf(channelId), 1);
+        } else if (category.type === CategoryTypes.FAVORITES) {
+            dispatch(favoriteChannel(channelId));
         }
 
         channelIds.splice(newIndex, 0, channelId);
@@ -91,6 +95,10 @@ export function removeFromCategory(teamId: string, categoryId: string, channelId
 
         if (channelIds.includes(channelId)) {
             channelIds.splice(channelIds.indexOf(channelId), 1);
+        }
+
+        if (category.type === CategoryTypes.FAVORITES) {
+            dispatch(unfavoriteChannel(channelId));
         }
 
         // TODO: Will need to call an actual redux action so that this also goes to the server
