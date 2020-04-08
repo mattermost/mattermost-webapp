@@ -6,6 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -158,8 +159,15 @@ export default class QuickSwitchModal extends React.PureComponent {
 
     render() {
         let providers = this.channelProviders;
-        let header;
         let renderDividers = true;
+        let header = (
+            <h1>
+                <FormattedMessage
+                    id='quick_switch_modal.switchChannels'
+                    defaultMessage='Switch Channels'
+                />
+            </h1>
+        );
 
         let channelShortcut = t('quick_switch_modal.channelsShortcut.windows');
         let defaultChannelShortcut = 'CTRL+K';
@@ -231,30 +239,30 @@ export default class QuickSwitchModal extends React.PureComponent {
         let help;
         if (Utils.isMobile()) {
             help = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='quick_switch_modal.help_mobile'
                     defaultMessage='Type to find a channel.'
                 />
             );
         } else if (this.props.showTeamSwitcher) {
             help = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='quick_switch_modal.help'
-                    defaultMessage='Start typing then use TAB to toggle channels/teams, ↑↓ to browse, ↵ to select, and ESC to dismiss.'
+                    defaultMessage='Start typing then use TAB to toggle channels/teams, **UP/DOWN** to browse, **ENTER** to select, and **ESC** to dismiss.'
                 />
             );
         } else {
             help = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='quick_switch_modal.help_no_team'
-                    defaultMessage='Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.'
+                    defaultMessage='Type to find a channel. Use **▲/▼** to browse, **ENTER** to select, **ESC** to dismiss.'
                 />
             );
         }
 
         return (
             <Modal
-                dialogClassName='a11y__modal channel-switch__modal'
+                dialogClassName='a11y__modal channel-switcher'
                 ref='modal'
                 show={true}
                 onHide={this.onHide}
@@ -269,14 +277,17 @@ export default class QuickSwitchModal extends React.PureComponent {
                     closeButton={true}
                 />
                 <Modal.Body>
-                    {header}
-                    <div
-                        id='quickSwitchHint'
-                        className='modal__hint'
-                    >
-                        {help}
+                    <div className='channel-switcher__header'>
+                        {header}
+                        <div
+                            className='channel-switcher__hint'
+                            id='quickSwitchHint'
+                        >
+                            {help}
+                        </div>
                     </div>
-                    <div className='channel-switch__suggestion-box'>
+                    <div className='channel-switcher__suggestion-box'>
+                        <i className='icon icon-magnify'/>
                         <SuggestionBox
                             id='quickSwitchInput'
                             ref={this.setSwitchBoxRef}

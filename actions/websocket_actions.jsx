@@ -944,7 +944,7 @@ function addedNewDmUser(preference) {
 }
 
 export function handleUserTypingEvent(msg) {
-    return (doDispatch, doGetState) => {
+    return async (doDispatch, doGetState) => {
         const state = doGetState();
         const config = getConfig(state);
         const currentUserId = getCurrentUserId(state);
@@ -969,7 +969,11 @@ export function handleUserTypingEvent(msg) {
         }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
         if (userId !== currentUserId) {
-            doDispatch(getMissingProfilesByIds([userId]));
+            const result = await doDispatch(getMissingProfilesByIds([userId]));
+            if (result.data && result.data.length > 0) {
+                // Already loaded the user status
+                return;
+            }
         }
 
         const status = getStatusForUserId(state, userId);

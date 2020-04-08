@@ -65,25 +65,28 @@ describe('components/ChangeURLModal', () => {
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>
         );
-        const refURLInput = wrapper.find('input[type="text"]').instance();
-        refURLInput.value = 'urlexample';
+        const value = 'urlexample';
+        const refURLInput = wrapper.find('input[type="text"]').getDOMNode() as HTMLInputElement;
+        refURLInput.value = value;
 
-        wrapper.instance().onSubmit({preventDefault: jest.fn()});
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onSubmit({preventDefault: () => {}} as React.MouseEvent<HTMLButtonElement>);
 
         expect(wrapper.state('urlErrors')).toEqual('');
     });
 
     test('should match state when onSubmit is called with a invalid URL', () => {
-        const value = 'a';
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>
         );
-        const refURLInput = wrapper.find('input[type="text"]').instance();
+        const value = 'a';
+        const refURLInput = wrapper.find('input[type="text"]').getDOMNode() as HTMLInputElement;
         refURLInput.value = value;
 
-        wrapper.instance().onSubmit({preventDefault: jest.fn()});
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onSubmit({preventDefault: () => {}} as React.MouseEvent<HTMLButtonElement>);
 
-        expect(wrapper.state('urlErrors').length).toEqual(1);
+        expect((wrapper.state('urlErrors') as JSX.Element[]).length).toEqual(1);
     });
 
     test('should match state when onURLChanged is called', () => {
@@ -92,7 +95,10 @@ describe('components/ChangeURLModal', () => {
         );
         const value = 'URLEXAMPLE';
         const target = {value};
-        wrapper.instance().onURLChanged({target});
+        const event = {target} as React.ChangeEvent<HTMLInputElement>;
+
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onURLChanged(event);
 
         expect(wrapper.state('userEdit')).toEqual(true);
         expect(wrapper.state('currentURL')).toEqual('urlexample');
@@ -102,7 +108,9 @@ describe('components/ChangeURLModal', () => {
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>
         );
-        wrapper.instance().onCancel();
+
+        const instance = wrapper.instance() as ChangeURLModal;
+        instance.onCancel();
 
         expect(wrapper.state('urlErrors')).toEqual('');
         expect(wrapper.state('userEdit')).toEqual(false);

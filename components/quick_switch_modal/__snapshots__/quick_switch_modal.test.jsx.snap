@@ -7,7 +7,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal channel-switch__modal"
+  dialogClassName="a11y__modal channel-switcher"
   dialogComponentClass={[Function]}
   enforceFocus={false}
   keyboard={true}
@@ -40,18 +40,31 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
     componentClass="div"
   >
     <div
-      className="modal__hint"
-      id="quickSwitchHint"
+      className="channel-switcher__header"
     >
-      <FormattedMessage
-        defaultMessage="Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss."
-        id="quick_switch_modal.help_no_team"
-        values={Object {}}
-      />
+      <h1>
+        <FormattedMessage
+          defaultMessage="Switch Channels"
+          id="quick_switch_modal.switchChannels"
+          values={Object {}}
+        />
+      </h1>
+      <div
+        className="channel-switcher__hint"
+        id="quickSwitchHint"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Type to find a channel. Use **▲/▼** to browse, **ENTER** to select, **ESC** to dismiss."
+          id="quick_switch_modal.help_no_team"
+        />
+      </div>
     </div>
     <div
-      className="channel-switch__suggestion-box"
+      className="channel-switcher__suggestion-box"
     >
+      <i
+        className="icon icon-magnify"
+      />
       <SuggestionBox
         className="form-control focused"
         completeOnTab={false}

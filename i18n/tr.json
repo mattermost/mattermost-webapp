@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "İletiler Gönderiliyor",
   "create_post.tutorialTip1": "İletinizi buraya yazın ve göndermek için **Enter** tuşuna basın.",
   "create_post.tutorialTip2": " Bir görsel ya da dosya yüklemek için **Ek Dosya** düğmesine tıklayın.",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "Bir ileti yazın...",
   "create_team.agreement": "Hesap açarak ve {siteName} kullanarak [Hizmet Koşulları]({TermsOfServiceLink}) ve [Gizlilik İlkesi]({PrivacyPolicyLink}) metinlerini kabul etmiş olursunuz. Kabul etmiyorsanız {siteName} hizmetlerini kullanamazsınız.",
   "create_team.display_name.charLength": "Ad {min} ile {max} karakter arasında olmalıdır. Daha sonra daha uzun bir takım açıklaması ekleyebilirsiniz.",
   "create_team.display_name.nameHelp": "Her dilde görüntülenecek takım adını yazın. Takım adınız menü ve başlıklarda görüntülenir.",

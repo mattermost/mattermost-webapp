@@ -237,6 +237,7 @@ export default class Reaction extends React.PureComponent {
                     overlay={
                         <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
                             {tooltip}
+                            <br/>
                             {clickTooltip}
                         </Tooltip>
                     }

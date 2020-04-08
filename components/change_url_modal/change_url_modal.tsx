@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -11,56 +10,64 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
 
-export default class ChangeURLModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-        * Set whether to show the modal or not
-        */
-        show: PropTypes.bool.isRequired,
+    /**
+     * Set whether to show the modal or not
+     */
+    show: boolean;
 
-        /**
-        * Set to change the title of the modal
-        */
-        title: PropTypes.node,
+    /**
+     * Set to change the title of the modal
+     */
+    title?: React.ReactNode;
 
-        /**
-        * Set to change the submit button text
-        */
-        submitButtonText: PropTypes.node,
+    /**
+     * Set to change the submit button text
+     */
+    submitButtonText?: React.ReactNode;
 
-        /**
-        * Set to change the current URL
-        */
-        currentURL: PropTypes.string,
+    /**
+     * Set to change the current URL
+     */
+    currentURL?: string;
 
-        /**
-        * Set to the current team URL
-        */
-        currentTeamURL: PropTypes.string.isRequired,
+    /**
+     * Set to the current team URL
+     */
+    currentTeamURL: string;
 
-        /**
-        * Server error from failed channel creation
-        */
-        serverError: PropTypes.node,
+    /**
+     * Server error from failed channel creation
+     */
+    serverError?: React.ReactNode;
 
-        /**
-         * Function to call when modal is submitted
-         */
-        onModalSubmit: PropTypes.func.isRequired,
+    /**
+     * Function to call when modal is submitted
+     */
+    onModalSubmit: (newURL: string) => void;
 
-        /**
-         * Function to call when modal is exited
-         */
-        onModalExited: PropTypes.func,
+    /**
+     * Function to call when modal is exited
+     */
+    onModalExited?: () => void;
 
-        /**
-         * Function to call when modal is dimissed
-         */
-        onModalDismissed: PropTypes.func.isRequired,
-    }
+    /**
+     * Function to call when modal is dismissed
+     */
+    onModalDismissed: () => void;
+}
 
-    static defaultProps = {
+type State = {
+    currentURL?: string;
+    urlErrors: JSX.Element[] | string;
+    userEdit: boolean;
+};
+
+export default class ChangeURLModal extends React.PureComponent<Props, State> {
+    private urlInput: React.RefObject<HTMLInputElement>;
+
+    public static defaultProps = {
         show: false,
         title: 'Change URL',
         submitButtonText: 'Save',
@@ -68,8 +75,9 @@ export default class ChangeURLModal extends React.PureComponent {
         serverError: null,
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
+        this.urlInput = React.createRef();
         this.state = {
             currentURL: props.currentURL,
             urlErrors: '',
@@ -77,7 +85,7 @@ export default class ChangeURLModal extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         // This check prevents the url being deleted when we re-render
         // because of user status check
         if (!state.userEdit) {
@@ -87,14 +95,15 @@ export default class ChangeURLModal extends React.PureComponent {
         return null;
     }
 
-    onURLChanged = (e) => {
+    onURLChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const url = e.target.value.trim();
         this.setState({currentURL: url.replace(/[^A-Za-z0-9-_]/g, '').toLowerCase(), userEdit: true});
     }
 
-    onSubmit = (e) => {
+    onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const url = this.refs.urlinput.value;
+        e.preventDefault();
+        const url = this.urlInput?.current?.value || '';
         const urlErrors = validateChannelUrl(url);
         if (urlErrors.length > 0) {
             this.setState({urlErrors});
@@ -179,7 +188,7 @@ export default class ChangeURLModal extends React.PureComponent {
                                     </OverlayTrigger>
                                     <input
                                         type='text'
-                                        ref='urlinput'
+                                        ref={this.urlInput}
                                         className='form-control'
                                         maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                         onChange={this.onURLChanged}
