@@ -19,6 +19,9 @@ describe('Messaging', () => {
     let testPublicChannel;
 
     beforeEach(() => {
+        testPrivateChannel = null;
+        testPublicChannel = null;
+
         // # Login as user-1
         cy.apiLogin('user-1');
 

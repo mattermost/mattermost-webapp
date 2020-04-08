@@ -70,7 +70,7 @@ describe('M14322 Long post with multiple attachments', () => {
         postAttachments();
 
         // * Verify show more button
-        cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show More');
+        cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show more');
 
         // * Verify gradient
         cy.get('#collapseGradient').should('be.visible');
