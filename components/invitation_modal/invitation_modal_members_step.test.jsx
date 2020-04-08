@@ -12,6 +12,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
         const wrapper = shallowWithIntl(
             <InvitationModalMembersStep
                 teamName='Test Team'
+                currentTeamId='test-team-id'
                 inviteId='123'
                 searchProfiles={jest.fn()}
                 emailInvitationsEnabled={true}
@@ -26,6 +27,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
         const wrapper = shallowWithIntl(
             <InvitationModalMembersStep
                 teamName='Test Team'
+                currentTeamId='test-team-id'
                 inviteId='123'
                 searchProfiles={jest.fn()}
                 emailInvitationsEnabled={false}
