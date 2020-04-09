@@ -16,11 +16,14 @@ describe('Profile popover', () => {
     let newUser;
     const message = `Testing ${Date.now()}`;
 
-    before(() => {
-        // # Login as sysadmin and update user preferences
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Save Teammate Name Display Preference to username
+        // # Save Message Display Preference to clean
         cy.apiSaveTeammateNameDisplayPreference('username');
-        cy.apiSaveMessageDisplayPreference();
+        cy.apiSaveMessageDisplayPreference('clean');
 
         // # Create new user and have it post a message
         cy.apiGetTeamByName('ad-1').then((teamRes) => {
