@@ -106,7 +106,10 @@ export default class UserListRow extends React.Component {
                             userId={this.props.user.id}
                             displayUsername={true}
                         />
-                        &nbsp;{'-'}&nbsp;
+                        &nbsp;
+                        {this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
+                            '-' : null}
+                        &nbsp;
                         {Utils.displayFullAndNicknameForUser(this.props.user)}
                         <BotBadge
                             className='badge-popoverlist'
