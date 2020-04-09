@@ -593,11 +593,11 @@ export function applyTheme(theme) {
     if (theme.centerChannelBg) {
         changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .post.post--compact .post-image__column, .app__body .status-wrapper .status, .app__body .alert.alert-transparent, .app__body .post-image__column', 'background:' + theme.centerChannelBg);
+        changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
         changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .post-image__details, .app__body .search-help-popover .search-autocomplete__divider span', 'background:' + theme.centerChannelBg);
+        changeCss('.app__body .search-help-popover .search-autocomplete__divider span', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .sidebar--right, .app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .popover.bottom>.arrow:after', 'border-bottom-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
@@ -683,9 +683,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .popover.top>.arrow', 'border-top-color:' + changeOpacity(theme.centerChannelColor, 0.25));
         changeCss('.app__body .popover .popover__row', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
-        changeCss('.app__body .post-image__column', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .post-image__details', 'color:' + theme.centerChannelColor);
-        changeCss('.app__body .post-image__column a, .app__body .post-image__column a:hover, .app__body .post-image__column a:focus', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
@@ -784,16 +781,6 @@ export function applyTheme(theme) {
                 `background:${hoveredPostBg}`,
             );
 
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-image__columns, ' +
-                '.app__body .post-list__table .post.post--hovered .file-view--single, ' +
-                '.app__body .post-right-comments-container .post.post--hovered .post-image__columns, ' +
-                '.app__body .post-right-comments-container .post.post--hovered .file-view--single, ' +
-                '.app__body .search-items-container .post.post--hovered .post-image__columns, ' +
-                '.app__body .search-items-container .post.post--hovered .file-view--single',
-                `background:${hoveredPostBg}`
-            );
-
             // Fade out effect for permalinked posts
             if (theme.mentionHighlightBg) {
                 const highlightBg = blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5);
@@ -805,26 +792,11 @@ export function applyTheme(theme) {
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
                 );
-                changeCss(
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-image__columns, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-image__columns, ' +
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .file-view--single, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .file-view--single',
-                    `background:${highlightBg}`,
-                );
 
                 // For permalinked posts made by the current user
                 changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
-                );
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-image__columns, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .file-view--single',
-                    `background:${ownPostHighlightBg}`,
                 );
 
                 // For hovered posts
@@ -832,15 +804,6 @@ export function applyTheme(theme) {
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-image__columns, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-image__columns, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .file-view--single, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .file-view--single',
-                    `background:${highlightBg}`,
                 );
             }
         }

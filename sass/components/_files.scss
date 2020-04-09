@@ -283,16 +283,23 @@
 }
 
 .post-image__column {
+    @include single-transition(box-shadow, .15s, ease);
     @include border-radius(4px);
     overflow: hidden;
     align-items: center;
-    border: 1px solid v(center-channel-color-32);
+    background: v(center-channel-bg);
+    border: 1px solid v(center-channel-color-16);
+    color: v(center-channel-color);
     display: flex;
-    height: 8rem;
-    margin: 5px 10px 5px 0;
+    height: 6.4rem;
+    margin: 4px 12px 4px 0;
     max-width: 100%;
     position: relative;
     width: 320px;
+
+    &:hover {
+        @include box-shadow($elevation-1);
+    }
 
     .post__content & {
         cursor: pointer;
@@ -308,6 +315,8 @@
         margin: 0 10px 0 0;
 
         .post-image__details {
+            padding-right: 3.2rem;
+
             .post-image__name {
                 white-space: normal;
             }
@@ -327,11 +336,12 @@
     @include background-size(cover);
     background-color: $white;
     background-repeat: no-repeat;
-    height: 100%;
     overflow: hidden;
     position: relative;
     text-align: center;
-    width: 100%;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
 
     &.small {
         background-position: center;
@@ -369,15 +379,17 @@
     @include cursor(zoom-in);
     flex: none;
     height: 100%;
-    width: 7.2rem;
+    width: 6.2rem;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .post-image__details {
     align-items: center;
-    color: alpha-color($black, .8);
     display: flex;
-    font-size: 13px;
+    font-size: 12px;
     height: 100%;
     flex: 1;
     overflow: hidden;
@@ -385,7 +397,7 @@
     position: relative;
 
     .post-image__detail_wrapper {
-        padding: 0 0 0 1.2rem;
+        padding: 0;
         display: flex;
         flex: 1;
 
@@ -434,6 +446,32 @@
         text-align: center;
         top: 0;
 
+        a {
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1.6rem;
+            color: v(center-channel-color-56);
+            width: 3.2rem;
+            height: 3.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:focus {
+                color: v(center-channel-color-56);
+            }
+
+            &:hover {
+                background: v(center-channel-color-08);
+                color: v(center-channel-color-72);
+            }
+
+            &:active {
+                background: v(button-bg-08);
+                color: v(button-bg);
+            }
+        }
+
         span {
             display: inline-block;
         }
@@ -467,7 +505,7 @@
     }
 
     .post-image__uploadingTxt {
-        opacity: 0.6;
+        color: v(center-channel-color-56);
     }
 }
 
