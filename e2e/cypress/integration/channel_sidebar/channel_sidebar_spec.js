@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @channel_sidebar
+
 import users from '../../fixtures/users';
 
 import {testWithConfig} from '../../support/hooks';

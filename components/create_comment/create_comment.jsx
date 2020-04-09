@@ -4,6 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -805,18 +806,18 @@ class CreateComment extends React.PureComponent {
         return this.refs.createCommentControls;
     }
 
+    focusTextbox = (keepFocus = false) => {
+        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
+            this.refs.textbox.getWrappedInstance().focus();
+        }
+    }
+
     shouldEnableAddButton = () => {
         if (this.props.enableAddButton) {
             return true;
         }
 
         return isErrorInvalidSlashCommand(this.state.serverError);
-    }
-
-    focusTextbox = (keepFocus = false) => {
-        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.getWrappedInstance().focus();
-        }
     }
 
     showPostDeletedModal = () => {
@@ -980,9 +981,11 @@ class CreateComment extends React.PureComponent {
                         aria-label={emojiButtonAriaLabel}
                         type='button'
                         onClick={this.toggleEmojiPicker}
-                        className='style--none emoji-picker__container post-action'
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
-                        <EmojiIcon className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}/>
+                        <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
                     </button>
                 </div>
             );

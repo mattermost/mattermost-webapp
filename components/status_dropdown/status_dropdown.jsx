@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
-import StatusIcon from 'components/status_icon.jsx';
+import StatusIcon from 'components/status_icon';
 
 import Avatar from 'components/widgets/users/avatar';
 import Menu from 'components/widgets/menu/menu';

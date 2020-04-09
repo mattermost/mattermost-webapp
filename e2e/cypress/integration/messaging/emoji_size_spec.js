@@ -6,6 +6,10 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod @smoke
+// Group: @messaging
+
 /**
  * [checkEmojiSizeInPost: this function is going to check the correct size of emojis when they're inside messages]
  * @param  message {string[]} [this is the message we send along with some emojis attached to it ]
