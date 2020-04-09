@@ -1,20 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Tooltip} from 'react-bootstrap';
 
-import {incrementAnnouncementBarCount, decrementAnnouncementBarCount} from 'actions/views/modals';
-
 import {Constants, AnnouncementBarTypes} from 'utils/constants';
-import {getAnnouncementBarCount} from 'utils/utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 
-export class AnnouncementBar extends React.PureComponent {
+export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
         showCloseButton: PropTypes.bool,
         color: PropTypes.string,
@@ -124,20 +119,3 @@ export class AnnouncementBar extends React.PureComponent {
         );
     }
 }
-
-function mapStateToProps(state) {
-    return {
-        announcementBarCount: getAnnouncementBarCount(state)
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            incrementAnnouncementBarCount,
-            decrementAnnouncementBarCount,
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AnnouncementBar);
