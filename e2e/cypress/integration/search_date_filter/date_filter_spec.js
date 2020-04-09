@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @search_date_filter
 
-import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import users from '../../fixtures/users.json';
 
 function searchAndValidate(query, expectedResults = []) {
     cy.reload();

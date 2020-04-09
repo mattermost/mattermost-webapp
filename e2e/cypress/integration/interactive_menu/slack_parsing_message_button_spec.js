@@ -11,7 +11,7 @@
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
 
-import TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 let channel;
 let incomingWebhook;

@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @toast
 
-import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import users from '../../fixtures/users.json';
 
 const otherUser = users['user-2'];
 let townsquareChannelId;
