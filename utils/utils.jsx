@@ -1776,5 +1776,5 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
 }
 
 export function getAnnouncementBarCount(state) {
-    return state.views.modals.modalState.announcementBarCount;
+    return state.views.announcementBar.announcementBarState.announcementBarCount;
 }

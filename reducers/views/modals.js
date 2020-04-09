@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {ActionTypes} from 'utils/constants';
 
-function modalState(state = {announcementBarCount: 0}, action) {
+function modalState(state = {}, action) {
     switch (action.type) {
     case ActionTypes.MODAL_OPEN:
         return {
@@ -24,18 +24,6 @@ function modalState(state = {announcementBarCount: 0}, action) {
                 dialogProps: action.dialogProps,
                 dialogType: action.dialogType,
             },
-        };
-
-    case ActionTypes.TRACK_ANNOUNCEMENT_BAR:
-        return {
-            ...state,
-            announcementBarCount: state.announcementBarCount + 1
-        };
-
-    case ActionTypes.DISMISS_ANNOUNCEMENT_BAR:
-        return {
-            ...state,
-            announcementBarCount: Math.max(state.announcementBarCount - 1, 0)
         };
 
     default:
