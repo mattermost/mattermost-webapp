@@ -23,7 +23,7 @@ const getDeactivatedChannel = createSelector(
     (state, channelId) => {
         return getDirectTeammate(state, channelId);
     },
-    (users, channelId, teammate) => {
+    (users, teammate) => {
         return Boolean(teammate && teammate.delete_at);
     }
 );
