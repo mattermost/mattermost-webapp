@@ -18,9 +18,11 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     const newChannelName = `channel-react-to-last-message-${Date.now()}`;
     let testChannel;
     let channelId;
+    let isArchived;
 
     beforeEach(() => {
         testChannel = null;
+        isArchived = false;
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -54,7 +56,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     afterEach(() => {
         cy.apiLogin('sysadmin');
-        if (testChannel && testChannel.id) {
+        if (testChannel && testChannel.id && !isArchived) {
             cy.apiDeleteChannel(testChannel.id);
         }
     });
@@ -499,7 +501,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.findByLabelText('Expand').click();
 
         // # Open the Pinned Posts
-        cy.findByLabelText('See pinned posts').click();
+        cy.findByLabelText('Pinned posts').click();
 
         // # Expand the Pinned Posts
         cy.findByLabelText('Expand').click();
@@ -578,6 +580,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
         // # Archive the channel after posting a message
         cy.apiDeleteChannel(testChannel.id);
+        isArchived = true;
 
         // # Emulate react to last message shortcut
         pressShortcutReactToLastMessage();
@@ -624,7 +627,8 @@ function addingReactionWithEmojiPicker() {
         should('exist').
         within(() => {
             // # Search for an emoji and add it to message.
-            cy.findByPlaceholderText('Search emojis').type('smile{enter}');
+            cy.findByPlaceholderText('Search emojis').type('smile').wait(TIMEOUTS.TINY);
+            cy.findByTestId('smile').should('be.visible').click();
         });
     cy.wait(TIMEOUTS.TINY);
 }
