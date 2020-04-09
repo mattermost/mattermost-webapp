@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as MESSAGES from '../../fixtures/messages';
 import users from '../../fixtures/users.json';
 
 const sysadmin = users.sysadmin;
@@ -136,5 +137,12 @@ describe('Message', () => {
             // * Check that message has the css class needed for system message styling
             cy.get(divPostId).should('have.class', 'post--system');
         });
+    });
+
+    it('M23361 Focus remains in the RHS text box', () => {
+        cy.postMessage(MESSAGES.MEDIUM);
+        cy.clickPostCommentIcon();
+        cy.postMessageReplyInRHS(MESSAGES.SMALL);
+        cy.get('#reply_textbox').should('be.focused');
     });
 });
