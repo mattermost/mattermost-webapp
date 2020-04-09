@@ -8,6 +8,7 @@ import {makeGetChannelsForCategory, makeGetCategoriesForTeam} from 'mattermost-r
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {setItem} from 'actions/storage';
+import {DraggingState} from 'types/store';
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
 
 export function collapseCategory(categoryId: string) {
@@ -104,5 +105,20 @@ export function removeFromCategory(teamId: string, categoryId: string, channelId
         // TODO: Will need to call an actual redux action so that this also goes to the server
         // But for now, this will update the redux state correctly.
         dispatch({type: ChannelCategoryTypes.RECEIVED_CATEGORY, data: {...category, channel_ids: channelIds}});
+    };
+}
+
+export function setDraggingState(data: DraggingState) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.SIDEBAR_DRAGGING_SET_STATE,
+            data,
+        });
+    };
+}
+
+export function stopDragging() {
+    return (dispatch: DispatchFunc) => {
+        dispatch({type: ActionTypes.SIDEBAR_DRAGGING_STOP});
     };
 }

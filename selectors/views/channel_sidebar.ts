@@ -77,3 +77,7 @@ export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState,
         }
     );
 }
+
+export function getDraggingState(state: GlobalState) {
+    return state.views.channelSidebar.draggingState;
+}

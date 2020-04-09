@@ -57,16 +57,20 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
     universal={false}
   >
     <DragDropContext
+      onBeforeCapture={[Function]}
+      onBeforeDragStart={[Function]}
       onDragEnd={[Function]}
       onDragStart={[Function]}
     >
       <Connect(Droppable)
         direction="vertical"
         droppableId="droppable-categories"
+        getContainerForClone={[Function]}
         ignoreContainerClipping={false}
         isCombineEnabled={false}
         isDropDisabled={false}
-        mode="virtual"
+        mode="standard"
+        renderClone={null}
         type="SIDEBAR_CATEGORY"
       >
         <Component />
@@ -133,16 +137,20 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
     universal={false}
   >
     <DragDropContext
+      onBeforeCapture={[Function]}
+      onBeforeDragStart={[Function]}
       onDragEnd={[Function]}
       onDragStart={[Function]}
     >
       <Connect(Droppable)
         direction="vertical"
         droppableId="droppable-categories"
+        getContainerForClone={[Function]}
         ignoreContainerClipping={false}
         isCombineEnabled={false}
         isDropDisabled={false}
-        mode="virtual"
+        mode="standard"
+        renderClone={null}
         type="SIDEBAR_CATEGORY"
       >
         <Component />

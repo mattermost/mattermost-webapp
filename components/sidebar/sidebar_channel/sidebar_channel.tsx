@@ -7,6 +7,7 @@ import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
+import {DraggingState} from 'types/store';
 import Constants from 'utils/constants';
 
 import SidebarBaseChannel from './sidebar_base_channel';
@@ -69,7 +70,11 @@ type Props = {
 
     isDMCategory: boolean;
 
-    isDragging: boolean;
+    draggingState: DraggingState;
+
+    isCategoryDragged: boolean;
+
+    isDropDisabled: boolean;
 };
 
 type State = {
@@ -82,11 +87,11 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
     }
 
     isCollapsed = (props: Props) => {
-        return props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel;
+        return /*props.isDropDisabled || */props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel);
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps)) {
+        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps) && (this.props.draggingState.state !== 'capture' && this.props.draggingState.state !== 'before')) {
             const channelElement = this.getRef();
             if (channelElement) {
                 channelElement.classList.add('animating');
@@ -145,7 +150,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                             draggable='false'
                             ref={this.setRef(provided.innerRef)}
                             className={classNames('SidebarChannel', {
-                                collapsed: this.isCollapsed(this.props) || (this.props.isDragging && this.props.isCategoryCollapsed),
+                                collapsed: this.isCollapsed(this.props),
                                 unread: this.isUnread(),
                                 active: this.props.isCurrentChannel,
                             })}

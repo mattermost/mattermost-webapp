@@ -44,7 +44,7 @@
         .dropDisabled {
             cursor: no-drop !important;
 
-            .SidebarChannelGroupHeader_groupButton {
+            .SidebarChannelGroupHeader_groupButton, span, i {
                 color: var(--sidebar-text-08) !important;
             }
         }

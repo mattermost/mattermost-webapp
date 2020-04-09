@@ -1,39 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/sidebar/sidebar_category should match snapshot 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
+  disableInteractiveElementBlocking={true}
   draggableId="category1"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_category should match snapshot when collapsed 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
+  disableInteractiveElementBlocking={true}
   draggableId="category1"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
+  disableInteractiveElementBlocking={true}
   draggableId="category1"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_category should match snapshot when there are no channels to display 1`] = `""`;

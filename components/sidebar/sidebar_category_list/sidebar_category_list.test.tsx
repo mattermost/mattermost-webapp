@@ -79,6 +79,7 @@ describe('components/sidebar/sidebar_category_list', () => {
         unreadChannelIds: ['channel_id_2'],
         displayedChannels: [currentChannel, unreadChannel],
         isUnreadFilterEnabled: false,
+        draggingState: {},
         handleOpenMoreDirectChannelsModal: jest.fn(),
         onDragStart: jest.fn(),
         onDragEnd: jest.fn(),
@@ -88,6 +89,8 @@ describe('components/sidebar/sidebar_category_list', () => {
             setCategoryOrder: jest.fn(),
             setCategoriesOrder: jest.fn(),
             removeFromCategory: jest.fn(),
+            setDraggingState: jest.fn(),
+            stopDragging: jest.fn(),
         },
     };
 

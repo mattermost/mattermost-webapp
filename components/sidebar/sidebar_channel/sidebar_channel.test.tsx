@@ -38,6 +38,9 @@ describe('components/sidebar/sidebar_channel', () => {
         isCategoryCollapsed: false,
         isCurrentChannel: false,
         isDMCategory: false,
+        isCategoryDragged: false,
+        isDropDisabled: false,
+        draggingState: {},
     };
 
     test('should match snapshot', () => {

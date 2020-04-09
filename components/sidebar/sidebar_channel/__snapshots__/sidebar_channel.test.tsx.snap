@@ -1,73 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
   draggableId="channel_id"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_channel should match snapshot when DM channel 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
   draggableId="channel_id"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_channel should match snapshot when GM channel 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
   draggableId="channel_id"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_channel should match snapshot when active 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
   draggableId="channel_id"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_channel should match snapshot when collapsed 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
   draggableId="channel_id"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;
 
 exports[`components/sidebar/sidebar_channel should match snapshot when unread 1`] = `
-<Connect(Draggable)
-  disableInteractiveElementBlocking={false}
+<PublicDraggable
   draggableId="channel_id"
   index={0}
-  isDragDisabled={false}
-  shouldRespectForcePress={false}
 >
   <Component />
-</Connect(Draggable)>
+</PublicDraggable>
 `;

@@ -10,9 +10,9 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
-import {setCategoryOrder, setCategoriesOrder, removeFromCategory} from 'actions/views/channel_sidebar';
+import {setCategoryOrder, setCategoriesOrder, removeFromCategory, setDraggingState, stopDragging} from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
-import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam} from 'selectors/views/channel_sidebar';
+import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam, getDraggingState} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarCategoryList from './sidebar_category_list';
@@ -33,7 +33,7 @@ function makeMapStateToProps() {
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
             unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
             displayedChannels: getCurrentlyDisplayedChannelsForTeam(state, currentTeam.id),
-            channelsByCategory: getChannelsByCategory(state, currentTeam.id),
+            draggingState: getDraggingState(state),
         };
     };
 }
@@ -46,6 +46,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             setCategoryOrder,
             setCategoriesOrder,
             removeFromCategory,
+            setDraggingState,
+            stopDragging,
         }, dispatch),
     };
 }

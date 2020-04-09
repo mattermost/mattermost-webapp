@@ -13,6 +13,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions';
 import OverlayTrigger from 'components/overlay_trigger';
+import {DraggingState} from 'types/store';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
@@ -26,10 +27,7 @@ type Props = {
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
     isCollapsed: boolean;
-    isDraggingChannel: boolean;
-    isDraggingDM: boolean;
-    isDraggingCategory: boolean;
-    draggingCategoryId: string | null;
+    draggingState: DraggingState;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
     };
@@ -79,7 +77,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     renderChannel = (channel: Channel, index: number) => {
-        const {isCollapsed, setChannelRef, getChannelRef, category, isDraggingCategory, isDraggingChannel, isDraggingDM, draggingCategoryId} = this.props;
+        const {isCollapsed, setChannelRef, getChannelRef, category, draggingState} = this.props;
 
         return (
             <SidebarChannel
@@ -88,9 +86,10 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 channelId={channel.id}
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
-                isCategoryCollapsed={isCollapsed || (isDraggingCategory && category.id === draggingCategoryId) || this.isDropDisabled()}
+                isCategoryCollapsed={isCollapsed}
+                isCategoryDragged={draggingState.type === 'category' && draggingState.id === category.id}
+                isDropDisabled={this.isDropDisabled()}
                 isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
-                isDragging={isDraggingCategory || isDraggingChannel || isDraggingDM}
             />
         );
     }
@@ -113,19 +112,19 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     }
 
     isDropDisabled = () => {
-        const {isDraggingChannel, isDraggingDM, category} = this.props;
+        const {draggingState, category} = this.props;
 
         if (category.type === CategoryTypes.DIRECT_MESSAGES) {
-            return isDraggingChannel;
+            return draggingState.type === 'channel';
         } else if (category.type === CategoryTypes.PUBLIC || category.type === CategoryTypes.PRIVATE) {
-            return isDraggingDM;
+            return draggingState.type === 'DM';
         }
 
         return false;
     }
 
     onMouseOver = () => {
-        if (!this.isDropDisabled() && this.props.isCollapsed && (this.props.isDraggingChannel || this.props.isDraggingDM)) {
+        if (!this.isDropDisabled() && this.props.isCollapsed && this.props.draggingState.type && this.props.draggingState.type !== 'category') {
             this.expandOnHoverTimeout = setTimeout(() => {
                 this.handleCollapse();
             }, 500);
