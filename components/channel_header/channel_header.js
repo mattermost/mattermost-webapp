@@ -86,6 +86,7 @@ class ChannelHeader extends React.PureComponent {
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
         newSideBarPreference: PropTypes.bool,
+        announcementBarCount: PropTypes.number,
     };
 
     constructor(props) {
@@ -261,16 +262,15 @@ class ChannelHeader extends React.PureComponent {
     }
 
     showChannelHeaderPopover = (headerText) => {
-        const announcementBarCount = document.body.getAttribute('announcementBarCount');
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
-
+        const announcementBarSize = 32;
         if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
 
-        if (announcementBarCount > 0) {
-            this.setState({topOffset: '32'});
+        if (this.props.announcementBarCount > 0) {
+            this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount)});
         }
     }
 

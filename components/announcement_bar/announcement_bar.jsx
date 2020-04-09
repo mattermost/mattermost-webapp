@@ -1,15 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Tooltip} from 'react-bootstrap';
 
+import {incrementAnnouncementBarCount, decrementAnnouncementBarCount} from 'actions/views/modals';
+
 import {Constants, AnnouncementBarTypes} from 'utils/constants';
+import {getAnnouncementBarCount} from 'utils/utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 
-export default class AnnouncementBar extends React.PureComponent {
+class AnnouncementBar extends React.PureComponent {
     static propTypes = {
         showCloseButton: PropTypes.bool,
         color: PropTypes.string,
@@ -17,7 +22,13 @@ export default class AnnouncementBar extends React.PureComponent {
         type: PropTypes.string,
         message: PropTypes.node.isRequired,
         handleClose: PropTypes.func,
+        announcementBarCount: PropTypes.number.isRequired,
+        actions: PropTypes.shape({
+            incrementAnnouncementBarCount: PropTypes.func.isRequired,
+            decrementAnnouncementBarCount: PropTypes.func.isRequired,
+        }).isRequired,
     }
+
     static defaultProps = {
         showCloseButton: false,
         color: '',
@@ -27,23 +38,17 @@ export default class AnnouncementBar extends React.PureComponent {
     }
 
     componentDidMount() {
-        let announcementBarCount = document.body.getAttribute('announcementBarCount') || 0;
-        announcementBarCount++;
-        document.body.classList.add('announcement-bar--fixed');
+        this.props.actions.incrementAnnouncementBarCount();
 
-        // keeping a track of mounted AnnouncementBars so that on the last AnnouncementBars unmount we can remove the class on body
-        document.body.setAttribute('announcementBarCount', announcementBarCount);
+        document.body.classList.add('announcement-bar--fixed');
     }
 
     componentWillUnmount() {
-        let announcementBarCount = document.body.getAttribute('announcementBarCount');
-        announcementBarCount--;
-        document.body.setAttribute('announcementBarCount', announcementBarCount);
-
-        // remove the class on body as it is the last announcementBar
-        if (announcementBarCount === 0) {
+        if (this.props.announcementBarCount === 1) {
             document.body.classList.remove('announcement-bar--fixed');
         }
+
+        this.props.actions.decrementAnnouncementBarCount();
     }
 
     handleClose = (e) => {
@@ -119,3 +124,20 @@ export default class AnnouncementBar extends React.PureComponent {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        announcementBarCount: getAnnouncementBarCount(state)
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            incrementAnnouncementBarCount,
+            decrementAnnouncementBarCount,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnnouncementBar);
