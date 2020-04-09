@@ -35,10 +35,6 @@ function mapStateToProps(state) {
         }
     }
 
-    const canManageTeamIntegrations = (haveITeamPermission(state, {permission: Permissions.MANAGE_SLASH_COMMANDS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OAUTH}) || haveITeamPermission(state, {permission: Permissions.MANAGE_INCOMING_WEBHOOKS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OUTGOING_WEBHOOKS}));
-    const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
-    const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
-
     return {
         user,
         team,
@@ -49,7 +45,6 @@ function mapStateToProps(state) {
         enableCommands,
         enableOAuthServiceProvider,
         canCreateOrDeleteCustomEmoji,
-        canManageIntegrations,
     };
 }
 
