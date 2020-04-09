@@ -14,7 +14,7 @@ import {getAnnouncementBarCount} from 'utils/utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 
-class AnnouncementBar extends React.PureComponent {
+export class AnnouncementBar extends React.PureComponent {
     static propTypes = {
         showCloseButton: PropTypes.bool,
         color: PropTypes.string,

@@ -28,7 +28,7 @@ describe('Reducers.Modals', () => {
         );
 
         const expectedState = {
-            modalState: {},
+            modalState: {announcementBarCount: 0},
         };
 
         expect(nextState).toEqual(expectedState);
@@ -51,7 +51,7 @@ describe('Reducers.Modals', () => {
         );
 
         const expectedState = {
-            modalState: {},
+            modalState: {announcementBarCount: 0},
         };
 
         expectedState.modalState[ModalIdentifiers.DELETE_CHANNEL] = {
@@ -73,7 +73,7 @@ describe('Reducers.Modals', () => {
         );
 
         const expectedState = {
-            modalState: {},
+            modalState: {announcementBarCount: 0},
         };
 
         expectedState.modalState[ModalIdentifiers.DELETE_CHANNEL] = {
