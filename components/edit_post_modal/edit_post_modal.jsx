@@ -29,6 +29,8 @@ class EditPostModal extends React.PureComponent {
         config: PropTypes.object.isRequired,
         intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
+        useChannelMentions: PropTypes.bool.isRequired,
+
         editingPost: PropTypes.shape({
             post: PropTypes.object,
             postId: PropTypes.string,
@@ -404,6 +406,7 @@ class EditPostModal extends React.PureComponent {
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.state.preview}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <div className='post-body__actions'>
                                 {emojiPicker}
