@@ -284,7 +284,7 @@ class SearchResultsItem extends React.PureComponent {
                         }
                     >
                         <button
-                            className='card-icon__container icon--show style--none'
+                            className='post-menu__item post-menu__item--show'
                             onClick={(e) => {
                                 e.preventDefault();
                                 this.handleCardClick(this.props.post);
@@ -300,13 +300,14 @@ class SearchResultsItem extends React.PureComponent {
             }
 
             rhsControls = (
-                <div className='col__controls col__reply'>
+                <div className='col__controls post-menu'>
                     <DotMenu
                         post={post}
                         location={Locations.SEARCH}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
+                        isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
                     />
                     <CommentIcon

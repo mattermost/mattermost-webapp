@@ -33,7 +33,7 @@
                 font-size: 14px;
                 border-bottom: 1px solid;
                 border-top: 1px solid;
-                border-color: var(--center-channel-color-10);
+                border-color: var(--center-channel-color-08);
                 background: rgba(238,179,0,0.2);
                 color: var(--center-channel-color);
             }
@@ -51,7 +51,7 @@
                 font-size: 14px;
                 border-bottom: 1px solid;
                 border-top: 1px solid;
-                border-color: var(--center-channel-color-10);
+                border-color: var(--center-channel-color-08);
                 background: rgba(0,131,89,0.2);
                 color: var(--center-channel-color);
                 svg {
@@ -81,10 +81,10 @@
             background: var(--center-channel-bg);
             color: var(--button-bg);
             &:hover {
-                background: var(--button-bg-05);
+                background: var(--button-bg-08);
             }
             &:active {
-                background: var(--button-bg-10);
+                background: var(--button-bg-08);
             }
         }
         .confirm-done {

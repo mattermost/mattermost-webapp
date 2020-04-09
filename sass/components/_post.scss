@@ -1,24 +1,28 @@
 @charset 'UTF-8';
 
-.custom-textarea {
-    background: transparent;
-    border: 1px solid v(center-channel-color-20);
-    height: 100%;
-    line-height: 20px;
-    min-height: 36px;
-    overflow: hidden;
-    resize: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+.app__body {
+    .custom-textarea {
+        border-radius: 4px;
+        background: transparent;
+        border: 1px solid v(center-channel-color-24);
+        height: 100%;
+        line-height: 20px;
+        min-height: 36px;
+        overflow: hidden;
+        resize: none;
+        white-space: pre-wrap;
+        word-wrap: break-word;
 
-    &:focus {
-        border-color: v(center-channel-color-30);
-        box-shadow: none;
-    }
+        &:focus {
+            border: 2px solid v(center-channel-color-32);
+            box-shadow: none;
+            padding: 11px 0 11px 14px;
+        }
 
-    &.bad-connection {
-        background: #ffffac !important;
-        color: #d04444 !important;
+        &.bad-connection {
+            background: #ffffac !important;
+            color: #d04444 !important;
+        }
     }
 }
 
@@ -510,12 +514,6 @@
         textarea {
             box-shadow: none;
         }
-
-        .form-control {
-            &:hover, &:focus {
-                border-color: var(--center-channel-color-40);
-            }
-        }
     }
 
     .msg-typing {
@@ -542,6 +540,7 @@
 }
 
 .post-body__actions {
+    margin: 0 1px 0 0;
     display: flex;
     height: 100%;
     position: absolute;
@@ -549,32 +548,34 @@
     top: 0;
 
     > div {
-        display: flex;
-        position: relative;
-        width: 43px;
-
-        &:first-child {
-            border-right: 1px solid transparent;
-        }
-
-        .post-action {
-            width: 42px;
-            height: 46px;
-        }
+        margin: 0 4px 0 0;
     }
 
     .post-action {
-        &:hover,
-        &:active {
-            box-shadow: none;
+        background: transparent;
+        border: none;
+        border-radius: 4px;
+        margin: 5px 0;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        fill: v(center-channel-color-56);
+        color: v(center-channel-color-56);
 
-            .icon--emoji {
-                opacity: 1;
+        &:hover {
+            background: v(center-channel-color-08);
+            fill: v(center-channel-color-72);
+            color: v(center-channel-color-72);
+        }
 
-                &.active {
-                    opacity: 1;
-                }
-            }
+        &:active,
+        &--active,
+        &--active:hover {
+            background: v(button-bg-08);
+            fill: v(button-bg);
+            color: v(button-bg);
         }
     }
 
@@ -587,39 +588,11 @@
         }
     }
 
-    .icon--emoji {
-        @include opacity(.5);
-        @include single-transition(all, .15s);
-        cursor: pointer;
-        top: 1px;
-        position: relative;
-
-        &.active {
-            opacity: 1;
-        }
-
-        svg {
-            position: relative;
-            top: 1px;
-        }
-    }
-
     .icon--attachment {
         cursor: pointer;
         overflow: hidden;
         position: relative;
         vertical-align: top;
-
-        > span {
-            @include opacity(.4);
-            @include single-transition(all, .15s);
-        }
-
-        &:hover {
-            span {
-                @include opacity(.6);
-            }
-        }
 
         & + input {
             @include opacity(0);
@@ -633,11 +606,6 @@
             top: 0;
             width: 100%;
             pointer-events: none;
-        }
-
-        svg {
-            position: relative;
-            top: 1px;
         }
     }
 }
@@ -725,7 +693,7 @@
 
     &.post--system {
         .post__header {
-            .col__reply {
+            .post-menu {
                 min-width: 0;
             }
         }
@@ -740,11 +708,10 @@
         .comment-icon__container,
         .card-icon__container,
         .reacticon,
-        .reacticon__container,
+        .post-menu__item,
         .flag-icon__container,
         .post__reply,
         .post-reaction,
-        .post__dropdown,
         .post__remove {
             visibility: visible;
         }
@@ -777,12 +744,6 @@
             visibility: visible;
         }
 
-        .post__header {
-            .col__reply {
-                z-index: 7;
-            }
-        }
-
         .post__body {
             background: transparent !important;
         }
@@ -790,7 +751,7 @@
 
     &.post--hide-controls {
         .post__header {
-            .col__reply {
+            .post-menu {
                 display: none;
             }
         }
@@ -1167,7 +1128,7 @@
                     display: none;
                 }
 
-                .col__reply {
+                .post-menu {
                     top: -1px;
                 }
             }
@@ -1196,7 +1157,6 @@
         }
 
         &.post--comment {
-
             .popover {
                 margin-top: 84px;
 
@@ -1206,7 +1166,7 @@
             }
 
             .post__header {
-                .col__reply {
+                .post-menu {
                     top: -4px;
                 }
             }
@@ -1243,11 +1203,6 @@
         white-space: nowrap;
         width: 100%;
 
-        > div {
-            display: inline-block;
-            vertical-align: top;
-        }
-
         .col__name {
             display: flex;
             font-weight: 600;
@@ -1268,94 +1223,6 @@
                 display: none;
                 font-weight: 900;
                 margin-left: 2px;
-            }
-        }
-
-        .col__reply {
-            @include border-radius(4px);
-            border: 1px solid transparent;
-            display: flex;
-            justify-content: flex-end;
-            padding: 4px;
-            position: absolute;
-            right: 0;
-            top: -8px;
-            white-space: normal;
-            z-index: 6;
-
-            > div,
-            > button {
-                @include border-radius(4px);
-                display: flex;
-                flex: 1;
-                height: 24px;
-                top: 0;
-                width: 24px;
-
-                &:hover {
-                    background-color: v(center-channel-color-05);
-                }
-
-                &:active {
-                    background-color: v(center-channel-color-15);
-                }
-            }
-
-            .comment-icon__container {
-                flex: 0;
-                justify-content: flex-end;
-                padding: 0 4px 0 0;
-                width: auto;
-                align-items: center;
-            }
-
-            .dropdown {
-                > div {
-                    display: flex;
-                    flex: 1;
-                    justify-content: center;
-                    align-items: center;
-                }
-            }
-
-            .reacticon__container,
-            .icon {
-                display: flex;
-                flex: 1;
-                margin: 0;
-                top: 0;
-                align-items: center;
-            }
-
-            .reacticon__container {
-                width: 28px;
-            }
-
-
-            > .open, > div {
-                display: flex;
-                flex: 1;
-                justify-content: center;
-            }
-
-            span {
-                svg {
-                    flex: 1;
-                    height: 16px;
-                    top: 0;
-                    width: 16px;
-                }
-            }
-
-            svg {
-                flex: 1;
-                height: 16px;
-                top: 0;
-                width: 16px;
-            }
-
-            &.dot_small {
-                min-width: auto !important;
             }
         }
 
@@ -1452,23 +1319,6 @@
             a {
                 padding: 5px 15px;
             }
-        }
-    }
-
-    .post__dropdown {
-        display: flex;
-        justify-content: center;
-        text-decoration: none;
-        vertical-align: middle;
-        width: 100%;
-        visibility: hidden;
-
-        &:after {
-            content: '...';
-            font-family: 'Open Sans', sans-serif;
-            position: relative;
-            top: -1px;
-            width: 100%;
         }
     }
 

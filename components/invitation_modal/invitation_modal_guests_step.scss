@@ -13,7 +13,7 @@
     }
     input {
         background: var(--center-channel-bg);
-        border-color: var(--center-channel-color-60);
+        border-color: var(--center-channel-color-64);
         border: 1px solid;
         border-radius: 4px;
         padding: 12px 14px;
@@ -23,7 +23,7 @@
         height: 90px;
         background: var(--center-channel-bg);
         border: 1px solid;
-        border-color: var(--center-channel-color-60);
+        border-color: var(--center-channel-color-64);
         border-radius: 4px;
         padding: 12px;
         width: 100%;
@@ -36,7 +36,7 @@
     }
     .help-text {
         margin-top: 8px;
-        color: var(--center-channel-color-60);
+        color: var(--center-channel-color-64);
     }
     .add-people, .add-channels, .custom-message {
         max-width: 720px;
@@ -57,7 +57,7 @@
         position: relative;
         a {
             font-weight: 600;
-            color: var(--button-bg-90);
+            color: var(--button-bg-88);
         }
         span {
             font-weight: 600;
@@ -66,7 +66,7 @@
             &:hover {
                 fill: var(--center-channel-color-80);
             }
-            fill: var(--center-channel-color-60);
+            fill: var(--center-channel-color-64);
             cursor: pointer;
             position: absolute;
             right: 0px;
@@ -97,8 +97,8 @@
                 border-color: transparent;
             }
             &.btn-inactive {
-                background: var(--center-channel-color-10);
-                color: var(--center-channel-color-50);
+                background: var(--center-channel-color-08);
+                color: var(--center-channel-color-56);
             }
         }
     }
