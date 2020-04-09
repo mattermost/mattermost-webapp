@@ -125,6 +125,14 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             };
         }
 
+        if (snapshot.isDropAnimating && snapshot.draggingOver?.includes('direct_messages')) {
+            return {
+                ...style,
+                opacity: 0,
+                transition: `all ${snapshot.dropAnimation?.curve} ${snapshot.dropAnimation?.duration}s`,
+            };
+        }
+
         return {...style};
     }
 
@@ -153,6 +161,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                 collapsed: this.isCollapsed(this.props),
                                 unread: this.isUnread(),
                                 active: this.props.isCurrentChannel,
+                                dragging: snapshot.isDragging,
                             })}
                             onTransitionEnd={this.removeAnimation}
                             {...provided.draggableProps}

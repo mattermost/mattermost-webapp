@@ -35,7 +35,6 @@ type Props = {
 
 export default class SidebarCategory extends React.PureComponent<Props> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
-    expandOnHoverTimeout?: NodeJS.Timeout;
 
     constructor(props: Props) {
         super(props);
@@ -123,21 +122,6 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         return false;
     }
 
-    onMouseOver = () => {
-        if (!this.isDropDisabled() && this.props.isCollapsed && this.props.draggingState.type && this.props.draggingState.type !== 'category') {
-            this.expandOnHoverTimeout = setTimeout(() => {
-                this.handleCollapse();
-            }, 500);
-        }
-    }
-
-    onMouseOut = () => {
-        if (this.expandOnHoverTimeout) {
-            clearTimeout(this.expandOnHoverTimeout);
-            Reflect.deleteProperty(this, 'expandOnHoverTimeout');
-        }
-    }
-
     render() {
         const {category, categoryIndex, isCollapsed, channels} = this.props;
         if (!category) {
@@ -210,19 +194,24 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                                 type='SIDEBAR_CHANNEL'
                                 isDropDisabled={this.isDropDisabled()}
                             >
-                                {(droppableProvided) => {
+                                {(droppableProvided, droppableSnapshot) => {
                                     return (
                                         <div
                                             {...droppableProvided.droppableProps}
                                             ref={droppableProvided.innerRef}
+                                            className={classNames({
+                                                draggingOverDMCategory: droppableSnapshot.isDraggingOver && category.type === CategoryTypes.DIRECT_MESSAGES,
+                                            })}
                                         >
                                             <div className='SidebarChannelGroupHeader'>
                                                 <button
                                                     ref={this.categoryTitleRef}
-                                                    className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
+                                                    className={classNames('SidebarChannelGroupHeader_groupButton', {
+                                                        favorites: category.type === CategoryTypes.FAVORITES,
+                                                        draggingOver: droppableSnapshot.isDraggingOver,
+                                                        dragging: snapshot.isDragging,
+                                                    })}
                                                     onClick={this.handleCollapse}
-                                                    onMouseOver={this.onMouseOver}
-                                                    onMouseOut={this.onMouseOut}
                                                     aria-label={displayName}
                                                 >
                                                     <i
@@ -243,7 +232,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                                                     className='NavGroupContent'
                                                 >
                                                     {renderedChannels}
-                                                    {droppableProvided.placeholder}
+                                                    {category.type === CategoryTypes.DIRECT_MESSAGES ? null : droppableProvided.placeholder}
                                                 </ul>
                                             </div>
                                         </div>

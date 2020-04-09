@@ -80,6 +80,7 @@ describe('components/sidebar/sidebar_category_list', () => {
         displayedChannels: [currentChannel, unreadChannel],
         isUnreadFilterEnabled: false,
         draggingState: {},
+        categoryCollapsedState: {},
         handleOpenMoreDirectChannelsModal: jest.fn(),
         onDragStart: jest.fn(),
         onDragEnd: jest.fn(),
@@ -91,6 +92,7 @@ describe('components/sidebar/sidebar_category_list', () => {
             removeFromCategory: jest.fn(),
             setDraggingState: jest.fn(),
             stopDragging: jest.fn(),
+            expandCategory: jest.fn(),
         },
     };
 

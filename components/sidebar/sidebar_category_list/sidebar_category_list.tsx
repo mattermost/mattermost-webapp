@@ -54,6 +54,7 @@ type Props = {
     isUnreadFilterEnabled: boolean;
     displayedChannels: Channel[];
     draggingState: DraggingState;
+    categoryCollapsedState: Record<string, boolean>;
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -67,6 +68,7 @@ type Props = {
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
+        expandCategory: (categoryId: string) => void;
     };
 };
 
@@ -228,6 +230,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     updateUnreadIndicators = () => {
+        if (this.props.draggingState.state) {
+            return;
+        }
+
         let showTopUnread = false;
         let showBottomUnread = false;
 
@@ -388,6 +394,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             if (result.type === 'SIDEBAR_CHANNEL') {
                 if (result.source.droppableId !== result.destination.droppableId) {
                     this.props.actions.removeFromCategory(this.props.currentTeam.id, result.source.droppableId, result.draggableId);
+                }
+
+                if (this.props.categoryCollapsedState[result.destination.droppableId] && !this.props.unreadChannelIds.includes(result.draggableId)) {
+                    this.props.actions.expandCategory(result.destination.droppableId);
                 }
 
                 this.props.actions.setCategoryOrder(this.props.currentTeam.id, result.destination.droppableId, result.draggableId, result.destination.index);

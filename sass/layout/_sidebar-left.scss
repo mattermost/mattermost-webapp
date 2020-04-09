@@ -390,6 +390,15 @@
         width: 100%;
         align-items: center;
 
+        &.dragging {
+            border-radius: 4px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        &.draggingOver {
+            background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
         > div {
             flex: 1 1 auto;
         }
@@ -434,6 +443,16 @@
         animation-name: menuAnimation;
         animation-duration: 0.25s;
         animation-timing-function: linear;
+    }
+
+    .SidebarChannelGroup .draggingOverDMCategory {
+        box-shadow: inset -1px 0 0 var(--online-indicator), inset 0 -1px 0 var(--online-indicator), inset 1px 0 0 var(--online-indicator), inset 0 1px 0 var(--online-indicator);
+        border-radius: 4px;
+
+        .SidebarChannelGroupHeader_groupButton {
+            box-shadow: inset -1px 0 0 var(--online-indicator), inset 0 0 0 var(--online-indicator), inset 1px 0 0 var(--online-indicator), inset 0 1px 0 var(--online-indicator);
+            border-radius: 4px 4px 0 0;
+        }
     }
 
     .SidebarChannelGroupHeader_addButton {
@@ -483,6 +502,12 @@
                 @include opacity(.8);
                 visibility: visible;
             }
+        }
+
+        &.dragging {
+            background-color: var(--sidebar-bg);
+            border-radius: 4px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
         }
 
         .btn-close {
@@ -591,9 +616,6 @@
     .SidebarChannel .SidebarLink > i {
         font-size: 12px;
         margin-right: 5px;
-    }
-    .SidebarChannel.dragging {
-        opacity: 0;
     }
 
     .SidebarChannel span.SidebarChannelLinkLabel {
