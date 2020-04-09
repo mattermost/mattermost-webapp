@@ -21,13 +21,13 @@ function verifySearchAutocomplete(index, type = 'user') {
             cy.get('.mention--align').invoke('text').then((text) => {
                 cy.get('.mention__fullname').invoke('text').then((fullName) => {
                     const position = text.length - fullName.length;
-                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace(/\(/g, '').replace(/\)/g, '').toLowerCase();
+                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
                     cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
                 });
             });
         } else if (type === 'channel') {
             cy.get('.search-autocomplete__name').invoke('text').then((text) => {
-                const channel = text.split('~')[0].toLowerCase().trim();
+                const channel = text.split('~')[1].toLowerCase().trim();
                 cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
             });
         }
@@ -35,12 +35,12 @@ function verifySearchAutocomplete(index, type = 'user') {
 }
 
 function verifyMessageAutocomplete(index, type = 'user') {
-    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).find('.mentions__name', {timeout: TIMEOUTS.SMALL}).eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
+    cy.get('#suggestionList').find('.mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
             cy.wrap(el).invoke('text').then((text) => {
                 cy.get('.ml-2').invoke('text').then((fullName) => {
                     const position = text.length - fullName.length;
-                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace(/\(/g, '').replace(/\)/g, '').toLowerCase();
+                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
                     cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
                 });
             });
@@ -127,7 +127,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
     });
 
-    it.only('MM-22625 Verify Accessibility Support in Search Autocomplete', () => {
+    it('MM-22625 Verify Accessibility Support in Search Autocomplete', () => {
         // # Adding at least five other users in the channel
         const channelId = testChannel.id;
         cy.apiGetTeamByName('ad-1').then((res) => {
