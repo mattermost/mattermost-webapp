@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {incrementAnnouncementBarCount, decrementAnnouncementBarCount} from 'actions/views/announcement_bar';
-import {getAnnouncementBarCount} from 'utils/utils';
+import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 
 import AnnouncementBar from './announcement_bar.jsx';
 
