@@ -7,6 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
+import UserProfile from 'components/user_profile';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
@@ -91,6 +92,7 @@ export default class UserListRow extends React.Component {
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
                     status={status}
                     size='md'
+                    userId={this.props.user.id}
                 />
                 <div
                     className='more-modal__details'
@@ -100,7 +102,12 @@ export default class UserListRow extends React.Component {
                         id={userCountID}
                         className='more-modal__name'
                     >
-                        {Utils.displayEntireNameForUser(this.props.user)}
+                        <UserProfile
+                            userId={this.props.user.id}
+                            displayUsername={true}
+                        />
+                        &nbsp;{'-'}&nbsp;
+                        {Utils.displayFullAndNicknameForUser(this.props.user)}
                         <BotBadge
                             className='badge-popoverlist'
                             show={Boolean(this.props.user.is_bot)}
