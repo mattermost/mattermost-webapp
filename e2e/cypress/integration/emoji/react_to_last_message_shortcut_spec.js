@@ -14,19 +14,27 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import * as MESSAGES from '../../fixtures/messages';
 import users from '../../fixtures/users.json';
 
-const newChannelName = `channel-react-to-last-message-${Date.now()}`;
-let channelId = '';
-let newChannel = {};
-
 describe('Keyboard shortcut for adding reactions to last message in channel or thread', () => {
-    before(() => {
+    const newChannelName = `channel-react-to-last-message-${Date.now()}`;
+    let testChannel;
+    let channelId;
+    let isArchived;
+
+    beforeEach(() => {
+        testChannel = null;
+        isArchived = false;
+
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Enable Experimental View Archived Channels
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },
         });
 
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
 
         // # Get the current channels Id for later use such as posting message with other user
@@ -37,22 +45,20 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         // # Create a new channel for later use such as when channel is empty test
         cy.getCurrentTeamId().then((teamId) => {
             // eslint-disable-next-line no-magic-numbers
-            cy.apiCreateChannel(teamId, newChannelName, newChannelName).then(
-                (response) => {
-                    newChannel = Object.assign({}, response.body);
-                }
-            );
+            cy.apiCreateChannel(teamId, newChannelName, newChannelName).then((response) => {
+                testChannel = response.body;
+            });
         });
-    });
 
-    beforeEach(() => {
         // # Make sure there is at least a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
     });
 
     afterEach(() => {
-        // # Close any emoji picker if open
-        cy.get('body').type('{esc}');
+        cy.apiLogin('sysadmin');
+        if (testChannel && testChannel.id && !isArchived) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('Should open emoji picker for last message by shortcut in the channel view when focus is on the center text box', () => {
@@ -495,7 +501,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.findByLabelText('Expand').click();
 
         // # Open the Pinned Posts
-        cy.findByLabelText('See pinned posts').click();
+        cy.findByLabelText('Pinned posts').click();
 
         // # Expand the Pinned Posts
         cy.findByLabelText('Expand').click();
@@ -538,7 +544,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should not open emoji picker by shortcut if last post is a system message', () => {
         // # Visit the new empty channel
-        cy.visit(`/ad-1/channels/${newChannel.name}`);
+        cy.visit(`/ad-1/channels/${testChannel.name}`);
 
         // * Check that there are no posts except you joined message
         cy.findAllByTestId('postView').should('have.length', 1);
@@ -573,7 +579,8 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.postMessage(MESSAGES.TINY);
 
         // # Archive the channel after posting a message
-        cy.apiDeleteChannel(newChannel.id);
+        cy.apiDeleteChannel(testChannel.id);
+        isArchived = true;
 
         // # Emulate react to last message shortcut
         pressShortcutReactToLastMessage();
@@ -620,7 +627,8 @@ function addingReactionWithEmojiPicker() {
         should('exist').
         within(() => {
             // # Search for an emoji and add it to message.
-            cy.findByPlaceholderText('Search emojis').type('smile{enter}');
+            cy.findByPlaceholderText('Search emojis').type('smile').wait(TIMEOUTS.TINY);
+            cy.findByTestId('smile').should('be.visible').click();
         });
     cy.wait(TIMEOUTS.TINY);
 }
@@ -654,13 +662,13 @@ function verifyShortcutReactToLastMessageIsBlocked(from) {
 }
 
 function openMainMenuOptions(menu) {
-    cy.get('body').type('{esc}');
+    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
     cy.findByLabelText('main menu').click();
     cy.findByText(menu).scrollIntoView().click();
 }
 
 function openChannelMainOptions(menu) {
-    cy.get('body').type('{esc}');
+    cy.get('body').type('{esc}').wait(TIMEOUTS.TINY);
     cy.findByLabelText('channel menu').click();
     cy.findByText(menu).scrollIntoView().should('be.visible').click();
 }
