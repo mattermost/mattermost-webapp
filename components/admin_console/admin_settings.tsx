@@ -13,14 +13,14 @@ import FormError from 'components/form_error';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 
-type Props = {
+export type BaseProps = {
     config?: AdminConfig;
     environmentConfig?: EnvironmentConfig;
     setNavigationBlocked?: (blocked: boolean) => void;
     updateConfig?: (config: AdminConfig) => {data: AdminConfig; error: ClientErrorPlaceholder};
 }
 
-type State = {
+export type BaseState = {
     saveNeeded: boolean;
     saving: boolean;
     serverError: string|null;
@@ -28,7 +28,7 @@ type State = {
     errorTooltip: boolean;
 }
 
-type StateKeys = keyof State;
+type StateKeys = keyof BaseState;
 
 // Placeholder type until ClientError is exported from redux.
 // TODO: remove ClientErrorPlaceholder and change the return type of updateConfig
@@ -37,7 +37,7 @@ type ClientErrorPlaceholder = {
     server_error_id: string;
 }
 
-export default abstract class AdminSettings extends React.PureComponent<Props, State> {
+export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
     public constructor(props: Props) {
         super(props);
         const stateInit = {
@@ -46,10 +46,10 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
             serverError: null,
             errorTooltip: false,
         };
-        if (props.config) {
-            this.state = Object.assign(this.getStateFromConfig(props.config), stateInit);
+        if (this.props.config) {
+            this.setState(Object.assign(this.getStateFromConfig(this.props.config!), stateInit));
         } else {
-            this.state = stateInit;
+            this.setState(stateInit);
         }
     }
 
@@ -77,7 +77,7 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
         }
     }
 
-    private handleChange = (id: StateKeys, value: any) => {
+    protected handleChange = (id: string, value: boolean) => {
         this.setState((prevState) => ({
             ...prevState,
             saveNeeded: true,
@@ -226,8 +226,8 @@ export default abstract class AdminSettings extends React.PureComponent<Props, S
         setValue(config, path.split('.'));
     }
 
-    private isSetByEnv = (path: string) => {
-        return Boolean(this.props.environmentConfig && this.getConfigValue(this.props.environmentConfig, path));
+    protected isSetByEnv = (path: string) => {
+        return Boolean(this.props.environmentConfig && this.getConfigValue(this.props.environmentConfig!, path));
     };
 
     public render() {
