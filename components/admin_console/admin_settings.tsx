@@ -37,6 +37,7 @@ type ClientErrorPlaceholder = {
     server_error_id: string;
 }
 
+// eslint-disable-next-line react/require-optimization
 export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
     public constructor(props: Props) {
         super(props);
@@ -46,10 +47,10 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
             serverError: null,
             errorTooltip: false,
         };
-        if (this.props.config) {
-            this.setState(Object.assign(this.getStateFromConfig(this.props.config!), stateInit));
+        if (props.config) {
+            this.state = Object.assign(this.getStateFromConfig(props.config), stateInit);
         } else {
-            this.setState(stateInit);
+            this.state = stateInit;
         }
     }
 

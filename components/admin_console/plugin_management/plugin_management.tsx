@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -15,12 +14,12 @@ import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ConfirmModal from 'components/confirm_modal';
 
-import AdminSettings from '../admin_settings';
+import AdminSettings, {BaseProps, BaseState} from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
 import TextSetting from '../text_setting';
 
-const PluginItemState = ({state}) => {
+const PluginItemState = ({state}: {state: number}) => {
     switch (state) {
     case PluginState.PLUGIN_STATE_NOT_RUNNING:
         return (
@@ -74,11 +73,7 @@ const PluginItemState = ({state}) => {
     }
 };
 
-PluginItemState.propTypes = {
-    state: PropTypes.number.isRequired,
-};
-
-const PluginItemStateDescription = ({state}) => {
+const PluginItemStateDescription = ({state}: {state: number}) => {
     switch (state) {
     case PluginState.PLUGIN_STATE_NOT_RUNNING:
         return (
@@ -145,8 +140,22 @@ const PluginItemStateDescription = ({state}) => {
     }
 };
 
-PluginItemStateDescription.propTypes = {
-    state: PropTypes.number.isRequired,
+type PluginItemProps = {
+    pluginStatus: {
+        state: number;
+        active: boolean;
+        id: string;
+        description: string;
+        version: string;
+        name: string;
+        instances: Array<any>; //TODO Replace with actual object
+    };
+    removing: boolean;
+    handleEnable: (e: any) => any;
+    handleDisable: (e: any) => any;
+    handleRemove: (e: any) => any;
+    showInstances: boolean;
+    hasSettings: boolean;
 };
 
 const PluginItem = ({
@@ -157,7 +166,7 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
-}) => {
+}: PluginItemProps) => {
     let activateButton;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
     const deactivating = pluginStatus.state === PluginState.PLUGIN_STATE_STOPPING;
@@ -166,7 +175,7 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
-                disabled={deactivating}
+                data-disabled={deactivating}
                 onClick={handleDisable}
             >
                 {deactivating ?
@@ -185,7 +194,7 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
-                disabled={activating}
+                data-disabled={activating}
                 onClick={handleEnable}
             >
                 {activating ?
@@ -240,7 +249,7 @@ const PluginItem = ({
             {' - '}
             <a
                 data-plugin-id={pluginStatus.id}
-                disabled={removing}
+                data-disabled={removing}
                 onClick={handleRemove}
             >
                 {removeButtonText}
@@ -368,33 +377,63 @@ const PluginItem = ({
     );
 };
 
-PluginItem.propTypes = {
-    pluginStatus: PropTypes.object.isRequired,
-    removing: PropTypes.bool.isRequired,
-    handleEnable: PropTypes.func.isRequired,
-    handleDisable: PropTypes.func.isRequired,
-    handleRemove: PropTypes.func.isRequired,
-    showInstances: PropTypes.bool.isRequired,
-    hasSettings: PropTypes.bool.isRequired,
+type Props = BaseProps & {
+    config: {
+        PluginSettings: {
+            Enable: boolean;
+            EnableUploads: boolean;
+            AllowInsecureDownloadUrl: boolean;
+            EnableMarketplace: boolean;
+            EnableRemoteMarketplace: boolean;
+            AutomaticPrepackagedPlugins: boolean;
+            MarketplaceUrl: string;
+            RequirePluginSignature: boolean;
+        };
+        ExperimentalSettings: {
+            RestrictSystemAdmin: boolean;
+        };
+    };
+    pluginStatuses: object;
+    plugins: object;
+    actions: {
+        uploadPlugin: (fileData: File, force: boolean) => any;
+        removePlugin: (pluginId: string) => any;
+        getPlugins: () => {};
+        getPluginStatuses: () => any;
+        enablePlugin: (pluginId: string) => any;
+        disablePlugin: (pluginId: string) => any;
+        installPluginFromUrl: (url: string, force: boolean) => any;
+    };
 };
 
-export default class PluginManagement extends AdminSettings {
-    static propTypes = {
-        config: PropTypes.object.isRequired,
-        pluginStatuses: PropTypes.object.isRequired,
-        plugins: PropTypes.object.isRequired,
-        actions: PropTypes.shape({
-            uploadPlugin: PropTypes.func.isRequired,
-            removePlugin: PropTypes.func.isRequired,
-            getPlugins: PropTypes.func.isRequired,
-            getPluginStatuses: PropTypes.func.isRequired,
-            enablePlugin: PropTypes.func.isRequired,
-            disablePlugin: PropTypes.func.isRequired,
-            installPluginFromUrl: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type State = BaseState & {
+    loading: boolean;
+    fileSelected: boolean;
+    file: File | null;
+    pluginDownloadUrl: string;
+    serverError: JSX.Element | string | null ;
+    lastMessage: string | null;
+    uploading: boolean;
+    installing: boolean;
+    overwritingUpload: boolean;
+    confirmOverwriteUploadModal: boolean;
+    overwritingInstall?: boolean;
+    confirmOverwriteInstallModal: boolean;
+    showRemoveModal: boolean;
+    resolveRemoveModal: string| null;
+    enable: boolean;
+    enableUploads: boolean;
+    allowInsecureDownloadUrl: boolean;
+    enableMarketplace: boolean;
+    enableRemoteMarketplace: boolean;
+    automaticPrepackagedPlugins: boolean;
+    marketplaceUrl: string;
+    requirePluginSignature: boolean;
+    removing: string | null;
 
-    constructor(props) {
+}
+export default class PluginManagement extends AdminSettings<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = Object.assign(this.state, {
@@ -414,8 +453,7 @@ export default class PluginManagement extends AdminSettings {
             resolveRemoveModal: null,
         });
     }
-
-    getConfigFromState = (config) => {
+    getConfigFromState = (config: Props['config']) => {
         config.PluginSettings.Enable = this.state.enable;
         config.PluginSettings.EnableUploads = this.state.enableUploads;
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
@@ -428,7 +466,7 @@ export default class PluginManagement extends AdminSettings {
         return config;
     }
 
-    getStateFromConfig(config) {
+    getStateFromConfig(config: Props['config']) {
         const state = {
             enable: config.PluginSettings.Enable,
             enableUploads: config.PluginSettings.EnableUploads,
@@ -453,13 +491,13 @@ export default class PluginManagement extends AdminSettings {
 
     handleUpload = () => {
         this.setState({lastMessage: null, serverError: null});
-        const element = this.refs.fileInput;
-        if (element.files.length > 0) {
+        const element = this.refs.fileInput as HTMLInputElement;
+        if (element.files && element.files.length > 0) {
             this.setState({fileSelected: true, file: element.files[0]});
         }
     }
 
-    helpSubmitUpload = async (file, force) => {
+    helpSubmitUpload = async (file: File, force: boolean) => {
         this.setState({uploading: true});
         const {error} = await this.props.actions.uploadPlugin(file, force);
 
@@ -487,9 +525,9 @@ export default class PluginManagement extends AdminSettings {
         this.setState({loading: true});
         await this.props.actions.getPlugins();
 
-        let msg = `Successfully uploaded plugin from ${file.name}`;
+        let msg = `Successfully uploaded plugin from ${file?.name}`;
         if (this.state.overwritingUpload) {
-            msg = `Successfully updated plugin from ${file.name}`;
+            msg = `Successfully updated plugin from ${file?.name}`;
         }
 
         this.setState({
@@ -503,16 +541,17 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
-    handleSubmitUpload = (e) => {
+    handleSubmitUpload = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const element = this.refs.fileInput;
-        if (element.files.length === 0) {
+        const element = this.refs.fileInput as HTMLInputElement;
+        if (element.files?.length === 0) {
             return;
         }
-        const file = element.files[0];
-
-        this.helpSubmitUpload(file, false);
+        const file = element.files && element.files[0];
+        if (file) {
+            this.helpSubmitUpload(file, false);
+        }
         Utils.clearFileInput(element);
     }
 
@@ -529,16 +568,18 @@ export default class PluginManagement extends AdminSettings {
 
     handleOverwriteUploadPlugin = () => {
         this.setState({confirmOverwriteUploadModal: false});
-        this.helpSubmitUpload(this.state.file, true);
+        if (this.state.file) {
+            this.helpSubmitUpload(this.state.file, true);
+        }
     }
 
-    onPluginDownloadUrlChange = (e) => {
+    onPluginDownloadUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             pluginDownloadUrl: e.target.value,
         });
     }
 
-    installFromUrl = async (force) => {
+    installFromUrl = async (force: boolean) => {
         const {pluginDownloadUrl} = this.state;
 
         this.setState({
@@ -583,7 +624,7 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
-    getMarketplaceUrlHelpText = (url) => {
+    getMarketplaceUrlHelpText = (url: string) => {
         return (
             <div>
                 {
@@ -611,7 +652,7 @@ export default class PluginManagement extends AdminSettings {
         return this.state.marketplaceUrl !== '';
     }
 
-    handleSubmitInstall = (e) => {
+    handleSubmitInstall = (e: React.SyntheticEvent) => {
         e.preventDefault();
         return this.installFromUrl(false);
     }
@@ -630,7 +671,7 @@ export default class PluginManagement extends AdminSettings {
         return this.installFromUrl(true);
     }
 
-    showRemovePluginModal = (e) => {
+    showRemovePluginModal = (e: React.SyntheticEvent) => {
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({showRemoveModal: true, removing: pluginId});
@@ -647,35 +688,40 @@ export default class PluginManagement extends AdminSettings {
 
     handleRemove = async () => {
         this.setState({lastMessage: null, serverError: null});
-        const {error} = await this.props.actions.removePlugin(this.state.removing);
-        this.setState({removing: null});
+        if (this.state.removing) {
+            const {error} = await this.props.actions.removePlugin(this.state.removing);
+            this.setState({removing: null});
 
-        if (error) {
-            this.setState({serverError: error.message});
+            if (error) {
+                this.setState({serverError: error.message});
+            }
         }
     }
 
-    handleEnable = async (e) => {
+    handleEnable = async (e: React.KeyboardEvent) => {
         e.preventDefault();
         this.setState({lastMessage: null, serverError: null});
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
 
-        const {error} = await this.props.actions.enablePlugin(pluginId);
+        if (pluginId) {
+            const {error} = await this.props.actions.enablePlugin(pluginId);
 
-        if (error) {
-            this.setState({serverError: error.message});
+            if (error) {
+                this.setState({serverError: error.message});
+            }
         }
     }
 
-    handleDisable = async (e) => {
+    handleDisable = async (e: React.KeyboardEvent) => {
         this.setState({lastMessage: null, serverError: null});
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
+        if (pluginId) {
+            const {error} = await this.props.actions.disablePlugin(pluginId);
 
-        const {error} = await this.props.actions.disablePlugin(pluginId);
-
-        if (error) {
-            this.setState({serverError: error.message});
+            if (error) {
+                this.setState({serverError: error.message});
+            }
         }
     }
 
@@ -688,7 +734,9 @@ export default class PluginManagement extends AdminSettings {
         );
     }
 
-    renderOverwritePluginModal = ({show, onConfirm, onCancel}) => {
+    renderOverwritePluginModal = (
+        {show, onConfirm, onCancel}:
+        {show: boolean; onConfirm: (checked: boolean) => void; onCancel: (checked: boolean) => void }) => {
         const title = (
             <FormattedMessage
                 id='admin.plugin.upload.overwrite_modal.title'
@@ -723,7 +771,9 @@ export default class PluginManagement extends AdminSettings {
         );
     }
 
-    renderRemovePluginModal = ({show, onConfirm, onCancel}) => {
+    renderRemovePluginModal = (
+        {show, onConfirm, onCancel}:
+        {show: boolean; onConfirm: (checked: boolean) => void; onCancel: (checked: boolean) => void }) => {
         const title = (
             <FormattedMessage
                 id='admin.plugin.remove_modal.title'
@@ -788,8 +838,8 @@ export default class PluginManagement extends AdminSettings {
     renderSettings = () => {
         const {enableUploads} = this.state;
         const enable = this.props.config.PluginSettings.Enable;
-        let serverError = '';
-        let lastMessage = '';
+        let serverError = <React.Fragment></React.Fragment>;
+        let lastMessage = <React.Fragment></React.Fragment>;
 
         // Using props values to make sure these are set on the server and not just locally
         const enableUploadButton = enableUploads && enable && !this.props.config.PluginSettings.RequirePluginSignature;
