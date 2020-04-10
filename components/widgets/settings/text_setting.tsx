@@ -10,14 +10,14 @@ type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'p
 export type WidgetTextSettingProps = {
     id: string;
     label: React.ReactNode;
-    labelClassName: string;
+    labelClassName?: string;
     placeholder?: string;
     helpText?: React.ReactNode;
     footer?: React.ReactNode;
     value: string | number;
-    inputClassName: string;
-    maxLength: number;
-    resizable: boolean;
+    inputClassName?: string;
+    maxLength?: number;
+    resizable?: boolean;
     onChange(name: string, value: any): void;
     disabled?: boolean;
     type: InputTypes;
