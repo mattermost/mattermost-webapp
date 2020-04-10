@@ -212,8 +212,8 @@
             img {
                 @include border-radius(4px);
                 @include single-transition(all, .1s, linear);
+                cursor: zoom-in;
                 align-self: center;
-                cursor: pointer;
                 max-height: 350px;
                 overflow: hidden;
                 position: relative;
@@ -294,6 +294,7 @@
 .post-image__column {
     @include single-transition(box-shadow, .15s, ease);
     @include border-radius(4px);
+    cursor: zoom-in;
     overflow: hidden;
     align-items: center;
     background: v(center-channel-bg);
@@ -312,10 +313,6 @@
         .post-image__download {
             opacity: 1;
         }
-    }
-
-    .post__content & {
-        cursor: pointer;
     }
 
     &--placeholder {
@@ -449,7 +446,6 @@
 
     .post-image__download {
         @include single-transition(opacity, .15s, ease);
-        cursor: pointer;
         align-items: center;
         display: flex;
         height: 100%;
