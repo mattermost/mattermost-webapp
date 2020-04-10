@@ -4,7 +4,7 @@
     display: flex;
     flex-shrink: 0;
     flex-wrap: nowrap;
-    height: 115px;
+    height: 8rem;
     margin: 1px 0 5px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -36,26 +36,35 @@
     }
 }
 
-.file-preview__remove {
-    background: alpha-color($black, .5);
-    border-radius: 0 0 0 2px;
-    height: 28px;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: 0;
-    width: 28px;
+.app__body {
+    .file-preview__remove {
+        border-radius: 4px;
+        text-decoration: none;
+        color: v(center-channel-color-56);
+        position: absolute;
+        right: 4px;
+        text-align: center;
+        top: 4px;
+        width: 2.8rem;
+        height: 2.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
 
-    i {
-        color: $white;
-        cursor: pointer;
-        font-size: 16px;
-        line-height: 29px;
-        position: relative;
-        right: auto;
-        text-shadow: 0 0 3px alpha-color($black, .7);
-        top: auto;
-        z-index: 5;
+        &:focus {
+            color: v(center-channel-color-56);
+        }
+
+        &:hover {
+            background: v(center-channel-color-08);
+            color: v(center-channel-color-72);
+        }
+
+        &:active {
+            background: v(button-bg-08);
+            color: v(button-bg);
+        }
     }
 }
 
@@ -339,8 +348,8 @@
     overflow: hidden;
     position: relative;
     text-align: center;
-    width: 30px;
-    height: 30px;
+    width: 4rem;
+    height: 4rem;
     border-radius: 4px;
 
     &.small {
@@ -379,7 +388,7 @@
     @include cursor(zoom-in);
     flex: none;
     height: 100%;
-    width: 6.2rem;
+    width: 6.3rem;
     z-index: 1;
     display: flex;
     align-items: center;
