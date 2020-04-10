@@ -1496,7 +1496,7 @@
 
         &:not(.post-reaction--current-user) {
             &:hover {
-                background: white;
+                background: v(center-channel-bg);
                 border-color: v(center-channel-color-16);
                 color: v(center-channel-color-72);
                 fill: v(center-channel-color-72);
@@ -1516,7 +1516,13 @@
 
             &:hover {
                 border-color: v(button-bg);
-                background: white;
+                background: v(center-channel-bg);
+            }
+
+            &:active {
+                background-color: v(button-bg-08);
+                color: v(button-bg);
+                fill: v(button-bg);
             }
         }
 
