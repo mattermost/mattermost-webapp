@@ -310,7 +310,7 @@
         @include box-shadow($elevation-1);
 
         .post-image__download {
-            visibility: visible;
+            opacity: 1;
         }
     }
 
@@ -448,6 +448,7 @@
     }
 
     .post-image__download {
+        @include single-transition(opacity, .15s, ease);
         cursor: pointer;
         align-items: center;
         display: flex;
@@ -458,7 +459,7 @@
         right: 0;
         text-align: center;
         top: 0;
-        visibility: visible;
+        opacity: 1;
 
         a {
             text-decoration: none;
