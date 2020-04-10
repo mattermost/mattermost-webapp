@@ -308,6 +308,10 @@
 
     &:hover {
         @include box-shadow($elevation-1);
+
+        .post-image__download {
+            visibility: visible;
+        }
     }
 
     .post__content & {
@@ -454,6 +458,7 @@
         right: 0;
         text-align: center;
         top: 0;
+        visibility: visible;
 
         a {
             text-decoration: none;
