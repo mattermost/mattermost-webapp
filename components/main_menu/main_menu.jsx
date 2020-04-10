@@ -148,6 +148,7 @@ class MainMenu extends React.PureComponent {
                 mobile={this.props.mobile}
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
+                customStyles={{left: '-44px', marginLeft: 0}}
             >
                 <Menu.Group>
                     <Menu.ItemAction
