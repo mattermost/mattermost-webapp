@@ -41,6 +41,7 @@ type Props = {
             data: boolean;
         }>;
     };
+    handleExit?: () => void;
 }
 
 type State = {
@@ -180,6 +181,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
                 actions={teamMembersDropdown}
                 actionUserProps={actionUserProps}
                 focusOnMount={!UserAgent.isMobile()}
+                handleExit={this.props.handleExit}
             />
         );
     }

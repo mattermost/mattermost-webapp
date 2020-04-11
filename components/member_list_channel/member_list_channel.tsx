@@ -45,7 +45,6 @@ type Props = {
             data: boolean;
         }>;
     };
-
     handleExit?: () => void;
 }
 

@@ -50,13 +50,17 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
         this.setState({show: false});
     }
 
+    handleExit = () => {
+        this.props.onHide();
+    }
+
     handleInvitePeople = () => {
         const modalData = {
             modalId: ModalIdentifiers.INVITATION,
             dialogType: InvitationModal,
         };
         this.props.actions.openModal(modalData);
-        this.setState({show: false});
+        this.handleExit();
     }
 
     render() {
@@ -70,7 +74,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                 dialogClassName='a11y__modal more-modal'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.handleExit}
                 role='dialog'
                 aria-labelledby='teamMemberModalLabel'
                 id='teamMembersModal'
@@ -108,6 +112,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                 <Modal.Body>
                     <MemberListTeam
                         teamId={this.props.currentTeam.id}
+                        handleExit={this.handleExit}
                     />
                 </Modal.Body>
             </Modal>
