@@ -45,6 +45,8 @@ type Props = {
             data: boolean;
         }>;
     };
+
+    handleExit?: () => void;
 }
 
 type State = {
@@ -143,6 +145,7 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
                 actions={channelIsArchived ? [] : [ChannelMembersDropdown]}
                 actionUserProps={this.props.actionUserProps}
                 focusOnMount={!UserAgent.isMobile()}
+                handleExit={this.props.handleExit}
             />
         );
     }

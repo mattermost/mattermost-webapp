@@ -24,6 +24,7 @@ type Props = {
     userId?: string;
     username?: string;
     wrapperClass?: string;
+    handleExit?: () => void;
 }
 
 export default class ProfilePicture extends React.PureComponent<Props> {
@@ -68,6 +69,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                             hide={this.hideProfilePopover}
                             isRHS={this.props.isRHS}
                             hasMention={this.props.hasMention}
+                            handleExit={this.props.handleExit}
                         />
                     }
                 >

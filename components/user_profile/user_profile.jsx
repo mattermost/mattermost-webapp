@@ -23,6 +23,7 @@ export default class UserProfile extends PureComponent {
         overwriteName: PropTypes.node,
         user: PropTypes.object,
         userId: PropTypes.string,
+        handleExit: PropTypes.func,
     };
 
     static defaultProps = {
@@ -97,6 +98,7 @@ export default class UserProfile extends PureComponent {
                             hideStatus={hideStatus}
                             isRHS={isRHS}
                             hasMention={hasMention}
+                            handleExit={this.props.handleExit}
                         />
                     }
                 >

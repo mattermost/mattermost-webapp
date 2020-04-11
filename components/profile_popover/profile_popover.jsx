@@ -164,6 +164,7 @@ class ProfilePopover extends React.PureComponent {
                 browserHistory.push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         });
+        this.handleChannelMembersModalExit();
     }
 
     handleMentionKeyClick = (e) => {
@@ -176,6 +177,7 @@ class ProfilePopover extends React.PureComponent {
             this.props.hide();
         }
         EventEmitter.emit('mention_key_click', this.props.user.username, this.props.isRHS);
+        this.handleChannelMembersModalExit();
     }
 
     handleEditAccountSettings = (e) => {
@@ -188,6 +190,19 @@ class ProfilePopover extends React.PureComponent {
             this.props.hide();
         }
         this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
+        this.handleChannelMembersModalExit();
+    }
+
+    handleAddToChannel = (e) => {
+        e.preventDefault();
+
+        this.handleChannelMembersModalExit();
+    }
+
+    handleChannelMembersModalExit = () => {
+        if (this.props.handleExit) {
+            this.props.handleExit();
+        }
     }
 
     render() {
@@ -394,6 +409,7 @@ class ProfilePopover extends React.PureComponent {
                         <a
                             href='#'
                             className='text-nowrap'
+                            onClick={this.handleAddToChannel}
                         >
                             <ToggleModalButtonRedux
                                 accessibilityLabel={addToChannelMessage}

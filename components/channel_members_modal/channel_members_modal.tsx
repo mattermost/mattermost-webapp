@@ -112,6 +112,7 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
                     <Modal.Body>
                         <MemberListChannel
                             channel={this.props.channel}
+                            handleExit={this.handleExit}
                         />
                     </Modal.Body>
                 </Modal>

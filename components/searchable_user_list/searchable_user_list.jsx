@@ -35,6 +35,7 @@ class SearchableUserList extends React.Component {
         term: PropTypes.string.isRequired,
         onTermChange: PropTypes.func.isRequired,
         intl: PropTypes.any,
+        handleExit: PropTypes.func,
 
         // the type of user list row to render
         rowComponentType: PropTypes.func,
@@ -259,6 +260,7 @@ class SearchableUserList extends React.Component {
                         actionProps={this.props.actionProps}
                         actionUserProps={this.props.actionUserProps}
                         rowComponentType={this.props.rowComponentType}
+                        handleExit={this.props.handleExit}
                     />
                 </div>
                 <div className='filter-controls'>

@@ -24,6 +24,7 @@ export default class UserListRow extends React.Component {
         index: PropTypes.number,
         totalUsers: PropTypes.number,
         userCount: PropTypes.number,
+        handleExit: PropTypes.func,
     };
 
     static defaultProps = {
@@ -93,6 +94,8 @@ export default class UserListRow extends React.Component {
                     status={status}
                     size='md'
                     userId={this.props.user.id}
+                    hasMention={true}
+                    handleExit={this.props.handleExit}
                 />
                 <div
                     className='more-modal__details'
@@ -104,7 +107,9 @@ export default class UserListRow extends React.Component {
                     >
                         <UserProfile
                             userId={this.props.user.id}
+                            hasMention={true}
                             displayUsername={true}
+                            handleExit={this.props.handleExit}
                         />
                         &nbsp;
                         {this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
