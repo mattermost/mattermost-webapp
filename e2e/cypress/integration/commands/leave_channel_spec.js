@@ -21,7 +21,6 @@ describe('Leave Channel Command', () => {
         cy.getCurrentTeamId().then((teamId) => {
             const channelName = 'newchannel' + Date.now();
             cy.apiCreateChannel(teamId, channelName, channelName).then((response) => {
-
                 // # Go to newly created channel
                 cy.get('#sidebarItem_' + response.body.name).click({force: true});
                 cy.findAllByTestId('postView').should('be.visible');
