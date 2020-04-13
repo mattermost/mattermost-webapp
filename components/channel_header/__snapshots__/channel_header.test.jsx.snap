@@ -1346,7 +1346,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 style={
                   Object {
                     "maxWidth": "0px",
-                    "transform": "translateX(0px)",
+                    "transform": "translate(0px, 0px)",
                   }
                 }
               >

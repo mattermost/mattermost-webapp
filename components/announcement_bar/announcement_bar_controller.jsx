@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
 import TextDismissableBar from './text_dismissable_bar.jsx';
-import AnnouncementBar from './announcement_bar.jsx';
+import AnnouncementBar from './default_announcement_bar';
 
 export default class AnnouncementBarController extends React.PureComponent {
     static propTypes = {
