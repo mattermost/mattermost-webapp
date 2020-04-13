@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @onboarding
 
-import {getRandomInt} from '../../../utils';
+import {getRandomInt} from '../../utils';
 
 const uniqueUserId = getRandomInt(99999);
 
