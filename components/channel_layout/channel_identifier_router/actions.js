@@ -31,17 +31,23 @@ export function onChannelByIdentifierEnter({match, history}) {
         }
 
         if (path === 'channels') {
-            if (identifier.length === LENGTH_OF_ID) {
             // It's hard to tell an ID apart from a channel name of the same length, so check first if
             // the identifier matches a channel that we have
-                const channelsByName = getChannelByName(state, identifier);
-                const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
+            const channelsByName = getChannelByName(state, identifier);
+            const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
+            if (identifier.length === LENGTH_OF_ID) {
                 if (channelsByName || moreChannelsByName) {
                     dispatch(goToChannelByChannelName(match, history));
                 } else {
                     dispatch(goToChannelByChannelId(match, history));
                 }
-            } else if (identifier.length === LENGTH_OF_GROUP_ID) {
+            } else if (
+                (!channelsByName && !moreChannelsByName && identifier.length === LENGTH_OF_GROUP_ID) ||
+                (
+                    (channelsByName && channelsByName.type === Constants.GM_CHANNEL) ||
+                    (moreChannelsByName && moreChannelsByName.type === Constants.GM_CHANNEL)
+                )
+            ) {
                 dispatch(goToGroupChannelByGroupId(match, history));
             } else if (identifier.length === LENGTH_OF_USER_ID_PAIR) {
                 dispatch(goToDirectChannelByUserIds(match, history));
