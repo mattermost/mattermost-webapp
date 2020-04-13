@@ -553,24 +553,26 @@ class CreatePost extends React.PureComponent {
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
         let mentions = [];
-        if (this.props.enableConfirmNotificationsToChannel && !containsAtChannel(this.state.message)) {
+        const notContainsAtChannel = !containsAtChannel(this.state.message);
+        if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel) {
             // Groups mentioned in users text
             mentions = groupsMentionedInText(this.state.message, allowReferencedGroups);
             if (mentions.length > 0) {
-                const groupsWith5MembersInChannel = mentions.map((group) => channelMemberCountsByGroup[group.id]).filter((group) => group && group.channel_member_count > Constants.NOTIFY_ALL_MEMBERS);
-                mentions = mentions.map((group) => `@${group.name}`);
-                groupsWith5MembersInChannel.forEach((group) => {
-                    if (group.channel_member_count > memberNotifyCount) {
-                        memberNotifyCount = group.channel_member_count;
-                        channelTimezoneCount = group.channel_member_timezones_count;
+                mentions = mentions
+                .map((group) => {
+                    const mappedValue = channelMemberCountsByGroup[group.id];
+                    if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
+                        memberNotifyCount = mappedValue.channel_member_count;
+                        channelTimezoneCount = mappedValue.channel_member_timezones_count;
                     }
+                    return `@${group.name}`;
                 });
             }
         }
 
         if (notificationsToChannel &&
             currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            containsAtChannel(this.state.message)) {
+            !notContainsAtChannel) {
             memberNotifyCount = currentChannelMembersCount - 1;
             mentions = ['@all', '@channel'];
             if (this.props.isTimezoneEnabled) {
