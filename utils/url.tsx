@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
 import {latinise} from 'utils/latinise';
+import {t} from 'utils/i18n';
 
 type WindowObject = {
     location: {
@@ -88,4 +92,42 @@ export function getScheme(url: string): string | null {
     const match = (/([a-z0-9+.-]+):/i).exec(url);
 
     return match && match[1];
+}
+
+function formattedError(id: string, message: string): React.ReactElement {
+    return (<span key={id}>
+        <FormattedMessage
+            id={id}
+            defaultMessage={message}
+        />
+        <br/>
+    </span>);
+}
+
+export function validateChannelUrl(url: string): React.ReactElement[] {
+    const errors: React.ReactElement[] = [];
+
+    const cleanedURL = cleanUpUrlable(url);
+    const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
+    if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url || url.indexOf('__') > -1) {
+        if (url.length < 2) {
+            errors.push(formattedError(t('change_url.longer'), 'URL must be two or more characters.'));
+        }
+        if (url.charAt(0) === '-' || url.charAt(0) === '_') {
+            errors.push(formattedError(t('change_url.startWithLetter'), 'URL must start with a letter or number.'));
+        }
+        if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
+            errors.push(formattedError(t('change_url.endWithLetter'), 'URL must end with a letter or number.'));
+        }
+        if (url.indexOf('__') > -1) {
+            errors.push(formattedError(t('change_url.noUnderscore'), 'URL can not contain two underscores in a row.'));
+        }
+
+        // In case of error we don't detect
+        if (errors.length === 0) {
+            errors.push(formattedError(t('change_url.invalidUrl'), 'Invalid URL'));
+        }
+    }
+
+    return errors;
 }

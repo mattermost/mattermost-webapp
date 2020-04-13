@@ -44,7 +44,7 @@
     margin-right: 20px;
     position: absolute;
     right: 0;
-    top: 0;
+    top: 1px;
     visibility: hidden;
     width: 22px;
     margin: 0;
@@ -59,7 +59,7 @@
     }
 
     body.enable-animations & {
-        @include single-transition(all, $transition-quick, ease-out);
+        @include single-transition(opacity, $transition-quick, ease-out);
     }
 }
 
@@ -89,8 +89,14 @@
             border: 2px solid v(button-bg);
             padding: 0 29px;
 
+            .input-clear {
+                top: 0;
+                right: -1px;
+            }
+
             .search__icon {
                 top: 6px;
+                left: 8px;
             }
         }
     }
@@ -103,7 +109,7 @@
     }
 
     .inner-wrap.move--left & {
-        width: 300px;
+        width: 306px;
     }
 
     .search-bar {
