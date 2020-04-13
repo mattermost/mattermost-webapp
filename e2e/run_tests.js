@@ -49,6 +49,7 @@ const without = require('lodash.without');
 const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 const shell = require('shelljs');
+const superagent = require('superagent');
 const argv = require('yargs').argv;
 
 const users = require('./cypress/fixtures/users.json');
@@ -292,11 +293,7 @@ async function runTests() {
     // Send test report to "QA: UI Test Automation" channel via webhook
     if (WEBHOOK_URL) {
         const data = generateTestReport(summary);
-        await sendReport('summary report', {
-            method: 'post',
-            url: WEBHOOK_URL,
-            data,
-        });
+        await sendReport('summary report', WEBHOOK_URL, data);
     }
 
     // Send diagnostic report via webhook
@@ -304,23 +301,16 @@ async function runTests() {
     const serverInfo = await getServerInfo(baseUrl);
     if (serverInfo.enableDiagnostics && DIAGNOSTIC_WEBHOOK_URL) {
         const data = generateDiagnosticReport(summary, serverInfo);
-        await sendReport('diagnostic report', {
-            method: 'post',
-            url: DIAGNOSTIC_WEBHOOK_URL,
-            data
-        });
+        await sendReport('diagnostic report', DIAGNOSTIC_WEBHOOK_URL, data);
     }
 
     if (TEST_DASHBOARD_URL) {
-        await sendReport('dashboard data', {
-            method: 'post',
-            url: TEST_DASHBOARD_URL,
-            data: {
-                report: jsonReport,
-                branch: BRANCH,
-                build: BUILD_ID,
-            },
-        });
+        const data = {
+            report: jsonReport,
+            branch: BRANCH,
+            build: BUILD_ID,
+        };
+        await sendReport('dashboard data', TEST_DASHBOARD_URL, data);
     }
 
     // eslint-disable-next-line
@@ -440,11 +430,11 @@ async function getServerInfo(baseUrl) {
     };
 }
 
-async function sendReport(name, requestOptions) {
+async function sendReport(name, url, data) {
     try {
-        const response = await axios(requestOptions);
+        const response = await superagent.post(url).send(data);
 
-        if (response.data) {
+        if (response.body) {
             console.log(`Successfully sent ${name}.`);
         }
         return response;
