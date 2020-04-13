@@ -14,7 +14,7 @@ import {getRandomInt} from '../../utils';
 describe('Channel sidebar', () => {
     testWithConfig({
         ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
+            ExperimentalSidebarFeatures: 'default_on',
         },
     });
 

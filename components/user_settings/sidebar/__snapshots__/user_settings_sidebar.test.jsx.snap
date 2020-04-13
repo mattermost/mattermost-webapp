@@ -68,11 +68,11 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           values={Object {}}
         />
       }
-      section="channelSidebarOrganization"
+      section="experimentalSidebarFeatures"
       title={
         <FormattedMessage
           defaultMessage="Experimental Sidebar Features"
-          id="user.settings.sidebar.channelSidebarOrganizationSectionTitle"
+          id="user.settings.sidebar.experimentalSidebarFeaturesSectionTitle"
           values={Object {}}
         />
       }

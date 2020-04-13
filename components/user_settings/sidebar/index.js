@@ -29,7 +29,7 @@ function mapStateToProps(state) {
         'true'
     );
 
-    const channelSidebarOrganizationOption = getNewSidebarPreference(state);
+    const experimentalSidebarFeaturesOption = getNewSidebarPreference(state);
     const sidebarPreference = getSidebarPreferences(state);
 
     return {
@@ -38,9 +38,9 @@ function mapStateToProps(state) {
         unreadsAtTop: sidebarPreference.unreads_at_top,
         favoriteAtTop: sidebarPreference.favorite_at_top,
         channelSwitcherOption,
-        channelSidebarOrganizationOption: String(channelSidebarOrganizationOption),
+        experimentalSidebarFeaturesOption: String(experimentalSidebarFeaturesOption),
         showChannelOrganization: config.ExperimentalChannelOrganization === 'true',
-        showChannelSidebarOrganization: config.ExperimentalChannelSidebarOrganization !== 'disabled',
+        showExperimentalSidebarFeatures: config.ExperimentalSidebarFeatures !== 'disabled',
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         user: getCurrentUser(state),
     };

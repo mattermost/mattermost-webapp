@@ -16,7 +16,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'disabled',
+                ExperimentalSidebarFeatures: 'disabled',
             },
         });
         cy.visit('/ad-1/channels/town-square');

@@ -53,7 +53,7 @@ describe('Handle removed user - old sidebar', () => {
 describe('Handle removed user - new sidebar', () => {
     testWithConfig({
         ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
+            ExperimentalSidebarFeatures: 'default_on',
         },
     });
 

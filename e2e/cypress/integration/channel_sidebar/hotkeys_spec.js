@@ -21,7 +21,7 @@ const sysadmin = users.sysadmin;
 describe('Channel switching', () => {
     testWithConfig({
         ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
+            ExperimentalSidebarFeatures: 'default_on',
         },
     });
 

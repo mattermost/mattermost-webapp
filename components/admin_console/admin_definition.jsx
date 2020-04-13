@@ -4458,26 +4458,26 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
-                        label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
+                        key: 'ServiceSettings.ExperimentalSidebarFeatures',
+                        label: t('admin.experimental.experimentalSidebarFeatures.title'),
                         label_default: 'Experimental Sidebar Features',
-                        help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
+                        help_text: t('admin.experimental.experimentalSidebarFeatures.desc'),
                         help_text_default: 'When enabled, users can access experimental channel sidebar features, including collapsible sections and unreads filtering. If default on, this enabled the new sidebar features by default for all users on this server. Users can disable the features in **Account Settings > Sidebar > Experimental Sidebar Features**. If default off, users must enable the experimental sidebar features in Account Settings. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)',
                         help_text_markdown: true,
                         options: [
                             {
                                 value: 'disabled',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.disabled'),
+                                display_name: t('admin.experimental.experimentalSidebarFeatures.disabled'),
                                 display_name_default: 'Disabled',
                             },
                             {
                                 value: 'default_on',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_on'),
+                                display_name: t('admin.experimental.experimentalSidebarFeatures.default_on'),
                                 display_name_default: 'Enabled (Default On)',
                             },
                             {
                                 value: 'default_off',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
+                                display_name: t('admin.experimental.experimentalSidebarFeatures.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
                             },
                         ],

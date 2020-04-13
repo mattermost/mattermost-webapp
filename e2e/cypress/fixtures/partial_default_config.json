@@ -56,7 +56,7 @@
         "EnablePostUsernameOverride": true,
         "EnablePostIconOverride": true,
         "ExperimentalChannelOrganization": false,
-        "ExperimentalChannelSidebarOrganization": "disabled",
+        "ExperimentalSidebarFeatures": "disabled",
         "IdleTimeout": 300
     },
     "SupportSettings": {
