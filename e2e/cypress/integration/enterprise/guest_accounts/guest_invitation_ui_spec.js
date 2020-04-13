@@ -22,7 +22,7 @@ let newUser;
 const user1 = users['user-1'];
 
 function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
-    // # Update Guest Account Settings
+    // # Update Guest Accounts, Email Invitations, and Whitelisted Domains
     cy.apiUpdateConfig({
         GuestAccountsSettings: {
             Enable: featureFlag,
@@ -30,7 +30,6 @@ function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, 
         },
         ServiceSettings: {
             EnableEmailInvitations: emailInvitation,
-            IdleTimeout: 300,
         },
     });
 }
@@ -111,12 +110,16 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 }
 
 describe('Guest Account - Guest User Invitation Flow', () => {
-    before(() => {
-        // * Login as sysadmin and check if server has license for Guest Accounts
+    beforeEach(() => {
+        testTeam = null;
+
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Guest Accounts
         cy.requireLicenseForFeature('GuestAccounts');
 
-        // # Enable Guest Account Settings
+        // # Reset Guest Feature settings
         changeGuestFeatureSettings();
 
         // # Create new team and visit its URL
@@ -134,15 +137,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     afterEach(() => {
-        // # Reload current page after each test to close any popup/modals left open
-        cy.reload();
-    });
-
-    after(() => {
-        // # Reset Guest Feature settings
-        changeGuestFeatureSettings();
-
-        // # Delete the new team as sysadmin
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }
@@ -162,7 +157,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the header has changed in the modal
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', 'Invite Guests to Test Team');
+            cy.get('h1').should('have.text', `Invite Guests to ${testTeam.display_name}`);
         });
 
         // * Verify Invite Guests button is disabled by default
@@ -287,7 +282,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18050 Verify when different feature settings are disabled', () => {
-        // # Disable Guest Account Feature
+        // # Disable Guest Accounts
+        // # Enable Email Invitations
         changeGuestFeatureSettings(false, true);
 
         // # reload current page
@@ -298,7 +294,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
-        cy.findByTestId('invitationModal').find('h1').should('have.text', 'Invite Members to Test Team');
+        cy.findByTestId('invitationModal').find('h1').should('have.text', `Invite Members to ${testTeam.display_name}`);
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {
@@ -309,7 +305,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Close the Modal
         cy.get('#closeIcon').should('be.visible').click();
 
-        // # Enable Guest Account Feature and disable Email Invitation
+        // # Enable Guest Accounts
+        // # Disable Email Invitations
         changeGuestFeatureSettings(true, false);
 
         // # Reload the current page

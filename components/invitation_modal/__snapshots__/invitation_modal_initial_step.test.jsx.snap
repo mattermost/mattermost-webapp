@@ -24,7 +24,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
   </h1>
   <div
     aria-describedby="inviteMembersSectionDescription"
-    aria-labeledby="inviteMembersSectionHeader"
+    aria-labelledby="inviteMembersSectionHeader"
     className="invitation-modal-option"
     data-testid="inviteMembersLink"
     onClick={[MockFunction]}
@@ -56,7 +56,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
   </div>
   <div
     aria-describedby="inviteGuestsSectionDescription"
-    aria-labeledby="inviteGuestsSectionHeader"
+    aria-labelledby="inviteGuestsSectionHeader"
     className="invitation-modal-option"
     data-testid="inviteGuestLink"
     onClick={[MockFunction]}
@@ -111,7 +111,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
   </h1>
   <div
     aria-describedby="inviteMembersSectionDescription"
-    aria-labeledby="inviteMembersSectionHeader"
+    aria-labelledby="inviteMembersSectionHeader"
     className="invitation-modal-option"
     data-testid="inviteMembersLink"
     onClick={[MockFunction]}
@@ -143,7 +143,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
   </div>
   <div
     aria-describedby="inviteGuestsSectionDescription"
-    aria-labeledby="inviteGuestsSectionHeader"
+    aria-labelledby="inviteGuestsSectionHeader"
     className="invitation-modal-option"
     data-testid="inviteGuestLink"
     onClick={[MockFunction]}

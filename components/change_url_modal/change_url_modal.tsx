@@ -8,8 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
-import {getShortenedURL, cleanUpUrlable} from 'utils/url';
-import {t} from 'utils/i18n';
+import {getShortenedURL, validateChannelUrl} from 'utils/url';
 
 type Props = {
 
@@ -61,7 +60,7 @@ type Props = {
 
 type State = {
     currentURL?: string;
-    urlError: JSX.Element[] | string;
+    urlErrors: JSX.Element[] | string;
     userEdit: boolean;
 };
 
@@ -81,7 +80,7 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
         this.urlInput = React.createRef();
         this.state = {
             currentURL: props.currentURL,
-            urlError: '',
+            urlErrors: '',
             userEdit: false,
         };
     }
@@ -101,63 +100,21 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
         this.setState({currentURL: url.replace(/[^A-Za-z0-9-_]/g, '').toLowerCase(), userEdit: true});
     }
 
-    formattedError = (key: string, id: string, message: string) => {
-        return (<span key={key}>
-            <FormattedMessage
-                id={id}
-                defaultMessage={message}
-            />
-            <br/>
-        </span>);
-    }
-
-    getURLError = (url: string) => {
-        let error = []; //eslint-disable-line prefer-const
-
-        if (url.length < 2) {
-            error.push(
-                this.formattedError('error1', t('change_url.longer'), 'URL must be two or more characters.')
-            );
-        }
-        if (url.charAt(0) === '-' || url.charAt(0) === '_') {
-            error.push(
-                this.formattedError('error2', t('change_url.startWithLetter'), 'URL must start with a letter or number.')
-            );
-        }
-        if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
-            error.push(
-                this.formattedError('error3', t('change_url.endWithLetter'), 'URL must end with a letter or number.')
-            );
-        }
-        if (url.indexOf('__') > -1) {
-            error.push(
-                this.formattedError('error4', t('change_url.noUnderscore'), 'URL can not contain two underscores in a row.')
-            );
-        }
-
-        // In case of error we don't detect
-        if (error.length === 0) {
-            error.push(
-                this.formattedError('errorlast', t('change_url.invalidUrl'), 'Invalid URL')
-            );
-        }
-        return error;
-    }
-
     onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        e.preventDefault();
         const url = this.urlInput?.current?.value || '';
-        const cleanedURL = cleanUpUrlable(url);
-        if (cleanedURL !== url || url.length < 2 || url.indexOf('__') > -1) {
-            this.setState({urlError: this.getURLError(url)});
+        const urlErrors = validateChannelUrl(url);
+        if (urlErrors.length > 0) {
+            this.setState({urlErrors});
             return;
         }
-        this.setState({urlError: '', userEdit: false});
+        this.setState({urlErrors: '', userEdit: false});
         this.props.onModalSubmit(url);
     }
 
     onCancel = () => {
-        this.setState({urlError: '', userEdit: false});
+        this.setState({urlErrors: '', userEdit: false});
         this.props.onModalDismissed();
     }
 
@@ -165,15 +122,15 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
         let urlClass = 'input-group input-group--limit';
         let error = null;
 
-        if (this.state.urlError) {
+        if (this.state.urlErrors) {
             urlClass += ' has-error';
         }
 
-        if (this.props.serverError || this.state.urlError) {
+        if (this.props.serverError || this.state.urlErrors) {
             error = (
                 <div className='has-error'>
                     <p className='input__help error'>
-                        {this.state.urlError || this.props.serverError}
+                        {this.state.urlErrors || this.props.serverError}
                     </p>
                 </div>
             );

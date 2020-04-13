@@ -199,6 +199,8 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+    TRACK_ANNOUNCEMENT_BAR: null,
+    DISMISS_ANNOUNCEMENT_BAR: null,
 });
 
 export const PostRequestTypes = keyMirror({

@@ -49,6 +49,7 @@ const without = require('lodash.without');
 const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 const shell = require('shelljs');
+const superagent = require('superagent');
 const argv = require('yargs').argv;
 
 const users = require('./cypress/fixtures/users.json');
@@ -280,26 +281,36 @@ async function runTests() {
     const summary = generateShortSummary(jsonReport);
     writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
 
-    // Send test report via webhook
-    if (process.env.WEBHOOK_URL) {
+    const {
+        BRANCH,
+        BUILD_ID,
+        CYPRESS_baseUrl, // eslint-disable-line camelcase
+        DIAGNOSTIC_WEBHOOK_URL,
+        TEST_DASHBOARD_URL,
+        WEBHOOK_URL,
+    } = process.env;
+
+    // Send test report to "QA: UI Test Automation" channel via webhook
+    if (WEBHOOK_URL) {
         const data = generateTestReport(summary);
-        await sendReport('test', {
-            method: 'post',
-            url: process.env.WEBHOOK_URL,
-            data,
-        });
+        await sendReport('summary report', WEBHOOK_URL, data);
     }
 
     // Send diagnostic report via webhook
-    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const baseUrl = CYPRESS_baseUrl || 'http://localhost:8065'; // eslint-disable-line camelcase
     const serverInfo = await getServerInfo(baseUrl);
-    if (serverInfo.enableDiagnostics && process.env.DIAGNOSTIC_WEBHOOK_URL) {
+    if (serverInfo.enableDiagnostics && DIAGNOSTIC_WEBHOOK_URL) {
         const data = generateDiagnosticReport(summary, serverInfo);
-        await sendReport('diagnostic', {
-            method: 'post',
-            url: process.env.DIAGNOSTIC_WEBHOOK_URL,
-            data
-        });
+        await sendReport('diagnostic report', DIAGNOSTIC_WEBHOOK_URL, data);
+    }
+
+    if (TEST_DASHBOARD_URL) {
+        const data = {
+            report: jsonReport,
+            branch: BRANCH,
+            build: BUILD_ID,
+        };
+        await sendReport('dashboard data', TEST_DASHBOARD_URL, data);
     }
 
     // eslint-disable-next-line
@@ -419,16 +430,16 @@ async function getServerInfo(baseUrl) {
     };
 }
 
-async function sendReport(name, requestOptions) {
+async function sendReport(name, url, data) {
     try {
-        const response = await axios(requestOptions);
+        const response = await superagent.post(url).send(data);
 
-        if (response.data) {
-            console.log(`Successfully sent ${name} report via webhook`);
+        if (response.body) {
+            console.log(`Successfully sent ${name}.`);
         }
         return response;
     } catch (er) {
-        console.log(`Something went wrong while sending ${name} report via webhook`, er);
+        console.log(`Something went wrong while sending ${name}.`, er);
         return false;
     }
 }
