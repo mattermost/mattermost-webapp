@@ -42,14 +42,16 @@
 .input-clear {
     cursor: pointer;
     color: v(center-channel-color-56);
-    margin-right: 20px;
     position: absolute;
     right: 0;
     top: 1px;
     visibility: hidden;
-    width: 22px;
+    width: 2.4rem;
     margin: 0;
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
         @include opacity(1);
@@ -82,8 +84,8 @@
         height: 32px;
 
         .input-clear {
-            right: 1px;
             top: 1px;
+            right: 3px;
         }
 
         &:hover {
@@ -101,7 +103,7 @@
 
             .input-clear {
                 top: 0;
-                right: -1px;
+                right: 1px;
             }
 
             .search__icon {
@@ -110,8 +112,8 @@
             }
 
             .input-clear {
-                right: 0;
                 top: 0;
+                right: 2px;
             }
         }
     }
@@ -146,8 +148,8 @@
         @include opacity(0.5);
         font-size: 1em;
         position: absolute;
-        right: 8px;
-        top: 5px;
+        right: 24px;
+        top: 4px;
     }
 }
 
