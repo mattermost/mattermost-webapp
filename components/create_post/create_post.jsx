@@ -763,12 +763,19 @@ class CreatePost extends React.PureComponent {
 
         e.preventDefault();
 
-        let message = '';
+        let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
-        } else {
-            message = formatMarkdownTableMessage(table, this.state.message.trim());
+            const codeBlock = '```\n' + getPlainText(e.clipboardData) + '\n```';
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
+
+            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            const newMessage = firstPiece === '' ? `${codeBlock}\n${lastPiece}` : `${firstPiece}\n${codeBlock}\n${lastPiece}`;
+
+            const newCaretPosition = firstPiece === '' ? `${codeBlock}`.length : `${firstPiece} ${codeBlock}`.length;
+            this.setMessageAndCaretPostion(newMessage, newCaretPosition);
+            return;
         }
+        message = formatMarkdownTableMessage(table, message.trim());
         this.setState({message});
     }
 
@@ -1056,6 +1063,17 @@ class CreatePost extends React.PureComponent {
         this.setState({showEmojiPicker: false});
     }
 
+    setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
+        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+
+        this.setState({
+            message: newMessage,
+            caretPosition: newCaretPosition,
+        }, () => {
+            Utils.setCaretPosition(textbox, newCaretPosition);
+        });
+    }
+
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
 
@@ -1074,15 +1092,7 @@ class CreatePost extends React.PureComponent {
             const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
 
             const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-
-            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
-
-            this.setState({
-                message: newMessage,
-                caretPosition: newCaretPosition,
-            }, () => {
-                Utils.setCaretPosition(textbox, newCaretPosition);
-            });
+            this.setMessageAndCaretPostion(newMessage, newCaretPosition);
         }
 
         this.handleEmojiClose();
