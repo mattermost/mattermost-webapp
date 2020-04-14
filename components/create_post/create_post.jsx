@@ -573,15 +573,15 @@ class CreatePost extends React.PureComponent {
             // Groups mentioned in users text
             mentions = groupsMentionedInText(this.state.message, allowReferencedGroups);
             if (mentions.length > 0) {
-                mentions = mentions
-                .map((group) => {
-                    const mappedValue = channelMemberCountsByGroup[group.id];
-                    if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
-                        memberNotifyCount = mappedValue.channel_member_count;
-                        channelTimezoneCount = mappedValue.channel_member_timezones_count;
-                    }
-                    return `@${group.name}`;
-                });
+                mentions = mentions.
+                    map((group) => {
+                        const mappedValue = channelMemberCountsByGroup[group.id];
+                        if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
+                            memberNotifyCount = mappedValue.channel_member_count;
+                            channelTimezoneCount = mappedValue.channel_member_timezones_count;
+                        }
+                        return `@${group.name}`;
+                    });
             }
         }
 
