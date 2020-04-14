@@ -94,7 +94,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
-        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+L
         cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L');
@@ -118,7 +118,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
-        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+m
         cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}M');
@@ -134,7 +134,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
 function verifyChannelSwitch(team, channel) {
     // * Channel switcher hint should be visible
-    cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+    cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
 
     // # Type channel display name on Channel switcher input
     cy.get('#quickSwitchInput').type(channel.display_name);
