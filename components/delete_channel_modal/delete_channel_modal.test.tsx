@@ -11,15 +11,9 @@ import {browserHistory} from 'utils/browser_history';
 import DeleteChannelModal from 'components/delete_channel_modal/delete_channel_modal';
 
 describe('components/delete_channel_modal', () => {
-    function emptyFunction() {} //eslint-disable-line no-empty-function
-
-    function deleteChannel() {
-        return {data: true};
-    }
-
     const channel = {
         id: 'owsyt8n43jfxjpzh9np93mx1wa',
-        create_at: 1508265709607, // No magic number: 150826570960
+        create_at: 1508265709607,
         update_at: 1508265709607,
         delete_at: 0,
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
@@ -45,9 +39,11 @@ describe('components/delete_channel_modal', () => {
         channel,
         currentTeamDetails,
         actions: {
-            deleteChannel
+            deleteChannel: jest.fn(() => {
+                return {data: true};
+            })
         },
-        onHide: emptyFunction,
+        onHide: jest.fn(),
         penultimateViewedChannelName: 'my-prev-channel',
     };
 
@@ -59,12 +55,12 @@ describe('components/delete_channel_modal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<DeleteChannelModal>(
             <DeleteChannelModal {...baseProps}/>
         );
 
         wrapper.setState({show: true});
-        wrapper.instance().onHide(); // Property 'onHide' does not exist on type 'Component<{}, {}, any>'
+        wrapper.instance().onHide();
         expect(wrapper.state('show')).toEqual(false);
     });
 
@@ -72,12 +68,12 @@ describe('components/delete_channel_modal', () => {
         browserHistory.push = jest.fn();
         const actions = {deleteChannel: jest.fn()};
         const props = {...baseProps, actions};
-        const wrapper = shallow(
+        const wrapper = shallow<DeleteChannelModal>(
             <DeleteChannelModal {...props}/>
         );
 
         wrapper.setState({show: true});
-        wrapper.instance().handleDelete(); // Property 'handleDelete' does not exist on type 'Component<{}, {}, any>'
+        wrapper.instance().handleDelete();
 
         expect(actions.deleteChannel).toHaveBeenCalledTimes(1);
         expect(actions.deleteChannel).toHaveBeenCalledWith(props.channel.id);
@@ -86,13 +82,12 @@ describe('components/delete_channel_modal', () => {
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
+        const props = {...baseProps};
         const wrapper = shallow(
             <DeleteChannelModal {...props}/>
         );
 
-        wrapper.find(Modal).props().onExited(document.createElement('div')); // Cannot invoke an object which is possibly 'undefined'
-        expect(onHide).toHaveBeenCalledTimes(1);
+        wrapper.find(Modal).props().onExited?.(document.createElement('div'));
+        expect(props.onHide).toHaveBeenCalledTimes(1);
     });
 });
