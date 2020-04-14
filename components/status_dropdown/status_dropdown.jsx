@@ -135,6 +135,7 @@ export default class StatusDropdown extends React.Component {
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id='statusDropdownMenu'
+                    customStyles={{marginLeft: '6px'}}
                 >
                     <Menu.Group>
                         <Menu.ItemAction
