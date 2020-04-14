@@ -31,7 +31,7 @@ function postMessages(cnt = 1) {
     });
 }
 
-describe('Verify Accessibility keyboad usability across different regions in the app', () => {
+describe('Verify Accessibility keyboard usability across different regions in the app', () => {
     before(() => {
         cy.apiLogin('sysadmin');
 
