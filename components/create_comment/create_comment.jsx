@@ -321,6 +321,16 @@ class CreateComment extends React.PureComponent {
         }
     }
 
+    setCaretPosition = (newCaretPosition) => {
+        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+
+        this.setState({
+            caretPosition: newCaretPosition,
+        }, () => {
+            Utils.setCaretPosition(textbox, newCaretPosition);
+        });
+    }
+
     pasteHandler = (e) => {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox') {
             return;
@@ -334,9 +344,17 @@ class CreateComment extends React.PureComponent {
         e.preventDefault();
 
         const {draft} = this.state;
-        let message = '';
+        let message = draft.message;
+
         if (isGitHubCodeBlock(table.className)) {
-            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+            const codeBlock = '```\n' + getPlainText(e.clipboardData) + '\n```';
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
+
+            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            message = firstPiece === '' ? `${codeBlock}\n${lastPiece}` : `${firstPiece}\n${codeBlock}\n${lastPiece}`;
+
+            const newCaretPosition = firstPiece === '' ? `${codeBlock}`.length : `${firstPiece} ${codeBlock}`.length;
+            this.setCaretPosition(newCaretPosition);
         } else {
             message = formatMarkdownTableMessage(table, draft.message.trim());
         }
@@ -389,14 +407,7 @@ class CreateComment extends React.PureComponent {
             newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
 
             const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-
-            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
-
-            this.setState({
-                caretPosition: newCaretPosition,
-            }, () => {
-                Utils.setCaretPosition(textbox, newCaretPosition);
-            });
+            this.setCaretPosition(newCaretPosition);
         }
 
         const modifiedDraft = {
