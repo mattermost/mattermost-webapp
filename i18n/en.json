@@ -69,7 +69,7 @@
   "add_command.displayName.help": "Specify a title, of up to 64 characters, for the slash command settings page.",
   "add_command.doneHelp": "Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at [Slash Commands](!https://docs.mattermost.com/developer/slash-commands.html)).",
   "add_command.iconUrl": "Response Icon",
-  "add_command.iconUrl.help": "(Optional) Enter the URL of a .png or .jpg file to use as the icon when posting responses to this slash command. The file that must be at least 128 pixels by 128 pixels. If left blank, your profile picture is used.",
+  "add_command.iconUrl.help": "(Optional) Enter the URL of a .png or .jpg file to use as the icon when posting responses to this slash command. The file must be at least 128 pixels by 128 pixels. If left blank, your profile picture is used.",
   "add_command.iconUrl.placeholder": "https://www.example.com/myicon.png",
   "add_command.method": "Request Method",
   "add_command.method.get": "GET",
