@@ -1,32 +1,57 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {PureComponent} from 'react';
-import {FormattedMessage} from 'react-intl';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import React from 'react';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 
 type Props = {
     withTitle?: boolean;
+    updateSearchTerms: (term: string) => void;
+    onMouseDown: () => void;
 }
 
-export default class SearchHint extends PureComponent<Props> {
-    public render() {
-        return (
-            <React.Fragment>
-                {this.props.withTitle &&
+interface SearchOption {
+    searchTerm: string;
+    message: MessageDescriptor;
+}
+
+const options = [{searchTerm: 'From', message: {id: 'search_list_option.from', defaultMessage: 'Messages from a user'}},
+    {searchTerm: 'In', message: {id: 'search_list_option.in', defaultMessage: 'Messages in a channel'}},
+    {searchTerm: 'On', message: {id: 'search_list_option.on', defaultMessage: 'Messages on a date'}},
+    {searchTerm: 'Before', message: {id: 'search_list_option.before', defaultMessage: 'Messages before a date'}},
+    {searchTerm: 'After', message: {id: 'search_list_option.after', defaultMessage: 'Messages after a date'}},
+    {searchTerm: '-', message: {id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms'}},
+    {searchTerm: '"', message: {id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'}},
+];
+
+export const SearchHint = (props: Props) => {
+    return (
+        <React.Fragment>
+            {props.withTitle &&
                 <h4>
                     <FormattedMessage
                         id='search_bar.usage.title'
                         defaultMessage='Search Options'
                     />
                 </h4>
-                }
-                <FormattedMarkdownMessage
-                    id='search_bar.usage.tips'
-                    defaultMessage='* Use **"quotation marks"** to search for phrases\n* Use **from:** to find posts from specific users\n * Use **in:** to find posts in specific channels\n* Use **on:** to find posts on a specific date\n* Use **before:** to find posts before a specific date\n* Use **after:** to find posts after a specific date\n* Use **dash** "-" to exclude search terms and modifiers'
-                />
-            </React.Fragment>
-        );
-    }
-}
+            }
+            <ul
+                role='list'
+                className='suggestions-list'
+                onMouseDown={props.onMouseDown}
+            >
+                {options.map((option) => (
+                    <li
+                        className='option'
+                        key={option.searchTerm}
+                        onClick={() => props.updateSearchTerms(`${option.searchTerm}:`)}
+                    >
+                        <FormattedMessage
+                            id={option.message.id}
+                            defaultMessage={option.message.defaultMessage}
+                        />
+                    </li>))}
+            </ul>
+        </React.Fragment>
+    );
+};

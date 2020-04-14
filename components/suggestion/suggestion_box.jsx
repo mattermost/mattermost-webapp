@@ -621,6 +621,14 @@ export default class SuggestionBox extends React.Component {
         this.inputRef.current.blur();
     }
 
+    focus = () => {
+        const input = this.inputRef.current.input;
+        input.selectionStart = input.value.length;
+        input.focus();
+
+        this.handleChange({target: this.inputRef.current});
+    }
+
     setContainerRef = (container) => {
         // Attach/detach event listeners that aren't supported by React
         if (this.container) {

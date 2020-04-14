@@ -15,7 +15,7 @@ import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
 import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
-import SearchHint from 'components/search_hint/search_hint';
+import {SearchHint} from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
@@ -55,6 +55,7 @@ export default class SearchBar extends React.Component {
 
         this.state = {
             focused: false,
+            keepInputFocused: false,
         };
 
         this.suggestionProviders = [
@@ -95,8 +96,12 @@ export default class SearchBar extends React.Component {
         // add time out so that the pinned and member buttons are clickable
         // when focus is released from the search box.
         setTimeout(() => {
-            this.setState({focused: false});
-        }, 200);
+            if (this.state.keepInputFocused === true) {
+                this.setState({keepInputFocused: false});
+            } else {
+                this.setState({focused: false});
+            }
+        }, 300);
     }
 
     onClear = () => {
@@ -155,6 +160,14 @@ export default class SearchBar extends React.Component {
         }
     }
 
+    handleUpdateSearchTerm = (term) => {
+        this.props.actions.updateSearchTerms(term + ' ');
+        setTimeout(() => {
+            this.search.focus();
+            this.setState({focused: true});
+        }, 0);
+    }
+
     renderHintPopover() {
         if (Utils.isMobile()) {
             return null;
@@ -171,7 +184,11 @@ export default class SearchBar extends React.Component {
                 placement='bottom'
                 className={helpClass}
             >
-                <SearchHint withTitle={true}/>
+                <SearchHint
+                    withTitle={true}
+                    updateSearchTerms={this.handleUpdateSearchTerm}
+                    onMouseDown={() => this.setState({keepInputFocused: true})}
+                />
             </Popover>
         );
     }
