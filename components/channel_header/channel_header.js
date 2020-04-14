@@ -364,7 +364,7 @@ class ChannelHeader extends React.PureComponent {
                 if (user.id === currentUser.id) {
                     continue;
                 }
-                const userDisplayName = displayUsername(user.id, this.props.teammateNameDisplaySetting);
+                const userDisplayName = displayUsername(user, this.props.teammateNameDisplaySetting);
 
                 if (!membersMap[userDisplayName]) {
                     membersMap[userDisplayName] = []; //Create an array for cases with same display name
@@ -373,7 +373,7 @@ class ChannelHeader extends React.PureComponent {
                 membersMap[userDisplayName].push(user);
             }
 
-            const displayNames = channel.display_name.split('');
+            const displayNames = channel.display_name.split(', ');
 
             channelTitle = displayNames.map((displayName, index) => {
                 if (!membersMap[displayName]) {
