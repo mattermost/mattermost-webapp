@@ -77,6 +77,40 @@ export function isKeyPressed(event, key) {
     return event.keyCode === key[1];
 }
 
+/**
+ * check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
+ * @param  {object}  e - keydown event
+ * @return {boolean}
+ */
+export function isUnhandledLineBreakKeyCombo(e) {
+    return Boolean(
+        isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)) // alt/option + enter is already handled in Safari, so don't handle again
+    );
+}
+
+/**
+ * insert a new line character at keyboard cursor (or overwrites selection)
+ * @param  {object}  e - keydown event
+ * @return {string} message modified with new line inserted for app consumption
+ * WARNING: HAS DOM SIDE EFFECTS
+ */
+export function insertLineBreakFromKeyEvent(e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // replace text selection (or insert if no selection) with new line character
+    const newValue = `${value.substr(0, selectionStart)}\n${value.substr(selectionEnd, value.length)}`;
+
+    // update value on DOM element immediately and restore key cursor to correct position
+    el.value = newValue;
+    setSelectionRange(el, selectionStart + 1, selectionStart + 1);
+
+    // return the updated string so that component state can be updated
+    return newValue;
+}
+
 export function isInRole(roles, inRole) {
     if (roles) {
         var parts = roles.split(' ');

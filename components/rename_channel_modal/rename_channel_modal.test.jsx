@@ -43,9 +43,41 @@ describe('components/RenameChannelModal', () => {
             <RenameChannelModal {...props}/>
         );
 
+        wrapper.find('#display_name').simulate(
+            'change', {preventDefault: jest.fn(), target: {value: 'valid name'}}
+        );
+
         wrapper.find('#save-button').simulate('click');
 
-        expect(patchChannel).not.toHaveBeenCalled();
+        expect(patchChannel).toHaveBeenCalled();
+    });
+
+    describe('should validate channel url (name)', () => {
+        const testCases = [
+            [{name: 'must be two or more characters', value: 'a'}, false],
+            [{name: 'must start with a letter or number', value: '_channel'}, false],
+            [{name: 'must end with a letter or number', value: 'channel_'}, false],
+            [{name: 'can not contain two underscores in a row', value: 'channel__two'}, false],
+            [{name: 'valid channel url', value: 'a_valid_channel'}, true],
+        ];
+
+        testCases.forEach(([testCaseProps, patchShouldHaveBeenCalled]) => {
+            it(testCaseProps.name, () => {
+                const {actions: {patchChannel}} = baseProps;
+                const wrapper = shallowWithIntl(
+                    <RenameChannelModal {...baseProps}/>
+                );
+
+                wrapper.setState({channelName: testCaseProps.value});
+
+                wrapper.find('#save-button').simulate('click');
+                if (patchShouldHaveBeenCalled) {
+                    expect(patchChannel).toHaveBeenCalled();
+                } else {
+                    expect(patchChannel).not.toHaveBeenCalled();
+                }
+            });
+        });
     });
 
     test('should not call patchChannel as channel.name.length > Constants.MAX_CHANNELNAME_LENGTH (64)', () => {

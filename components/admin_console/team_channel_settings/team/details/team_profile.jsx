@@ -36,7 +36,7 @@ export function TeamProfile({team}) {
                                 url={teamIconUrl}
                             />
                         </div>
-                        <div className='col-sm-10'>
+                        <div className='col-sm-10 team-desc-col'>
                             <div className='row row-bottom-padding'>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamName'

@@ -14,7 +14,7 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Post Header', () => {
-    before(() => {
+    beforeEach(() => {
         // # Go to Main Channel View with "user-1"
         cy.toMainChannelView('user-1');
     });
@@ -241,7 +241,7 @@ describe('Post Header', () => {
         // * Verify that the RHS for pinned posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
             // * Check that searching indicator appears before the pinned posts are loaded
-            cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+            cy.get('#loadingSpinner', {timeout: TIMEOUTS.SMALL}).should('be.visible').and('have.text', 'Searching...');
             cy.get('#search-items-container').should('be.visible');
 
             // # Close the RHS
