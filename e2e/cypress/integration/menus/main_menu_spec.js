@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @menu
 
-describe('Hamburger menu', () => {
+describe('Main menu', () => {
     beforeEach(() => {
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/town-square');
