@@ -1,15 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {deleteChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import DeleteChannelModal from './delete_channel_modal.jsx';
+import DeleteChannelModal from './delete_channel_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     return {
@@ -18,11 +20,18 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+type Actions = {
+    deleteChannel: (channelId: string) => {data: true};
+};
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
-            deleteChannel,
-        }, dispatch),
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
+            {
+                deleteChannel,
+            },
+            dispatch
+        )
     };
 }
 
