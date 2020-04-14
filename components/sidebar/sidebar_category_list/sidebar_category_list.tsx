@@ -396,10 +396,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     this.props.actions.removeFromCategory(this.props.currentTeam.id, result.source.droppableId, result.draggableId);
                 }
 
-                if (this.props.categoryCollapsedState[result.destination.droppableId] && !this.props.unreadChannelIds.includes(result.draggableId)) {
-                    this.props.actions.expandCategory(result.destination.droppableId);
-                }
-
                 this.props.actions.setCategoryOrder(this.props.currentTeam.id, result.destination.droppableId, result.draggableId, result.destination.index);
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.setCategoriesOrder(this.props.currentTeam.id, result.draggableId, result.destination.index);

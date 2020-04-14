@@ -33,6 +33,8 @@
     border-right: 1px solid var(--center-channel-color-20);
 
     &.dragging {
+        z-index: 14;
+
         & + div {
             cursor: no-drop !important;
         }
@@ -46,6 +48,10 @@
 
             .SidebarChannelGroupHeader_groupButton, span, i {
                 color: var(--sidebar-text-08) !important;
+            }
+
+            .status.status--group {
+                opacity: 0.08;
             }
         }
 
@@ -401,11 +407,14 @@
         }
 
         &.draggingOver {
-            background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+            //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
+            border-radius: 4px;
         }
 
         > div {
             flex: 1 1 auto;
+            cursor: pointer;
         }
 
         i.icon-chevron-down {
@@ -451,11 +460,11 @@
     }
 
     .SidebarChannelGroup .draggingOverDMCategory {
-        box-shadow: inset -1px 0 0 var(--online-indicator), inset 0 -1px 0 var(--online-indicator), inset 1px 0 0 var(--online-indicator), inset 0 1px 0 var(--online-indicator);
+        box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
         border-radius: 4px;
 
         .SidebarChannelGroupHeader_groupButton {
-            box-shadow: inset -1px 0 0 var(--online-indicator), inset 0 0 0 var(--online-indicator), inset 1px 0 0 var(--online-indicator), inset 0 1px 0 var(--online-indicator);
+            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 0 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
             border-radius: 4px 4px 0 0;
         }
     }
@@ -513,6 +522,10 @@
             background-color: var(--sidebar-bg);
             border-radius: 4px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+
+            .SidebarLink {
+                background: rgba(255, 255, 255, 0.08);
+            }
         }
 
         .btn-close {
