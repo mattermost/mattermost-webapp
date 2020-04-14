@@ -86,6 +86,7 @@ class ChannelHeader extends React.PureComponent {
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
         newSideBarPreference: PropTypes.bool,
+        announcementBarCount: PropTypes.number,
     };
 
     constructor(props) {
@@ -94,7 +95,7 @@ class ChannelHeader extends React.PureComponent {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -263,10 +264,12 @@ class ChannelHeader extends React.PureComponent {
     showChannelHeaderPopover = (headerText) => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
-
+        const announcementBarSize = 32;
         if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
+
+        this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount)});
     }
 
     setPopoverOverlayWidth = () => {
@@ -436,7 +439,7 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
-                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translateX(${this.state.leftOffset}px)`}}
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translate(${this.state.leftOffset}px, ${this.state.topOffset}px)`}}
                     placement='bottom'
                     className={classNames(['channel-header__popover',
                         {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
