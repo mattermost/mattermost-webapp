@@ -133,7 +133,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             };
         }
 
-        return {...style};
+        return style;
     }
 
     render() {
