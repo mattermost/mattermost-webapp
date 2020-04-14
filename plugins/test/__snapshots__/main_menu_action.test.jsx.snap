@@ -3,6 +3,12 @@
 exports[`plugins/MainMenuActions should match snapshot and click plugin item for main menu 1`] = `
 <Menu
   ariaLabel="main menu"
+  customStyles={
+    Object {
+      "left": "-44px",
+      "marginLeft": 0,
+    }
+  }
   mobile={false}
 >
   <MenuGroup>
