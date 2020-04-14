@@ -21,9 +21,10 @@ jest.mock('utils/user_agent', () => ({
     isMobile: jest.fn().mockReturnValue(false),
 }));
 
-function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
+function createEditPost({canEditPost, canDeletePost, useChannelMentions, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
     const canEditPostProp = canEditPost === undefined ? true : canEditPost;
     const canDeletePostProp = canDeletePost === undefined ? true : canDeletePost;
+    const useChannelMentionsProp = useChannelMentions === undefined ? true : useChannelMentions;
     const ctrlSendProp = ctrlSend || false;
     const configProp = config || {
         PostEditTimeLimit: 300,
@@ -62,6 +63,7 @@ function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, 
             editingPost={editingPostProp}
             actions={actionsProp}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
+            useChannelMentions={useChannelMentionsProp}
         />
     );
 }
@@ -565,4 +567,9 @@ describe('components/EditPostModal', () => {
             },
         });
     }, (instance) => instance.state().editText);
+
+    it('should match snapshot with useChannelMentions set to false', () => {
+        var wrapper = shallowWithIntl(createEditPost({useChannelMentions: false}));
+        expect(wrapper).toMatchSnapshot();
+    });
 });

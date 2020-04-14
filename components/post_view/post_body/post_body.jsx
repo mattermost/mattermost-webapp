@@ -8,6 +8,7 @@ import {Posts} from 'mattermost-redux/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action';
+import Constants from 'utils/constants.jsx';
 
 import CommentedOn from 'components/post_view/commented_on';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -131,7 +132,9 @@ export default class PostBody extends React.PureComponent {
         let comment;
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
-        if (this.props.isFirstReply && parentPost && !isEphemeral) {
+
+        //We want to show the commented on component even if the post was deleted
+        if (this.props.isFirstReply && parentPost && post.type !== Constants.PostTypes.EPHEMERAL) {
             comment = (
                 <CommentedOn
                     post={parentPost}
