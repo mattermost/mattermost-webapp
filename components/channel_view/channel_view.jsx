@@ -18,6 +18,7 @@ export default class ChannelView extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string.isRequired,
         deactivatedChannel: PropTypes.bool.isRequired,
+        channelRolesLoading: PropTypes.bool.isRequired,
         match: PropTypes.shape({
             url: PropTypes.string.isRequired,
             params: PropTypes.shape({
@@ -134,7 +135,7 @@ export default class ChannelView extends React.PureComponent {
                     />
                 </div>
             );
-        } else {
+        } else if (!this.props.channelRolesLoading) {
             createPost = (
                 <div
                     className='post-create__container'
