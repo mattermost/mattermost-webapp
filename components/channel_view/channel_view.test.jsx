@@ -9,6 +9,7 @@ import ChannelView from './channel_view.jsx';
 describe('components/channel_view', () => {
     const baseProps = {
         channelId: 'channelId',
+        channelRolesLoading: false,
         deactivatedChannel: false,
         match: {
             url: '/team/channel/channelId',
@@ -21,6 +22,32 @@ describe('components/channel_view', () => {
             goToLastViewedChannel: jest.fn(),
         },
     };
+
+    it('Should match snapshot with base props', () => {
+        const wrapper = shallow(<ChannelView {...baseProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('Should match snapshot if channel roles loading', () => {
+        const wrapper = shallow(
+            <ChannelView
+                {...baseProps}
+                channelRolesLoading={true}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('Should match snapshot if channel is archived with roles loading', () => {
+        const wrapper = shallow(
+            <ChannelView
+                {...baseProps}
+                channelRolesLoading={true}
+                channelIsArchived={true}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 
     it('Should have prevChannelId based on prev props', () => {
         const wrapper = shallow(<ChannelView {...baseProps}/>);

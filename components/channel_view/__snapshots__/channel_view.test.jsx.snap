@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_view Should match snapshot if channel is archived with roles loading 1`] = `
+<div
+  className="app__content"
+  id="app-content"
+>
+  <FileUploadOverlay
+    overlayType="center"
+  />
+  <withRouter(Connect(injectIntl(ChannelHeader)))
+    channelId="channelId"
+  />
+  <DeferredRenderWrapper
+    channelId="channelId"
+    prevChannelId=""
+  />
+</div>
+`;
+
+exports[`components/channel_view Should match snapshot if channel roles loading 1`] = `
+<div
+  className="app__content"
+  id="app-content"
+>
+  <FileUploadOverlay
+    overlayType="center"
+  />
+  <withRouter(Connect(injectIntl(ChannelHeader)))
+    channelId="channelId"
+  />
+  <DeferredRenderWrapper
+    channelId="channelId"
+    prevChannelId=""
+  />
+</div>
+`;
+
+exports[`components/channel_view Should match snapshot with base props 1`] = `
+<div
+  className="app__content"
+  id="app-content"
+>
+  <FileUploadOverlay
+    overlayType="center"
+  />
+  <withRouter(Connect(injectIntl(ChannelHeader)))
+    channelId="channelId"
+  />
+  <DeferredRenderWrapper
+    channelId="channelId"
+    prevChannelId=""
+  />
+  <div
+    className="post-create__container"
+    id="post-create"
+  >
+    <Connect(injectIntl(CreatePost))
+      getChannelView={[Function]}
+    />
+  </div>
+</div>
+`;
