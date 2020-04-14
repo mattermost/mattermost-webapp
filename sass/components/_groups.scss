@@ -319,6 +319,18 @@
     }
 }
 
+#GroupDisplayName{
+    &.group-profile{
+        padding-bottom: 0px;
+    }
+}
+
+#GroupMention{
+    &.group-profile{
+        padding-top: 0px;
+    }
+}
+
 .group-profile {
     padding: 20px;
 }
@@ -625,6 +637,12 @@
                 justify-content: space-between;
             }
         }
+    }
+}
+
+.group-settings {
+    .group-settings--body {
+        padding: 0px 20px 20px 20px;
     }
 }
 

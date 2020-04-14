@@ -52,8 +52,8 @@ describe('Account Settings > Sidebar > General', () => {
                     should('have.text', 'Channel Members');
                 cy.wrap(name).find('.mention--align').
                     should('have.text', `@${user.username}`);
-                cy.wrap(name).find('.mention__fullname').
-                    should('have.text', ` - 정트리나${uniqueNumber}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
+                cy.wrap(name).find('.ml-2').
+                    should('have.text', `정트리나${uniqueNumber}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
             });
 
             // # Press tab on text input

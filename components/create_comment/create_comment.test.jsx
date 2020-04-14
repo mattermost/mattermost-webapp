@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
@@ -1163,4 +1164,15 @@ describe('components/CreateComment', () => {
         wrapper.setProps({shouldShowPreview: false});
         expect(instance.focusTextbox).toBeCalled();
     });
+
+    testComponentForLineBreak((value) => (
+        <CreateComment
+            {...baseProps}
+            draft={{
+                ...baseProps.draft,
+                message: value,
+            }}
+            ctrlSend={true}
+        />
+    ), (instance) => instance.state().draft.message);
 });

@@ -11,6 +11,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         groupID: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
         group: {
             display_name: 'Group',
+            name: 'Group',
         },
         groupTeams: [
             {team_id: '11111111111111111111111111'},
@@ -34,6 +35,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
             link: jest.fn(),
             unlink: jest.fn(),
+            patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
         },
     };
@@ -72,6 +74,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn(),
             unlink: jest.fn(),
+            patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
         };
         shallow(
@@ -93,6 +96,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
+            patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
         };
         const wrapper = shallow(
@@ -117,6 +121,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
+            patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
         };
         const wrapper = shallow(
