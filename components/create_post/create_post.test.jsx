@@ -141,6 +141,7 @@ function createPost({
             isTimezoneEnabled={isTimezoneEnabled}
             canPost={true}
             useChannelMentions={true}
+            useGroupMentions={true}
         />
     );
 }
@@ -300,10 +301,12 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
 
         wrapper.setProps({
-            allowReferencedGroups: [{
-                id: 'developers',
-                name: 'developers',
-            }],
+            groupsWithAllowReference: new Map([
+                ['@developers', {
+                    id: 'developers',
+                    name: 'developers'
+                }]
+            ]),
             channelMemberCountsByGroup: {
                 developers: {
                     channel_member_count: 10,
@@ -329,28 +332,28 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
 
         wrapper.setProps({
-            allowReferencedGroups: [
-                {
+            groupsWithAllowReference: new Map([
+                ['@developers', {
                     id: 'developers',
                     name: 'developers',
-                },
-                {
+                }],
+                ['@boss', {
                     id: 'boss',
                     name: 'boss',
-                },
-                {
+                }],
+                ['@love', {
                     id: 'love',
                     name: 'love',
-                },
-                {
+                }],
+                ['@you', {
                     id: 'you',
                     name: 'you',
-                },
-                {
+                }],
+                ['@software-developers', {
                     id: 'softwareDevelopers',
                     name: 'software-developers',
-                },
-            ],
+                }],
+            ]),
             channelMemberCountsByGroup: {
                 developers: {
                     channel_member_count: 10,
@@ -392,24 +395,24 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
 
         wrapper.setProps({
-            allowReferencedGroups: [
-                {
+            groupsWithAllowReference: new Map([
+                ['@developers', {
                     id: 'developers',
                     name: 'developers',
-                },
-                {
+                }],
+                ['@boss', {
                     id: 'boss',
                     name: 'boss',
-                },
-                {
+                }],
+                ['@love', {
                     id: 'love',
                     name: 'love',
-                },
-                {
+                }],
+                ['@you', {
                     id: 'you',
                     name: 'you',
-                },
-            ],
+                }],
+            ]),
             channelMemberCountsByGroup: {
                 developers: {
                     channel_member_count: 10,

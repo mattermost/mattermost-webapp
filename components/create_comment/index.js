@@ -68,6 +68,11 @@ function makeMapStateToProps() {
             team: channel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
+        const useGroupMentions = haveIChannelPermission(state, {
+            channel: channel.id,
+            team: channel.team_id,
+            permission: Permissions.USE_GROUP_MENTIONS,
+        });
         const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, ownProps.channelId);
 
         return {
@@ -92,7 +97,8 @@ function makeMapStateToProps() {
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreateComment(state),
             groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, channel.team_id, channel.id).map((group) => [`@${group.name}`, group])),
-            channelMemberCountsByGroup
+            useGroupMentions,
+            channelMemberCountsByGroup,
         };
     };
 }

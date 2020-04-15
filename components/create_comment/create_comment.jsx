@@ -210,6 +210,11 @@ class CreateComment extends React.PureComponent {
         useChannelMentions: PropTypes.bool.isRequired,
 
         /**
+         * To determine if the current user can send group mentions
+         */
+        useGroupMentions: PropTypes.bool.isRequired,
+
+        /**
          * Set show preview for textbox
          */
         setShowPreview: PropTypes.func.isRequired,
@@ -223,7 +228,7 @@ class CreateComment extends React.PureComponent {
             Group member mention
         */
         selectChannelMemberCountsByGroup: PropTypes.func.isRequired,
-        groupsWithAllowReference: PropTypes.array,
+        groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
     }
 
@@ -474,7 +479,8 @@ class CreateComment extends React.PureComponent {
             useChannelMentions,
             isTimezoneEnabled,
             groupsWithAllowReference,
-            channelMemberCountsByGroup
+            channelMemberCountsByGroup,
+            useGroupMentions
         } = this.props;
         const {draft} = this.state;
         if (!useChannelMentions && containsAtChannel(draft.message, {checkAllMentions: true})) {
@@ -495,7 +501,7 @@ class CreateComment extends React.PureComponent {
         let channelTimezoneCount = 0;
         let mentions = [];
         const notContainsAtChannel = !containsAtChannel(draft.message);
-        if (enableConfirmNotificationsToChannel && notContainsAtChannel) {
+        if (enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
             mentions = groupsMentionedInText(draft.message, groupsWithAllowReference);
             if (mentions.length > 0) {

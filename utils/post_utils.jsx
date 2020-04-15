@@ -132,7 +132,7 @@ export const groupsMentionedInText = (text, groups) => {
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
     const mentions = allAtMentions(mentionableText);
-    return mentions.length > 0 && mentions.map((mention) => groups.get(mention)).filter((trueVal) => trueVal);
+    return (mentions.length > 0 && mentions.map((mention) => groups && groups.get(mention)).filter((trueVal) => trueVal)) || [];
 };
 
 export function shouldFocusMainTextbox(e, activeElement) {

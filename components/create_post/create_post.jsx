@@ -281,8 +281,9 @@ class CreatePost extends React.PureComponent {
             selectChannelMemberCountsByGroup: PropTypes.func,
         }).isRequired,
 
-        groupsWithAllowReference: PropTypes.array,
+        groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
+        useGroupMentions: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -561,7 +562,8 @@ class CreatePost extends React.PureComponent {
             userIsOutOfOffice,
             groupsWithAllowReference,
             channelMemberCountsByGroup,
-            currentChannelMembersCount
+            currentChannelMembersCount,
+            useGroupMentions
         } = this.props;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
@@ -569,7 +571,7 @@ class CreatePost extends React.PureComponent {
         let channelTimezoneCount = 0;
         let mentions = [];
         const notContainsAtChannel = !containsAtChannel(this.state.message);
-        if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel) {
+        if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
             mentions = groupsMentionedInText(this.state.message, groupsWithAllowReference);
             if (mentions.length > 0) {

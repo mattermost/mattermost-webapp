@@ -55,6 +55,7 @@ describe('components/CreateComment', () => {
         canPost: true,
         useChannelMentions: true,
         selectChannelMemberCountsByGroup: jest.fn(),
+        useGroupMentions: true,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -722,10 +723,12 @@ describe('components/CreateComment', () => {
                     uploadsInProgress: [],
                     fileInfos: [{}, {}, {}],
                 },
-                allowReferencedGroups: [{
-                    id: 'developers',
-                    name: 'developers',
-                }],
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers'
+                    }]
+                ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
@@ -761,28 +764,28 @@ describe('components/CreateComment', () => {
                     uploadsInProgress: [],
                     fileInfos: [{}, {}, {}],
                 },
-                allowReferencedGroups: [
-                    {
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
                         id: 'developers',
                         name: 'developers',
-                    },
-                    {
+                    }],
+                    ['@boss', {
                         id: 'boss',
                         name: 'boss',
-                    },
-                    {
+                    }],
+                    ['@love', {
                         id: 'love',
                         name: 'love',
-                    },
-                    {
+                    }],
+                    ['@you', {
                         id: 'you',
                         name: 'you',
-                    },
-                    {
+                    }],
+                    ['@software-developers', {
                         id: 'softwareDevelopers',
                         name: 'software-developers',
-                    },
-                ],
+                    }],
+                ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
@@ -834,10 +837,12 @@ describe('components/CreateComment', () => {
                     uploadsInProgress: [],
                     fileInfos: [{}, {}, {}],
                 },
-                allowReferencedGroups: [{
-                    id: 'developers',
-                    name: 'developers',
-                }],
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers'
+                    }]
+                ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
