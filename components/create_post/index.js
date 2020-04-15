@@ -20,7 +20,7 @@ import {
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {
-    getAllAssociatedGroupsForReference,
+    getAssociatedGroupsForReference,
 } from 'mattermost-redux/selectors/entities/groups';
 import {
     addMessageIntoHistory,
@@ -85,9 +85,10 @@ function makeMapStateToProps() {
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
         const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, currentChannel.id);
+        const currentTeamId = getCurrentTeamId(state);
 
         return {
-            currentTeamId: getCurrentTeamId(state),
+            currentTeamId,
             currentChannel,
             currentChannelMembersCount,
             currentUserId,
@@ -116,8 +117,7 @@ function makeMapStateToProps() {
             canPost,
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreatePost(state),
-            allowReferencedGroups: getAllAssociatedGroupsForReference(state),
-            channelMemberCountsByGroup
+            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, currentTeamId, currentChannel.id).map(group => [`@${group.name}`, group])),            channelMemberCountsByGroup
         };
     };
 }

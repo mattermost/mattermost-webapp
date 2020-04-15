@@ -223,7 +223,7 @@ class CreateComment extends React.PureComponent {
             Group member mention
         */
         selectChannelMemberCountsByGroup: PropTypes.func.isRequired,
-        allowReferencedGroups: PropTypes.array,
+        groupsWithAllowReference: PropTypes.array,
         channelMemberCountsByGroup: PropTypes.object,
     }
 
@@ -473,7 +473,7 @@ class CreateComment extends React.PureComponent {
             enableConfirmNotificationsToChannel,
             useChannelMentions,
             isTimezoneEnabled,
-            allowReferencedGroups,
+            groupsWithAllowReference,
             channelMemberCountsByGroup
         } = this.props;
         const {draft} = this.state;
@@ -497,7 +497,7 @@ class CreateComment extends React.PureComponent {
         const notContainsAtChannel = !containsAtChannel(draft.message);
         if (enableConfirmNotificationsToChannel && notContainsAtChannel) {
             // Groups mentioned in users text
-            mentions = groupsMentionedInText(draft.message, allowReferencedGroups);
+            mentions = groupsMentionedInText(draft.message, groupsWithAllowReference);
             if (mentions.length > 0) {
                 mentions = mentions.
                     map((group) => {
