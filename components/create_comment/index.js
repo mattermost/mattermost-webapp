@@ -91,7 +91,7 @@ function makeMapStateToProps() {
             canPost,
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreateComment(state),
-            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, channel.team_id, channel.id).map(group => [`@${group.name}`, group])),
+            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, channel.team_id, channel.id).map((group) => [`@${group.name}`, group])),
             channelMemberCountsByGroup
         };
     };
