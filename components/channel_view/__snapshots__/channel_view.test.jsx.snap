@@ -15,6 +15,30 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
     channelId="channelId"
     prevChannelId=""
   />
+  <div
+    className="post-create__container"
+    id="post-create"
+  >
+    <div
+      className="channel-archived__message"
+      id="channelArchivedMessage"
+    >
+      <injectIntl(FormattedMarkdownMessage)
+        defaultMessage="You are viewing an **archived channel**. New messages cannot be posted."
+        id="archivedChannelMessage"
+      />
+      <button
+        className="btn btn-primary channel-archived__close-btn"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Close Channel"
+          id="center_panel.archived.closeChannel"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
