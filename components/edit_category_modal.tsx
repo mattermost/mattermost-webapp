@@ -10,17 +10,17 @@ import QuickInput from 'components/quick_input';
 import {localizeMessage} from 'utils/utils';
 
 type Props = {
+    modalHeaderText: string;
+    editButtonText: string;
     onHide: () => void;
-    actions: {
-        createCategory: (categoryName: string) => void;
-    };
+    editCategory: (categoryName: string) => void;
 };
 
 type State = {
     categoryName: string;
 }
 
-export default class CreateCategoryModal extends React.PureComponent<Props, State> {
+export default class EditCategoryModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -43,14 +43,14 @@ export default class CreateCategoryModal extends React.PureComponent<Props, Stat
     }
 
     handleConfirm = () => {
-        this.props.actions.createCategory(this.state.categoryName);
+        this.props.editCategory(this.state.categoryName);
         this.props.onHide();
     }
 
     render() {
         return (
             <Modal
-                dialogClassName='a11y__modal create-category'
+                dialogClassName='a11y__modal edit-category'
                 ref='modal'
                 show={true}
                 onHide={this.props.onHide}
@@ -58,34 +58,31 @@ export default class CreateCategoryModal extends React.PureComponent<Props, Stat
                 enforceFocus={true}
                 restoreFocus={true}
                 role='dialog'
-                aria-labelledby='createCategoryModalLabel'
+                aria-labelledby='editCategoryModalLabel'
             >
                 <Modal.Header
                     closeButton={true}
                 />
                 <Modal.Body>
-                    <div className='create-category__header'>
-                        <h1 id='createCategoryModalLabel'>
-                            <FormattedMessage
-                                id='create_category_modal.createCategory'
-                                defaultMessage='Create Category'
-                            />
+                    <div className='edit-category__header'>
+                        <h1 id='editCategoryModalLabel'>
+                            {this.props.modalHeaderText}
                         </h1>
                     </div>
-                    <div className='create-category__body'>
+                    <div className='edit-category__body'>
                         <QuickInput
                             autofocus={true}
                             className='form-control filter-textbox'
                             type='text'
                             value={this.state.categoryName}
-                            placeholder={localizeMessage('create_category_modal.placeholder', 'Choose a category name')}
+                            placeholder={localizeMessage('edit_category_modal.placeholder', 'Choose a category name')}
                             clearable={true}
                             onClear={this.handleClear}
                             onChange={this.handleChange}
                         />
-                        <span className='create-category__helpText'>
+                        <span className='edit-category__helpText'>
                             <FormattedMessage
-                                id='create_category_modal.helpText'
+                                id='edit_category_modal.helpText'
                                 defaultMessage='You can drag channels into categories to organize your sidebar.'
                             />
                         </span>
@@ -94,26 +91,23 @@ export default class CreateCategoryModal extends React.PureComponent<Props, Stat
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='create_category__button cancel'
+                        className='edit_category__button cancel'
                         onClick={this.handleCancel}
                     >
                         <FormattedMessage
-                            id='create_category_modal.cancel'
+                            id='edit_category_modal.cancel'
                             defaultMessage='Cancel'
                         />
                     </button>
                     <button
                         type='button'
-                        className={classNames('create_category__button create', {
+                        className={classNames('edit_category__button create', {
                             disabled: !this.state.categoryName,
                         })}
                         onClick={this.handleConfirm}
                         disabled={!this.state.categoryName}
                     >
-                        <FormattedMessage
-                            id='create_category_modal.create'
-                            defaultMessage='Create'
-                        />
+                        {this.props.editButtonText}
                     </button>
                 </Modal.Footer>
             </Modal>

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {trackEvent} from 'actions/diagnostics_actions';
-import CreateCategoryModal from 'components/create_category_modal';
+import EditCategoryModal from 'components/edit_category_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
@@ -61,6 +61,10 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     hideCreateCategoryModal = () => {
         this.setState({showCreateCategoryModal: false});
+    }
+
+    handleCreateCategory = (categoryName: string) => {
+
     }
 
     showMoreChannelsModal = () => {
@@ -120,8 +124,11 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         let createCategoryModal;
         if (this.state.showCreateCategoryModal) {
             createCategoryModal = (
-                <CreateCategoryModal
+                <EditCategoryModal
                     onHide={this.hideCreateCategoryModal}
+                    editCategory={this.handleCreateCategory}
+                    modalHeaderText={Utils.localizeMessage('create_category_modal.createCategory', 'Create Category')}
+                    editButtonText={Utils.localizeMessage('create_category_modal.create', 'Create')}
                 />
             );
         }

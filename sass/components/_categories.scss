@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .modal {
-    .create-category {
+    .edit-category {
         &.modal-dialog {
             margin-top: calc(50vh - 240px);
         }
@@ -73,7 +73,7 @@
     }
 }
 
-.create-category__header {
+.edit-category__header {
     padding: 24px 24px 16px 24px;
 
     h1 {
@@ -84,20 +84,20 @@
     }
 }
 
-.create-category__body {
+.edit-category__body {
     padding: 0 24px;
     position: relative;
     width: 100%;
 }
 
-.create-category__helpText {
+.edit-category__helpText {
     font-size: 12px;
     line-height: 40px;
     color: var(--center-channel-color-56);
     margin-left: 12px;
 }
 
-.create_category__button {
+.edit_category__button {
     padding: 12px 16px;
     line-height: 12px;
     font-size: 14px;
