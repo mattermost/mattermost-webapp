@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {trackEvent} from 'actions/diagnostics_actions';
+import CreateCategoryModal from 'components/create_category_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
@@ -31,6 +32,7 @@ type State = {
     showDirectChannelsModal: boolean;
     showMoreChannelsModal: boolean;
     showNewChannelModal: boolean;
+    showCreateCategoryModal: boolean;
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
@@ -40,6 +42,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showNewChannelModal: false,
+            showCreateCategoryModal: false,
         };
     }
 
@@ -50,6 +53,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     hideMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: false});
+    }
+
+    showCreateCategoryModal = () => {
+        this.setState({showCreateCategoryModal: true});
+    }
+
+    hideCreateCategoryModal = () => {
+        this.setState({showCreateCategoryModal: false});
     }
 
     showMoreChannelsModal = () => {
@@ -106,6 +117,15 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             );
         }
 
+        let createCategoryModal;
+        if (this.state.showCreateCategoryModal) {
+            createCategoryModal = (
+                <CreateCategoryModal
+                    onHide={this.hideCreateCategoryModal}
+                />
+            );
+        }
+
         return (
             <React.Fragment>
                 <NewChannelFlow
@@ -117,6 +137,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 />
                 {moreDirectChannelsModal}
                 {moreChannelsModal}
+                {createCategoryModal}
             </React.Fragment>
         );
     }
@@ -140,6 +161,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         <AddChannelDropdown
                             showNewChannelModal={this.showNewChannelModal}
                             showMoreChannelsModal={this.showMoreChannelsModal}
+                            showCreateCategoryModal={this.showCreateCategoryModal}
                             canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                             canJoinPublicChannel={this.props.canJoinPublicChannel}
                         />
