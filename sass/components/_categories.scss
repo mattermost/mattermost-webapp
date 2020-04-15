@@ -69,6 +69,7 @@
         .modal-footer {
             border: none;
             padding: 12px 24px 24px 24px;
+            border-radius: 4px;
         }
     }
 }
@@ -86,6 +87,12 @@
 
 .edit-category__body {
     padding: 0 24px;
+    position: relative;
+    width: 100%;
+}
+
+.delete-category__body {
+    padding: 12px 24px 16px 24px;
     position: relative;
     width: 100%;
 }
@@ -119,4 +126,16 @@
             background: var(--center-channel-color-08);
         }
     }
+
+    &.delete {
+        color: var(--button-color);
+        border-radius: 4px;
+        background: var(--dnd-indicator);
+    }
+}
+
+.delete-category__helpText {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--center-channel-color);
 }

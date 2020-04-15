@@ -6,44 +6,23 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import QuickInput from 'components/quick_input';
-import {localizeMessage} from 'utils/utils';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
-    modalHeaderText: string;
-    editButtonText: string;
+    category: ChannelCategory;
     onHide: () => void;
-    editCategory: (categoryName: string) => void;
+    deleteCategory: (category: ChannelCategory) => void;
 };
 
-type State = {
-    categoryName: string;
-}
-
-export default class EditCategoryModal extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            categoryName: '',
-        };
-    }
-
-    handleClear = () => {
-        this.setState({categoryName: ''});
-    }
-
-    handleChange = (e: any) => {
-        this.setState({categoryName: e.target.value});
-    }
-
+export default class DeleteCategoryModal extends React.PureComponent<Props> {
     handleCancel = () => {
-        this.handleClear();
         this.props.onHide();
     }
 
     handleConfirm = () => {
-        this.props.editCategory(this.state.categoryName);
+        this.props.deleteCategory(this.props.category);
         this.props.onHide();
     }
 
@@ -66,24 +45,20 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 <Modal.Body>
                     <div className='edit-category__header'>
                         <h1 id='editCategoryModalLabel'>
-                            {this.props.modalHeaderText}
+                            <FormattedMessage
+                                id='delete_category_modal.deleteCategory'
+                                defaultMessage='Delete this category?'
+                            />
                         </h1>
                     </div>
-                    <div className='edit-category__body'>
-                        <QuickInput
-                            autoFocus={true}
-                            className='form-control filter-textbox'
-                            type='text'
-                            value={this.state.categoryName}
-                            placeholder={localizeMessage('edit_category_modal.placeholder', 'Choose a category name')}
-                            clearable={true}
-                            onClear={this.handleClear}
-                            onChange={this.handleChange}
-                        />
-                        <span className='edit-category__helpText'>
-                            <FormattedMessage
-                                id='edit_category_modal.helpText'
-                                defaultMessage='You can drag channels into categories to organize your sidebar.'
+                    <div className='delete-category__body'>
+                        <span className='delete-category__helpText'>
+                            <FormattedMarkdownMessage
+                                id='delete_category_modal.helpText'
+                                defaultMessage='Channels in **{category_name}** move back to the Channels and Direct Messages categories. You are not removed from any channels.'
+                                values={{
+                                    category_name: this.props.category.display_name,
+                                }}
                             />
                         </span>
                     </div>
@@ -101,13 +76,13 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                     </button>
                     <button
                         type='button'
-                        className={classNames('edit_category__button create', {
-                            disabled: !this.state.categoryName,
-                        })}
+                        className={'edit_category__button delete'}
                         onClick={this.handleConfirm}
-                        disabled={!this.state.categoryName}
                     >
-                        {this.props.editButtonText}
+                        <FormattedMessage
+                            id='delete_category_modal.delete'
+                            defaultMessage='Delete'
+                        />
                     </button>
                 </Modal.Footer>
             </Modal>
