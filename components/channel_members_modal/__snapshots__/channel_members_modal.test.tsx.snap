@@ -91,7 +91,6 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
             "update_at": 0,
           }
         }
-        handleExit={[Function]}
       />
     </ModalBody>
   </Modal>
@@ -177,7 +176,6 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
             "update_at": 0,
           }
         }
-        handleExit={[Function]}
       />
     </ModalBody>
   </Modal>

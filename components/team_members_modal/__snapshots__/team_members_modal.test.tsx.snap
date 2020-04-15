@@ -79,7 +79,6 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
     componentClass="div"
   >
     <Connect(MemberListTeam)
-      handleExit={[Function]}
       teamId="id"
     />
   </ModalBody>
