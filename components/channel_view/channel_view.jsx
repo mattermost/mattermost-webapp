@@ -135,37 +135,41 @@ export default class ChannelView extends React.PureComponent {
                     />
                 </div>
             );
+        } else if (channelIsArchived) {
+            createPost = (
+                <div
+                    className='post-create__container'
+                    id='post-create'
+                >
+                    <div
+                        id='channelArchivedMessage'
+                        className='channel-archived__message'
+                    >
+                        <FormattedMarkdownMessage
+                            id='archivedChannelMessage'
+                            defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
+                        />
+                        <button
+                            className='btn btn-primary channel-archived__close-btn'
+                            onClick={this.onClickCloseChannel}
+                        >
+                            <FormattedMessage
+                                id='center_panel.archived.closeChannel'
+                                defaultMessage='Close Channel'
+                            />
+                        </button>
+                    </div>
+                </div>
+            );
         } else if (!this.props.channelRolesLoading) {
             createPost = (
                 <div
                     className='post-create__container'
                     id='post-create'
                 >
-                    {!channelIsArchived &&
-                        <CreatePost
-                            getChannelView={this.getChannelView}
-                        />
-                    }
-                    {channelIsArchived &&
-                        <div
-                            id='channelArchivedMessage'
-                            className='channel-archived__message'
-                        >
-                            <FormattedMarkdownMessage
-                                id='archivedChannelMessage'
-                                defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
-                            />
-                            <button
-                                className='btn btn-primary channel-archived__close-btn'
-                                onClick={this.onClickCloseChannel}
-                            >
-                                <FormattedMessage
-                                    id='center_panel.archived.closeChannel'
-                                    defaultMessage='Close Channel'
-                                />
-                            </button>
-                        </div>
-                    }
+                    <CreatePost
+                        getChannelView={this.getChannelView}
+                    />
                 </div>
             );
         }
