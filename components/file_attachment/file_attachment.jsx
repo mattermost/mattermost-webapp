@@ -16,8 +16,6 @@ import {
     localizeMessage,
 } from 'utils/utils.jsx';
 
-import DownloadIcon from 'components/widgets/icons/download_icon';
-
 import FilenameOverlay from './filename_overlay.jsx';
 import FileThumbnail from './file_thumbnail';
 

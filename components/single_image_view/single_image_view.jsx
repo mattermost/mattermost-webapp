@@ -136,7 +136,7 @@ export default class SingleImageView extends React.PureComponent {
             >
                 <div
                     onClick={this.handleImageClick}
-                    >
+                >
                     {fileInfo.name}
                 </div>
                 {toggle}
