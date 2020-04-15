@@ -2917,7 +2917,7 @@
   "multiselect.loading": "Loading...",
   "multiselect.numGroupsRemaining": "Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {group} other {groups}}. ",
   "multiselect.numMembers": "{memberOptions, number} of {totalCount, number} members",
-  "multiselect.numPeopleRemaining": "Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. ",
+  "multiselect.numPeopleRemaining": "Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}} in this invitation. ",
   "multiselect.numRemaining": "You can add {num, number} more",
   "multiselect.placeholder": "Search and add members",
   "multiselect.selectChannels": "Use ↑↓ to browse, ↵ to select.",
