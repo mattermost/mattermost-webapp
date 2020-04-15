@@ -5,9 +5,11 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
   className="textarea-wrapper"
 >
   <SuggestionBox
+    channelId="channelId"
     className="form-control custom-textarea"
     completeOnTab={true}
     containerClass=""
+    contextId="channelId"
     id="someid"
     inputComponent={[Function]}
     isRHS={false}
@@ -27,6 +29,14 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     providers={
       Array [
         AtMentionProvider {
+          "autocompleteGroups": Array [
+            Object {
+              "id": "gid1",
+            },
+            Object {
+              "id": "gid2",
+            },
+          ],
           "autocompleteUsersInChannel": [Function],
           "currentUserId": "currentUserId",
           "data": null,
@@ -50,6 +60,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
             },
           ],
           "requestStarted": false,
+          "searchAssociatedGroupsForReference": [Function],
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -90,9 +101,11 @@ exports[`components/TextBox should throw error when new property is too long 1`]
   className="textarea-wrapper"
 >
   <SuggestionBox
+    channelId="channelId"
     className="form-control custom-textarea"
     completeOnTab={true}
     containerClass=""
+    contextId="channelId"
     id="someid"
     inputComponent={[Function]}
     isRHS={false}
@@ -112,6 +125,14 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     providers={
       Array [
         AtMentionProvider {
+          "autocompleteGroups": Array [
+            Object {
+              "id": "gid1",
+            },
+            Object {
+              "id": "gid2",
+            },
+          ],
           "autocompleteUsersInChannel": [Function],
           "currentUserId": "currentUserId",
           "data": null,
@@ -135,6 +156,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
             },
           ],
           "requestStarted": false,
+          "searchAssociatedGroupsForReference": [Function],
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -175,9 +197,11 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
   className="textarea-wrapper"
 >
   <SuggestionBox
+    channelId="channelId"
     className="form-control custom-textarea"
     completeOnTab={true}
     containerClass=""
+    contextId="channelId"
     id="someid"
     inputComponent={[Function]}
     isRHS={false}
@@ -197,6 +221,14 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     providers={
       Array [
         AtMentionProvider {
+          "autocompleteGroups": Array [
+            Object {
+              "id": "gid1",
+            },
+            Object {
+              "id": "gid2",
+            },
+          ],
           "autocompleteUsersInChannel": [Function],
           "currentUserId": "currentUserId",
           "data": null,
@@ -220,6 +252,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
             },
           ],
           "requestStarted": false,
+          "searchAssociatedGroupsForReference": [Function],
           "useChannelMentions": true,
         },
         ChannelMentionProvider {

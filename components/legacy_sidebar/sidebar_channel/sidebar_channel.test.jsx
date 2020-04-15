@@ -71,6 +71,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
             savePreferences: jest.fn(),
             leaveChannel: jest.fn(),
             openLhs: jest.fn(),
+            leaveDirectChannel: jest.fn(),
         },
         channelIsArchived: false,
     };

@@ -8,7 +8,7 @@ import {updateUserRoles, uploadProfileImage, setDefaultProfileImage, createUserA
 import {createBot, patchBot} from 'mattermost-redux/actions/bots';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getUsers} from 'mattermost-redux/selectors/entities/common';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -19,13 +19,14 @@ function mapStateToProps(state, ownProps) {
     const botId = (new URLSearchParams(ownProps.location.search)).get('id');
     const bots = getBotAccounts(state);
     const bot = bots ? bots[botId] : null;
-    const user = bot ? getUsers(state)[bot.user_id] : null;
+    const user = bot ? getUser(state, bot.user_id) : null;
     const roles = user ? user.roles : null;
     return {
         maxFileSize: parseInt(config.MaxFileSize, 10),
         bot,
         roles,
         editingUserHasManageSystem: haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM}),
+        user,
     };
 }
 

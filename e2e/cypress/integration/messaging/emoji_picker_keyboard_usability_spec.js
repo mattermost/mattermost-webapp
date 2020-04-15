@@ -11,23 +11,18 @@
 // Group: @messaging
 
 describe('MM-13064 - Emoji picker keyboard usability', () => {
-    before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
-
     beforeEach(() => {
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
+
         // # Open emoji picker
         cy.get('#emojiPickerButton').click();
 
         // # Wait for emoji picker to load
         cy.get('#emojiPicker').should('be.visible');
-    });
-
-    afterEach(() => {
-        // # Close emoji picker by clicking on body
-        cy.get('body').click();
     });
 
     it('If the left arrow key is pressed while focus is on the emoji picker text box, the cursor should move left in the text', () => {
