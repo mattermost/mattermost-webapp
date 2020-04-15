@@ -87,7 +87,7 @@ describe('components/delete_channel_modal', () => {
             <DeleteChannelModal {...props}/>
         );
 
-        wrapper.find(Modal).props().onExited?.(document.createElement('div'));
+        wrapper.find(Modal).props().onExited!(document.createElement('div'));
         expect(props.onHide).toHaveBeenCalledTimes(1);
     });
 });
