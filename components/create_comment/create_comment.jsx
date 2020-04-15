@@ -513,7 +513,7 @@ class CreateComment extends React.PureComponent {
 
         if (notificationsToChannel &&
             channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            notContainsAtChannel) {
+            !notContainsAtChannel) {
             memberNotifyCount = channelMembersCount - 1;
             mentions = ['@all', '@channel'];
             if (isTimezoneEnabled) {
