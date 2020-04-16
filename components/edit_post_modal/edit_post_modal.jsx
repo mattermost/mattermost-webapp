@@ -30,6 +30,8 @@ class EditPostModal extends React.PureComponent {
         intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
         shouldShowPreview: PropTypes.bool.isRequired,
+        useChannelMentions: PropTypes.bool.isRequired,
+
         editingPost: PropTypes.shape({
             post: PropTypes.object,
             postId: PropTypes.string,
@@ -240,7 +242,11 @@ class EditPostModal extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            e.stopPropagation(); // perhaps this should happen in all of these cases? or perhaps Modal should not be listening?
+            this.setState({editText: Utils.insertLineBreakFromKeyEvent(e)});
+        } else if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
             this.handleHide();
@@ -406,6 +412,7 @@ class EditPostModal extends React.PureComponent {
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
+                                useChannelMentions={this.props.useChannelMentions}
                             />
                             <div className='post-body__actions'>
                                 {emojiPicker}

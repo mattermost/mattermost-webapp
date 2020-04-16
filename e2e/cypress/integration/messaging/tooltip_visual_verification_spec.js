@@ -13,11 +13,11 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
-        // # Use the API to create a new user
+        // # Create new user and DM
         cy.apiCreateNewUser().then((res) => {
             // # Start DM with new user
             cy.visit(`/ad-1/messages/@${res.username}`);
