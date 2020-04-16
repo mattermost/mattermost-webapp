@@ -1107,7 +1107,7 @@
             .flag-icon__container, .card-icon__container {
                 left: 37px;
                 position: absolute;
-                top: 3px;
+                top: 4px;
             }
 
             .post__img {
@@ -1572,6 +1572,8 @@
         text-rendering: auto;
         position: relative;
         z-index: 2;
+        width: 2.4rem;
+        height: 1.6rem;
 
         &.pull-left {
             margin: 4px 5px 0 0;
@@ -1582,12 +1584,11 @@
         }
 
         &:before {
-            content: '\f065';
-            font-size: 14px;
+            content: '\f0da';
 }
 
         &[data-expanded='true']:before {
-            content: '\f066';
+            content: '\f0d7';
         }
     }
 
