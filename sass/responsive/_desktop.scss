@@ -138,13 +138,15 @@
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1025px) {
     .post-image__details {
         .post-image__download {
             opacity: 0;
         }
     }
+}
 
+@media (min-width: 992px) {
     .modal-lg {
         width: 700px;
     }
