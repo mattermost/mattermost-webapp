@@ -54,7 +54,9 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
         className="file-preview__remove"
         onClick={[Function]}
       >
-        <RemoveIcon />
+        <i
+          className="icon icon-close"
+        />
       </a>
     </div>
     <ProgressBar
@@ -126,7 +128,9 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
         className="file-preview__remove"
         onClick={[Function]}
       >
-        <RemoveIcon />
+        <i
+          className="icon icon-close"
+        />
       </a>
     </div>
   </div>
