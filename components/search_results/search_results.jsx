@@ -107,9 +107,9 @@ class SearchResults extends React.Component {
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
         isOpened: PropTypes.bool,
+        updateSearchTerms: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
-            updateSearchTerms: PropTypes.func,
         }),
         intl: intlShape.isRequired,
     };
@@ -173,10 +173,6 @@ class SearchResults extends React.Component {
         this.props.actions.getMorePostsForSearch();
     }, 100);
 
-    handleUpdateSearchTerm = (term) => {
-        this.props.actions.updateSearchTerms(term + ' ');
-    }
-
     render() {
         const results = this.props.results;
         const noResults = (!results || results.length === 0);
@@ -219,7 +215,7 @@ class SearchResults extends React.Component {
         } else if (!searchTerms && noResults) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
-                    <SearchHint updateSearchTerms={this.handleUpdateSearchTerm}/>
+                    <SearchHint updateSearchTerms={this.props.updateSearchTerms}/>
                 </div>
             );
         } else if (noResults) {

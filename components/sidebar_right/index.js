@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious} from 'actions/views/rhs';
+import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
@@ -59,6 +59,7 @@ function mapDispatchToProps(dispatch) {
             openRHSSearch,
             closeRightHandSide,
             openAtPrevious,
+            updateSearchTerms,
         }, dispatch),
     };
 }

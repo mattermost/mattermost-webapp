@@ -34,6 +34,7 @@ export default class SearchBar extends React.Component {
         isFocus: PropTypes.bool,
         isSideBarRight: PropTypes.bool,
         isRhsOpen: PropTypes.bool,
+        getFocus: PropTypes.func,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
             showSearchResults: PropTypes.func,
@@ -162,6 +163,10 @@ export default class SearchBar extends React.Component {
 
     handleUpdateSearchTerm = (term) => {
         this.props.actions.updateSearchTerms(term + ' ');
+        this.focus();
+    }
+
+    focus = () => {
         setTimeout(() => {
             this.search.focus();
             this.setState({focused: true});
@@ -194,8 +199,10 @@ export default class SearchBar extends React.Component {
     }
 
     getSearch = (node) => {
-        console.log(node);
         this.search = node;
+        if (this.props.getFocus) {
+            this.props.getFocus(this.focus);
+        }
     }
 
     render() {

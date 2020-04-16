@@ -236,20 +236,29 @@
 
 .search-hint__suggestions-list {
     list-style-type: none;
-    padding: 15px 24px;
-    margin: 0
+    margin: 0;
+    padding-left: 0;
 }
 
-.search-hint__suggestions-list__option { 
-    padding: 7px 0;
+.search-hint__suggestions-list__option {
+    padding: 10px 24px;
     display: flex;
     justify-content: space-between;
     text-align: left;
     color: var(--center-channel-color);
     cursor: pointer;
+    box-sizing: border-box;
 
     &:first-child {
-        padding-top: 0;
+        padding-top: 13px;
+    }
+
+    &:last-child {
+        padding-bottom: 15px;
+    }
+
+    &:hover {
+        background: rgba(61, 60, 64, 0.06);
     }
 }
 
@@ -265,5 +274,14 @@
 }
 
 .search-hint__suggestion-list__value {
-    width: 187px;
+    width: 186px;
+}
+
+.sidebar--right {
+    // Fighting specificity with _sidebar-right.scss (sidebar--right .sidebar--right__subheader ul)
+    ul.search-hint__suggestions-list {
+        padding-left: 0;
+        // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
+        margin: -28px -14px 0;
+    }
 }
