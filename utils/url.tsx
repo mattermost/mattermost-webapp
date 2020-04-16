@@ -111,7 +111,7 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
     if (url.indexOf('__') > -1) {
         const USER_ID_LENGTH = 26;
         const userIds = url.split('__');
-        isDirectMessageFormat = userIds.length == 2 && userIds[0].length == USER_ID_LENGTH && userIds[1].length == USER_ID_LENGTH;
+        isDirectMessageFormat = userIds.length === 2 && userIds[0].length === USER_ID_LENGTH && userIds[1].length === USER_ID_LENGTH;
 
         if (isDirectMessageFormat) {
             errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User ids are not permitted in channel URL for non-direct message channels.'));
@@ -130,6 +130,7 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
         if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
             errors.push(formattedError(t('change_url.endWithLetter'), 'URL must end with a letter or number.'));
         }
+
         // In case of error we don't detect
         if (errors.length === 0) {
             errors.push(formattedError(t('change_url.invalidUrl'), 'Invalid URL'));
