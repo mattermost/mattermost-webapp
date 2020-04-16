@@ -17,7 +17,13 @@ export default class AnnouncementBar extends React.PureComponent {
         type: PropTypes.string,
         message: PropTypes.node.isRequired,
         handleClose: PropTypes.func,
+        announcementBarCount: PropTypes.number.isRequired,
+        actions: PropTypes.shape({
+            incrementAnnouncementBarCount: PropTypes.func.isRequired,
+            decrementAnnouncementBarCount: PropTypes.func.isRequired,
+        }).isRequired,
     }
+
     static defaultProps = {
         showCloseButton: false,
         color: '',
@@ -27,23 +33,17 @@ export default class AnnouncementBar extends React.PureComponent {
     }
 
     componentDidMount() {
-        let announcementBarCount = document.body.getAttribute('announcementBarCount') || 0;
-        announcementBarCount++;
-        document.body.classList.add('announcement-bar--fixed');
+        this.props.actions.incrementAnnouncementBarCount();
 
-        // keeping a track of mounted AnnouncementBars so that on the last AnnouncementBars unmount we can remove the class on body
-        document.body.setAttribute('announcementBarCount', announcementBarCount);
+        document.body.classList.add('announcement-bar--fixed');
     }
 
     componentWillUnmount() {
-        let announcementBarCount = document.body.getAttribute('announcementBarCount');
-        announcementBarCount--;
-        document.body.setAttribute('announcementBarCount', announcementBarCount);
-
-        // remove the class on body as it is the last announcementBar
-        if (announcementBarCount === 0) {
+        if (this.props.announcementBarCount === 1) {
             document.body.classList.remove('announcement-bar--fixed');
         }
+
+        this.props.actions.decrementAnnouncementBarCount();
     }
 
     handleClose = (e) => {

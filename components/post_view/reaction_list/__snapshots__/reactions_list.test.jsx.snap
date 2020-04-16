@@ -85,7 +85,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
               className="post-reaction__add"
               id="addReaction-post_id"
             >
-              +
+              <AddReactionIcon />
             </span>
           </button>
         </OverlayTrigger>

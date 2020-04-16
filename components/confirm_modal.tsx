@@ -194,7 +194,9 @@ export default class ConfirmModal extends React.Component<Props, State> {
                 onExited={this.props.onExited}
                 id='confirmModal'
                 role='dialog'
+                aria-modal={true}
                 aria-labelledby='confirmModalLabel'
+                aria-describedby='confirmModalBody'
             >
                 <Modal.Header closeButton={false}>
                     <Modal.Title
@@ -204,7 +206,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
                         {this.props.title}
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body id='confirmModalBody'>
                     {this.props.message}
                     {checkbox}
                 </Modal.Body>
