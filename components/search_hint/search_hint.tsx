@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {t} from 'utils/i18n';
+
 type Props = {
     withTitle?: boolean;
     updateSearchTerms: (term: string) => void;
@@ -44,7 +46,7 @@ export const SearchHint = (props: Props) => {
                         <span className='search-hint__suggestion-list__label'>{option.searchTerm}</span>
                         <div className='search-hint__suggestion-list__value'>
                             <FormattedMessage
-                                id={option.message.id}
+                                id={t(option.message.id)}
                                 defaultMessage={option.message.defaultMessage}
                             />
                         </div>
