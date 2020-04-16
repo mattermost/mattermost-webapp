@@ -13,6 +13,9 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 
 import {
+    updateSearchTerms,
+} from 'actions/views/rhs';
+import {
     getSearchResultsTerms,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
@@ -78,6 +81,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getMorePostsForSearch,
+            updateSearchTerms,
         }, dispatch),
     };
 }

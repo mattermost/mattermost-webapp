@@ -4,19 +4,24 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SearchHint from 'components/search_hint/search_hint';
+import {SearchHint} from 'components/search_hint/search_hint';
 
 describe('components/SearchHint', () => {
+    const updateSearchTerms = jest.fn();
+
     test('should match snapshot, with title', () => {
         const wrapper = shallow(
-            <SearchHint withTitle={true}/>
+            <SearchHint
+                withTitle={true}
+                updateSearchTerms={updateSearchTerms}
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, without title', () => {
         const wrapper = shallow(
-            <SearchHint/>
+            <SearchHint updateSearchTerms={updateSearchTerms}/>
         );
         expect(wrapper).toMatchSnapshot();
     });

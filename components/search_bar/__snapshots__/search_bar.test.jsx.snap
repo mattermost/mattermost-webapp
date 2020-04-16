@@ -207,6 +207,8 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         popoverStyle="info"
       >
         <SearchHint
+          onMouseDown={[Function]}
+          updateSearchTerms={[Function]}
           withTitle={true}
         />
       </Popover>
@@ -320,6 +322,8 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         popoverStyle="info"
       >
         <SearchHint
+          onMouseDown={[Function]}
+          updateSearchTerms={[Function]}
           withTitle={true}
         />
       </Popover>

@@ -226,3 +226,44 @@
 .search-highlight {
     background-color: $yellow;
 }
+
+.search-hint__title {
+    padding: 22px 24px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--center-channel-color-16);
+    margin: 0;
+}
+
+.search-hint__suggestions-list {
+    list-style-type: none;
+    padding: 15px 24px;
+    margin: 0
+}
+
+.search-hint__suggestions-list__option { 
+    padding: 7px 0;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    color: var(--center-channel-color);
+    cursor: pointer;
+
+    &:first-child {
+        padding-top: 0;
+    }
+}
+
+.search-hint__suggestion-list__label {
+    text-transform: uppercase;
+    background: var(--center-channel-color-16);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.01em;
+    border-radius: 5px;
+    padding: 0px 5px;
+    line-height: 18px;
+}
+
+.search-hint__suggestion-list__value {
+    width: 187px;
+}

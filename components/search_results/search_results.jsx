@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
-import SearchHint from 'components/search_hint/search_hint';
+import {SearchHint} from 'components/search_hint/search_hint';
 import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
 import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
 import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
@@ -109,6 +109,7 @@ class SearchResults extends React.Component {
         isOpened: PropTypes.bool,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
+            updateSearchTerms: PropTypes.func,
         }),
         intl: intlShape.isRequired,
     };
@@ -172,6 +173,10 @@ class SearchResults extends React.Component {
         this.props.actions.getMorePostsForSearch();
     }, 100);
 
+    handleUpdateSearchTerm = (term) => {
+        this.props.actions.updateSearchTerms(term + ' ');
+    }
+
     render() {
         const results = this.props.results;
         const noResults = (!results || results.length === 0);
@@ -214,7 +219,7 @@ class SearchResults extends React.Component {
         } else if (!searchTerms && noResults) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
-                    <SearchHint/>
+                    <SearchHint updateSearchTerms={this.handleUpdateSearchTerm}/>
                 </div>
             );
         } else if (noResults) {

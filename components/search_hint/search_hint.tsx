@@ -2,33 +2,28 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, MessageDescriptor} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 type Props = {
     withTitle?: boolean;
     updateSearchTerms: (term: string) => void;
-    onMouseDown: () => void;
+    onMouseDown?: () => void;
 }
 
-interface SearchOption {
-    searchTerm: string;
-    message: MessageDescriptor;
-}
-
-const options = [{searchTerm: 'From', message: {id: 'search_list_option.from', defaultMessage: 'Messages from a user'}},
-    {searchTerm: 'In', message: {id: 'search_list_option.in', defaultMessage: 'Messages in a channel'}},
-    {searchTerm: 'On', message: {id: 'search_list_option.on', defaultMessage: 'Messages on a date'}},
-    {searchTerm: 'Before', message: {id: 'search_list_option.before', defaultMessage: 'Messages before a date'}},
-    {searchTerm: 'After', message: {id: 'search_list_option.after', defaultMessage: 'Messages after a date'}},
+const options = [{searchTerm: 'From:', message: {id: 'search_list_option.from', defaultMessage: 'Messages from a user'}},
+    {searchTerm: 'In:', message: {id: 'search_list_option.in', defaultMessage: 'Messages in a channel'}},
+    {searchTerm: 'On:', message: {id: 'search_list_option.on', defaultMessage: 'Messages on a date'}},
+    {searchTerm: 'Before:', message: {id: 'search_list_option.before', defaultMessage: 'Messages before a date'}},
+    {searchTerm: 'After:', message: {id: 'search_list_option.after', defaultMessage: 'Messages after a date'}},
     {searchTerm: '-', message: {id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms'}},
-    {searchTerm: '"', message: {id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'}},
+    {searchTerm: '""', message: {id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'}},
 ];
 
 export const SearchHint = (props: Props) => {
     return (
         <React.Fragment>
             {props.withTitle &&
-                <h4>
+                <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title'
                         defaultMessage='Search Options'
@@ -37,19 +32,22 @@ export const SearchHint = (props: Props) => {
             }
             <ul
                 role='list'
-                className='suggestions-list'
+                className='search-hint__suggestions-list'
                 onMouseDown={props.onMouseDown}
             >
                 {options.map((option) => (
                     <li
-                        className='option'
+                        className='search-hint__suggestions-list__option'
                         key={option.searchTerm}
-                        onClick={() => props.updateSearchTerms(`${option.searchTerm}:`)}
+                        onClick={() => props.updateSearchTerms(option.searchTerm)}
                     >
-                        <FormattedMessage
-                            id={option.message.id}
-                            defaultMessage={option.message.defaultMessage}
-                        />
+                        <span className='search-hint__suggestion-list__label'>{option.searchTerm}</span>
+                        <div className='search-hint__suggestion-list__value'>
+                            <FormattedMessage
+                                id={option.message.id}
+                                defaultMessage={option.message.defaultMessage}
+                            />
+                        </div>
                     </li>))}
             </ul>
         </React.Fragment>

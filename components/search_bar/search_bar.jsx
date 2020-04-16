@@ -194,6 +194,7 @@ export default class SearchBar extends React.Component {
     }
 
     getSearch = (node) => {
+        console.log(node);
         this.search = node;
     }
 
