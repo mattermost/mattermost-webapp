@@ -1954,7 +1954,7 @@
   "change_url.endWithLetter": "URL must end with a letter or number.",
   "change_url.invalidUrl": "Invalid URL",
   "change_url.longer": "URL must be two or more characters.",
-  "change_url.noUnderscore": "URL can not contain two underscores in a row.",
+  "change_url.invalidDirectMessage": "User ids are not permitted in channel URL for non-direct message channels.",
   "change_url.startWithLetter": "URL must start with a letter or number.",
   "change_url.urlLabel": "Channel URL",
   "channel_flow.alreadyExist": "A channel with that URL already exists",
