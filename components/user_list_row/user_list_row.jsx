@@ -113,14 +113,6 @@ export default class UserListRow extends React.Component {
                             '-' : null}
                         &nbsp;
                         {Utils.displayFullAndNicknameForUser(this.props.user)}
-                        <BotBadge
-                            className='badge-popoverlist'
-                            show={Boolean(this.props.user.is_bot)}
-                        />
-                        <GuestBadge
-                            className='badge-popoverlist'
-                            show={Utils.isGuest(this.props.user)}
-                        />
                     </div>
                     <div
                         id={userCountEmail}
