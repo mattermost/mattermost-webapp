@@ -2505,7 +2505,7 @@
   "rename_channel.handleHolder": "Kan enkel kleine letters en nummers zijn",
   "rename_channel.lowercase": "Kan enkel kleine letters en nummers zijn",
   "rename_channel.maxLength": "This field must be less than {maxLength, number} characters",
-  "rename_channel.minLength": "Channel name have at least {minLength, number} characters.",
+  "rename_channel.minLength": "Channel name must have at least {minLength, number} characters.",
   "rename_channel.required": "Dit veld is verplicht",
   "rename_channel.save": "Opslaan",
   "rename_channel.title": "Hernoem kanaal...",
