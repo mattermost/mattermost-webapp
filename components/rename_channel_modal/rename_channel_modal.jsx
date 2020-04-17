@@ -16,17 +16,9 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 const holders = defineMessages({
-    required: {
-        id: t('rename_channel.required'),
-        defaultMessage: 'This field is required',
-    },
     maxLength: {
         id: t('rename_channel.maxLength'),
         defaultMessage: 'This field must be less than {maxLength, number} characters',
-    },
-    lowercase: {
-        id: t('rename_channel.lowercase'),
-        defaultMessage: 'Must be lowercase alphanumeric characters',
     },
     url: {
         id: t('rename_channel.url'),
@@ -135,22 +127,19 @@ export class RenameChannelModal extends React.PureComponent {
         const {actions: {patchChannel}} = this.props;
 
         channel.display_name = this.state.displayName.trim();
-        if (!channel.display_name) {
-            state.displayNameError = formatMessage(holders.required);
-            state.invalid = true;
-        } else if (channel.display_name.length > Constants.MAX_CHANNELNAME_LENGTH) {
-            state.displayNameError = formatMessage(holders.maxLength, {maxLength: Constants.MAX_CHANNELNAME_LENGTH});
-            state.invalid = true;
-        } else if (channel.display_name.length < Constants.MIN_CHANNELNAME_LENGTH) {
+        if (!channel.display_name || channel.display_name.length < Constants.MIN_CHANNELNAME_LENGTH) {
             state.displayNameError = (
                 <FormattedMessage
                     id='rename_channel.minLength'
-                    defaultMessage='Channel name must be {minLength, number} or more characters'
+                    defaultMessage='Channel name have at least {minLength, number} characters.'
                     values={{
                         minLength: Constants.MIN_CHANNELNAME_LENGTH,
                     }}
                 />
             );
+            state.invalid = true;
+        } else if (channel.display_name.length > Constants.MAX_CHANNELNAME_LENGTH) {
+            state.displayNameError = formatMessage(holders.maxLength, {maxLength: Constants.MAX_CHANNELNAME_LENGTH});
             state.invalid = true;
         } else {
             state.displayNameError = '';

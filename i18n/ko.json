@@ -2505,7 +2505,7 @@
   "rename_channel.handleHolder": "Must be lowercase alphanumeric characters",
   "rename_channel.lowercase": "Must be lowercase alphanumeric characters",
   "rename_channel.maxLength": "This field must be less than {maxLength, number} characters",
-  "rename_channel.minLength": "Channel name must be {minLength, number} or more characters",
+  "rename_channel.minLength": "Channel name have at least {minLength, number} characters.",
   "rename_channel.required": "필수 항목입니다.",
   "rename_channel.save": "저장",
   "rename_channel.title": "채널 이름 변경",
