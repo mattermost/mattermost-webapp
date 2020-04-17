@@ -181,4 +181,15 @@ describe('components/ChannelHeader', () => {
             />
         )).toEqual(true);
     });
+
+    test('should render the pinned icon with the pinned posts count', () => {
+        const props = {
+            ...populatedProps,
+            pinnedPostsCount: 2
+        };
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

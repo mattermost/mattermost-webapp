@@ -139,6 +139,17 @@ function lastGetPosts(state = {}, action) {
     }
 }
 
+function toastStatus(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_CHANNEL_WITH_MEMBER:
+        return false;
+    case ActionTypes.UPDATE_TOAST_STATUS:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
@@ -147,4 +158,5 @@ export default combineReducers({
     mobileView,
     keepChannelIdAsUnread,
     lastGetPosts,
+    toastStatus,
 });

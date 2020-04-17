@@ -34,7 +34,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -47,7 +47,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -304,7 +304,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -317,7 +317,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -574,7 +574,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -587,7 +587,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -844,7 +844,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -857,7 +857,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1122,7 +1122,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1135,7 +1135,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1392,7 +1392,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1405,7 +1405,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1666,7 +1666,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1679,7 +1679,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1936,7 +1936,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -1949,7 +1949,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -2206,7 +2206,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -2219,7 +2219,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -2476,7 +2476,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />
@@ -2489,7 +2489,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     <UnreadChannelIndicator
       content={
         <FormattedMessage
-          defaultMessage="More unreads"
+          defaultMessage="More Unreads"
           id="sidebar.unreads"
           values={Object {}}
         />

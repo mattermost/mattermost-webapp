@@ -139,14 +139,16 @@ export default class ChannelMembersDropdown extends React.Component {
                     <Menu
                         openLeft={true}
                         openUp={totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
-                        ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Channel member role change')}
+                        ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member')}
                     >
                         <Menu.ItemAction
+                            id={`${user.username}-make-channel-member`}
                             show={canMakeUserChannelMember}
                             onClick={this.handleMakeChannelMember}
                             text={Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member')}
                         />
                         <Menu.ItemAction
+                            id={`${user.username}-make-channel-admin`}
                             show={canMakeUserChannelAdmin}
                             onClick={this.handleMakeChannelAdmin}
                             text={Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Channel Admin')}

@@ -82,6 +82,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onToggle={[Function]}
       />
       <ChannelModeration
+        guestAccountsEnabled={true}
         onChannelPermissionsChanged={[Function]}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
@@ -111,6 +112,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         groups={
           Array [
             Object {
+              "allow_reference": false,
               "create_at": 0,
               "delete_at": 0,
               "description": "descript",
@@ -223,6 +225,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onToggle={[Function]}
       />
       <ChannelModeration
+        guestAccountsEnabled={true}
         onChannelPermissionsChanged={[Function]}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
@@ -252,6 +255,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         groups={
           Array [
             Object {
+              "allow_reference": false,
               "create_at": 0,
               "delete_at": 0,
               "description": "descript",

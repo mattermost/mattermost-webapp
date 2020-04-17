@@ -221,7 +221,7 @@ export default class PopoverListMembers extends React.Component {
                 <button
                     id='member_popover'
                     aria-label={ariaLabel}
-                    className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
+                    className={'member-popover__trigger channel-header__icon channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
                     ref='member_popover_target'
                     onClick={this.handleGetProfilesInChannel}
                 >
@@ -230,18 +230,18 @@ export default class PopoverListMembers extends React.Component {
                         placement='bottom'
                         overlay={this.state.showPopover ? <></> : channelMembersTooltip}
                     >
-                        <div>
+                        <div className='d-flex align-items-center'>
+                            <MemberIcon
+                                id='channelMemberIcon'
+                                className='icon icon--standard'
+                                aria-hidden='true'
+                            />
                             <span
                                 id='channelMemberCountText'
                                 className='icon__text'
                             >
                                 {countText}
                             </span>
-                            <MemberIcon
-                                id='channelMemberIcon'
-                                className='icon icon__members'
-                                aria-hidden='true'
-                            />
                         </div>
                     </OverlayTrigger>
                 </button>

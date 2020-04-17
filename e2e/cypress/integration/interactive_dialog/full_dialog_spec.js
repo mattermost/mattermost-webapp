@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @interactive_dialog
+
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
@@ -30,6 +33,8 @@ const optionsLength = {
 };
 
 describe('Interactive Dialog', () => {
+    let config;
+
     before(() => {
         cy.requireWebhookServer();
 
@@ -45,7 +50,9 @@ describe('Interactive Dialog', () => {
                 EnablePostIconOverride: true,
             },
         };
-        cy.apiUpdateConfig(newSettings);
+        cy.apiUpdateConfig(newSettings).then((res) => {
+            config = res.body;
+        });
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
@@ -106,7 +113,13 @@ describe('Interactive Dialog', () => {
                     // * Verify that the suggestion list or autocomplete open up on click of input element
                     cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
+                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().then((el) => {
+                        if (element.name === 'someuserselector' && config.ElasticsearchSettings.EnableIndexing) {
+                            return;
+                        }
+
+                        cy.wrap(el).should('have.length', optionsLength[element.name]);
+                    });
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 

@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "Wyślij wiadomość",
   "create_post.tutorialTip1": "Wpisz tutaj swoją wiadomość i naciśnij **Enter** aby ją wysłać.",
   "create_post.tutorialTip2": "Naciśnij przycisk **Załącznik** aby wrzucić obrazek lub plik.",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "Napisz wiadomość...",
   "create_team.agreement": "Kontynuując proces tworzenia konta i korzystania z {siteName}, akceptujesz nasze [Warunki korzystania z usługi] ({TermsOfServiceLink}) i [Polityka prywatności] ({PrivacyPolicyLink}). Jeśli nie wyrażasz zgody, nie możesz używać {siteName}.",
   "create_team.display_name.charLength": "Nazwa musi zawierać pomiędzy {min} a {max} znaków. Możesz dodać dłuższy opis zespołu później.",
   "create_team.display_name.nameHelp": "Nazwij swój zespół w dowolnym języku. Nazwa twojej drużyny pokazuje się w menu i nagłówkach.",

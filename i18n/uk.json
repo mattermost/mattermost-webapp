@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "Відправлення повідомлень",
   "create_post.tutorialTip1": "Введіть тут, щоб написати повідомлення, і натисніть **Enter**, щоб опублікувати його.",
   "create_post.tutorialTip2": "Натисніть кнопку **Attachment**, щоб завантажити зображення або файл.",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "Ваше повідомлення...",
   "create_team.agreement": "Приступаючи до створення вашого профілю і використання {siteName}, ви погоджуєтеся з нашими [Умовами використання] ({TermsOfServiceLink}) та [Політикою конфіденційності] ({PrivacyPolicyLink}). Якщо ви не згодні, ви не можете використовувати {siteName}.",
   "create_team.display_name.charLength": "Ім'я повинно бути довше {min} і менше {max} символів. Ви можете додати опис команди пізніше.",
   "create_team.display_name.nameHelp": "Назва команди на будь-якій мові. Назва команди буде показана в меню і заголовках.",

@@ -54,7 +54,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
         <span
           className="fa fa-angle-down"
         />
-        Show More
+        Show more
       </button>
       <div
         className="post-collapse__show-more-line"
@@ -97,7 +97,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
         <span
           className="fa fa-angle-up"
         />
-        Show Less
+        Show less
       </button>
       <div
         className="post-collapse__show-more-line"
@@ -140,7 +140,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
         <span
           className="fa fa-angle-down"
         />
-        Show More
+        Show more
       </button>
       <div
         className="post-collapse__show-more-line"
@@ -183,7 +183,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
         <span
           className="fa fa-angle-up"
         />
-        Show Less
+        Show less
       </button>
       <div
         className="post-collapse__show-more-line"
@@ -226,7 +226,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
         <span
           className="fa fa-angle-up"
         />
-        Show Less
+        Show less
       </button>
       <div
         className="post-collapse__show-more-line"

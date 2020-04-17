@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @system_console
+
 describe('System Console', () => {
     it('MM-19309 Allow System Admins to control Teammate Name Display at the system level', () => {
         cy.apiLogin('sysadmin');

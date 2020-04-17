@@ -3,9 +3,7 @@
 exports[`components/VersionBar should match snapshot - bar rendered after server version change 1`] = `""`;
 
 exports[`components/VersionBar should match snapshot - bar rendered after server version change 2`] = `
-<AnnouncementBar
-  color=""
-  handleClose={null}
+<Connect(AnnouncementBar)
   message={
     <React.Fragment>
       <FormattedMessage
@@ -26,8 +24,6 @@ exports[`components/VersionBar should match snapshot - bar rendered after server
       .
     </React.Fragment>
   }
-  showCloseButton={false}
-  textColor=""
   type="announcement"
 />
 `;

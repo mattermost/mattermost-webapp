@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @channel @channel_settings
+
 function verifyMentionedUserAndProfilePopover(postId) {
     cy.get(`#post_${postId}`).find('.mention-link').each(($el) => {
         // # Get username from each mentioned link

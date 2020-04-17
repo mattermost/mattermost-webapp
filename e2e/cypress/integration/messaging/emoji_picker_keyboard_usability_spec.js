@@ -2,29 +2,27 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// [number] indicates a test step (e.g. # Go to a page)
+// [#] indicates a test step (e.g. # Go to a page)
 // [*] indicates an assertion (e.g. * Check the title)
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('MM-13064 - Emoji picker keyboard usability', () => {
-    before(() => {
-        // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
-    });
+// Stage: @prod
+// Group: @messaging
 
+describe('MM-13064 - Emoji picker keyboard usability', () => {
     beforeEach(() => {
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
+
         // # Open emoji picker
         cy.get('#emojiPickerButton').click();
 
         // # Wait for emoji picker to load
         cy.get('#emojiPicker').should('be.visible');
-    });
-
-    afterEach(() => {
-        // # Close emoji picker by clicking on body
-        cy.get('body').click();
     });
 
     it('If the left arrow key is pressed while focus is on the emoji picker text box, the cursor should move left in the text', () => {

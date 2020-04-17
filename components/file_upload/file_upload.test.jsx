@@ -9,7 +9,6 @@ import {clearFileInput} from 'utils/utils';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import FileUpload from 'components/file_upload/file_upload.jsx';
-import * as UserAgent from 'utils/user_agent';
 
 const generatedIdRegex = /[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/;
 
@@ -98,10 +97,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onClick).toHaveBeenCalledTimes(1);
     });
 
-    test('should call onClick on fileInput when button is touched when isMobileApp=true', () => {
-        const origIsMobileApp = UserAgent.isMobileApp;
-        UserAgent.isMobileApp = jest.fn().mockImplementation(() => true);
-
+    test('should prevent event default and progogation on call of onTouchEnd on fileInput', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
         );
@@ -112,19 +108,16 @@ describe('components/FileUpload', () => {
                 click: () => instance.handleLocalFileUploaded(),
             },
         };
-        wrapper.find('button').simulate('click');
-        expect(instance.handleLocalFileUploaded).toHaveBeenCalledTimes(0);
 
-        wrapper.find('button').simulate('touchend');
-        expect(instance.handleLocalFileUploaded).toHaveBeenCalledTimes(1);
+        const event = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+        wrapper.find('button').simulate('touchend', event);
 
-        UserAgent.isMobileApp = origIsMobileApp;
+        expect(event.stopPropagation).toHaveBeenCalled();
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(instance.handleLocalFileUploaded).toHaveBeenCalled();
     });
 
-    test('should call onClick on fileInput when button is touched when isMobileApp=false', () => {
-        const origIsMobileApp = UserAgent.isMobileApp;
-        UserAgent.isMobileApp = jest.fn().mockImplementation(() => false);
-
+    test('should prevent event default and progogation on call of onClick on fileInput', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
         );
@@ -135,13 +128,13 @@ describe('components/FileUpload', () => {
                 click: () => instance.handleLocalFileUploaded(),
             },
         };
-        wrapper.find('button').simulate('touchend');
-        expect(instance.handleLocalFileUploaded).toHaveBeenCalledTimes(0);
 
-        wrapper.find('button').simulate('click');
-        expect(instance.handleLocalFileUploaded).toHaveBeenCalledTimes(1);
+        const event = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+        wrapper.find('button').simulate('click', event);
 
-        UserAgent.isMobileApp = origIsMobileApp;
+        expect(event.stopPropagation).toHaveBeenCalled();
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(instance.handleLocalFileUploaded).toHaveBeenCalled();
     });
 
     test('should match state and call handleMaxUploadReached or props.onClick on handleLocalFileUploaded', () => {

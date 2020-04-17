@@ -47,11 +47,7 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
   imageProps={Object {}}
   isRHS={false}
   message="message"
-  options={
-    Object {
-      "mentionHighlight": true,
-    }
-  }
+  options={Object {}}
   postId="post_id"
   proxyImages={true}
 />

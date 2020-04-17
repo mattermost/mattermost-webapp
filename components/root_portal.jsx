@@ -16,11 +16,17 @@ export default class RootPortal extends React.Component {
     }
 
     componentDidMount() {
-        document.getElementById('root-portal').appendChild(this.el);
+        const rootPortal = document.getElementById('root-portal');
+        if (rootPortal) {
+            rootPortal.appendChild(this.el);
+        }
     }
 
     componentWillUnmount() {
-        document.getElementById('root-portal').removeChild(this.el);
+        const rootPortal = document.getElementById('root-portal');
+        if (rootPortal) {
+            rootPortal.removeChild(this.el);
+        }
     }
 
     render() {

@@ -4,10 +4,11 @@
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import CopyUrlContextMenu from 'components/copy_url_context_menu/copy_url_context_menu';
+import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions';
@@ -42,6 +43,11 @@ type Props = {
      * User preference of whether the channel can be marked unread
      */
     showUnreadForMsgs: boolean;
+
+    /**
+     * Checks if the current channel is muted
+     */
+    isMuted: boolean;
 };
 
 type State = {
@@ -121,8 +127,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     };
 
     render() {
-        const {link, label, channel, unreadMentions, icon} = this.props;
-
+        const {link, label, channel, unreadMentions, icon, isMuted} = this.props;
         const content = (
             <React.Fragment>
                 <SidebarChannelIcon
@@ -130,7 +135,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     icon={icon}
                 />
                 <span
-                    className='SidebarChannelLinkLabel'
+                    className={'SidebarChannelLinkLabel'}
                     ref={this.labelRef}
                 >
                     {label}
@@ -148,6 +153,9 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         );
 
         let element;
+
+        // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
+        const oldUnreadClass = this.showChannelAsUnread() ? 'unread-title' : '';
         if (isDesktopApp()) {
             element = (
                 <CopyUrlContextMenu
@@ -155,7 +163,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     menuId={channel.id}
                 >
                     <button
-                        className={'btn btn-link SidebarLink'}
+                        className={classNames(['btn btn-link SidebarLink', {muted: isMuted}, oldUnreadClass])}
                         aria-label={this.getAriaLabel()}
                         onClick={this.handleClick}
                     >
@@ -166,7 +174,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } else {
             element = (
                 <Link
-                    className={'SidebarLink'}
+                    className={classNames(['SidebarLink', {muted: isMuted}, oldUnreadClass])}
                     id={`sidebarItem_${channel.name}`}
                     aria-label={this.getAriaLabel()}
                     to={link}

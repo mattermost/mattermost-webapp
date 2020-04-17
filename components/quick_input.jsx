@@ -38,6 +38,12 @@ export default class QuickInput extends React.PureComponent {
         clearable: PropTypes.bool,
 
         /**
+         * The optional tooltip text to display on the X shown when clearable. Pass a components
+         * such as FormattedMessage to localize.
+         */
+        clearableTooltipText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+
+        /**
          * Callback to clear the input value, and used in tandem with the clearable prop above.
          */
         onClear: PropTypes.func,
@@ -95,15 +101,23 @@ export default class QuickInput extends React.PureComponent {
         if (this.props.onClear) {
             this.props.onClear();
         }
+        this.focus();
     }
 
     render() {
-        const clearableTooltip = (
-            <Tooltip id={'InputClearTooltip'}>
+        let clearableTooltipText = this.props.clearableTooltipText;
+        if (!clearableTooltipText) {
+            clearableTooltipText = (
                 <FormattedMessage
                     id={'input.clear'}
-                    defaultMessage='Clear input'
+                    defaultMessage='Clear'
                 />
+            );
+        }
+
+        const clearableTooltip = (
+            <Tooltip id={'InputClearTooltip'}>
+                {clearableTooltipText}
             </Tooltip>
         );
 
@@ -111,6 +125,7 @@ export default class QuickInput extends React.PureComponent {
 
         Reflect.deleteProperty(props, 'delayInputUpdate');
         Reflect.deleteProperty(props, 'onClear');
+        Reflect.deleteProperty(props, 'clearableTooltipText');
 
         const inputElement = React.createElement(
             inputComponent || 'input',

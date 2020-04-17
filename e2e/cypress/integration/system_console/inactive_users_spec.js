@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @system_console
+
 /**
  * Note: This test requires hundreds of deactivated users
  * May generate by modifying `make test-data` command at `./mattermost-server/Makefile`

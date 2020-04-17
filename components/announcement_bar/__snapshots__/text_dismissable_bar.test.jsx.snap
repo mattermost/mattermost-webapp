@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/TextDismissableBar should match snapshot 1`] = `
-<AnnouncementBar
-  color=""
+<Connect(AnnouncementBar)
   extraProp="test"
   handleClose={[Function]}
   message={
@@ -18,14 +17,11 @@ exports[`components/TextDismissableBar should match snapshot 1`] = `
   }
   onDismissal={[MockFunction]}
   showCloseButton={true}
-  textColor=""
-  type="critical"
 />
 `;
 
 exports[`components/TextDismissableBar should match snapshot, with an internal and an external link 1`] = `
-<AnnouncementBar
-  color=""
+<Connect(AnnouncementBar)
   extraProp="test"
   handleClose={[Function]}
   message={
@@ -42,14 +38,11 @@ exports[`components/TextDismissableBar should match snapshot, with an internal a
   onDismissal={[MockFunction]}
   showCloseButton={true}
   siteURL="http://testurl.com"
-  textColor=""
-  type="critical"
 />
 `;
 
 exports[`components/TextDismissableBar should match snapshot, with an internal url 1`] = `
-<AnnouncementBar
-  color=""
+<Connect(AnnouncementBar)
   extraProp="test"
   handleClose={[Function]}
   message={
@@ -66,14 +59,11 @@ exports[`components/TextDismissableBar should match snapshot, with an internal u
   onDismissal={[MockFunction]}
   showCloseButton={true}
   siteURL="http://testurl.com"
-  textColor=""
-  type="critical"
 />
 `;
 
 exports[`components/TextDismissableBar should match snapshot, with ean external url 1`] = `
-<AnnouncementBar
-  color=""
+<Connect(AnnouncementBar)
   extraProp="test"
   handleClose={[Function]}
   message={
@@ -90,14 +80,11 @@ exports[`components/TextDismissableBar should match snapshot, with ean external 
   onDismissal={[MockFunction]}
   showCloseButton={true}
   siteURL="http://testurl.com"
-  textColor=""
-  type="critical"
 />
 `;
 
 exports[`components/TextDismissableBar should match snapshot, with link but without siteURL 1`] = `
-<AnnouncementBar
-  color=""
+<Connect(AnnouncementBar)
   extraProp="test"
   handleClose={[Function]}
   message={
@@ -113,7 +100,5 @@ exports[`components/TextDismissableBar should match snapshot, with link but with
   }
   onDismissal={[MockFunction]}
   showCloseButton={true}
-  textColor=""
-  type="critical"
 />
 `;

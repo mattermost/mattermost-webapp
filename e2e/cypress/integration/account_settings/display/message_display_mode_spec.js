@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 describe('Account Settings > Display > Message Display', () => {
     before(() => {
         // # Change message display setting to compact

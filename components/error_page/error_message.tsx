@@ -176,6 +176,13 @@ const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props)
                 </p>
             );
             break;
+        case ErrorPageTypes.OAUTH_INVALID_PARAM:
+            errorMessage = (
+                <p>
+                    {message}
+                </p>
+            );
+            break;
         case ErrorPageTypes.PAGE_NOT_FOUND:
         default:
             errorMessage = (

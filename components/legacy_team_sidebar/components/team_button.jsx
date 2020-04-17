@@ -7,6 +7,7 @@ import {Tooltip} from 'react-bootstrap';
 import {injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Draggable} from 'react-beautiful-dnd';
+import classNames from 'classnames';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
@@ -122,7 +123,7 @@ class TeamButton extends React.Component {
             />
         );
 
-        let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
+        let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
         let orderIndicator;
         if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
             let toolTipHelp;
@@ -208,13 +209,13 @@ class TeamButton extends React.Component {
                 draggableId={teamId}
                 index={teamIndex}
             >
-                {(provided) => {
+                {(provided, snapshot) => {
                     return (
                         <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`team-container ${teamClass}`}
+                            className={classNames([`team-container ${teamClass}`, {isDragging: snapshot.isDragging}])}
                         >
                             {teamButton}
                             {orderIndicator}

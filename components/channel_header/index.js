@@ -19,7 +19,7 @@ import {
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
@@ -39,6 +39,7 @@ import {
 } from 'actions/views/rhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
+import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelHeader from './channel_header';
@@ -60,7 +61,7 @@ function makeMapStateToProps() {
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
-        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0};
+        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
 
         return {
             teamId: getCurrentTeamId(state),
@@ -76,9 +77,12 @@ function makeMapStateToProps() {
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
+            pinnedPostsCount: stats.pinnedpost_count,
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
-            currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state)
+            currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
+            newSideBarPreference: getNewSidebarPreference(state),
+            announcementBarCount: getAnnouncementBarCount(state)
         };
     };
 }
