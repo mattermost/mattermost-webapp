@@ -20,6 +20,7 @@ import {browserHistory} from 'utils/browser_history';
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelClose from '../sidebar_channel_close';
 import SidebarChannelIcon from '../sidebar_channel_icon';
+import SidebarChannelMenu from '../sidebar_channel_menu';
 
 type Props = {
     channel: Channel;
@@ -144,10 +145,13 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channelId={channel.id}
                     unreadMentions={unreadMentions}
                 />
-                <SidebarChannelClose
+                {/* <SidebarChannelClose
                     channel={channel}
                     show={!this.showChannelAsUnread()}
                     closeHandler={this.props.closeHandler}
+                /> */}
+                <SidebarChannelMenu
+                    channel={channel}
                 />
             </React.Fragment>
         );

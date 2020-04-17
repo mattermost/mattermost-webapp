@@ -77,12 +77,15 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         }
     }
 
-    private toggle = () => {
+    private toggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.preventDefault();
+        e.stopPropagation();
         const newState = !this.state.open;
-        this.setState({open: newState});
-        if (this.props.onToggle) {
-            this.props.onToggle(newState);
-        }
+        this.setState({open: newState}, () => {
+            if (this.props.onToggle) {
+                this.props.onToggle(newState);
+            }
+        });
     }
 
     public render() {

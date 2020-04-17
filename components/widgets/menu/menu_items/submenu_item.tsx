@@ -41,6 +41,7 @@ type Props = {
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
+    direction: 'left' | 'right';
 }
 
 type State = {
@@ -48,10 +49,11 @@ type State = {
 }
 
 export default class SubMenuItem extends React.PureComponent<Props, State> {
-    private node: React.RefObject<any>;
+    private node: React.RefObject<HTMLLIElement>;
 
     public static defaultProps = {
         show: true,
+        direction: 'left',
     };
 
     public constructor(props: Props) {
@@ -100,7 +102,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel} = this.props;
+        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -121,10 +123,17 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width : 0;
         const childOffset = (React.isValidElement(text)) ? 20 : 0;
         const offset = (root ? 2 : childOffset);
-        const subMenuStyle = {
+        const subMenuStyle: any = {
             visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
-            right: (parseInt(String(xOffset), 10) - offset) + 'px',
+            top: this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset',
         };
+
+        const menuOffset = (parseInt(String(xOffset), 10) - offset) + 'px';
+        if (direction === 'left') {
+            subMenuStyle['right'] = menuOffset;
+        } else {
+            subMenuStyle['left'] = menuOffset;
+        }
 
         let subMenuContent: React.ReactNode = '';
 
@@ -147,6 +156,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 xOffset={parentWidth}
                                 ariaLabel={ariaLabel}
                                 root={false}
+                                direction={s.direction}
                             />
                         );
                     }) : ''}
@@ -170,13 +180,13 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     <span
                         id={'channelHeaderDropdownIconLeft_' + id}
-                        className={'fa fa-angle-left SubMenu__icon-left' + (hasSubmenu && !isMobile ? '' : '-empty' + (isMobile ? ' mobile' : ''))}
+                        className={'fa fa-angle-left SubMenu__icon-left' + (hasSubmenu && !isMobile && (direction === 'left') ? '' : '-empty' + (isMobile ? ' mobile' : ''))}
                         aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                     />
                     {textProp}
                     <span
                         id={'channelHeaderDropdownIconRight_' + id}
-                        className={'fa fa-angle-right SubMenu__icon-right' + (hasSubmenu && isMobile ? '' : '-empty')}
+                        className={'fa fa-angle-right SubMenu__icon-right' + ((hasSubmenu && isMobile) || (direction === 'right') ? '' : '-empty')}
                         aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                     />
                     {subMenuContent}
