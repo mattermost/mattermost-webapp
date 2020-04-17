@@ -114,7 +114,7 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
         isDirectMessageFormat = userIds.length === 2 && userIds[0].length === USER_ID_LENGTH && userIds[1].length === USER_ID_LENGTH;
 
         if (isDirectMessageFormat) {
-            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User ids are not permitted in channel URL for non-direct message channels.'));
+            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in Channel URLs.'));
         }
     }
 
@@ -122,13 +122,13 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
     const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
     if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url) {
         if (url.length < 2) {
-            errors.push(formattedError(t('change_url.longer'), 'URL must be two or more characters.'));
+            errors.push(formattedError(t('change_url.longer'), 'Channel URLs must have at least 2 characters.'));
         }
         if (url.charAt(0) === '-' || url.charAt(0) === '_') {
-            errors.push(formattedError(t('change_url.startWithLetter'), 'URL must start with a letter or number.'));
+            errors.push(formattedError(t('change_url.startWithLetter'), 'Channel URLs must start with a lowercase letter or number.'));
         }
         if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
-            errors.push(formattedError(t('change_url.endWithLetter'), 'URL must end with a letter or number.'));
+            errors.push(formattedError(t('change_url.endWithLetter'), 'Channel URLs must end with a lowercase letter or number.'));
         }
 
         // In case of error we don't detect

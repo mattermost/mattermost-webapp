@@ -216,17 +216,25 @@ export class RenameChannelModal extends React.PureComponent {
 
     render() {
         let displayNameError = null;
-        let displayNameClass = 'form-group';
+        const displayNameClass = 'form-group';
         if (this.state.displayNameError) {
-            displayNameError = <label className='control-label'>{this.state.displayNameError}</label>;
-            displayNameClass += ' has-error';
+            displayNameError = <p className='input__help error'>{this.state.displayNameError}</p>;
         }
 
         let urlErrors = null;
-        let urlClass = 'form-group';
+        let urlHelpText = null;
+        const urlClass = 'form-group';
         if (this.state.urlErrors.length > 0) {
-            urlErrors = <label className='control-label'>{this.state.urlErrors}</label>;
-            urlClass += ' has-error';
+            urlErrors = <p className='input__help error'>{this.state.urlErrors}</p>;
+        } else {
+            urlHelpText = (
+                <p className='input__help'>
+                    <FormattedMessage
+                        id='change_url.helpText'
+                        defaultMessage='You can use lowercase letters, numbers, dashes, and underscores.'
+                    />
+                </p>
+            );
         }
 
         let serverError = null;
@@ -316,6 +324,7 @@ export class RenameChannelModal extends React.PureComponent {
                                     aria-label={formatMessage({id: 'rename_channel.title', defaultMessage: 'Rename Channel'}).toLowerCase()}
                                 />
                             </div>
+                            {urlHelpText}
                             {urlErrors}
                         </div>
                         {serverError}
