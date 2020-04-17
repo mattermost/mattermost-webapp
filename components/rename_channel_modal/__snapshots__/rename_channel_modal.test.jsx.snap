@@ -126,17 +126,20 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
             id="channel_name"
             maxLength={64}
             onChange={[Function]}
-            placeholder={
-              Object {
-                "defaultMessage": "lowercase alphanumeric characters",
-                "id": "rename_channel.handleHolder",
-              }
-            }
             readOnly={false}
             type="text"
             value="fake-channel"
           />
         </div>
+        <p
+          className="input__help"
+        >
+          <FormattedMessage
+            defaultMessage="You can use lowercase letters, numbers, dashes, and underscores."
+            id="change_url.helpText"
+            values={Object {}}
+          />
+        </p>
       </div>
     </ModalBody>
     <ModalFooter

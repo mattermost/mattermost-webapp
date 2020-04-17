@@ -40,10 +40,6 @@ const holders = defineMessages({
         id: t('rename_channel.displayNameHolder'),
         defaultMessage: 'Enter display name',
     },
-    handleHolder: {
-        id: t('rename_channel.handleHolder'),
-        defaultMessage: 'lowercase alphanumeric characters',
-    },
 });
 
 export class RenameChannelModal extends React.PureComponent {
@@ -216,16 +212,16 @@ export class RenameChannelModal extends React.PureComponent {
 
     render() {
         let displayNameError = null;
-        const displayNameClass = 'form-group';
         if (this.state.displayNameError) {
             displayNameError = <p className='input__help error'>{this.state.displayNameError}</p>;
         }
 
         let urlErrors = null;
         let urlHelpText = null;
-        const urlClass = 'form-group';
+        let urlInputClass = 'input-group input-group--limit';
         if (this.state.urlErrors.length > 0) {
             urlErrors = <p className='input__help error'>{this.state.urlErrors}</p>;
+            urlInputClass += ' has-error'
         } else {
             urlHelpText = (
                 <p className='input__help'>
@@ -245,7 +241,6 @@ export class RenameChannelModal extends React.PureComponent {
         const {formatMessage} = this.props.intl;
 
         let urlInputLabel = formatMessage(holders.url);
-        const handleInputClass = 'form-control';
         let readOnlyHandleInput = false;
         if (this.props.channel.name === Constants.DEFAULT_CHANNEL) {
             urlInputLabel += formatMessage(holders.defaultError);
@@ -281,7 +276,7 @@ export class RenameChannelModal extends React.PureComponent {
                 </Modal.Header>
                 <form role='form'>
                     <Modal.Body>
-                        <div className={displayNameClass}>
+                        <div className='form-group'>
                             <label className='control-label'>
                                 <FormattedMessage
                                     id='rename_channel.displayName'
@@ -301,10 +296,10 @@ export class RenameChannelModal extends React.PureComponent {
                             />
                             {displayNameError}
                         </div>
-                        <div className={urlClass}>
+                        <div className='form-group'>
                             <label className='control-label'>{urlInputLabel}</label>
 
-                            <div className='input-group input-group--limit'>
+                            <div className={urlInputClass}>
                                 <OverlayTrigger
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='top'
@@ -312,12 +307,11 @@ export class RenameChannelModal extends React.PureComponent {
                                 >
                                     <span className='input-group-addon'>{shortUrl}</span>
                                 </OverlayTrigger>
-                                <LocalizedInput
+                                <input
                                     onChange={this.onNameChange}
                                     type='text'
-                                    className={handleInputClass}
+                                    className='form-control'
                                     id='channel_name'
-                                    placeholder={holders.handleHolder}
                                     value={this.state.channelName}
                                     maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                     readOnly={readOnlyHandleInput}
