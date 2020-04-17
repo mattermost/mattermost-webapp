@@ -221,7 +221,7 @@ export class RenameChannelModal extends React.PureComponent {
         let urlInputClass = 'input-group input-group--limit';
         if (this.state.urlErrors.length > 0) {
             urlErrors = <p className='input__help error'>{this.state.urlErrors}</p>;
-            urlInputClass += ' has-error'
+            urlInputClass += ' has-error';
         } else {
             urlHelpText = (
                 <p className='input__help'>
