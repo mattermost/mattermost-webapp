@@ -1765,7 +1765,7 @@
   "create_post.tutorialTip.title": "Enviando Mensagens",
   "create_post.tutorialTip1": "Digite aqui para escrever uma mensagem e pressione **Enter** para publicar.",
   "create_post.tutorialTip2": "Clique no botão **Anexo** para enviar uma imagem ou um arquivo.",
-  "create_post.write": "Write to {channelDisplayName}",
+  "create_post.write": "Escreva uma mensagem...",
   "create_team.agreement": "Para prosseguir e criar sua conta e utilizar {siteName}, você deve concordar com o nosso [Termos de Serviço]({TermsOfServiceLink}) e com a [Política de Privacidade]({PrivacyPolicyLink}). Se você não concordar, não poderá utilizar o {siteName}.",
   "create_team.display_name.charLength": "O nome deve ter {min} ou mais caracteres até um máximo de {max}. Você pode adicionar uma descrição da equipe depois.",
   "create_team.display_name.nameHelp": "Nome da sua equipe em qualquer idioma. Seu nome de equipe é mostrado em menus e títulos.",

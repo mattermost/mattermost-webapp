@@ -161,6 +161,7 @@
 
 .app__body {
     .form-control {
+        color: v(center-channel-color);
         border-color: v(center-channel-color-16);
 
         &:focus {

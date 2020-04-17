@@ -149,6 +149,20 @@ export function leaveChannel(channelId) {
     };
 }
 
+export function leaveDirectChannel(channelName) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const currentTeam = getCurrentTeam(state);
+        const previousChannel = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
+        const penultimateChannel = LocalStorageStore.getPenultimateChannelName(currentUserId, currentTeam.id, state);
+
+        if (channelName === previousChannel || channelName === penultimateChannel) {
+            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+        }
+    };
+}
+
 export function autocompleteUsersInChannel(prefix, channelId) {
     return async (dispatch, getState) => {
         const state = getState();
