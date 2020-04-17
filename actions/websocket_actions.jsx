@@ -645,7 +645,7 @@ function handleUpdateTeamEvent(msg) {
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
 }
 
-function handleUpdateTeamSchemeEvent(msg) {
+function handleUpdateTeamSchemeEvent() {
     dispatch(TeamActions.getMyTeamMembers());
 }
 
