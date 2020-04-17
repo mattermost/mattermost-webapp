@@ -122,17 +122,17 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
     const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
     if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url) {
         if (url.length < 2) {
-            errors.push(formattedError(t('change_url.longer'), 'Channel URLs must have at least 2 characters.'));
+            errors.push(formattedError(t('change_url.longer'), 'URLs must have at least 2 characters.'));
         }
 
         const startsWithoutLetter = url.charAt(0) === '-' || url.charAt(0) === '_';
         const endsWithoutLetter = url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_');
         if (startsWithoutLetter && endsWithoutLetter) {
-            errors.push(formattedError(t('change_url.startAndEndWithLetter'), 'Channel URLs must start and end with a lowercase letter or a number.'));
+            errors.push(formattedError(t('change_url.startAndEndWithLetter'), 'URLs must start and end with a lowercase letter or a number.'));
         } else if (startsWithoutLetter) {
-            errors.push(formattedError(t('change_url.startWithLetter'), 'Channel URLs must start with a lowercase letter or number.'));
+            errors.push(formattedError(t('change_url.startWithLetter'), 'URLs must start with a lowercase letter or number.'));
         } else if (endsWithoutLetter) {
-            errors.push(formattedError(t('change_url.endWithLetter'), 'Channel URLs must end with a lowercase letter or number.'));
+            errors.push(formattedError(t('change_url.endWithLetter'), 'URLs must end with a lowercase letter or number.'));
         }
 
         // In case of error we don't detect

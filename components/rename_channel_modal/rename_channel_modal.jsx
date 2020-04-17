@@ -131,7 +131,7 @@ export class RenameChannelModal extends React.PureComponent {
             state.displayNameError = (
                 <FormattedMessage
                     id='rename_channel.minLength'
-                    defaultMessage='Channel name must have at least {minLength, number} characters.'
+                    defaultMessage='Display name must have at least {minLength, number} characters.'
                     values={{
                         minLength: Constants.MIN_CHANNELNAME_LENGTH,
                     }}
