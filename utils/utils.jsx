@@ -940,6 +940,8 @@ export function applyTheme(theme) {
             'button-color-16': changeOpacity(theme.buttonColor, 0.16),
             'button-bg-08': changeOpacity(theme.buttonBg, 0.08),
             'button-color-08': changeOpacity(theme.buttonColor, 0.08),
+            'button-bg-04': changeOpacity(theme.buttonBg, 0.04),
+            'button-color-04': changeOpacity(theme.buttonColor, 0.04),
             'error-text': theme.errorTextColor,
             'error-text-08': changeOpacity(theme.errorTextColor, 0.08),
             'error-text-12': changeOpacity(theme.errorTextColor, 0.12),
