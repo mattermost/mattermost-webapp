@@ -5,11 +5,13 @@ import {connect} from 'react-redux';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {GlobalState} from '../..//types/store';
+
 import {getSelectedPostCard} from 'selectors/rhs';
 
-import RhsCard from './rhs_card.jsx';
+import RhsCard from './rhs_card';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const selected = getSelectedPostCard(state);
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';

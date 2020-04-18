@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
+import {Post} from 'mattermost-redux/src/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 export type PluginsState = {
@@ -38,7 +39,7 @@ export type PostPluginComponent = {
     id: string;
     pluginId: string;
     type: string;
-    component: React.Component;
+    component: React.ComponentType<{post: Post}>;
 };
 
 export type AdminConsolePluginComponent = {

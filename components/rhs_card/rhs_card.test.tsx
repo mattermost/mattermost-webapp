@@ -3,15 +3,23 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import RhsCard from './rhs_card.jsx';
+import {Post, PostType} from 'mattermost-redux/src/types/posts';
 
-describe('comoponents/rhs_card/RhsCard', () => {
+import RhsCard from './rhs_card';
+
+describe('components/rhs_card/RhsCard', () => {
     const post = {
         id: '123',
         message: 'test',
-        type: 'test',
+        type: 'system_displayname_change' as PostType,
         create_at: 1542994995740,
         props: {},
+    };
+
+    const pluginPostCardTypes = {
+        id: 'id',
+        pluginId: 'pluginId',
+        type: 'type',
     };
 
     const currentChannel = {
@@ -23,7 +31,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
     it('should match when no post is selected', () => {
         const wrapper = shallow(
             <RhsCard
-                selected={null}
+                selected={undefined}
                 channel={currentChannel}
             />,
         );
@@ -34,7 +42,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
     it('should match on post when no plugin defining card types', () => {
         const wrapper = shallow(
             <RhsCard
-                selected={post}
+                selected={post as Post}
                 channel={currentChannel}
             />,
         );
@@ -45,8 +53,8 @@ describe('comoponents/rhs_card/RhsCard', () => {
     it('should match on post when plugin defining card types don\'t match with the post type', () => {
         const wrapper = shallow(
             <RhsCard
-                selected={post}
-                pluginPostCardTypes={{notMatchingType: {component: () => <i/>}}}
+                selected={post as Post}
+                pluginPostCardTypes={{notMatchingType: {...pluginPostCardTypes, component: () => <i/>}}}
                 channel={currentChannel}
             />,
         );
@@ -57,8 +65,8 @@ describe('comoponents/rhs_card/RhsCard', () => {
     it('should match on post when plugin defining card types match with the post type', () => {
         const wrapper = shallow(
             <RhsCard
-                selected={post}
-                pluginPostCardTypes={{test: {component: () => <i/>}}}
+                selected={post as Post}
+                pluginPostCardTypes={{test: {...pluginPostCardTypes, component: () => <i/>}}}
                 channel={currentChannel}
             />,
         );

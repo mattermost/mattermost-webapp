@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defining card types 1`] = `
+exports[`components/rhs_card/RhsCard should match on post when no plugin defining card types 1`] = `
 <div
   className="sidebar-right__body sidebar-right__card"
 >
@@ -50,7 +50,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
                       "id": "123",
                       "message": "test",
                       "props": Object {},
-                      "type": "test",
+                      "type": "system_displayname_change",
                     }
                   }
                 />,
@@ -83,7 +83,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
 </div>
 `;
 
-exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types don't match with the post type 1`] = `
+exports[`components/rhs_card/RhsCard should match on post when plugin defining card types don't match with the post type 1`] = `
 <div
   className="sidebar-right__body sidebar-right__card"
 >
@@ -133,7 +133,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                       "id": "123",
                       "message": "test",
                       "props": Object {},
-                      "type": "test",
+                      "type": "system_displayname_change",
                     }
                   }
                 />,
@@ -166,7 +166,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
 </div>
 `;
 
-exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types match with the post type 1`] = `
+exports[`components/rhs_card/RhsCard should match on post when plugin defining card types match with the post type 1`] = `
 <div
   className="sidebar-right__body sidebar-right__card"
 >
@@ -192,17 +192,11 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
     <div
       className="post-right__scroll"
     >
-      <component
-        post={
-          Object {
-            "create_at": 1542994995740,
-            "id": "123",
-            "message": "test",
-            "props": Object {},
-            "type": "test",
-          }
-        }
-      />
+      <div
+        className="info-card"
+      >
+        <Connect(Markdown) />
+      </div>
       <div
         className="d-flex post-card--info"
       >
@@ -222,7 +216,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                       "id": "123",
                       "message": "test",
                       "props": Object {},
-                      "type": "test",
+                      "type": "system_displayname_change",
                     }
                   }
                 />,
@@ -255,4 +249,4 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
 </div>
 `;
 
-exports[`comoponents/rhs_card/RhsCard should match when no post is selected 1`] = `<div />`;
+exports[`components/rhs_card/RhsCard should match when no post is selected 1`] = `<div />`;

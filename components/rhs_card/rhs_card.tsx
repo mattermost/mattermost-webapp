@@ -1,22 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {Post} from 'mattermost-redux/src/types/posts';
+
+import {PostPluginComponent} from '../../types/store/plugins';
+import {RhsState} from '../../types/store/rhs';
+
 import DelayedAction from 'utils/delayed_action';
-import Constants, {RHSStates} from 'utils/constants';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import UserProfile from 'components/user_profile';
 import PostProfilePicture from 'components/post_profile_picture';
-import * as GlobalActions from 'actions/global_actions.jsx';
 
-export function renderView(props) {
+import * as GlobalActions from 'actions/global_actions';
+
+export function renderView(props: any) {
     return (
         <div
             {...props}
@@ -24,7 +29,7 @@ export function renderView(props) {
         />);
 }
 
-export function renderThumbHorizontal(props) {
+export function renderThumbHorizontal(props: any) {
     return (
         <div
             {...props}
@@ -32,7 +37,7 @@ export function renderThumbHorizontal(props) {
         />);
 }
 
-export function renderThumbVertical(props) {
+export function renderThumbVertical(props: any) {
     return (
         <div
             {...props}
@@ -40,20 +45,35 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class RhsCard extends React.Component {
-    static propTypes = {
-        selected: PropTypes.object,
-        pluginPostCardTypes: PropTypes.object,
-        previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
-        enablePostUsernameOverride: PropTypes.bool,
-        teamUrl: PropTypes.string,
-    }
+export type Props = {
+    selected?: Post;
+    pluginPostCardTypes: {
+        [postType: string]: PostPluginComponent;
+    };
+    previousRhsState?: RhsState;
+    enablePostUsernameOverride?: boolean;
+    teamUrl?: string;
+    channel?: {
+        id: string;
+        name: string;
+        display_name: string;
+    };
+}
 
-    static defaultProps = {
+export type State = {
+    isScrolling: boolean;
+    topRhsPostCreateAt: number;
+    selected?: Post;
+}
+
+export default class RhsCard extends React.Component<Props, State> {
+    scrollStopAction: DelayedAction;
+
+    static defaultProps: Partial<Props> = {
         pluginPostCardTypes: {},
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
@@ -64,7 +84,7 @@ export default class RhsCard extends React.Component {
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
         if (!Utils.areObjectsEqual(nextState.selected, this.props.selected)) {
             return true;
         }
@@ -104,7 +124,7 @@ export default class RhsCard extends React.Component {
         const {selected, pluginPostCardTypes, teamUrl} = this.props;
         const postType = selected.type;
         let content = null;
-        if (pluginPostCardTypes.hasOwnProperty(postType)) {
+        if (pluginPostCardTypes?.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostCardTypes[postType].component;
             content = <PluginComponent post={selected}/>;
         }
