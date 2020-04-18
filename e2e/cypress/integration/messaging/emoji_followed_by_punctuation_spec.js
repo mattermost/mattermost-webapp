@@ -23,7 +23,7 @@ describe('Messaging', () => {
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        // # Post a meesage
+        // # Post a message
         const messageText = ':)=';
         cy.postMessage(messageText);
 
