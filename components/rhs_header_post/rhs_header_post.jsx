@@ -12,6 +12,7 @@ import Constants, {RHSStates} from 'utils/constants';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
+        channel: PropTypes.object,
         previousRhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
@@ -111,6 +112,8 @@ export default class RhsHeaderPost extends React.Component {
             </Tooltip>
         );
 
+        const channelName = this.props.channel.display_name;
+
         if (backToResultsTooltip) {
             back = (
                 <a
@@ -145,13 +148,18 @@ export default class RhsHeaderPost extends React.Component {
                     {back}
                     <FormattedMessage
                         id='rhs_header.details'
-                        defaultMessage='Message Details'
+                        defaultMessage='Thread'
                     />
+                    {channelName &&
+                        <div className='sidebar--right__title__channel'>
+                            {channelName}
+                        </div>
+                    }
                 </span>
                 <div className='pull-right'>
                     <button
                         type='button'
-                        className='sidebar--right__expand'
+                        className='sidebar--right__expand btn-icon'
                         aria-label='Expand'
                         onClick={this.props.actions.toggleRhsExpanded}
                     >
@@ -166,7 +174,7 @@ export default class RhsHeaderPost extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-expand'
+                                        className='icon icon-arrow-expand'
                                         aria-label={ariaLabel}
                                     />
                                 )}
@@ -183,7 +191,7 @@ export default class RhsHeaderPost extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-compress'
+                                        className='icon icon-arrow-collapse'
                                         aria-label={ariaLabel}
                                     />
                                 )}
@@ -193,7 +201,7 @@ export default class RhsHeaderPost extends React.Component {
                     <button
                         id='rhsCloseButton'
                         type='button'
-                        className='sidebar--right__close'
+                        className='sidebar--right__close btn-icon'
                         aria-label='Close'
                         onClick={this.props.actions.closeRightHandSide}
                     >
@@ -209,7 +217,7 @@ export default class RhsHeaderPost extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-sign-out'
+                                        className='icon icon-close'
                                         aria-label={ariaLabel}
                                     />
                                 )}

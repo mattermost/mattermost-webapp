@@ -176,10 +176,10 @@
         }
 
         &.sidebar--right--expanded {
-            width: calc(100% - 220px);
+            width: calc(100% - 220px - 40px);
 
             .multi-teams & {
-                width: calc(100% - 285px);
+                width: calc(100% - 285px - 40px);
             }
 
             .sidebar--right__bg {
@@ -197,21 +197,14 @@
             }
 
             .sidebar--right__expand {
-                .fa-expand {
+                .icon-arrow-expand {
                     display: none;
                 }
 
-                .fa-compress {
+                .icon-arrow-collapse {
                     display: inline-block;
                 }
             }
-        }
-
-        .sidebar--right__title {
-            display: inline-block;
-            max-width: 300px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
     }
 

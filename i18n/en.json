@@ -3098,7 +3098,7 @@
   "rhs_header.backToResultsTooltip": "Back to search results",
   "rhs_header.closeSidebarTooltip": "Close the sidebar",
   "rhs_header.closeTooltip.icon": "Close the sidebar icon",
-  "rhs_header.details": "Message Details",
+  "rhs_header.details": "Thread",
   "rhs_header.expandSidebarTooltip": "Expand the sidebar",
   "rhs_header.expandSidebarTooltip.icon": "Expand the sidebar icon",
   "rhs_header.expandTooltip.icon": "Shrink the sidebar icon",

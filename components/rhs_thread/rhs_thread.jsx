@@ -360,6 +360,7 @@ export default class RhsThread extends React.Component {
                     isRhsPost={true}
                 />
                 <RhsHeaderPost
+                    channel={this.props.channel}
                     previousRhsState={this.props.previousRhsState}
                 />
                 <Scrollbars
