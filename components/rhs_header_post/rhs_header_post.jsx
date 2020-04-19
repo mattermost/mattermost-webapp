@@ -11,7 +11,7 @@ import store from 'stores/redux_store.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
-import { browserHistory } from 'utils/browser_history';
+import {browserHistory} from 'utils/browser_history';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
@@ -50,7 +50,7 @@ export default class RhsHeaderPost extends React.Component {
         }
     }
 
-    redirectToChannel = (e) => {
+    redirectToChannel = () => {
         const teamUrl = getCurrentRelativeTeamUrl(store.getState());
         browserHistory.push(`${teamUrl}/channels/${this.props.channel.name}`);
     }
