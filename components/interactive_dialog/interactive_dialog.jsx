@@ -5,7 +5,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {checkDialogElementForError, checkIfErrorsMatchElements} from 'mattermost-redux/utils/integration_utils';
+import {
+    checkDialogElementForError,
+    checkIfErrorsMatchElements
+} from 'mattermost-redux/utils/integration_utils';
 
 import SpinnerButton from 'components/spinner_button';
 
@@ -27,9 +30,10 @@ export default class InteractiveDialog extends React.Component {
         state: PropTypes.string,
         onHide: PropTypes.func,
         actions: PropTypes.shape({
-            submitInteractiveDialog: PropTypes.func.isRequired,
+            submitInteractiveDialog: PropTypes.func.isRequired
         }).isRequired,
-    }
+        emojiMap: PropTypes.object.isRequired
+    };
 
     constructor(props) {
         super(props);
@@ -37,7 +41,13 @@ export default class InteractiveDialog extends React.Component {
         const values = {};
         if (props.elements != null) {
             props.elements.forEach((e) => {
-                values[e.name] = e.default || null;
+                if (e.type === 'bool') {
+                    values[e.name] =
+                        e.default === true ||
+                        String(e.default).toLowerCase() === 'true';
+                } else {
+                    values[e.name] = e.default || null;
+                }
             });
         }
 
@@ -46,7 +56,7 @@ export default class InteractiveDialog extends React.Component {
             values,
             error: null,
             errors: {},
-            submitting: false,
+            submitting: false
         };
     }
 
@@ -58,7 +68,10 @@ export default class InteractiveDialog extends React.Component {
         const errors = {};
         if (elements) {
             elements.forEach((elem) => {
-                const error = checkDialogElementForError(elem, values[elem.name]);
+                const error = checkDialogElementForError(
+                    elem,
+                    values[elem.name]
+                );
                 if (error) {
                     errors[elem.name] = (
                         <FormattedMessage
@@ -83,12 +96,14 @@ export default class InteractiveDialog extends React.Component {
             url,
             callback_id: callbackId,
             state,
-            submission: values,
+            submission: values
         };
 
         this.setState({submitting: true});
 
-        const {data} = await this.props.actions.submitInteractiveDialog(dialog);
+        const {data} = await this.props.actions.submitInteractiveDialog(
+            dialog
+        );
 
         this.setState({submitting: false});
 
@@ -100,7 +115,8 @@ export default class InteractiveDialog extends React.Component {
                 this.setState({error: data.error});
             }
 
-            if (data.errors &&
+            if (
+                data.errors &&
                 Object.keys(data.errors).length >= 0 &&
                 checkIfErrorsMatchElements(data.errors, elements)
             ) {
@@ -112,11 +128,11 @@ export default class InteractiveDialog extends React.Component {
         if (!hasErrors) {
             this.handleHide(true);
         }
-    }
+    };
 
     onHide = () => {
         this.handleHide(false);
-    }
+    };
 
     handleHide = (submitted = false) => {
         const {url, callbackId, state, notifyOnCancel} = this.props;
@@ -126,22 +142,28 @@ export default class InteractiveDialog extends React.Component {
                 url,
                 callback_id: callbackId,
                 state,
-                cancelled: true,
+                cancelled: true
             };
 
             this.props.actions.submitInteractiveDialog(dialog);
         }
 
         this.setState({show: false});
-    }
+    };
 
     onChange = (name, value) => {
         const values = {...this.state.values, [name]: value};
         this.setState({values});
-    }
+    };
 
     render() {
-        const {title, introductionText, iconUrl, submitLabel, elements} = this.props;
+        const {
+            title,
+            introductionText,
+            iconUrl,
+            submitLabel,
+            elements
+        } = this.props;
 
         let submitText = (
             <FormattedMessage
@@ -186,43 +208,46 @@ export default class InteractiveDialog extends React.Component {
                         componentClass='h1'
                         id='interactiveDialogModalLabel'
                     >
-                        {icon}{title}
+                        {icon}
+                        {title}
                     </Modal.Title>
                 </Modal.Header>
-                {(elements || introductionText) && <Modal.Body>
-                    {introductionText &&
-                        <DialogIntroductionText
-                            id='interactiveDialogModalIntroductionText'
-                            value={introductionText}
-                        />
-                    }
-                    {elements && elements.map((e) => {
-                        return (
-                            <DialogElement
-                                key={'dialogelement' + e.name}
-                                displayName={e.display_name}
-                                name={e.name}
-                                type={e.type}
-                                subtype={e.subtype}
-                                helpText={e.help_text}
-                                errorText={this.state.errors[e.name]}
-                                placeholder={e.placeholder}
-                                minLength={e.min_length}
-                                maxLength={e.max_length}
-                                dataSource={e.data_source}
-                                optional={e.optional}
-                                options={e.options}
-                                value={this.state.values[e.name]}
-                                onChange={this.onChange}
+                {(elements || introductionText) && (
+                    <Modal.Body>
+                        {introductionText && (
+                            <DialogIntroductionText
+                                id='interactiveDialogModalIntroductionText'
+                                value={introductionText}
+                                emojiMap={this.props.emojiMap}
                             />
-                        );
-                    })}
-                </Modal.Body>}
+                        )}
+                        {elements &&
+                            elements.map((e) => {
+                                return (
+                                    <DialogElement
+                                        key={'dialogelement' + e.name}
+                                        displayName={e.display_name}
+                                        name={e.name}
+                                        type={e.type}
+                                        subtype={e.subtype}
+                                        helpText={e.help_text}
+                                        errorText={this.state.errors[e.name]}
+                                        placeholder={e.placeholder}
+                                        minLength={e.min_length}
+                                        maxLength={e.max_length}
+                                        dataSource={e.data_source}
+                                        optional={e.optional}
+                                        options={e.options}
+                                        value={this.state.values[e.name]}
+                                        onChange={this.onChange}
+                                    />
+                                );
+                            })}
+                    </Modal.Body>
+                )}
                 <Modal.Footer>
                     {this.state.error && (
-                        <div className='error-text'>
-                            {this.state.error}
-                        </div>
+                        <div className='error-text'>{this.state.error}</div>
                     )}
                     <button
                         id='interactiveDialogCancel'
@@ -241,7 +266,10 @@ export default class InteractiveDialog extends React.Component {
                         className='btn btn-primary save-button'
                         onClick={this.handleSubmit}
                         spinning={this.state.submitting}
-                        spinningText={localizeMessage('interactive_dialog.submitting', 'Submitting...')}
+                        spinningText={localizeMessage(
+                            'interactive_dialog.submitting',
+                            'Submitting...'
+                        )}
                     >
                         {submitText}
                     </SpinnerButton>

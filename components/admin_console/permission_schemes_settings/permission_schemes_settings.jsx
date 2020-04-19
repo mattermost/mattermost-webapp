@@ -49,11 +49,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         schemes: {},
     };
 
-    async UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        let schemes;
+    componentDidMount() {
         let phase2MigrationIsComplete = true; // Assume migration is complete unless HTTP status code says otherwise.
-        try {
-            schemes = await this.props.actions.loadSchemes('team', 0, PAGE_SIZE);
+        this.props.actions.loadSchemes('team', 0, PAGE_SIZE).then((schemes) => {
             if (schemes.error.status_code === PHASE_2_MIGRATION_IMCOMPLETE_STATUS_CODE) {
                 phase2MigrationIsComplete = false;
             }
@@ -62,9 +60,9 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                 promises.push(this.props.actions.loadSchemeTeams(scheme.id));
             }
             Promise.all(promises).then(() => this.setState({loading: false, phase2MigrationIsComplete}));
-        } catch (err) {
+        }).catch(() => {
             this.setState({loading: false, phase2MigrationIsComplete});
-        }
+        });
     }
 
     loadMoreSchemes = () => {
@@ -145,6 +143,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         if (hasCustomSchemes) {
             return (
                 <AdminPanelWithLink
+                    id='team-override-schemes'
                     className='permissions-block'
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
@@ -330,6 +329,8 @@ t('admin.permissions.permission.revoke_user_access_token.description');
 t('admin.permissions.permission.revoke_user_access_token.name');
 t('admin.permissions.permission.upload_file.description');
 t('admin.permissions.permission.upload_file.name');
+t('admin.permissions.permission.use_channel_mentions.description');
+t('admin.permissions.permission.use_channel_mentions.name');
 t('admin.permissions.permission.view_team.description');
 t('admin.permissions.permission.view_team.name');
 t('admin.permissions.permission.edit_others_posts.description');

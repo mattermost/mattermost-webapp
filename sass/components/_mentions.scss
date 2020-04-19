@@ -57,24 +57,6 @@
         margin-right: 5px;
     }
 
-    .icon {
-        @include opacity(.5);
-        display: inline-block;
-        margin: 0 7px 0 0;
-        position: relative;
-        text-align: center;
-        top: 2px;
-        vertical-align: top;
-        width: 16px;
-
-        &.icon__globe {
-            svg {
-                height: 14px;
-                width: 14px;
-            }
-        }
-    }
-
     .status {
         font-size: 15px;
         text-align: center;
@@ -116,7 +98,7 @@
 }
 
 .mention__fullname {
-    @include opacity(.5);
+    color: v(center-channel-color-56);
     margin: 0 0 0 4px;
     overflow: hidden;
     text-overflow: ellipsis;

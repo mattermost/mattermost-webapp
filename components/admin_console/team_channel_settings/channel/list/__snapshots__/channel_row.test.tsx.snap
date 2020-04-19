@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/channel/ChannelRow should match snapshot 1`] = `
+<div
+  className="group"
+  onClick={[Function]}
+>
+  <div
+    className="group-row"
+  >
+    <span
+      className="group-name overflow--ellipsis row-content"
+      data-testid="channel-display-name"
+    >
+      <GlobeIcon
+        className="channel-icon channel-icon__globe"
+      />
+      Channel Display Name
+    </span>
+    <span
+      className="group-description row-content"
+    >
+      Team Display Name
+    </span>
+    <span
+      className="group-description adjusted row-content"
+    >
+      <FormattedMessage
+        defaultMessage="Manual Invites"
+        id="admin.channel_settings.channel_row.managementMethod.manual"
+        values={Object {}}
+      />
+    </span>
+    <span
+      className="group-actions"
+      data-testid="Channel Display Nameedit"
+    >
+      <Link
+        to="/admin_console/user_management/channels/C123"
+      >
+        <FormattedMessage
+          defaultMessage="Edit"
+          id="admin.channel_settings.channel_row.configure"
+          values={Object {}}
+        />
+      </Link>
+    </span>
+  </div>
+</div>
+`;

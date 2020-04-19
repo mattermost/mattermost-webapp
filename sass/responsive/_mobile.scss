@@ -28,6 +28,7 @@
 
 
     .backstage-list__item {
+
         .item-actions,
         .actions {
             margin: 10px 0;
@@ -103,34 +104,29 @@
         height: auto !important;
         flex-grow: 1;
 
-        .emoji-picker-items__container {
+        .emoji-picker__category-header {
+            font-size: 14px;
+            padding-top: 8px;
+        }
+    }
 
-            .emoji-picker__category-header {
-                font-size: 14px;
-                padding-top: 8px;
-            }
+    .emoji-picker__item {
+        margin: calc(100% / 45);
+        padding: 0;
+        padding-top: calc(100% / 15);
+        width: calc(100% / 15);
+        height: auto;
 
-            .emoji-picker__item {
-                margin: calc(100% / 45);
-                padding: 0;
-                padding-top: calc(100% / 15);
-                width: calc(100% / 15);
-                height: auto;
-
-                >div {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    width: 30px;
-                    height: 30px;
-                    transform: translate(-50%, -50%);
-
-                    >img {
-                        top: -17px;
-                        left: -17px;
-                    }
-                }
-            }
+        > div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 
@@ -143,7 +139,6 @@
     .MenuWrapper {
         .Menu__content {
             &.dropdown-menu {
-                max-height: 100%;
                 max-width: 100%;
             }
 
@@ -190,8 +185,9 @@
                 }
 
                 .MenuItem {
-                    > button,
-                    > a {
+
+                    >button,
+                    >a {
                         height: auto;
                         padding: 3px 16px;
                         font-size: 15px;
@@ -214,11 +210,13 @@
         .dropdown-menu {
             >li {
                 >div {
-                    border-top-color: var(--center-channel-color-10) !important;
+                    border-top-color: var(--center-channel-color-08) !important;
+
                     .SubMenu__icon {
                         padding: 0 5px 0 8px !important;
                     }
                 }
+
                 >div,
                 >button {
                     @include border-radius(0);
@@ -228,6 +226,7 @@
                 }
 
                 &:first-child {
+
                     div,
                     button {
                         border: none;
@@ -549,6 +548,7 @@
     }
 
     .sidebar--left .team__header .Avatar,
+    #SidebarContainer .team__header .Avatar,
     .sidebar--menu .team__header .Avatar {
         display: none;
     }
@@ -567,7 +567,7 @@
 
         &.post--system {
             .post__header {
-                .col__reply {
+                .post-menu {
                     min-width: 45px;
                 }
             }
@@ -582,7 +582,7 @@
 
         .browser--ie & {
             .post__header {
-                .col__reply {
+                .post-menu {
                     .dropdown+div {
                         display: none;
                     }
@@ -590,7 +590,7 @@
             }
         }
 
-        .reacticon__container {
+        .post-menu__item--reactions {
             display: none;
         }
 
@@ -681,7 +681,7 @@
             margin-bottom: 0;
             padding-right: 70px;
 
-            .col__reply {
+            .post-menu {
                 min-width: 45px;
                 top: -6px;
                 z-index: auto;
@@ -690,7 +690,7 @@
                     width: auto;
                 }
 
-                .reacticon__container {
+                .post-menu__item--reactions {
                     display: none;
                 }
             }
@@ -753,7 +753,7 @@
         &.other--root {
             &.post--comment {
                 .post__header {
-                    .col__reply {
+                    .post-menu {
                         top: -6px;
                     }
                 }
@@ -1368,25 +1368,20 @@
             padding-left: 40px;
             width: 100%;
 
+            &:hover,
+            &--focused,
+            &--focused:hover {
+                border: none;
+            }
+
             .fa-spin {
                 font-size: 1.1em;
                 top: 9px;
             }
 
-            .search-bar {
-                font-size: 14px;
-                height: 32px;
-            }
-
             .search__icon {
                 left: 15px;
                 top: 8px;
-
-                svg {
-                    stroke: $black;
-                    stroke-opacity: .4;
-                    width: 17px;
-                }
             }
 
             .icon--refresh {
@@ -1500,6 +1495,110 @@
 
                 .sidebar-item {
                     height: 45px;
+
+                    &.has-close {
+                        .btn-close {
+                            @include opacity(.5);
+                            display: block;
+                            font-size: 25px;
+                            margin-right: 4px;
+                            width: 30px;
+                            height: 30px;
+                            line-height: 30px;
+                        }
+                    }
+                }
+
+                h4 {
+                    margin: 1.5 0 1em;
+                }
+
+                >a {
+                    font-size: 15px;
+                    line-height: 2.5;
+                    margin: 0;
+
+                    &:hover,
+                    &:focus {
+                        background: transparent;
+                    }
+                }
+            }
+        }
+    }
+
+    #SidebarContainer {
+        @include single-transition(transform, .35s, ease);
+        @include translate3d(-290px, 0, 0);
+        border: none;
+        width: 290px;
+
+        +.inner-wrap #app-content {
+            margin-left: 0;
+        }
+
+        &.move--right {
+            @include translate3d(0, 0, 0);
+        }
+
+        .nav-pills__unread-indicator {
+            width: 260px;
+        }
+
+        .team__header {
+            @include clearfix;
+            pointer-events: none;
+            padding: 15px;
+
+            .team__name,
+            .user__name {
+                max-width: 100%;
+            }
+
+            .sidebar-header-dropdown {
+                display: none;
+            }
+
+            .sidebar-header-dropdown__icon {
+                display: none;
+            }
+        }
+
+        .search__form {
+            display: block;
+        }
+
+        .SidebarChannelGroup {
+            div {
+                &.dropdown.open {
+                    padding-bottom: 25px;
+
+                    ul {
+                        background: $white;
+                        border-radius: 3px;
+                        clear: both;
+                        position: relative;
+                        top: 5px;
+
+                        li {
+                            a {
+                                line-height: 30px;
+                            }
+                        }
+                    }
+                }
+
+                .nav-more {
+                    padding: 12px 0 12px 17px;
+                }
+
+                .SidebarChannel {
+                    height: 45px;
+
+                    a,
+                    button {
+                        height: 45px;
+                    }
 
                     &.has-close {
                         .btn-close {
@@ -1704,7 +1803,12 @@
             margin-left: 0;
         }
 
-        .sidebar--left {
+        #SidebarContainer+.inner-wrap #app-content {
+            margin-left: 0;
+        }
+
+        .sidebar--left,
+        #SidebarContainer {
             left: 0;
 
             &.move--right {
@@ -1758,6 +1862,10 @@
             }
         }
     }
+
+    .signup-team-all {
+        max-height: calc(75vh - (118px + 187px));
+    }
 }
 
 @media screen and (max-width: 640px) {
@@ -1801,17 +1909,6 @@
         .modal {
             overflow: hidden;
             padding: 0;
-
-            .channel-switch__modal {
-                .modal-body {
-                    max-height: 100%;
-                }
-
-                .suggestion-list__content {
-                    height: calc(100vh - 110px);
-                    max-height: 100%;
-                }
-            }
 
             .modal-dialog {
                 height: 100%;
@@ -1998,14 +2095,10 @@
         left: 50px !important;
     }
 
-    .emoji-picker__items {
-        .emoji-picker-items__container {
-            .emoji-picker__item {
-                margin: 0;
-                padding-top: calc(100% / #{$emoji-per-row});
-                width: calc(100% / #{$emoji-per-row});
-            }
-        }
+    .emoji-picker__item {
+        margin: 0;
+        padding-top: calc(100% / #{$emoji-per-row});
+        width: calc(100% / #{$emoji-per-row});
     }
 
     .post {
@@ -2027,15 +2120,6 @@
             a {
                 font-size: .9em;
                 padding: 6px 11px;
-            }
-        }
-    }
-
-    .emoji-picker {
-        &.emoji-picker--single {
-            .emoji-picker__inner {
-                margin-top: 59px;
-                height: calc(100vh - 60px);
             }
         }
     }
@@ -2111,7 +2195,8 @@
         }
     }
 
-    .sidebar--left {
+    .sidebar--left,
+    #SidebarContainer {
         @include translate3d(-260px, 0, 0);
         width: 260px;
 
@@ -2228,7 +2313,9 @@
     }
 
     .multi-teams {
-        .sidebar--left {
+
+        .sidebar--left,
+        #SidebarContainer {
             width: 220px;
 
             .nav-pills__unread-indicator {
@@ -2293,6 +2380,10 @@
             min-height: 440px;
         }
     }
+
+    .signup-team-all {
+        max-height: calc(75vh - (111px + 187px));
+    }
 }
 
 @media screen and (max-width: 380px) and (max-height: 580px) {
@@ -2329,6 +2420,7 @@ label {
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
+
     select,
     textarea,
     input {

@@ -47,7 +47,6 @@ class SearchResultsItem extends React.PureComponent {
         */
         matches: PropTypes.array,
 
-        channelId: PropTypes.string,
         channelName: PropTypes.string,
         channelType: PropTypes.string,
         channelIsArchived: PropTypes.bool,
@@ -108,6 +107,13 @@ class SearchResultsItem extends React.PureComponent {
          * react-intl helper object
          */
         intl: intlShape.isRequired,
+        directTeammate: PropTypes.string.isRequired,
+        displayName: PropTypes.string.isRequired,
+
+        /**
+         * The number of replies in the same thread as this post
+         */
+        replyCount: PropTypes.number,
     };
 
     static defaultProps = {
@@ -187,7 +193,7 @@ class SearchResultsItem extends React.PureComponent {
     }
 
     getChannelName = () => {
-        const {channelId, channelType} = this.props;
+        const {channelType} = this.props;
         let {channelName} = this.props;
 
         if (channelType === Constants.DM_CHANNEL) {
@@ -195,7 +201,7 @@ class SearchResultsItem extends React.PureComponent {
                 id: 'search_item.direct',
                 defaultMessage: 'Direct Message (with {username})',
             }, {
-                username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+                username: this.props.displayName,
             });
         }
 
@@ -278,7 +284,7 @@ class SearchResultsItem extends React.PureComponent {
                         }
                     >
                         <button
-                            className='card-icon__container icon--show style--none'
+                            className='post-menu__item post-menu__item--show'
                             onClick={(e) => {
                                 e.preventDefault();
                                 this.handleCardClick(this.props.post);
@@ -294,20 +300,23 @@ class SearchResultsItem extends React.PureComponent {
             }
 
             rhsControls = (
-                <div className='col__controls col__reply'>
+                <div className='col__controls post-menu'>
                     <DotMenu
                         post={post}
                         location={Locations.SEARCH}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
+                        isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
                     />
                     <CommentIcon
                         location={Locations.SEARCH}
                         handleCommentClick={this.handleFocusRHSClick}
+                        commentCount={this.props.replyCount}
                         postId={post.id}
                         searchStyle={'search-item__comment'}
+                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
                     />
                     <a
                         href='#'

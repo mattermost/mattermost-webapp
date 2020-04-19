@@ -2209,9 +2209,6 @@ const AdminDefinition = {
                         label_default: 'Require Email Verification: ',
                         help_text: t('admin.email.requireVerificationDescription'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.',
-                        disabled_help_text: t('admin.security.requireEmailVerification.disabled'),
-                        disabled_help_text_default: 'Email verification cannot be changed while sending emails is disabled.',
-                        isDisabled: (config) => !config.EmailSettings.SendEmailNotifications,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2455,6 +2452,34 @@ const AdminDefinition = {
                         ),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'LdapSettings.EnableAdminFilter',
+                        label: t('admin.ldap.enableAdminFilterTitle'),
+                        label_default: 'Enable Admin Filter:',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.AdminFilter',
+                        label: t('admin.ldap.adminFilterTitle'),
+                        label_default: 'Admin Filter:',
+                        help_text: t('admin.ldap.adminFilterFilterDesc'),
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
+                        help_text_markdown: true,
+                        placeholder: t('admin.ldap.adminFilterEx'),
+                        placeholder_default: 'E.g.: "(objectClass=admins)"',
+                        isDisabled: it.either(
+                            it.stateIsFalse('LdapSettings.EnableAdminFilter'),
+                            it.both(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            )
+                        ),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.GroupFilter',
                         label: t('admin.ldap.groupFilterTitle'),
@@ -2583,10 +2608,10 @@ const AdminDefinition = {
                         label: t('admin.ldap.idAttrTitle'),
                         label_default: 'ID Attribute: ',
                         placeholder: t('admin.ldap.idAttrEx'),
-                        placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
+                        placeholder_default: 'E.g.: "objectGUID" or "uid"',
                         help_text: t('admin.ldap.idAttrDesc'),
                         help_text_markdown: true,
-                        help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `entryUUID` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
+                        help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
                         isDisabled: it.both(
                             it.stateEquals('LdapSettings.Enable', false),
                             it.stateEquals('LdapSettings.EnableSync', false),
@@ -3133,6 +3158,28 @@ const AdminDefinition = {
                         ),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.EnableAdminAttribute',
+                        label: t('admin.saml.enableAdminAttrTitle'),
+                        label_default: 'Enable Admin Attribute:',
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.AdminAttribute',
+                        label: t('admin.saml.adminAttrTitle'),
+                        label_default: 'Admin Attribute:',
+                        placeholder: t('admin.saml.adminAttrEx'),
+                        placeholder_default: 'E.g.: "usertype=Admin" or "isAdmin=true"',
+                        help_text: t('admin.saml.adminAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths.** It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
+                        help_text_markdown: true,
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.EnableAdminAttribute'),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.FirstNameAttribute',
                         label: t('admin.saml.firstnameAttrTitle'),
@@ -3379,7 +3426,7 @@ const AdminDefinition = {
                                 display_name_default: 'Google Apps',
                                 isHidden: it.isnt(it.licensedForFeature('GoogleOAuth')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview") and click *Enable*. This might take a few minutes to propagate through Google`s systems.',
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
                             },
                             {
@@ -3541,6 +3588,17 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.DirectoryId',
+                        label: t('admin.office365.directoryIdTitle'),
+                        label_default: 'Directory (tenant) ID:',
+                        help_text: t('admin.office365.directoryIdDescription'),
+                        help_text_default: 'The Directory (tenant) ID you received when registering your application with Microsoft.',
+                        placeholder: t('admin.office365.directoryIdExample'),
+                        placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'Office365Settings.UserApiEndpoint',
                         label: t('admin.office365.userTitle'),
                         label_default: 'User API Endpoint:',
@@ -3553,7 +3611,12 @@ const AdminDefinition = {
                         key: 'Office365Settings.AuthEndpoint',
                         label: t('admin.office365.authTitle'),
                         label_default: 'Auth Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/authorize';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/authorize';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
@@ -3562,7 +3625,12 @@ const AdminDefinition = {
                         key: 'Office365Settings.TokenEndpoint',
                         label: t('admin.office365.tokenTitle'),
                         label_default: 'Token Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/token';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/token';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
@@ -3657,6 +3725,10 @@ const AdminDefinition = {
                 'admin.plugin.uploadDisabledDesc',
                 'admin.plugins.settings.enableMarketplace',
                 'admin.plugins.settings.enableMarketplaceDesc',
+                'admin.plugins.settings.enableRemoteMarketplace',
+                'admin.plugins.settings.enableRemoteMarketplaceDesc',
+                'admin.plugins.settings.automaticPrepackagedPlugins',
+                'admin.plugins.settings.automaticPrepackagedPluginsDesc',
                 'admin.plugins.settings.marketplaceUrl',
                 'admin.plugins.settings.marketplaceUrlDesc',
             ],
@@ -4385,12 +4457,38 @@ const AdminDefinition = {
                         isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
+                        label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
+                        label_default: 'Experimental Sidebar Features',
+                        help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
+                        help_text_default: 'When enabled, users can access experimental channel sidebar features, including collapsible sections and unreads filtering. If default on, this enabled the new sidebar features by default for all users on this server. Users can disable the features in **Account Settings > Sidebar > Experimental Sidebar Features**. If default off, users must enable the experimental sidebar features in Account Settings. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.disabled'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+                        ],
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalChannelOrganization',
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
-                        label_default: 'Sidebar Organization:',
+                        label_default: 'Channel Grouping and Sorting',
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list.',
+                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
                     },
                     {

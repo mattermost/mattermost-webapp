@@ -67,7 +67,7 @@ export default class ManageTeamsDropdown extends React.Component {
                 </a>
                 <Menu
                     openLeft={true}
-                    ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                    ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                 >
                     <Menu.ItemAction
                         show={!isTeamAdmin && !isGuest}
@@ -77,7 +77,7 @@ export default class ManageTeamsDropdown extends React.Component {
                     <Menu.ItemAction
                         show={isTeamAdmin}
                         onClick={this.makeMember}
-                        text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Member')}
+                        text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Team Member')}
                     />
                     <Menu.ItemAction
                         show={!team.group_constrained}

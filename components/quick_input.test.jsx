@@ -7,70 +7,88 @@ import {mount} from 'enzyme';
 import QuickInput from 'components/quick_input';
 
 describe('components/QuickInput', () => {
-    test('should match snapshot when not clearable and empty', () => {
-        const wrapper = mount(
-            <QuickInput/>
-        );
+    describe('should not render clear button', () => {
+        [
+            ['in default state', {}],
+            ['when not clearable', {value: 'value', clearable: false, onClear: () => {}}],
+            ['when no onClear callback', {value: 'value', clearable: true}],
+            ['when value undefined', {clearable: true, onClear: () => {}}],
+            ['when value empty', {value: '', clearable: true, onClear: () => {}}],
+        ].forEach(([description, props]) => {
+            it(description, () => {
+                const wrapper = mount(
+                    <QuickInput {...props}/>
+                );
 
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.unmount();
+                expect(wrapper.find('.input-clear').exists()).toBe(false);
+            });
+        });
     });
 
-    test('should match snapshot when not clearable and with content', () => {
-        const wrapper = mount(
-            <QuickInput/>
-        );
+    describe('should render clear button', () => {
+        test('with default tooltip text', () => {
+            const wrapper = mount(
+                <QuickInput
+                    value='mock'
+                    clearable={true}
+                    onClear={() => {}}
+                />
+            );
 
-        wrapper.setProps({value: 'mock'});
-        wrapper.instance().forceUpdate();
-        wrapper.update();
+            expect(wrapper.find('.input-clear')).toMatchSnapshot();
+        });
 
-        expect(wrapper).toMatchSnapshot();
+        test('with customized tooltip text', () => {
+            const wrapper = mount(
+                <QuickInput
+                    value='mock'
+                    clearable={true}
+                    clearableTooltipText='Custom'
+                    onClear={() => {}}
+                />
+            );
 
-        wrapper.unmount();
+            expect(wrapper.find('.input-clear')).toMatchSnapshot();
+        });
+
+        test('with customized tooltip component', () => {
+            const wrapper = mount(
+                <QuickInput
+                    value='mock'
+                    clearable={true}
+                    clearableTooltipText={
+                        <span>{'Custom'}</span>
+                    }
+                    onClear={() => {}}
+                />
+            );
+
+            expect(wrapper.find('.input-clear')).toMatchSnapshot();
+        });
     });
 
-    test('should match snapshot when clearable and empty', () => {
+    test('should dismiss clear button', () => {
+        const focusFn = jest.fn();
+        class MockComp extends React.PureComponent {
+            focus = focusFn;
+            render() {
+                return <div/>;
+            }
+        }
         const wrapper = mount(
             <QuickInput
+                value='mock'
                 clearable={true}
+                onClear={() => {}}
+                inputComponent={MockComp}
             />
         );
 
-        wrapper.setProps({value: ''});
-        wrapper.instance().forceUpdate();
-        wrapper.update();
-
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.unmount();
-    });
-
-    test('should match snapshot when clearable and with value', () => {
-        const wrapper = mount(
-            <QuickInput
-                clearable={true}
-                value=''
-            />
-        );
-
-        wrapper.setProps({value: 'mock'});
-        wrapper.instance().forceUpdate();
-        wrapper.update();
-
-        expect(wrapper.instance().value).toEqual('mock');
-
-        expect(wrapper).toMatchSnapshot();
+        wrapper.setProps({onClear: () => wrapper.setProps({value: ''})});
+        expect(wrapper.find('.input-clear').exists()).toBe(true);
 
         wrapper.find('.input-clear').simulate('click');
-        wrapper.instance().forceUpdate();
-        wrapper.update();
-
-        expect(wrapper.instance().value).toEqual('');
-
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.unmount();
+        expect(wrapper.find('.input-clear').exists()).toBe(false);
+        expect(focusFn).toBeCalled();
     });
 });

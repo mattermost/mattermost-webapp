@@ -223,6 +223,10 @@
             width: 120px;
         }
 
+        &.roles {
+            overflow: visible;
+        }
+
         i {
             margin-right: 5px;
         }
@@ -316,23 +320,7 @@
 }
 
 .group-profile {
-    padding: 15px;
-
-    .group-profile-field {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-
-        label {
-            flex-grow: 1;
-            width: 33.3%;
-        }
-
-        .form-control {
-            flex-grow: 3;
-            width: 100%;
-        }
-    }
+    padding: 20px;
 }
 
 .group-users {
@@ -445,9 +433,84 @@
 
 }
 
-.group-teams-and-channels {
-    padding: 2rem;
+.channel-moderation {
+    .channel-moderation--body {
+        padding: 20px;
 
+        .channel-moderation--table {
+            width: 100%;
+
+            th {
+                &:first-child {
+                    width: 100%;
+                }
+
+                border-bottom: solid 1px alpha-color(#CCCCCC, .75);
+            }
+
+            tr {
+                &:not(:last-child){
+                    border-bottom: solid 1px alpha-color(#CCCCCC, .75);
+                }
+
+                &:last-child{
+                    td {
+                        padding-bottom: 0px;
+                    }
+                }
+            }
+
+            td {
+                padding: 20px 0px;
+
+                &:first-child {
+                    padding-left: 0px;
+                }
+
+                &:not(:first-child) {
+                    text-align: center;
+                    vertical-align: middle;
+                }
+            }
+
+            th {
+                padding: 6px 20px;
+
+                &:first-child {
+                    padding-left: 0px;
+                }
+            }
+
+            .checkbox {
+                border-radius: 3px;
+                border: 2px solid $dark-gray;
+                height: 18px;
+                width: 18px;
+                padding: 0;
+                background: none;
+                display: inline-block;
+
+                > * {
+                    pointer-events: none;
+                }
+
+                &.disabled {
+                    border-color: $light-gray;
+                }
+
+                &.checked {
+                    border: 0;
+
+                    svg {
+                        fill: #145DBF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.group-teams-and-channels {
     .group-teams-and-channels-loading {
         text-align: center;
         padding: 40px;
@@ -464,42 +527,39 @@
     .group-teams-and-channels--header {
         font-size: 1.1em;
         font-weight: bold;
-        padding: 5px 20px;
-        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     }
 
     .group-teams-and-channels--body {
-        .group-teams-and-channels-row {
-            display: flex;
-            padding: 5px;
-            align-items: center;
+        padding: 20px;
 
+        .group-teams-and-channels-row.has-clidren {
+            .type {
+                margin-left: 20px;
+            }
+        }
+        .group-teams-and-channels-row {
             &:nth-child(even) {
                 background: alpha-color($white, .5)
-            }
-
-            .arrow-icon {
-                margin-left: 10px;
-
-                .fa-caret-right {
-                    padding: 5px;
-                    cursor: pointer;
-                }
-
-                .open {
-                    transform: rotate(90deg);
-                    transform-origin: 55% 50%;
-                    transition: transform 300ms;
-                }
             }
 
             .team-icon,
             .channel-icon {
                 width: 16px;
                 height: 16px;
-                margin: 0 5px;
+                margin: 0 7px 0 4px;
                 color: inherit;
                 opacity: .7;
+            }
+
+            .arrow-icon {
+                .fa {
+                    cursor: pointer;
+                    padding: 0 4px;
+                }
+            }
+
+            .channel-icon {
+                margin: 1px 2px 0 20px;
             }
 
             .team-icon-private {
@@ -512,8 +572,43 @@
                 }
             }
 
-            .name {
-                width: 100%;
+            .type {
+                color: #454448;
+                opacity: 50%;
+            }
+
+            .name-no-arrow{
+                margin-left: 16px;
+            }
+
+            .name-content {
+                flex: 1;
+                display: flex;
+
+                .name {
+                    flex: 1;
+                }
+
+                .arrow-icon {
+                    margin-left: 10px;
+
+                    .fa-caret-right {
+                        padding: 5px;
+                        cursor: pointer;
+                    }
+
+                    .open {
+                        transform: rotate(90deg);
+                        transform-origin: 55% 50%;
+                        transition: transform 300ms;
+                    }
+                }
+            }
+
+
+            .type{
+                flex: 1;
+                margin-left: -29px;
             }
 
             .remove {

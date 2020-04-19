@@ -73,7 +73,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='convert_channel.title'
-                            defaultMessage='Convert {display_name} to a private channel?'
+                            defaultMessage='Convert {display_name} to a Private Channel?'
                             values={{
                                 display_name: channelDisplayName,
                             }}

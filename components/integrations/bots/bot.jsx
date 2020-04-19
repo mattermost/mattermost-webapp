@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import {FormattedMessage} from 'react-intl';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import Markdown from 'components/markdown';
 import SaveButton from 'components/save_button';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
@@ -43,6 +43,11 @@ export default class Bot extends React.PureComponent {
         * Owner of the bot we are displaying
         */
         owner: PropTypes.object,
+
+        /**
+        * User of the bot we are displaying
+        */
+        user: PropTypes.object,
 
         /**
         * The access tokens of the bot user
@@ -204,7 +209,7 @@ export default class Bot extends React.PureComponent {
             } else {
                 disableClass = 'light';
                 disabledText = (
-                    <span className='margin-right light'>
+                    <span className='mr-2 light'>
                         <FormattedMessage
                             id='user.settings.tokens.deactivatedWarning'
                             defaultMessage='(Disabled)'
@@ -357,7 +362,7 @@ export default class Bot extends React.PureComponent {
                                 </div>
                             </div>
                             <div>
-                                <div className='padding-top padding-bottom'>
+                                <div className='pt-2 pb-2'>
                                     <FormattedMessage
                                         id='user.settings.tokens.nameHelp'
                                         defaultMessage='Enter a description for your token to remember what it does.'
@@ -369,7 +374,7 @@ export default class Bot extends React.PureComponent {
                                 >
                                     {this.state.error}
                                 </label>
-                                <div className='margin-top'>
+                                <div className='mt-2'>
                                     <SaveButton
                                         btnClass='btn-sm btn-primary'
                                         savingMessage={
@@ -401,8 +406,8 @@ export default class Bot extends React.PureComponent {
                     key={'created'}
                     className='bot-list__item alert alert-warning'
                 >
-                    <div className='margin-bottom'>
-                        <WarningIcon additionalClassName='margin-right'/>
+                    <div className='mb-2'>
+                        <WarningIcon additionalClassName='mr-2'/>
                         <FormattedMessage
                             id='user.settings.tokens.copy'
                             defaultMessage="Please copy the access token below. You won't be able to see it again!"
@@ -429,7 +434,7 @@ export default class Bot extends React.PureComponent {
                         />
                         {this.state.token.token}
                     </strong>
-                    <div className='margin-top'>
+                    <div className='mt-2'>
                         <button
                             className='btn btn-sm btn-primary'
                             onClick={this.closeCreateToken}
@@ -444,7 +449,7 @@ export default class Bot extends React.PureComponent {
             );
         }
 
-        const imageURL = Utils.imageURLForUser(this.props.bot.user_id);
+        const imageURL = Utils.imageURLForUser(this.props.user.id, this.props.user.last_picture_update);
 
         return (
             <div className='backstage-list__item'>

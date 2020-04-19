@@ -6,37 +6,33 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import BooleanSetting from './boolean_setting';
 
 type Props = {
     id: string;
     value: boolean;
-    onChange: (id: string, value: any) => void;
+    onChange: (id: string, value: boolean, confirm?: boolean, doSubmit?: boolean, warning?: React.ReactNode | string) => void;
+    cancelSubmit: () => void;
     disabled?: boolean;
     setByEnv: boolean;
-}
-
-type State = {
     showConfirm: boolean;
 }
 
-export default class CustomEnableDisableGuestAccountsSetting extends React.Component<Props, State> {
-    public constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            showConfirm: false,
-        };
-    }
-
-    public handleChange = (id: string, value: boolean, confirm?: boolean) => {
-        if (!value && !confirm) {
-            this.setState({showConfirm: true});
-        } else {
-            this.props.onChange(id, value);
+export default class CustomEnableDisableGuestAccountsSetting extends React.Component<Props> {
+    public handleChange = (id: string, value: boolean, submit = false) => {
+        const confirmNeeded = value === false; // Requires confirmation if disabling guest accounts
+        let warning: React.ReactNode | string = '';
+        if (confirmNeeded) {
+            warning = (
+                <FormattedMessage
+                    id='admin.guest_access.disableConfirmWarning'
+                    defaultMessage='All current guest account sessions will be revoked, and marked as inactive'
+                />
+            );
         }
+        this.props.onChange(id, value, confirmNeeded, submit, warning);
     };
 
     public render() {
@@ -64,30 +60,30 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                     onChange={this.handleChange}
                 />
                 <ConfirmModal
-                    show={this.state.showConfirm}
+                    show={this.props.showConfirm && (this.props.value === false)}
                     title={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmTitle'
-                            defaultMessage='Disable Guest Access?'
+                            defaultMessage='Save and Disable Guest Access?'
                         />
                     }
                     message={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmMessage'
-                            defaultMessage='Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts.'
+                            defaultMessage='Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts. Are you sure you wish to remove these users?'
                         />
                     }
                     confirmButtonText={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmButton'
-                            defaultMessage='Disable Guest Access'
+                            defaultMessage='Save and Disable Guest Access'
                         />
                     }
                     onConfirm={() => {
                         this.handleChange(this.props.id, false, true);
                         this.setState({showConfirm: false});
                     }}
-                    onCancel={() => this.setState({showConfirm: false})}
+                    onCancel={this.props.cancelSubmit}
                 />
             </>
         );

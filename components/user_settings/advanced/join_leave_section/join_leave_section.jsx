@@ -107,7 +107,7 @@ export default class JoinLeaveSection extends React.PureComponent {
                                 </label>
                                 <br/>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.advance.joinLeaveDesc'
                                     defaultMessage='When "On", System Messages saying a user has joined or left a channel will be visible. When "Off", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification.'

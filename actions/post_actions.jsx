@@ -29,11 +29,12 @@ import {completePostReceive} from './post_utils';
 export function handleNewPost(post, msg) {
     return async (dispatch, getState) => {
         let websocketMessageProps = {};
+        const state = getState();
         if (msg) {
             websocketMessageProps = msg.data;
         }
 
-        const myChannelMember = getMyChannelMemberSelector(getState(), post.channel_id);
+        const myChannelMember = getMyChannelMemberSelector(state, post.channel_id);
         if (myChannelMember && Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object') {
             await dispatch(getMyChannelMember(post.channel_id));
         }
@@ -41,8 +42,9 @@ export function handleNewPost(post, msg) {
         dispatch(completePostReceive(post, websocketMessageProps));
 
         if (msg && msg.data) {
+            const currentUserId = getCurrentUserId(state);
             if (msg.data.channel_type === Constants.DM_CHANNEL) {
-                loadNewDMIfNeeded(post.channel_id);
+                loadNewDMIfNeeded(post.channel_id, currentUserId);
             } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
                 loadNewGMIfNeeded(post.channel_id);
             }
@@ -281,4 +283,17 @@ export function toggleEmbedVisibility(postId) {
 
 export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
+}
+
+/**
+ * It is called from either center or rhs text input when shortcut for react to last message is pressed
+ *
+ * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"
+ */
+
+export function emitShortcutReactToLastPostFrom(emittedFrom) {
+    return {
+        type: ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST,
+        payload: emittedFrom
+    };
 }

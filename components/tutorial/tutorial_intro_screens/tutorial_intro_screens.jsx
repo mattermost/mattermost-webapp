@@ -187,7 +187,7 @@ export default class TutorialIntroScreens extends React.Component {
                 <h3>
                     <FormattedMessage
                         id='tutorial_intro.screenTwo.title'
-                        defaultMessage='How Mattermost works:'
+                        defaultMessage='How Mattermost Works:'
                     />
                 </h3>
                 <p>
@@ -223,7 +223,7 @@ export default class TutorialIntroScreens extends React.Component {
                 >
                     <FormattedMessage
                         id='tutorial_intro.invite'
-                        defaultMessage='Invite teammates'
+                        defaultMessage='Invite Teammates'
                     />
                 </ModalToggleButtonRedux>
             );
@@ -345,7 +345,7 @@ export default class TutorialIntroScreens extends React.Component {
                             >
                                 <FormattedMessage
                                     id='tutorial_intro.skip'
-                                    defaultMessage='Skip tutorial'
+                                    defaultMessage='Skip Tutorial'
                                 />
                             </a>
                         </div>

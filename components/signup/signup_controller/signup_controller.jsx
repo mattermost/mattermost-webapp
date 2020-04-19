@@ -368,7 +368,7 @@ export default class SignupController extends React.Component {
                                     id='web.root.signup_info'
                                 />
                             </h4>
-                            <div className='margin--extra'>
+                            <div className='mt-8'>
                                 <h5><strong>
                                     <FormattedMessage
                                         id='signup.title'

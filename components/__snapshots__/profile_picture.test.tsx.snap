@@ -44,7 +44,7 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
 <OverlayTrigger
   defaultOverlayShown={false}
   overlay={
-    <Connect(InjectIntl(ProfilePopover))
+    <Connect(injectIntl(ProfilePopover))
       className="user-profile-popover"
       hasMention={false}
       hide={[Function]}

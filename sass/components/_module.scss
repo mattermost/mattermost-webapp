@@ -1,12 +1,16 @@
 // Only for combining all the files in this folder
+@import 'forms';
 @import 'alerts';
 @import 'announcement-bar';
 @import 'badge';
 @import 'buttons';
+@import 'channel-header__icon';
+@import 'channel-switcher';
 @import 'dropdown';
 @import 'emoticons';
 @import 'emojisprite';
 @import 'files';
+@import 'icons';
 @import 'inputs';
 @import 'links';
 @import 'mentions';
@@ -14,6 +18,9 @@
 @import 'multi-select';
 @import 'oauth';
 @import 'popover';
+@import 'post';
+@import 'post-menu';
+@import 'post-right';
 @import 'react-select';
 @import 'remove-image';
 @import 'save-button';
@@ -39,4 +46,5 @@
 @import 'sidebar-header';
 @import 'toggle';
 @import 'team-channel-settings';
+@import 'infinite-scroll';
 @import 'line-switch';

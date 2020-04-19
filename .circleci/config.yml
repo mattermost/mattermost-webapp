@@ -136,7 +136,7 @@ jobs:
           at: .
       - run:
           command: |
-            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-platform/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
 
             tar xf server.tar.gz
             rm -rf mattermost/client
@@ -162,9 +162,7 @@ jobs:
           command: |
             export TAG="${CIRCLE_SHA1:0:7}"
 
-            mkdir -p ~/.ssh/
-            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-            git clone git@github.com:mattermost/mattermost-server.git
+            git clone https://github.com/mattermost/mattermost-server.git
 
             cd mattermost-server
             export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz

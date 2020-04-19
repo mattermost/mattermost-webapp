@@ -87,7 +87,7 @@ describe('components/ColorInput', () => {
 
         const newColorData: any = {hex: '#ccc'};
 
-        wrapper.instance().handleChange(newColorData);
+        wrapper.instance().handleColorChange(newColorData);
 
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange).toHaveBeenCalledWith(newColorData.hex);

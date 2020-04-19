@@ -9,6 +9,7 @@ import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 
 import {Preferences} from 'utils/constants';
+import {getDirectTeammate} from 'utils/utils.jsx';
 import {getSelectedPost} from 'selectors/rhs.jsx';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
@@ -38,6 +39,7 @@ function makeMapStateToProps() {
             socketConnectionStatus: socketStatus.connected,
             previewCollapsed,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+            directTeammate: getDirectTeammate(state, channel.id),
         };
     };
 }

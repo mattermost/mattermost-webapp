@@ -16,7 +16,7 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminHeader>
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="default message"
     id="string.id"
     values={Object {}}
@@ -38,7 +38,7 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminHeader>
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="default message"
     id="string.id"
     values={

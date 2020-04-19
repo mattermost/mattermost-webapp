@@ -33,6 +33,7 @@ export default class GroupDetails extends React.PureComponent {
             getGroupSyncables: PropTypes.func.isRequired,
             link: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
+            patchGroupSyncable: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -99,6 +100,18 @@ export default class GroupDetails extends React.PureComponent {
         });
     }
 
+    onChangeRoles = async (id, type, roleToBe) => {
+        this.setState({loadingTeamsAndChannels: true});
+        if (type === 'public-team' || type === 'private-team') {
+            await this.props.actions.patchGroupSyncable(this.props.groupID, id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: roleToBe});
+            await this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM);
+        } else {
+            await this.props.actions.patchGroupSyncable(this.props.groupID, id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: roleToBe});
+            await this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL);
+        }
+        this.setState({loadingTeamsAndChannels: false});
+    }
+
     render = () => {
         const {group, members, groupTeams, groupChannels, memberCount} = this.props;
         return (
@@ -148,7 +161,10 @@ export default class GroupDetails extends React.PureComponent {
                             button={(
                                 <div className='group-profile-add-menu'>
                                     <MenuWrapper>
-                                        <button className='btn btn-primary'>
+                                        <button
+                                            id='add_team_or_channel'
+                                            className='btn btn-primary'
+                                        >
                                             <FormattedMessage
                                                 id='admin.group_settings.group_details.add_team_or_channel'
                                                 defaultMessage='Add Team or Channel'
@@ -157,10 +173,12 @@ export default class GroupDetails extends React.PureComponent {
                                         </button>
                                         <Menu ariaLabel={localizeMessage('admin.group_settings.group_details.menuAriaLabel', 'Add Team or Channel Menu')}>
                                             <Menu.ItemAction
+                                                id='add_team'
                                                 onClick={this.openAddTeam}
                                                 text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
                                             />
                                             <Menu.ItemAction
+                                                id='add_channel'
                                                 onClick={this.openAddChannel}
                                                 text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
                                             />
@@ -176,6 +194,7 @@ export default class GroupDetails extends React.PureComponent {
                                 loading={this.state.loadingTeamsAndChannels}
                                 getGroupSyncables={this.props.actions.getGroupSyncables}
                                 unlink={this.props.actions.unlink}
+                                onChangeRoles={this.onChangeRoles}
                             />
                         </AdminPanel>
                         {this.state.addTeamOpen &&

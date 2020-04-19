@@ -57,6 +57,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "remove_reaction",
             ],
           },
+          "use_channel_mentions",
         ]
       }
       readOnly={false}
@@ -136,6 +137,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "remove_reaction",
             ],
           },
+          "use_channel_mentions",
         ]
       }
       readOnly={false}
@@ -215,6 +217,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "remove_reaction",
             ],
           },
+          "use_channel_mentions",
         ]
       }
       readOnly={true}
@@ -294,6 +297,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "remove_reaction",
             ],
           },
+          "use_channel_mentions",
         ]
       }
       readOnly={false}
@@ -373,6 +377,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "remove_reaction",
             ],
           },
+          "use_channel_mentions",
         ]
       }
       readOnly={false}
@@ -456,6 +461,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "remove_reaction",
             ],
           },
+          "use_channel_mentions",
         ]
       }
       readOnly={false}

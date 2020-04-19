@@ -19,6 +19,8 @@ export const getEmojiMap = createSelector(
     }
 );
 
+export const getShortcutReactToLastPostEmittedFrom = (state) => state.views.emoji.shortcutReactToLastPostEmittedFrom;
+
 export const getRecentEmojis = createSelector(
     (state) => state.storage,
     getCurrentUserId,

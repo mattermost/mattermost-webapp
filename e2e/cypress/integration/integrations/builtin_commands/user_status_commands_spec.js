@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @integrations
+
 const testCases = [
     {command: '/away', ariaLabel: 'Away Icon', message: 'You are now away'},
     {command: '/dnd', ariaLabel: 'Do Not Disturb Icon', message: 'Do Not Disturb is enabled. You will not receive desktop or mobile push notifications until Do Not Disturb is turned off.'},
@@ -28,7 +31,7 @@ describe('Integrations', () => {
 
     it('I18456 Built-in slash commands: change user status via post', () => {
         cy.apiSaveMessageDisplayPreference('compact');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         testCases.forEach((testCase) => {
             cy.postMessage(testCase.command + ' ');
@@ -39,7 +42,7 @@ describe('Integrations', () => {
 
     it('I18456 Built-in slash commands: change user status via suggestion list', () => {
         cy.apiSaveMessageDisplayPreference('clean');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         testCases.forEach((testCase) => {
             // # Type "/" on textbox

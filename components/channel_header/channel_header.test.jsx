@@ -32,6 +32,8 @@ describe('components/ChannelHeader', () => {
         currentUser: {},
         lastViewedChannelName: '',
         penultimateViewedChannelName: '',
+        teammateNameDisplaySetting: '',
+        currentRelativeTeamUrl: '',
     };
 
     const populatedProps = {
@@ -178,5 +180,16 @@ describe('components/ChannelHeader', () => {
                 message={props.currentUser.bot_description}
             />
         )).toEqual(true);
+    });
+
+    test('should render the pinned icon with the pinned posts count', () => {
+        const props = {
+            ...populatedProps,
+            pinnedPostsCount: 2
+        };
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

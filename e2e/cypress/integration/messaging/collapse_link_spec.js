@@ -2,31 +2,41 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @messaging
+
 describe('Messaging', () => {
-    before(() => {
-        // # Set the configuration on Link Previews
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
+        // # Enable Link Previews
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
             },
         });
 
-        cy.apiLogin('user-1');
-        cy.apiSaveShowPreviewPreference();
+        // # Save Show Preview Preference to true
+        // # Save Preview Collapsed Preference to false
+        cy.apiSaveShowPreviewPreference('true');
         cy.apiSavePreviewCollapsedPreference('false');
 
-        cy.apiLogin('sysadmin');
-        cy.apiSaveShowPreviewPreference();
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Save Show Preview Preference to true
+        // # Save Preview Collapsed Preference to false
+        cy.apiSaveShowPreviewPreference('true');
         cy.apiSavePreviewCollapsedPreference('false');
 
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Visit the Town Square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18708-Link preview - Removing it from my view removes it from other user\'s view', () => {

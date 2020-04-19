@@ -17,6 +17,7 @@ export default class InvitationModalConfirmStep extends React.Component {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
         onDone: PropTypes.func.isRequired,
+        onInviteMore: PropTypes.func.isRequired,
         invitesType: PropTypes.oneOf([InviteTypes.INVITE_MEMBER, InviteTypes.INVITE_GUEST]).isRequired,
         invitesSent: PropTypes.array.isRequired,
         invitesNotSent: PropTypes.array.isRequired,
@@ -60,7 +61,7 @@ export default class InvitationModalConfirmStep extends React.Component {
     }
 
     render() {
-        const {teamName, invitesType, invitesSent, invitesNotSent, onDone} = this.props;
+        const {teamName, invitesType, invitesSent, invitesNotSent, onDone, onInviteMore} = this.props;
         return (
             <div className='InvitationModalConfirmStep'>
                 <div className='modal-icon'>
@@ -105,9 +106,18 @@ export default class InvitationModalConfirmStep extends React.Component {
                         </h2>
                         <InvitationModalConfirmStepTable invites={invitesNotSent}/>
                     </div>}
-                <div className='confirm-done'>
+                <div className='button-input-block'>
                     <button
-                        className='btn btn-primary'
+                        className='btn invite-more'
+                        onClick={onInviteMore}
+                    >
+                        <FormattedMessage
+                            id='invitation_modal.invite.more'
+                            defaultMessage='Invite More People'
+                        />
+                    </button>
+                    <button
+                        className='btn btn-primary confirm-done'
                         onClick={onDone}
                     >
                         <FormattedMessage

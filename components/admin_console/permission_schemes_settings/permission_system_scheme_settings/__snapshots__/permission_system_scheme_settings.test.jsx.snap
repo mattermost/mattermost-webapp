@@ -32,7 +32,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
               id="admin.permissions.systemScheme.introBanner"
             />
@@ -217,6 +217,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -389,7 +390,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
               id="admin.permissions.systemScheme.introBanner"
             />
@@ -552,6 +553,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -632,7 +634,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
               id="admin.permissions.systemScheme.introBanner"
             />
@@ -795,6 +797,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -875,7 +878,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
               id="admin.permissions.systemScheme.introBanner"
             />
@@ -1038,6 +1041,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -1118,7 +1122,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams."
               id="admin.permissions.systemScheme.introBanner"
             />
@@ -1281,6 +1285,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage

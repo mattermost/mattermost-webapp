@@ -158,6 +158,10 @@
                 display: inline;
                 margin-left: 5px;
             }
+
+            &.compact-display{
+                font-weight: normal;
+            }
         }
 
         .image-container {
@@ -207,6 +211,10 @@
                 overflow: hidden;
                 position: relative;
                 z-index: 2;
+
+                &.compact-display {
+                    max-height: 175px;
+                }
 
                 &:hover {
                     @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
@@ -430,6 +438,10 @@
         top: 0;
         width: 50px;
 
+        span {
+            display: inline-block;
+        }
+
         svg {
             @include opacity(.7);
             @include single-transition(all, .1s, linear);
@@ -551,7 +563,7 @@
 .small-image__container {
     margin: 5px 2px;
     background: var(--center-channel-bg);
-    border: 1px solid var(--center-channel-color-30);
+    border: 1px solid var(--center-channel-color-32);
     @include border-radius(4px);
     display: flex;
     justify-content: center;

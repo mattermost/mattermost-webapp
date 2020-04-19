@@ -13,9 +13,6 @@ import MultiSelect from 'components/multiselect/multiselect';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import GlobeIcon from 'components/widgets/icons/globe_icon';
-import LockIcon from 'components/widgets/icons/lock_icon';
-
 const CHANNELS_PER_PAGE = 50;
 
 export default class ChannelSelectorModal extends React.Component {
@@ -161,9 +158,9 @@ export default class ChannelSelectorModal extends React.Component {
                     className='more-modal__details'
                 >
                     {option.type === 'P' &&
-                        <LockIcon className='icon icon__lock'/>}
+                        <i className='icon icon-globe'/>}
                     {option.type === 'O' &&
-                        <GlobeIcon className='icon icon__globe'/>}
+                        <i className='icon icon-lock-outline'/>}
                     <span className='channel-name'>{option.display_name}</span>
                     <span className='team-name'>{'(' + option.team_display_name + ')'}</span>
                 </div>
@@ -206,7 +203,7 @@ export default class ChannelSelectorModal extends React.Component {
                     >
                         <FormattedMarkdownMessage
                             id='add_channels_to_scheme.title'
-                            defaultMessage='Add Channels To **Channel Selection** List'
+                            defaultMessage='Add Channels to **Channel Selection** List'
                         />
                     </Modal.Title>
                 </Modal.Header>

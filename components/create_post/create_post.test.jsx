@@ -73,6 +73,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
+    setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -133,13 +134,25 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
+            shouldShowPreview={false}
             isTimezoneEnabled={false}
+            canPost={true}
+            useChannelMentions={true}
         />
     );
 }
 /* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
+    jest.useFakeTimers();
+    beforeEach(() => {
+        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+    });
+
+    afterEach(() => {
+        window.requestAnimationFrame.mockRestore();
+    });
+
     it('should match snapshot, init', () => {
         const wrapper = shallowWithIntl(createPost({}));
 
@@ -203,7 +216,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
 
         wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
@@ -245,16 +258,14 @@ describe('components/create_post', () => {
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('change', {target: {value: 'change'}});
+        expect(setDraft).not.toHaveBeenCalled();
+        jest.runAllTimers();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
-
-        wrapper.setState({
-            showPreview: false,
-        });
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
@@ -280,6 +291,66 @@ describe('components/create_post', () => {
 
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
+    it('Should set mentionHighlightDisabled prop when useChannelMentions disabled before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: false,
+        });
+
+        const post = {message: 'message with @here mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual({...post, props: {mentionHighlightDisabled: true}});
+    });
+
+    it('Should not set mentionHighlightDisabled prop when useChannelMentions enabled before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: true,
+        });
+
+        const post = {message: 'message with @here mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
+    });
+
+    it('Should not set mentionHighlightDisabled prop when useChannelMentions disabled but message does not contain channel metion before calling actions.onSubmitPost', async () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallowWithIntl(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
+
+        wrapper.setProps({
+            useChannelMentions: false,
+        });
+
+        const post = {message: 'message without mention'};
+        await wrapper.instance().sendMessage(post);
+
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
     });
 
     it('onSubmit test for @all with timezones', () => {
@@ -775,6 +846,11 @@ describe('components/create_post', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    it('should match snapshot when cannot post', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
     it('should match snapshot when file upload disabled', () => {
         const wrapper = shallowWithIntl(createPost({canUploadFiles: false}));
         expect(wrapper).toMatchSnapshot();
@@ -885,10 +961,10 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe(markdownTable);
     });
 
-    it('should be preserve message when pasting a markdown table', () => {
+    it('should preserve the original message after pasting a markdown table', () => {
         const wrapper = shallowWithIntl(createPost());
 
-        const message = 'message';
+        const message = 'original message';
         wrapper.setState({message});
 
         const event = {
@@ -910,6 +986,32 @@ describe('components/create_post', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(expectedMessage);
+    });
+
+    it('should be able to format a github codeblock (pasted as a table)', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/plain', 'text/html'],
+                getData: (type) => {
+                    if (type === 'text/plain') {
+                        return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
+                    }
+                    return '<table class="highlight tab-size js-file-line-container" data-tab-size="8"><tbody><tr><td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> a javascript codeblock example</span></td></tr><tr><td id="L2" class="blob-num js-line-number" data-line-number="2">&nbsp;</td><td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> (<span class="pl-c1">1</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {</td></tr><tr><td id="L3" class="blob-num js-line-number" data-line-number="3">&nbsp;</td><td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">\'</span>condition is true<span class="pl-pds">\'</span></span>);</td></tr><tr><td id="L4" class="blob-num js-line-number" data-line-number="4">&nbsp;</td><td id="LC4" class="blob-code blob-code-inner js-file-line">}</td></tr></tbody></table>';
+                },
+            },
+        };
+
+        const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(codeBlockMarkdown);
     });
 
     it('should not enable the save button when message empty', () => {

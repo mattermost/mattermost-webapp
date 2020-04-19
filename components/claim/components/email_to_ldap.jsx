@@ -234,7 +234,7 @@ export default class EmailToLDAP extends React.Component {
                     >
                         <FormattedMessage
                             id='claim.email_to_ldap.switchTo'
-                            defaultMessage='Switch account to AD/LDAP'
+                            defaultMessage='Switch Account to AD/LDAP'
                         />
                     </button>
                     {serverError}

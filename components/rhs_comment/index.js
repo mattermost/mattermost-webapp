@@ -13,9 +13,14 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {markPostAsUnread} from 'actions/post_actions.jsx';
+import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+import {getEmojiMap} from 'selectors/emojis';
+
+import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
+
+import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
 
 import RhsComment from './rhs_comment.jsx';
 
@@ -43,12 +48,14 @@ function isConsecutivePost(state, ownProps) {
 function mapStateToProps(state, ownProps) {
     const getReactionsForPost = makeGetReactionsForPost();
     const getDisplayName = makeGetDisplayName();
+    const emojiMap = getEmojiMap(state);
 
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = state.entities.channels.channels[ownProps.post.channel_id];
+    const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     return {
         author: getDisplayName(state, ownProps.post.user_id),
@@ -59,10 +66,12 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
         pluginPostTypes: state.plugins.postTypes,
-        channelIsArchived: channel.delete_at !== 0,
+        channelIsArchived: isArchivedChannel(channel),
         isConsecutivePost: isConsecutivePost(state, ownProps),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        shortcutReactToLastPostEmittedFrom,
+        emojiMap,
     };
 }
 
@@ -70,6 +79,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             markPostAsUnread,
+            emitShortcutReactToLastPostFrom
         }, dispatch),
     };
 }

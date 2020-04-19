@@ -9,8 +9,11 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
+import * as PostUtils from 'utils/post_utils.jsx';
 import {getSelectedPostCard} from 'selectors/rhs.jsx';
+import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 
 import PostInfo from './post_info.jsx';
 
@@ -21,6 +24,7 @@ function mapStateToProps(state, ownProps) {
     const channelIsArchived = channel ? channel.delete_at !== 0 : null;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
+    const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     return {
         teamId,
@@ -29,6 +33,8 @@ function mapStateToProps(state, ownProps) {
         isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
         enableEmojiPicker,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+        shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
+        shortcutReactToLastPostEmittedFrom
     };
 }
 
@@ -36,6 +42,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             removePost,
+            emitShortcutReactToLastPostFrom,
         }, dispatch),
     };
 }

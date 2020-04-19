@@ -7,13 +7,13 @@ import {getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
 
 // fetchPlugins fetches the latest marketplace plugins, subject to any existing search filter.
-export function fetchPlugins() {
+export function fetchPlugins(localOnly = false) {
     return async (dispatch, getState) => {
         const state = getState();
         const filter = getFilter(state);
 
         try {
-            const plugins = await Client4.getMarketplacePlugins(filter);
+            const plugins = await Client4.getMarketplacePlugins(filter, localOnly);
 
             dispatch({
                 type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
@@ -22,6 +22,10 @@ export function fetchPlugins() {
 
             return {plugins};
         } catch (error) {
+            // If the marketplace server is unreachable, try to get the local plugins only.
+            if (error.server_error_id === 'app.plugin.marketplace_client.failed_to_fetch' && !localOnly) {
+                await dispatch(fetchPlugins(true));
+            }
             return {error};
         }
     };

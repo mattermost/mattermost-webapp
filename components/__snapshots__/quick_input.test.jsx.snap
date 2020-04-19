@@ -1,112 +1,199 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/QuickInput should match snapshot when clearable and empty 1`] = `
-<QuickInput
-  clearable={true}
-  delayInputUpdate={false}
-  value=""
+exports[`components/QuickInput should render clear button with customized tooltip component 1`] = `
+<div
+  className="input-clear visible"
+  onClick={[Function]}
 >
-  <div>
-    <input
-      defaultValue=""
-    />
-  </div>
-</QuickInput>
-`;
-
-exports[`components/QuickInput should match snapshot when clearable and with value 1`] = `
-<QuickInput
-  clearable={true}
-  delayInputUpdate={false}
-  value="mock"
->
-  <div>
-    <input
-      defaultValue="mock"
-    />
-    <div
-      className="input-clear visible"
-      onClick={[Function]}
-    >
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={400}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            id="InputClearTooltip"
-            placement="right"
-          >
-            <FormattedMessage
-              defaultMessage="Clear input"
-              id="input.clear"
-              values={Object {}}
-            />
-          </Tooltip>
-        }
-        placement="bottom"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="InputClearTooltip"
+        placement="right"
       >
-        <span
-          aria-hidden="true"
-          className="input-clear-x"
-          onBlur={[Function]}
-          onClick={null}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-        >
-          ×
+        <span>
+          Custom
         </span>
-      </OverlayTrigger>
-    </div>
-  </div>
-</QuickInput>
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <OverlayWrapper
+          bsClass="tooltip"
+          id="InputClearTooltip"
+          intl={null}
+          placement="right"
+        >
+          <span>
+            Custom
+          </span>
+        </OverlayWrapper>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <span
+        aria-hidden="true"
+        className="input-clear-x"
+        onBlur={[Function]}
+        onClick={null}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        ×
+      </span>
+    </OverlayTrigger>
+  </OverlayTrigger>
+</div>
 `;
 
-exports[`components/QuickInput should match snapshot when clearable and with value 2`] = `
-<QuickInput
-  clearable={true}
-  delayInputUpdate={false}
-  value="mock"
+exports[`components/QuickInput should render clear button with customized tooltip text 1`] = `
+<div
+  className="input-clear visible"
+  onClick={[Function]}
 >
-  <div>
-    <input
-      defaultValue="mock"
-    />
-  </div>
-</QuickInput>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="InputClearTooltip"
+        placement="right"
+      >
+        Custom
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <OverlayWrapper
+          bsClass="tooltip"
+          id="InputClearTooltip"
+          intl={null}
+          placement="right"
+        >
+          Custom
+        </OverlayWrapper>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <span
+        aria-hidden="true"
+        className="input-clear-x"
+        onBlur={[Function]}
+        onClick={null}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        ×
+      </span>
+    </OverlayTrigger>
+  </OverlayTrigger>
+</div>
 `;
 
-exports[`components/QuickInput should match snapshot when not clearable and empty 1`] = `
-<QuickInput
-  clearable={false}
-  delayInputUpdate={false}
-  value=""
+exports[`components/QuickInput should render clear button with default tooltip text 1`] = `
+<div
+  className="input-clear visible"
+  onClick={[Function]}
 >
-  <div>
-    <input
-      defaultValue=""
-    />
-  </div>
-</QuickInput>
-`;
-
-exports[`components/QuickInput should match snapshot when not clearable and with content 1`] = `
-<QuickInput
-  clearable={false}
-  delayInputUpdate={false}
-  value="mock"
->
-  <div>
-    <input
-      defaultValue="mock"
-    />
-  </div>
-</QuickInput>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="InputClearTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Clear"
+          id="input.clear"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <OverlayWrapper
+          bsClass="tooltip"
+          id="InputClearTooltip"
+          intl={null}
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Clear"
+            id="input.clear"
+            values={Object {}}
+          />
+        </OverlayWrapper>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <span
+        aria-hidden="true"
+        className="input-clear-x"
+        onBlur={[Function]}
+        onClick={null}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        ×
+      </span>
+    </OverlayTrigger>
+  </OverlayTrigger>
+</div>
 `;

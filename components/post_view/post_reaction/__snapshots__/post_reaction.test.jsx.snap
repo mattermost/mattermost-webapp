@@ -10,56 +10,55 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
   }
   teamId="current_team_id"
 >
-  <div>
-    <EmojiPickerOverlay
-      enableGifPicker={false}
-      n={true}
-      onEmojiClick={[Function]}
-      onEmojiClose={[MockFunction]}
-      onHide={[MockFunction]}
-      show={false}
-      spaceRequiredAbove={476}
-      spaceRequiredBelow={497}
-      target={[MockFunction]}
-      topOffset={-7}
-    />
-    <OverlayTrigger
-      className="hidden-xs"
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="reaction-icon-tooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Add Reaction"
-            id="post_info.tooltip.add_reactions"
-            values={Object {}}
-          />
-        </Tooltip>
-      }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <button
-        aria-label="add reaction"
-        className="reacticon__container color--link style--none"
-        id="CENTER_reaction_post_id_1"
-        onClick={[MockFunction]}
+  <EmojiPickerOverlay
+    enableGifPicker={false}
+    n={true}
+    onEmojiClick={[Function]}
+    onEmojiClose={[MockFunction]}
+    onHide={[MockFunction]}
+    show={false}
+    spaceRequiredAbove={476}
+    spaceRequiredBelow={497}
+    target={[MockFunction]}
+    topOffset={-7}
+  />
+  <OverlayTrigger
+    className="hidden-xs"
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="reaction-icon-tooltip"
+        placement="right"
       >
-        <EmojiIcon
-          className="icon icon--emoji"
+        <FormattedMessage
+          defaultMessage="Add Reaction"
+          id="post_info.tooltip.add_reactions"
+          values={Object {}}
         />
-      </button>
-    </OverlayTrigger>
-  </div>
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      aria-label="add reaction"
+      className="post-menu__item post-menu__item--reactions"
+      data-testid="post-reaction-emoji-icon"
+      id="CENTER_reaction_post_id_1"
+      onClick={[MockFunction]}
+    >
+      <EmojiIcon
+        className="icon icon--small"
+      />
+    </button>
+  </OverlayTrigger>
 </Connect(ChannelPermissionGate)>
 `;

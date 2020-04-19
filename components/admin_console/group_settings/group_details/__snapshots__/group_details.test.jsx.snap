@@ -61,6 +61,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -75,11 +76,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -112,6 +115,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -233,6 +237,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -247,11 +252,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -284,6 +291,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -404,6 +412,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -418,11 +427,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -455,6 +466,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -564,6 +576,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -578,11 +591,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -615,6 +630,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={false}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {

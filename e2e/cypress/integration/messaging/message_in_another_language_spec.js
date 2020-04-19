@@ -7,10 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @messaging
+
 describe('Messaging', () => {
     before(() => {
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M17456 - Message in another language should be displayed properly', () => {

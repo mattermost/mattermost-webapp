@@ -3,17 +3,17 @@
 
 import React from 'react';
 import {
-    DateSource,
     FormattedMessage,
     injectIntl,
+    IntlShape,
 } from 'react-intl';
 import moment from 'moment-timezone';
 
 type Props = {
     timeZone?: string;
-    value: DateSource;
+    value: number | Date;
     children?(val: string): React.ReactElement | null;
-    intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
+    intl: IntlShape;
 }
 
 class RecentDate extends React.PureComponent<Props> {
@@ -46,9 +46,9 @@ class RecentDate extends React.PureComponent<Props> {
         };
         const formattedDate = this.props.intl.formatDate(value, options);
 
-        // `formatDate` returns unformatted date string on error like in the case of (react-intl) unsupported timezone.
+        // On error, `formatDate` returns unformatted date or value string like in the case of (react-intl) unsupported timezone.
         // Therefore, use react-intl by default or moment-timezone for unsupported timezone.
-        if (formattedDate !== String(date)) {
+        if (formattedDate !== String(date) && formattedDate !== String(value)) {
             return formattedDate;
         }
 

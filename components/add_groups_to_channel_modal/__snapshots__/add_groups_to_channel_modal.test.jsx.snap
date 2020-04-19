@@ -39,7 +39,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
       componentClass="h4"
     >
       <FormattedMessage
-        defaultMessage="Add New Groups To {channelName} Channel"
+        defaultMessage="Add New Groups to {channelName} Channel"
         id="add_groups_to_channel.title"
         values={
           Object {

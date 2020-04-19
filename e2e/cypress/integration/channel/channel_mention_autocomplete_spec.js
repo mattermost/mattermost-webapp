@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel
+
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -38,6 +41,7 @@ describe('Channel', () => {
     it('Channel autocomplete should have both lists populated correctly', () => {
         // # Type "~"
         cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.TINY);
+        cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
         // * Should match each channel item and group label
@@ -59,6 +63,7 @@ describe('Channel', () => {
 
         // # Type "~"
         cy.get('#post_textbox').should('be.visible').type('~').wait(TIMEOUTS.TINY);
+        cy.get('#loadingSpinner').should('not.exist');
 
         // * Should open up suggestion list for channels
         // * Should match each channel item and group label
@@ -84,6 +89,7 @@ describe('Channel', () => {
 
             // # Type "~"
             cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.TINY);
+            cy.get('#loadingSpinner').should('not.exist');
 
             // * Should open up suggestion list for channels
             // * Should match each channel item and group label

@@ -93,7 +93,7 @@ export default class FilenameOverlay extends React.PureComponent {
                             placement='top'
                             overlay={
                                 <Tooltip id='file-name__tooltip'>
-                                    {localizeMessage('view_image_popover.download', 'Download').toLowerCase()}
+                                    {localizeMessage('view_image_popover.download', 'Download')}
                                 </Tooltip>
                             }
                         >

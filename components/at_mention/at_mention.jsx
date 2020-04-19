@@ -17,6 +17,7 @@ export default class AtMention extends React.PureComponent {
         children: PropTypes.node,
         currentUserId: PropTypes.string.isRequired,
         hasMention: PropTypes.bool,
+        disableHighlight: PropTypes.bool,
         isRHS: PropTypes.bool,
         mentionName: PropTypes.string.isRequired,
         teammateNameDisplay: PropTypes.string.isRequired,
@@ -26,6 +27,7 @@ export default class AtMention extends React.PureComponent {
     static defaultProps = {
         isRHS: false,
         hasMention: false,
+        disableHighlight: false,
     }
 
     constructor(props) {
@@ -78,7 +80,7 @@ export default class AtMention extends React.PureComponent {
         const suffix = this.props.mentionName.substring(user.username.length);
 
         let className = 'mention-link';
-        if (user.id === this.props.currentUserId) {
+        if (!this.props.disableHighlight && user.id === this.props.currentUserId) {
             className += ' mention--highlight';
         }
 

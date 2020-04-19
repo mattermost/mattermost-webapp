@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .sidebar--right {
-    @include translateX(400px);
+    @include translateX(100%);
     background: $white;
     height: 100%;
     padding: 0;
@@ -103,11 +103,7 @@
         }
 
         .msg-typing {
-            margin: 0 0 8px;
-
-            &:empty {
-                display: none;
-            }
+            margin: 0;
         }
 
         .post-create-footer {
@@ -276,15 +272,17 @@
 
     .sidebar--right__subheader {
         font-size: 1em;
-        padding: .5em 1em 0;
+        padding: 0 1em 0;
 
         h4 {
             font-size: 1em;
+            margin: 0 0 16px;
         }
 
         ul {
             @include opacity(.7);
-            padding: 10px 0 0 30px;
+            padding: 0 0 0 30px;
+            margin: 0;
         }
 
         li {

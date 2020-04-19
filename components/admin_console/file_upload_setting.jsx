@@ -112,7 +112,7 @@ export default class FileUploadSetting extends Setting {
                             defaultMessage='Upload'
                         />
                     </button>
-                    <div className='help-text no-margin'>
+                    <div className='help-text m-0'>
                         {fileName}
                     </div>
                     {serverError}

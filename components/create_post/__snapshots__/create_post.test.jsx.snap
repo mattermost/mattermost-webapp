@@ -39,12 +39,13 @@ exports[`components/create_post Show tutorial 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           preview={false}
+          useChannelMentions={true}
           value=""
         />
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -69,7 +70,7 @@ exports[`components/create_post Show tutorial 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="style--none emoji-picker__container post-action"
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -91,7 +92,7 @@ exports[`components/create_post Show tutorial 1`] = `
               component="i"
               title={
                 Object {
-                  "defaultMessage": "Send Post Icon",
+                  "defaultMessage": "Create a post",
                   "id": "create_post.icon",
                 }
               }
@@ -115,13 +116,13 @@ exports[`components/create_post Show tutorial 1`] = `
                 />
               </h4>
               <p>
-                <InjectIntl(FormattedMarkdownMessage)
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Type here to write a message and press **Enter** to post it."
                   id="create_post.tutorialTip1"
                 />
               </p>
               <p>
-                <InjectIntl(FormattedMarkdownMessage)
+                <injectIntl(FormattedMarkdownMessage)
                   defaultMessage="Click the **Attachment** button to upload an image or a file."
                   id="create_post.tutorialTip2"
                 />
@@ -134,6 +135,7 @@ exports[`components/create_post Show tutorial 1`] = `
     <div
       className="post-create-footer"
       id="postCreateFooter"
+      role="form"
     >
       <div
         className="d-flex justify-content-between"
@@ -142,7 +144,7 @@ exports[`components/create_post Show tutorial 1`] = `
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -182,7 +184,7 @@ exports[`components/create_post Show tutorial 1`] = `
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
         id="notify_all.title.confirm"
         values={Object {}}
       />
@@ -230,12 +232,13 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           preview={false}
+          useChannelMentions={true}
           value=""
         />
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -260,7 +263,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="style--none emoji-picker__container post-action"
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -282,7 +285,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
               component="i"
               title={
                 Object {
-                  "defaultMessage": "Send Post Icon",
+                  "defaultMessage": "Create a post",
                   "id": "create_post.icon",
                 }
               }
@@ -294,6 +297,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
     <div
       className="post-create-footer"
       id="postCreateFooter"
+      role="form"
     >
       <div
         className="d-flex justify-content-between"
@@ -302,7 +306,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -342,7 +346,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
         id="notify_all.title.confirm"
         values={Object {}}
       />
@@ -390,6 +394,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           preview={false}
+          useChannelMentions={true}
           value=""
         />
         <span
@@ -407,7 +412,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
               component="i"
               title={
                 Object {
-                  "defaultMessage": "Send Post Icon",
+                  "defaultMessage": "Create a post",
                   "id": "create_post.icon",
                 }
               }
@@ -419,6 +424,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
     <div
       className="post-create-footer"
       id="postCreateFooter"
+      role="form"
     >
       <div
         className="d-flex justify-content-between"
@@ -427,7 +433,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -467,7 +473,169 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
+        id="notify_all.title.confirm"
+        values={Object {}}
+      />
+    }
+  />
+</form>
+`;
+
+exports[`components/create_post should match snapshot when cannot post 1`] = `
+<form
+  className=""
+  id="create_post"
+  onSubmit={[Function]}
+>
+  <div
+    className="post-create"
+  >
+    <div
+      className="post-create-body"
+    >
+      <div
+        aria-label="message input complimentary region"
+        className="post-body__cell a11y__region"
+        data-a11y-sort-order="2"
+        id="centerChannelFooter"
+        role="application"
+        tabIndex="-1"
+      >
+        <Connect(Textbox)
+          badConnection={false}
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          characterLimit={4000}
+          createMessage="Write to "
+          disabled={false}
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="post_textbox"
+          listenForMentionKeyClick={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onComposition={[Function]}
+          onHeightChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
+          preview={false}
+          useChannelMentions={true}
+          value=""
+        />
+        <span
+          className="post-body__actions"
+        >
+          <Connect(injectIntl(FileUpload))
+            fileCount={0}
+            getTarget={[Function]}
+            onFileUpload={[Function]}
+            onFileUploadChange={[Function]}
+            onUploadError={[Function]}
+            onUploadProgress={[Function]}
+            onUploadStart={[Function]}
+            postType="post"
+          />
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-7}
+            />
+            <button
+              aria-label="emoji picker"
+              className="emoji-picker__container post-action"
+              onClick={[Function]}
+              type="button"
+            >
+              <EmojiIcon
+                className="icon icon--emoji "
+                id="emojiPickerButton"
+              />
+            </button>
+          </div>
+          <a
+            aria-label="Send a message"
+            className="send-button theme disabled"
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            <LocalizedIcon
+              className="fa fa-paper-plane"
+              component="i"
+              title={
+                Object {
+                  "defaultMessage": "Create a post",
+                  "id": "create_post.icon",
+                }
+              }
+            />
+          </a>
+        </span>
+      </div>
+    </div>
+    <div
+      className="post-create-footer"
+      id="postCreateFooter"
+      role="form"
+    >
+      <div
+        className="d-flex justify-content-between"
+      >
+        <Connect(MsgTyping)
+          channelId="owsyt8n43jfxjpzh9np93mx1wa"
+          postId=""
+        />
+        <Connect(TextboxLinks)
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+      </div>
+      <div />
+    </div>
+  </div>
+  <PostDeletedModal
+    onHide={[Function]}
+    show={false}
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Confirm"
+        id="notify_all.confirm"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
+        id="notify_all.question"
+        values={
+          Object {
+            "totalMembers": 8,
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
         id="notify_all.title.confirm"
         values={Object {}}
       />
@@ -515,12 +683,13 @@ exports[`components/create_post should match snapshot when file upload disabled 
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           preview={false}
+          useChannelMentions={true}
           value=""
         />
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -545,7 +714,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             />
             <button
               aria-label="emoji picker"
-              className="style--none emoji-picker__container post-action"
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -567,7 +736,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
               component="i"
               title={
                 Object {
-                  "defaultMessage": "Send Post Icon",
+                  "defaultMessage": "Create a post",
                   "id": "create_post.icon",
                 }
               }
@@ -579,6 +748,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
     <div
       className="post-create-footer"
       id="postCreateFooter"
+      role="form"
     >
       <div
         className="d-flex justify-content-between"
@@ -587,7 +757,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -627,7 +797,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
         id="notify_all.title.confirm"
         values={Object {}}
       />
@@ -675,12 +845,13 @@ exports[`components/create_post should match snapshot, init 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           preview={false}
+          useChannelMentions={true}
           value=""
         />
         <span
           className="post-body__actions"
         >
-          <Connect(InjectIntl(FileUpload))
+          <Connect(injectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -705,7 +876,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             />
             <button
               aria-label="emoji picker"
-              className="style--none emoji-picker__container post-action"
+              className="emoji-picker__container post-action"
               onClick={[Function]}
               type="button"
             >
@@ -727,7 +898,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
               component="i"
               title={
                 Object {
-                  "defaultMessage": "Send Post Icon",
+                  "defaultMessage": "Create a post",
                   "id": "create_post.icon",
                 }
               }
@@ -739,6 +910,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
     <div
       className="post-create-footer"
       id="postCreateFooter"
+      role="form"
     >
       <div
         className="d-flex justify-content-between"
@@ -747,7 +919,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -787,7 +959,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
+        defaultMessage="Confirm Sending Notifications to Entire Channel"
         id="notify_all.title.confirm"
         values={Object {}}
       />

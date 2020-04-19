@@ -50,6 +50,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
             },
           ],
           "requestStarted": false,
+          "useChannelMentions": true,
         },
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
@@ -134,6 +135,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
             },
           ],
           "requestStarted": false,
+          "useChannelMentions": true,
         },
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
@@ -218,6 +220,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
             },
           ],
           "requestStarted": false,
+          "useChannelMentions": true,
         },
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],

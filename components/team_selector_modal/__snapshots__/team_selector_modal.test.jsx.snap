@@ -40,8 +40,8 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       componentClass="h1"
       id="teamSelectorModalLabel"
     >
-      <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="Add Teams To **Team Selection** List"
+      <injectIntl(FormattedMarkdownMessage)
+        defaultMessage="Add Teams to **Team Selection** List"
         id="add_teams_to_scheme.title"
       />
     </ModalTitle>

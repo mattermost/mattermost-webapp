@@ -1,0 +1,289 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/channel/ChannelDetails should match snapshot 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/channels"
+      />
+      <FormattedMessage
+        defaultMessage="Channel Configuration"
+        id="admin.channel_settings.channel_detail.channel_configuration"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <ChannelProfile
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        team={
+          Object {
+            "display_name": "test",
+          }
+        }
+      />
+      <ConvertConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        toPublic={true}
+      />
+      <RemoveConfirmModal
+        amount={0}
+        inChannel={true}
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+      />
+      <ConvertAndRemoveConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        removeAmount={0}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModes
+        isDefault={false}
+        isPublic={true}
+        isSynced={false}
+        onToggle={[Function]}
+      />
+      <ChannelModeration
+        guestAccountsEnabled={true}
+        onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
+      />
+      <ChannelGroups
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        groups={
+          Array [
+            Object {
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "descript",
+              "display_name": "DN",
+              "has_syncables": false,
+              "id": "123",
+              "member_count": 3,
+              "name": "name",
+              "remote_id": "id",
+              "scheme_admin": false,
+              "type": "A",
+              "update_at": 0,
+            },
+          ]
+        }
+        onAddCallback={[Function]}
+        onGroupRemoved={[Function]}
+        removedGroups={Array []}
+        setNewGroupRole={[Function]}
+        synced={false}
+        totalGroups={1}
+      />
+    </div>
+  </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/channels"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
+</div>
+`;
+
+exports[`admin_console/team_channel_settings/channel/ChannelDetails should match snapshot 2`] = `
+<div
+  className="wrapper--fixed"
+>
+  <div
+    className="admin-console__header with-back"
+  >
+    <div>
+      <Connect(BlockableLink)
+        className="fa fa-angle-left back"
+        to="/admin_console/user_management/channels"
+      />
+      <FormattedMessage
+        defaultMessage="Channel Configuration"
+        id="admin.channel_settings.channel_detail.channel_configuration"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <ChannelProfile
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        team={Object {}}
+      />
+      <ConvertConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+        toPublic={true}
+      />
+      <RemoveConfirmModal
+        amount={0}
+        inChannel={true}
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+      />
+      <ConvertAndRemoveConfirmModal
+        displayName="name"
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        removeAmount={0}
+        show={false}
+        toPublic={true}
+      />
+      <ChannelModes
+        isDefault={false}
+        isPublic={true}
+        isSynced={false}
+        onToggle={[Function]}
+      />
+      <ChannelModeration
+        guestAccountsEnabled={true}
+        onChannelPermissionsChanged={[Function]}
+        teamSchemeDisplayName="asdf"
+        teamSchemeID="asdf"
+      />
+      <ChannelGroups
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "id",
+            "delete_at": 0,
+            "display_name": "name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "header",
+            "id": "123",
+            "last_post_at": 0,
+            "name": "DN",
+            "purpose": "purpose",
+            "scheme_id": "id",
+            "team_id": "id_123",
+            "team_name": "team",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        groups={
+          Array [
+            Object {
+              "create_at": 0,
+              "delete_at": 0,
+              "description": "descript",
+              "display_name": "DN",
+              "has_syncables": false,
+              "id": "123",
+              "member_count": 3,
+              "name": "name",
+              "remote_id": "id",
+              "scheme_admin": false,
+              "type": "A",
+              "update_at": 0,
+            },
+          ]
+        }
+        onAddCallback={[Function]}
+        onGroupRemoved={[Function]}
+        removedGroups={Array []}
+        setNewGroupRole={[Function]}
+        synced={false}
+        totalGroups={1}
+      />
+    </div>
+  </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/channels"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
+</div>
+`;

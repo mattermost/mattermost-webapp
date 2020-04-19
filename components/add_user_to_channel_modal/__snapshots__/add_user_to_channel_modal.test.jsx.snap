@@ -41,7 +41,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
       id="addChannelModalLabel"
     >
       <FormattedMessage
-        defaultMessage="Add {name} to a channel"
+        defaultMessage="Add {name} to a Channel"
         id="add_user_to_channel_modal.title"
         values={
           Object {

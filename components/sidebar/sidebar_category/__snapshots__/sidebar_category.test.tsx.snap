@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar/sidebar_category should match snapshot 1`] = `
+<div
+  className="SidebarChannelGroup a11y__section"
+>
+  <div
+    className="SidebarChannelGroupHeader"
+  >
+    <button
+      aria-label="custom_category_1"
+      className="SidebarChannelGroupHeader_groupButton"
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-chevron-down"
+      />
+      <div>
+        custom_category_1
+      </div>
+    </button>
+  </div>
+  <div
+    className="SidebarChannelGroup_content"
+  >
+    <ul
+      className="NavGroupContent"
+      role="list"
+    >
+      <Connect(SidebarChannel)
+        channelId="channel_id"
+        getChannelRef={[MockFunction]}
+        isCategoryCollapsed={false}
+        key="channel_id"
+        setChannelRef={[MockFunction]}
+      />
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`components/sidebar/sidebar_category should match snapshot when collapsed 1`] = `
+<div
+  className="SidebarChannelGroup a11y__section"
+>
+  <div
+    className="SidebarChannelGroupHeader"
+  >
+    <button
+      aria-label="custom_category_1"
+      className="SidebarChannelGroupHeader_groupButton"
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-chevron-down icon-rotate-minus-90"
+      />
+      <div>
+        custom_category_1
+      </div>
+    </button>
+  </div>
+  <div
+    className="SidebarChannelGroup_content"
+  >
+    <ul
+      className="NavGroupContent"
+      role="list"
+    >
+      <Connect(SidebarChannel)
+        channelId="channel_id"
+        getChannelRef={[MockFunction]}
+        isCategoryCollapsed={true}
+        key="channel_id"
+        setChannelRef={[MockFunction]}
+      />
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
+<div
+  className="SidebarChannelGroup a11y__section"
+>
+  <div
+    className="SidebarChannelGroupHeader"
+  >
+    <button
+      aria-label="custom_category_1"
+      className="SidebarChannelGroupHeader_groupButton"
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-chevron-down hide-arrow"
+      />
+      <div>
+        custom_category_1
+      </div>
+      <button
+        aria-label="Create new direct message"
+        className="SidebarChannelGroupHeader_addButton"
+        onClick={[Function]}
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="new-group-tooltip"
+              placement="right"
+            >
+              Create new direct message
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <i
+            className="icon-plus"
+          />
+        </OverlayTrigger>
+      </button>
+    </button>
+  </div>
+  <div
+    className="SidebarChannelGroup_content"
+  >
+    <ul
+      className="NavGroupContent"
+      role="list"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/sidebar/sidebar_category should match snapshot when there are no channels to display 1`] = `""`;

@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 export default class ConvertConfirmModal extends React.PureComponent {
     static propTypes = {

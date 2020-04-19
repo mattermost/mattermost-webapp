@@ -18,6 +18,12 @@
         flex: 1 1 0;
         min-width: 0;
 
+        &:hover {
+            .header-dropdown__icon {
+                opacity: 1;
+            }
+        }
+
         .heading span {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -117,128 +123,6 @@
         }
     }
 
-    .channel-header__icon {
-        @include border-radius(50%);
-        color: v(center-channel-color-40);
-        border: 1px solid v(center-channel-color-15);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        height: 30px;
-        line-height: 30px;
-        margin: 16px 0 0 8px;
-        min-width: 30px;
-        position: relative;
-        text-align: center;
-        width: 30px;
-        z-index: 5;
-
-        body.enable-animations & {
-            @include transition-property(color, border-color);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in-out);
-        }
-
-        .icon--stroke {
-            svg {
-                stroke: v(center-channel-color-40);
-            }
-
-            &.icon__search {
-                svg {
-                    stroke: v(center-channel-color-50);
-                }
-            }
-        }
-
-        svg {
-            fill: v(center-channel-color-40);
-
-            body.enable-animations & {
-                @include transition-property(fill);
-                @include transition-duration($transition-quick);
-                @include transition-delay(0s);
-                @include transition-timing-function(ease-in-out);
-            }
-        }
-
-        &.wide {
-            @include border-radius(37px);
-            line-height: 28px;
-            padding: 0;
-            white-space: nowrap;
-            width: auto;
-
-            > div {
-                padding: 0 8px;
-            }
-        }
-
-        &.text {
-            font-weight: 600;
-            padding: 0 14px;
-
-            button {
-                @include opacity(.4);
-            }
-
-            &:hover {
-                button {
-                    @include opacity(1);
-                }
-            }
-        }
-
-        .icon__text {
-            font-weight: 600;
-            margin-right: 4px;
-            position: relative;
-        }
-
-        a {
-            display: block;
-        }
-
-        .fa {
-            font-size: 15px;
-        }
-
-        & + div {
-            display: none;
-        }
-
-        .icon {
-            position: relative;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon__ellipsis {
-            padding-top: 5px;
-        }
-
-        .icon__members {
-            top: 2px;
-        }
-
-        .icon__pluginChannelHeader {
-            top: 3px;
-        }
-        .icon__mentions {
-            top: 1px;
-        }
-
-        .icon__flag {
-            top: 1px;
-        }
-
-        .icon__search {
-            top: 1px;
-        }
-    }
-
     .move--left & {
         .icon--hidden {
             display: none;
@@ -323,6 +207,7 @@
     }
 
     .header-dropdown__icon {
+        opacity: .6;
         flex: 0 0 auto;
         color: $dark-gray;
     }
@@ -391,18 +276,24 @@
         }
 
         .header-description__text {
-            flex: 1 1 0;
             overflow: hidden;
             display: flex;
             flex-direction: column;
 
+            ul {
+                &:first-child {
+                    margin: 3px 0 0;
+                }
+            }
+
             li {
                 margin-bottom: 8px;
-            }
-        }
 
-        .status {
-            margin-right: 3px;
+                p {
+                    margin: 0;
+                    display: inline;
+                }
+            }
         }
 
         .markdown__heading {
@@ -421,11 +312,26 @@
             overflow: visible;
 
             button {
-                @include opacity(.6);
+                color: v(center-channel-color-64);
 
-                &:hover
-                &:focus {
-                    text-decoration: underline;
+                .button__edit {
+                    color: v(link-color);
+                    display: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                &:focus,
+                &:hover {
+                    text-decoration: none;
+                }
+
+                &:hover {
+                    .button__edit {
+                        display: inline;
+                    }
                 }
             }
         }
@@ -458,11 +364,11 @@
     }
 
     .status {
-        width: 18px;
+        margin: -1px 4px 0 0;
+        width: auto;
 
         svg {
-            max-height: 20px;
-            width: 16px;
+            width: 12px;
         }
     }
 }
@@ -528,6 +434,7 @@
 
 // Team Header in Sidebar
 .sidebar--left,
+#SidebarContainer,
 .sidebar--menu,
 .admin-sidebar {
 
@@ -617,7 +524,7 @@
 
         .dropdown-menu {
             margin: 4px 0 0 10px;
-            min-width: 220px;
+            min-width: 240px;
             overflow: auto;
         }
 

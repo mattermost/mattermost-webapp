@@ -157,12 +157,27 @@ describe('components/SuggestionBox', () => {
         expect(wrapper.state('selection')).toEqual('@other');
 
         instance.nonDebouncedPretextChanged('hello world @u');
-        expect(wrapper.state('selection')).toEqual('@user2');
+        expect(wrapper.state('selection')).toEqual('@user');
 
         instance.nonDebouncedPretextChanged('hello world @');
-        expect(wrapper.state('selection')).toEqual('@user2');
+        expect(wrapper.state('selection')).toEqual('@user');
 
         instance.nonDebouncedPretextChanged('hello world ');
         expect(wrapper.state('selection')).toEqual('');
+    });
+
+    test('should call setState for clear based on present cleared state', () => {
+        const wrapper = mount(
+            <SuggestionBox {...baseProps}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.setState = jest.fn();
+        instance.clear();
+        expect(instance.setState).not.toHaveBeenCalled();
+        wrapper.setState({cleared: false});
+        wrapper.update();
+        instance.clear();
+        expect(instance.setState).toHaveBeenCalled();
     });
 });

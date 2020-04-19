@@ -2,7 +2,7 @@
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot 1`] = `
 <RootPortal>
-  <InjectIntl(FullScreenModal)
+  <injectIntl(FullScreenModal)
     ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
@@ -41,18 +41,19 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
         }
       />
       <InvitationModalInitialStep
+        emailInvitationsEnabled={true}
         goToGuests={[Function]}
         goToMembers={[Function]}
         teamName="Test name"
       />
     </div>
-  </InjectIntl(FullScreenModal)>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to add users 1`] = `
 <RootPortal>
-  <InjectIntl(FullScreenModal)
+  <injectIntl(FullScreenModal)
     ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
@@ -94,6 +95,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         currentTeamId="test"
         defaultChannels={Array []}
         defaultMessage=""
+        emailInvitationsEnabled={true}
         myInvitableChannels={Array []}
         onEdit={[Function]}
         onSubmit={[Function]}
@@ -102,13 +104,13 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         teamName="Test name"
       />
     </div>
-  </InjectIntl(FullScreenModal)>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to invite guests 1`] = `
 <RootPortal>
-  <InjectIntl(FullScreenModal)
+  <injectIntl(FullScreenModal)
     ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
@@ -146,7 +148,9 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           />
         }
       />
-      <InjectIntl(InvitationModalMembersStep)
+      <injectIntl(InvitationModalMembersStep)
+        currentTeamId="test"
+        emailInvitationsEnabled={true}
         inviteId="test-invite-id"
         onEdit={[Function]}
         onSubmit={[Function]}
@@ -154,13 +158,13 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         teamName="Test name"
       />
     </div>
-  </InjectIntl(FullScreenModal)>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when not show 1`] = `
 <RootPortal>
-  <InjectIntl(FullScreenModal)
+  <injectIntl(FullScreenModal)
     ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
@@ -199,11 +203,12 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         }
       />
       <InvitationModalInitialStep
+        emailInvitationsEnabled={true}
         goToGuests={[Function]}
         goToMembers={[Function]}
         teamName="Test name"
       />
     </div>
-  </InjectIntl(FullScreenModal)>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;

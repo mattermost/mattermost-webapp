@@ -1,8 +1,45 @@
 @charset 'UTF-8';
 
+.app__body {
+    .suggestion--selected {
+        background-color: v(center-channel-color-08);
+    }
+}
+
+.suggestion-list__icon {
+    display: inline-flex;
+    justify-content: center;
+    opacity: 0.56;
+    fill: v(center-channel-color);
+
+    &--standard {
+        font-size: 1.6rem;
+        margin: 0 12px 0 0;
+        width: 1.6rem;
+    }
+
+    &--large {
+        font-size: 1.6rem;
+        margin: 0 12px 0 0;
+        width: 2.4rem;
+    }
+
+    .status--group {
+        margin: 0 0 0 -1px;
+    }
+}
+
 .suggestion-list {
     width: 100%;
     z-index: 100;
+
+    .post-create & {
+        margin: 0 0 -8px 16px;
+    }
+
+    .post-right__scroll & {
+        margin: 0;
+    }
 
     .badge {
         position: absolute;
@@ -12,8 +49,13 @@
         background: #CECECF;
         font-size: 10px;
     }
+
     .LoadingSpinner {
-        margin: 6px 11px;
+        margin: 0 24px;
+        display: block;
+        height: 40px;
+        position: relative;
+        top: 4px;
     }
 }
 
@@ -27,35 +69,91 @@
 }
 
 .suggestion-list__content {
+    border-radius: 4px;
     -webkit-overflow-scrolling: touch;
-    background-color: $white;
-    border: $border-gray;
+    background-color: v(center-channel-bg);
+    border: 1px solid v(center-channel-color-16);
     max-height: 292px;
     overflow-x: auto;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    overflow-y: scroll;
-    padding-bottom: 5px;
-    width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    overflow-y: auto;
+    padding-bottom: 12px;
+    max-width: 100%;
+    width: 496px;
+
+    &::-webkit-scrollbar-track {
+        width: 0;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border: 1px solid v(center-channel-bg);
+        background-color: v(center-channel-color-24) !important;
+        border-radius: 4px;
+    }
+
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .Avatar {
+        margin: 0 12px 0 0;
+    }
+
+    .mentions__name {
+        font-size: inherit;
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        padding: 0 2.4rem;
+    }
 
     .modal & {
         max-height: 205px;
     }
+}
 
-    .command {
-        border-bottom: 1px solid $light-gray;
-        font-size: .95em;
-        line-height: 24px;
-        padding: 5px 10px 8px;
-        position: relative;
-        width: 100%;
-        z-index: 101;
+.slash-command {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2.4rem;
 
-        .command__desc {
-            @include opacity(.5);
-            line-height: normal;
-            margin-left: 5px;
-        }
+    &:first-child {
+        margin: 12px 0 0 0;
     }
+}
+
+.slash-command__icon {
+    background: v(center-channel-color-08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 4px;
+    font-size: 20px;
+    font-weight: 600;
+
+    span {
+        opacity: .56;
+    }
+}
+
+.slash-command__info {
+    line-height: 1;
+    margin-left: 12px;
+}
+
+.slash-command__desc {
+    @include opacity(.56);
+    margin: 4px 0 0;
+    font-size: 12px;
 }
 
 .suggestion-list__content--top {
@@ -64,30 +162,31 @@
 }
 
 .suggestion-list__divider {
-    line-height: 21px;
-    margin: 5px 0 5px 5px;
+    font-size: 1.2rem;
+    color: v(center-channel-color-60);
+    height: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 1.2rem 0 0 0;
+    padding: 0 0 0 2.4rem;
     position: relative;
+    text-transform: uppercase;
+    font-weight: 600;
 
     &:first-child {
-        margin-top: 5px;
-    }
-
-    > span {
-        display: inline-block;
-        font-size: .9em;
-        padding: 0 10px 0 5px;
-        position: relative;
-        z-index: 5;
+        &:before {
+            display: none;
+        }
     }
 
     &:before {
-        @include opacity(.2);
-        background: $dark-gray;
         content: '';
         height: 1px;
-        left: 0;
+        background: v(center-channel-color-08);
         position: absolute;
-        top: 11px;
+        top: -7px;
+        left: 0;
         width: 100%;
     }
 }
@@ -97,7 +196,7 @@
     margin: 7px 10px 2px;
     position: relative;
 
-    > span {
+    >span {
         display: inline-block;
         font-size: .9em;
         padding: 0 10px 0 5px;

@@ -19,9 +19,10 @@ jest.mock('utils/user_agent', () => ({
     isMobile: jest.fn().mockReturnValue(false),
 }));
 
-function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
+function createEditPost({canEditPost, canDeletePost, useChannelMentions, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
     const canEditPostProp = canEditPost === undefined ? true : canEditPost;
     const canDeletePostProp = canDeletePost === undefined ? true : canDeletePost;
+    const useChannelMentionsProp = useChannelMentions === undefined ? true : useChannelMentions;
     const ctrlSendProp = ctrlSend || false;
     const configProp = config || {
         PostEditTimeLimit: 300,
@@ -47,10 +48,12 @@ function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, 
         addMessageIntoHistory: jest.fn(),
         hideEditPostModal: jest.fn(),
         openModal: jest.fn(),
+        setShowPreview: jest.fn(),
     };
     return (
         <EditPostModal
             canEditPost={canEditPostProp}
+            shouldShowPreview={false}
             canDeletePost={canDeletePostProp}
             ctrlSend={ctrlSendProp}
             config={configProp}
@@ -58,6 +61,7 @@ function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, 
             editingPost={editingPostProp}
             actions={actionsProp}
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
+            useChannelMentions={useChannelMentionsProp}
         />
     );
 }
@@ -83,6 +87,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const editingPost = {
             postId: '123',
@@ -114,6 +119,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions}));
 
@@ -226,13 +232,21 @@ describe('components/EditPostModal', () => {
     });
 
     it('should hide the preview when exiting', () => {
-        const wrapper = shallowWithIntl(createEditPost());
+        const actions = {
+            editPost: jest.fn(),
+            addMessageIntoHistory: jest.fn(),
+            hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
+            setShowPreview: jest.fn(),
+        };
+
+        const wrapper = shallowWithIntl(createEditPost({actions}));
         const instance = wrapper.instance();
 
-        instance.updatePreview(true);
-        expect(wrapper.state().preview).toBe(true);
+        instance.setShowPreview(true);
+        expect(actions.setShowPreview).toHaveBeenCalledWith(true);
         instance.handleExit();
-        expect(wrapper.state().preview).toBe(false);
+        expect(actions.setShowPreview).toHaveBeenCalledWith(false);
     });
 
     it('should close without saving when post text is not changed', () => {
@@ -241,6 +255,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -260,6 +275,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         var wrapper = shallowWithIntl(createEditPost({actions}));
         var instance = wrapper.instance();
@@ -309,6 +325,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         global.scrollTo = jest.fn();
         const wrapper = shallowWithIntl(createEditPost({actions}));
@@ -336,15 +353,16 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const editingPost = {show: false};
         const wrapper = shallowWithIntl(createEditPost({actions, editingPost}));
         const instance = wrapper.instance();
 
-        wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', preview: true, showEmojiPicker: true});
+        wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', showEmojiPicker: true});
         instance.handleExited();
 
-        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
+        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, showEmojiPicker: false, prevShowState: false});
     });
 
     it('should focus element on exit based on refocusId', () => {
@@ -353,6 +371,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -464,6 +483,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions, canEditPost: false}));
         wrapper.setState({editText: 'new message'});
@@ -489,6 +509,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions, canDeletePost: false}));
         wrapper.setState({editText: ''});
@@ -524,6 +545,11 @@ describe('components/EditPostModal', () => {
         };
         var wrapper = shallowWithIntl(createEditPost({canDeletePost: false, editingPost}));
         wrapper.setState({editText: ''});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot with useChannelMentions set to false', () => {
+        var wrapper = shallowWithIntl(createEditPost({useChannelMentions: false}));
         expect(wrapper).toMatchSnapshot();
     });
 });

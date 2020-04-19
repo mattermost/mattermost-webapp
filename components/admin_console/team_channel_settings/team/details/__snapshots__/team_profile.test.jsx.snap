@@ -33,7 +33,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
           <div
             className="row row-bottom-padding"
           >
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="**Team Name**:"
               id="admin.team_settings.team_detail.teamName"
             />
@@ -43,7 +43,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
           <div
             className="row"
           >
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="**Team Description**:"
               id="admin.team_settings.team_detail.teamDescription"
             />

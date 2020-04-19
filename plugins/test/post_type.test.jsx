@@ -26,6 +26,7 @@ describe('plugins/PostMessageView', () => {
         emojis: {name: 'smile'},
         theme: {id: 'theme_id'},
         enableFormatting: true,
+        currentRelativeTeamUrl: 'team_url',
     };
 
     test('should match snapshot with extended post type', () => {

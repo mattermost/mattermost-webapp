@@ -213,7 +213,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
             "_rendered": <div
               className="signup-team-dir"
             >
-              <OverlayTrigger
+              <ForwardRef
                 container={[Circular]}
                 defaultOverlayShown={false}
                 delayShow={1000}
@@ -238,7 +238,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 <TeamInfoIcon
                   className="icon icon--info"
                 />
-              </OverlayTrigger>
+              </ForwardRef>
               <a
                 className=""
                 href="#"

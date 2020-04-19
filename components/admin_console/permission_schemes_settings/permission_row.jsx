@@ -45,7 +45,10 @@ export default class PermissionRow extends React.Component {
                 onClick={this.toggleSelect}
                 id={uniqId}
             >
-                <PermissionCheckbox value={value}/>
+                <PermissionCheckbox
+                    value={value}
+                    id={`${uniqId}-checkbox`}
+                />
                 <span className='permission-name'>
                     <FormattedMessage
                         id={'admin.permissions.permission.' + id + '.name'}

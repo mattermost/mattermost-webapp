@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import Textbox from 'components/textbox';
-import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import TextboxLinks from 'components/textbox/textbox_links';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/user_agent';
@@ -36,10 +36,20 @@ class EditChannelHeaderModal extends React.PureComponent {
          */
         channel: PropTypes.object.isRequired,
 
+        /**
+         * Set whether to show the modal or not
+         */
+        show: PropTypes.bool.isRequired,
+
         /*
          * boolean should be `ctrl` button pressed to send
          */
         ctrlSend: PropTypes.bool.isRequired,
+
+        /*
+         * Should preview be showed
+         */
+        shouldShowPreview: PropTypes.bool.isRequired,
 
         /*
          * Collection of redux actions
@@ -52,6 +62,12 @@ class EditChannelHeaderModal extends React.PureComponent {
              * patch channel redux-action
              */
             patchChannel: PropTypes.func.isRequired,
+
+            /**
+             * Set show preview for textbox
+             */
+            setShowPreview: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
@@ -59,7 +75,6 @@ class EditChannelHeaderModal extends React.PureComponent {
         super(props);
 
         this.state = {
-            preview: false,
             header: props.channel.header,
             saving: false,
         };
@@ -71,8 +86,8 @@ class EditChannelHeaderModal extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.setState({preview: newState});
+    setShowPreview = (newState) => {
+        this.props.actions.setShowPreview(newState);
     }
 
     handleChange = (e) => {
@@ -184,7 +199,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='a11y__modal'
-                show={true}
+                show={this.props.show}
                 keyboard={false}
                 onKeyDown={this.handleModalKeyDown}
                 onHide={this.hideModal}
@@ -223,15 +238,15 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 id='edit_textbox'
                                 ref='editChannelHeaderTextbox'
                                 characterLimit={1024}
-                                preview={this.state.preview}
+                                preview={this.props.shouldShowPreview}
                             />
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={1024}
-                                showPreview={this.state.preview}
+                                showPreview={this.props.shouldShowPreview}
                                 ref={this.setTextboxLinksRef}
-                                updatePreview={this.updatePreview}
+                                updatePreview={this.setShowPreview}
                                 message={this.state.header}
                             />
                         </div>

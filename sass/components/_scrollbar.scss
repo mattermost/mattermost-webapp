@@ -49,11 +49,14 @@ body {
 }
 
 .scrollbar--view {
-    -ms-overflow-style: none;
-
     .browser--ie & {
         margin: 0 !important;
         overflow-x: hidden !important;
+        -ms-overflow-style: none;
+
+        .scrollbar--vertical {
+            visibility: hidden;
+        }
     }
 }
 

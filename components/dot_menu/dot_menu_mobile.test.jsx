@@ -29,6 +29,8 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             postEditTimeLimit: '-1',
             enableEmojiPicker: true,
             components: {},
+            channelIsArchived: false,
+            currentTeamUrl: '',
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -38,6 +40,8 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
             },
+            canEdit: false,
+            canDelete: false,
         };
 
         const wrapper = shallow(

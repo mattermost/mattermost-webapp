@@ -55,6 +55,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
         loading: false,
         getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
         unlink: jest.fn(),
+        onChangeRoles: jest.fn(),
     };
 
     test('should match snapshot, with teams, with channels and loading', () => {

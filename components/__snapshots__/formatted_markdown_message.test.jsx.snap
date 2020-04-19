@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
+exports[`components/FormattedMarkdownMessage should allow to disable links 1`] = `
 <IntlProvider
+  defaultFormats={Object {}}
+  defaultLocale="en"
+  formats={Object {}}
   locale="en"
   messages={
     Object {
@@ -10,32 +13,46 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
       "test.vals": "*Hi* {petName}!",
     }
   }
+  onError={[Function]}
+  textComponent={Symbol(react.fragment)}
 >
-  <InjectIntl(FormattedMarkdownMessage)
-    defaultMessage="testing default message"
-    id="xxx"
+  <injectIntl(FormattedMarkdownMessage)
+    defaultMessage="*Hi* {petName}!"
+    disableLinks={true}
+    id="test.vals"
+    values={
+      Object {
+        "petName": "http://www.mattermost.com",
+      }
+    }
   >
     <FormattedMarkdownMessage
-      defaultMessage="testing default message"
-      id="xxx"
+      defaultMessage="*Hi* {petName}!"
+      disableLinks={true}
+      id="test.vals"
       intl={
         Object {
           "defaultFormats": Object {},
           "defaultLocale": "en",
           "formatDate": [Function],
+          "formatDateToParts": [Function],
           "formatHTMLMessage": [Function],
+          "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
+          "formatNumberToParts": [Function],
           "formatPlural": [Function],
-          "formatRelative": [Function],
+          "formatRelativeTime": [Function],
           "formatTime": [Function],
+          "formatTimeToParts": [Function],
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
-            "getPluralFormat": [Function],
-            "getRelativeFormat": [Function],
+            "getPluralRules": [Function],
+            "getRelativeTimeFormat": [Function],
           },
           "locale": "en",
           "messages": Object {
@@ -43,10 +60,86 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
             "test.foo": "**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)",
             "test.vals": "*Hi* {petName}!",
           },
-          "now": [Function],
           "onError": [Function],
-          "textComponent": "span",
-          "timeZone": null,
+          "textComponent": Symbol(react.fragment),
+          "timeZone": undefined,
+        }
+      }
+      values={
+        Object {
+          "petName": "http://www.mattermost.com",
+        }
+      }
+    >
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<em>Hi</em> http://www.mattermost.com!",
+          }
+        }
+      />
+    </FormattedMarkdownMessage>
+  </injectIntl(FormattedMarkdownMessage)>
+</IntlProvider>
+`;
+
+exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
+<IntlProvider
+  defaultFormats={Object {}}
+  defaultLocale="en"
+  formats={Object {}}
+  locale="en"
+  messages={
+    Object {
+      "test.bar": "<b>hello</b> <script>var malicious = true;</script> world!",
+      "test.foo": "**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)",
+      "test.vals": "*Hi* {petName}!",
+    }
+  }
+  onError={[Function]}
+  textComponent={Symbol(react.fragment)}
+>
+  <injectIntl(FormattedMarkdownMessage)
+    defaultMessage="testing default message"
+    id="xxx"
+  >
+    <FormattedMarkdownMessage
+      defaultMessage="testing default message"
+      disableLinks={false}
+      id="xxx"
+      intl={
+        Object {
+          "defaultFormats": Object {},
+          "defaultLocale": "en",
+          "formatDate": [Function],
+          "formatDateToParts": [Function],
+          "formatHTMLMessage": [Function],
+          "formatList": [Function],
+          "formatMessage": [Function],
+          "formatNumber": [Function],
+          "formatNumberToParts": [Function],
+          "formatPlural": [Function],
+          "formatRelativeTime": [Function],
+          "formatTime": [Function],
+          "formatTimeToParts": [Function],
+          "formats": Object {},
+          "formatters": Object {
+            "getDateTimeFormat": [Function],
+            "getListFormat": [Function],
+            "getMessageFormat": [Function],
+            "getNumberFormat": [Function],
+            "getPluralRules": [Function],
+            "getRelativeTimeFormat": [Function],
+          },
+          "locale": "en",
+          "messages": Object {
+            "test.bar": "<b>hello</b> <script>var malicious = true;</script> world!",
+            "test.foo": "**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)",
+            "test.vals": "*Hi* {petName}!",
+          },
+          "onError": [Function],
+          "textComponent": Symbol(react.fragment),
+          "timeZone": undefined,
         }
       }
     >
@@ -58,12 +151,15 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
         }
       />
     </FormattedMarkdownMessage>
-  </InjectIntl(FormattedMarkdownMessage)>
+  </injectIntl(FormattedMarkdownMessage)>
 </IntlProvider>
 `;
 
 exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
 <IntlProvider
+  defaultFormats={Object {}}
+  defaultLocale="en"
+  formats={Object {}}
   locale="en"
   messages={
     Object {
@@ -72,32 +168,40 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
       "test.vals": "*Hi* {petName}!",
     }
   }
+  onError={[Function]}
+  textComponent={Symbol(react.fragment)}
 >
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage=""
     id="test.bar"
   >
     <FormattedMarkdownMessage
       defaultMessage=""
+      disableLinks={false}
       id="test.bar"
       intl={
         Object {
           "defaultFormats": Object {},
           "defaultLocale": "en",
           "formatDate": [Function],
+          "formatDateToParts": [Function],
           "formatHTMLMessage": [Function],
+          "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
+          "formatNumberToParts": [Function],
           "formatPlural": [Function],
-          "formatRelative": [Function],
+          "formatRelativeTime": [Function],
           "formatTime": [Function],
+          "formatTimeToParts": [Function],
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
-            "getPluralFormat": [Function],
-            "getRelativeFormat": [Function],
+            "getPluralRules": [Function],
+            "getRelativeTimeFormat": [Function],
           },
           "locale": "en",
           "messages": Object {
@@ -105,10 +209,9 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
             "test.foo": "**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)",
             "test.vals": "*Hi* {petName}!",
           },
-          "now": [Function],
           "onError": [Function],
-          "textComponent": "span",
-          "timeZone": null,
+          "textComponent": Symbol(react.fragment),
+          "timeZone": undefined,
         }
       }
     >
@@ -120,12 +223,15 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
         }
       />
     </FormattedMarkdownMessage>
-  </InjectIntl(FormattedMarkdownMessage)>
+  </injectIntl(FormattedMarkdownMessage)>
 </IntlProvider>
 `;
 
 exports[`components/FormattedMarkdownMessage should render message 1`] = `
 <IntlProvider
+  defaultFormats={Object {}}
+  defaultLocale="en"
+  formats={Object {}}
   locale="en"
   messages={
     Object {
@@ -134,32 +240,40 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
       "test.vals": "*Hi* {petName}!",
     }
   }
+  onError={[Function]}
+  textComponent={Symbol(react.fragment)}
 >
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)"
     id="test.foo"
   >
     <FormattedMarkdownMessage
       defaultMessage="**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)"
+      disableLinks={false}
       id="test.foo"
       intl={
         Object {
           "defaultFormats": Object {},
           "defaultLocale": "en",
           "formatDate": [Function],
+          "formatDateToParts": [Function],
           "formatHTMLMessage": [Function],
+          "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
+          "formatNumberToParts": [Function],
           "formatPlural": [Function],
-          "formatRelative": [Function],
+          "formatRelativeTime": [Function],
           "formatTime": [Function],
+          "formatTimeToParts": [Function],
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
-            "getPluralFormat": [Function],
-            "getRelativeFormat": [Function],
+            "getPluralRules": [Function],
+            "getRelativeTimeFormat": [Function],
           },
           "locale": "en",
           "messages": Object {
@@ -167,10 +281,9 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
             "test.foo": "**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)",
             "test.vals": "*Hi* {petName}!",
           },
-          "now": [Function],
           "onError": [Function],
-          "textComponent": "span",
-          "timeZone": null,
+          "textComponent": Symbol(react.fragment),
+          "timeZone": undefined,
         }
       }
     >
@@ -182,12 +295,15 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
         }
       />
     </FormattedMarkdownMessage>
-  </InjectIntl(FormattedMarkdownMessage)>
+  </injectIntl(FormattedMarkdownMessage)>
 </IntlProvider>
 `;
 
 exports[`components/FormattedMarkdownMessage values should work 1`] = `
 <IntlProvider
+  defaultFormats={Object {}}
+  defaultLocale="en"
+  formats={Object {}}
   locale="en"
   messages={
     Object {
@@ -196,8 +312,10 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
       "test.vals": "*Hi* {petName}!",
     }
   }
+  onError={[Function]}
+  textComponent={Symbol(react.fragment)}
 >
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="*Hi* {petName}!"
     id="test.vals"
     values={
@@ -208,25 +326,31 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
   >
     <FormattedMarkdownMessage
       defaultMessage="*Hi* {petName}!"
+      disableLinks={false}
       id="test.vals"
       intl={
         Object {
           "defaultFormats": Object {},
           "defaultLocale": "en",
           "formatDate": [Function],
+          "formatDateToParts": [Function],
           "formatHTMLMessage": [Function],
+          "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
+          "formatNumberToParts": [Function],
           "formatPlural": [Function],
-          "formatRelative": [Function],
+          "formatRelativeTime": [Function],
           "formatTime": [Function],
+          "formatTimeToParts": [Function],
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
-            "getPluralFormat": [Function],
-            "getRelativeFormat": [Function],
+            "getPluralRules": [Function],
+            "getRelativeTimeFormat": [Function],
           },
           "locale": "en",
           "messages": Object {
@@ -234,10 +358,9 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
             "test.foo": "**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)",
             "test.vals": "*Hi* {petName}!",
           },
-          "now": [Function],
           "onError": [Function],
-          "textComponent": "span",
-          "timeZone": null,
+          "textComponent": Symbol(react.fragment),
+          "timeZone": undefined,
         }
       }
       values={
@@ -254,6 +377,6 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
         }
       />
     </FormattedMarkdownMessage>
-  </InjectIntl(FormattedMarkdownMessage)>
+  </injectIntl(FormattedMarkdownMessage)>
 </IntlProvider>
 `;

@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import InvitationModal from './invitation_modal.jsx';
 
 describe('components/invitation_modal/InvitationModal', () => {
@@ -19,6 +21,7 @@ describe('components/invitation_modal/InvitationModal', () => {
         invitableChannels: [],
         canInviteGuests: true,
         canAddUsers: true,
+        emailInvitationsEnabled: true,
         actions: {
             closeModal: jest.fn(),
             sendGuestsInvites: jest.fn(),
@@ -76,6 +79,18 @@ describe('components/invitation_modal/InvitationModal', () => {
         const wrapper = shallow(
             <InvitationModal {...props}/>,
             {context}
+        );
+        wrapper.instance().goToMembers();
+
+        expect(props.actions.getTeam).toHaveBeenCalledTimes(1);
+        expect(props.actions.getTeam).toHaveBeenCalledWith(props.currentTeam.id);
+    });
+
+    test('should work properly with full inside (and with the reference to the modal)', () => {
+        const props = {...defaultProps};
+        props.currentTeam.invite_id = '';
+        const wrapper = mountWithIntl(
+            <InvitationModal {...props}/>
         );
         wrapper.instance().goToMembers();
 

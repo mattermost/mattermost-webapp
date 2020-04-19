@@ -60,24 +60,23 @@ export default class FileAttachmentList extends React.Component {
             locale,
         } = this.props;
 
-        if (compactDisplay === false) {
-            if (fileInfos && fileInfos.length === 1) {
-                const fileType = getFileType(fileInfos[0].extension);
+        if (fileInfos && fileInfos.length === 1) {
+            const fileType = getFileType(fileInfos[0].extension);
 
-                if (fileType === FileTypes.IMAGE || (fileType === FileTypes.SVG && enableSVGs)) {
-                    return (
-                        <SingleImageView
-                            fileInfo={fileInfos[0]}
-                            isEmbedVisible={this.props.isEmbedVisible}
-                            postId={this.props.post.id}
-                        />
-                    );
-                }
-            } else if (fileCount === 1 && this.props.isEmbedVisible) {
+            if (fileType === FileTypes.IMAGE || (fileType === FileTypes.SVG && enableSVGs)) {
                 return (
-                    <div style={style.minHeightPlaceholder}/>
+                    <SingleImageView
+                        fileInfo={fileInfos[0]}
+                        isEmbedVisible={this.props.isEmbedVisible}
+                        postId={this.props.post.id}
+                        compactDisplay={compactDisplay}
+                    />
                 );
             }
+        } else if (fileCount === 1 && this.props.isEmbedVisible) {
+            return (
+                <div style={style.minHeightPlaceholder}/>
+            );
         }
 
         const sortedFileInfos = sortFileInfos(fileInfos, locale);

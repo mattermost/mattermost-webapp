@@ -1,11 +1,50 @@
 @charset 'UTF-8';
 
+@media screen and (min-width: 1680px) {
+    .sidebar--right {
+        width: 500px;
+    }
+
+    .channel-header {
+        .search-bar__container {
+            .search__form--focused {
+                width: 406px;
+                max-width: 406px;;
+            }
+        }
+    }
+
+    .search-help-popover {
+        max-width: 406px;
+        width: 406px;
+    }
+
+    .inner-wrap {
+        &.move--left {
+            .search__form {
+                width: 406px;
+            }
+
+            #post-list {
+                margin-right: 500px;
+            }
+
+            .app__content {
+                >.post-create__container {
+                    width: calc(100% - 500px);
+                }
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 1800px) {
     .inner-wrap {
         &.move--left {
             .date-separator,
             .new-separator {
                 &.hovered--comment {
+
                     &:before,
                     &:after {
                         background: none;
@@ -32,7 +71,9 @@
 
 @media screen and (max-width: 1280px) {
     .inner-wrap.move--left {
-        .post-collapse__show-more, .post-attachment-collapse__show-more {
+
+        .post-collapse__show-more,
+        .post-attachment-collapse__show-more {
             margin-left: 0;
         }
     }

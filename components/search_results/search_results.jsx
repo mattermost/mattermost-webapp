@@ -280,7 +280,7 @@ class SearchResults extends React.Component {
         } else if (this.props.isPinnedPosts) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title4',
-                defaultMessage: 'Pinned posts in {channelDisplayName}',
+                defaultMessage: 'Pinned Posts in {channelDisplayName}',
             }, {
                 channelDisplayName: this.props.channelDisplayName,
             });

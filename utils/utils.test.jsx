@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import assert from 'assert';
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
-import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
+
+import * as Utils from 'utils/utils.jsx';
 
 describe('Utils.getDisplayNameByUser', () => {
     afterEach(() => {
@@ -33,7 +35,7 @@ describe('Utils.getDisplayNameByUser', () => {
         });
 
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.getDisplayNameByUser(user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(store.getState(), user)).toEqual(user.username);
         });
     });
 
@@ -57,7 +59,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(store.getState(), data.user)).toEqual(data.result);
         }
     });
 
@@ -81,7 +83,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(store.getState(), data.user)).toEqual(data.result);
         }
     });
 });
@@ -145,7 +147,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userE, userF, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'username');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -174,7 +176,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userJ, userF, userE, userD, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'nickname_full_name');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -203,7 +205,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userF, userE, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'full_name');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -709,5 +711,38 @@ describe('Utils.enableDevModeFeatures', () => {
         test('invoke Set.Length', () => {
             expect(new Set().length).toEqual(undefined);
         });
+    });
+});
+
+describe('Utils.getSortedUsers', () => {
+    test('should sort users by who reacted first', () => {
+        const baseDate = Date.now();
+        const currentUserId = 'user_id_1';
+        const profiles = [{id: 'user_id_1', username: 'username_1'}, {id: 'user_id_2', username: 'username_2'}, {id: 'user_id_3', username: 'username_3'}];
+        const reactions = [
+            {user_id: 'user_id_2', create_at: baseDate}, // Will be sorted 2nd, after the logged-in user
+            {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 2nd user reacted first
+            {user_id: 'user_id_3', create_at: baseDate + 8000}, // Last to react, will be sorted last
+        ];
+
+        const {currentUserReacted, users} = Utils.getSortedUsers(reactions, currentUserId, profiles, 'username');
+
+        expect(currentUserReacted).toEqual(true);
+        assert.deepEqual(
+            users,
+            ['You', 'username_2', 'username_3']
+        );
+    });
+});
+
+describe('Utils.imageURLForUser', () => {
+    test('should return url when user id and last_picture_update is given', () => {
+        const imageUrl = Utils.imageURLForUser('foobar-123', 123456);
+        expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=123456');
+    });
+
+    test('should return url when user id is given without last_picture_update', () => {
+        const imageUrl = Utils.imageURLForUser('foobar-123');
+        expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=0');
     });
 });

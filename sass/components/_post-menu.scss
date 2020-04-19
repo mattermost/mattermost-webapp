@@ -1,0 +1,95 @@
+@charset 'UTF-8';
+
+.post-menu {
+    @include border-radius(4px);
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px;
+    position: absolute;
+    right: 0;
+    top: -8px;
+    white-space: normal;
+    z-index: 6;
+}
+
+.post-menu__item {
+    display: inline-flex;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    fill: v(center-channel-color-40);
+    color: v(center-channel-color-40);
+
+    &:active,
+    &--active,
+    &--active:hover {
+        background: v(button-bg-08);
+        fill: v(button-bg);
+        color: v(button-bg);
+    }
+
+    span {
+        display: flex;
+    }
+}
+
+.post-menu__item--show {
+    display: block;
+}
+
+.post-menu__item--wide {
+    width: auto;
+    padding: 0 6px;
+}
+
+.post-menu__comment-count {
+    margin: 0 0 0 2px;
+    font-weight: 600;
+}
+
+@media (min-width: 768px) {
+    .post-menu__item {
+        display: none;
+    }
+
+    .post-menu__item--show {
+        display: block;
+    }
+
+    .post {
+        &:hover,
+        &.post--hovered,
+        &.a11y--active {
+            .post-menu {
+                border-color: v(center-channel-color-08);
+                @include box-shadow($elevation-1);
+                background-color: v(center-channel-bg);
+            }
+
+            .post-menu__item {
+                display: inline-flex;
+                fill: v(center-channel-color-56);
+                color: v(center-channel-color-56);
+
+                &:hover {
+                    background: v(center-channel-color-08);
+                    fill: v(center-channel-color-72);
+                    color: v(center-channel-color-72);
+                }
+
+                &:active,
+                &--active,
+                &--active:hover {
+                    background: v(button-bg-08);
+                    fill: v(button-bg);
+                    color: v(button-bg);
+                }
+            }
+        }
+    }
+}

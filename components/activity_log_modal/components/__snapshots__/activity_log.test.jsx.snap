@@ -72,7 +72,7 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
       onClick={[Function]}
     >
       <FormattedMessage
-        defaultMessage="Logout"
+        defaultMessage="Log Out"
         id="activity_log.logout"
         values={Object {}}
       />

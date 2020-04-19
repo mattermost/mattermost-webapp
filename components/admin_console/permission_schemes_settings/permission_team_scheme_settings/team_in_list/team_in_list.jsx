@@ -22,10 +22,15 @@ export default class TeamInList extends React.Component {
                 className='team'
                 key={team.id}
             >
-                <TeamIcon
-                    name={team.display_name}
-                    url={imageURLForTeam(team)}
-                />
+                <div className='team-info-block'>
+                    <TeamIcon
+                        name={team.display_name}
+                        url={imageURLForTeam(team)}
+                    />
+                    <div className='team-data'>
+                        <div className='title'>{team.display_name}</div>
+                    </div>
+                </div>
                 <a
                     className='remove'
                     onClick={() => this.props.onRemoveTeam(team.id)}

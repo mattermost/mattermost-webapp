@@ -4,13 +4,17 @@
 import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {canManageMembers} from 'utils/channel_utils.jsx';
+
 import PostMarkdown from './post_markdown';
 
 function mapStateToProps(state, ownProps) {
+    const channel = getChannel(state, ownProps.channelId);
     return {
-        channel: getChannel(state, ownProps.channelId),
+        channel,
         pluginHooks: state.plugins.components.MessageWillFormat,
         hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
+        isUserCanManageMembers: channel && canManageMembers(state, channel),
     };
 }
 

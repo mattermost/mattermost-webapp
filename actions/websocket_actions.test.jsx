@@ -424,6 +424,7 @@ describe('handleNewPostEvent', () => {
         entities: {
             users: {
                 currentUserId: 'user1',
+                isManualStatus: {},
             },
         },
     };
@@ -457,6 +458,31 @@ describe('handleNewPostEvent', () => {
         const testStore = configureStore(initialState);
 
         const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2', type: Constants.AUTO_RESPONDER};
+        const msg = {data: {post: JSON.stringify(post)}};
+
+        testStore.dispatch(handleNewPostEvent(msg));
+
+        expect(testStore.getActions()).not.toContainEqual({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
+        });
+    });
+
+    test('should not set other user to online if status was manually set', () => {
+        const testStore = configureStore({
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                users: {
+                    ...initialState.entities.users,
+                    isManualStatus: {
+                        user2: true,
+                    }
+                },
+            },
+        });
+
+        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2'};
         const msg = {data: {post: JSON.stringify(post)}};
 
         testStore.dispatch(handleNewPostEvent(msg));
@@ -506,7 +532,7 @@ describe('handleNewPostEvents', () => {
 describe('reconnect', () => {
     test('should call syncPostsInChannel when socket reconnects', () => {
         reconnect(false);
-        expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345', false);
+        expect(syncPostsInChannel).toHaveBeenCalledWith('otherChannel', '12345');
     });
 });
 
@@ -551,7 +577,7 @@ describe('handleUserTypingEvent', () => {
         });
     });
 
-    test('should possibly load missing users', () => {
+    test('should possibly load missing users and not get again the state', () => {
         const testStore = configureStore(initialState);
 
         const userId = 'otheruser';
@@ -568,15 +594,23 @@ describe('handleUserTypingEvent', () => {
         testStore.dispatch(handleUserTypingEvent(msg));
 
         expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
+        expect(getStatusesByIds).not.toHaveBeenCalled();
     });
 
-    test('should load statuses for users that are not online', () => {
+    test('should load statuses for users that are not online but are in the store', async () => {
         const testStore = configureStore({
             ...initialState,
             entities: {
                 ...initialState.entities,
                 users: {
                     ...initialState.entities.users,
+                    profiles: {
+                        ...initialState.entities.users.profiles,
+                        otheruser: {
+                            id: 'otheruser',
+                            roles: 'system_user',
+                        }
+                    },
                     statuses: {
                         ...initialState.entities.users.statuses,
                         otheruser: General.AWAY,
@@ -596,7 +630,7 @@ describe('handleUserTypingEvent', () => {
             },
         };
 
-        testStore.dispatch(handleUserTypingEvent(msg));
+        await testStore.dispatch(handleUserTypingEvent(msg));
 
         expect(getStatusesByIds).toHaveBeenCalled();
     });

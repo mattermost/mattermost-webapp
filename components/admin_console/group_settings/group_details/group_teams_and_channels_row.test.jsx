@@ -18,6 +18,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                     collapsed={false}
                     onRemoveItem={jest.fn()}
                     onToggleCollapse={jest.fn()}
+                    onChangeRoles={jest.fn()}
                 />
             );
             expect(wrapper).toMatchSnapshot();
@@ -33,6 +34,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 collapsed={false}
                 onRemoveItem={jest.fn()}
                 onToggleCollapse={jest.fn()}
+                onChangeRoles={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -48,6 +50,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 collapsed={true}
                 onRemoveItem={jest.fn()}
                 onToggleCollapse={jest.fn()}
+                onChangeRoles={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -64,6 +67,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 collapsed={true}
                 onRemoveItem={jest.fn()}
                 onToggleCollapse={onToggleCollapse}
+                onChangeRoles={jest.fn()}
             />
         );
         wrapper.find('.fa-caret-right').simulate('click');
@@ -81,6 +85,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 collapsed={true}
                 onRemoveItem={onRemoveItem}
                 onToggleCollapse={jest.fn()}
+                onChangeRoles={jest.fn()}
             />
         );
         wrapper.find('.btn-link').simulate('click');
