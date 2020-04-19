@@ -5,10 +5,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
+import store from 'stores/redux_store.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
+import { browserHistory } from 'utils/browser_history';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
@@ -45,6 +48,11 @@ export default class RhsHeaderPost extends React.Component {
         default:
             break;
         }
+    }
+
+    redirectToChannel = (e) => {
+        const teamUrl = getCurrentRelativeTeamUrl(store.getState());
+        browserHistory.push(`${teamUrl}/channels/${this.props.channel.name}`);
     }
 
     render() {
@@ -151,7 +159,10 @@ export default class RhsHeaderPost extends React.Component {
                         defaultMessage='Thread'
                     />
                     {channelName &&
-                        <div className='sidebar--right__title__channel'>
+                        <div
+                            onClick={this.redirectToChannel}
+                            className='sidebar--right__title__channel'
+                        >
                             {channelName}
                         </div>
                     }
