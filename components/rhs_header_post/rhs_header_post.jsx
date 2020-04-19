@@ -159,12 +159,12 @@ export default class RhsHeaderPost extends React.Component {
                         defaultMessage='Thread'
                     />
                     {channelName &&
-                        <div
+                        <button
                             onClick={this.redirectToChannel}
-                            className='sidebar--right__title__channel'
+                            className='style--none sidebar--right__title__channel'
                         >
                             {channelName}
-                        </div>
+                        </button>
                     }
                 </span>
                 <div className='pull-right'>

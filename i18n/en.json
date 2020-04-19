@@ -3117,7 +3117,6 @@
   "search_header.results": "Search Results",
   "search_header.title2": "Recent Mentions",
   "search_header.title3": "Flagged Posts",
-  "search_header.title4": "Pinned Posts in {channelDisplayName}",
   "search_header.title5": "Extra Information",
   "search_item.channelArchived": "Archived",
   "search_item.direct": "Direct Message (with {username})",
