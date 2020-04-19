@@ -9,7 +9,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import DelayedAction from 'utils/delayed_action';
-import Constants from 'utils/constants';
+import Constants, {RHSStates, ValueOf} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
@@ -17,12 +17,11 @@ import UserProfile from 'components/user_profile';
 import PostProfilePicture from 'components/post_profile_picture';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {PluginsState} from '../../types/store/plugins';
-import {RhsState} from 'types/store/rhs';
 
 interface Props {
     selected?: Post;
     pluginPostCardTypes: PluginsState['postCardTypes'];
-    previousRhsState?: RhsState;
+    previousRhsState?: ValueOf<typeof RHSStates>;
     enablePostUsernameOverride?: boolean;
     teamUrl: string;
     channel?: Channel;

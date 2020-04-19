@@ -128,8 +128,8 @@ hlJS.registerLanguage('yaml', hljsYaml);
 type languageObject = {
     [key: string]: {
         name: string;
-        extensions: string[];
-        aliases?: string[];
+        extensions: Readonly<string[]>;
+        aliases?: Readonly<string[]>;
     };
 }
 

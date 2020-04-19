@@ -39,7 +39,9 @@ import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highli
 import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
 
 // eslint-disable-line import/order
-import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
+import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css';
+
+export type ValueOf<T> = T[keyof T];
 
 export const SettingsTypes = {
     TYPE_TEXT: 'text',
@@ -58,12 +60,12 @@ export const SettingsTypes = {
     TYPE_JOBSTABLE: 'jobstable',
     TYPE_FILE_UPLOAD: 'fileupload',
     TYPE_CUSTOM: 'custom',
-};
+} as const;
 
 export const InviteTypes = {
     INVITE_MEMBER: 'member',
     INVITE_GUEST: 'guest',
-};
+} as const;
 
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
@@ -99,7 +101,7 @@ export const Preferences = {
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
-};
+} as const;
 
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
@@ -241,7 +243,7 @@ export const ModalIdentifiers = {
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
-};
+} as const;
 
 export const UserStatuses = {
     OUT_OF_OFFICE: 'ooo',
@@ -249,7 +251,7 @@ export const UserStatuses = {
     AWAY: 'away',
     ONLINE: 'online',
     DND: 'dnd',
-};
+} as const;
 
 export const EventTypes = Object.assign(
     {
@@ -273,20 +275,20 @@ export const A11yClassNames = {
     FOCUSED: 'a11y--focused',
     MODAL: 'a11y__modal',
     POPUP: 'a11y__popup',
-};
+} as const;
 
 export const A11yAttributeNames = {
     SORT_ORDER: 'data-a11y-sort-order',
     ORDER_REVERSE: 'data-a11y-order-reversed',
     FOCUS_CHILD: 'data-a11y-focus-child',
     LOOP_NAVIGATION: 'data-a11y-loop-navigation',
-};
+} as const;
 
 export const A11yCustomEventTypes = {
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
     UPDATE: 'a11yupdate',
-};
+} as const;
 
 export const SocketEvents = {
     POSTED: 'posted',
@@ -333,7 +335,7 @@ export const SocketEvents = {
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
-};
+} as const;
 
 export const TutorialSteps = {
     INTRO_SCREENS: 0,
@@ -341,7 +343,7 @@ export const TutorialSteps = {
     CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     FINISHED: 999,
-};
+} as const;
 
 export const PostTypes = {
     JOIN_LEAVE: 'system_join_leave',
@@ -365,7 +367,7 @@ export const PostTypes = {
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
     ME: 'me',
-};
+} as const;
 
 export const StatTypes = keyMirror({
     TOTAL_USERS: null,
@@ -394,7 +396,7 @@ export const StatTypes = keyMirror({
 export const SearchUserTeamFilter = {
     ALL_USERS: '',
     NO_TEAM: 'no_team',
-};
+} as const;
 
 // UserSearchOptions are the possible option keys for a user search request
 export const UserSearchOptions = {
@@ -407,7 +409,7 @@ export const UserSearchOptions = {
     GROUP_CONSTRAINED: 'group_constrained',
     ROLE: 'role',
     LIMIT: 'limit',
-};
+} as const;
 
 // UserListOptions are the possible option keys for get users page request
 export const UserListOptions = {
@@ -420,14 +422,14 @@ export const UserListOptions = {
     GROUP_CONSTRAINED: 'group_constrained',
     SORT: 'sort',
     ROLE: 'role',
-};
+} as const;
 
 // UserFilters are the values for UI get/search user filters
 export const UserFilters = {
     INACTIVE: 'inactive',
     SYSTEM_ADMIN: 'system_admin',
     SYSTEM_GUEST: 'system_guest',
-};
+} as const;
 
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
@@ -455,12 +457,12 @@ export const StoragePrefixes = {
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
-};
+} as const;
 
 export const LandingPreferenceTypes = {
     MATTERMOSTAPP: 'mattermostapp',
     BROWSER: 'browser',
-};
+} as const;
 
 export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
@@ -471,14 +473,14 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
-};
+} as const;
 
 export const JobTypes = {
     DATA_RETENTION: 'data_retention',
     ELASTICSEARCH_POST_INDEXING: 'elasticsearch_post_indexing',
     LDAP_SYNC: 'ldap_sync',
     MESSAGE_EXPORT: 'message_export',
-};
+} as const;
 
 export const JobStatuses = {
     PENDING: 'pending',
@@ -487,14 +489,14 @@ export const JobStatuses = {
     ERROR: 'error',
     CANCEL_REQUESTED: 'cancel_requested',
     CANCELED: 'canceled',
-};
+} as const;
 
 export const AnnouncementBarTypes = {
     ANNOUNCEMENT: 'announcement',
     CRITICAL: 'critical',
     DEVELOPER: 'developer',
     SUCCESS: 'success',
-};
+} as const;
 
 export const AnnouncementBarMessages = {
     EMAIL_VERIFICATION_REQUIRED: t('announcement_bar.error.email_verification_required'),
@@ -504,12 +506,12 @@ export const AnnouncementBarMessages = {
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
-};
+} as const;
 
 export const VerifyEmailErrors = {
     FAILED_EMAIL_VERIFICATION: 'failed_email_verification',
     FAILED_USER_STATE_GET: 'failed_get_user_state',
-};
+} as const;
 
 export const FileTypes = {
     IMAGE: 'image',
@@ -523,20 +525,20 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
-};
+} as const;
 
 export const NotificationLevels = {
     DEFAULT: 'default',
     ALL: 'all',
     MENTION: 'mention',
     NONE: 'none',
-};
+} as const;
 
 export const IgnoreChannelMentions = {
     ON: 'on',
     OFF: 'off',
     DEFAULT: 'default',
-};
+} as const;
 
 export const NotificationSections = {
     IGNORE_CHANNEL_MENTIONS: 'ignoreChannelMentions',
@@ -544,14 +546,14 @@ export const NotificationSections = {
     DESKTOP: 'desktop',
     PUSH: 'push',
     NONE: '',
-};
+} as const;
 
 export const AdvancedSections = {
     CONTROL_SEND: 'advancedCtrlSend',
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
-};
+} as const;
 
 export const RHSStates = {
     MENTION: 'mention',
@@ -559,29 +561,29 @@ export const RHSStates = {
     FLAG: 'flag',
     PIN: 'pin',
     PLUGIN: 'plugin',
-};
+} as const;
 
 export const UploadStatuses = {
     LOADING: 'loading',
     COMPLETE: 'complete',
     DEFAULT: '',
-};
+} as const;
 
 export const GroupUnreadChannels = {
     DISABLED: 'disabled',
     DEFAULT_ON: 'default_on',
     DEFAULT_OFF: 'default_off',
-};
+} as const;
 
 export const SidebarChannelGroups = {
     UNREADS: 'unreads',
     FAVORITE: 'favorite',
-};
+} as const;
 
 export const AboutLinks = {
     TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
     PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
-};
+} as const;
 
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
@@ -646,7 +648,7 @@ export const PermissionsScope = {
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
     [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
-};
+} as const;
 
 export const DefaultRolePermissions = {
     all_users: [
@@ -677,8 +679,8 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.DELETE_POST,
         Permissions.EDIT_POST,
-        Permissions.MANAGE_CREATE_EMOJIS,
-        Permissions.MANAGE_DELETE_EMOJIS,
+        Permissions.CREATE_EMOJIS,
+        Permissions.DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
@@ -724,7 +726,7 @@ export const DefaultRolePermissions = {
         Permissions.UPLOAD_FILE,
         Permissions.CREATE_POST,
     ],
-};
+} as const;
 
 export const Locations = {
     CENTER: 'CENTER',
@@ -732,7 +734,7 @@ export const Locations = {
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
     NO_WHERE: 'NO_WHERE'
-};
+} as const;
 
 export const PostListRowListIds = {
     DATE_LINE: PostListUtils.DATE_LINE,
@@ -742,7 +744,7 @@ export const PostListRowListIds = {
     NEWER_MESSAGES_LOADER: 'NEWER_MESSAGES_LOADER',
     LOAD_OLDER_MESSAGES_TRIGGER: 'LOAD_OLDER_MESSAGES_TRIGGER',
     LOAD_NEWER_MESSAGES_TRIGGER: 'LOAD_NEWER_MESSAGES_TRIGGER',
-};
+} as const;
 
 export const Constants = {
     SettingsTypes,
@@ -1415,9 +1417,9 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
-};
+} as const;
 
-export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
+export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'] as const;
 
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');

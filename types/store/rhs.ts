@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {RHSStates, ValueOf} from 'utils/constants';
+
 export type RhsViewState = {
     selectedPostId: string;
     selectedPostFocussedAt: number;
     selectedPostCardId: string;
     selectedChannelId: string;
-    previousRhsState: RhsState;
-    rhsState: RhsState;
+    previousRhsState: ValueOf<typeof RHSStates>;
+    rhsState: ValueOf<typeof RHSStates>;
     searchTerms: string;
     pluginId: string;
     searchResultsTerms: string;
@@ -17,5 +19,3 @@ export type RhsViewState = {
     isSidebarExpanded: boolean;
     isMenuOpen: boolean;
 };
-
-export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin';
