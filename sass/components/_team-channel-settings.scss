@@ -41,7 +41,11 @@ span.greyed-out {
     max-width: 440px;
 }
 .large-team-image-col {
-    max-width: 120px;
+    max-width: 129px;
+    padding-right: 20px;
+}
+.team-desc-col {
+    line-height: 20px;
 }
 .center-row > div {
     display: inline-block;
@@ -67,4 +71,8 @@ span.greyed-out {
     opacity: 0.6;
     font-size: 12px;
     line-height: 17px;
+}
+
+#teams, #team_profile{
+    margin-top: 0px;
 }

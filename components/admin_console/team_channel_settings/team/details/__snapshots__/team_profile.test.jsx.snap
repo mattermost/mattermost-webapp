@@ -28,7 +28,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
           />
         </div>
         <div
-          className="col-sm-10"
+          className="col-sm-10 team-desc-col"
         >
           <div
             className="row row-bottom-padding"
