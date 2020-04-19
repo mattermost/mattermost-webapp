@@ -57,9 +57,9 @@
 
     .post {
         &.post--root {
-            border-bottom: 1px solid v(center-chanenl-color-16);
-            padding-bottom: 1em;
-            padding-left: 1.6em;
+            border-bottom: 1px solid v(center-channel-color-16);
+            padding-top: 2rem;
+            padding-bottom: 1.2rem;
 
             .post__body {
                 background: transparent !important;

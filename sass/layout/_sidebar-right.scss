@@ -250,6 +250,11 @@
             border-color: transparent;
             background: v(center-channel-color-08);
         }
+
+        &:active {
+            color: v(button-bg);
+            background: v(button-bg-08);
+        }
     }
 
     .sidebar--right__header {

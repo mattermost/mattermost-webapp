@@ -421,7 +421,6 @@ class RhsRootPost extends React.PureComponent {
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
             >
-                <div className='post-right-channel__name'>{channelName}</div>
                 <div
                     role='application'
                     className='post__content'
