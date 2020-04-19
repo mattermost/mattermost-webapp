@@ -21,7 +21,7 @@ import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
+import Constants, {FileTypes, UserStatuses} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import bing from 'images/bing.mp3';

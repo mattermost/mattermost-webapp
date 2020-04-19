@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {getShortenedURL} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';

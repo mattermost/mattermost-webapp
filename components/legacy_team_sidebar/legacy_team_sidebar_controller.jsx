@@ -9,7 +9,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
