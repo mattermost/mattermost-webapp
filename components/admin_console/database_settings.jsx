@@ -286,7 +286,7 @@ export default class DatabaseSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.sql.disableDatabaseSearchDescription'
-                            defaultMessage='Disables the use of the database to perform searches. Should only be used  when other search engines are configured.'
+                            defaultMessage='Disables the use of the database to perform searches. Should only be used when other search engines are configured.'
                         />
                     }
                     value={this.state.disableDatabaseSearch}
