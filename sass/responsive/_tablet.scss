@@ -507,6 +507,10 @@
 }
 
 @media screen and (max-width: 1020px) {
+    .channel-header {
+        z-index: 5;
+    }
+
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
