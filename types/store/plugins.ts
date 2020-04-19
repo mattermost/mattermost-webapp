@@ -5,6 +5,7 @@ import React from 'react';
 
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {Post} from 'mattermost-redux/types/posts';
 
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
@@ -31,20 +32,20 @@ export type PluginsState = {
 export type PluginComponent = {
     id: string;
     pluginId: string;
-    component: React.Component;
+    component: React.ComponentType<any>;
 };
 
 export type PostPluginComponent = {
     id: string;
     pluginId: string;
     type: string;
-    component: React.Component;
+    component: React.ComponentType<{post: Post}>;
 };
 
 export type AdminConsolePluginComponent = {
     pluginId: string;
     key: string;
-    component: React.Component;
+    component: React.ComponentType<any>;
     options: {
         showTitle: boolean;
     };

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defining card types 1`] = `
+exports[`components/rhs_card/RhsCard should match on post when no plugin defining card types 1`] = `
 <div
   className="sidebar-right__body sidebar-right__card"
 >
@@ -46,17 +46,38 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
                   compactDisplay={false}
                   post={
                     Object {
+                      "channel_id": "channelID",
                       "create_at": 1542994995740,
+                      "delete_at": 1543254195740,
+                      "edit_at": 1543167795740,
+                      "hashtags": "#abc",
                       "id": "123",
+                      "is_pinned": false,
                       "message": "test",
+                      "metadata": Object {
+                        "embeds": Array [],
+                        "emojis": Array [],
+                        "files": Array [],
+                        "images": Object {},
+                        "reactions": Array [],
+                      },
+                      "original_id": "originalID",
+                      "parent_id": "parentID",
+                      "pending_post_id": "pendingPostID",
                       "props": Object {},
-                      "type": "test",
+                      "reply_count": 0,
+                      "root_id": "rootID",
+                      "type": "system_join_channel",
+                      "update_at": 1543081395740,
+                      "user_id": "userID",
                     }
                   }
+                  userId="userID"
                 />,
                 "user": <Connect(UserProfile)
                   disablePopover={true}
                   hideStatus={true}
+                  userId="userID"
                 />,
               }
             }
@@ -68,7 +89,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
           <Link
             className="post__permalink"
             onClick={[Function]}
-            to="undefined/pl/123"
+            to="team/url/pl/123"
           >
             <FormattedMessage
               defaultMessage="Jump"
@@ -83,7 +104,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
 </div>
 `;
 
-exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types don't match with the post type 1`] = `
+exports[`components/rhs_card/RhsCard should match on post when plugin defining card types don't match with the post type 1`] = `
 <div
   className="sidebar-right__body sidebar-right__card"
 >
@@ -129,17 +150,38 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                   compactDisplay={false}
                   post={
                     Object {
+                      "channel_id": "channelID",
                       "create_at": 1542994995740,
+                      "delete_at": 1543254195740,
+                      "edit_at": 1543167795740,
+                      "hashtags": "#abc",
                       "id": "123",
+                      "is_pinned": false,
                       "message": "test",
+                      "metadata": Object {
+                        "embeds": Array [],
+                        "emojis": Array [],
+                        "files": Array [],
+                        "images": Object {},
+                        "reactions": Array [],
+                      },
+                      "original_id": "originalID",
+                      "parent_id": "parentID",
+                      "pending_post_id": "pendingPostID",
                       "props": Object {},
-                      "type": "test",
+                      "reply_count": 0,
+                      "root_id": "rootID",
+                      "type": "system_join_channel",
+                      "update_at": 1543081395740,
+                      "user_id": "userID",
                     }
                   }
+                  userId="userID"
                 />,
                 "user": <Connect(UserProfile)
                   disablePopover={true}
                   hideStatus={true}
+                  userId="userID"
                 />,
               }
             }
@@ -151,7 +193,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
           <Link
             className="post__permalink"
             onClick={[Function]}
-            to="undefined/pl/123"
+            to="team/url/pl/123"
           >
             <FormattedMessage
               defaultMessage="Jump"
@@ -166,7 +208,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
 </div>
 `;
 
-exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining card types match with the post type 1`] = `
+exports[`components/rhs_card/RhsCard should match on post when plugin defining card types match with the post type 1`] = `
 <div
   className="sidebar-right__body sidebar-right__card"
 >
@@ -195,11 +237,30 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
       <component
         post={
           Object {
+            "channel_id": "channelID",
             "create_at": 1542994995740,
+            "delete_at": 1543254195740,
+            "edit_at": 1543167795740,
+            "hashtags": "#abc",
             "id": "123",
+            "is_pinned": false,
             "message": "test",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
+            "original_id": "originalID",
+            "parent_id": "parentID",
+            "pending_post_id": "pendingPostID",
             "props": Object {},
-            "type": "test",
+            "reply_count": 0,
+            "root_id": "rootID",
+            "type": "system_join_channel",
+            "update_at": 1543081395740,
+            "user_id": "userID",
           }
         }
       />
@@ -218,17 +279,38 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                   compactDisplay={false}
                   post={
                     Object {
+                      "channel_id": "channelID",
                       "create_at": 1542994995740,
+                      "delete_at": 1543254195740,
+                      "edit_at": 1543167795740,
+                      "hashtags": "#abc",
                       "id": "123",
+                      "is_pinned": false,
                       "message": "test",
+                      "metadata": Object {
+                        "embeds": Array [],
+                        "emojis": Array [],
+                        "files": Array [],
+                        "images": Object {},
+                        "reactions": Array [],
+                      },
+                      "original_id": "originalID",
+                      "parent_id": "parentID",
+                      "pending_post_id": "pendingPostID",
                       "props": Object {},
-                      "type": "test",
+                      "reply_count": 0,
+                      "root_id": "rootID",
+                      "type": "system_join_channel",
+                      "update_at": 1543081395740,
+                      "user_id": "userID",
                     }
                   }
+                  userId="userID"
                 />,
                 "user": <Connect(UserProfile)
                   disablePopover={true}
                   hideStatus={true}
+                  userId="userID"
                 />,
               }
             }
@@ -240,7 +322,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
           <Link
             className="post__permalink"
             onClick={[Function]}
-            to="undefined/pl/123"
+            to="team/url/pl/123"
           >
             <FormattedMessage
               defaultMessage="Jump"
@@ -255,4 +337,4 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
 </div>
 `;
 
-exports[`comoponents/rhs_card/RhsCard should match when no post is selected 1`] = `<div />`;
+exports[`components/rhs_card/RhsCard should match when no post is selected 1`] = `<div />`;
