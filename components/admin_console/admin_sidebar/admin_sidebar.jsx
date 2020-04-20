@@ -7,6 +7,8 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
+import {haveINoPermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+
 import * as Utils from 'utils/utils.jsx';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -50,6 +52,7 @@ class AdminSidebar extends React.Component {
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
         navigationBlocked: PropTypes.bool.isRequired,
+        globalstate: PropTypes.object.isRequired,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
@@ -152,7 +155,7 @@ class AdminSidebar extends React.Component {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
+            if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem)) {
                 return false;
             }
             return true;
@@ -171,71 +174,70 @@ class AdminSidebar extends React.Component {
     renderRootMenu = (definition) => {
         const sidebarSections = [];
         Object.values(definition).forEach((section, sectionIndex) => {
-            const sidebarItems = [];
-            Object.values(section).forEach((item, itemIndex) => {
-                if (!item.title) {
-                    return;
-                }
-
-                if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
-                    return;
-                }
-
-                if (this.state.sections !== null) {
-                    let active = false;
-                    for (const url of this.state.sections) {
-                        if (url === item.url) {
-                            active = true;
-                        }
-                    }
-                    if (!active) {
+            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
+            if (!isSectionHidden) {
+                const sidebarItems = [];
+                Object.values(section).forEach((item, itemIndex) => {
+                    if (!item.title) {
                         return;
                     }
+
+                    if (this.state.sections !== null) {
+                        let active = false;
+                        for (const url of this.state.sections) {
+                            if (url === item.url) {
+                                active = true;
+                            }
+                        }
+                        if (!active) {
+                            return;
+                        }
+                    }
+
+                    sidebarItems.push((
+                        <AdminSidebarSection
+                            key={itemIndex}
+                            name={item.url}
+                            title={
+                                <FormattedMessage
+                                    id={item.title}
+                                    defaultMessage={item.title_default}
+                                />
+                            }
+                        />
+                    ));
+                });
+
+                // Special case for plugins entries
+                let moreSidebarItems = [];
+                if (section.id === 'plugins') {
+                    moreSidebarItems = this.renderPluginsMenu();
                 }
 
-                sidebarItems.push((
-                    <AdminSidebarSection
-                        key={itemIndex}
-                        name={item.url}
-                        title={
-                            <FormattedMessage
-                                id={item.title}
-                                defaultMessage={item.title_default}
-                            />
-                        }
-                    />
-                ));
-            });
+                // If no visible items, don't display this section
+                if (sidebarItems.length === 0 && moreSidebarItems.length === 0) {
+                    return null;
+                }
 
-            // Special case for plugins entries
-            let moreSidebarItems = [];
-            if (section.id === 'plugins') {
-                moreSidebarItems = this.renderPluginsMenu();
-            }
-
-            // If no visible items, don't display this section
-            if (sidebarItems.length === 0 && moreSidebarItems.length === 0) {
-                return null;
-            }
-
-            if (sidebarItems.length || moreSidebarItems.length) {
-                sidebarSections.push((
-                    <AdminSidebarCategory
-                        key={sectionIndex}
-                        parentLink='/admin_console'
-                        icon={section.icon}
-                        sectionClass=''
-                        title={
-                            <FormattedMessage
-                                id={section.sectionTitle}
-                                defaultMessage={section.sectionTitleDefault}
-                            />
-                        }
-                    >
-                        {sidebarItems}
-                        {moreSidebarItems}
-                    </AdminSidebarCategory>
-                ));
+                if (sidebarItems.length || moreSidebarItems.length) {
+                    sidebarSections.push((
+                        <AdminSidebarCategory
+                            key={sectionIndex}
+                            parentLink='/admin_console'
+                            icon={section.icon}
+                            sectionClass=''
+                            title={
+                                <FormattedMessage
+                                    id={section.sectionTitle}
+                                    defaultMessage={section.sectionTitleDefault}
+                                />
+                            }
+                        >
+                            {sidebarItems}
+                            {moreSidebarItems}
+                        </AdminSidebarCategory>
+                    ));
+                }
             }
             return null;
         });

@@ -13,6 +13,7 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 interface Props {
     channel: ChannelWithTeamData;
     onRowClick: (id: string) => void;
+    isDisabled? : boolean;
 }
 
 export default class ChannelRow extends React.Component<Props> {
@@ -53,7 +54,9 @@ export default class ChannelRow extends React.Component<Props> {
                         className='group-actions'
                         data-testid={`${channel.display_name}edit`}
                     >
-                        <Link to={`/admin_console/user_management/channels/${channel.id}`} >
+                        <Link
+                            to={`/admin_console/user_management/channels/${channel.id}`}
+                        >
                             <FormattedMessage
                                 id='admin.channel_settings.channel_row.configure'
                                 defaultMessage='Edit'

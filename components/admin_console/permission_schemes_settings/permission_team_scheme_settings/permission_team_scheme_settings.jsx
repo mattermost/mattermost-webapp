@@ -35,6 +35,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         roles: PropTypes.object.isRequired,
         license: PropTypes.object.isRequired,
         teams: PropTypes.array,
+        isDisabled: PropTypes.bool,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             loadScheme: PropTypes.func.isRequired,
@@ -520,6 +521,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                         value={schemeName}
                                         placeholder={{id: t('admin.permissions.teamScheme.schemeNamePlaceholder'), defaultMessage: 'Scheme Name'}}
                                         onChange={this.handleNameChange}
+                                        disabled={this.props.isDisabled}
                                     />
                                 </div>
                                 <div className='form-group'>
@@ -539,6 +541,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                         value={schemeDescription}
                                         placeholder={localizeMessage('admin.permissions.teamScheme.schemeDescriptionPlaceholder', 'Scheme Description')}
                                         onChange={this.handleDescriptionChange}
+                                        disabled={this.props.isDisabled}
                                     />
                                 </div>
                             </div>
@@ -553,6 +556,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             onButtonClick={this.openAddTeam}
                             buttonTextId={t('admin.permissions.teamScheme.addTeams')}
                             buttonTextDefault='Add Teams'
+                            disabled={this.props.isDisabled}
                         >
                             <div className='teams-list'>
                                 {teams.length === 0 &&
@@ -582,6 +586,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                 titleDefault='Guests'
                                 subtitleId={t('admin.permissions.systemScheme.GuestsDescription')}
                                 subtitleDefault='Permissions granted to guest users.'
+                                disabled={this.props.isDisabled}
                             >
                                 <GuestPermissionsTree
                                     selected={this.state.selectedPermission}
@@ -589,7 +594,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                     scope={'team_scope'}
                                     onToggle={this.togglePermission}
                                     selectRow={this.selectRow}
-                                    readOnly={!this.haveGuestAccountsPermissions()}
+                                    readOnly={this.props.isDisabled || !this.haveGuestAccountsPermissions()}
                                 />
                             </AdminPanelTogglable>
                         }
@@ -603,6 +608,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             titleDefault='All Members'
                             subtitleId={t('admin.permissions.systemScheme.allMembersDescription')}
                             subtitleDefault='Permissions granted to all members, including administrators and newly created users.'
+                            disabled={this.props.isDisabled}
                         >
                             <PermissionsTree
                                 selected={this.state.selectedPermission}
@@ -610,6 +616,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                 scope={'team_scope'}
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanelTogglable>
 
@@ -621,6 +628,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             titleDefault='Channel Administrators'
                             subtitleId={t('admin.permissions.systemScheme.channelAdminsDescription')}
                             subtitleDefault='Permissions granted to channel creators and any users promoted to Channel Administrator.'
+                            disabled={this.props.isDisabled}
                         >
                             <PermissionsTree
                                 parentRole={roles.all_users}
@@ -628,6 +636,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                 scope={'channel_scope'}
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanelTogglable>
 
@@ -639,6 +648,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                             titleDefault='Team Administrators'
                             subtitleId={t('admin.permissions.systemScheme.teamAdminsDescription')}
                             subtitleDefault='Permissions granted to team creators and any users promoted to Team Administrator.'
+                            disabled={this.props.isDisabled}
                         >
                             <PermissionsTree
                                 parentRole={roles.all_users}
@@ -646,6 +656,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                                 scope={'team_scope'}
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
+                                readOnly={this.props.isDisabled}
                             />
                         </AdminPanelTogglable>
                     </div>
@@ -654,7 +665,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                 <div className='admin-console-save'>
                     <SaveButton
                         saving={this.state.saving}
-                        disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                        disabled={this.props.isDisabled || !this.state.saveNeeded || (this.canSave && !this.canSave())}
                         onClick={this.handleSubmit}
                         savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                     />

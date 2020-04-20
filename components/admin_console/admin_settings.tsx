@@ -15,6 +15,7 @@ type Props = {
     environmentConfig?: object;
     setNavigationBlocked?: (blocked: boolean) => void;
     updateConfig?: (config: object) => {data: object; error: ClientErrorPlaceholder};
+    isDisabled?: boolean;
 }
 
 type State = {
@@ -229,7 +230,7 @@ export default abstract class AdminSettings extends React.Component<Props, State
                     <div className='admin-console-save'>
                         <SaveButton
                             saving={this.state.saving}
-                            disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                            disabled={this.props.isDisabled || !this.state.saveNeeded || (this.canSave && !this.canSave())}
                             onClick={this.handleSubmit}
                             savingMessage={localizeMessage('admin.saving', 'Saving Config...')}
                         />

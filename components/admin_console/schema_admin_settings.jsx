@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
+import {haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+
 import * as I18n from 'i18n/i18n.jsx';
 
 import Constants from 'utils/constants';
@@ -47,6 +49,8 @@ export default class SchemaAdminSettings extends React.Component {
         license: PropTypes.object,
         editRole: PropTypes.func,
         updateConfig: PropTypes.func.isRequired,
+        globalstate: PropTypes.object,
+        isDisabled: PropTypes.bool,
     }
 
     constructor(props) {
@@ -346,7 +350,8 @@ export default class SchemaAdminSettings extends React.Component {
 
     isDisabled = (setting) => {
         if (typeof setting.isDisabled === 'function') {
-            return setting.isDisabled(this.props.config, this.state, this.props.license);
+            var result = setting.isDisabled(this.props.config, this.state, this.props.license, this.props.globalstate, haveINoWritePermissionOnSysConsoleItem);
+            return result;
         }
         return Boolean(setting.isDisabled);
     }
@@ -984,7 +989,10 @@ export default class SchemaAdminSettings extends React.Component {
         if (schema && schema.component && schema.settings) {
             const CustomComponent = schema.component;
             return (
-                <CustomComponent {...this.props}/>
+                <CustomComponent
+                    {...this.props}
+                    disabled={this.props.isDisabled}
+                />
             );
         }
         return null;
@@ -995,7 +1003,10 @@ export default class SchemaAdminSettings extends React.Component {
         if (schema && schema.component && !schema.settings) {
             const CustomComponent = schema.component;
             return (
-                <CustomComponent {...this.props}/>
+                <CustomComponent
+                    {...this.props}
+                    disabled={this.props.isDisabled}
+                />
             );
         }
 

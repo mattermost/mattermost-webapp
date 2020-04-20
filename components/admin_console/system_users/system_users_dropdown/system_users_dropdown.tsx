@@ -37,6 +37,7 @@ type Props = {
     config: any;
     bots: Dictionary<Bot>;
     isLicensed: boolean;
+    isDisabled: boolean;
     actions: {
         updateUserActive: (id: string, active: boolean) => Promise<{error: Error}>;
         revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
@@ -520,7 +521,9 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 {revokeSessionsModal}
                 {promoteToUserModal}
                 {demoteToGuestModal}
-                <MenuWrapper>
+                <MenuWrapper
+                    isDisabled={this.props.isDisabled}
+                >
                     <div className='text-right'>
                         <a>
                             <span>{currentRoles} </span>

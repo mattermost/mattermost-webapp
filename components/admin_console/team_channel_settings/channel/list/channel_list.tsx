@@ -28,6 +28,7 @@ interface ChannelListProps {
     onPageChangedCallback?: () => void;
     emptyListTextId?: string;
     emptyListTextDefaultMessage?: string;
+    isDisabled?: boolean;
 }
 
 interface ChannelListState {
@@ -61,6 +62,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                         onChange={this.searchBarChangeHandler}
                         value={this.state.searchString}
                         data-testid='search-input'
+                        disabled={this.props.isDisabled}
                     />
                     <SearchIcon
                         id='searchIcon'
@@ -170,6 +172,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                 key={item.id}
                 channel={item}
                 onRowClick={this.onChannelClick}
+                isDisabled={this.props.isDisabled}
             />
         );
     };

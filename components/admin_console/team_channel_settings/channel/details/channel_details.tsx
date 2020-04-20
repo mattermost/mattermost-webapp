@@ -38,6 +38,7 @@ interface ChannelDetailsProps {
     allGroups: {[gid: string]: Group}; // hashmap of groups
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
+    isDisabled: boolean;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -496,6 +497,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             isSynced={isSynced}
                             isDefault={isDefault}
                             onToggle={this.setToggles}
+                            isDisabled={this.props.isDisabled}
                         />
 
                         <ChannelModeration
@@ -504,6 +506,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             teamSchemeID={teamScheme?.id}
                             teamSchemeDisplayName={teamScheme?.['display_name']}
                             guestAccountsEnabled={this.props.guestAccountsEnabled}
+                            isDisabled={this.props.isDisabled}
                         />
 
                         <ChannelGroups
@@ -515,6 +518,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
                             setNewGroupRole={this.setNewGroupRole}
+                            isDisabled={this.props.isDisabled}
                         />
                     </div>
                 </div>
@@ -525,6 +529,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                     onClick={this.onSave}
                     serverError={serverError}
                     cancelLink='/admin_console/user_management/channels'
+                    isDisabled={this.props.isDisabled}
                 />
             </div>
         );

@@ -168,6 +168,7 @@ interface Props {
     teamSchemeID?: string;
     teamSchemeDisplayName?: string;
     guestAccountsEnabled: boolean;
+    isDisabled: boolean;
 }
 
 interface RowProps {

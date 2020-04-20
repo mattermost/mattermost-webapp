@@ -778,6 +778,7 @@ export default class PluginManagement extends AdminSettings {
                     value={this.state.enable}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('PluginSettings.Enable')}
+                    disabled={this.props.isDisabled}
                 />
             );
         }
@@ -962,7 +963,7 @@ export default class PluginManagement extends AdminSettings {
                                 />
                             }
                             value={this.state.requirePluginSignature}
-                            disabled={!this.state.enable}
+                            disabled={this.props.isDisabled || !this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.RequirePluginSignature')}
                         />
@@ -981,7 +982,7 @@ export default class PluginManagement extends AdminSettings {
                                 />
                             }
                             value={this.state.automaticPrepackagedPlugins}
-                            disabled={!this.state.enable}
+                            disabled={this.props.isDisabled || !this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
                         />
@@ -1046,7 +1047,7 @@ export default class PluginManagement extends AdminSettings {
                                 />
                             }
                             value={this.state.enableMarketplace}
-                            disabled={!this.state.enable}
+                            disabled={this.props.isDisabled || !this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
                         />
@@ -1065,7 +1066,7 @@ export default class PluginManagement extends AdminSettings {
                                 />
                             }
                             value={this.state.enableRemoteMarketplace}
-                            disabled={!this.state.enable || !this.state.enableMarketplace}
+                            disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
                         />
@@ -1080,7 +1081,7 @@ export default class PluginManagement extends AdminSettings {
                             }
                             helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
                             value={this.state.marketplaceUrl}
-                            disabled={!this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
+                            disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                         />
