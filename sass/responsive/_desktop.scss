@@ -3,6 +3,10 @@
 @media screen and (min-width: 1680px) {
     .sidebar--right {
         width: 500px;
+
+        .sidebar--right__title__channel {
+            max-width: 30rem;
+        }
     }
 
     .channel-header {
