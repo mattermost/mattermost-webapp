@@ -4,7 +4,7 @@
 
 .groups-list {
     @include single-transition(all, .4s, ease-in-out, 0s);
-    padding: 1rem 2rem 2rem 2rem;
+    padding: 2rem 2rem 2rem 2rem;
 
     &.groups-list-less-padding {
         padding: 0;
@@ -319,6 +319,18 @@
     }
 }
 
+#GroupDisplayName{
+    &.group-profile{
+        padding-bottom: 0px;
+    }
+}
+
+#GroupMention{
+    &.group-profile{
+        padding-top: 0px;
+    }
+}
+
 .group-profile {
     padding: 20px;
 }
@@ -628,6 +640,12 @@
     }
 }
 
+.group-settings {
+    .group-settings--body {
+        padding: 0px 20px 20px 20px;
+    }
+}
+
 .group-profile-add-menu {
     position: relative;
     margin-left: 10px;
@@ -684,7 +702,8 @@
     z-index: 0;
 
     hr {
-        border-color: #cccccc;
+        border-color: #333333;
+        opacity: .12;
         margin: 0;
         position: relative;
         top: 2rem;

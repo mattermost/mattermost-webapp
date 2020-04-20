@@ -1363,31 +1363,14 @@
             @include single-transition(all, .2s, linear);
             @include translateX(0);
             background: $white;
-            border: none;
+            border-color: transparent;
             margin-top: 9px;
-            padding-left: 40px;
             width: 100%;
 
             &:hover,
             &--focused,
             &--focused:hover {
-                border: none;
-            }
-
-            .fa-spin {
-                font-size: 1.1em;
-                top: 9px;
-            }
-
-            .search__icon {
-                left: 15px;
-                top: 8px;
-            }
-
-            .icon--refresh {
-                @include opacity(.6);
-                right: 16px;
-                top: 9px;
+                border-color: transparent;
             }
 
             .form-control {
@@ -1686,26 +1669,9 @@
         }
 
         .input-clear {
-            color: inherit;
-            height: 32px;
-            margin-right: 0;
-            text-align: center;
-            top: 0;
-            width: 42px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
             &.visible {
                 visibility: visible;
             }
-        }
-
-        .input-clear-x {
-            font-size: 21px;
-            font-weight: 700;
-            line-height: 0;
-            position: relative;
         }
 
         .sidebar--right__close {

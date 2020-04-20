@@ -77,6 +77,40 @@ export function isKeyPressed(event, key) {
     return event.keyCode === key[1];
 }
 
+/**
+ * check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
+ * @param  {object}  e - keydown event
+ * @return {boolean}
+ */
+export function isUnhandledLineBreakKeyCombo(e) {
+    return Boolean(
+        isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)) // alt/option + enter is already handled in Safari, so don't handle again
+    );
+}
+
+/**
+ * insert a new line character at keyboard cursor (or overwrites selection)
+ * @param  {object}  e - keydown event
+ * @return {string} message modified with new line inserted for app consumption
+ * WARNING: HAS DOM SIDE EFFECTS
+ */
+export function insertLineBreakFromKeyEvent(e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // replace text selection (or insert if no selection) with new line character
+    const newValue = `${value.substr(0, selectionStart)}\n${value.substr(selectionEnd, value.length)}`;
+
+    // update value on DOM element immediately and restore key cursor to correct position
+    el.value = newValue;
+    setSelectionRange(el, selectionStart + 1, selectionStart + 1);
+
+    // return the updated string so that component state can be updated
+    return newValue;
+}
+
 export function isInRole(roles, inRole) {
     if (roles) {
         var parts = roles.split(' ');
@@ -355,6 +389,10 @@ const removeQuerystringOrHash = (extin) => {
 export const getFileType = (extin) => {
     const ext = removeQuerystringOrHash(extin.toLowerCase());
 
+    if (Constants.TEXT_TYPES.indexOf(ext) > -1) {
+        return FileTypes.TEXT;
+    }
+
     if (Constants.IMAGE_TYPES.indexOf(ext) > -1) {
         return FileTypes.IMAGE;
     }
@@ -555,11 +593,11 @@ export function applyTheme(theme) {
     if (theme.centerChannelBg) {
         changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .post.post--compact .post-image__column, .app__body .status-wrapper .status, .app__body .alert.alert-transparent, .app__body .post-image__column', 'background:' + theme.centerChannelBg);
+        changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
         changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .post-image__details, .app__body .search-help-popover .search-autocomplete__divider span', 'background:' + theme.centerChannelBg);
+        changeCss('.app__body .search-help-popover .search-autocomplete__divider span', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .sidebar--right, .app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .popover.bottom>.arrow:after', 'border-bottom-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
@@ -573,7 +611,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .post .file-view--single', `background:${theme.centerChannelBg}`);
         changeCss('.app__body .modal-tabs .nav-tabs > li', `background:${theme.centerChannelBg}`);
         changeCss('.app__body .modal-tabs .nav-tabs > li > a', `background:${theme.centerChannelBg}`);
 
@@ -646,9 +683,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .popover.top>.arrow', 'border-top-color:' + changeOpacity(theme.centerChannelColor, 0.25));
         changeCss('.app__body .popover .popover__row', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
-        changeCss('.app__body .post-image__column', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .post-image__details', 'color:' + theme.centerChannelColor);
-        changeCss('.app__body .post-image__column a, .app__body .post-image__column a:hover, .app__body .post-image__column a:focus', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
@@ -667,7 +701,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post.post--hovered', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
         changeCss('.app__body .attachment__body__wrap.btn-close', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
         changeCss('.app__body .attachment__body__wrap.btn-close', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('@media(min-width: 768px){.app__body .post:hover, .app__body .post.a11y--active, .app__body .modal .settings-modal .settings-table .settings-content .section-min:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
+        changeCss('@media(min-width: 768px){.app__body .post.a11y--active, .app__body .modal .settings-modal .settings-table .settings-content .section-min:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
         changeCss('@media(min-width: 768px){.app__body .post.current--user:hover .post__body ', 'background: transparent;');
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
@@ -686,8 +720,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .post.post--comment.current--user .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .channel-header__info .status .offline--icon', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .navbar .status .offline--icon', 'fill:' + theme.centerChannelColor);
-        changeCss('.app__body .post-reaction:not(.post-reaction--current-user)', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.25));
-        changeCss('.app__body .post-reaction:not(.post-reaction--current-user)', 'color:' + changeOpacity(theme.centerChannelColor, 0.7));
         changeCss('.app__body .emoji-picker', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .emoji-picker__search-icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
@@ -749,34 +781,6 @@ export function applyTheme(theme) {
                 `background:${hoveredPostBg}`,
             );
 
-            // Apply a background behind the file attachments to cover any overflowing text in a collapsed post
-            changeCss(
-                '.app__body .post.current--user:not(.post--compact) .post-image__columns, ' +
-                '.app__body .post.current--user:not(.post--compact) .file-view--single, ' +
-                '.app__body .post--root.post--thread .post-image__columns, ' +
-                '.app__body .post--root.post--thread .file-view--single',
-                `background:${ownPostBg}`
-            );
-
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-image__columns, ' +
-                '.app__body .post-list__table .post:hover .file-view--single, ' +
-                '.app__body .post-right-comments-container .post:hover .post-image__columns, ' +
-                '.app__body .post-right-comments-container .post:hover .file-view--single, ' +
-                '.app__body .search-items-container .post:hover .post-image__columns, ' +
-                '.app__body .search-items-container .post:hover .file-view--single',
-                `background:${hoveredPostBg}`
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-image__columns, ' +
-                '.app__body .post-list__table .post.post--hovered .file-view--single, ' +
-                '.app__body .post-right-comments-container .post.post--hovered .post-image__columns, ' +
-                '.app__body .post-right-comments-container .post.post--hovered .file-view--single, ' +
-                '.app__body .search-items-container .post.post--hovered .post-image__columns, ' +
-                '.app__body .search-items-container .post.post--hovered .file-view--single',
-                `background:${hoveredPostBg}`
-            );
-
             // Fade out effect for permalinked posts
             if (theme.mentionHighlightBg) {
                 const highlightBg = blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5);
@@ -788,26 +792,11 @@ export function applyTheme(theme) {
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
                 );
-                changeCss(
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-image__columns, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-image__columns, ' +
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .file-view--single, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .file-view--single',
-                    `background:${highlightBg}`,
-                );
 
                 // For permalinked posts made by the current user
                 changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
-                );
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-image__columns, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .file-view--single',
-                    `background:${ownPostHighlightBg}`,
                 );
 
                 // For hovered posts
@@ -815,15 +804,6 @@ export function applyTheme(theme) {
                     '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, ' +
                     '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__show-more, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-image__columns, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-image__columns, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .file-view--single, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .file-view--single',
-                    `background:${highlightBg}`,
                 );
             }
         }
@@ -838,18 +818,15 @@ export function applyTheme(theme) {
         changeCss('.app__body .more-modal__list .a11y--focused, .app__body .post.a11y--focused, .app__body .channel-header.a11y--focused, .app__body .post-create.a11y--focused, .app__body .user-popover.a11y--focused, .app__body .post-message__text.a11y--focused, #archive-link-home>a.a11y--focused', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', inset 0 0 0 1px ' + theme.linkColor);
         changeCss('.multi-select__focused > div', 'box-shadow: 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', 0 0 0 1px ' + theme.linkColor);
         changeCss('.app__body .a11y--focused', 'box-shadow: 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', 0 0 0 1px ' + theme.linkColor);
-        changeCss('.app__body .DayPicker-Day--today, .app__body .post-add-reaction:hover .post-reaction, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
+        changeCss('.app__body .DayPicker-Day--today, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + changeOpacity(theme.linkColor, 0.5));
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover, .app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'background:' + changeOpacity(theme.linkColor, 0.08));
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .flag-icon__container.visible, .app__body .post .post__reply', 'fill:' + theme.linkColor);
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .post .flag-icon__container.visible, .app__body .post .card-icon__container.active svg, .app__body .post .post__reply', 'fill:' + theme.linkColor);
         changeCss('.app__body .channel-header .pinned-posts-button:hover svg', 'fill:' + changeOpacity(theme.linkColor, 0.6));
         changeCss('.app__body .member-list__popover .more-modal__actions svg', 'fill:' + theme.linkColor);
-        changeCss('.app__body .post-reaction.post-reaction--current-user, .app__body .post-reaction:hover', 'background:' + changeOpacity(theme.linkColor, 0.1));
-        changeCss('.app__body .post-add-reaction:hover .post-reaction, .app__body .post-reaction.post-reaction--current-user', 'border-color:' + changeOpacity(theme.linkColor, 0.4));
         changeCss('.app__body .modal-tabs .nav-tabs > li.active, .app__body .channel-header .channel-header_plugin-dropdown a:hover, .app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'border-color:' + theme.linkColor);
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover svg', 'fill:' + theme.linkColor);
-        changeCss('.app__body .post-reaction.post-reaction--current-user, .app__body .post-reaction:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .channel-header .dropdown-toggle:hover .heading, .app__body .channel-header .dropdown-toggle:hover .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .heading', 'color:' + theme.linkColor);
         changeCss('.emoji-picker__container .icon--emoji.active svg', 'fill:' + theme.linkColor);
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover .fa, .sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
@@ -963,6 +940,8 @@ export function applyTheme(theme) {
             'button-color-16': changeOpacity(theme.buttonColor, 0.16),
             'button-bg-08': changeOpacity(theme.buttonBg, 0.08),
             'button-color-08': changeOpacity(theme.buttonColor, 0.08),
+            'button-bg-04': changeOpacity(theme.buttonBg, 0.04),
+            'button-color-04': changeOpacity(theme.buttonColor, 0.04),
             'error-text': theme.errorTextColor,
             'error-text-08': changeOpacity(theme.errorTextColor, 0.08),
             'error-text-12': changeOpacity(theme.errorTextColor, 0.12),
