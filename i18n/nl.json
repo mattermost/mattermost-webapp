@@ -1,5 +1,5 @@
 {
-  "about.buildnumber": "Buildnummer:",
+  "about.buildnumber": "Compilatienummer:",
   "about.copyright": "Copyright 2015 - {currentYear} Mattermost, Inc. Alle rechten voorbehouden",
   "about.database": "Database:",
   "about.date": "Compilatiedatum:",
