@@ -836,15 +836,22 @@ export async function handleUserUpdatedEvent(msg) {
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
 
-    if (isGuest(user)) {
+    const config = getConfig(state);
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const userIsGuest = isGuest(user);
+    if (userIsGuest || isTimezoneEnabled) {
         let members = getMembersInCurrentChannel(state);
         const currentChannelId = getCurrentChannelId(state);
-        if (members && members[user.id]) {
-            dispatch(getChannelStats(currentChannelId));
-        } else {
+        if (!members || !members[user.id]) {
             await dispatch(getChannelMember(currentChannelId, user.id));
             members = getMembersInCurrentChannel(getState());
-            if (members && members[user.id]) {
+        }
+
+        if (members && members[user.id]) {
+            if (isTimezoneEnabled) {
+                dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
+            }
+            if (isGuest(user)) {
                 dispatch(getChannelStats(currentChannelId));
             }
         }
