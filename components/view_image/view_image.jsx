@@ -20,6 +20,9 @@ import ImagePreview from './image_preview';
 import PopoverBar from './popover_bar';
 
 const KeyCodes = Constants.KeyCodes;
+const DEFAULT_SCALE_DELTA = 1.1;
+const MIN_SCALE = 0.25;
+const MAX_SCALE = 5.0;
 
 export default class ViewImageModal extends React.PureComponent {
     static propTypes = {
@@ -71,6 +74,8 @@ export default class ViewImageModal extends React.PureComponent {
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
             progress: Utils.fillArray(0, this.props.fileInfos.length),
             showCloseBtn: false,
+            showZoomBtn: false,
+            scale: 1,
         };
     }
 
@@ -201,12 +206,44 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     onMouseEnterImage = () => {
+        const fileInfo = this.props.fileInfos[this.state.imageIndex];
+
         this.setState({showCloseBtn: true});
+
+        if (fileInfo && fileInfo.extension && fileInfo.extension === FileTypes.PDF) {
+            this.setState({showZoomBtn: true});
+        }
     }
 
     onMouseLeaveImage = () => {
+        const fileInfo = this.props.fileInfos[this.state.imageIndex];
+
         this.setState({showCloseBtn: false});
+
+        if (fileInfo && fileInfo.extension && fileInfo.extension === FileTypes.PDF) {
+            this.setState({showZoomBtn: false});
+        }
     }
+
+    handleZoomIn = () => {
+        let newScale = this.state.scale;
+        newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2);
+        newScale = Math.ceil(newScale * 10) / 10;
+        newScale = Math.min(MAX_SCALE, newScale);
+        this.setState(() => ({
+            scale: newScale
+        }));
+    };
+
+    handleZoomOut = () => {
+        let newScale = this.state.scale;
+        newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2);
+        newScale = Math.floor(newScale * 10) / 10;
+        newScale = Math.max(MIN_SCALE, newScale);
+        this.setState(() => ({
+            scale: newScale
+        }));
+    };
 
     render() {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {
@@ -245,6 +282,7 @@ export default class ViewImageModal extends React.PureComponent {
                         <PDFPreview
                             fileInfo={fileInfo}
                             fileUrl={fileUrl}
+                            scale={this.state.scale}
                         />
                     </React.Suspense>
                 );
@@ -318,9 +356,30 @@ export default class ViewImageModal extends React.PureComponent {
             );
         }
 
-        let closeButtonClass = 'modal-close';
+        let closeButton;
         if (this.state.showCloseBtn) {
-            closeButtonClass += ' modal-close--show';
+            closeButton = (
+                <div
+                    className='modal-close'
+                    onClick={this.props.onModalDismissed}
+                />
+            );
+        }
+
+        let zoomButtons;
+        if (this.state.showZoomBtn) {
+            zoomButtons = (
+                <div>
+                    <div
+                        className='modal-zoom-in'
+                        onClick={this.handleZoomIn}
+                    />
+                    <div
+                        className='modal-zoom-out'
+                        onClick={this.handleZoomOut}
+                    />
+                </div>
+            );
         }
 
         return (
@@ -349,10 +408,8 @@ export default class ViewImageModal extends React.PureComponent {
                             >
                                 {fileName}
                             </Modal.Title>
-                            <div
-                                className={closeButtonClass}
-                                onClick={this.props.onModalDismissed}
-                            />
+                            {closeButton}
+                            {zoomButtons}
                             <div className='modal-image__content'>
                                 {content}
                             </div>

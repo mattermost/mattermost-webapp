@@ -338,10 +338,13 @@
 
         .modal-image__content {
             background: #F3F3F3;
-            max-height: 91.5vh;
-            max-width: 96vw;
-            overflow-x: hidden;
-            overflow-y: visible;
+            // max-height: 91.5vh;
+            // max-width: 96vw;
+            height: 90vh;
+            width: 90vw;
+            // overflow-x: hidden;
+            // overflow-y: visible;
+            overflow: auto;
         }
 
         .post-code__container {
@@ -388,7 +391,7 @@
             .modal-close {
                 @include single-transition(opacity, .6s);
                 @include background-size(100% 100%);
-                @include opacity(0);
+                @include opacity(1);
                 background-image: url('../images/close.png');
                 cursor: pointer;
                 height: 37px;
@@ -398,10 +401,36 @@
                 transition: opacity .6s;
                 width: 37px;
                 z-index: 9999;
+            }
 
-                &.modal-close--show {
-                    @include opacity(1);
-                }
+            .modal-zoom-in {
+                @include single-transition(opacity, .6s);
+                @include background-size(100% 100%);
+                @include opacity(.4);
+                background-image: url('../images/zoom-in.png');
+                cursor: pointer;
+                height: 37px;
+                position: absolute;
+                right: 15px;
+                bottom: 90px;
+                transition: opacity .6s;
+                width: 37px;
+                z-index: 9999;
+            }
+
+            .modal-zoom-out {
+                @include single-transition(opacity, .6s);
+                @include background-size(100% 100%);
+                @include opacity(.4);
+                background-image: url('../images/zoom-out.png');
+                cursor: pointer;
+                height: 37px;
+                position: absolute;
+                right: 15px;
+                bottom: 50px;
+                transition: opacity .6s;
+                width: 37px;
+                z-index: 9999;
             }
 
             >div {
