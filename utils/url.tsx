@@ -114,7 +114,7 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
         isDirectMessageFormat = userIds.length === 2 && userIds[0].length === USER_ID_LENGTH && userIds[1].length === USER_ID_LENGTH;
 
         if (isDirectMessageFormat) {
-            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in Channel URLs.'));
+            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in channel URLs.'));
         }
     }
 
@@ -128,7 +128,7 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
         const startsWithoutLetter = url.charAt(0) === '-' || url.charAt(0) === '_';
         const endsWithoutLetter = url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_');
         if (startsWithoutLetter && endsWithoutLetter) {
-            errors.push(formattedError(t('change_url.startAndEndWithLetter'), 'URLs must start and end with a lowercase letter or a number.'));
+            errors.push(formattedError(t('change_url.startAndEndWithLetter'), 'URLs must start and end with a lowercase letter or number.'));
         } else if (startsWithoutLetter) {
             errors.push(formattedError(t('change_url.startWithLetter'), 'URLs must start with a lowercase letter or number.'));
         } else if (endsWithoutLetter) {
