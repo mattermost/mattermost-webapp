@@ -5,6 +5,7 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
@@ -73,6 +74,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
+    setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -133,6 +135,7 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
+            shouldShowPreview={false}
             isTimezoneEnabled={false}
             canPost={true}
             useChannelMentions={true}
@@ -264,10 +267,6 @@ describe('components/create_post', () => {
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
-
-        wrapper.setState({
-            showPreview: false,
-        });
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
@@ -1036,4 +1035,9 @@ describe('components/create_post', () => {
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
+
+    testComponentForLineBreak(
+        (value) => createPost({draft: {...draftProp, message: value}}),
+        (instance) => instance.state().message
+    );
 });

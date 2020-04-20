@@ -50,7 +50,7 @@ class ChannelMore extends React.PureComponent {
                     >
                         <button
                             id='sidebarPublicChannelsMore'
-                            aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
+                            aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'See more public channels'})}
                             className='nav-more cursor--pointer style--none btn--block'
                             onClick={this.moreChannelsPublic}
                         >
@@ -75,7 +75,7 @@ class ChannelMore extends React.PureComponent {
                         >
                             <button
                                 id='sidebarPrivateChannelsMore'
-                                aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
+                                aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'See more public channels'})}
                                 className='nav-more cursor--pointer style--none btn--block'
                                 onClick={this.moreChannelsPrivate}
                             >
@@ -97,7 +97,7 @@ class ChannelMore extends React.PureComponent {
                 >
                     <button
                         id='moreDirectMessage'
-                        aria-label={formatMessage({id: 'sidebar.moreDmAria', defaultMessage: 'more direct messages'})}
+                        aria-label={formatMessage({id: 'sidebar.moreDmAria', defaultMessage: 'See more direct messages'})}
                         className='nav-more cursor--pointer style--none btn--block'
                         onClick={moreDirectMessages}
                     >
@@ -117,7 +117,7 @@ class ChannelMore extends React.PureComponent {
                 >
                     <button
                         id='morePublicDirectChannels'
-                        aria-label={formatMessage({id: 'sidebar.morePublicDmAria', defaultMessage: 'more public channels direct messages'})}
+                        aria-label={formatMessage({id: 'sidebar.morePublicDmAria', defaultMessage: 'See more public channels direct messages'})}
                         className='nav-more cursor--pointer style--none btn--block'
                         onClick={browsePublicDirectChannels}
                     >

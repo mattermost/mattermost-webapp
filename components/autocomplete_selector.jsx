@@ -21,6 +21,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         disabled: PropTypes.bool,
         toggleFocus: PropTypes.func,
         listComponent: PropTypes.elementType,
+        listStyle: PropTypes.string,
     };
 
     static defaultProps = {
@@ -29,6 +30,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         labelClassName: '',
         inputClassName: '',
         listComponent: SuggestionList,
+        listStyle: 'top',
     };
 
     constructor(props) {
@@ -93,6 +95,7 @@ export default class AutocompleteSelector extends React.PureComponent {
             value,
             disabled,
             listComponent,
+            listStyle,
         } = this.props;
 
         const {focused} = this.state;
@@ -148,7 +151,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                         openWhenEmpty={true}
                         replaceAllInputOnSelect={true}
                         disabled={disabled}
-                        listStyle='bottom'
+                        listStyle={listStyle}
                     />
                     {helpTextContent}
                     {footer}

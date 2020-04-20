@@ -39,6 +39,7 @@ import {
 } from 'actions/views/rhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
+import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelHeader from './channel_header';
@@ -80,7 +81,8 @@ function makeMapStateToProps() {
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
-            newSideBarPreference: getNewSidebarPreference(state)
+            newSideBarPreference: getNewSidebarPreference(state),
+            announcementBarCount: getAnnouncementBarCount(state)
         };
     };
 }

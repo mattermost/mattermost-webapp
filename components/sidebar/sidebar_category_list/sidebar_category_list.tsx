@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
+import debounce from 'lodash/debounce';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
@@ -325,6 +326,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }
 
+    onTransitionEnd = debounce(() => {
+        this.updateUnreadIndicators();
+    }, 100);
+
     render() {
         const {categories} = this.props;
         const renderedCategories = categories.map(this.renderCategory);
@@ -332,14 +337,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         const above = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More unreads'
+                defaultMessage='More Unreads'
             />
         );
 
         const below = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More unreads'
+                defaultMessage='More Unreads'
             />
         );
 
@@ -350,6 +355,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 id='sidebar-left'
                 className={classNames('SidebarNavContainer a11y__region', {disabled: this.props.isUnreadFilterEnabled})}
                 data-a11y-sort-order='7'
+                onTransitionEnd={this.onTransitionEnd}
             >
                 <UnreadChannelIndicator
                     name='Top'

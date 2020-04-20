@@ -5,7 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import Permissions from 'mattermost-redux/constants/permissions';
 import GeneralConstants from 'mattermost-redux/constants/general';
 
 import ConfirmModal from 'components/confirm_modal';
@@ -22,25 +21,8 @@ import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_to
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import PermissionsTree from '../permissions_tree';
-import GuestPermissionsTree from '../guest_permissions_tree';
-
-const EXCLUDED_PERMISSIONS = [
-    Permissions.VIEW_MEMBERS,
-    Permissions.JOIN_PUBLIC_TEAMS,
-    Permissions.LIST_PUBLIC_TEAMS,
-    Permissions.JOIN_PRIVATE_TEAMS,
-    Permissions.LIST_PRIVATE_TEAMS,
-];
-
-const GUEST_INCLUDED_PERMISSIONS = [
-    Permissions.CREATE_PRIVATE_CHANNEL,
-    Permissions.EDIT_POST,
-    Permissions.DELETE_POST,
-    Permissions.ADD_REACTION,
-    Permissions.REMOVE_REACTION,
-    Permissions.USE_CHANNEL_MENTIONS,
-];
+import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
+import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 
 export default class PermissionSystemSchemeSettings extends React.Component {
     static propTypes = {

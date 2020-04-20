@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @accessibility
+
 import users from '../../fixtures/users.json';
 
 const otherUser = users['user-2'];
@@ -60,7 +63,7 @@ function verifyPostLabel(elementId, username, labelSuffix) {
     cy.get('@lastPost').then((el) => {
         // # Get the post time
         cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
-            const expectedLabel = `${username} at ${time} ${Cypress.moment().format('dddd, MMMM DD')} ${labelSuffix}`;
+            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
             cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
         });
     });
@@ -124,7 +127,7 @@ describe('Verify Accessibility Support in Post', () => {
                     cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
 
                     // * Verify reader reads out the post correctly
-                    verifyPostLabel(`#rhsPost_${replyId}`, currentUser.username, `wrote a reply, ${replyMessage}`);
+                    verifyPostLabel(`#rhsPost_${replyId}`, currentUser.username, `replied, ${replyMessage}`);
                 });
             });
         });

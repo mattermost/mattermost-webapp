@@ -2,20 +2,41 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
 
 import {titleCase} from '../../utils';
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login and go to /
+    let testPrivateChannel;
+    let testPublicChannel;
+
+    beforeEach(() => {
+        testPrivateChannel = null;
+        testPublicChannel = null;
+
+        // # Login as user-1
         cy.apiLogin('user-1');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+    });
+
+    afterEach(() => {
+        cy.apiLogin('sysadmin');
+        if (testPrivateChannel && testPrivateChannel.id) {
+            cy.apiDeleteChannel(testPrivateChannel.id);
+        }
+        if (testPublicChannel && testPublicChannel.id) {
+            cy.apiDeleteChannel(testPublicChannel.id);
+        }
     });
 
     it('M18701-Permalink to first post in channel shows endless loading indicator above', () => {
@@ -26,8 +47,6 @@ describe('Messaging', () => {
         const privateChannelDisplayName = titleCase(privateChannelName.replace(/-/g, ' '));
         const publicChannelName = 'test-public-channel-' + dateNow;
         const publicChannelDisplayName = titleCase(publicChannelName.replace(/-/g, ' '));
-        let testPrivateChannel;
-        let testPublicChannel;
         let linkText;
         let permalinkId;
 

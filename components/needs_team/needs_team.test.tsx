@@ -88,6 +88,9 @@ describe('components/needs_team', () => {
         setPreviousTeamId: jest.fn(),
         loadStatusesForChannelAndSidebar: jest.fn().mockResolvedValue({data: true}),
         loadProfilesForDirect: jest.fn().mockResolvedValue({data: true}),
+        getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
+        getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
+        getGroups: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         actions,

@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 describe('AS14318 Theme Colors - Color Picker', () => {

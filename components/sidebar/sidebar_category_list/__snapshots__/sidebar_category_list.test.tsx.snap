@@ -5,11 +5,12 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
   className="SidebarNavContainer a11y__region"
   data-a11y-sort-order="7"
   id="sidebar-left"
+  onTransitionEnd={[Function]}
 >
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More unreads"
+        defaultMessage="More Unreads"
         id="sidebar.unreads"
         values={Object {}}
       />
@@ -22,7 +23,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More unreads"
+        defaultMessage="More Unreads"
         id="sidebar.unreads"
         values={Object {}}
       />
@@ -78,11 +79,12 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
   className="SidebarNavContainer a11y__region disabled"
   data-a11y-sort-order="7"
   id="sidebar-left"
+  onTransitionEnd={[Function]}
 >
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More unreads"
+        defaultMessage="More Unreads"
         id="sidebar.unreads"
         values={Object {}}
       />
@@ -95,7 +97,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
   <UnreadChannelIndicator
     content={
       <FormattedMessage
-        defaultMessage="More unreads"
+        defaultMessage="More Unreads"
         id="sidebar.unreads"
         values={Object {}}
       />

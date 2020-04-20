@@ -1,6 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @system_console
+
 /**
  * Note : This test requires draw plugin tar file under fixtures folder.
  * Download from : https://integrations.mattermost.com/draw-plugin/

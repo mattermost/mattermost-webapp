@@ -48,7 +48,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
+        containerClass="w-full"
         data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
@@ -150,7 +150,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
+        containerClass="w-full"
         data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
@@ -243,7 +243,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     <form
       aria-labelledby="searchBox"
       autoComplete="off"
-      className="search__form focused"
+      className="search__form search__form--focused"
       onSubmit={[Function]}
       role="application"
       style={
@@ -263,7 +263,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
+        containerClass="w-full"
         data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}
@@ -356,7 +356,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     <form
       aria-labelledby="searchBox"
       autoComplete="off"
-      className="search__form focused"
+      className="search__form search__form--focused"
       onSubmit={[Function]}
       role="application"
       style={
@@ -376,7 +376,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         className="search-bar a11y__region"
         clearable={true}
         completeOnTab={true}
-        containerClass=""
+        containerClass="w-full"
         data-a11y-sort-order="9"
         dateComponent={[Function]}
         delayInputUpdate={true}

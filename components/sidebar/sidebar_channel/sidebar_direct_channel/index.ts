@@ -25,12 +25,16 @@ type OwnProps = {
 /**
  * Gets the LHS bot icon url for a given botUser.
  */
-function botIconImageUrl(botUser: UserProfile) {
+function botIconImageUrl(botUser: UserProfile & {bot_last_icon_update?: number}) {
     if (!botUser) {
         return null;
     }
 
-    return `${Client4.getBotRoute(botUser.id)}/icon?_=${((botUser as any).bot_last_icon_update || 0)}`;
+    if (!(botUser.is_bot && botUser.bot_last_icon_update)) {
+        return null;
+    }
+
+    return `${Client4.getBotRoute(botUser.id)}/icon?_=${(botUser.bot_last_icon_update || 0)}`;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
