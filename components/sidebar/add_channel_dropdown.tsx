@@ -60,7 +60,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         id='createCategory'
                         onClick={this.props.showCreateCategoryModal}
-                        icon={<i className='icon-globe'/>}
+                        icon={<i className='icon-folder-plus-outline'/>}
                         text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createCategory', defaultMessage: 'Create Category'})}
                     />
                 </Menu.Group>
