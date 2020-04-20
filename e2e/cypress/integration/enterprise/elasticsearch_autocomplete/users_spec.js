@@ -143,7 +143,7 @@ describe('Autocomplete', () => {
                         expectedtestUsers.forEach((user) => {
                             cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
                                 cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-                                cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${user.firstName} ${user.lastName} (${user.nickname})`);
+                                cy.wrap(name).find('.ml-2').should('have.text', `${user.firstName} ${user.lastName} (${user.nickname})`);
                             });
                         });
                     },
@@ -414,14 +414,14 @@ describe('Autocomplete', () => {
                 cy.findByTestId(thor.username, {exact: false}).within((name) => {
                     cy.wrap(name).prev('.suggestion-list__divider').should('have.text', 'Channel Members');
                     cy.wrap(name).find('.mention--align').should('have.text', `@${thor.username}`);
-                    cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${thor.firstName} ${thor.lastName} (${thor.nickname})`);
+                    cy.wrap(name).find('.ml-2').should('have.text', `${thor.firstName} ${thor.lastName} (${thor.nickname})`);
                 });
 
                 // * Loki should NOT be a channel member
                 cy.findByTestId(loki.username, {exact: false}).within((name) => {
                     cy.wrap(name).prev('.suggestion-list__divider').should('have.text', 'Not in Channel');
                     cy.wrap(name).find('.mention--align').should('have.text', `@${loki.username}`);
-                    cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${loki.firstName} ${loki.lastName} (${loki.nickname})`);
+                    cy.wrap(name).find('.ml-2').should('have.text', `${loki.firstName} ${loki.lastName} (${loki.nickname})`);
                 });
             });
 
@@ -491,7 +491,7 @@ describe('Autocomplete', () => {
                         expectedtestUsers.forEach((user) => {
                             cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
                                 cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-                                cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${user.firstName} ${user.lastName} (${user.nickname})`);
+                                cy.wrap(name).find('.ml-2').should('have.text', `${user.firstName} ${user.lastName} (${user.nickname})`);
                             });
                         });
                     },
@@ -762,14 +762,14 @@ describe('Autocomplete', () => {
                 cy.findByTestId(thor.username, {exact: false}).within((name) => {
                     cy.wrap(name).prev('.suggestion-list__divider').should('have.text', 'Channel Members');
                     cy.wrap(name).find('.mention--align').should('have.text', `@${thor.username}`);
-                    cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${thor.firstName} ${thor.lastName} (${thor.nickname})`);
+                    cy.wrap(name).find('.ml-2').should('have.text', `${thor.firstName} ${thor.lastName} (${thor.nickname})`);
                 });
 
                 // * Loki should NOT be a channel member
                 cy.findByTestId(loki.username, {exact: false}).within((name) => {
                     cy.wrap(name).prev('.suggestion-list__divider').should('have.text', 'Not in Channel');
                     cy.wrap(name).find('.mention--align').should('have.text', `@${loki.username}`);
-                    cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${loki.firstName} ${loki.lastName} (${loki.nickname})`);
+                    cy.wrap(name).find('.ml-2').should('have.text', `${loki.firstName} ${loki.lastName} (${loki.nickname})`);
                 });
             });
 
