@@ -33,6 +33,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             loadSchemes: PropTypes.func.isRequired,
             loadSchemeTeams: PropTypes.func.isRequired,
         }),
+        isDisabled: PropTypes.bool,
     };
 
     constructor(props) {
@@ -167,7 +168,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                         <button
                             className='more-schemes theme style--none color--link'
                             onClick={this.loadMoreSchemes}
-                            disabled={this.state.loadingMore}
+                            disabled={this.props.isDisabled || this.state.loadingMore}
                         >
                             <LoadingWrapper
                                 loading={this.state.loadingMore}

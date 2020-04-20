@@ -32,6 +32,7 @@ export default class SystemUsersList extends React.PureComponent {
         filter: PropTypes.string.isRequired,
         term: PropTypes.string.isRequired,
         onTermChange: PropTypes.func.isRequired,
+        isDisabled: PropTypes.bool,
 
         /**
          * Whether MFA is licensed and enabled.
@@ -322,6 +323,7 @@ export default class SystemUsersList extends React.PureComponent {
                         doManageTeams: this.doManageTeams,
                         doManageRoles: this.doManageRoles,
                         doManageTokens: this.doManageTokens,
+                        isDisabled: this.props.isDisabled,
                     }}
                     nextPage={this.nextPage}
                     previousPage={this.previousPage}

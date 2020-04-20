@@ -180,9 +180,9 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
                         />
                     }
                     value={this.state.termsEnabled}
-                    disabled={!(this.props.license.IsLicensed && this.props.license.CustomTermsOfService === 'true')}
                     onChange={this.handleTermsEnabledChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceEnabled')}
+                    disabled={this.props.isDisabled || !(this.props.license.IsLicensed && this.props.license.CustomTermsOfService === 'true')}
                 />
                 <TextSetting
                     key={'customTermsOfServiceText'}
@@ -200,11 +200,11 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
                             defaultMessage='Text that will appear in your custom Terms of Service. Supports Markdown-formatted text.'
                         />
                     }
-                    disabled={!this.state.termsEnabled}
                     onChange={this.handleTermsTextChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceText')}
                     value={this.state.termsText}
                     maxLength={Constants.MAX_TERMS_OF_SERVICE_TEXT_LENGTH}
+                    disabled={this.props.isDisabled || !this.state.termsEnabled}
                 />
                 <TextSetting
                     key={'customTermsOfServiceReAcceptancePeriod'}
@@ -222,10 +222,10 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
                             defaultMessage='The number of days before Terms of Service acceptance expires, and the terms must be re-accepted.'
                         />
                     }
-                    disabled={!this.state.termsEnabled}
                     value={this.state.reAcceptancePeriod}
                     onChange={this.handleReAcceptancePeriodChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceReAcceptancePeriod')}
+                    disabled={this.props.isDisabled || !this.state.termsEnabled}
                 />
             </SettingsGroup>
         );

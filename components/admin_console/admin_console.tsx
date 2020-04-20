@@ -9,6 +9,8 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Role} from 'mattermost-redux/types/roles';
 
+import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
 import ModalController from 'components/modal_controller';
@@ -32,6 +34,8 @@ type Props = {
     match: { url: string };
     showNavigationPrompt: boolean;
     isCurrentUserSystemAdmin: boolean;
+    isCurrentUserInSystemAdminsRole: boolean;
+    globalstate: any;
     actions: {
         getConfig: () => ActionFunc;
         getEnvironmentConfig: () => ActionFunc;
@@ -64,7 +68,8 @@ type ExtraProps = {
 }
 
 type Item = {
-    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean) => void;
+    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: ActionFunc) => boolean;
+    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, globalstate?: any, func?: ActionFunc) => boolean;
     schema: Record<string, any>;
     url: string;
 }
@@ -80,7 +85,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     public componentDidMount(): void {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
-        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
+        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_console_viewer', 'system_junior_admin']);
         this.props.actions.selectChannel('');
         this.props.actions.selectTeam('');
     }
@@ -97,24 +102,31 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             roles.team_admin &&
             roles.team_user &&
             roles.system_admin &&
-            roles.system_user
+            roles.system_user &&
+            roles.system_user_manager &&
+            roles.system_console_viewer &&
+            roles.system_junior_admin
         );
     }
 
     private renderRoutes = (extraProps: ExtraProps) => {
         const schemas = Object.values(this.props.adminDefinition).reduce((acc, section: Item[]) => {
-            const items = Object.values(section).filter((item: Item) => {
-                if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
-                    return false;
-                }
-                if (!item.schema) {
-                    return false;
-                }
-                return true;
-            });
+            let items = [];
+            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
+
+            if (!isSectionHidden) {
+                items = Object.values(section).filter((item: Item) => {
+                    if (!item.schema) {
+                        return false;
+                    }
+                    return true;
+                });
+            }
             return acc.concat(items);
         }, []);
         const schemaRoutes = schemas.map((item: Item) => {
+            const isItemDisabled = item.isDisabled && item.isDisabled(this.props.config, {}, this.props.license, this.props.globalstate, haveINoWritePermissionOnSysConsoleItem);
+
             return (
                 <Route
                     key={item.url}
@@ -124,6 +136,8 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                             {...extraProps}
                             {...props}
                             schema={item.schema}
+                            globalstate={this.props.globalstate}
+                            isDisabled={isItemDisabled}
                         />
                     )}
                 />
@@ -149,7 +163,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         } = this.props;
         const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole, updateConfig} = this.props.actions;
 
-        if (!this.props.isCurrentUserSystemAdmin) {
+        if (!this.props.isCurrentUserInSystemAdminsRole) {
             return (
                 <Redirect to={this.props.unauthorizedRoute}/>
             );

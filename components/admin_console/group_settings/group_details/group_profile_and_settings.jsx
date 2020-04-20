@@ -13,10 +13,10 @@ import {t} from 'utils/i18n';
 
 import LineSwitch from 'components/admin_console/team_channel_settings/line_switch.jsx';
 
-const GroupSettingsToggle = ({isDefault, allowReference, onToggle}) => (
+const GroupSettingsToggle = ({isDefault, allowReference, onToggle, isDisabled}) => (
     <LineSwitch
         id={'allowReferenceSwitch'}
-        disabled={isDefault}
+        disabled={isDisabled || isDefault}
         toggled={allowReference}
         last={true}
         onToggle={() => {
@@ -44,6 +44,7 @@ GroupSettingsToggle.propTypes = {
     isDefault: PropTypes.bool.isRequired,
     allowReference: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
+    isDisabled: PropTypes.bool,
 };
 
 export const GroupProfileAndSettings = ({displayname, mentionname, allowReference, onToggle, onChange}) => (

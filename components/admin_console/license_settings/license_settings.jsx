@@ -18,6 +18,8 @@ export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
         license: PropTypes.object.isRequired,
         stats: PropTypes.object,
+        config: PropTypes.object,
+        isDisabled: PropTypes.bool,
         actions: PropTypes.shape({
             getLicenseConfig: PropTypes.func.isRequired,
             uploadLicense: PropTypes.func.isRequired,
@@ -185,6 +187,7 @@ export default class LicenseSettings extends React.PureComponent {
                         className='btn btn-danger'
                         onClick={this.handleRemove}
                         id='remove-button'
+                        disabled={this.props.isDisabled}
                     >
                         {removeButtonText}
                     </button>
@@ -265,7 +268,10 @@ export default class LicenseSettings extends React.PureComponent {
             licenseKey = (
                 <div className='col-sm-8'>
                     <div className='file__upload'>
-                        <button className='btn btn-primary'>
+                        <button
+                            className='btn btn-primary'
+                            disabled={this.props.isDisabled}
+                        >
                             <FormattedMessage
                                 id='admin.license.choose'
                                 defaultMessage='Choose File'
@@ -276,13 +282,14 @@ export default class LicenseSettings extends React.PureComponent {
                             type='file'
                             accept='.mattermost-license'
                             onChange={this.handleChange}
+                            disabled={this.props.isDisabled}
                         />
                     </div>
                     <button
                         className={btnClass}
-                        disabled={!this.state.fileSelected}
                         onClick={this.handleSubmit}
                         id='upload-button'
+                        disabled={this.props.isDisabled || !this.state.fileSelected}
                     >
                         {uploadButtonText}
                     </button>

@@ -11,6 +11,7 @@ type Props = {
         values?: {string: any};
     };
     value?: string;
+    disabled?: boolean;
 };
 
 const LocalizedInput = React.forwardRef((props: Props, ref?: React.Ref<HTMLInputElement>) => {

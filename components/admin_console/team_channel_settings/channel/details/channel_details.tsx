@@ -43,6 +43,7 @@ interface ChannelDetailsProps {
     allGroups: {[gid: string]: Group}; // hashmap of groups
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
+    isDisabled: boolean;
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
@@ -641,6 +642,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     teamSchemeDisplayName={teamScheme?.['display_name']}
                     guestAccountsEnabled={this.props.guestAccountsEnabled}
                     isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
+                    isDisabled={this.props.isDisabled}
                 />
 
                 <RemoveConfirmModal
@@ -665,6 +667,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     isSynced={isSynced}
                     isDefault={isDefault}
                     onToggle={this.setToggles}
+                    isDisabled={this.props.isDisabled}
                 />
 
                 <ChannelGroups
@@ -676,6 +679,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     onAddCallback={this.handleGroupChange}
                     onGroupRemoved={this.handleGroupRemoved}
                     setNewGroupRole={this.setNewGroupRole}
+                    isDisabled={this.props.isDisabled}
                 />
 
                 {!isSynced &&
@@ -745,6 +749,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     onClick={this.onSave}
                     serverError={serverError}
                     cancelLink='/admin_console/user_management/channels'
+                    isDisabled={this.props.isDisabled}
                 />
             </div>
         );

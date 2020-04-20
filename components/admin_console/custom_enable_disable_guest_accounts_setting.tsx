@@ -58,6 +58,7 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.PureC
                     helpText={helpText}
                     setByEnv={this.props.setByEnv}
                     onChange={this.handleChange}
+                    disabled={this.props.disabled}
                 />
                 <ConfirmModal
                     show={this.props.showConfirm && (this.props.value === false)}

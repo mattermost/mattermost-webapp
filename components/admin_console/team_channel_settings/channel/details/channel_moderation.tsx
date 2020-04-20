@@ -181,6 +181,7 @@ interface Props {
     teamSchemeDisplayName?: string;
     guestAccountsEnabled: boolean;
     isPublic: boolean;
+    isDisabled: boolean;
 }
 
 interface RowProps {

@@ -26,6 +26,7 @@ function mapStateToProps(state) {
         buildEnterpriseReady,
         siteName,
         adminDefinition,
+        globalstate: state,
     };
 }
 

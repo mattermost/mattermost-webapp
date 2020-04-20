@@ -19,7 +19,7 @@ export default class Logs extends React.PureComponent {
          */
         logs: PropTypes.arrayOf(PropTypes.string).isRequired,
         nextPage: PropTypes.func,
-
+        isDisabled: PropTypes.bool,
         actions: PropTypes.shape({
 
             /*
@@ -105,6 +105,7 @@ export default class Logs extends React.PureComponent {
                             type='submit'
                             className='btn btn-primary'
                             onClick={this.reload}
+                            disabled={this.props.isDisabled}
                         >
                             <FormattedMessage
                                 id='admin.logs.reload'

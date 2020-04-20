@@ -48,7 +48,9 @@ export class ChannelsSettings extends React.PureComponent {
                             subtitleDefault={'Manage channel settings.'}
                             subtitleValues={{...this.state}}
                         >
-                            <ChannelsList onPageChangedCallback={this.onPageChangedCallback}/>
+                            <ChannelsList
+                                onPageChangedCallback={this.onPageChangedCallback}
+                            />
                         </AdminPanel>
                     </div>
                 </div>
