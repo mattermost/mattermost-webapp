@@ -82,6 +82,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value=""
         />
         <div
@@ -242,6 +243,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value="new message"
         />
         <div
@@ -306,6 +308,167 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
     <button
       className="btn btn-primary"
       disabled={true}
+      id="editButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Save"
+        id="edit_post.save"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
+</Modal>
+`;
+
+exports[`components/EditPostModal should match snapshot with useChannelMentions set to false 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="editPostModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal edit-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  id="editPostModal"
+  keyboard={false}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onEntered={[Function]}
+  onExit={[Function]}
+  onExited={[Function]}
+  onHide={[Function]}
+  onKeyDown={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+    onHide={[Function]}
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="editPostModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Edit {title}"
+        id="edit_post.edit"
+        values={
+          Object {
+            "title": "test",
+          }
+        }
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body edit-modal-body"
+    componentClass="div"
+  >
+    <div
+      className="post-create__container"
+    >
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          channelId="5"
+          characterLimit={4000}
+          createMessage="Edit the post..."
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
+          preview={false}
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          tabIndex="0"
+          useChannelMentions={false}
+          value=""
+        />
+        <div
+          className="post-body__actions"
+        >
+          <div>
+            <EmojiPickerOverlay
+              container={[Function]}
+              enableGifPicker={false}
+              onEmojiClick={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={-20}
+            />
+            <button
+              aria-label="emoji picker"
+              className="style--none post-action"
+              id="editPostEmoji"
+              onClick={[Function]}
+            >
+              <EmojiIcon
+                className="icon icon--emoji"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <Connect(TextboxLinks)
+          characterLimit={4000}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+        <div
+          className="edit-post-footer"
+        />
+      </div>
+    </div>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Cancel"
+        id="edit_post.cancel"
+        values={Object {}}
+      />
+    </button>
+    <button
+      className="btn btn-primary"
+      disabled={false}
       id="editButton"
       onClick={[Function]}
       type="button"
@@ -402,6 +565,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value=""
         />
         <div
@@ -562,6 +726,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value=""
         />
         <div
@@ -697,6 +862,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value="new message"
         />
         <div
@@ -857,6 +1023,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value=""
         />
         <div
@@ -1017,6 +1184,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value=""
         />
         <div
@@ -1177,6 +1345,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value=""
         />
         <div
@@ -1337,6 +1506,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
           suggestionListStyle="bottom"
           supportsCommands={false}
           tabIndex="0"
+          useChannelMentions={true}
           value=""
         />
         <div

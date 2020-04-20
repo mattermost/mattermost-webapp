@@ -23,7 +23,8 @@
 }
 
 .search__icon {
-    fill: v(center-channel-color-48);
+    pointer-events: none;
+    fill: v(center-channel-color-56);
     left: 9px;
     position: absolute;
     top: 7px;
@@ -33,22 +34,24 @@
         height: 14px;
 
         body.enable-animations & {
-            @include single-transition(all, $transition-quick, ease-out);
+            @include single-transition(opacity, $transition-quick, ease-out);
         }
     }
 }
 
 .input-clear {
-    @include opacity(.5);
     cursor: pointer;
-    margin-right: 20px;
+    color: v(center-channel-color-56);
     position: absolute;
     right: 0;
     top: 1px;
     visibility: hidden;
-    width: 22px;
+    width: 2.4rem;
     margin: 0;
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
         @include opacity(1);
@@ -70,7 +73,7 @@
 .search__form {
     display: flex;
     align-items: center;
-    padding: 0 30px;
+    padding: 0;
     position: relative;
 
     .search-bar__container & {
@@ -80,6 +83,11 @@
         width: 180px;
         height: 32px;
 
+        .input-clear {
+            top: 1px;
+            right: 3px;
+        }
+
         &:hover {
             border: 1px solid v(center-channel-color-40);
         }
@@ -87,16 +95,25 @@
         &--focused,
         &--focused:hover {
             border: 2px solid v(button-bg);
-            padding: 0 29px;
+            padding: 0;
+
+            .search-bar {
+                padding-left: 2.9rem;
+            }
 
             .input-clear {
                 top: 0;
-                right: -1px;
+                right: 1px;
             }
 
             .search__icon {
                 top: 6px;
                 left: 8px;
+            }
+
+            .input-clear {
+                top: 0;
+                right: 2px;
             }
         }
     }
@@ -119,7 +136,7 @@
         font-size: 14px;
         height: 28px;
         outline: none;
-        padding-bottom: 2px;
+        padding: 0 2.8rem 2px 3rem;
         width: 100%;
 
         &.a11y--focused {
@@ -131,8 +148,8 @@
         @include opacity(0.5);
         font-size: 1em;
         position: absolute;
-        right: 8px;
-        top: 5px;
+        right: 24px;
+        top: 4px;
     }
 }
 
@@ -198,7 +215,7 @@
     font-size: 13px;
     position: absolute;
     right: 0;
-    top: 0;
+    top: -9px;
 
     a {
         vertical-align: top;
@@ -207,10 +224,12 @@
 
     .search-item__jump {
         @include border-radius(4px);
-        font-size: 13px;
+        font-size: 12px;
         position: relative;
-        padding: 2px 7px 0;
+        padding: 5px 4px 0;
         text-decoration: none;
+        color: v(center-channel-color-40);
+        font-weight: 600;
     }
 }
 
