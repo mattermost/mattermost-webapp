@@ -1628,6 +1628,10 @@
             display: none;
         }
 
+        .sidebar--right__title__channel {
+            pointer-events: none;
+        }
+
         .sidebar--right__expand {
             display: none;
         }
