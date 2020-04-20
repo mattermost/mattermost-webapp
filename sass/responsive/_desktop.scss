@@ -138,6 +138,18 @@
     }
 }
 
+@media (min-width: 1280px) {
+    .sidebar--right {
+        &.sidebar--right--expanded {
+            width: 96rem;
+
+            .multi-teams & {
+                width: 96rem;
+            }
+        }
+    }
+}
+
 @media (min-width: 1025px) {
     .post-image__details {
         .post-image__download {
