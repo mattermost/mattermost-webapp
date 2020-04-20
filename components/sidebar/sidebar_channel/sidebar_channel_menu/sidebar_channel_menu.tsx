@@ -15,6 +15,8 @@ import { ChannelCategory } from 'mattermost-redux/types/channel_categories';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 
+const MENU_BOTTOM_MARGIN = 80;
+
 type Props = {
     channel: Channel;
     categories: ChannelCategory[];
@@ -35,10 +37,12 @@ type Props = {
 
 type State = {
     isMenuOpen: boolean;
+    openUp: boolean;
+    width: number;
 };
 
 class SidebarChannelMenu extends React.PureComponent<Props, State> {
-    menuRef: React.RefObject<Menu>;
+    menuRef?: Menu;
     menuButtonRef: React.RefObject<HTMLButtonElement>;
     isLeaving: boolean;
 
@@ -47,9 +51,10 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             isMenuOpen: false,
+            openUp: false,
+            width: 0,
         }
 
-        this.menuRef = React.createRef();
         this.menuButtonRef = React.createRef();
         this.isLeaving = false;
     }
@@ -238,7 +243,8 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to'})}
                         icon={<i className='icon-folder-move-outline'/>}
                         direction='right'
-                        xOffset={this.menuRef.current?.node.current?.clientWidth || 0}
+                        openUp={this.state.openUp}
+                        xOffset={this.state.width}
                     />
                 </Menu.Group>
                 {publicChannelGroup}
@@ -254,10 +260,31 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         );
     }
 
+    refCallback = (ref: Menu) => {
+        if (ref) {
+            this.menuRef = ref;
+
+            const rect = ref.rect();
+            const buttonRect = this.menuButtonRef.current?.getBoundingClientRect();
+            const y = typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y;
+            const windowHeight = window.innerHeight;
+
+            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+            const spaceOnTop = y || 0;
+            const spaceOnBottom = totalSpace - spaceOnTop;
+
+            this.setState({
+                openUp: (spaceOnTop > spaceOnBottom),
+                width: rect?.width || 0,
+            });
+        }
+    }
+
     setMenuPosition = () => {
-        if (this.state.isMenuOpen && this.menuButtonRef.current && this.menuRef.current) {
-            const menuRef = this.menuRef.current.node.current?.parentElement as HTMLDivElement;
-            menuRef.style.top = `${this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight}px`;
+        if (this.state.isMenuOpen && this.menuButtonRef.current && this.menuRef) {
+            const menuRef = this.menuRef.node.current?.parentElement as HTMLDivElement;
+            const openUpOffset = this.state.openUp ? -this.menuButtonRef.current.getBoundingClientRect().height : 0;
+            menuRef.style.top = `${this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight + openUpOffset}px`;
         }
     }
 
@@ -303,7 +330,8 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                     </OverlayTrigger>
                 </button>
                 <Menu
-                    ref={this.menuRef}
+                    ref={this.refCallback}
+                    openUp={this.state.openUp}
                     id={`SidebarChannelMenu-${channel.id}`}
                     ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
                 >

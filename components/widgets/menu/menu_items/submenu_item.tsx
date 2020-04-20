@@ -42,6 +42,7 @@ type Props = {
     root?: boolean;
     show?: boolean;
     direction: 'left' | 'right';
+    openUp?: boolean;
 }
 
 type State = {
@@ -102,7 +103,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
+        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction, openUp} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -125,7 +126,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         const offset = (root ? 2 : childOffset);
         const subMenuStyle: any = {
             visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
-            top: this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset',
         };
 
         const menuOffset = (parseInt(String(xOffset), 10) - offset) + 'px';
@@ -133,6 +133,12 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
             subMenuStyle['right'] = menuOffset;
         } else {
             subMenuStyle['left'] = menuOffset;
+        }
+
+        if (openUp) {
+            subMenuStyle['bottom'] = this.node && this.node.current ? String(this.node.current.offsetTop + this.node.current.clientHeight) + 'px' : 'unset';
+        } else {
+            subMenuStyle['top'] = this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset';
         }
 
         let subMenuContent: React.ReactNode = '';
@@ -186,7 +192,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     {textProp}
                     <span
                         id={'channelHeaderDropdownIconRight_' + id}
-                        className={'fa fa-angle-right SubMenu__icon-right' + ((hasSubmenu && isMobile) || (direction === 'right') ? '' : '-empty')}
+                        className={'fa fa-angle-right SubMenu__icon-right' + (hasSubmenu && (isMobile || direction === 'right') ? '' : '-empty')}
                         aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                     />
                     {subMenuContent}
