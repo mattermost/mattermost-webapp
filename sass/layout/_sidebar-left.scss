@@ -223,7 +223,7 @@
             }
 
             button {
-                padding: 0 16px;
+                padding: 1px 16px;
             }
 
             i {
@@ -262,7 +262,7 @@
         opacity: 1;
 
         .dropdown-menu {
-            line-height: 19px;
+            line-height: 20px;
             min-width: 0;
 
             span {
@@ -270,7 +270,7 @@
             }
 
             button {
-                padding: 0 16px;
+                padding: 1px 16px;
             }
 
             i {
@@ -285,6 +285,11 @@
 
             .SubMenu {
                 position: absolute;
+            }
+
+            .SubMenuItem > div {
+                padding-top: 2px;
+                padding-bottom: 2px;
             }
         }
     }

@@ -121,15 +121,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     addMembers = () => {
-        const {channel} = this.props;
-
-        const modalData = {
-            modalId: ModalIdentifiers.CHANNEL_INVITE,
-            dialogProps: ChannelInviteModal,
-            dialogType: {channel},
-        };
-
-        this.props.actions.openModal(modalData);
+        // TODO
     }
 
     renderDropdownItems = () => {

@@ -133,6 +133,7 @@
     padding: 0 8px 0 9px;
     position: relative;
     top: 0;
+    width: 0;
 
     &.mobile {
         padding: 0 4px 0 9px;
@@ -142,9 +143,10 @@
 .SubMenu__icon-right {
     color: inherit;
     font-size: 19px;
-    padding: 0;
+    padding: 4px 9px 0 8px;
     margin-left: auto;
     top: 0;
+    float: right;
 }
 
 .SubMenu__icon-right-empty {
