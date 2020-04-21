@@ -2,21 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
+import {IntlShape, injectIntl} from 'react-intl';
 
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import OverlayTrigger from 'components/overlay_trigger';
 import { Channel, ChannelNotifyProps } from 'mattermost-redux/types/channels';
-import classNames from 'classnames';
-import { NotificationLevels, ModalIdentifiers } from 'utils/constants';
+import { NotificationLevels } from 'utils/constants';
 import { ChannelCategory } from 'mattermost-redux/types/channel_categories';
 
-import ChannelInviteModal from 'components/channel_invite_modal';
 import { CategoryTypes } from 'mattermost-redux/constants/channel_categories';
-
-const MENU_BOTTOM_MARGIN = 80;
+import SidebarMenu from 'components/sidebar/sidebar_menu';
 
 type Props = {
     channel: Channel;
@@ -37,42 +31,22 @@ type Props = {
 };
 
 type State = {
-    isMenuOpen: boolean;
     openUp: boolean;
     width: number;
 };
 
 class SidebarChannelMenu extends React.PureComponent<Props, State> {
-    menuRef?: Menu;
-    menuButtonRef: React.RefObject<HTMLButtonElement>;
     isLeaving: boolean;
 
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            isMenuOpen: false,
             openUp: false,
             width: 0,
-        }
+        };
 
-        this.menuButtonRef = React.createRef();
         this.isLeaving = false;
-    }
-
-    // TODO: Temporary code to keep the menu in place while scrolling
-    componentDidMount() {
-        const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
-        if (scrollbars && scrollbars[0]) {
-            scrollbars[0].addEventListener('scroll', this.setMenuPosition);
-        }
-    }
-
-    componentWillUnmount() {
-        const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
-        if (scrollbars && scrollbars[0]) {
-            scrollbars[0].removeEventListener('scroll', this.setMenuPosition);
-        }
     }
 
     markAsRead = () => {
@@ -258,84 +232,28 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         );
     }
 
-    refCallback = (ref: Menu) => {
+    refCallback = (ref: SidebarMenu) => {
         if (ref) {
-            this.menuRef = ref;
-
-            const rect = ref.rect();
-            const buttonRect = this.menuButtonRef.current?.getBoundingClientRect();
-            const y = typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y;
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y || 0;
-            const spaceOnBottom = totalSpace - spaceOnTop;
-
             this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-                width: rect?.width || 0,
+                openUp: ref.state.openUp,
+                width: ref.state.width,
             });
         }
-    }
-
-    setMenuPosition = () => {
-        if (this.state.isMenuOpen && this.menuButtonRef.current && this.menuRef) {
-            const menuRef = this.menuRef.node.current?.parentElement as HTMLDivElement;
-            const openUpOffset = this.state.openUp ? -this.menuButtonRef.current.getBoundingClientRect().height : 0;
-            menuRef.style.top = `${this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight + openUpOffset}px`;
-        }
-    }
-
-    handleMenuToggle = (isMenuOpen: boolean) => {
-        this.setState({isMenuOpen}, () => {
-            this.setMenuPosition();
-        });
     }
 
     render() {
         const {intl, channel} = this.props;
 
-        const tooltip = (
-            <Tooltip
-                id='new-group-tooltip'
-                className='hidden-xs'
-            >
-                <FormattedMessage
-                    id={'sidebar_left.sidebar_channel_menu.editChannel'}
-                    defaultMessage='Edit channel'
-                />
-            </Tooltip>
-        );
-
         return (
-            <MenuWrapper
-                className={classNames('SidebarChannelMenu', {
-                    menuOpen: this.state.isMenuOpen,
-                })}
-                onToggle={this.handleMenuToggle}
+            <SidebarMenu
+                refCallback={this.refCallback}
+                id={`SidebarChannelMenu-${channel.id}`}
+                ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+                buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Edit channel'})}
             >
-                <button
-                    ref={this.menuButtonRef}
-                    className='SidebarChannelMenu_menuButton'
-                    aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                >
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={tooltip}
-                    >
-                        <i className='icon-dots-vertical'/>
-                    </OverlayTrigger>
-                </button>
-                <Menu
-                    ref={this.refCallback}
-                    openUp={this.state.openUp}
-                    id={`SidebarChannelMenu-${channel.id}`}
-                    ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                >
-                    {this.renderDropdownItems()}
-                </Menu>
-            </MenuWrapper>
+                {this.renderDropdownItems()}
+            </SidebarMenu>
         );
     }
 }
