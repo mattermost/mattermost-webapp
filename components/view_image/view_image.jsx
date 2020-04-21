@@ -20,7 +20,7 @@ import ImagePreview from './image_preview';
 import PopoverBar from './popover_bar';
 
 const KeyCodes = Constants.KeyCodes;
-const DEFAULT_SCALE_DELTA = 1.1;
+const DEFAULT_SCALE_DELTA = 1.25;
 const MIN_SCALE = 0.25;
 const MAX_SCALE = 5.0;
 
