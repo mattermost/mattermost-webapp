@@ -134,25 +134,25 @@ export default class GroupDetails extends React.PureComponent {
 
     onMentionToggle = async (allowReference) => {
         const {group} = this.props;
-        const isOriginalAllowReference = group.allow_reference;
+        const originalAllowReference = group.allow_reference;
 
         this.setState({
             saveNeeded: true,
             allowReference,
-            hasAllowReferenceChanged: allowReference !== isOriginalAllowReference}
+            hasAllowReferenceChanged: allowReference !== originalAllowReference}
         );
     }
 
     onMentionChange = async (e) => {
         const {group} = this.props;
-        const isOriginalGroupMentionName = group.name;
+        const originalGroupMentionName = group.name;
         const groupMentionName = e.target.value;
         const saveNeeded = true;
 
         this.setState({
             saveNeeded,
             groupMentionName,
-            hasGroupMentionNameChanged: groupMentionName !== isOriginalGroupMentionName
+            hasGroupMentionNameChanged: groupMentionName !== originalGroupMentionName
         });
         this.props.actions.setNavigationBlocked(saveNeeded);
     }
@@ -164,7 +164,7 @@ export default class GroupDetails extends React.PureComponent {
         let serverError = null;
         let saveNeeded = false;
 
-        if (!groupMentionName || groupMentionName.length === 0) {
+        if (!groupMentionName) {
             saveNeeded = true;
             serverError = <NeedGroupNameError/>;
             this.setState({allowReference, serverError, saving: false, saveNeeded});
@@ -300,7 +300,7 @@ export default class GroupDetails extends React.PureComponent {
 
                 <SaveChangesPanel
                     saving={saving}
-                    cancelLink='/admin_console/user_management/teams'
+                    cancelLink='/admin_console/user_management/groups'
                     saveNeeded={saveNeeded}
                     onClick={this.handleSubmit}
                     serverError={serverError}

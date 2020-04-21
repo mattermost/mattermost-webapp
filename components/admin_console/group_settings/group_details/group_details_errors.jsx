@@ -31,7 +31,7 @@ export const DuplicateGroupNameError = () => (
         error={(
             <FormattedMessage
                 id='admin.group_settings.group_detail.duplicateMentionNameError'
-                defaultMessage='You must specify the group name for mentioning.'
+                defaultMessage='Group mention is already taken.'
             />)}
     />
 );
