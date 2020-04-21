@@ -528,7 +528,7 @@ class ChannelHeader extends React.PureComponent {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <button
-                                className='style--none'
+                                className='channel-header__description style--none'
                                 onClick={this.showEditChannelHeaderModal}
                             >
                                 <FormattedMessage

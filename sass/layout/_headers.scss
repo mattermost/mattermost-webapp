@@ -275,6 +275,11 @@
             }
         }
 
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .header-description__text {
             overflow: hidden;
             display: flex;
