@@ -19,6 +19,7 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import LoadingScreen from 'components/loading_screen';
 
 export function renderView(props) {
     return (
@@ -73,11 +74,17 @@ export default class RhsThread extends React.Component {
 
         const openTime = (new Date()).getTime();
 
+        let loading = false;
+        if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
+            loading = true;
+        }
+
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
             topRhsPostId: 0,
+            loading,
             openTime,
         };
     }
@@ -86,7 +93,9 @@ export default class RhsThread extends React.Component {
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
         if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
-            this.props.actions.getPostThread(this.props.selected.id, true);
+            this.props.actions.getPostThread(this.props.selected.id, true).finally(() => {
+                this.setState({loading: false});
+            });
         }
     }
 
@@ -242,6 +251,9 @@ export default class RhsThread extends React.Component {
     }
 
     render() {
+        if (this.state.loading) {
+            return (<LoadingScreen/>);
+        }
         if (this.props.posts == null || this.props.selected == null) {
             return (
                 <div/>
