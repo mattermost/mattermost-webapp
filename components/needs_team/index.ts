@@ -35,6 +35,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
+    const plugins = state.plugins.components.NeedsTeamComponent;
 
     return {
         theme: getTheme(state),
@@ -44,6 +45,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
         useLegacyLHS: !getNewSidebarPreference(state),
+        plugins,
     };
 }
 
