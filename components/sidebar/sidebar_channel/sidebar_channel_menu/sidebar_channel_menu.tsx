@@ -8,9 +8,10 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Channel, ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
+import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
-import {NotificationLevels} from 'utils/constants';
+import {NotificationLevels, ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     channel: Channel;
@@ -110,7 +111,13 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     addMembers = () => {
-        // TODO
+        const {channel, actions} = this.props;
+
+        actions.openModal({
+            modalId: ModalIdentifiers.CHANNEL_INVITE,
+            dialogType: ChannelInviteModal,
+            dialogProps: {channel},
+        });
     }
 
     renderDropdownItems = () => {
