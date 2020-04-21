@@ -275,9 +275,13 @@
             }
         }
 
-        span {
+        .header-placeholder {
+            display: flex;
             overflow: hidden;
-            text-overflow: ellipsis;
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         .header-description__text {
