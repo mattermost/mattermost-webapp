@@ -107,22 +107,19 @@ function formattedError(id: string, message: string): React.ReactElement {
 export function validateChannelUrl(url: string): React.ReactElement[] {
     const errors: React.ReactElement[] = [];
 
-    let isDirectMessageFormat = false;
-    if (url.indexOf('__') > -1) {
-        const USER_ID_LENGTH = 26;
-        const userIds = url.split('__');
-        isDirectMessageFormat = userIds.length === 2 && userIds[0].length === USER_ID_LENGTH && userIds[1].length === USER_ID_LENGTH;
-
-        if (isDirectMessageFormat) {
-            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in channel URLs.'));
-        }
-    }
+    const USER_ID_LENGTH = 26;
+    const directMessageRegex = new RegExp(`^.{${USER_ID_LENGTH}}__.{${USER_ID_LENGTH}}$`);
+    const isDirectMessageFormat = directMessageRegex.test(url);
 
     const cleanedURL = cleanUpUrlable(url);
     const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
-    if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url) {
+    if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url || isDirectMessageFormat) {
         if (url.length < 2) {
             errors.push(formattedError(t('change_url.longer'), 'URLs must have at least 2 characters.'));
+        }
+
+        if (isDirectMessageFormat) {
+            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in channel URLs.'));
         }
 
         const startsWithoutLetter = url.charAt(0) === '-' || url.charAt(0) === '_';
