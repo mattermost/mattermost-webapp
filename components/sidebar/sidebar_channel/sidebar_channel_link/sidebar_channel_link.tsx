@@ -154,6 +154,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channel={channel}
                     isUnread={this.showChannelAsUnread()}
                     closeHandler={this.props.closeHandler}
+                    channelLink={link}
                 />
             </React.Fragment>
         );

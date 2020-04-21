@@ -14,6 +14,7 @@ import {NotificationLevels} from 'utils/constants';
 
 type Props = {
     channel: Channel;
+    channelLink: string;
     categories: ChannelCategory[];
     currentUserId: string;
     isUnread: boolean;
@@ -78,7 +79,20 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     copyLink = () => {
-        // TODO
+        const channelUrl = this.props.channelLink;
+
+        const clipboard = navigator.clipboard;
+        if (clipboard) {
+            clipboard.writeText(channelUrl);
+        } else {
+            const hiddenInput = document.createElement('textarea');
+            hiddenInput.value = channelUrl;
+            document.body.appendChild(hiddenInput);
+            hiddenInput.focus();
+            hiddenInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(hiddenInput);
+        }
     }
 
     handleLeaveChannel = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {

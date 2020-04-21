@@ -7,6 +7,7 @@ import {Dispatch, bindActionCreators} from 'redux';
 import {favoriteChannel, unfavoriteChannel, updateChannelNotifyProps, markChannelAsRead} from 'mattermost-redux/actions/channels';
 import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -19,6 +20,7 @@ import SidebarChannelMenu from './sidebar_channel_menu';
 
 type OwnProps = {
     channel: Channel;
+    channelLink: string;
     isUnread: boolean;
 }
 
@@ -29,12 +31,14 @@ function makeMapStateToProps() {
         const preferences = getMyPreferences(state);
         const member = getMyChannelMemberships(state)[ownProps.channel.id];
         const currentTeam = getCurrentTeam(state);
+        const config = getConfig(state);
 
         return {
             currentUserId: getCurrentUserId(state),
             categories: getCategoriesForTeam(state, currentTeam.id),
             isFavorite: isFavoriteChannel(preferences, ownProps.channel.id),
             isMuted: isChannelMuted(member),
+            channelLink: `${config.SiteURL}/${ownProps.channelLink}`,
         };
     };
 }
