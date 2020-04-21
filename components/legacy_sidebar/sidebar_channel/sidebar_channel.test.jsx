@@ -72,6 +72,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
             leaveChannel: jest.fn(),
             openLhs: jest.fn(),
             leaveDirectChannel: jest.fn(),
+            setRhsExpanded: jest.fn(),
         },
         channelIsArchived: false,
     };

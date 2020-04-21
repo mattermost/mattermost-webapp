@@ -18,6 +18,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -47,6 +48,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -74,6 +76,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -106,6 +109,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item unread-title has-badge"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -133,6 +137,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -160,6 +165,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="myself"
@@ -187,6 +193,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -214,6 +221,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -241,6 +249,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name?fakechannel=%7B%22display_name%22%3A%22Channel%20display%20name%22%2C%22name%22%3A%22channel-name%22%2C%22type%22%3A%22D%22%2C%22id%22%3A%22test-channel-id%22%2C%22status%22%3A%22test%22%2C%22fake%22%3Atrue%7D"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -268,6 +277,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -295,6 +305,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -322,6 +333,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="myself"
@@ -349,6 +361,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -376,6 +389,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -403,6 +417,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -430,6 +445,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
+    setRhsExpanded={[MockFunction]}
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
