@@ -842,12 +842,14 @@ export async function handleUserUpdatedEvent(msg) {
     if (userIsGuest || isTimezoneEnabled) {
         let members = getMembersInCurrentChannel(state);
         const currentChannelId = getCurrentChannelId(state);
-        if (!members || !members[user.id]) {
+        let memberExists = members && members[user.id];
+        if (!memberExists) {
             await dispatch(getChannelMember(currentChannelId, user.id));
             members = getMembersInCurrentChannel(getState());
+            memberExists = members && members[user.id];
         }
 
-        if (members && members[user.id]) {
+        if (memberExists) {
             if (isTimezoneEnabled) {
                 dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
             }
