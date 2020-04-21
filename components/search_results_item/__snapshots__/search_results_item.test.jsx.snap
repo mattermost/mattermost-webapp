@@ -46,7 +46,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               "user_id": "user_id",
             }
           }
-          userId="user_id"
         />
       </div>
       <div>
@@ -269,7 +268,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               "user_id": "user_id",
             }
           }
-          userId="user_id"
         />
       </div>
       <div>
@@ -471,7 +469,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               "user_id": "user_id",
             }
           }
-          userId="user_id"
         />
       </div>
       <div>
@@ -681,7 +678,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               "user_id": "user_id",
             }
           }
-          userId="user_id"
         />
       </div>
       <div>
@@ -818,7 +814,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               "user_id": "user_id",
             }
           }
-          userId="user_id"
         />
       </div>
       <div>

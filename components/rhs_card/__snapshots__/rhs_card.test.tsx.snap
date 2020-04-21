@@ -72,7 +72,6 @@ exports[`components/rhs_card/RhsCard should match on post when no plugin definin
                       "user_id": "userID",
                     }
                   }
-                  userId="userID"
                 />,
                 "user": <Connect(UserProfile)
                   disablePopover={true}
@@ -176,7 +175,6 @@ exports[`components/rhs_card/RhsCard should match on post when plugin defining c
                       "user_id": "userID",
                     }
                   }
-                  userId="userID"
                 />,
                 "user": <Connect(UserProfile)
                   disablePopover={true}
@@ -305,7 +303,6 @@ exports[`components/rhs_card/RhsCard should match on post when plugin defining c
                       "user_id": "userID",
                     }
                   }
-                  userId="userID"
                 />,
                 "user": <Connect(UserProfile)
                   disablePopover={true}
