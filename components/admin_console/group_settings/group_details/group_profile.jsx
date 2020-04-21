@@ -11,10 +11,13 @@ export default class GroupProfile extends React.PureComponent {
         title: PropTypes.string.isRequired,
         titleDefault: PropTypes.string.isRequired,
         customID: PropTypes.string,
+        isDisabled: PropTypes.bool.isRequired,
+        showAtMention: PropTypes.bool.isRequired,
+        onChange: PropTypes.func,
     };
 
     render = () => {
-        const {name, title, titleDefault, customID} = this.props;
+        const {name, title, titleDefault, customID, isDisabled, showAtMention, onChange} = this.props;
 
         return (
             <div
@@ -29,12 +32,17 @@ export default class GroupProfile extends React.PureComponent {
                         />
                     </label>
                     <div className='col-sm-8'>
-                        <input
-                            type='text'
-                            className='form-control'
-                            value={name}
-                            disabled={true}
-                        />
+                        <div className='input-icons'>
+                            {showAtMention && <i className='fa icon'>{'@'}</i>}
+                            <input
+                                type='text'
+                                id={customID}
+                                className='form-control group_at_mention_input'
+                                value={name}
+                                disabled={isDisabled}
+                                onChange={onChange}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
