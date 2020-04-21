@@ -15,6 +15,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
+import SidebarCategoryMenu from './sidebar_category_menu';
 import SidebarChannel from '../sidebar_channel';
 
 type Props = {
@@ -114,7 +115,6 @@ export default class SidebarCategory extends React.PureComponent<Props> {
 
         const renderedChannels = channels.map(this.renderChannel);
 
-        let directMessagesModalButton;
         let hideArrow = false;
         if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             const helpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
@@ -126,22 +126,6 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 >
                     {helpLabel}
                 </Tooltip>
-            );
-
-            directMessagesModalButton = (
-                <button
-                    className='SidebarChannelGroupHeader_addButton'
-                    onClick={this.handleOpenDirectMessagesModal}
-                    aria-label={helpLabel}
-                >
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={tooltip}
-                    >
-                        <i className='icon-plus'/>
-                    </OverlayTrigger>
-                </button>
             );
 
             if (!channels || !channels.length) {
@@ -172,7 +156,9 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                         <div>
                             {displayName}
                         </div>
-                        {directMessagesModalButton}
+                        <SidebarCategoryMenu
+                            category={category}
+                        />
                     </button>
                 </div>
                 <div className='SidebarChannelGroup_content'>
