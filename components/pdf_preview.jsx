@@ -25,7 +25,7 @@ export default class PDFPreview extends React.PureComponent {
         *  URL of pdf file to output and compare to update props url
         */
         fileUrl: PropTypes.string.isRequired,
-        scale: PropTypes.number.isRequired
+        scale: PropTypes.number.isRequired,
     }
 
     constructor(props) {
@@ -63,23 +63,29 @@ export default class PDFPreview extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
+<<<<<<< HEAD
         if (this.props.fileUrl !== prevProps.fileUrl) {
             this.getPdfDocument();
             this.pdfPagesRendered = {};
         }
 
+=======
+>>>>>>> Refactor and fixes issue with zoom in
         if (this.state.success) {
             for (let i = 0; i < this.state.numPages; i++) {
-                this.renderPDFPage(i);
+                // check if handleZoomIn/Out was called from ViewImageModal
+                if (prevProps.scale !== this.props.scale) {
+                    this.renderPDFPage(i);
+                } else if (this.pdfPagesRendered[i] || !this.state.pdfPagesLoaded[i]) {
+                    return;
+                } else {
+                    this.renderPDFPage(i);
+                }
             }
         }
     }
 
     renderPDFPage = (pageIndex) => {
-        if (this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) {
-            return;
-        }
-
         const canvas = this.refs['pdfCanvas' + pageIndex];
         const context = canvas.getContext('2d');
         const viewport = this.state.pdfPages[pageIndex].getViewport(this.props.scale);
@@ -93,6 +99,7 @@ export default class PDFPreview extends React.PureComponent {
         };
 
         this.state.pdfPages[pageIndex].render(renderContext);
+        this.pdfPagesRendered[pageIndex] = true;
     }
 
     getPdfDocument = () => {
