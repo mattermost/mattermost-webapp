@@ -86,6 +86,7 @@ class ChannelHeader extends React.PureComponent {
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
         newSideBarPreference: PropTypes.bool,
+        announcementBarCount: PropTypes.number,
     };
 
     constructor(props) {
@@ -94,7 +95,7 @@ class ChannelHeader extends React.PureComponent {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -263,10 +264,12 @@ class ChannelHeader extends React.PureComponent {
     showChannelHeaderPopover = (headerText) => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
-
+        const announcementBarSize = 32;
         if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
-            this.setState({showChannelHeaderPopover: true});
+            this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
+
+        this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount)});
     }
 
     setPopoverOverlayWidth = () => {
@@ -414,7 +417,6 @@ class ChannelHeader extends React.PureComponent {
         if (isDirect && !dmUser.delete_at && !dmUser.is_bot) {
             dmHeaderIconStatus = (
                 <StatusIcon
-                    type='avatar'
                     status={channel.status}
                 />
             );
@@ -437,18 +439,17 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
-                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`}}
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translate(${this.state.leftOffset}px, ${this.state.topOffset}px)`}}
                     placement='bottom'
                     className={classNames(['channel-header__popover',
-                        {'chanel-header__popover--dm': isDirect,
-                            'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
+                        {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
                             'chanel-header__popover--new_sidebar': newSideBarPreference}])}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}
                     >
                         <Markdown
-                            message={headerText.replace(/\n/, '\n\n')}
+                            message={headerText}
                             options={this.getPopoverMarkdownOptions(channelNamesMap)}
                         />
                     </span>
@@ -490,7 +491,7 @@ class ChannelHeader extends React.PureComponent {
                         >{popoverContent}</Overlay>
 
                         <Markdown
-                            message={headerText.replace(/\n/g, '\n\n')}
+                            message={headerText}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
                         />
                     </span>
@@ -630,35 +631,35 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon wide';
+        let pinnedIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.PIN) {
-            pinnedIconClass += ' active';
+            pinnedIconClass += ' channel-header__icon--active';
         }
 
         let mentionsIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.MENTION) {
-            mentionsIconClass += ' active';
+            mentionsIconClass += ' channel-header__icon--active';
         }
 
         let flaggedIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.FLAG) {
-            flaggedIconClass += ' active';
+            flaggedIconClass += ' channel-header__icon--active';
         }
         const pinnedIcon = (this.props.pinnedPostsCount ?
-            (<div className='flex-child'>
+            (<React.Fragment>
+                <PinIcon
+                    className='icon icon--standard'
+                    aria-hidden='true'
+                />
                 <span
                     id='channelPinnedPostCountText'
                     className='icon__text'
                 >
                     {this.props.pinnedPostsCount}
                 </span>
+            </React.Fragment>) : (
                 <PinIcon
-                    className='icon icon__pin'
-                    aria-hidden='true'
-                />
-            </div>) : (
-                <PinIcon
-                    className='icon icon__pin'
+                    className='icon icon--standard'
                     aria-hidden='true'
                 />));
 
@@ -756,7 +757,7 @@ class ChannelHeader extends React.PureComponent {
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
-                        buttonClass={'style--none ' + pinnedIconClass}
+                        buttonClass={pinnedIconClass}
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
@@ -776,7 +777,7 @@ class ChannelHeader extends React.PureComponent {
                         <HeaderIconWrapper
                             iconComponent={
                                 <SearchIcon
-                                    className='icon icon__search icon--stroke'
+                                    className='icon icon--standard'
                                     aria-hidden='true'
                                 />
                             }
@@ -789,12 +790,12 @@ class ChannelHeader extends React.PureComponent {
                     <HeaderIconWrapper
                         iconComponent={
                             <MentionsIcon
-                                className='icon icon__mentions'
+                                className='icon icon--standard'
                                 aria-hidden='true'
                             />
                         }
                         ariaLabel={true}
-                        buttonClass={'style--none ' + mentionsIconClass}
+                        buttonClass={mentionsIconClass}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -804,7 +805,7 @@ class ChannelHeader extends React.PureComponent {
                             <FlagIcon className='icon icon__flag'/>
                         }
                         ariaLabel={true}
-                        buttonClass={'style--none ' + flaggedIconClass}
+                        buttonClass={flaggedIconClass}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}
