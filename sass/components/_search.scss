@@ -256,13 +256,13 @@
 .search-hint__suggestions-list {
     list-style-type: none;
     margin: 0;
-    padding-left: 0;
+    padding: 8px 0;
 }
 
 .search-hint__suggestions-list__option {
     padding: 10px 24px;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     text-align: left;
     color: var(--center-channel-color);
     cursor: pointer;
@@ -279,6 +279,14 @@
     &:hover {
         background: rgba(61, 60, 64, 0.06);
     }
+
+    &.highlighted {
+        background: rgba(61, 60, 64, 0.06);
+    }
+}
+
+.search-hint__suggestion-list__flex-wrap {
+    width: 51px;
 }
 
 .search-hint__suggestion-list__label {
@@ -287,13 +295,12 @@
     font-weight: 600;
     font-size: 10px;
     letter-spacing: 0.01em;
-    border-radius: 5px;
-    padding: 0px 5px;
-    line-height: 18px;
+    border-radius: 4px;
+    padding: 1px 5px;
 }
 
 .search-hint__suggestion-list__value {
-    width: 186px;
+    margin-left: 16px;
 }
 
 .sidebar--right {

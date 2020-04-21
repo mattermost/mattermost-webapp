@@ -162,7 +162,7 @@ export default class SearchBar extends React.Component {
     }
 
     handleUpdateSearchTerm = (term) => {
-        this.props.actions.updateSearchTerms(term + ' ');
+        this.props.actions.updateSearchTerms(term);
         this.focus();
     }
 
