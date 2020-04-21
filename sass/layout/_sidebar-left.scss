@@ -298,6 +298,18 @@
             .SubMenu__icon-right {
                 margin-right: -32px;
             }
+
+            #SidebarChannelMenu-moveToDivider {
+                pointer-events: none;
+
+                .MenuGroup.menu-divider {
+                    margin-right: -32px;
+                }
+
+                span {
+                    display: none;
+                }
+            }
         }
     }
 

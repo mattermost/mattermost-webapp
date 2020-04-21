@@ -3238,6 +3238,7 @@
   "sidebar_left.sidebar_channel_menu.leaveConversation": "Leave Conversation",
   "sidebar_left.sidebar_channel_menu.markAsRead": "Mark as Read",
   "sidebar_left.sidebar_channel_menu.moveTo": "Move to",
+  "sidebar_left.sidebar_channel_menu.moveToNewCategory": "Move to New Category",
   "sidebar_left.sidebar_channel_menu.muteChannel": "Mute Channel",
   "sidebar_left.sidebar_channel_menu.muteConversation": "Mute Conversation",
   "sidebar_left.sidebar_channel_menu.unfavoriteChannel": "Unfavorite",

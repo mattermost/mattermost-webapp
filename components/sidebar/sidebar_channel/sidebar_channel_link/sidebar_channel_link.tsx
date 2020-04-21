@@ -145,11 +145,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channelId={channel.id}
                     unreadMentions={unreadMentions}
                 />
-                {/* <SidebarChannelClose
-                    channel={channel}
-                    show={!this.showChannelAsUnread()}
-
-                /> */}
                 <SidebarChannelMenu
                     channel={channel}
                     isUnread={this.showChannelAsUnread()}

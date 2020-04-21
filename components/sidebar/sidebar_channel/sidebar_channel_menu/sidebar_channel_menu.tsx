@@ -76,6 +76,12 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     moveToCategory = (categoryId: string) => {
+        return (id: string) => {
+            // TODO
+        };
+    }
+
+    moveToNewCategory = () => {
         // TODO
     }
 
@@ -156,7 +162,6 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         }
 
-        // TODO: Add different translation for Direct Messages
         let muteChannel;
         if (isMuted) {
             let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'});
@@ -186,17 +191,42 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         }
 
-        // TODO: Filter out categories you can't move to
-        // TODO: Add the move to new category button
-        const categoryMenuItems = categories.map((category) => {
+        // TODO: Filter out the current category
+        const categoryMenuItems = categories.filter((category) => {
+            switch (channel.type) {
+            case 'O':
+                return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PRIVATE;
+            case 'P':
+                return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PUBLIC;
+            case 'D':
+            case 'G':
+                return category.type !== CategoryTypes.PRIVATE && category.type !== CategoryTypes.PUBLIC;
+            default:
+                return true;
+            }
+        }).map((category) => {
             return {
                 id: `moveToCategory-${channel.id}-${category.id}`,
                 icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
                 direction: 'right' as any,
                 text: category.display_name,
-                onClick: this.moveToCategory(category.id),
-            };
+                action: this.moveToCategory(category.id),
+            } as any;
         });
+
+        categoryMenuItems.push(
+            {
+                id: 'SidebarChannelMenu-moveToDivider',
+                text: (<li className='MenuGroup menu-divider'/>),
+            },
+            {
+                id: `moveToNewCategory-${channel.id}`,
+                icon: (<i className='icon-folder-move-outline'/>),
+                direction: 'right' as any,
+                text: intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'Move to New Category'}),
+                action: this.moveToNewCategory,
+            },
+        );
 
         let publicChannelGroup;
         if (channel.type !== 'D') {
