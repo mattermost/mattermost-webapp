@@ -158,12 +158,12 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
-          className="icon icon__pin"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -175,7 +175,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -183,12 +183,12 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -196,7 +196,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon active"
+      buttonClass="channel-header__icon channel-header__icon--active"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -368,12 +368,12 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
-          className="icon icon__pin"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -385,7 +385,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -393,12 +393,12 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon active"
+      buttonClass="channel-header__icon channel-header__icon--active"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -406,7 +406,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -578,12 +578,12 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide active"
+      buttonClass="channel-header__icon channel-header__icon--active"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
-          className="icon icon__pin"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -595,7 +595,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -603,12 +603,12 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -616,7 +616,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -727,12 +727,12 @@ exports[`components/ChannelHeader should render archived view 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
-          className="icon icon__pin"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -744,7 +744,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -752,12 +752,12 @@ exports[`components/ChannelHeader should render archived view 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -765,7 +765,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -972,12 +972,12 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
-          className="icon icon__pin"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -989,7 +989,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -997,12 +997,12 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1010,7 +1010,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -1188,12 +1188,12 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
-          className="icon icon__pin"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1205,7 +1205,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1213,12 +1213,12 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1226,7 +1226,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -1346,6 +1346,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 style={
                   Object {
                     "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
                   }
                 }
               >
@@ -1435,12 +1436,12 @@ exports[`components/ChannelHeader should render properly when populated with cha
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
           aria-hidden="true"
-          className="icon icon__pin"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1452,7 +1453,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1460,12 +1461,12 @@ exports[`components/ChannelHeader should render properly when populated with cha
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1473,7 +1474,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon
@@ -1645,23 +1646,21 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon wide"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderPinButton"
       iconComponent={
-        <div
-          className="flex-child"
-        >
+        <React.Fragment>
+          <PinIcon
+            aria-hidden="true"
+            className="icon icon--standard"
+          />
           <span
             className="icon__text"
             id="channelPinnedPostCountText"
           >
             2
           </span>
-          <PinIcon
-            aria-hidden="true"
-            className="icon icon__pin"
-          />
-        </div>
+        </React.Fragment>
       }
       onClick={[Function]}
       tooltipKey="pinnedPosts"
@@ -1672,7 +1671,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       iconComponent={
         <SearchIcon
           aria-hidden="true"
-          className="icon icon__search icon--stroke"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1680,12 +1679,12 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
       iconComponent={
         <MentionsIcon
           aria-hidden="true"
-          className="icon icon__mentions"
+          className="icon icon--standard"
         />
       }
       onClick={[Function]}
@@ -1693,7 +1692,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="style--none channel-header__icon"
+      buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
       iconComponent={
         <FlagIcon

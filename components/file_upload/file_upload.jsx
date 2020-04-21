@@ -601,7 +601,7 @@ class FileUpload extends PureComponent {
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
-                        <AttachmentIcon/>
+                        <AttachmentIcon className='d-flex'/>
                     </button>
                     <input
                         id='fileUploadInput'
@@ -660,7 +660,7 @@ class FileUpload extends PureComponent {
                                 id='fileUploadButton'
                                 className='icon icon--attachment'
                             >
-                                <AttachmentIcon/>
+                                <AttachmentIcon className='d-flex'/>
                             </div>
                         </button>
                         <Menu

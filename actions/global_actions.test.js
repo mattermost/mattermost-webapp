@@ -9,7 +9,7 @@ import {close as closeLhs} from 'actions/views/lhs';
 import LocalStorageStore from 'stores/local_storage_store';
 import {getState} from 'stores/redux_store';
 
-import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction} from 'actions/global_actions.jsx';
+import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions.jsx';
 
 jest.mock('actions/views/rhs', () => ({
     closeMenu: jest.fn(),
@@ -324,6 +324,200 @@ describe('actions/global_actions', () => {
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).not.toHaveBeenCalled();
+        });
+
+        it('should redirect to direct message if that\'s the most recently used', async () => {
+            const userId = 'user1';
+            const teamId = 'team1';
+            const user2 = 'user2';
+            const directChannelId = `${userId}__${user2}`;
+            const mockStore = configureStore();
+            const store = mockStore({
+                entities: {
+                    general: {
+                        config: {
+                            DefaultClientLocale: 'en',
+                            TeammateNameDisplay: 'username',
+                        },
+                        serverVersion: '5.16.0',
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
+                    teams: {
+                        teams: {
+                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
+                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                        },
+                        myMembers: {
+                            team1: {id: 'team1'},
+                            team2: {id: 'team2'},
+                        },
+                    },
+                    channels: {
+                        myMembers: {
+                            'channel-in-team-1': {},
+                            'channel-in-team-2': {},
+                            [directChannelId]: {},
+                        },
+                        channels: {
+                            'channel-in-team-1': {
+                                id: 'channel-in-team-1',
+                                team_id: 'team1',
+                                name: 'channel-in-team-1',
+                                type: 'O',
+                            },
+                            'channel-in-team-2': {
+                                id: 'channel-in-team-2',
+                                team_id: 'team2',
+                                name: 'channel-in-team-2',
+                                type: 'O',
+                            },
+                            [directChannelId]: {
+                                id: directChannelId,
+                                team_id: '',
+                                name: directChannelId,
+                                type: 'D',
+                                teammate_id: 'user2',
+                            },
+                            'group-channel': {
+                                id: 'group-channel',
+                                name: 'group-channel',
+                                team_id: 'team1',
+                                type: 'G',
+                            },
+                        },
+                        channelsInTeam: {
+                            team1: ['channel-in-team-1', directChannelId],
+                            team2: ['channel-in-team-2'],
+                        },
+                    },
+                    users: {
+                        currentUserId: userId,
+                        profiles: {
+                            [userId]: {id: userId, username: userId, roles: 'system_guest'},
+                            [user2]: {id: user2, username: user2, roles: 'system_guest'},
+                        },
+                    },
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: [],
+                            },
+                            team_guest: {
+                                permissions: [],
+                            },
+                            channel_guest: {
+                                permissions: [],
+                            },
+                        },
+                    },
+                },
+            });
+            getState.mockImplementation(store.getState);
+            LocalStorageStore.setPreviousTeamId(userId, teamId);
+            LocalStorageStore.setPreviousChannelName(userId, teamId, directChannelId);
+
+            const result = await getTeamRedirectChannelIfIsAccesible({id: userId}, {id: teamId});
+            expect(result.id).toBe(directChannelId);
+        });
+
+        it('should redirect to group message if that\'s the most recently used', async () => {
+            const userId = 'user1';
+            const teamId = 'team1';
+            const user2 = 'user2';
+            const directChannelId = `${userId}__${user2}`;
+            const groupChannelId = 'group-channel';
+            const mockStore = configureStore();
+            const store = mockStore({
+                entities: {
+                    general: {
+                        config: {
+                            DefaultClientLocale: 'en',
+                            TeammateNameDisplay: 'username',
+                        },
+                        serverVersion: '5.16.0',
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
+                    teams: {
+                        teams: {
+                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
+                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                        },
+                        myMembers: {
+                            team1: {id: 'team1'},
+                            team2: {id: 'team2'},
+                        },
+                    },
+                    channels: {
+                        myMembers: {
+                            'channel-in-team-1': {},
+                            'channel-in-team-2': {},
+                            [directChannelId]: {},
+                            [groupChannelId]: {},
+                        },
+                        channels: {
+                            'channel-in-team-1': {
+                                id: 'channel-in-team-1',
+                                team_id: 'team1',
+                                name: 'channel-in-team-1',
+                                type: 'O',
+                            },
+                            'channel-in-team-2': {
+                                id: 'channel-in-team-2',
+                                team_id: 'team2',
+                                name: 'channel-in-team-2',
+                                type: 'O',
+                            },
+                            [directChannelId]: {
+                                id: directChannelId,
+                                team_id: '',
+                                name: directChannelId,
+                                type: 'D',
+                                teammate_id: 'user2',
+                            },
+                            [groupChannelId]: {
+                                id: groupChannelId,
+                                name: groupChannelId,
+                                team_id: 'team1',
+                                type: 'G',
+                            },
+                        },
+                        channelsInTeam: {
+                            team1: ['channel-in-team-1', directChannelId, groupChannelId],
+                            team2: ['channel-in-team-2'],
+                        },
+                    },
+                    users: {
+                        currentUserId: userId,
+                        profiles: {
+                            [userId]: {id: userId, username: userId, roles: 'system_guest'},
+                            [user2]: {id: user2, username: user2, roles: 'system_guest'},
+                        },
+                    },
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: [],
+                            },
+                            team_guest: {
+                                permissions: [],
+                            },
+                            channel_guest: {
+                                permissions: [],
+                            },
+                        },
+                    },
+                },
+            });
+            getState.mockImplementation(store.getState);
+            LocalStorageStore.setPreviousTeamId(userId, teamId);
+            LocalStorageStore.setPreviousChannelName(userId, teamId, groupChannelId);
+
+            const result = await getTeamRedirectChannelIfIsAccesible({id: userId}, {id: teamId});
+            expect(result.id).toBe(groupChannelId);
         });
 
         it('should redirect to last channel on first team when current team is no longer available', async () => {

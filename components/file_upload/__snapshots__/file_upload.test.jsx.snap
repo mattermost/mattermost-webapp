@@ -13,7 +13,9 @@ exports[`components/FileUpload should match snapshot 1`] = `
       onTouchEnd={[Function]}
       type="button"
     >
-      <AttachmentIcon />
+      <AttachmentIcon
+        className="d-flex"
+      />
     </button>
     <input
       accept=""
