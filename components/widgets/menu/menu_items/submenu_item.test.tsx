@@ -30,10 +30,12 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
                     {
                         id: 'A',
                         text: 'Test A',
+                        direction: 'left',
                     },
                     {
                         id: 'B',
                         text: 'Test B',
+                        direction: 'left',
                     },
                 ]}
                 action={jest.fn()}
@@ -56,11 +58,13 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
                         id: 'A',
                         text: 'Test A',
                         action: action2,
+                        direction: 'left',
                     },
                     {
                         id: 'B',
                         text: 'Test B',
                         action: action3,
+                        direction: 'left',
                     },
                 ]}
                 action={action1}

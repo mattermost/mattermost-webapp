@@ -4,13 +4,13 @@
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
-import Menu from 'components/widgets/menu/menu';
-import { Channel, ChannelNotifyProps } from 'mattermost-redux/types/channels';
-import { NotificationLevels } from 'utils/constants';
-import { ChannelCategory } from 'mattermost-redux/types/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {Channel, ChannelNotifyProps} from 'mattermost-redux/types/channels';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
-import { CategoryTypes } from 'mattermost-redux/constants/channel_categories';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
+import Menu from 'components/widgets/menu/menu';
+import {NotificationLevels} from 'utils/constants';
 
 type Props = {
     channel: Channel;
@@ -27,7 +27,7 @@ type Props = {
         unfavoriteChannel: (channelId: string) => void;
         updateChannelNotifyProps: (userId: string, channelId: string, props: ChannelNotifyProps) => void;
         openModal: (modalData: any) => void;
-    }
+    };
 };
 
 type State = {
@@ -166,7 +166,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 direction: 'right' as any,
                 text: category.display_name,
                 onClick: this.moveToCategory(category.id),
-            }
+            };
         });
 
         let publicChannelGroup;

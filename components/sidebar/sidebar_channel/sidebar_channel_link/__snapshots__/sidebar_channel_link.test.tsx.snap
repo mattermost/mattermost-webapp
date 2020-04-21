@@ -40,7 +40,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     channelId="channel_id"
     unreadMentions={0}
   />
-  <SidebarChannelClose
+  <Connect(injectIntl(SidebarChannelMenu))
     channel={
       Object {
         "create_at": 0,
@@ -61,7 +61,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
-    show={true}
+    isUnread={false}
   />
 </Link>
 `;
@@ -106,7 +106,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     channelId="channel_id"
     unreadMentions={0}
   />
-  <SidebarChannelClose
+  <Connect(injectIntl(SidebarChannelMenu))
     channel={
       Object {
         "create_at": 0,
@@ -127,7 +127,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
-    show={true}
+    isUnread={false}
   />
 </Link>
 `;
@@ -192,7 +192,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       channelId="channel_id"
       unreadMentions={0}
     />
-    <SidebarChannelClose
+    <Connect(injectIntl(SidebarChannelMenu))
       channel={
         Object {
           "create_at": 0,
@@ -213,7 +213,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
           "update_at": 0,
         }
       }
-      show={true}
+      isUnread={false}
     />
   </Link>
 </OverlayTrigger>
@@ -259,7 +259,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     channelId="channel_id"
     unreadMentions={2}
   />
-  <SidebarChannelClose
+  <Connect(injectIntl(SidebarChannelMenu))
     channel={
       Object {
         "create_at": 0,
@@ -280,7 +280,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
-    show={false}
+    isUnread={true}
   />
 </Link>
 `;

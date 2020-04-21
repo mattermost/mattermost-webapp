@@ -24,16 +24,19 @@ describe('components/submenu_modal', () => {
                 id: 'A',
                 text: 'Text A',
                 action: action1,
+                direction: 'left' as any,
             },
             {
                 id: 'B',
                 text: 'Text B',
                 action: action2,
+                direction: 'left' as any,
                 subMenu: [
                     {
                         id: 'C',
                         text: 'Text C',
                         action: action3,
+                        direction: 'left' as any,
                     },
                 ],
             },

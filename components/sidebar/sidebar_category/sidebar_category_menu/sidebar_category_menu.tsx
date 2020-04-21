@@ -4,27 +4,24 @@
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
-import Menu from 'components/widgets/menu/menu';
-import { ChannelCategory } from 'mattermost-redux/types/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
-import { CategoryTypes } from 'mattermost-redux/constants/channel_categories';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
+import Menu from 'components/widgets/menu/menu';
 
 type Props = {
     category: ChannelCategory;
+
     //currentUserId: string;
     isMuted: boolean;
     intl: IntlShape;
     actions: {
 
-    }
+    };
 };
 
 class SidebarCategoryMenu extends React.PureComponent<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
-
     unmuteCategory = () => {
 
     }
@@ -74,7 +71,8 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
             );
         }
 
-        let deleteCategory, renameCategory;
+        let deleteCategory;
+        let renameCategory;
         if (category.type === CategoryTypes.CUSTOM) {
             deleteCategory = (
                 <Menu.Group>

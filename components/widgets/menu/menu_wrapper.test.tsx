@@ -69,9 +69,9 @@ describe('components/MenuWrapper', () => {
             </MenuWrapper>
         );
         expect(wrapper.state('open')).toBe(false);
-        wrapper.simulate('click');
+        wrapper.simulate('click', {preventDefault: jest.fn(), stopPropagation: jest.fn()});
         expect(wrapper.state('open')).toBe(true);
-        wrapper.simulate('click');
+        wrapper.simulate('click', {preventDefault: jest.fn(), stopPropagation: jest.fn()});
         expect(wrapper.state('open')).toBe(false);
     });
 

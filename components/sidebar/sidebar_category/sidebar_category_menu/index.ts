@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {Dispatch, bindActionCreators} from 'redux';
 
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
-import { Dispatch, bindActionCreators } from 'redux';
-import { ChannelCategory } from 'mattermost-redux/types/channel_categories';
 
 type OwnProps = {
     category: ChannelCategory;
@@ -15,7 +15,6 @@ type OwnProps = {
 
 function makeMapStateToProps() {
     return (state: GlobalState, ownProps: OwnProps) => {
-
         return {
             isMuted: false, // TODO
         };

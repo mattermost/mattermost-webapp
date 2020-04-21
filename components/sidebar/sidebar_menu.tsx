@@ -3,11 +3,11 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
+import classNames from 'classnames';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import OverlayTrigger from 'components/overlay_trigger';
-import classNames from 'classnames';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -16,7 +16,7 @@ type Props = {
     tooltipText: string;
     buttonAriaLabel: string;
     ariaLabel: string;
-    refCallback: (ref: SidebarMenu) => void;
+    refCallback?: (ref: SidebarMenu) => void;
 };
 
 type State = {
@@ -37,7 +37,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             isMenuOpen: false,
             openUp: false,
             width: 0,
-        }
+        };
 
         this.menuButtonRef = React.createRef();
         this.isLeaving = false;
@@ -114,6 +114,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                     menuOpen: this.state.isMenuOpen,
                 })}
                 onToggle={this.handleMenuToggle}
+                stopPropagationOnToggle={true}
             >
                 <button
                     ref={this.menuButtonRef}

@@ -2,19 +2,20 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {Dispatch, bindActionCreators} from 'redux';
 
+import {favoriteChannel, unfavoriteChannel, updateChannelNotifyProps, markChannelAsRead} from 'mattermost-redux/actions/channels';
+import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {Channel} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
+import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
+
+import {openModal} from 'actions/views/modals';
 
 import SidebarChannelMenu from './sidebar_channel_menu';
-import { Channel } from 'mattermost-redux/types/channels';
-import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
-import { getMyPreferences } from 'mattermost-redux/selectors/entities/preferences';
-import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {favoriteChannel, unfavoriteChannel, updateChannelNotifyProps, markChannelAsRead} from 'mattermost-redux/actions/channels';
-import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
-import { Dispatch, bindActionCreators } from 'redux';
-import { getCurrentTeam } from 'mattermost-redux/selectors/entities/teams';
-import {openModal} from 'actions/views/modals';
 
 type OwnProps = {
     channel: Channel;

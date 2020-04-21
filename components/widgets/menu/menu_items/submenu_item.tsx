@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 
 import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
@@ -124,21 +124,21 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width : 0;
         const childOffset = (React.isValidElement(text)) ? 20 : 0;
         const offset = (root ? 2 : childOffset);
-        const subMenuStyle: any = {
+        const subMenuStyle: CSSProperties = {
             visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
         };
 
         const menuOffset = (parseInt(String(xOffset), 10) - offset) + 'px';
         if (direction === 'left') {
-            subMenuStyle['right'] = menuOffset;
+            subMenuStyle.right = menuOffset;
         } else {
-            subMenuStyle['left'] = menuOffset;
+            subMenuStyle.left = menuOffset;
         }
 
         if (openUp) {
-            subMenuStyle['bottom'] = this.node && this.node.current ? String(this.node.current.offsetTop + this.node.current.clientHeight) + 'px' : 'unset';
+            subMenuStyle.bottom = this.node && this.node.current ? String(this.node.current.offsetTop + this.node.current.clientHeight) + 'px' : 'unset';
         } else {
-            subMenuStyle['top'] = this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset';
+            subMenuStyle.top = this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset';
         }
 
         let subMenuContent: React.ReactNode = '';

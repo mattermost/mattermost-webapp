@@ -15,6 +15,7 @@ type Props = {
     onToggle?: (open: boolean) => void;
     animationComponent: any;
     id?: string;
+    stopPropagationOnToggle?: boolean;
 }
 
 type State = {
@@ -78,8 +79,16 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
     }
 
     private toggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        e.preventDefault();
-        e.stopPropagation();
+        /**
+         * This is only here so that we can toggle the menus in the sidebar, because the default behavior of the mobile
+         * version (ie the one that uses a modal) needs propagation to close the modal after selecting something
+         * We need to refactor this so that the modal is explicitly closed on toggle, but for now I am aiming to preserve the existing logic
+         * so as to not break other things
+        **/
+        if (this.props.stopPropagationOnToggle) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         const newState = !this.state.open;
         this.setState({open: newState}, () => {
             if (this.props.onToggle) {

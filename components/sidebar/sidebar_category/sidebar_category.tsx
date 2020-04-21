@@ -11,12 +11,12 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions';
-import OverlayTrigger from 'components/overlay_trigger';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
-import SidebarCategoryMenu from './sidebar_category_menu';
 import SidebarChannel from '../sidebar_channel';
+
+import SidebarCategoryMenu from './sidebar_category_menu';
 
 type Props = {
     category: ChannelCategory;

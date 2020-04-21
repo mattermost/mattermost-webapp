@@ -18,6 +18,16 @@ exports[`components/sidebar/sidebar_category should match snapshot 1`] = `
       <div>
         custom_category_1
       </div>
+      <Connect(injectIntl(SidebarCategoryMenu))
+        category={
+          Object {
+            "display_name": "custom_category_1",
+            "id": "category1",
+            "team_id": "team1",
+            "type": "custom",
+          }
+        }
+      />
     </button>
   </div>
   <div
@@ -57,6 +67,16 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
       <div>
         custom_category_1
       </div>
+      <Connect(injectIntl(SidebarCategoryMenu))
+        category={
+          Object {
+            "display_name": "custom_category_1",
+            "id": "category1",
+            "team_id": "team1",
+            "type": "custom",
+          }
+        }
+      />
     </button>
   </div>
   <div
@@ -96,37 +116,16 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
       <div>
         custom_category_1
       </div>
-      <button
-        aria-label="Create new direct message"
-        className="SidebarChannelGroupHeader_addButton"
-        onClick={[Function]}
-      >
-        <OverlayTrigger
-          defaultOverlayShown={false}
-          delayShow={500}
-          overlay={
-            <Tooltip
-              bsClass="tooltip"
-              className="hidden-xs"
-              id="new-group-tooltip"
-              placement="right"
-            >
-              Create new direct message
-            </Tooltip>
+      <Connect(injectIntl(SidebarCategoryMenu))
+        category={
+          Object {
+            "display_name": "custom_category_1",
+            "id": "category1",
+            "team_id": "team1",
+            "type": "direct_messages",
           }
-          placement="top"
-          trigger={
-            Array [
-              "hover",
-              "focus",
-            ]
-          }
-        >
-          <i
-            className="icon-plus"
-          />
-        </OverlayTrigger>
-      </button>
+        }
+      />
     </button>
   </div>
   <div
