@@ -432,7 +432,6 @@ class RhsRootPost extends React.PureComponent {
                             isBusy={this.props.isBusy}
                             isRHS={true}
                             post={post}
-                            userId={post.user_id}
                         />
                     </div>
                     <div>

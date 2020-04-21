@@ -328,7 +328,6 @@ class Post extends React.PureComponent {
                 <PostProfilePicture
                     compactDisplay={this.props.compactDisplay}
                     post={post}
-                    userId={post.user_id}
                 />
             );
 

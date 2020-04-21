@@ -3,7 +3,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 
 import RhsCard from './rhs_card';
@@ -36,32 +35,11 @@ describe('components/rhs_card/RhsCard', () => {
         }
     };
 
-    const currentChannel: Channel = {
-        id: '111',
-        create_at: 1542994995740,
-        update_at: 1543081395740,
-        delete_at: 1543254195740,
-        team_id: 'teamID',
-        type: 'O',
-        display_name: 'Town Square',
-        name: 'town-square',
-        header: 'header',
-        purpose: 'no purpose',
-        last_post_at: 1543254195740,
-        total_msg_count: 0,
-        extra_update_at: 1543167795740,
-        creator_id: 'creatorID',
-        scheme_id: 'schemeID',
-        group_constrained: false
-    };
-
     it('should match when no post is selected', () => {
         const wrapper = shallow(
             <RhsCard
-                channel={currentChannel}
                 enablePostUsernameOverride={true}
                 teamUrl={'team/url'}
-
             />,
         );
 
@@ -72,7 +50,6 @@ describe('components/rhs_card/RhsCard', () => {
         const wrapper = shallow(
             <RhsCard
                 selected={post}
-                channel={currentChannel}
                 teamUrl={'team/url'}
                 enablePostUsernameOverride={false}
             />,
@@ -95,7 +72,6 @@ describe('components/rhs_card/RhsCard', () => {
                         }
                     }
                 }
-                channel={currentChannel}
                 teamUrl={'team/url'}
                 enablePostUsernameOverride={false}
             />,
@@ -118,7 +94,6 @@ describe('components/rhs_card/RhsCard', () => {
                         },
                     }
                 }
-                channel={currentChannel}
                 enablePostUsernameOverride={false}
                 teamUrl={'team/url'}
             />,

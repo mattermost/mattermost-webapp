@@ -6,7 +6,6 @@ import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Post} from 'mattermost-redux/types/posts';
-import {Channel} from 'mattermost-redux/types/channels';
 
 import DelayedAction from 'utils/delayed_action';
 import Constants, {RHSStates, ValueOf} from 'utils/constants';
@@ -20,11 +19,10 @@ import {PluginsState} from '../../types/store/plugins';
 
 interface Props {
     selected?: Post;
-    pluginPostCardTypes: PluginsState['postCardTypes'];
+    pluginPostCardTypes?: PluginsState['postCardTypes'];
     previousRhsState?: ValueOf<typeof RHSStates>;
     enablePostUsernameOverride?: boolean;
-    teamUrl: string;
-    channel?: Channel;
+    teamUrl?: string;
 }
 
 interface State {
@@ -58,7 +56,6 @@ export function renderThumbVertical(props: any) {
 }
 
 export default class RhsCard extends React.Component<Props, State> {
-    state: State;
     scrollStopAction: DelayedAction;
 
     static defaultProps: Partial<Props> = {
@@ -115,9 +112,8 @@ export default class RhsCard extends React.Component<Props, State> {
         let content = null;
 
         if (Object.prototype.hasOwnProperty.call(pluginPostCardTypes, postType)) {
-            // eslint-disable-next-line no-shadow
-            const PluginComponent = pluginPostCardTypes[postType].component;
-            content = <PluginComponent post={selected}/>;
+            const Plugin = pluginPostCardTypes![postType].component;
+            content = <Plugin post={selected}/>;
         }
 
         if (!content) {
@@ -150,7 +146,6 @@ export default class RhsCard extends React.Component<Props, State> {
             <PostProfilePicture
                 compactDisplay={false}
                 post={selected}
-                userId={selected.user_id}
             />
         );
 

@@ -22,8 +22,7 @@ export default class PostProfilePicture extends React.PureComponent {
         status: PropTypes.string,
         user: PropTypes.object,
         isBot: PropTypes.bool,
-        postIconOverrideURL: PropTypes.string,
-        userId: PropTypes.string
+        postIconOverrideURL: PropTypes.string
     };
 
     static defaultProps = {
