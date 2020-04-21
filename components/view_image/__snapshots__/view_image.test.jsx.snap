@@ -50,10 +50,6 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <LoadingImagePreview
@@ -129,10 +125,6 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <LoadingImagePreview
@@ -206,10 +198,6 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           className="hide"
           componentClass="h1"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-close"
-          onClick={[MockFunction]}
         />
         <div
           className="modal-image__content"
@@ -311,10 +299,6 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <AudioVideoPreview
@@ -414,10 +398,6 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <component
@@ -496,10 +476,6 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
           className="hide"
           componentClass="h1"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-close"
-          onClick={[MockFunction]}
         />
         <div
           className="modal-image__content"
@@ -581,10 +557,6 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <ImagePreview
@@ -662,10 +634,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
           className="hide"
           componentClass="h1"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-close"
-          onClick={[MockFunction]}
         />
         <div
           className="modal-image__content"
@@ -747,10 +715,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <AudioVideoPreview
@@ -830,10 +794,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <AudioVideoPreview
@@ -911,10 +871,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           className="hide"
           componentClass="h1"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-close"
-          onClick={[MockFunction]}
         />
         <div
           className="modal-image__content"
@@ -1016,10 +972,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <ImagePreview
@@ -1097,10 +1049,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           className="hide"
           componentClass="h1"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-close"
-          onClick={[MockFunction]}
         />
         <div
           className="modal-image__content"
@@ -1202,10 +1150,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <AudioVideoPreview
@@ -1303,10 +1247,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           className="hide"
           componentClass="h1"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-close"
-          onClick={[MockFunction]}
         />
         <div
           className="modal-image__content"
@@ -1408,10 +1348,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <Connect(FileInfoPreview)
@@ -1491,10 +1427,6 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
-          onClick={[MockFunction]}
-        />
-        <div
           className="modal-image__content"
         >
           <LoadingImagePreview
@@ -1568,10 +1500,6 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           className="hide"
           componentClass="h1"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-close"
-          onClick={[MockFunction]}
         />
         <div
           className="modal-image__content"
