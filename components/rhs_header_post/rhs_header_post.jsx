@@ -11,11 +11,13 @@ import store from 'stores/redux_store.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
+import {isMobile} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
-        channel: PropTypes.object,
+        rootPostId: PropTypes.string.isRequired,
+        channel: PropTypes.object.isRequired,
         previousRhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
@@ -50,9 +52,13 @@ export default class RhsHeaderPost extends React.Component {
         }
     }
 
-    redirectToChannel = () => {
+    handleJumpClick = () => {
+        if (isMobile()) {
+            this.props.actions.closeRightHandSide();
+        }
+
         const teamUrl = getCurrentRelativeTeamUrl(store.getState());
-        browserHistory.push(`${teamUrl}/channels/${this.props.channel.name}`);
+        browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
     }
 
     render() {
@@ -160,7 +166,7 @@ export default class RhsHeaderPost extends React.Component {
                     />
                     {channelName &&
                         <button
-                            onClick={this.redirectToChannel}
+                            onClick={this.handleJumpClick}
                             className='style--none sidebar--right__title__channel'
                         >
                             {channelName}
