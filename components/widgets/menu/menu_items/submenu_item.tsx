@@ -156,6 +156,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 id={s.id}
                                 postId={postId}
                                 text={s.text}
+                                icon={s.icon}
                                 subMenu={s.subMenu}
                                 action={s.action}
                                 filter={s.filter}

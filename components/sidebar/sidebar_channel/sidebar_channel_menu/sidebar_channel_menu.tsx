@@ -14,6 +14,7 @@ import { NotificationLevels, ModalIdentifiers } from 'utils/constants';
 import { ChannelCategory } from 'mattermost-redux/types/channel_categories';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
+import { CategoryTypes } from 'mattermost-redux/constants/channel_categories';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -187,7 +188,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         const categoryMenuItems = categories.map((category) => {
             return {
                 id: `moveToCategory-${channel.id}-${category.id}`,
-                icon: (<i className='icon-folder-outline'/>),
+                icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
                 direction: 'right' as any,
                 text: category.display_name,
                 onClick: this.moveToCategory(category.id),
@@ -221,6 +222,11 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         }
 
+        let leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
+        if (channel.type === 'D' || channel.type === 'G') {
+            leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Leave Conversation'});
+        }
+
         return (
             <React.Fragment>
                 <Menu.Group>
@@ -245,7 +251,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         id={`leave-${channel.id}`}
                         onClick={this.handleLeaveChannel}
                         icon={<i className='icon-close'/>}
-                        text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leave', defaultMessage: 'Leave Conversation'})}
+                        text={leaveChannelText}
                     />
                 </Menu.Group>
             </React.Fragment>

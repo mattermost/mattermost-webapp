@@ -264,6 +264,7 @@
         .dropdown-menu {
             line-height: 20px;
             min-width: 0;
+            padding: 8px 0;
 
             span {
                 white-space: nowrap;
@@ -285,11 +286,16 @@
 
             .SubMenu {
                 position: absolute;
+                margin-top: -8px;
             }
 
             .SubMenuItem > div {
                 padding-top: 2px;
                 padding-bottom: 2px;
+            }
+
+            .SubMenu__icon-right {
+                margin-right: -32px;
             }
         }
     }
