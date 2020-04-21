@@ -3,6 +3,9 @@
 
 import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
+import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
+
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
 
@@ -15,6 +18,8 @@ function mapStateToProps(state, ownProps) {
         pluginHooks: state.plugins.components.MessageWillFormat,
         hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
         isUserCanManageMembers: channel && canManageMembers(state, channel),
+        allMentionKeys: getAllUserMentionKeys(state),
+        mentionKeysWithoutGroups: getCurrentUserMentionKeys(state),
     };
 }
 
