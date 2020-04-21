@@ -157,6 +157,7 @@ class SidebarChannel extends React.PureComponent {
             leaveChannel: PropTypes.func.isRequired,
             leaveDirectChannel: PropTypes.func.isRequired,
             openLhs: PropTypes.func.isRequired,
+            setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -315,6 +316,7 @@ class SidebarChannel extends React.PureComponent {
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
                     teammateIsBot={this.props.channelTeammateIsBot}
                     channelIsArchived={this.props.channelIsArchived}
+                    setRhsExpanded={this.props.actions.setRhsExpanded}
                 />
                 {tutorialTip}
             </li>

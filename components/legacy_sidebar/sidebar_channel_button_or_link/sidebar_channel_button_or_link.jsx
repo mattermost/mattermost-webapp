@@ -38,6 +38,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
         channelIsArchived: PropTypes.bool.isRequired,
+        setRhsExpanded: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -70,11 +71,13 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     }
 
     trackChannelSelectedEvent = () => {
+        this.props.setRhsExpanded(false);
         mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected');
     }
 
     handleClick = () => {
+        this.props.setRhsExpanded(false);
         this.trackChannelSelectedEvent();
         browserHistory.push(this.props.link);
     }

@@ -7,7 +7,7 @@
     position: fixed;
     right: 0;
     width: 400px;
-    z-index: 15;
+    z-index: 11;
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -18,13 +18,14 @@
     }
 
     &.sidebar--right--expanded {
+        @include box-shadow(0px 8px 24px alpha-color($black, .24));
+
         .sidebar-right__body {
             overflow: hidden;
         }
     }
 
     .sidebar--right__bg {
-        @include single-transition(all, .25s, ease);
         background-color: transparent;
         height: 110%;
         position: absolute;
@@ -37,7 +38,6 @@
 
     &.sidebar--right--expanded {
         .sidebar--right__bg {
-            background-color: alpha-color($black, 0.5);
             visibility: visible;
         }
     }

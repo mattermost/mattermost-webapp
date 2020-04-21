@@ -23,6 +23,7 @@ import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
+import {setRhsExpanded} from 'actions/views/rhs';
 import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants';
 
 import {leaveChannel, leaveDirectChannel} from 'actions/views/channel';
@@ -146,6 +147,7 @@ function mapDispatchToProps(dispatch) {
             leaveChannel,
             leaveDirectChannel,
             openLhs,
+            setRhsExpanded,
         }, dispatch),
     };
 }
