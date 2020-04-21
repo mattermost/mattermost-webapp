@@ -135,7 +135,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
                 id={`SidebarCategoryMenu-${category.id}`}
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                 buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editChannel', defaultMessage: 'Edit category'})}
+                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Edit category'})}
             >
                 {this.renderDropdownItems()}
             </SidebarMenu>

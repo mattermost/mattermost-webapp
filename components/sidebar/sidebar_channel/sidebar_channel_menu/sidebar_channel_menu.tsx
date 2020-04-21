@@ -138,6 +138,10 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         // TODO: Add different translation for Direct Messages
         let muteChannel;
         if (isMuted) {
+            let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'});
+            if (channel.type === 'D' || channel.type === 'G') {
+                muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteConversation', defaultMessage: 'Unmute Conversation'});
+            }
             muteChannel = (
                 <Menu.ItemAction
                     id={`unmute-${channel.id}`}
@@ -147,6 +151,10 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 />
             );
         } else {
+            let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteChannel', defaultMessage: 'Mute Channel'});
+            if (channel.type === 'D' || channel.type === 'G') {
+                muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteConversation', defaultMessage: 'Mute Conversation'});
+            }
             muteChannel = (
                 <Menu.ItemAction
                     id={`mute-${channel.id}`}
