@@ -80,7 +80,7 @@ export default class PostMarkdown extends React.PureComponent {
             }
 
             if (post.props.disable_channel_highlight) {
-                mentionKeys = mentionKeys.filter((value) => !["@all", "@channel", "@here"].includes(value))
+                mentionKeys = mentionKeys.filter((value) => !['@all', '@channel', '@here'].includes(value))
             }
         }
 
