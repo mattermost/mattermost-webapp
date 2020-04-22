@@ -347,13 +347,15 @@ class CreateComment extends React.PureComponent {
         let message = draft.message;
 
         if (isGitHubCodeBlock(table.className)) {
-            const codeBlock = '```\n' + getPlainText(e.clipboardData) + '\n```';
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
+            const requireStartLF = firstPiece === '' ? '' : '\n';
+            const requireEndLF = lastPiece === '' ? '' : '\n';
+            const codeBlock = requireStartLF + '```\n' + getPlainText(e.clipboardData) + '\n```' + requireEndLF;
 
             // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
-            message = firstPiece === '' ? `${codeBlock}\n${lastPiece}` : `${firstPiece}\n${codeBlock}\n${lastPiece}`;
+            message = `${firstPiece}${codeBlock}${lastPiece}`;
 
-            const newCaretPosition = firstPiece === '' ? `${codeBlock}`.length : `${firstPiece} ${codeBlock}`.length;
+            const newCaretPosition = this.state.caretPosition + codeBlock.length;
             this.setCaretPosition(newCaretPosition);
         } else {
             message = formatMarkdownTableMessage(table, draft.message.trim());
