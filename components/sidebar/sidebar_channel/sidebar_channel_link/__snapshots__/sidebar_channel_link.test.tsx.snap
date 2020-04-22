@@ -61,6 +61,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
+    channelLink="http://a.fake.link"
     isUnread={false}
   />
 </Link>
@@ -127,6 +128,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
+    channelLink="http://a.fake.link"
     isUnread={false}
   />
 </Link>
@@ -213,6 +215,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
           "update_at": 0,
         }
       }
+      channelLink="http://a.fake.link"
       isUnread={false}
     />
   </Link>
@@ -280,6 +283,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "update_at": 0,
       }
     }
+    channelLink="http://a.fake.link"
     isUnread={true}
   />
 </Link>
