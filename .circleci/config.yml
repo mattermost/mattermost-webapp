@@ -44,7 +44,13 @@ jobs:
       executable_url: "https://dl.bintray.com/jeremy-long/owasp/dependency-check-VERSION-release.zip"
     steps:
       - checkout
+      - run:
+          name: Link dependency cache
+          command: sudo ln -s ~/mattermost/mattermost-webapp /root/mattermost-webapp
       - *restore_cache
+      - run:
+          name: Adjust permissions
+          command: sudo chown -R `whoami` node_modules
       - run:
           name: Checkout config
           command: cd .. && git clone https://github.com/mattermost/security-automation-config
