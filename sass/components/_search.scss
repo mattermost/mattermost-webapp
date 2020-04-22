@@ -215,7 +215,7 @@
     font-size: 13px;
     position: absolute;
     right: 0;
-    top: 0;
+    top: -9px;
 
     a {
         vertical-align: top;
@@ -224,10 +224,12 @@
 
     .search-item__jump {
         @include border-radius(4px);
-        font-size: 13px;
+        font-size: 12px;
         position: relative;
-        padding: 2px 7px 0;
+        padding: 5px 4px 0;
         text-decoration: none;
+        color: v(center-channel-color-40);
+        font-weight: 600;
     }
 }
 

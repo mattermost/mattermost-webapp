@@ -106,7 +106,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -316,7 +316,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -526,7 +526,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -920,7 +920,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -1136,7 +1136,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -1594,7 +1594,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
