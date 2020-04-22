@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   aws-s3: circleci/aws-s3@1.0.11
+  owasp: entur/owasp@0.0.10
 
 executors:
   default:
