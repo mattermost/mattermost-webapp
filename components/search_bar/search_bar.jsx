@@ -102,7 +102,7 @@ export default class SearchBar extends React.Component {
             this.setState({index: newIndex});
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && index > 0) {
             this.handleUpdateSearchTerm(searchHintOptions[index].searchTerm);
         }
     }
