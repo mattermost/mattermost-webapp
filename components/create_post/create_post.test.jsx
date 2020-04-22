@@ -5,6 +5,7 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
@@ -1034,4 +1035,9 @@ describe('components/create_post', () => {
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
+
+    testComponentForLineBreak(
+        (value) => createPost({draft: {...draftProp, message: value}}),
+        (instance) => instance.state().message
+    );
 });

@@ -4,7 +4,7 @@
     display: flex;
     flex-shrink: 0;
     flex-wrap: nowrap;
-    height: 115px;
+    height: 8rem;
     margin: 1px 0 5px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -36,26 +36,35 @@
     }
 }
 
-.file-preview__remove {
-    background: alpha-color($black, .5);
-    border-radius: 0 0 0 2px;
-    height: 28px;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: 0;
-    width: 28px;
+.app__body {
+    .file-preview__remove {
+        border-radius: 4px;
+        text-decoration: none;
+        color: v(center-channel-color-56);
+        position: absolute;
+        right: 4px;
+        text-align: center;
+        top: 4px;
+        width: 2.8rem;
+        height: 2.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
 
-    i {
-        color: $white;
-        cursor: pointer;
-        font-size: 16px;
-        line-height: 29px;
-        position: relative;
-        right: auto;
-        text-shadow: 0 0 3px alpha-color($black, .7);
-        top: auto;
-        z-index: 5;
+        &:focus {
+            color: v(center-channel-color-56);
+        }
+
+        &:hover {
+            background: v(center-channel-color-08);
+            color: v(center-channel-color-72);
+        }
+
+        &:active {
+            background: v(button-bg-08);
+            color: v(button-bg);
+        }
     }
 }
 
@@ -70,6 +79,10 @@
 .file-icon {
     height: 100%;
     width: 100%;
+
+    &.text {
+        @include file-icon('../images/icons/text.svg');
+    }
 
     &.audio {
         @include file-icon('../images/icons/audio.svg');
@@ -104,7 +117,7 @@
     }
 
     &.patch {
-        @include file-icon('../images/icons/patch.png');
+        @include file-icon('../images/icons/patch.svg');
     }
 
     &.image {
@@ -145,22 +158,17 @@
         @include legacy-pie-clearfix;
 
         .image-name {
+            cursor: pointer;
+            font-size: 12px;
+            margin: -4px 0 0 0;
+            color: v(center-channel-color-72);
             display: inline-block;
-            font-size: 14px;
-            font-weight: bold;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 100%;
-            padding-left: 3px;
 
             div {
                 display: inline;
-                margin-left: 5px;
-            }
-
-            &.compact-display{
-                font-weight: normal;
             }
         }
 
@@ -205,8 +213,8 @@
             img {
                 @include border-radius(4px);
                 @include single-transition(all, .1s, linear);
-                align-self: center;
                 cursor: pointer;
+                align-self: center;
                 max-height: 350px;
                 overflow: hidden;
                 position: relative;
@@ -285,18 +293,27 @@
 }
 
 .post-image__column {
+    @include single-transition(box-shadow, .15s, ease);
     @include border-radius(4px);
+    cursor: pointer;
+    overflow: hidden;
     align-items: center;
-    border: 1px solid alpha-color($black, .1);
+    background: v(center-channel-bg);
+    border: 1px solid v(center-channel-color-16);
+    color: v(center-channel-color);
     display: flex;
-    height: 100px;
-    margin: 5px 10px 5px 0;
+    height: 6.4rem;
+    margin: 4px 12px 4px 0;
     max-width: 100%;
     position: relative;
     width: 320px;
 
-    .post__content & {
-        cursor: pointer;
+    &:hover {
+        @include box-shadow($elevation-1);
+
+        .post-image__download {
+            opacity: 1;
+        }
     }
 
     &--placeholder {
@@ -304,11 +321,14 @@
     }
 
     &.file-preview {
+        cursor: auto;
         flex-shrink: 0;
         flex-wrap: nowrap;
         margin: 0 10px 0 0;
 
         .post-image__details {
+            padding-right: 3.2rem;
+
             .post-image__name {
                 white-space: normal;
             }
@@ -328,11 +348,12 @@
     @include background-size(cover);
     background-color: $white;
     background-repeat: no-repeat;
-    height: 100%;
     overflow: hidden;
     position: relative;
     text-align: center;
-    width: 100%;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 4px;
 
     &.small {
         background-position: center;
@@ -370,16 +391,17 @@
     @include cursor(zoom-in);
     flex: none;
     height: 100%;
-    width: 100px;
+    width: 6.3rem;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .post-image__details {
     align-items: center;
-    border-left: 1px solid $light-gray;
-    color: alpha-color($black, .8);
     display: flex;
-    font-size: 13px;
+    font-size: 12px;
     height: 100%;
     flex: 1;
     overflow: hidden;
@@ -387,7 +409,7 @@
     position: relative;
 
     .post-image__detail_wrapper {
-        padding: 0 45px 0 15px;
+        padding: 0;
         display: flex;
         flex: 1;
 
@@ -425,18 +447,43 @@
     }
 
     .post-image__download {
+        @include single-transition(opacity, .15s, ease);
         align-items: center;
-        cursor: pointer;
         display: flex;
         height: 100%;
         justify-content: center;
         line-height: 0;
-        padding: 0 5px;
-        position: absolute;
+        padding: 0 1.6rem;
         right: 0;
         text-align: center;
         top: 0;
-        width: 50px;
+        opacity: 1;
+
+        a {
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1.6rem;
+            color: v(center-channel-color-56);
+            width: 3.2rem;
+            height: 3.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:focus {
+                color: v(center-channel-color-56);
+            }
+
+            &:hover {
+                background: v(center-channel-color-08);
+                color: v(center-channel-color-72);
+            }
+
+            &:active {
+                background: v(button-bg-08);
+                color: v(button-bg);
+            }
+        }
 
         span {
             display: inline-block;
@@ -471,7 +518,7 @@
     }
 
     .post-image__uploadingTxt {
-        opacity: 0.6;
+        color: v(center-channel-color-56);
     }
 }
 

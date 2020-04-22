@@ -24,42 +24,44 @@
     overflow: hidden !important;
 }
 
-.edit-modal-body {
-    overflow: visible;
+.app__body {
+    .edit-modal-body {
+        overflow: visible;
 
-    .custom-textarea {
-        height: auto;
-        max-height: 60vh;
-        min-height: 8em;
-        -ms-overflow-style: auto;
-        -webkit-overflow-scrolling: touch;
-        overflow-y: auto;
+        .custom-textarea {
+            height: auto;
+            max-height: 60vh;
+            min-height: 8em;
+            -ms-overflow-style: auto;
+            -webkit-overflow-scrolling: touch;
+            overflow-y: auto;
 
-        &.custom-textarea--preview {
-            display: none;
+            &.custom-textarea--preview {
+                display: none;
+            }
+
+            &.textbox-preview-area {
+                position: relative;
+            }
         }
 
-        &.textbox-preview-area {
-            position: relative;
+        .suggestion-list__content {
+            max-height: 150px;
         }
-    }
 
-    .suggestion-list__content {
-        max-height: 150px;
-    }
-
-    .edit-post-footer {
-        display: inline-block;
-        font-size: 13px;
-        position: relative;
-
-        .post-error {
-            @include opacity(.55);
-            font-size: .85em;
-            font-weight: normal;
-            margin-bottom: 0;
+        .edit-post-footer {
+            display: inline-block;
+            font-size: 13px;
             position: relative;
-            top: 3px;
+
+            .post-error {
+                @include opacity(.55);
+                font-size: .85em;
+                font-weight: normal;
+                margin-bottom: 0;
+                position: relative;
+                top: 3px;
+            }
         }
     }
 }

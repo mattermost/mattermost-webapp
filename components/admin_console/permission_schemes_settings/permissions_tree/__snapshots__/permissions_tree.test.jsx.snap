@@ -105,6 +105,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "use_group_mentions",
             ],
           },
           Object {
@@ -238,6 +239,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "use_group_mentions",
             ],
           },
           Object {
@@ -379,6 +381,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "use_group_mentions",
             ],
           },
           Object {
@@ -520,6 +523,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "use_group_mentions",
             ],
           },
           Object {
@@ -661,6 +665,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "use_group_mentions",
             ],
           },
           Object {
@@ -806,6 +811,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "use_group_mentions",
             ],
           },
           Object {
