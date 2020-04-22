@@ -71,6 +71,14 @@
                 background-color: v(center-channel-bg);
             }
 
+            .search-item__jump {
+                color: v(center-channel-color-56);
+
+                &:hover {
+                    color: v(link-color);
+                }
+            }
+
             .post-menu__item {
                 display: inline-flex;
                 fill: v(center-channel-color-56);

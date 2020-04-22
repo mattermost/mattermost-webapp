@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {getPostDraft} from 'selectors/rhs';
 import {StoragePrefixes} from 'utils/constants';
+import {GlobalState} from 'types/store';
 
 import SidebarChannelIcon from './sidebar_channel_icon';
 
