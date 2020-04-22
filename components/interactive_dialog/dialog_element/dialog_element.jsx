@@ -34,6 +34,7 @@ export default class DialogElement extends React.PureComponent {
         options: PropTypes.arrayOf(PropTypes.object),
         value: PropTypes.any,
         onChange: PropTypes.func,
+        autoFocus: PropTypes.bool,
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
             autocompleteUsers: PropTypes.func.isRequired,
@@ -147,6 +148,7 @@ export default class DialogElement extends React.PureComponent {
 
             return (
                 <TextSetting
+                    autoFocus={this.props.autoFocus}
                     id={name}
                     type={type}
                     label={displayNameContent}
@@ -156,6 +158,7 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     onChange={onChange}
                     resizable={false}
+                    autofocus={true}
                 />
             );
         } else if (type === 'select') {

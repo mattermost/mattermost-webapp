@@ -222,9 +222,10 @@ export default class InteractiveDialog extends React.Component {
                             />
                         )}
                         {elements &&
-                            elements.map((e) => {
+                            elements.map((e, index) => {
                                 return (
                                     <DialogElement
+                                        autoFocus={index === 0}
                                         key={'dialogelement' + e.name}
                                         displayName={e.display_name}
                                         name={e.name}
