@@ -294,7 +294,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('showConfirmModal')).toBe(false);
     });
 
-    it('Should set mentionHighlightDisabled prop when useChannelMentions disabled before calling actions.onSubmitPost', async () => {
+    it('Should set disable_channel_highlight prop when useChannelMentions disabled before calling actions.onSubmitPost', async () => {
         const onSubmitPost = jest.fn();
         const wrapper = shallowWithIntl(createPost({
             actions: {
@@ -311,10 +311,10 @@ describe('components/create_post', () => {
         await wrapper.instance().sendMessage(post);
 
         expect(onSubmitPost).toHaveBeenCalledTimes(1);
-        expect(onSubmitPost.mock.calls[0][0]).toEqual({...post, props: {mentionHighlightDisabled: true}});
+        expect(onSubmitPost.mock.calls[0][0]).toEqual({...post, props: {disable_channel_highlight: true}});
     });
 
-    it('Should not set mentionHighlightDisabled prop when useChannelMentions enabled before calling actions.onSubmitPost', async () => {
+    it('Should not set disable_channel_highlight prop when useChannelMentions enabled before calling actions.onSubmitPost', async () => {
         const onSubmitPost = jest.fn();
         const wrapper = shallowWithIntl(createPost({
             actions: {
@@ -334,7 +334,7 @@ describe('components/create_post', () => {
         expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
     });
 
-    it('Should not set mentionHighlightDisabled prop when useChannelMentions disabled but message does not contain channel metion before calling actions.onSubmitPost', async () => {
+    it('Should not set disable_channel_highlight prop when useChannelMentions disabled but message does not contain channel metion before calling actions.onSubmitPost', async () => {
         const onSubmitPost = jest.fn();
         const wrapper = shallowWithIntl(createPost({
             actions: {
