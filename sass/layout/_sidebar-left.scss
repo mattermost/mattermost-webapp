@@ -335,6 +335,47 @@
         }
     }
 
+    .SidebarCategory_newLabel {
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        color: var(--mention-color);
+        border-radius: 4px;
+        background: var(--mention-bg);
+        width: 32px;
+        height: 16px;
+        padding: 0 4px;
+        margin-left: auto;
+        margin-right: 16px;
+    }
+
+    .SidebarCategory_newDropBox {
+        border: 1px dashed var(--sidebar-text-30);
+        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+        border-radius: 4px;
+        margin: 0 16px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+
+        > i {
+            font-size: 18px;
+            line-height: 16px;
+            color: var(--sidebar-text-60);
+        }
+
+        .SidebarCategory_newDropBox-label {
+            font-size: 12px;
+            line-height: 16px;
+            color: var(--sidebar-text-72);
+            margin-left: 8px;
+        }
+    }
+
     .SidebarChannelGroup .SidebarChannelGroupHeader {
         height: 32px;
         font-family: 'Open Sans', sans-serif;
@@ -372,7 +413,7 @@
         width: 100%;
         align-items: center;
 
-        > div {
+        > div:not(.SidebarCategory_newLabel) {
             flex: 1 1 auto;
         }
 

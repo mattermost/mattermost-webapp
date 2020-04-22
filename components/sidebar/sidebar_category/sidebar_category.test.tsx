@@ -40,6 +40,7 @@ describe('components/sidebar/sidebar_category', () => {
         setChannelRef: jest.fn(),
         getChannelRef: jest.fn(),
         handleOpenMoreDirectChannelsModal: jest.fn(),
+        isNewCategory: false,
         isCollapsed: false,
         actions: {
             setCategoryCollapsed: jest.fn(),

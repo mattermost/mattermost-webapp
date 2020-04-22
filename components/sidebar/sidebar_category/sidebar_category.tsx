@@ -24,18 +24,33 @@ type Props = {
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
     isCollapsed: boolean;
+    isNewCategory: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
     };
 };
 
-export default class SidebarCategory extends React.PureComponent<Props> {
+type State = {
+    isNewCategory: boolean;
+}
+
+export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
 
     constructor(props: Props) {
         super(props);
 
         this.categoryTitleRef = React.createRef();
+        this.state = {
+            isNewCategory: props.isNewCategory,
+        };
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.channels.length !== this.props.channels.length && this.state.isNewCategory) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({isNewCategory: false});
+        }
     }
 
     componentDidMount() {
@@ -104,19 +119,38 @@ export default class SidebarCategory extends React.PureComponent<Props> {
 
     render() {
         const {category, isCollapsed, channels} = this.props;
+        const {isNewCategory} = this.state;
+
         if (!category) {
             return null;
         }
 
-        if (category.type !== CategoryTypes.DIRECT_MESSAGES && (!channels || !channels.length)) {
+        if (!isNewCategory && category.type !== CategoryTypes.DIRECT_MESSAGES && (!channels || !channels.length)) {
             return null;
         }
 
         const renderedChannels = channels.map(this.renderChannel);
 
+        let newLabel;
+        let newDropBox;
         let directMessagesModalButton;
         let hideArrow = false;
-        if (category.type === CategoryTypes.DIRECT_MESSAGES) {
+        if (isNewCategory) {
+            newLabel = (
+                <div className='SidebarCategory_newLabel'>
+                    {localizeMessage('sidebar_left.sidebar_category.newLabel', 'new')}
+                </div>
+            );
+
+            newDropBox = (
+                <div className='SidebarCategory_newDropBox'>
+                    <i className='icon-soccer'/>
+                    <span className='SidebarCategory_newDropBox-label'>
+                        {localizeMessage('sidebar_left.sidebar_category.newDropBoxLabel', 'Drag channels here...')}
+                    </span>
+                </div>
+            );
+        } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             const helpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
 
             const tooltip = (
@@ -172,6 +206,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                         <div>
                             {displayName}
                         </div>
+                        {newLabel}
                         {directMessagesModalButton}
                     </button>
                 </div>
@@ -180,6 +215,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                         role='list'
                         className='NavGroupContent'
                     >
+                        {newDropBox}
                         {renderedChannels}
                     </ul>
                 </div>

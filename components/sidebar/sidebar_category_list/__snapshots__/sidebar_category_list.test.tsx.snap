@@ -67,6 +67,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
       }
       getChannelRef={[Function]}
       handleOpenMoreDirectChannelsModal={[MockFunction]}
+      isNewCategory={false}
       key="category1"
       setChannelRef={[Function]}
     />
@@ -141,6 +142,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
       }
       getChannelRef={[Function]}
       handleOpenMoreDirectChannelsModal={[MockFunction]}
+      isNewCategory={false}
       key="category1"
       setChannelRef={[Function]}
     />

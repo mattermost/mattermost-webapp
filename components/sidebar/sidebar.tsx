@@ -22,10 +22,14 @@ import ChannelFilter from './channel_filter';
 import SidebarCategoryList from './sidebar_category_list';
 
 type Props = {
+    teamId: string;
     canCreatePublicChannel: boolean;
     canCreatePrivateChannel: boolean;
     canJoinPublicChannel: boolean;
     isOpen: boolean;
+    actions: {
+        createCategory: (teamId: string, categoryName: string) => {data: string};
+    };
 };
 
 type State = {
@@ -36,6 +40,8 @@ type State = {
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
+    newCategoryIds: string[];
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -44,6 +50,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showNewChannelModal: false,
             showCreateCategoryModal: false,
         };
+
+        this.newCategoryIds = [];
     }
 
     showMoreDirectChannelsModal = () => {
@@ -64,7 +72,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     handleCreateCategory = (categoryName: string) => {
-
+        const result = this.props.actions.createCategory(this.props.teamId, categoryName);
+        this.newCategoryIds.push(result.data);
     }
 
     showMoreChannelsModal = () => {
@@ -175,7 +184,10 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     </div>
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
-                <SidebarCategoryList handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}/>
+                <SidebarCategoryList
+                    handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
+                    newCategoryIds={this.newCategoryIds}
+                />
                 {this.renderModals()}
             </div>
         );

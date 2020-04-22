@@ -52,6 +52,7 @@ type Props = {
     isUnreadFilterEnabled: boolean;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     displayedChannels: Channel[];
+    newCategoryIds: string[];
     actions: {
         switchToChannelById: (channelId: string) => void;
         close: () => void;
@@ -318,6 +319,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
                 getChannelRef={this.getChannelRef}
+                isNewCategory={this.props.newCategoryIds.includes(category.id)}
             />
         );
     }
