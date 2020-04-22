@@ -1153,7 +1153,7 @@ describe('components/CreateComment', () => {
             },
         };
 
-        const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
@@ -1211,7 +1211,7 @@ describe('components/CreateComment', () => {
             },
         };
 
-        const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
 
 export function parseTable(html: string): HTMLTableElement | null {
     const el = document.createElement('div');
@@ -67,4 +68,16 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     const formattedTable = `${header}${body}\n`;
 
     return message ? `${message}\n\n${formattedTable}` : formattedTable;
+}
+
+export function formatGithubCodePaste(caretPosition, message, clipboardData) {
+    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
+
+    // Add new lines if content exists before or after the cursor.
+    const requireStartLF = firstPiece === '' ? '' : '\n';
+    const requireEndLF = lastPiece === '' ? '' : '\n';
+    const codeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
+    const formattedMessage = `${firstPiece}${codeBlock}${lastPiece}`;
+
+    return {formattedMessage, codeBlock};
 }

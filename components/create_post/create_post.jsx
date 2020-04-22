@@ -19,7 +19,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
-import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -756,7 +756,9 @@ class CreatePost extends React.PureComponent {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
-        const table = getTable(e.clipboardData);
+
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
         if (!table) {
             return;
         }
@@ -765,14 +767,10 @@ class CreatePost extends React.PureComponent {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const codeBlock = '```\n' + getPlainText(e.clipboardData) + '\n```';
-            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
-
-            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
-            const newMessage = firstPiece === '' ? `${codeBlock}\n${lastPiece}` : `${firstPiece}\n${codeBlock}\n${lastPiece}`;
-
-            const newCaretPosition = firstPiece === '' ? `${codeBlock}`.length : `${firstPiece} ${codeBlock}`.length;
-            this.setMessageAndCaretPostion(newMessage, newCaretPosition);
+            let codeBlock;
+            ({message, codeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData));
+            const newCaretPosition = this.state.caretPosition + codeBlock.length;
+            this.setMessageAndCaretPostion(message, newCaretPosition, clipboardData);
             return;
         }
         message = formatMarkdownTableMessage(table, message.trim());

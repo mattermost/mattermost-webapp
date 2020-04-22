@@ -16,7 +16,7 @@ import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -336,7 +336,8 @@ class CreateComment extends React.PureComponent {
             return;
         }
 
-        const table = getTable(e.clipboardData);
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
         if (!table) {
             return;
         }
@@ -347,14 +348,8 @@ class CreateComment extends React.PureComponent {
         let message = draft.message;
 
         if (isGitHubCodeBlock(table.className)) {
-            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
-            const requireStartLF = firstPiece === '' ? '' : '\n';
-            const requireEndLF = lastPiece === '' ? '' : '\n';
-            const codeBlock = requireStartLF + '```\n' + getPlainText(e.clipboardData) + '\n```' + requireEndLF;
-
-            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
-            message = `${firstPiece}${codeBlock}${lastPiece}`;
-
+            let codeBlock;
+            ({message, codeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData));
             const newCaretPosition = this.state.caretPosition + codeBlock.length;
             this.setCaretPosition(newCaretPosition);
         } else {

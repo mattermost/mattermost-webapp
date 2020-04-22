@@ -1022,7 +1022,7 @@ describe('components/create_post', () => {
             },
         };
 
-        const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(codeBlockMarkdown);
@@ -1059,7 +1059,7 @@ describe('components/create_post', () => {
             },
         };
 
-        const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(codeBlockMarkdown);
