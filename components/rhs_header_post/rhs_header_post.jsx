@@ -22,6 +22,7 @@ export default class RhsHeaderPost extends React.Component {
             Object.values(RHSStates)
         ),
         actions: PropTypes.shape({
+            setRhsExpanded: PropTypes.func,
             showMentions: PropTypes.func,
             showSearchResults: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
@@ -57,6 +58,7 @@ export default class RhsHeaderPost extends React.Component {
             this.props.actions.closeRightHandSide();
         }
 
+        this.props.actions.setRhsExpanded(false);
         const teamUrl = getCurrentRelativeTeamUrl(store.getState());
         browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
     }

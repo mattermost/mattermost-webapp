@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {
+    setRhsExpanded,
     showMentions,
     showSearchResults,
     showFlaggedPosts,
@@ -18,6 +19,7 @@ import RhsHeaderPost from './rhs_header_post.jsx';
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            setRhsExpanded,
             showSearchResults,
             showMentions,
             showFlaggedPosts,
