@@ -20,9 +20,9 @@ import ImagePreview from './image_preview';
 import PopoverBar from './popover_bar';
 
 const KeyCodes = Constants.KeyCodes;
-const DEFAULT_SCALE_DELTA = 1.25;
+const SCALE_DELTA = 0.25;
 const MIN_SCALE = 0.25;
-const MAX_SCALE = 5.0;
+const MAX_SCALE = 4.0;
 
 export default class ViewImageModal extends React.PureComponent {
     static propTypes = {
@@ -227,9 +227,7 @@ export default class ViewImageModal extends React.PureComponent {
 
     handleZoomIn = () => {
         let newScale = this.state.scale;
-        newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2);
-        newScale = Math.ceil(newScale * 10) / 10;
-        newScale = Math.min(MAX_SCALE, newScale);
+        newScale = Math.min(newScale + SCALE_DELTA, MAX_SCALE);
         this.setState(() => ({
             scale: newScale
         }));
@@ -237,9 +235,7 @@ export default class ViewImageModal extends React.PureComponent {
 
     handleZoomOut = () => {
         let newScale = this.state.scale;
-        newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2);
-        newScale = Math.floor(newScale * 10) / 10;
-        newScale = Math.max(MIN_SCALE, newScale);
+        newScale = Math.max(newScale - SCALE_DELTA, MIN_SCALE);
         this.setState(() => ({
             scale: newScale
         }));
