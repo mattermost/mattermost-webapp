@@ -47,7 +47,7 @@ function searchAndVerifyUser(user) {
     // # Verify user appears in results post-change
     return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
         cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-        cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${user.firstName} ${user.lastName} (${user.nickname})`);
+        cy.wrap(name).find('.ml-2').should('have.text', `${user.firstName} ${user.lastName} (${user.nickname})`);
     });
 }
 
