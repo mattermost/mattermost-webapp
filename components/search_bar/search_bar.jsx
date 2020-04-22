@@ -126,6 +126,7 @@ export default class SearchBar extends React.Component {
 
     onClear = () => {
         this.props.actions.updateSearchTerms('');
+        this.setState({keepInputFocused: true});
     }
 
     handleUserFocus = () => {
