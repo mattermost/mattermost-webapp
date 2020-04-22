@@ -275,6 +275,15 @@
             }
         }
 
+        .header-placeholder {
+            display: flex;
+            overflow: hidden;
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
         .header-description__text {
             overflow: hidden;
             display: flex;
