@@ -169,7 +169,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <SaveChangesPanel
-    cancelLink="/admin_console/user_management/teams"
+    cancelLink="/admin_console/user_management/groups"
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
@@ -346,7 +346,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <SaveChangesPanel
-    cancelLink="/admin_console/user_management/teams"
+    cancelLink="/admin_console/user_management/groups"
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
@@ -512,7 +512,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <SaveChangesPanel
-    cancelLink="/admin_console/user_management/teams"
+    cancelLink="/admin_console/user_management/groups"
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
@@ -678,7 +678,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     </div>
   </div>
   <SaveChangesPanel
-    cancelLink="/admin_console/user_management/teams"
+    cancelLink="/admin_console/user_management/groups"
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
