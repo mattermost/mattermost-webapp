@@ -4,7 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {SearchHint} from 'components/search_hint/search_hint';
+import {searchHintOptions} from 'utils/constants';
+
+import SearchHint from 'components/search_hint/search_hint';
 
 describe('components/SearchHint', () => {
     const updateSearchTerms = jest.fn();
@@ -13,7 +15,8 @@ describe('components/SearchHint', () => {
         const wrapper = shallow(
             <SearchHint
                 withTitle={true}
-                updateSearchTerms={updateSearchTerms}
+                onOptionSelected={updateSearchTerms}
+                options={searchHintOptions}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -21,7 +24,10 @@ describe('components/SearchHint', () => {
 
     test('should match snapshot, without title', () => {
         const wrapper = shallow(
-            <SearchHint updateSearchTerms={updateSearchTerms}/>
+            <SearchHint
+                onOptionSelected={updateSearchTerms}
+                options={searchHintOptions}
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
 
@@ -14,37 +14,19 @@ interface SearchTerm {
 
 type Props = {
     withTitle?: boolean;
-    updateSearchTerms: (term: string) => void;
-    onMouseDown?: () => void;
+    onOptionSelected: (term: string) => void;
+    onMouseDown?: () => void | undefined;
     options: SearchTerm[];
+    highlightedIndex?: number;
+    onOptionHover?: (index: number) => void;
 }
 
-export const SearchHint = (props: Props) => {
-    const [index, setIndex] = useState(0);
-
-    const onKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'ArrowDown') {
-            const newIndex = index === props.options.length - 1 ? 0 : index + 1;
-            setIndex(newIndex);
-        }
-
-        if (event.key === 'ArrowUp') {
-            const newIndex = index === 0 ? props.options.length - 1 : index - 1;
-            setIndex(newIndex);
-        }
-
-        if (event.key === 'Enter') {
-            props.updateSearchTerms(props.options[index].searchTerm);
+const SearchHint = (props: Props) => {
+    const handleOnOptionHover = (optionIndex: number) => {
+        if (props.onOptionHover) {
+            props.onOptionHover(optionIndex);
         }
     };
-
-    useEffect(() => {
-        document.addEventListener('keydown', onKeyDown);
-
-        return () => {
-            document.removeEventListener('keydown', onKeyDown);
-        };
-    });
 
     return (
         <React.Fragment>
@@ -63,10 +45,10 @@ export const SearchHint = (props: Props) => {
             >
                 {props.options.map((option, optionIndex) => (
                     <li
-                        className={classNames('search-hint__suggestions-list__option', {highlighted: index === optionIndex})}
+                        className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
                         key={option.searchTerm}
-                        onClick={() => props.updateSearchTerms(option.searchTerm)}
-                        onMouseOver={() => setIndex(optionIndex)}
+                        onClick={() => props.onOptionSelected(option.searchTerm)}
+                        onMouseOver={() => handleOnOptionHover(optionIndex)}
                     >
                         <div className='search-hint__suggestion-list__flex-wrap'>
                             <span className='search-hint__suggestion-list__label'>{option.searchTerm}</span>
@@ -82,3 +64,5 @@ export const SearchHint = (props: Props) => {
         </React.Fragment>
     );
 };
+
+export default SearchHint;

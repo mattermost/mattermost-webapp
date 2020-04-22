@@ -11,10 +11,11 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+import {searchHintOptions} from 'utils/constants';
 
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
-import {SearchHint} from 'components/search_hint/search_hint';
+import SearchHint from 'components/search_hint/search_hint';
 import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
 import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
 import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
@@ -215,7 +216,10 @@ class SearchResults extends React.Component {
         } else if (!searchTerms && noResults) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
-                    <SearchHint updateSearchTerms={this.props.updateSearchTerms}/>
+                    <SearchHint
+                        onOptionSelected={this.props.updateSearchTerms}
+                        options={searchHintOptions}
+                    />
                 </div>
             );
         } else if (noResults) {

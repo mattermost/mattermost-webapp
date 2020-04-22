@@ -1427,6 +1427,15 @@ export const Constants = {
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
+export const searchHintOptions = [{searchTerm: 'From:', message: {id: 'search_list_option.from', defaultMessage: 'Messages from a user'}},
+    {searchTerm: 'In:', message: {id: 'search_list_option.in', defaultMessage: 'Messages in a channel'}},
+    {searchTerm: 'On:', message: {id: 'search_list_option.on', defaultMessage: 'Messages on a date'}},
+    {searchTerm: 'Before:', message: {id: 'search_list_option.before', defaultMessage: 'Messages before a date'}},
+    {searchTerm: 'After:', message: {id: 'search_list_option.after', defaultMessage: 'Messages after a date'}},
+    {searchTerm: '-', message: {id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms'}},
+    {searchTerm: '""', message: {id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'}},
+];
+
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');

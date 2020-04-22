@@ -276,10 +276,6 @@
         padding-bottom: 15px;
     }
 
-    &:hover {
-        background: rgba(61, 60, 64, 0.06);
-    }
-
     &.highlighted {
         background: rgba(61, 60, 64, 0.06);
     }
@@ -309,5 +305,9 @@
         padding-left: 0;
         // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
         margin: -28px -14px 0;
+    }
+
+    .search-hint__suggestions-list__option:hover {
+        background: rgba(61, 60, 64, 0.06);
     }
 }

@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants';
+import Constants, {searchHintOptions} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
@@ -15,7 +15,7 @@ import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
 import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
-import {SearchHint} from 'components/search_hint/search_hint';
+import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
@@ -57,6 +57,7 @@ export default class SearchBar extends React.Component {
         this.state = {
             focused: false,
             keepInputFocused: false,
+            index: -1,
         };
 
         this.suggestionProviders = [
@@ -82,9 +83,25 @@ export default class SearchBar extends React.Component {
     }
 
     handleKeyDown = (e) => {
+        const {index} = this.state;
+
         if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
             e.stopPropagation();
             e.preventDefault();
+        }
+
+        if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
+            const newIndex = index === searchHintOptions.length - 1 ? 0 : index + 1;
+            this.setState({index: newIndex});
+        }
+
+        if (Utils.isKeyPressed(e, KeyCodes.UP)) {
+            const newIndex = index <= 0 ? searchHintOptions.length - 1 : index - 1;
+            this.setState({index: newIndex});
+        }
+
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            this.handleUpdateSearchTerm(searchHintOptions[index].searchTerm);
         }
     }
 
@@ -103,6 +120,8 @@ export default class SearchBar extends React.Component {
                 this.setState({focused: false});
             }
         }, 300);
+
+        this.setState({iindex: -1});
     }
 
     onClear = () => {
@@ -164,13 +183,23 @@ export default class SearchBar extends React.Component {
     handleUpdateSearchTerm = (term) => {
         this.props.actions.updateSearchTerms(term);
         this.focus();
+        this.setState({index: -1});
     }
 
     focus = () => {
+        // This is to allow redux to process the search term change
         setTimeout(() => {
             this.search.focus();
             this.setState({focused: true});
         }, 0);
+    }
+
+    keepInputFocused = () => {
+        this.setState({keepInputFocused: true});
+    }
+
+    setHoverHintIndex = (index) => {
+        this.setState({index});
     }
 
     renderHintPopover() {
@@ -178,24 +207,39 @@ export default class SearchBar extends React.Component {
             return null;
         }
 
-        let helpClass = 'search-help-popover';
-        if (!this.props.searchTerms && this.state.focused) {
-            helpClass += ' visible';
+        let filteredOptions;
+
+        try {
+            filteredOptions = searchHintOptions.filter((option) => new RegExp(this.props.searchTerms, 'gi').test(option.searchTerm) && option.searchTerm !== this.props.searchTerms);
+        } catch {
+            filteredOptions = [];
         }
 
-        return (
-            <Popover
-                id={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
-                placement='bottom'
-                className={helpClass}
-            >
-                <SearchHint
-                    withTitle={true}
-                    updateSearchTerms={this.handleUpdateSearchTerm}
-                    onMouseDown={() => this.setState({keepInputFocused: true})}
-                />
-            </Popover>
-        );
+        if (filteredOptions.length > 0) {
+            let helpClass = 'search-help-popover';
+            if (this.state.focused) {
+                helpClass += ' visible';
+            }
+
+            return (
+                <Popover
+                    id={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
+                    placement='bottom'
+                    className={helpClass}
+                >
+                    <SearchHint
+                        options={filteredOptions}
+                        withTitle={true}
+                        onOptionSelected={this.handleUpdateSearchTerm}
+                        onMouseDown={this.keepInputFocused}
+                        highlightedIndex={this.state.index}
+                        onOptionHover={this.setHoverHintIndex}
+                    />
+                </Popover>
+            );
+        }
+
+        return <></>;
     }
 
     getSearch = (node) => {
