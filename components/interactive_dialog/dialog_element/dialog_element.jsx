@@ -158,7 +158,6 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     onChange={onChange}
                     resizable={false}
-                    autofocus={true}
                 />
             );
         } else if (type === 'select') {

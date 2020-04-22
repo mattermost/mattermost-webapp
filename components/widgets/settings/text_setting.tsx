@@ -21,7 +21,7 @@ export type WidgetTextSettingProps = {
     onChange(name: string, value: any): void;
     disabled?: boolean;
     type: InputTypes;
-    autoFocus: boolean;
+    autoFocus?: boolean;
 }
 
 // Since handle change is read from input and textarea element
