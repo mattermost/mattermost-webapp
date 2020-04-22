@@ -48,36 +48,36 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, stand
 <div
   className="post-image__name"
 >
-  <a
-    aria-label="download"
-    download="test_filename"
-    href="/api/v4/files/thumbnail_id?download=1"
-    rel="noopener noreferrer"
-    target="_blank"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
+      >
+        Download
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download
-        </Tooltip>
-      }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <a
+      aria-label="download"
+      download="test_filename"
+      href="/api/v4/files/thumbnail_id?download=1"
+      rel="noopener noreferrer"
+      target="_blank"
     >
       test_filename
-    </OverlayTrigger>
-  </a>
+    </a>
+  </OverlayTrigger>
 </div>
 `;
 
@@ -85,35 +85,35 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, with 
 <div
   className="post-image__name"
 >
-  <a
-    aria-label="download"
-    download="test_filename"
-    href="/api/v4/files/thumbnail_id?download=1"
-    rel="noopener noreferrer"
-    target="_blank"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
+      >
+        Download
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download
-        </Tooltip>
-      }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <a
+      aria-label="download"
+      download="test_filename"
+      href="/api/v4/files/thumbnail_id?download=1"
+      rel="noopener noreferrer"
+      target="_blank"
     >
       <DownloadIcon />
-    </OverlayTrigger>
-  </a>
+    </a>
+  </OverlayTrigger>
 </div>
 `;
