@@ -9,6 +9,7 @@ import {Groups} from 'mattermost-redux/constants';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils.jsx';
 
+import FormError from 'components/form_error';
 import {GroupProfileAndSettings} from 'components/admin_console/group_settings/group_details/group_profile_and_settings';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
@@ -175,10 +176,12 @@ export default class GroupDetails extends React.PureComponent {
                 saveNeeded = true;
                 if (result.error.server_error_id === 'store.sql_group.unique_constraint') {
                     serverError = <DuplicateGroupNameError/>;
+                } else {
+                    serverError = <FormError error={result.error.message}/>;
                 }
             }
+            this.setState({allowReference, groupMentionName, serverError, saving: false, saveNeeded});
         }
-        this.setState({allowReference, groupMentionName, serverError, saving: false, saveNeeded});
         this.props.actions.setNavigationBlocked(saveNeeded);
     }
 
