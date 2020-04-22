@@ -16,6 +16,8 @@ import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
 
+import {GlobalState} from 'types/store';
+
 import {setPreviousTeamId} from 'actions/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
@@ -30,7 +32,7 @@ type OwnProps = {
     };
 }
 
-function mapStateToProps(state: any, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);

@@ -593,9 +593,9 @@ export default class PluginRegistry {
     // - id: a unique identifier
     registerNeedsTeamComponent(route, component) {
         const id = generateId();
-        let fixedroute = route.trim();
-        if (fixedroute[0] === '/') {
-            fixedroute = fixedroute.substring(1);
+        let fixedRoute = route.trim();
+        if (fixedRoute[0] === '/') {
+            fixedRoute = fixedRoute.substring(1);
         }
 
         store.dispatch({
@@ -605,7 +605,7 @@ export default class PluginRegistry {
                 id,
                 pluginId: this.id,
                 component,
-                route: fixedroute,
+                route: fixedRoute,
             },
         });
 
@@ -620,9 +620,9 @@ export default class PluginRegistry {
     // - id: a unique identifier
     registerCustomRoute(route, component) {
         const id = generateId();
-        let fixedroute = route.trim();
-        if (fixedroute[0] === '/') {
-            fixedroute = fixedroute.substring(1);
+        let fixedRoute = route.trim();
+        if (fixedRoute[0] === '/') {
+            fixedRoute = fixedRoute.substring(1);
         }
 
         store.dispatch({
@@ -632,7 +632,7 @@ export default class PluginRegistry {
                 id,
                 pluginId: this.id,
                 component,
-                route: fixedroute,
+                route: fixedRoute,
             },
         });
 
