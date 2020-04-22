@@ -597,6 +597,7 @@ export default class PluginRegistry {
         if (fixedRoute[0] === '/') {
             fixedRoute = fixedRoute.substring(1);
         }
+        fixedRoute = this.id + '/' + fixedRoute;
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
@@ -624,6 +625,7 @@ export default class PluginRegistry {
         if (fixedRoute[0] === '/') {
             fixedRoute = fixedRoute.substring(1);
         }
+        fixedRoute = this.id + '/' + fixedRoute;
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
