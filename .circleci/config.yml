@@ -46,11 +46,11 @@ jobs:
       - checkout
       - run:
           name: Link dependency cache
-          command: sudo ln -s ~/mattermost/mattermost-webapp /root/mattermost-webapp
+          command: sudo ln -s ~/mattermost/mattermost-webapp /root/mattermost-webapp; sudo chmod 777 /root
       - *restore_cache
       - run:
           name: Adjust permissions
-          command: sudo chown -R `whoami` node_modules
+          command: sudo chown -R `id -nu`:`id -ng` node_modules
       - run:
           name: Checkout config
           command: cd .. && git clone https://github.com/mattermost/security-automation-config
