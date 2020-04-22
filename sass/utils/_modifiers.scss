@@ -27,12 +27,16 @@ $positions: 't'top,
     }
 
     .p-#{$i} {
-        margin: #{$i*4}px !important;
+        padding: #{$i*4}px !important;
     }
 }
 
 .d-block {
     display: block;
+}
+
+.w-full {
+    width: 100%;
 }
 
 .a11y--focused {

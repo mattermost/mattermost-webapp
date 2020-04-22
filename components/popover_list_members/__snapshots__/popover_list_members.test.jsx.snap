@@ -6,7 +6,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
 >
   <button
     aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
+    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
     id="member_popover"
     onClick={[Function]}
   >
@@ -34,18 +34,20 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
         ]
       }
     >
-      <div>
+      <div
+        className="d-flex align-items-center"
+      >
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon--standard"
+          id="channelMemberIcon"
+        />
         <span
           className="icon__text"
           id="channelMemberCountText"
         >
           2
         </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
       </div>
     </OverlayTrigger>
   </button>
@@ -81,7 +83,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -92,7 +94,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -116,7 +118,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
 >
   <button
     aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
+    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
     id="member_popover"
     onClick={[Function]}
   >
@@ -144,18 +146,20 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
         ]
       }
     >
-      <div>
+      <div
+        className="d-flex align-items-center"
+      >
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon--standard"
+          id="channelMemberIcon"
+        />
         <span
           className="icon__text"
           id="channelMemberCountText"
         >
           2
         </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
       </div>
     </OverlayTrigger>
   </button>
@@ -191,7 +195,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -202,7 +206,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -226,7 +230,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
 >
   <button
     aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
+    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
     id="member_popover"
     onClick={[Function]}
   >
@@ -254,18 +258,20 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
         ]
       }
     >
-      <div>
+      <div
+        className="d-flex align-items-center"
+      >
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon--standard"
+          id="channelMemberIcon"
+        />
         <span
           className="icon__text"
           id="channelMemberCountText"
         >
           2
         </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
       </div>
     </OverlayTrigger>
   </button>
@@ -310,7 +316,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -321,7 +327,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -345,7 +351,7 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
 >
   <button
     aria-label="members"
-    className="style--none member-popover__trigger channel-header__icon wide "
+    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
     id="member_popover"
     onClick={[Function]}
   >
@@ -373,18 +379,20 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
         ]
       }
     >
-      <div>
+      <div
+        className="d-flex align-items-center"
+      >
+        <MemberIcon
+          aria-hidden="true"
+          className="icon icon--standard"
+          id="channelMemberIcon"
+        />
         <span
           className="icon__text"
           id="channelMemberCountText"
         >
           2
         </span>
-        <MemberIcon
-          aria-hidden="true"
-          className="icon icon__members"
-          id="channelMemberIcon"
-        />
       </div>
     </OverlayTrigger>
   </button>
@@ -420,7 +428,7 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
           role="presentation"
           tabIndex="-1"
         >
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
             showMessageIcon={true}
@@ -431,7 +439,7 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
               }
             }
           />
-          <PopoverListMembersItem
+          <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
             showMessageIcon={true}

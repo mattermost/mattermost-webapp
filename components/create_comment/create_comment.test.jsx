@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
@@ -38,6 +39,8 @@ describe('components/CreateComment', () => {
         onMoveHistoryIndexForward: jest.fn(),
         onEditLatestPost: jest.fn(),
         resetCreatePostRequest: jest.fn(),
+        setShowPreview: jest.fn(),
+        shouldShowPreview: false,
         readOnlyChannel: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
@@ -48,6 +51,7 @@ describe('components/CreateComment', () => {
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
+        isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
     };
@@ -221,7 +225,7 @@ describe('components/CreateComment', () => {
         const testError1 = 'test error 1';
         wrapper.setState({draft});
         instance.draftsForPost[props.rootId] = draft;
-        instance.handleUploadError(testError1, 1, props.rootId);
+        instance.handleUploadError(testError1, 1, null, props.rootId);
 
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
@@ -233,7 +237,7 @@ describe('components/CreateComment', () => {
 
         // clientId = -1
         const testError2 = 'test error 2';
-        instance.handleUploadError(testError2, -1, props.rootId);
+        instance.handleUploadError(testError2, -1, null, props.rootId);
 
         // should not call onUpdateCommentDraft
         expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
@@ -768,6 +772,70 @@ describe('components/CreateComment', () => {
             await submitPromise;
             expect(props.onUpdateCommentDraft).toHaveBeenCalledWith(props.draft);
         });
+        ['channel', 'all', 'here'].forEach((mention) => {
+            it(`should set mentionHighlightDisabled when user does not have permission and message contains channel @${mention}`, async () => {
+                const props = {
+                    ...baseProps,
+                    useChannelMentions: false,
+                    draft: {
+                        message: `Test message @${mention}`,
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                };
+
+                const wrapper = shallowWithIntl(
+                    <CreateComment {...props}/>
+                );
+
+                wrapper.instance().handleSubmit({preventDefault});
+                expect(onSubmit).toHaveBeenCalled();
+                expect(wrapper.state('draft').props.mentionHighlightDisabled).toBe(true);
+            });
+
+            it(`should not set mentionHighlightDisabled when user does have permission and message contains channel channel @${mention}`, async () => {
+                const props = {
+                    ...baseProps,
+                    useChannelMentions: true,
+                    draft: {
+                        message: `Test message @${mention}`,
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                };
+
+                const wrapper = shallowWithIntl(
+                    <CreateComment {...props}/>
+                );
+
+                wrapper.instance().handleSubmit({preventDefault});
+                expect(onSubmit).toHaveBeenCalled();
+                expect(wrapper.state('draft').props).toBe(undefined);
+            });
+        });
+
+        it('should not set mentionHighlightDisabled when user does not have useChannelMentions permission and message contains no mention', async () => {
+            const props = {
+                ...baseProps,
+                useChannelMentions: false,
+                draft: {
+                    message: 'Test message',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                onSubmit,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            wrapper.instance().handleSubmit({preventDefault});
+            expect(onSubmit).toHaveBeenCalled();
+            expect(wrapper.state('draft').props).toBe(undefined);
+        });
     });
 
     test('removePreview should remove file info and upload in progress with corresponding id', () => {
@@ -1084,18 +1152,27 @@ describe('components/CreateComment', () => {
         );
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
-
-        expect(wrapper.state('showPreview')).toBe(false);
         expect(instance.focusTextbox).not.toBeCalled();
 
-        instance.updatePreview(true);
+        instance.setShowPreview(true);
 
-        expect(wrapper.state('showPreview')).toBe(true);
+        expect(baseProps.setShowPreview).toHaveBeenCalledWith(true);
         expect(instance.focusTextbox).not.toBeCalled();
 
-        instance.updatePreview(false);
-
-        expect(wrapper.state('showPreview')).toBe(false);
+        wrapper.setProps({shouldShowPreview: true});
+        expect(instance.focusTextbox).not.toBeCalled();
+        wrapper.setProps({shouldShowPreview: false});
         expect(instance.focusTextbox).toBeCalled();
     });
+
+    testComponentForLineBreak((value) => (
+        <CreateComment
+            {...baseProps}
+            draft={{
+                ...baseProps.draft,
+                message: value,
+            }}
+            ctrlSend={true}
+        />
+    ), (instance) => instance.state().draft.message);
 });

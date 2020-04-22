@@ -39,6 +39,8 @@ type Props = {
         confirmNavigation: () => void;
         cancelNavigation: () => void;
         loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
+        selectChannel: (channelId: string) => void;
+        selectTeam: (teamId: string) => void;
         editRole: (role: Role) => void;
         updateConfig?: (config: Record<string, any>) => ActionFunc;
     };
@@ -79,6 +81,8 @@ export default class AdminConsole extends React.Component<Props, State> {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
+        this.props.actions.selectChannel('');
+        this.props.actions.selectTeam('');
     }
 
     private onFilterChange = (filter: string) => {

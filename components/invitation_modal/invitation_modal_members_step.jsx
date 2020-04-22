@@ -23,6 +23,7 @@ import './invitation_modal_members_step.scss';
 class InvitationModalMembersStep extends React.Component {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
+        currentTeamId: PropTypes.string.isRequired,
         intl: PropTypes.any,
         inviteId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
@@ -70,7 +71,7 @@ class InvitationModalMembersStep extends React.Component {
     }
 
     debouncedSearchProfiles = debounce((term, callback) => {
-        this.props.searchProfiles(term).then(({data}) => {
+        this.props.searchProfiles(term, {not_in_team_id: this.props.currentTeamId}).then(({data}) => {
             callback(data);
             if (data.length === 0) {
                 this.setState({termWithoutResults: term});

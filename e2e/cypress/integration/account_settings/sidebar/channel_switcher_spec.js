@@ -1,33 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     let testChannel;
     let testTeam;
 
     before(() => {
-        // # Login and visit "/"
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
 
         // # Create a test team and channels
-        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
-            testTeam = response.body;
-            cy.visit(`/${testTeam.name}`);
-        });
+        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
+            testTeam = teamRes.body;
 
-        cy.getCurrentTeamId().then((teamId) => {
             const numberOfChannels = 14;
             Cypress._.forEach(Array(numberOfChannels), (_, index) => {
-                cy.apiCreateChannel(teamId, 'channel-switcher', `Channel Switcher ${index.toString()}`).then((response) => {
+                cy.apiCreateChannel(testTeam.id, 'channel-switcher', `Channel Switcher ${index.toString()}`).then((response) => {
                     if (index === 0) {
                         testChannel = response.body;
                     }
@@ -95,7 +94,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
-        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+L
         cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L');
@@ -119,7 +118,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
-        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+m
         cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}M');
@@ -135,7 +134,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
 function verifyChannelSwitch(team, channel) {
     // * Channel switcher hint should be visible
-    cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+    cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
 
     // # Type channel display name on Channel switcher input
     cy.get('#quickSwitchInput').type(channel.display_name);

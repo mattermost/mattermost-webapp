@@ -8,7 +8,8 @@ exports[`components/post_view/PostInfo removePost, should have called props.acti
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -21,7 +22,8 @@ exports[`components/post_view/PostInfo should match snapshot 1`] = `
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -34,7 +36,8 @@ exports[`components/post_view/PostInfo should match snapshot, compact display 1`
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -68,7 +71,8 @@ exports[`components/post_view/PostInfo should match snapshot, enable emoji picke
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -139,7 +143,8 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
     />
   </div>
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -163,7 +168,8 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
     />
   </div>
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
     <Connect(DotMenu)
       commentCount={0}
@@ -213,7 +219,8 @@ exports[`components/post_view/PostInfo should match snapshot, military time 1`] 
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -236,7 +243,8 @@ exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = 
     </span>
   </div>
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -255,7 +263,8 @@ exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHov
     />
   </div>
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   />
 </div>
 `;
@@ -268,7 +277,8 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
     className="col"
   />
   <div
-    className="col col__reply"
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
     <Connect(DotMenu)
       commentCount={0}

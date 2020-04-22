@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on archive direct message 1`] = `
+<ArchiveIcon
+  className="icon icon__archive"
+/>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on archived public channel 1`] = `
+<ArchiveIcon
+  className="icon icon__archive"
+/>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on direct message 1`] = `
+<StatusIcon
+  button={false}
+  className=""
+  status="test"
+  type="avatar"
+/>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on group direct message 1`] = `
+<div
+  className="status status--group"
+>
+  3
+</div>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on private channel 1`] = `
+<LockIcon
+  className="icon icon__lock"
+/>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on public channel 1`] = `
+<GlobeIcon
+  className="icon icon__globe"
+/>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, with draft in public channel 1`] = `
+<DraftIcon
+  className="icon icon__draft"
+/>
+`;

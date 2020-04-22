@@ -68,4 +68,16 @@ describe('/components/common/InfiniteScroll', () => {
         instance.handleScroll();
         expect(baseProps.callBack).toHaveBeenCalledTimes(0);
     });
+
+    test('should not show loading screen if there is no data', () => {
+        let loadingDiv = wrapper.find('.loading-screen');
+        expect(loadingDiv.exists()).toBe(false);
+        wrapper.setState({isFetching: true});
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.state().isFetching).toBe(true);
+
+        // Now it should show the loader.
+        loadingDiv = wrapper.find('.loading-screen');
+        expect(loadingDiv.exists()).toBe(true);
+    });
 });

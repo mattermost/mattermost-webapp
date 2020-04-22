@@ -30,6 +30,7 @@ type Props = {
     channel: Channel;
     actions: {
         searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+        getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
         getChannelStats: (channelId: string) => Promise<{data: {}}>;
         setModalSearchTerm: (term: string) => Promise<{
             data: boolean;
@@ -63,20 +64,19 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const {
             actions,
             currentChannelId,
             currentTeamId,
         } = this.props;
 
-        actions.loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, currentTeamId, currentChannelId).then(({data}) => {
-            if (data) {
-                this.loadComplete();
-            }
-        });
-
-        actions.getChannelStats(currentChannelId);
+        await Promise.all([
+            actions.loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, currentTeamId, currentChannelId),
+            actions.getChannelMembers(currentChannelId),
+            actions.getChannelStats(currentChannelId),
+        ]);
+        this.loadComplete();
     }
 
     componentWillUnmount() {

@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-import LoadingScreen from 'components/loading_screen.tsx';
+import LoadingScreen from 'components/loading_screen';
 
 const SCROLL_BUFFER = 100;
 const DEBOUNCE_WAIT_TIME = 200;
@@ -135,7 +135,8 @@ export default class InfiniteScroll extends React.PureComponent {
 
     render() {
         const {children, endOfDataMessage, styleClass, loaderStyle} = this.props;
-        const {isEndofData} = this.state;
+        const {isEndofData, isFetching} = this.state;
+        const showLoader = !isEndofData && isFetching; // show loader if fetching and end of data is not reached.
         return (
             // eslint-disable-next-line react/jsx-filename-extension
             <>
@@ -144,13 +145,13 @@ export default class InfiniteScroll extends React.PureComponent {
                     ref={this.node}
                 >
                     {children}
-                    {(!isEndofData) && (
+                    {showLoader && (
                         <LoadingScreen
                             style={loaderStyle}
                             message=' '
                         />
                     )}
-                    {isEndofData && endOfDataMessage}
+                    {!showLoader && endOfDataMessage}
                 </div>
             </>
         );

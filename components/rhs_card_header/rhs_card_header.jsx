@@ -55,7 +55,7 @@ export default class RhsCardHeader extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToResultsTooltip'
-                        defaultMessage='Back to Search Results'
+                        defaultMessage='Back to search results'
                     />
                 </Tooltip>
             );
@@ -65,7 +65,7 @@ export default class RhsCardHeader extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToFlaggedTooltip'
-                        defaultMessage='Back to Flagged Posts'
+                        defaultMessage='Back to flagged posts'
                     />
                 </Tooltip>
             );
@@ -75,7 +75,7 @@ export default class RhsCardHeader extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToPinnedTooltip'
-                        defaultMessage='Back to Pinned Posts'
+                        defaultMessage='Back to pinned posts'
                     />
                 </Tooltip>
             );

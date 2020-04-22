@@ -278,7 +278,7 @@ export default class SystemUserDetail extends React.PureComponent {
                     onClick={this.handleResetMfa}
                     className='admin-btn-default'
                 >
-                    {'Remove MFA'}
+                    {Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
                 </AdminButtonOutline>
             );
         }
@@ -405,7 +405,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                         onClick={this.doPasswordReset}
                                         className='admin-btn-default'
                                     >
-                                        {'Reset Password'}
+                                        {Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                                     </AdminButtonOutline>
                                     {this.renderActivateDeactivate()}
                                     {this.renderRemoveMFA()}

@@ -1,6 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @system_console
+
 /**
  * Note : This test requires draw plugin tar file under fixtures folder.
  * Download from : https://integrations.mattermost.com/draw-plugin/
@@ -14,6 +23,8 @@ describe('Draw Plugin - Upload', () => {
     const fileType = 'application/gzip';
     const pluginId = 'com.mattermost.draw-plugin';
     before(() => {
+        // # Login as sysadmin and update config
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -21,13 +32,12 @@ describe('Draw Plugin - Upload', () => {
             },
         });
 
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        // # Visit town-square channel
         cy.visit('/ad-1/channels/town-square');
 
         // #If draw plugin is already enabled , unInstall it
         cy.uninstallPluginById(pluginId);
-        cy.systemConsolePluginManagement();
+        cy.visit('/admin_console/plugins/plugin_management');
     });
 
     /**

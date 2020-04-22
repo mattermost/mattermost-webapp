@@ -17,7 +17,7 @@ function mapStateToProps(state, ownProps) {
     let displayName = '';
     if (ownProps.post) {
         const user = getUser(state, ownProps.post.user_id);
-        displayName = getDisplayNameByUser(user);
+        displayName = getDisplayNameByUser(state, user);
     }
 
     const config = getConfig(state);

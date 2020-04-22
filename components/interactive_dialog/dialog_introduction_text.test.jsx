@@ -4,13 +4,18 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
+import EmojiMap from 'utils/emoji_map';
+
 import DialogIntroductionText from './dialog_introduction_text.jsx';
 
 describe('components/DialogIntroductionText', () => {
+    const emojiMap = new EmojiMap(new Map());
+
     test('should render message with supported values', () => {
         const descriptor = {
             id: 'testsupported',
             value: '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
+            emojiMap
         };
         const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();
@@ -20,6 +25,7 @@ describe('components/DialogIntroductionText', () => {
         const descriptor = {
             id: 'testblankvalue',
             value: '',
+            emojiMap
         };
         const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();

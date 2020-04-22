@@ -20,6 +20,9 @@ export default class ChannelView extends React.PureComponent {
         deactivatedChannel: PropTypes.bool.isRequired,
         match: PropTypes.shape({
             url: PropTypes.string.isRequired,
+            params: PropTypes.shape({
+                postid: PropTypes.string,
+            }).isRequired,
         }).isRequired,
         showTutorial: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
@@ -44,12 +47,18 @@ export default class ChannelView extends React.PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {};
-        if (props.match.url !== state.url) {
-            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url};
+        const focusedPostId = props.match.params.postid;
+
+        if (props.match.url !== state.url && props.channelId !== state.channelId) {
+            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url, focusedPostId};
         }
 
         if (props.channelId !== state.channelId) {
-            updatedState = {...updatedState, channelId: props.channelId, prevChannelId: state.channelId};
+            updatedState = {...updatedState, channelId: props.channelId, prevChannelId: state.channelId, focusedPostId};
+        }
+
+        if (focusedPostId && focusedPostId !== state.focusedPostId) {
+            updatedState = {...updatedState, focusedPostId};
         }
 
         if (Object.keys(updatedState).length) {
@@ -175,6 +184,7 @@ export default class ChannelView extends React.PureComponent {
                 <DeferredPostView
                     channelId={this.props.channelId}
                     prevChannelId={this.state.prevChannelId}
+                    focusedPostId={this.state.focusedPostId}
                 />
                 {createPost}
             </div>

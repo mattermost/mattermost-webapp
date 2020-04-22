@@ -3,13 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
     containsAtChannel,
@@ -35,7 +36,7 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
-import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -186,7 +187,17 @@ class CreatePost extends React.PureComponent {
 
         intl: intlShape.isRequired,
 
+        /**
+         * Should preview be showed
+         */
+        shouldShowPreview: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
+
+            /**
+             * Set show preview for textbox
+             */
+            setShowPreview: PropTypes.func.isRequired,
 
             /**
              *  func called after message submit.
@@ -259,8 +270,12 @@ class CreatePost extends React.PureComponent {
              * Function to get the users timezones in the channel
              */
             getChannelTimezones: PropTypes.func.isRequired,
-
             scrollPostListToBottom: PropTypes.func.isRequired,
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }).isRequired,
     }
 
@@ -276,7 +291,6 @@ class CreatePost extends React.PureComponent {
                 message: props.draft.message,
                 submitting: false,
                 serverError: null,
-                showPreview: false,
             };
         }
         return updatedState;
@@ -292,7 +306,6 @@ class CreatePost extends React.PureComponent {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelTimezoneCount: 0,
-            showPreview: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             currentChannel: props.currentChannel,
@@ -306,6 +319,7 @@ class CreatePost extends React.PureComponent {
 
     componentDidMount() {
         this.onOrientationChange();
+        this.props.actions.setShowPreview(false);
         this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
@@ -325,6 +339,10 @@ class CreatePost extends React.PureComponent {
             this.focusTextbox();
         }
 
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.props.actions.setShowPreview(false);
+        }
+
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
             this.focusTextbox();
@@ -342,8 +360,8 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.setState({showPreview: newState});
+    setShowPreview = (newPreviewValue) => {
+        this.props.actions.setShowPreview(newPreviewValue);
     }
 
     setOrientationListeners = () => {
@@ -622,6 +640,9 @@ class CreatePost extends React.PureComponent {
         post.parent_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
+        if (!this.props.useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
+            post.props.mentionHighlightDisabled = true;
+        }
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
@@ -662,6 +683,11 @@ class CreatePost extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
+        const postTextboxDisabled = this.props.readOnlyChannel || !this.props.canPost;
+        if (this.refs.textbox && postTextboxDisabled) {
+            this.refs.textbox.getWrappedInstance().blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
+            return;
+        }
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.getWrappedInstance().focus();
         }
@@ -690,7 +716,7 @@ class CreatePost extends React.PureComponent {
                 this.handleSubmit(e);
             }
 
-            this.updatePreview(false);
+            this.setShowPreview(false);
         }
 
         this.emitTypingEvent();
@@ -880,10 +906,17 @@ class CreatePost extends React.PureComponent {
     }
 
     documentKeyHandler = (e) => {
-        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+
+        if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
+            return;
+        } else if (lastMessageReactionKeyCombo) {
+            this.reactToLastMessage(e);
             return;
         }
 
@@ -932,7 +965,10 @@ class CreatePost extends React.PureComponent {
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
-        if (ctrlEnterKeyCombo) {
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+        } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
@@ -985,6 +1021,22 @@ class CreatePost extends React.PureComponent {
     loadNextMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+    }
+
+    reactToLastMessage = (e) => {
+        e.preventDefault();
+
+        const {rhsExpanded, actions: {emitShortcutReactToLastPostFrom}} = this.props;
+        const noModalsAreOpen = document.getElementsByClassName(A11yClassNames.MODAL).length === 0;
+        const noPopupsDropdownsAreOpen = document.getElementsByClassName(A11yClassNames.POPUP).length === 0;
+
+        // Block keyboard shortcut react to last message when :
+        // - RHS is completely expanded
+        // - Any dropdown/popups are open
+        // - Any modals are open
+        if (!rhsExpanded && noModalsAreOpen && noPopupsDropdownsAreOpen) {
+            emitShortcutReactToLastPostFrom(Locations.CENTER);
+        }
     }
 
     handleBlur = () => {
@@ -1203,7 +1255,7 @@ class CreatePost extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel && !this.state.showPreview) {
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1222,7 +1274,7 @@ class CreatePost extends React.PureComponent {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -1239,11 +1291,13 @@ class CreatePost extends React.PureComponent {
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                        className='style--none emoji-picker__container post-action'
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
                         <EmojiIcon
                             id='emojiPickerButton'
-                            className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
+                            className={'icon icon--emoji '}
                         />
                     </button>
                 </div>
@@ -1300,7 +1354,7 @@ class CreatePost extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                preview={this.props.shouldShowPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
@@ -1325,7 +1379,7 @@ class CreatePost extends React.PureComponent {
                                         className='fa fa-paper-plane'
                                         title={{
                                             id: t('create_post.icon'),
-                                            defaultMessage: 'Send Post Icon',
+                                            defaultMessage: 'Create a post',
                                         }}
                                     />
                                 </a>
@@ -1335,6 +1389,7 @@ class CreatePost extends React.PureComponent {
                     </div>
                     <div
                         id='postCreateFooter'
+                        role='form'
                         className={postFooterClassName}
                     >
                         <div className='d-flex justify-content-between'>
@@ -1344,8 +1399,8 @@ class CreatePost extends React.PureComponent {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.state.showPreview}
-                                updatePreview={this.updatePreview}
+                                showPreview={this.props.shouldShowPreview}
+                                updatePreview={this.setShowPreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />
                         </div>

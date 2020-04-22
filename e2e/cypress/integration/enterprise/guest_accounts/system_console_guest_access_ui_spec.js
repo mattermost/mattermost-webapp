@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @guest_account
+
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
@@ -15,6 +18,10 @@ let guest;
 
 describe('Guest Account - Verify Guest Access UI', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.apiLogin('sysadmin');
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
@@ -25,28 +32,16 @@ describe('Guest Account - Verify Guest Access UI', () => {
             },
         });
 
-        // # Login as new user
-        cy.loginAsNewUser().then((userResponse) => {
+        // # Create guest user account
+        cy.apiCreateNewUser().then((userResponse) => {
             guest = userResponse;
 
             // # Demote the current member to a guest user
             cy.demoteUser(guest.id);
         });
 
-        // # Login as SysAdmin
-        cy.apiLogin('sysadmin');
-
         // # Visit System Console Users page
         cy.visit('/admin_console/authentication/guest_access');
-    });
-
-    after(() => {
-        // # Reset MFA
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableMultifactorAuthentication: false,
-            },
-        });
     });
 
     it('MM-18046 Verify Guest Access Screen', () => {
@@ -74,9 +69,6 @@ describe('Guest Account - Verify Guest Access UI', () => {
                 EnableMultifactorAuthentication: true,
             },
         });
-
-        // # Login as SysAdmin
-        cy.apiLogin('sysadmin');
 
         // # Visit System Console Users page
         cy.visit('/admin_console/authentication/guest_access');

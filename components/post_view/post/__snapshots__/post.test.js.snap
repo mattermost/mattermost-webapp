@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Post should not remove post--highlight class after timeout so the classes for permalink are not applied 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "handlePopupOpened": [Function],
+    }
+  }
+>
+  <div
+    aria-atomic={true}
+    aria-label=""
+    className="a11y__section post post--highlight  other--root  "
+    data-testid="postView"
+    id="post_post1"
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+    onTouchStart={[Function]}
+    role="listitem"
+    tabIndex="0"
+  >
+    <div
+      aria-hidden={true}
+      className="post__content "
+      data-testid="postContent"
+      role="application"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={false}
+          post={
+            Object {
+              "id": "post1",
+            }
+          }
+        />
+      </div>
+      <div>
+        <Connect(PostHeader)
+          compactDisplay={false}
+          handleCardClick={[Function]}
+          handleCommentClick={[Function]}
+          handleDropdownOpened={[Function]}
+          hover={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+            }
+          }
+          replyCount={0}
+          showTimeWithoutHover={true}
+        />
+        <Connect(PostBody)
+          compactDisplay={false}
+          handleCommentClick={[Function]}
+          isCommentMention={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</ContextProvider>
+`;
+
+exports[`Post should not remove post--highlight class after timeout so the classes for permalink are not applied 2`] = `
+<ContextProvider
+  value={
+    Object {
+      "handlePopupOpened": [Function],
+    }
+  }
+>
+  <div
+    aria-atomic={true}
+    aria-label=""
+    className="a11y__section post  other--root  "
+    data-testid="postView"
+    id="post_post1"
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+    onTouchStart={[Function]}
+    role="listitem"
+    tabIndex="0"
+  >
+    <div
+      aria-hidden={true}
+      className="post__content "
+      data-testid="postContent"
+      role="application"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={false}
+          post={
+            Object {
+              "id": "post1",
+            }
+          }
+        />
+      </div>
+      <div>
+        <Connect(PostHeader)
+          compactDisplay={false}
+          handleCardClick={[Function]}
+          handleCommentClick={[Function]}
+          handleDropdownOpened={[Function]}
+          hover={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+            }
+          }
+          replyCount={0}
+          showTimeWithoutHover={true}
+        />
+        <Connect(PostBody)
+          compactDisplay={false}
+          handleCommentClick={[Function]}
+          isCommentMention={false}
+          isFirstReply={true}
+          post={
+            Object {
+              "id": "post1",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</ContextProvider>
+`;

@@ -25,7 +25,10 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
+import {showPreviewOnCreateComment} from 'selectors/views/textbox';
+import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 
 import CreateComment from './create_comment.jsx';
 
@@ -58,7 +61,8 @@ function makeMapStateToProps() {
             }
         );
         const useChannelMentions = haveIChannelPermission(state, {
-            channel: ownProps.channelId,
+            channel: channel.id,
+            team: channel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
 
@@ -82,6 +86,7 @@ function makeMapStateToProps() {
             selectedPostFocussedAt: getSelectedPostFocussedAt(state),
             canPost,
             useChannelMentions,
+            shouldShowPreview: showPreviewOnCreateComment(state),
         };
     };
 }
@@ -135,6 +140,8 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
+            emitShortcutReactToLastPostFrom,
+            setShowPreview: setShowPreviewOnCreateComment,
         }, dispatch);
     };
 }

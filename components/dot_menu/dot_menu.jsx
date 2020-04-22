@@ -3,12 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -21,6 +21,7 @@ import Pluggable from 'plugins/pluggable';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -36,12 +37,14 @@ export default class DotMenu extends React.PureComponent {
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
         handleAddReactionClick: PropTypes.func,
+        isMenuOpen: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensed: PropTypes.bool.isRequired,
         postEditTimeLimit: PropTypes.string.isRequired,
         enableEmojiPicker: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
+        currentTeamUrl: PropTypes.string.isRequired,
 
         /*
          * Components for overriding provided by plugins
@@ -85,6 +88,9 @@ export default class DotMenu extends React.PureComponent {
              */
             markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
+
+        canEdit: PropTypes.bool.isRequired,
+        canDelete: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -105,6 +111,7 @@ export default class DotMenu extends React.PureComponent {
         this.state = {
             openUp: false,
             width: 0,
+            canEdit: props.canEdit && !props.isReadOnly,
         };
 
         this.buttonRef = React.createRef();
@@ -112,7 +119,7 @@ export default class DotMenu extends React.PureComponent {
 
     disableCanEditPostByTime() {
         const {post, isLicensed, postEditTimeLimit} = this.props;
-        const canEdit = PostUtils.canEditPost(post);
+        const {canEdit} = this.state;
 
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
@@ -131,8 +138,8 @@ export default class DotMenu extends React.PureComponent {
 
     static getDerivedStateFromProps(props) {
         return {
-            canDelete: PostUtils.canDeletePost(props.post) && !props.isReadOnly,
-            canEdit: PostUtils.canEditPost(props.post) && !props.isReadOnly,
+            canEdit: props.canEdit && !props.isReadOnly,
+            canDelete: props.canDelete && !props.isReadOnly,
         };
     }
 
@@ -162,9 +169,21 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    handlePermalinkMenuItemActivated = (e) => {
-        e.preventDefault();
-        showGetPostLinkModal(this.props.post);
+    copyLink = () => {
+        const postUrl = `${this.props.currentTeamUrl}/pl/${this.props.post.id}`;
+
+        const clipboard = navigator.clipboard;
+        if (clipboard) {
+            clipboard.writeText(postUrl);
+        } else {
+            const hiddenInput = document.createElement('textarea');
+            hiddenInput.value = postUrl;
+            document.body.appendChild(hiddenInput);
+            hiddenInput.focus();
+            hiddenInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(hiddenInput);
+        }
     }
 
     handlePinMenuItemActivated = () => {
@@ -213,23 +232,26 @@ export default class DotMenu extends React.PureComponent {
         >
             <FormattedMessage
                 id='post_info.dot_menu.tooltip.more_actions'
-                defaultMessage='More Actions'
+                defaultMessage='More actions'
             />
         </Tooltip>
     )
 
-    refCallback = (ref) => {
-        if (ref) {
-            const rect = ref.rect();
-            const y = rect.y || rect.top;
-            const height = rect.height;
+    refCallback = (menuRef) => {
+        if (menuRef) {
+            const rect = menuRef.rect();
+            const buttonRect = this.buttonRef.current.getBoundingClientRect();
+            const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
             const windowHeight = window.innerHeight;
 
-            if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
-                this.setState({openUp: true});
-            }
+            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
 
-            this.setState({width: rect.width});
+            this.setState({
+                openUp: (spaceOnTop > spaceOnBottom),
+                width: rect.width,
+            });
         }
     }
 
@@ -293,12 +315,17 @@ export default class DotMenu extends React.PureComponent {
                     rootClose={true}
                 >
                     <button
+                        ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
-                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More Actions').toLowerCase()}
-                        className='post__dropdown color--link style--none'
+                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More actions').toLowerCase()}
+                        className={classNames('post-menu__item', {
+                            'post-menu__item--active': this.props.isMenuOpen,
+                        })}
                         type='button'
                         aria-expanded='false'
-                    />
+                    >
+                        <DotsHorizontalIcon className={'icon icon--small'}/>
+                    </button>
                 </OverlayTrigger>
                 <Menu
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
@@ -332,8 +359,8 @@ export default class DotMenu extends React.PureComponent {
                     <Menu.ItemAction
                         id={`permalink_${this.props.post.id}`}
                         show={!isSystemMessage}
-                        text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
-                        onClick={this.handlePermalinkMenuItemActivated}
+                        text={Utils.localizeMessage('post_info.permalink', 'Copy Link')}
+                        onClick={this.copyLink}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}

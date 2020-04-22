@@ -210,7 +210,7 @@ export default class NewChannelModal extends React.PureComponent {
                 />
                 <FormattedMessage
                     id='channel_modal.publicHint'
-                    defaultMessage=' - Anyone can join this channel.'
+                    defaultMessage=' - Anyone can join this channel'
                 />
             </div>
         );
@@ -224,7 +224,7 @@ export default class NewChannelModal extends React.PureComponent {
                 />
                 <FormattedMessage
                     id='channel_modal.privateHint'
-                    defaultMessage=' - Only invited members can join this channel.'
+                    defaultMessage=' - Only invited members can join this channel'
                 />
             </div>
         );

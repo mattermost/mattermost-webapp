@@ -25,7 +25,7 @@ function mapStateToProps(state, ownProps) {
     );
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
-    const canRemoveMember = canManageMembers(channel);
+    const canRemoveMember = canManageMembers(state, channel);
 
     return {
         currentUserId: getCurrentUserId(state),

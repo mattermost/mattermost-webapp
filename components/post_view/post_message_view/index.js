@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {Preferences} from 'mattermost-redux/constants';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 
@@ -16,6 +17,7 @@ function mapStateToProps(state) {
         isRHSOpen: getIsRhsOpen(state),
         pluginPostTypes: state.plugins.postTypes,
         theme: getTheme(state),
+        currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state)
     };
 }
 

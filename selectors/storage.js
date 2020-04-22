@@ -9,9 +9,13 @@ export const getGlobalItem = (state, name, defaultValue) => {
     return getItemFromStorage(storage, name, defaultValue);
 };
 
+export const getItem = (state, name, defaultValue) => {
+    return getGlobalItem(state, getPrefix(state) + name, defaultValue);
+};
+
 export const makeGetItem = (name, defaultValue) => {
     return (state) => {
-        return getGlobalItem(state, getPrefix(state) + name, defaultValue);
+        return getItem(state, name, defaultValue);
     };
 };
 

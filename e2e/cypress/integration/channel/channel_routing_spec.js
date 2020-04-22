@@ -7,9 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel
+
 describe('Channel routing', () => {
     before(() => {
         cy.apiLogin('user-1');
+        cy.apiSaveTeammateNameDisplayPreference('username');
         cy.visit('/ad-1/channels/town-square');
     });
 

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../fixtures/timeouts';
-
 /**
 * postMessageAs is a task which is wrapped as command with post-verification
 * that a message is successfully posted by the user/sender
@@ -28,7 +26,12 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 * @param {Object} data - payload on incoming webhook
 */
 Cypress.Commands.add('postIncomingWebhook', ({url, data}) => {
-    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200).wait(TIMEOUTS.MEDIUM);
+    cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
+
+    cy.waitUntil(() => cy.getLastPost().then((el) => {
+        const postedMessageEl = el.find('.attachment__thumb-pretext > p')[0];
+        return Boolean(postedMessageEl && postedMessageEl.textContent.includes(data.attachments[0].pretext));
+    }));
 });
 
 /**
@@ -60,4 +63,30 @@ Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootI
         // # Return the data so it can be interacted in a test
         cy.wrap({id: data.id, status, data});
     });
+});
+
+/**
+* urlHealthCheck is a task wrapped as command that checks whether
+* a URL is healthy and reachable.
+* @param {String} url - URL to check
+* @param {String} method - a request using a specific method
+* @param {String} httpStatus - expected HTTP status
+*/
+Cypress.Commands.add('urlHealthCheck', ({url, method = 'get', httpStatus}) => {
+    cy.task('urlHealthCheck', {url, method}).then(({data, errorCode, status, success}) => {
+        expect(success, `Requires ${url} to be reachable: ${errorCode}`).to.equal(true);
+        expect(status, `Expect ${httpStatus} to match returned ${status} HTTP status`).to.equal(httpStatus);
+
+        cy.wrap({data, status});
+    });
+});
+
+Cypress.Commands.add('requireWebhookServer', () => {
+    const webhookBaseUrl = Cypress.env().webhookBaseUrl;
+    cy.urlHealthCheck({url: webhookBaseUrl, method: 'get', httpStatus: 200});
+});
+
+Cypress.Commands.add('requireStorybookServer', () => {
+    const storybookUrl = Cypress.env().storybookUrl;
+    cy.urlHealthCheck({url: storybookUrl, method: 'get', httpStatus: 200});
 });

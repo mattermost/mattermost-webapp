@@ -5,7 +5,6 @@ import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
-import SelectIcon from 'components/widgets/icons/fa_select_icon';
 import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
@@ -24,11 +23,11 @@ class SearchUserSuggestion extends Suggestion {
         let description = '';
 
         if ((item.first_name || item.last_name) && item.nickname) {
-            description = `- ${Utils.getFullName(item)} (${item.nickname})`;
+            description = `${Utils.getFullName(item)} (${item.nickname})`;
         } else if (item.nickname) {
-            description = `- (${item.nickname})`;
+            description = `(${item.nickname})`;
         } else if (item.first_name || item.last_name) {
-            description = `- ${Utils.getFullName(item)}`;
+            description = `${Utils.getFullName(item)}`;
         }
 
         return (
@@ -41,22 +40,20 @@ class SearchUserSuggestion extends Suggestion {
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <SelectIcon/>
                 <Avatar
-                    size='xs'
+                    size='sm'
                     username={username}
-                    url={Utils.imageURLForUser(item)}
+                    url={Utils.imageURLForUser(item.id, item.last_picture_update)}
                 />
-                <div className='mention--align'>
+                <div className='mention--align ml-3'>
                     <span>
-                        {username}
+                        {'@'}{username}
                     </span>
                     <BotBadge
                         show={Boolean(item.is_bot)}
                         className='badge-autocomplete'
                     />
-                    <span className='mention__fullname'>
-                        {' '}
+                    <span className='ml-2 mention__fullname'>
                         {description}
                     </span>
                 </div>
@@ -106,6 +103,6 @@ export default class SearchUserProvider extends Provider {
     }
 
     allowDividers() {
-        return false;
+        return true;
     }
 }

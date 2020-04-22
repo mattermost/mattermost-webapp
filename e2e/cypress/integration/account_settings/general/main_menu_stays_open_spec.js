@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @account_setting
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import users from '../../../fixtures/users.json';
 

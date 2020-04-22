@@ -141,6 +141,8 @@ export default class EmojiPicker extends React.PureComponent {
             searchCustomEmojis: PropTypes.func.isRequired,
             incrementEmojiPickerPage: PropTypes.func.isRequired,
         }).isRequired,
+        filter: PropTypes.string.isRequired,
+        handleFilterChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -216,7 +218,6 @@ export default class EmojiPicker extends React.PureComponent {
         this.state = {
             allEmojis: {},
             categories,
-            filter: '',
             cursor: [-1, -1], // categoryIndex, emojiIndex
             divTopOffset: 0,
             emojisToShow: SYSTEM_EMOJIS_COUNT,
@@ -355,9 +356,10 @@ export default class EmojiPicker extends React.PureComponent {
             this.props.actions.searchCustomEmojis(filter);
         }
 
+        this.props.handleFilterChange(filter);
+
         this.setState(() => ({
-            filter,
-            cursor: [0, 0],
+            cursor: [-1, -1],
         }));
     }
 
@@ -399,20 +401,50 @@ export default class EmojiPicker extends React.PureComponent {
     handleKeyDown = (e) => {
         switch (e.key) {
         case 'ArrowRight':
-            e.preventDefault();
-            this.selectNextEmoji();
+            if ((this.state.cursor[0] !== -1 || this.state.cursor[1] !== -1) || e.target.selectionStart + 1 > this.props.filter.length) {
+                e.preventDefault();
+                this.selectNextEmoji();
+            }
             break;
         case 'ArrowLeft':
-            e.preventDefault();
-            this.selectPrevEmoji();
+            if (this.state.cursor[0] > 0 || this.state.cursor[1] > 0) {
+                e.preventDefault();
+                this.selectPrevEmoji();
+            } else if (this.state.cursor[0] === 0 && this.state.cursor[1] === 0) {
+                this.setState({
+                    cursor: [-1, -1],
+                });
+                e.target.selectionStart = this.props.filter.length;
+                e.target.selectionEnd = this.props.filter.length;
+                e.preventDefault();
+                this.searchInput.focus();
+            }
             break;
         case 'ArrowUp':
-            e.preventDefault();
-            this.selectPrevEmoji(EMOJI_PER_ROW);
+            if (e.shiftKey) {
+                e.target.selectionStart = 0;
+            } else if (this.state.cursor[1] < EMOJI_PER_ROW) {
+                this.setState({
+                    cursor: [-1, -1],
+                });
+                e.target.selectionStart = this.props.filter.length;
+                e.target.selectionEnd = this.props.filter.length;
+                this.searchInput.focus();
+            } else {
+                e.preventDefault();
+                this.selectPrevEmoji(EMOJI_PER_ROW);
+            }
             break;
         case 'ArrowDown':
-            e.preventDefault();
-            this.selectNextEmoji(EMOJI_PER_ROW);
+            if (e.shiftKey) {
+                e.target.selectionEnd = this.props.filter.length;
+            } else if (e.target.selectionStart === 0) {
+                e.target.selectionStart = this.props.filter.length;
+                e.target.selectionEnd = this.props.filter.length;
+            } else {
+                e.preventDefault();
+                this.selectNextEmoji(EMOJI_PER_ROW);
+            }
             break;
         case 'Enter':
             e.preventDefault();
@@ -468,7 +500,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCategoryByIndex(index) {
-        if (this.state.filter && index !== 0) {
+        if (this.props.filter && index !== 0) {
             return null;
         }
         return this.getCategoriesByKey(Object.keys(this.state.categories)[index]);
@@ -483,7 +515,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCategoriesByKey(key) {
-        return this.state.filter ? {
+        return this.props.filter ? {
             id: CATEGORY_SEARCH_RESULTS,
             name: CATEGORY_SEARCH_RESULTS,
         } : this.state.categories[key];
@@ -506,7 +538,7 @@ export default class EmojiPicker extends React.PureComponent {
         });
 
         const sortEmojisHelper = (a, b) => {
-            return compareEmojis(a, b, this.state.filter);
+            return compareEmojis(a, b, this.props.filter);
         };
 
         recentEmojis.sort(sortEmojisHelper);
@@ -520,10 +552,10 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getEmojisByCategory(category) {
-        if (this.state.filter) {
+        if (this.props.filter) {
             const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
                 for (let i = 0; i < emoji.aliases.length; i++) {
-                    if (emoji.aliases[i].toLowerCase().includes(this.state.filter)) {
+                    if (emoji.aliases[i].toLowerCase().includes(this.props.filter)) {
                         return true;
                     }
                 }
@@ -564,7 +596,7 @@ export default class EmojiPicker extends React.PureComponent {
     emojiCategories() {
         const categories = this.props.recentEmojis.length ? {...recentEmojiCategory, ...CATEGORIES} : CATEGORIES;
         const categoryKeys = Object.keys(categories);
-        const currentCategoryName = this.state.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
+        const currentCategoryName = this.props.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
         const emojiPickerCategories = categoryKeys.map((categoryName) => {
             const category = categories[categoryName];
 
@@ -587,7 +619,7 @@ export default class EmojiPicker extends React.PureComponent {
                     }
                     onCategoryClick={this.handleCategoryClick}
                     selected={currentCategoryName === category.name}
-                    enable={!this.state.filter}
+                    enable={!this.props.filter}
                 />
             );
         });
@@ -620,7 +652,9 @@ export default class EmojiPicker extends React.PureComponent {
                             type='text'
                             onChange={this.handleFilterChange}
                             onKeyDown={this.handleKeyDown}
+                            autocomplete='off'
                             placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
+                            value={this.props.filter}
                         />
                     )}
                 </FormattedMessage>
@@ -629,7 +663,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     emojiCurrentResults() {
-        const {filter} = this.state;
+        const {filter} = this.props;
         const categories = filter ? [CATEGORY_SEARCH_RESULTS] : Object.keys(this.state.categories);
         let numEmojisLoaded = 0;
 
