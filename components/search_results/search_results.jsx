@@ -272,7 +272,12 @@ class SearchResults extends React.Component {
             defaultMessage: 'Search Results',
         });
 
-        if (this.props.isMentionSearch) {
+        if (!searchTerms && noResults) {
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_bar.search',
+                defaultMessage: 'Search',
+            });
+        } else if (this.props.isMentionSearch) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title2',
                 defaultMessage: 'Recent Mentions',

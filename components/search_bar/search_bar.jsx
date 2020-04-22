@@ -58,6 +58,7 @@ export default class SearchBar extends React.Component {
             focused: false,
             keepInputFocused: false,
             index: -1,
+            termsUsed: 0,
         };
 
         this.suggestionProviders = [
@@ -86,6 +87,7 @@ export default class SearchBar extends React.Component {
         const {index} = this.state;
 
         if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
+            this.search.blur();
             e.stopPropagation();
             e.preventDefault();
         }
@@ -182,9 +184,18 @@ export default class SearchBar extends React.Component {
     }
 
     handleUpdateSearchTerm = (term) => {
-        this.props.actions.updateSearchTerms(term);
+        if (this.state.termsUsed === 0) {
+            this.props.actions.updateSearchTerms(term);
+        } else {
+            const pretextArray = this.props.searchTerms.split(' ');
+            pretextArray.pop();
+            pretextArray.push(term);
+            this.props.actions.updateSearchTerms(pretextArray.join(' '));
+        }
+
         this.focus();
         this.setState({index: -1});
+        this.setState({termsUsed: this.state.termsUsed + 1});
     }
 
     focus = () => {
@@ -209,16 +220,17 @@ export default class SearchBar extends React.Component {
         }
 
         let filteredOptions;
-
+        const pretextArray = this.props.searchTerms.split(' ');
+        const pretext = pretextArray[pretextArray.length - 1];
         try {
-            filteredOptions = searchHintOptions.filter((option) => new RegExp(this.props.searchTerms, 'gi').test(option.searchTerm) && option.searchTerm !== this.props.searchTerms);
+            filteredOptions = searchHintOptions.filter((option) => new RegExp(pretext, 'gi').test(option.searchTerm) && option.searchTerm !== pretext);
         } catch {
             filteredOptions = [];
         }
 
         if (filteredOptions.length > 0) {
             let helpClass = 'search-help-popover';
-            if (this.state.focused) {
+            if (this.state.focused && this.state.termsUsed <= 1) {
                 helpClass += ' visible';
             }
 
