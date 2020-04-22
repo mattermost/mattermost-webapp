@@ -14,7 +14,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {trackEvent} from 'actions/diagnostics_actions';
 import OverlayTrigger from 'components/overlay_trigger';
 import {DraggingState} from 'types/store';
-import Constants, {A11yCustomEventTypes} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, DraggingStateTypes} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
@@ -86,7 +86,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
                 isCategoryCollapsed={isCollapsed}
-                isCategoryDragged={draggingState.type === 'category' && draggingState.id === category.id}
+                isCategoryDragged={draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id}
                 isDropDisabled={this.isDropDisabled()}
                 isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
             />
@@ -114,9 +114,9 @@ export default class SidebarCategory extends React.PureComponent<Props> {
         const {draggingState, category} = this.props;
 
         if (category.type === CategoryTypes.DIRECT_MESSAGES) {
-            return draggingState.type === 'channel';
+            return draggingState.type === DraggingStateTypes.CHANNEL;
         } else if (category.type === CategoryTypes.PUBLIC || category.type === CategoryTypes.PRIVATE) {
-            return draggingState.type === 'DM';
+            return draggingState.type === DraggingStateTypes.DM;
         }
 
         return false;

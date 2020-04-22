@@ -16,7 +16,7 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {DraggingState} from 'types/store';
-import {Constants} from 'utils/constants';
+import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
@@ -231,6 +231,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     updateUnreadIndicators = () => {
         if (this.props.draggingState.state) {
+            this.setState({
+                showTopUnread: false,
+                showBottomUnread: false,
+            });
             return;
         }
 
@@ -359,28 +363,28 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         droppable[0].style.height = `${droppable[0].scrollHeight}px`;
 
         const draggingState: DraggingState = {
-            state: 'capture',
+            state: DraggingStates.CAPTURE,
             id: before.draggableId,
         };
 
         if (this.props.categories.some((category) => category.id === before.draggableId)) {
-            draggingState.type = 'category';
+            draggingState.type = DraggingStateTypes.CATEGORY;
         } else {
             const draggingChannel = this.props.displayedChannels.find((channel) => channel.id === before.draggableId);
-            draggingState.type = (draggingChannel?.type === General.DM_CHANNEL || draggingChannel?.type === General.GM_CHANNEL) ? 'DM' : 'channel';
+            draggingState.type = (draggingChannel?.type === General.DM_CHANNEL || draggingChannel?.type === General.GM_CHANNEL) ? DraggingStateTypes.DM : DraggingStateTypes.CHANNEL;
         }
 
         this.props.actions.setDraggingState(draggingState);
     }
 
     onBeforeDragStart = () => {
-        this.props.actions.setDraggingState({state: 'before'});
+        this.props.actions.setDraggingState({state: DraggingStates.BEFORE});
     }
 
     onDragStart = (initial: DragStart) => {
         this.props.onDragStart(initial);
 
-        this.props.actions.setDraggingState({state: 'during'});
+        this.props.actions.setDraggingState({state: DraggingStates.DURING});
 
         // Re-enable scroll box resizing
         const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];

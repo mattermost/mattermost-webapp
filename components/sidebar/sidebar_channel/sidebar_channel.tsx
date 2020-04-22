@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {DraggingState} from 'types/store';
-import Constants from 'utils/constants';
+import Constants, {DraggingStates} from 'utils/constants';
 
 import SidebarBaseChannel from './sidebar_base_channel';
 import SidebarDirectChannel from './sidebar_direct_channel';
@@ -87,11 +87,11 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
     }
 
     isCollapsed = (props: Props) => {
-        return /*props.isDropDisabled || */props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel);
+        return props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel);
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps) && (this.props.draggingState.state !== 'capture' && this.props.draggingState.state !== 'before')) {
+        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps) && (this.props.draggingState.state !== DraggingStates.CAPTURE && this.props.draggingState.state !== DraggingStates.BEFORE)) {
             const channelElement = this.getRef();
             if (channelElement) {
                 channelElement.classList.add('animating');
@@ -118,6 +118,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
     }
 
     getStyle = (style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) => {
+        // Turn off channel floating for the DM category, since you can't reorder DMs
         if (this.props.isDMCategory && !snapshot.isDragging) {
             return {
                 ...style,
@@ -125,6 +126,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             };
         }
 
+        // Fade DMs into the DM category instead of dropping them into a slot
         if (snapshot.isDropAnimating && snapshot.draggingOver?.includes('direct_messages')) {
             return {
                 ...style,

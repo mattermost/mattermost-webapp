@@ -582,6 +582,18 @@ export const SidebarChannelGroups = {
     FAVORITE: 'favorite',
 };
 
+export const DraggingStates = {
+    CAPTURE: 'capture',
+    BEFORE: 'before',
+    DURING: 'during',
+};
+
+export const DraggingStateTypes = {
+    CATEGORY: 'category',
+    CHANNEL: 'channel',
+    DM: 'DM',
+};
+
 export const AboutLinks = {
     TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
     PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',

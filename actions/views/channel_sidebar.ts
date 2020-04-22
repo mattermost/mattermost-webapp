@@ -109,16 +109,12 @@ export function removeFromCategory(teamId: string, categoryId: string, channelId
 }
 
 export function setDraggingState(data: DraggingState) {
-    return (dispatch: DispatchFunc) => {
-        dispatch({
-            type: ActionTypes.SIDEBAR_DRAGGING_SET_STATE,
-            data,
-        });
+    return {
+        type: ActionTypes.SIDEBAR_DRAGGING_SET_STATE,
+        data,
     };
 }
 
 export function stopDragging() {
-    return (dispatch: DispatchFunc) => {
-        dispatch({type: ActionTypes.SIDEBAR_DRAGGING_STOP});
-    };
+    return {type: ActionTypes.SIDEBAR_DRAGGING_STOP};
 }

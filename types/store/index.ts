@@ -10,8 +10,8 @@ import {RhsViewState} from './rhs';
 import {PluginsState} from './plugins';
 
 export type DraggingState = {
-    state?: 'capture' | 'before' | 'during';
-    type?: 'category' | 'channel' | 'DM';
+    state?: string;
+    type?: string;
     id?: string;
 }
 
