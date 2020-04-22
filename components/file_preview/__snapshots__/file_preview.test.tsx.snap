@@ -62,7 +62,9 @@ exports[`FilePreview should match snapshot 1`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>
@@ -145,7 +147,9 @@ exports[`FilePreview should match snapshot when props are changed 1`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>
@@ -228,7 +232,9 @@ exports[`FilePreview should match snapshot when props are changed 2`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>
@@ -291,7 +297,9 @@ exports[`FilePreview should match snapshot when props are changed 2`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>

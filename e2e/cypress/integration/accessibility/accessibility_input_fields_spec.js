@@ -19,12 +19,15 @@ function verifySearchAutocomplete(index, type = 'user') {
     cy.get('#search-autocomplete__popover').find('.search-autocomplete__item').eq(index).should('be.visible').and('have.class', 'selected a11y--focused').within((el) => {
         if (type === 'user') {
             cy.get('.mention--align').invoke('text').then((text) => {
-                const username = text.replace('- ', '').replace('(', '').replace(')', '').toLowerCase();
-                cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', username);
+                cy.get('.mention__fullname').invoke('text').then((fullName) => {
+                    const position = text.length - fullName.length;
+                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
+                    cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
+                });
             });
         } else if (type === 'channel') {
             cy.get('.search-autocomplete__name').invoke('text').then((text) => {
-                const channel = text.split('~')[1].replace(')', '').toLowerCase().trim();
+                const channel = text.split('~')[1].toLowerCase().trim();
                 cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
             });
         }
@@ -35,12 +38,15 @@ function verifyMessageAutocomplete(index, type = 'user') {
     cy.get('#suggestionList').find('.mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
             cy.wrap(el).invoke('text').then((text) => {
-                const username = text.replace('- ', '').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
-                cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', username);
+                cy.get('.ml-2').invoke('text').then((fullName) => {
+                    const position = text.length - fullName.length;
+                    const usernameFullNameNickName = [text.slice(0, position), fullName].join(' ').replace('@', '').replace('(you)', '').replace('(', '').replace(')', '').toLowerCase();
+                    cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
+                });
             });
         } else if (type === 'channel') {
             cy.get('.mention__align>span').invoke('text').then((text) => {
-                const channel = text.split('(')[0].toLowerCase().trim();
+                const channel = text.split('~')[0].toLowerCase().trim();
                 cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
             });
         }
@@ -50,17 +56,22 @@ function verifyMessageAutocomplete(index, type = 'user') {
 describe('Verify Accessibility Support in different input fields', () => {
     let testChannel;
 
-    before(() => {
-        // # Login as sysadmin and update Config
+    beforeEach(() => {
+        testChannel = null;
+
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
+        // # Enable Guest Accounts
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
             },
         });
-    });
 
-    beforeEach(() => {
         // # Visit the test channel
         cy.apiGetTeamByName('ad-1').then((res) => {
             cy.apiCreateChannel(res.body.id, 'accessibility', 'accessibility').then((response) => {
@@ -68,6 +79,13 @@ describe('Verify Accessibility Support in different input fields', () => {
                 cy.visit(`/ad-1/channels/${testChannel.name}`);
             });
         });
+    });
+
+    afterEach(() => {
+        cy.apiLogin('sysadmin');
+        if (testChannel && testChannel.id) {
+            cy.apiDeleteChannel(testChannel.id);
+        }
     });
 
     it('MM-22625 Verify Accessibility Support in Input fields in Invite People Flow', () => {
