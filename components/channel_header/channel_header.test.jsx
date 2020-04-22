@@ -20,6 +20,7 @@ describe('components/ChannelHeader', () => {
             showMentions: jest.fn(),
             openRHSSearch: jest.fn(),
             closeRightHandSide: jest.fn(),
+            setRhsExpanded: jest.fn(),
             openModal: jest.fn(),
             closeModal: jest.fn(),
             getCustomEmojisInText: jest.fn(),

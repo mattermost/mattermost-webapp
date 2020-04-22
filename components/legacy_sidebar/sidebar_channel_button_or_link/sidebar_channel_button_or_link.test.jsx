@@ -29,7 +29,6 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         teammateId: 'test-teammate-id',
         teammateDeletedAt: 1,
         channelIsArchived: false,
-        setRhsExpanded: jest.fn(),
     };
 
     test('should match snapshot, on desktop with mentions badge', () => {

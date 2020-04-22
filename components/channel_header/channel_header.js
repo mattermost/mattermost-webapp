@@ -77,6 +77,7 @@ class ChannelHeader extends React.PureComponent {
             showMentions: PropTypes.func.isRequired,
             openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
+            setRhsExpanded: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
@@ -123,6 +124,10 @@ class ChannelHeader extends React.PureComponent {
         const prevHeader = prevProps.channel ? prevProps.channel.header : '';
         if (header !== prevHeader) {
             this.props.actions.getCustomEmojisInText(header);
+        }
+
+        if (this.props.channel.id !== prevProps.channel.id) {
+            this.props.actions.setRhsExpanded(false);
         }
     }
 
