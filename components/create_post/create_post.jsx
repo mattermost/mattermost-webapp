@@ -767,10 +767,9 @@ class CreatePost extends React.PureComponent {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            let codeBlock;
-            ({message, codeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData));
-            const newCaretPosition = this.state.caretPosition + codeBlock.length;
-            this.setMessageAndCaretPostion(message, newCaretPosition, clipboardData);
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
+            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition, clipboardData);
             return;
         }
         message = formatMarkdownTableMessage(table, message.trim());

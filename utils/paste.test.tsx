@@ -53,10 +53,10 @@ describe('Paste.formatMarkdownTableMessage', () => {
 });
 
 describe('Paste.formatGithubCodePaste', () => {
-    const clipboardData = {
-        items: [1],
+    const clipboardData: any = {
+        items: [],
         types: ['text/plain', 'text/html'],
-        getData: (type) => {
+        getData: (type: any) => {
             if (type === 'text/plain') {
                 return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
             }
@@ -65,38 +65,38 @@ describe('Paste.formatGithubCodePaste', () => {
     };
 
     test('Formatted message for empty message', () => {
-        const formattedMessage = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
-        const formattedCodeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+        const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+        const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {message, codeBlock} = formatGithubCodePaste(0, '', clipboardData);
-        expect(message).toBe(formattedMessage);
-        expect(codeBlock).toBe(formattedCodeBlock);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, '', clipboardData);
+        expect(message).toBe(message);
+        expect(codeBlock).toBe(codeBlock);
     });
 
     test('Formatted message with a draft and cursor at end', () => {
-        const formattedMessage = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
-        const formattedCodeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+        const message = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+        const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {message, codeBlock} = formatGithubCodePaste(4, 'test', clipboardData);
-        expect(message).toBe(formattedMessage);
-        expect(codeBlock).toBe(formattedCodeBlock);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(4, 'test', clipboardData);
+        expect(message).toBe(message);
+        expect(codeBlock).toBe(codeBlock);
     });
 
     test('Formatted message with a draft and cursor at start', () => {
-        const formattedMessage = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\ntest";
-        const formattedCodeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\ntest";
+        const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {message, codeBlock} = formatGithubCodePaste(0, 'test', clipboardData);
-        expect(message).toBe(formattedMessage);
-        expect(codeBlock).toBe(formattedCodeBlock);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, 'test', clipboardData);
+        expect(message).toBe(message);
+        expect(codeBlock).toBe(codeBlock);
     });
 
     test('Formatted message with a draft and cursor at middle', () => {
-        const formattedMessage = "te\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\nst";
-        const formattedCodeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const message = "te\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\nst";
+        const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {message, codeBlock} = formatGithubCodePaste(2, 'test', clipboardData);
-        expect(message).toBe(formattedMessage);
-        expect(codeBlock).toBe(formattedCodeBlock);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(2, 'test', clipboardData);
+        expect(message).toBe(message);
+        expect(codeBlock).toBe(codeBlock);
     });
 });

@@ -348,9 +348,9 @@ class CreateComment extends React.PureComponent {
         let message = draft.message;
 
         if (isGitHubCodeBlock(table.className)) {
-            let codeBlock;
-            ({message, codeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData));
-            const newCaretPosition = this.state.caretPosition + codeBlock.length;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
+            message = formattedMessage;
             this.setCaretPosition(newCaretPosition);
         } else {
             message = formatMarkdownTableMessage(table, draft.message.trim());
