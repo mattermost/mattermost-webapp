@@ -406,7 +406,7 @@
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
         }
 
-        &.draggingOver {
+        &.draggingOver:hover {
             //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
             box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
             border-radius: 4px;

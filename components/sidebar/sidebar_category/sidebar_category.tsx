@@ -208,7 +208,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                                                     ref={this.categoryTitleRef}
                                                     className={classNames('SidebarChannelGroupHeader_groupButton', {
                                                         favorites: category.type === CategoryTypes.FAVORITES,
-                                                        draggingOver: droppableSnapshot.isDraggingOver,
+                                                        draggingOver: droppableSnapshot.isDraggingOver && category.type !== CategoryTypes.DIRECT_MESSAGES,
                                                         dragging: snapshot.isDragging,
                                                     })}
                                                     onClick={this.handleCollapse}
