@@ -105,7 +105,9 @@ export default class PluginRegistry {
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
     // - tooltip_text - string shown for tooltip appear on hover
-    registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText) {
+    // - priority - boolean. If true: the icon will appear to the right of the search bar. False or undefined: the icon
+    //              will appear with the rest of the plugin icons.
+    registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText, priority) {
         const id = generateId();
 
         const data = {
@@ -119,7 +121,7 @@ export default class PluginRegistry {
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'ChannelHeaderButton',
+            name: priority ? 'ChannelHeaderPriorityButton' : 'ChannelHeaderButton',
             data,
         });
 

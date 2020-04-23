@@ -87,6 +87,7 @@ class ChannelHeader extends React.PureComponent {
         currentRelativeTeamUrl: PropTypes.string.isRequired,
         newSideBarPreference: PropTypes.bool,
         announcementBarCount: PropTypes.number,
+        priorityPluginButtons: PropTypes.array,
     };
 
     constructor(props) {
@@ -280,6 +281,20 @@ class ChannelHeader extends React.PureComponent {
 
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
+    createPriorityPluginButton = (plug) => {
+        return (
+            <HeaderIconWrapper
+                key={'channelHeaderButton' + plug.id}
+                buttonClass='channel-header__icon style--none'
+                iconComponent={plug.icon}
+                onClick={() => plug.action(this.props.channel, this.props.channelMember)}
+                buttonId={plug.id}
+                tooltipKey={'plugin'}
+                tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
+            />
+        );
+    }
+
     render() {
         const {
             teamId,
@@ -298,6 +313,7 @@ class ChannelHeader extends React.PureComponent {
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
+        const priorityPluginButtons = this.props.priorityPluginButtons || [];
 
         let hasGuestsText = '';
         if (hasGuests) {
@@ -787,6 +803,9 @@ class ChannelHeader extends React.PureComponent {
                             tooltipKey={'search'}
                         />
                     )}
+
+                    {priorityPluginButtons.map(this.createPriorityPluginButton)}
+
                     <HeaderIconWrapper
                         iconComponent={
                             <MentionsIcon

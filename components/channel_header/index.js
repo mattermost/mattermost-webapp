@@ -82,7 +82,8 @@ function makeMapStateToProps() {
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
             newSideBarPreference: getNewSidebarPreference(state),
-            announcementBarCount: getAnnouncementBarCount(state)
+            announcementBarCount: getAnnouncementBarCount(state),
+            priorityPluginButtons: state.plugins.components.ChannelHeaderPriorityButton,
         };
     };
 }
