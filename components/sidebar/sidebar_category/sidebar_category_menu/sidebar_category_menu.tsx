@@ -12,6 +12,8 @@ import Menu from 'components/widgets/menu/menu';
 
 type Props = {
     category: ChannelCategory;
+    canCreatePublicChannel: boolean;
+    canCreatePrivateChannel: boolean;
 
     //currentUserId: string;
     isMuted: boolean;
@@ -22,14 +24,6 @@ type Props = {
 };
 
 class SidebarCategoryMenu extends React.PureComponent<Props> {
-    unmuteCategory = () => {
-
-    }
-
-    muteCategory = () => {
-
-    }
-
     deleteCategory = () => {
 
     }
@@ -48,28 +42,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
 
     renderDropdownItems = () => {
         const {intl, isMuted, category} = this.props;
-
-        // TODO: Add different translation for Direct Messages
-        let muteCategory;
-        if (isMuted) {
-            muteCategory = (
-                <Menu.ItemAction
-                    id={`unmute-${category.id}`}
-                    onClick={this.unmuteCategory}
-                    icon={<i className='icon-bell-off-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.unmuteCategory', defaultMessage: 'Unmute Category'})}
-                />
-            );
-        } else {
-            muteCategory = (
-                <Menu.ItemAction
-                    id={`mute-${category.id}`}
-                    onClick={this.muteCategory}
-                    icon={<i className='icon-bell-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.muteCategory', defaultMessage: 'Mute Category'})}
-                />
-            );
-        }
 
         let deleteCategory;
         let renameCategory;
@@ -96,7 +68,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
         }
 
         let createChannel;
-        if (category.type !== CategoryTypes.FAVORITES) {
+        if (category.type !== CategoryTypes.FAVORITES && (this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel)) {
             createChannel = (
                 <Menu.ItemAction
                     id={`createChannel-${category.id}`}
@@ -110,7 +82,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
         return (
             <React.Fragment>
                 <Menu.Group>
-                    {muteCategory}
                     {renameCategory}
                     {createChannel}
                 </Menu.Group>
@@ -135,7 +106,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
                 id={`SidebarCategoryMenu-${category.id}`}
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                 buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Edit category'})}
+                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
             >
                 {this.renderDropdownItems()}
             </SidebarMenu>

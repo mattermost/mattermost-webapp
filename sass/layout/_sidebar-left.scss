@@ -464,6 +464,10 @@
             width: 28px;
             margin-right: 16px;
         }
+
+        .SidebarMenu:not(.menuOpen) {
+            display: none;
+        }
     }
 
     .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
@@ -481,6 +485,10 @@
     .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
         color: var(--sidebar-text);
         cursor: pointer;
+
+        .SidebarMenu {
+            display: block;
+        }
     }
 
     .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:focus {

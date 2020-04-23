@@ -11,7 +11,7 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
-import {NotificationLevels, ModalIdentifiers} from 'utils/constants';
+import Constants, {NotificationLevels, ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     channel: Channel;
@@ -22,6 +22,8 @@ type Props = {
     isFavorite: boolean;
     isMuted: boolean;
     intl: IntlShape;
+    managePublicChannelMembers: boolean;
+    managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
     actions: {
         markChannelAsRead: (channelId: string) => void;
@@ -135,7 +137,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 <Menu.ItemAction
                     id={`markAsRead-${channel.id}`}
                     onClick={this.markAsRead}
-                    icon={<i className='icon-menu'/>}
+                    icon={<i className='icon-mark-as-unread'/>}
                     text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
                 />
             );
@@ -228,36 +230,47 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
             },
         );
 
-        let publicChannelGroup;
-        if (channel.type !== 'D') {
-            let copyLink;
-            if (channel.type === 'O') {
-                copyLink = (
-                    <Menu.ItemAction
-                        id={`copyLink-${channel.id}`}
-                        onClick={this.copyLink}
-                        icon={<i className='icon-link-variant'/>}
-                        text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
-                    />
-                );
-            }
+        let copyLink;
+        if (channel.type === 'O') {
+            copyLink = (
+                <Menu.ItemAction
+                    id={`copyLink-${channel.id}`}
+                    onClick={this.copyLink}
+                    icon={<i className='icon-link-variant'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
+                />
+            );
+        }
 
-            publicChannelGroup = (
-                <Menu.Group>
-                    {copyLink}
-                    <Menu.ItemAction
-                        id={`addMembers-${channel.id}`}
-                        onClick={this.addMembers}
-                        icon={<i className='icon-account-outline'/>}
-                        text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
-                    />
-                </Menu.Group>
+        let addMembers;
+        if ((channel.type === 'P' && this.props.managePrivateChannelMembers) || (channel.type === 'O' && this.props.managePublicChannelMembers)) {
+            addMembers = (
+                <Menu.ItemAction
+                    id={`addMembers-${channel.id}`}
+                    onClick={this.addMembers}
+                    icon={<i className='icon-account-outline'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
+                />
             );
         }
 
         let leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
         if (channel.type === 'D' || channel.type === 'G') {
             leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Leave Conversation'});
+        }
+
+        let leaveChannel;
+        if (channel.name !== Constants.DEFAULT_CHANNEL) {
+            leaveChannel = (
+                <Menu.Group>
+                    <Menu.ItemAction
+                        id={`leave-${channel.id}`}
+                        onClick={this.handleLeaveChannel}
+                        icon={<i className='icon-close'/>}
+                        text={leaveChannelText}
+                    />
+                </Menu.Group>
+            );
         }
 
         return (
@@ -278,15 +291,11 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         xOffset={this.state.width}
                     />
                 </Menu.Group>
-                {publicChannelGroup}
                 <Menu.Group>
-                    <Menu.ItemAction
-                        id={`leave-${channel.id}`}
-                        onClick={this.handleLeaveChannel}
-                        icon={<i className='icon-close'/>}
-                        text={leaveChannelText}
-                    />
+                    {copyLink}
+                    {addMembers}
                 </Menu.Group>
+                {leaveChannel}
             </React.Fragment>
         );
     }
@@ -309,7 +318,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 id={`SidebarChannelMenu-${channel.id}`}
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
                 buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Edit channel'})}
+                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             >
                 {this.renderDropdownItems()}
             </SidebarMenu>
