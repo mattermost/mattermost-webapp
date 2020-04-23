@@ -6,43 +6,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
 >
   <div
     className="AbstractList__header"
-  >
-    <div
-      className="AbstractList__header-label"
-      key="0"
-      style={
-        Object {
-          "flexGrow": 1,
-          "marginLeft": "16px",
-          "minWidth": "284px",
-        }
-      }
-    >
-      Name
-    </div>
-    <div
-      className="AbstractList__header-label"
-      key="1"
-      style={
-        Object {
-          "width": "150px",
-        }
-      }
-    >
-      Type
-    </div>
-    <div
-      className="AbstractList__header-label"
-      key="2"
-      style={
-        Object {
-          "width": "150px",
-        }
-      }
-    >
-      Role
-    </div>
-  </div>
+  />
   <div
     className="AbstractList__body"
   >
@@ -63,43 +27,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
 >
   <div
     className="AbstractList__header"
-  >
-    <div
-      className="AbstractList__header-label"
-      key="0"
-      style={
-        Object {
-          "flexGrow": 1,
-          "marginLeft": "16px",
-          "minWidth": "284px",
-        }
-      }
-    >
-      Name
-    </div>
-    <div
-      className="AbstractList__header-label"
-      key="1"
-      style={
-        Object {
-          "width": "150px",
-        }
-      }
-    >
-      Type
-    </div>
-    <div
-      className="AbstractList__header-label"
-      key="2"
-      style={
-        Object {
-          "width": "150px",
-        }
-      }
-    >
-      Role
-    </div>
-  </div>
+  />
   <div
     className="AbstractList__body"
   >

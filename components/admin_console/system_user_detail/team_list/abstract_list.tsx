@@ -97,17 +97,20 @@ export default class AbstractList extends React.PureComponent<Props, State> {
     }
 
     private renderHeaderLabels = (): React.ReactFragment => {
-        return (
-            <React.Fragment>
-                {this.props.headerLabels.map((headerLabel, id) => (
-                    <div
-                        key={id}
-                        className='AbstractList__header-label'
-                        style={headerLabel.style}
-                    >{headerLabel.default}</div>
-                ))}
-            </React.Fragment>
-        );
+        if (this.props.data.length > 0) {
+            return (
+                <React.Fragment>
+                    {this.props.headerLabels.map((headerLabel, id) => (
+                        <div
+                            key={id}
+                            className='AbstractList__header-label'
+                            style={headerLabel.style}
+                        >{headerLabel.default}</div>
+                    ))}
+                </React.Fragment>
+            );
+        }
+        return (<></>);
     }
 
     private renderRows = (): JSX.Element | JSX.Element[] => {
