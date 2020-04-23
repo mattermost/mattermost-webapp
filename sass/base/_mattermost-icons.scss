@@ -2,12 +2,12 @@
 
  @font-face {
   font-family: 'mattermosticons';
-  src: url('../fonts/mattermosticons.eot?61084707');
-  src: url('../fonts/mattermosticons.eot?61084707#iefix') format('embedded-opentype'),
-       url('../fonts/mattermosticons.woff2?61084707') format('woff2'),
-       url('../fonts/mattermosticons.woff?61084707') format('woff'),
-       url('../fonts/mattermosticons.ttf?61084707') format('truetype'),
-       url('../fonts/mattermosticons.svg?61084707#mattermosticons') format('svg');
+  src: url('../fonts/mattermosticons.eot?99822813');
+  src: url('../fonts/mattermosticons.eot?99822813#iefix') format('embedded-opentype'),
+       url('../fonts/mattermosticons.woff2?99822813') format('woff2'),
+       url('../fonts/mattermosticons.woff?99822813') format('woff'),
+       url('../fonts/mattermosticons.ttf?99822813') format('truetype'),
+       url('../fonts/mattermosticons.svg?99822813#mattermosticons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -17,7 +17,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'mattermosticons';
-    src: url('../font/mattermosticons.svg?61084707#mattermosticons') format('svg');
+    src: url('../fonts/mattermosticons.svg?99822813#mattermosticons') format('svg');
   }
 }
 */
@@ -80,6 +80,11 @@
 .icon-webhook-incoming:before { content: '\e80c'; } /* '' */
 .icon-webhook-outgoing:before { content: '\e80d'; } /* '' */
 .icon-image-area-outline:before { content: '\e80e'; } /* '' */
+.icon-emoticon-plus-outline:before { content: '\e80f'; } /* '' */
+.icon-arrow-back-ios:before { content: '\e810'; } /* '' */
+.icon-arrow-forward-ios:before { content: '\e811'; } /* '' */
+.icon-mark-as-unread:before { content: '\e812'; } /* '' */
+.icon-shield-alert-outline-2:before { content: '\e813'; } /* '' */
 .icon-account-multiple-outline:before { content: '\f00f'; } /* '' */
 .icon-account-outline:before { content: '\f013'; } /* '' */
 .icon-airplane:before { content: '\f01d'; } /* '' */
@@ -198,5 +203,17 @@
 .icon-file-powerpoint-outline:before { content: '󰁗'; } /* '\f0057' */
 .icon-file-word-outline:before { content: '󰁠'; } /* '\f0060' */
 .icon-dock-left:before { content: '󰃕'; } /* '\f00d5' */
+.icon-chevron-up:before { content: '󰅃'; } /* '\f0143' */
+.icon-close-circle:before { content: '󰅙'; } /* '\f0159' */
+.icon-content-copy:before { content: '󰆏'; } /* '\f018f' */
 .icon-view-grid-outline:before { content: '󰈄'; } /* '\f0204' */
+.icon-file-outline:before { content: '󰈤'; } /* '\f0224' */
+.icon-folder-outline:before { content: '󰉖'; } /* '\f0256' */
 .icon-archive-arrow-up-outline:before { content: '󰊇'; } /* '\f0287' */
+.icon-glasses:before { content: '󰊪'; } /* '\f02aa' */
+.icon-minus-circle-outline:before { content: '󰍷'; } /* '\f0377' */
+.icon-trash-can-outline:before { content: '󰩺'; } /* '\f0a7a' */
+.icon-folder-plus-outline:before { content: '󰮝'; } /* '\f0b9d' */
+.icon-hand-right:before { content: '󰹇'; } /* '\f0e47' */
+.icon-shield-alert-outline:before { content: '󰻍'; } /* '\f0ecd' */
+.icon-folder-move-outline:before { content: '󱉆'; } /* '\f1246' */
