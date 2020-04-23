@@ -97,7 +97,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onClick).toHaveBeenCalledTimes(1);
     });
 
-    test('should call onClick on fileInput when button is touched', () => {
+    test('should prevent event default and progogation on call of onTouchEnd on fileInput', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
         );
@@ -108,8 +108,33 @@ describe('components/FileUpload', () => {
                 click: () => instance.handleLocalFileUploaded(),
             },
         };
-        wrapper.find('button').simulate('touchend');
-        expect(instance.handleLocalFileUploaded).toHaveBeenCalledTimes(1);
+
+        const event = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+        wrapper.find('button').simulate('touchend', event);
+
+        expect(event.stopPropagation).toHaveBeenCalled();
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(instance.handleLocalFileUploaded).toHaveBeenCalled();
+    });
+
+    test('should prevent event default and progogation on call of onClick on fileInput', () => {
+        const wrapper = shallowWithIntl(
+            <FileUpload {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.handleLocalFileUploaded = jest.fn();
+        instance.fileInput = {
+            current: {
+                click: () => instance.handleLocalFileUploaded(),
+            },
+        };
+
+        const event = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+        wrapper.find('button').simulate('click', event);
+
+        expect(event.stopPropagation).toHaveBeenCalled();
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(instance.handleLocalFileUploaded).toHaveBeenCalled();
     });
 
     test('should match state and call handleMaxUploadReached or props.onClick on handleLocalFileUploaded', () => {

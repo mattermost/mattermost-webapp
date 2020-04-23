@@ -3,9 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
 import {JobStatuses} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {
@@ -335,7 +336,10 @@ class JobTable extends React.PureComponent {
                     </div>
                 </div>
                 <div className='job-table__table'>
-                    <table className='table'>
+                    <table
+                        className='table'
+                        data-testid='jobTable'
+                    >
                         <thead>
                             <tr>
                                 <th width='30px'/>

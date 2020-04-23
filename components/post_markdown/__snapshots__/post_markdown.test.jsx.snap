@@ -12,6 +12,11 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
   imageProps={Object {}}
   isRHS={false}
   message="hello world!"
+  options={
+    Object {
+      "mentionHighlight": true,
+    }
+  }
   proxyImages={true}
 />
 `;
@@ -28,6 +33,11 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
   imageProps={Object {}}
   isRHS={false}
   message="world!"
+  options={
+    Object {
+      "mentionHighlight": true,
+    }
+  }
   proxyImages={true}
 />
 `;
@@ -37,6 +47,7 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
   imageProps={Object {}}
   isRHS={false}
   message="message"
+  options={Object {}}
   postId="post_id"
   proxyImages={true}
 />
@@ -58,9 +69,12 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
                   "display_name": "Test",
                 },
               },
+              "mentionHighlight": false,
               "singleline": true,
             }
           }
+          postId="post_id"
+          postType="system_header_change"
         />,
         "old": <Connect(Markdown)
           message="see ~test"
@@ -71,9 +85,12 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
                   "display_name": "Test",
                 },
               },
+              "mentionHighlight": false,
               "singleline": true,
             }
           }
+          postId="post_id"
+          postType="system_header_change"
         />,
         "username": <Connect(Markdown)
           message="@user"
@@ -101,6 +118,11 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
   imageProps={Object {}}
   isRHS={false}
   message="See ~test"
+  options={
+    Object {
+      "mentionHighlight": true,
+    }
+  }
   proxyImages={true}
 />
 `;
@@ -110,6 +132,21 @@ exports[`components/PostMarkdown should render properly with an empty post 1`] =
   imageProps={Object {}}
   isRHS={false}
   message="message"
+  options={Object {}}
+  proxyImages={true}
+/>
+`;
+
+exports[`components/PostMarkdown should render properly without highlight a post 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  message="No highlight"
+  options={
+    Object {
+      "mentionHighlight": false,
+    }
+  }
   proxyImages={true}
 />
 `;

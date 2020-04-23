@@ -2,16 +2,26 @@
 // See LICENSE.txt for license information.
 
 import {bindActionCreators} from 'redux';
-
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
-import {getChannel as fetchChannel, membersMinusGroupMembers, patchChannel, updateChannelPrivacy} from 'mattermost-redux/actions/channels';
+import {getScheme} from 'mattermost-redux/selectors/entities/schemes';
+import {getScheme as loadScheme} from 'mattermost-redux/actions/schemes';
+import {
+    getChannel as fetchChannel,
+    membersMinusGroupMembers,
+    patchChannel,
+    updateChannelPrivacy,
+    getChannelModerations as fetchChannelModerations,
+    patchChannelModerations,
+} from 'mattermost-redux/actions/channels';
 import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
 
 import {
     getGroupsAssociatedToChannel as fetchAssociatedGroups,
     linkGroupSyncable,
     unlinkGroupSyncable,
+    patchGroupSyncable,
 } from 'mattermost-redux/actions/groups';
 
 import {connect} from 'react-redux';
@@ -23,13 +33,16 @@ import {setNavigationBlocked} from 'actions/admin_actions';
 import ChannelDetails from './channel_details';
 
 function mapStateToProps(state, props) {
+    const config = getConfig(state);
+    const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
     const channelID = props.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
     const team = getTeam(state, channel.team_id) || {};
     const groups = getGroupsAssociatedToChannel(state, channelID);
-    const associatedGroups = state.entities.channels.groupsAssociatedToChannel;
     const allGroups = getAllGroups(state, channel.team_id);
-    const totalGroups = associatedGroups && associatedGroups[channelID] && associatedGroups[channelID].totalCount ? associatedGroups[channelID].totalCount : 0;
+    const totalGroups = groups.length;
+    const channelPermissions = getChannelModerations(state, channelID);
+    const teamScheme = getScheme(state, team.scheme_id);
     return {
         channel,
         team,
@@ -37,12 +50,18 @@ function mapStateToProps(state, props) {
         totalGroups,
         groups,
         channelID,
+        channelPermissions,
+        teamScheme,
+        guestAccountsEnabled
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            loadScheme,
+            patchChannelModerations,
+            getChannelModerations: fetchChannelModerations,
             getChannel: fetchChannel,
             getTeam: fetchTeam,
             getGroups: fetchAssociatedGroups,
@@ -52,6 +71,7 @@ function mapDispatchToProps(dispatch) {
             patchChannel,
             setNavigationBlocked,
             updateChannelPrivacy,
+            patchGroupSyncable,
         }, dispatch),
     };
 }

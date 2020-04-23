@@ -1,10 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -20,8 +24,8 @@ describe('Messaging', () => {
     it('M18706-Input box on reply thread can expand', () => {
         const maxReplyCount = 15;
         const halfViewportHeight = Cypress.config('viewportHeight') / 2;
-        const padding = 4;
-        const postCreateContainerDefaultHeight = 184 - padding;
+        const padding = 7;
+        const postCreateContainerDefaultHeight = 187;
         const replyTextBoxDefaultHeight = 100;
         const postCreateContainerClassName = 'post-create__container';
         const replyTextBoxId = 'reply_textbox';
@@ -45,7 +49,7 @@ describe('Messaging', () => {
             const replyTextBox = doc.getElementById(replyTextBoxId);
 
             // * Check if post create container has default offset height and less than 50% of viewport height
-            expect(postCreateContainer.offsetHeight - padding).to.eq(postCreateContainerDefaultHeight).and.lessThan(halfViewportHeight);
+            expect(postCreateContainer.offsetHeight).to.eq(postCreateContainerDefaultHeight).and.lessThan(halfViewportHeight);
 
             // * Check if reply text box has default offset height and less than post create container default offset height
             expect(replyTextBox.offsetHeight).to.eq(replyTextBoxDefaultHeight).and.lessThan(postCreateContainerDefaultHeight);

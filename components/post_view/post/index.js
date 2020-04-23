@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {Posts} from 'mattermost-redux/constants';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -13,8 +14,9 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 
+import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
 
@@ -35,16 +37,14 @@ export function isFirstReply(post, previousPost) {
 }
 
 function makeMapStateToProps() {
+    const getReplyCount = makeGetReplyCount();
     const isPostCommentMention = makeIsPostCommentMention();
     const createAriaLabelForPost = makeCreateAriaLabelForPost();
 
     return (state, ownProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
-        let replyCount = post.reply_count;
-        if (post.root_id !== '') {
-            const rootPost = getPost(state, post.root_id);
-            replyCount = rootPost ? rootPost.reply_count : 0;
-        }
+        const channel = getChannel(state, post.channel_id);
+
         let previousPost = null;
         if (ownProps.previousPostId) {
             previousPost = getPost(state, ownProps.previousPostId);
@@ -69,10 +69,11 @@ function makeMapStateToProps() {
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,
-            replyCount,
+            replyCount: getReplyCount(state, post),
             isCommentMention: isPostCommentMention(state, post.id),
             center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            channelIsArchived: isArchivedChannel(channel),
         };
     };
 }

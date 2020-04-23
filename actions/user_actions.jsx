@@ -138,52 +138,60 @@ export function loadChannelMembersForProfilesList(profiles, channelId) {
     };
 }
 
-export async function loadNewDMIfNeeded(channelId) {
-    function checkPreference(channel) {
-        const userId = Utils.getUserIdFromChannelName(channel);
+export function loadNewDMIfNeeded(channelId) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = Selectors.getCurrentUserId(state);
 
-        if (!userId) {
-            return;
+        function checkPreference() {
+            const userId = Utils.getUserIdFromChannelName(currentUserId);
+
+            if (!userId) {
+                return;
+            }
+
+            const pref = getBool(state, Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, false);
+            if (pref === false) {
+                const now = Utils.getTimestamp();
+                savePreferencesRedux(currentUserId, [
+                    {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
+                    {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
+                ])(doDispatch, doGetState);
+                loadProfilesForDM();
+            }
         }
 
-        const pref = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, false);
-        if (pref === false) {
-            const now = Utils.getTimestamp();
-            const currentUserId = Selectors.getCurrentUserId(getState());
-            savePreferencesRedux(currentUserId, [
-                {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
-                {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
-            ])(dispatch, getState);
-            loadProfilesForDM();
+        const channel = getChannel(doGetState(), channelId);
+        if (channel) {
+            checkPreference(channel);
+        } else {
+            const {data} = await getChannelAndMyMember(channelId)(doDispatch, doGetState);
+            if (data) {
+                checkPreference(data.channel);
+            }
         }
-    }
-
-    const channel = getChannel(getState(), channelId);
-    if (channel) {
-        checkPreference(channel);
-    } else {
-        const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
-        if (data) {
-            checkPreference(data.channel);
-        }
-    }
+    };
 }
 
 export async function loadNewGMIfNeeded(channelId) {
-    function checkPreference() {
-        const pref = getBool(getState(), Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
-        if (pref === false) {
-            const currentUserId = Selectors.getCurrentUserId(getState());
-            savePreferencesRedux(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}])(dispatch, getState);
-            loadProfilesForGM();
-        }
-    }
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = Selectors.getCurrentUserId(state);
 
-    const channel = getChannel(getState(), channelId);
-    if (!channel) {
-        await getChannelAndMyMember(channelId)(dispatch, getState);
-    }
-    checkPreference();
+        function checkPreference() {
+            const pref = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
+            if (pref === false) {
+                dispatch(savePreferencesRedux(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}]));
+                loadProfilesForGM();
+            }
+        }
+
+        const channel = getChannel(state, channelId);
+        if (!channel) {
+            await getChannelAndMyMember(channelId)(doDispatch, doGetState);
+        }
+        checkPreference();
+    };
 }
 
 export function loadProfilesForGroupChannels(groupChannels) {
@@ -202,7 +210,10 @@ export function loadProfilesForGroupChannels(groupChannels) {
 
         if (groupChannelsToFetch.length > 0) {
             doDispatch(UserActions.getProfilesInGroupChannels(groupChannelsToFetch));
+            return {data: true};
         }
+
+        return {data: false};
     };
 }
 
@@ -299,18 +310,19 @@ export async function loadProfilesForDM() {
     }
 }
 
-export async function autocompleteUsersInTeam(username, success) {
-    const {data} = await UserActions.autocompleteUsers(username, getCurrentTeamId(getState()))(dispatch, getState);
-    if (success) {
-        success(data);
-    }
+export function autocompleteUsersInTeam(username) {
+    return async (doDispatch, doGetState) => {
+        const currentTeamId = getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.autocompleteUsers(username, currentTeamId));
+        return data;
+    };
 }
 
-export async function autocompleteUsers(username, success) {
-    const {data} = await UserActions.autocompleteUsers(username)(dispatch, getState);
-    if (success) {
-        success(data);
-    }
+export function autocompleteUsers(username) {
+    return async (doDispatch) => {
+        const {data} = await doDispatch(UserActions.autocompleteUsers(username));
+        return data;
+    };
 }
 
 export function autoResetStatus() {

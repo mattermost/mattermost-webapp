@@ -2,20 +2,32 @@
 
 exports[`CommandSuggestion should match snapshot 1`] = `
 <div
-  className="command suggestion--selected"
+  className="slash-command suggestion--selected"
   onClick={[Function]}
+  onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
   <div
-    className="command__title"
+    className="slash-command__icon"
   >
-    /invite @[username] ~[channel]
+    <span>
+      /
+    </span>
   </div>
   <div
-    className="command__desc"
+    className="slash-command__info"
   >
-    Invite a user to a channel
+    <div
+      className="slash-command__title"
+    >
+      invite @[username] ~[channel]
+    </div>
+    <div
+      className="slash-command__desc"
+    >
+      Invite a user to a channel
+    </div>
   </div>
 </div>
 `;

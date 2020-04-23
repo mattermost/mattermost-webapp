@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
@@ -19,17 +19,24 @@ type Props = {
 
 export default class SaveButton extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
-        disabled: false,
         btnClass: 'btn-primary',
+        defaultMessage: (
+            <FormattedMessage
+                id='save_button.save'
+                defaultMessage='Save'
+            />
+        ),
+        disabled: false,
         extraClasses: '',
+        savingMessage: (
+            <FormattedMessage
+                id='save_button.saving'
+                defaultMessage='Saving'
+            />
+        ),
     }
 
-    public static contextTypes = {
-        intl: intlShape,
-    };
-
     public render() {
-        const {formatMessage} = this.context.intl;
         const {
             saving,
             disabled,
@@ -49,9 +56,6 @@ export default class SaveButton extends React.PureComponent<Props> {
             className += ' ' + extraClasses;
         }
 
-        const savingMessageComponent = savingMessage || formatMessage({id: 'save_button.saving', defaultMessage: 'Saving'});
-        const defaultMessageComponent = defaultMessage || formatMessage({id: 'save_button.save', defaultMessage: 'Save'});
-
         return (
             <button
                 type='submit'
@@ -62,9 +66,9 @@ export default class SaveButton extends React.PureComponent<Props> {
             >
                 <LoadingWrapper
                     loading={saving}
-                    text={savingMessageComponent}
+                    text={savingMessage}
                 >
-                    <span>{defaultMessageComponent}</span>
+                    <span>{defaultMessage}</span>
                 </LoadingWrapper>
             </button>
         );

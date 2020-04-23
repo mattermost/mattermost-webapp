@@ -3,17 +3,18 @@
 
 import {getChannel, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
+import {getUserIdFromChannelId} from 'utils/utils';
 
-export function focusPost(postId, returnTo = '') {
+export function focusPost(postId, returnTo = '', currentUserId) {
     return async (dispatch, getState) => {
-        const {data} = await dispatch(getPostThread(postId, false));
+        const {data} = await dispatch(getPostThread(postId));
 
         if (!data) {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
@@ -45,7 +46,7 @@ export function focusPost(postId, returnTo = '') {
                 return;
             }
 
-            await dispatch(joinChannel(getCurrentUserId(getState()), null, channelId));
+            await dispatch(joinChannel(currentUserId, null, channelId));
         }
 
         if (channel.team_id && channel.team_id !== teamId) {
@@ -65,6 +66,18 @@ export function focusPost(postId, returnTo = '') {
             data: postId,
             channelId,
         });
+
+        const team = getTeam(state, channel.team_id || teamId);
+
+        if (channel.type === Constants.DM_CHANNEL) {
+            const userId = getUserIdFromChannelId(channel.name);
+            const user = getUser(state, userId);
+            browserHistory.replace(`/${team.name}/messages/@${user.username}/${postId}`);
+        } else if (channel.type === Constants.GM_CHANNEL) {
+            browserHistory.replace(`/${team.name}/messages/${channel.name}/${postId}`);
+        } else {
+            browserHistory.replace(`/${team.name}/channels/${channel.name}/${postId}`);
+        }
 
         dispatch(loadChannelsForCurrentUser());
         dispatch(getChannelStats(channelId));

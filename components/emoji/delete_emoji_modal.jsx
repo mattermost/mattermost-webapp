@@ -33,7 +33,7 @@ export default class DeleteEmoji extends DeleteModalTrigger {
     get modalMessage() {
         return (
             <div className='alert alert-warning'>
-                <WarningIcon additionalClassName='fa-margin--right'/>
+                <WarningIcon additionalClassName='mr-1'/>
                 <FormattedMessage
                     id='emoji_list.delete.confirm.msg'
                     defaultMessage='This action permanently deletes the custom emoji. Are you sure you want to delete it?'

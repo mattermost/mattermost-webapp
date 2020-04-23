@@ -46,6 +46,7 @@ export function mapStateToProps(state) {
         return haveIChannelPermission(state, {channel: channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
     });
     const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
+    const emailInvitationsEnabled = config.EnableEmailInvitations === 'true';
     const isLicensed = license && license.IsLicensed === 'true';
     const isGroupConstrained = Boolean(currentTeam.group_constrained);
     const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.INVITE_GUEST});
@@ -56,6 +57,7 @@ export function mapStateToProps(state) {
         currentTeam,
         canInviteGuests,
         canAddUsers,
+        emailInvitationsEnabled,
         show: isModalOpen(state, ModalIdentifiers.INVITATION),
     };
 }

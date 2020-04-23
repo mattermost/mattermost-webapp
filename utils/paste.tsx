@@ -26,6 +26,21 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | boolea
     return table;
 }
 
+export function getPlainText(clipboardData: DataTransfer): string | boolean {
+    if (Array.from(clipboardData.types).indexOf('text/plain') === -1) {
+        return false;
+    }
+
+    const plainText = clipboardData.getData('text/plain');
+
+    return plainText;
+}
+
+export function isGitHubCodeBlock(tableClassName: string): boolean {
+    const result = (/\b(js|blob|diff)-./).test(tableClassName);
+    return result;
+}
+
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
     const text = column.textContent == null ?

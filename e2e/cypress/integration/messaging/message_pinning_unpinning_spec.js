@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @messaging
+
 const pinnedPosts = [];
 
 /**
@@ -40,6 +43,9 @@ describe('Messaging', () => {
     });
 
     it('M15010 Pinning or un-pinning older post does not cause it to display at bottom of channel', () => {
+        // * Ensure that the channel view is loaded
+        cy.get('#post_textbox').should('be.visible');
+
         // # Post messages
         const olderPost = 7;
         for (let i = olderPost; i > 0; --i) {

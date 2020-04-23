@@ -7,13 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @emoji
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Recent Emoji', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin();
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M14014 Recently used emojis are shown 1st', async () => {

@@ -3,10 +3,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage, injectIntl} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
 import {generateId} from 'utils/utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import Constants from 'utils/constants';
 
 export class PermissionDescription extends React.Component {

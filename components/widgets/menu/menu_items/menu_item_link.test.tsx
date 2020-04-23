@@ -19,7 +19,11 @@ describe('components/MenuItemLink', () => {
 <Link
   to="/wherever"
 >
-  Whatever
+  <span
+    className="MenuItem__primary-text"
+  >
+    Whatever
+  </span>
 </Link>
 `);
     });

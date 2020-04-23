@@ -6,10 +6,11 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import AnnouncementBar from 'components/announcement_bar';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import DisplayName from 'components/create_team/components/display_name';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import TeamUrl from 'components/create_team/components/team_url';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 export default class CreateTeam extends React.PureComponent {
     static propTypes = {
@@ -76,7 +77,10 @@ export default class CreateTeam extends React.PureComponent {
         return (
             <div>
                 <AnnouncementBar/>
-                <BackButton url={url}/>
+                <BackButton
+                    onClick={() => trackEvent('display_name', 'click_back')}
+                    url={url}
+                />
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <SiteNameAndDescription

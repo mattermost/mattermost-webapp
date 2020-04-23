@@ -20,32 +20,32 @@ class ChannelMentionSuggestion extends Suggestion {
         const item = this.props.item;
 
         const channelName = item.channel.display_name;
-        const purpose = item.channel.purpose;
+        const channelIcon = (<span className='suggestion-list__icon suggestion-list__icon--standard'><i className='icon icon--no-spacing icon-globe'/></span>);
 
         let className = 'mentions__name no-flex';
         if (isSelection) {
             className += ' suggestion--selected';
         }
 
-        const description = '(~' + item.channel.name + ')';
+        const description = '~' + item.channel.name;
 
         return (
             <div
                 className={className}
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
                 <div className='mention__align'>
                     <span>
+                        {channelIcon}
+                    </span>
+                    <span>
                         {channelName}
                     </span>
-                    <span className='mention__channelname'>
-                        {' '}
+                    <span className='mention__channelname ml-2'>
                         {description}
                     </span>
-                </div>
-                <div className='mention__purpose'>
-                    {purpose}
                 </div>
             </div>
         );

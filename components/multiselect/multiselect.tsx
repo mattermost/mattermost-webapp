@@ -7,7 +7,6 @@ import ReactSelect from 'react-select';
 
 import {ActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
-import {StateManager} from 'react-select/src/stateManager';
 
 import {Constants, A11yCustomEventTypes} from 'utils/constants';
 import SaveButton from 'components/save_button';
@@ -23,33 +22,34 @@ export type Value = {
     value: string;
 };
 
-export type Props = {
-    ariaLabelRenderer: getOptionValue<Value>;
+export type Props<T extends Value> = {
+    ariaLabelRenderer: getOptionValue<T>;
     buttonSubmitLoadingText?: JSX.Element | string;
     buttonSubmitText?: JSX.Element | string;
-    handleAdd: (value: Value) => void;
-    handleDelete: (values: Value[]) => void;
-    handleInput: (input: string, multiselect: MultiSelect) => void;
+    handleAdd: (value: T) => void;
+    handleDelete: (values: T[]) => void;
+    handleInput: (input: string, multiselect: MultiSelect<T>) => void;
     handlePageChange?: (newPage: number, currentPage: number) => void;
-    handleSubmit: (value?: Value[]) => void;
+    handleSubmit: (value?: T[]) => void;
     loading?: boolean;
     maxValues?: number;
     noteText?: JSX.Element;
     numRemainingText?: JSX.Element;
     optionRenderer: (
-        option: Value,
+        option: T,
         isSelected: boolean,
-        onAdd: (value: Value) => void
+        onAdd: (value: T) => void,
+        onMouseMove: (value: T) => void
     ) => void;
-    options: Value[];
+    options: T[];
     perPage: number;
     placeholderText?: string;
     saving?: boolean;
-    submitImmediatelyOn?: (value: Value) => void;
+    submitImmediatelyOn?: (value: T) => void;
     totalCount?: number;
     users?: unknown[];
-    valueRenderer: typeof StateManager;
-    values: Value[];
+    valueRenderer: (props: {data: T}) => any;
+    values: T[];
 }
 
 export type State = {
@@ -60,16 +60,16 @@ export type State = {
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelect extends React.Component<Props, State> {
-    private listRef = React.createRef<MultiSelectList>()
+export default class MultiSelect<T extends Value> extends React.Component<Props<T>, State> {
+    private listRef = React.createRef<MultiSelectList<T>>()
     private reactSelectRef = React.createRef<ReactSelect>()
-    private selected: Value | null = null
+    private selected: T | null = null
 
     public static defaultProps = {
         ariaLabelRenderer: defaultAriaLabelRenderer,
     }
 
-    public constructor(props: Props) {
+    public constructor(props: Props<T>) {
         super(props);
 
         this.state = {
@@ -135,15 +135,15 @@ export default class MultiSelect extends React.Component<Props, State> {
         this.setState({page: this.state.page - 1});
     }
 
-    private resetPaging = () => {
+    public resetPaging = () => {
         this.setState({page: 0});
     }
 
-    private onSelect = (selected: Value | null) => {
+    private onSelect = (selected: T | null) => {
         this.selected = selected;
     }
 
-    private onAdd = (value: Value) => {
+    private onAdd = (value: T) => {
         if (this.props.maxValues && this.props.values.length >= this.props.maxValues) {
             return;
         }
@@ -362,7 +362,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         return (
             <div className='filtered-user-list'>
                 <div className='filter-row filter-row--full'>
-                    <div className='multi-select__container'>
+                    <div className='multi-select__container react-select'>
                         <ReactSelect
                             id='selectItems'
                             ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
@@ -387,6 +387,7 @@ export default class MultiSelect extends React.Component<Props, State> {
                             getOptionLabel={this.props.ariaLabelRenderer}
                             aria-label={this.props.placeholderText}
                             className={this.state.a11yActive ? 'multi-select__focused' : ''}
+                            classNamePrefix='react-select-auto react-select'
                         />
                         <SaveButton
                             id='saveItems'
@@ -435,10 +436,10 @@ function defaultAriaLabelRenderer(option: Value) {
 
 const nullComponent = () => null;
 
-const paddedComponent = (WrappedComponent: typeof ReactSelect) => {
-    return (props: Props) => {
+const paddedComponent = (WrappedComponent: any) => {
+    return (props: {data: any}) => {
         return (
-            <div style={{paddingRight: '5px', paddingLeft: '5px', borderRight: '1px solid rgba(0, 126, 255, 0.24)'}}>
+            <div style={{paddingLeft: '10px'}}>
                 <WrappedComponent {...props}/>
             </div>
         );
@@ -452,34 +453,6 @@ const styles = {
             paddingRight: '15px',
             verticalAlign: 'top',
             width: '100%',
-        };
-    },
-    control: (base: React.CSSProperties) => {
-        return {
-            ...base,
-            borderRadius: '1px',
-            borderColor: 'hsl(0,0%,80%)',
-            minHeight: '36px',
-            '&:hover': {},
-            boxShadow: '',
-            backgroundColor: 'hsl(0,0%,100%)',
-        };
-    },
-    multiValue: (base: React.CSSProperties): React.CSSProperties => {
-        return {
-            ...base,
-            whiteSpace: 'nowrap',
-            border: '1px solid rgba(0, 126, 255, 0.24)',
-            backgroundColor: 'rgba(0, 126, 255, 0.08)',
-            color: '#007eff',
-        };
-    },
-    multiValueRemove: (base: React.CSSProperties) => {
-        return {
-            ...base,
-            ':hover': {
-                backgroundColor: 'rgba(0, 126, 255, 0.15)',
-            },
         };
     },
 };

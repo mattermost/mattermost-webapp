@@ -58,6 +58,7 @@ export default class ViewImageModal extends React.PureComponent {
         fileInfos: [],
         startIndex: 0,
         pluginFilePreviewComponents: [],
+        post: {}, // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
     constructor(props) {

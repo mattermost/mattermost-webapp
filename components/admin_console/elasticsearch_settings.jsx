@@ -83,7 +83,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         });
     }
 
-    canSave() {
+    canSave = () => {
         return this.state.canSave;
     }
 

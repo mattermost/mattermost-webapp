@@ -43,9 +43,11 @@ describe('components/PopoverListMembers', () => {
         channel,
         statuses,
         users,
+        manageMembers: true,
         memberCount: 2,
         currentUserId: 'current_user_id',
         actions,
+        sortedUsers: [{id: 'member_id_1'}, {id: 'member_id_2'}],
     };
 
     test('should match snapshot', () => {

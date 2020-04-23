@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -13,13 +14,13 @@ Cypress.Commands.add('logout', () => {
 
 Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
     cy.apiLogin(username, password);
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
-    cy.get('#post_textbox').should('be.visible');
+    cy.get('#post_textbox', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 });
 
 Cypress.Commands.add('getSubpath', () => {
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
     cy.url().then((url) => {
         cy.location().its('origin').then((origin) => {
             if (url === origin) {
@@ -45,53 +46,21 @@ Cypress.Commands.add('getCurrentUserId', () => {
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false) => {
-    if (!isLoggedInAlready) {
-        cy.apiLogin(username);
-    }
-
-    cy.visit('/');
+Cypress.Commands.add('toAccountSettingsModal', () => {
     cy.get('#channel_view').should('be.visible');
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#accountSettings').should('be.visible').click();
     cy.get('#accountSettingsModal').should('be.visible');
 });
 
-// Go to Account Settings modal > Sidebar > Channel Switcher
-Cypress.Commands.add('toAccountSettingsModalChannelSwitcher', (username, setToOn = true) => {
-    cy.toAccountSettingsModal(username);
-
-    cy.get('#sidebarButton').should('be.visible');
-    cy.get('#sidebarButton').click();
-
-    let isOn;
-    cy.get('#channelSwitcherDesc').should((desc) => {
-        if (desc.length > 0) {
-            isOn = Cypress.$(desc[0]).text() === 'On';
-        }
-    });
-
-    cy.get('#channelSwitcherEdit').click();
-
-    if (isOn && !setToOn) {
-        cy.get('#channelSwitcherSectionOff').click();
-    } else if (!isOn && setToOn) {
-        cy.get('#channelSwitcherSectionEnabled').click();
-    }
-
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
-});
-
 /**
  * Change the message display setting
  * @param {String} setting - as 'STANDARD' or 'COMPACT'
- * @param {String} username - User to login as
  */
 Cypress.Commands.add('changeMessageDisplaySetting', (setting = 'STANDARD') => {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
 
-    cy.toAccountSettingsModal(null, true);
+    cy.toAccountSettingsModal();
     cy.get('#displayButton').click();
 
     cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
@@ -122,6 +91,11 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
     cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
 });
 
+Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
+    const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
+    return cy.get(subject).type(`${cmdOrCtrl}${text}`);
+});
+
 function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
@@ -132,8 +106,11 @@ function isMac() {
 
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
-    cy.wait(TIMEOUTS.TINY);
-    cy.get('#post_textbox').should('have.value', '');
+    cy.waitUntil(() => {
+        return cy.get('#post_textbox').then((el) => {
+            return el[0].textContent === '';
+        });
+    });
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
@@ -157,6 +134,13 @@ Cypress.Commands.add('getLastPostId', () => {
 
     cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+Cypress.Commands.add('getLastPostIdRHS', () => {
+    waitUntilPermanentPost();
+
+    cy.get('#rhsPostList > div').last().should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'rhsPost_', '');
 });
 
 /**
@@ -208,11 +192,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
         cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
-        cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
+        cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${postId}`).click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
+            cy.wait(TIMEOUTS.TINY).get(`#${location}_${item}_${lastPostId}`).click({force: true});
         });
     }
 }
@@ -436,5 +420,63 @@ Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png
             {fileContent, fileName, mimeType},
             {subjectType: 'input', force: true},
         );
+    });
+});
+
+/**
+ * Upload a file on target input in binary format -
+ * @param {String} targetInput - #LocatorID
+ * @param {String} fileName - Filename to upload from the fixture Ex: drawPlugin-binary.tar
+ * @param {String} fileType - application/gzip
+ */
+Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, fileType) => {
+    cy.log('Upload process started .FileName:' + fileName);
+    cy.fixture(fileName, 'binary').then((content) => {
+        return Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
+            const el = targetInput[0];
+            cy.log('el:' + el);
+            const testFile = new File([blob], fileName, {type: fileType});
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(testFile);
+            el.files = dataTransfer.files;
+            cy.wrap(targetInput).trigger('change', {force: true});
+        });
+    });
+});
+
+/**
+ * Navigate to system console-PluginManagement from account settings
+ */
+Cypress.Commands.add('checkRunLDAPSync', () => {
+    cy.apiGetLDAPSync().then((response) => {
+        var jobs = response.body;
+        var currentTime = new Date();
+
+        // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
+        if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
+            // # Go to system admin LDAP page and run the group sync
+            cy.visit('/admin_console/authentication/ldap');
+
+            // # Click on AD/LDAP Synchronize Now button
+            cy.findByText('AD/LDAP Synchronize Now').click().wait(1000);
+
+            // * Get the First row
+            cy.findByTestId('jobTable').
+                find('tbody > tr').
+                eq(0).
+                as('firstRow');
+
+            // * Wait until first row updates to say Success
+            cy.waitUntil(() => {
+                return cy.get('@firstRow').then((el) => {
+                    return el.find('.status-icon-success').length > 0;
+                });
+            }
+            , {
+                timeout: TIMEOUTS.FOUR_MINS,
+                interval: 2000,
+                errorMsg: 'AD/LDAP Sync Job did not finish',
+            });
+        }
     });
 });

@@ -26,6 +26,32 @@ import * as Utils from 'utils/utils';
 
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 
+function selectPostFromRightHandSideSearchWithPreviousState(post, previousRhsState) {
+    return async (dispatch, getState) => {
+        const postRootId = Utils.getRootId(post);
+        await dispatch(PostActions.getPostThread(postRootId));
+
+        dispatch({
+            type: ActionTypes.SELECT_POST,
+            postId: postRootId,
+            channelId: post.channel_id,
+            previousRhsState: previousRhsState || getRhsState(getState()),
+            timestamp: Date.now(),
+        });
+    };
+}
+
+function selectPostCardFromRightHandSideSearchWithPreviousState(post, previousRhsState) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: ActionTypes.SELECT_POST_CARD,
+            postId: post.id,
+            channelId: post.channel_id,
+            previousRhsState: previousRhsState || getRhsState(getState()),
+        });
+    };
+}
+
 export function updateRhsState(rhsState, channelId) {
     return (dispatch, getState) => {
         const action = {
@@ -42,29 +68,11 @@ export function updateRhsState(rhsState, channelId) {
 }
 
 export function selectPostFromRightHandSideSearch(post) {
-    return async (dispatch, getState) => {
-        const postRootId = Utils.getRootId(post);
-        await dispatch(PostActions.getPostThread(postRootId));
-
-        dispatch({
-            type: ActionTypes.SELECT_POST,
-            postId: postRootId,
-            channelId: post.channel_id,
-            previousRhsState: getRhsState(getState()),
-            timestamp: Date.now(),
-        });
-    };
+    return selectPostFromRightHandSideSearchWithPreviousState(post);
 }
 
 export function selectPostCardFromRightHandSideSearch(post) {
-    return async (dispatch, getState) => {
-        dispatch({
-            type: ActionTypes.SELECT_POST_CARD,
-            postId: post.id,
-            channelId: post.channel_id,
-            previousRhsState: getRhsState(getState()),
-        });
-    };
+    return selectPostCardFromRightHandSideSearchWithPreviousState(post);
 }
 
 export function selectPostFromRightHandSideSearchByPostId(postId) {
@@ -291,5 +299,36 @@ export function openRHSSearch() {
         dispatch(updateSearchResultsTerms(''));
 
         dispatch(updateRhsState(RHSStates.SEARCH));
+    };
+}
+
+export function openAtPrevious(previous) {
+    return (dispatch, getState) => {
+        if (!previous) {
+            return openRHSSearch()(dispatch);
+        }
+
+        if (previous.isMentionSearch) {
+            return showMentions()(dispatch, getState);
+        }
+        if (previous.isPinnedPosts) {
+            return showPinnedPosts()(dispatch, getState);
+        }
+        if (previous.isFlaggedPosts) {
+            return showFlaggedPosts()(dispatch, getState);
+        }
+        if (previous.selectedPostId) {
+            const post = getPost(getState(), previous.selectedPostId);
+            return post ? selectPostFromRightHandSideSearchWithPreviousState(post, previous.previousRhsState)(dispatch, getState) : openRHSSearch()(dispatch);
+        }
+        if (previous.selectedPostCardId) {
+            const post = getPost(getState(), previous.selectedPostCardId);
+            return post ? selectPostCardFromRightHandSideSearchWithPreviousState(post, previous.previousRhsState)(dispatch, getState) : openRHSSearch()(dispatch);
+        }
+        if (previous.searchVisible) {
+            return showSearchResults()(dispatch, getState);
+        }
+
+        return openRHSSearch()(dispatch);
     };
 }

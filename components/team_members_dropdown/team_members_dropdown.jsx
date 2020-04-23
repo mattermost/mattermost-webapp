@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
 import Menu from 'components/widgets/menu/menu';
@@ -178,14 +178,14 @@ export default class TeamMembersDropdown extends React.Component {
             showMakeAdmin = false;
         }
 
-        const canRemoveFromTeam = user.id !== me.id && !currentTeam.group_constrained;
+        const canRemoveFromTeam = user.id !== me.id && (!currentTeam.group_constrained || user.is_bot);
 
         let makeDemoteModal = null;
         if (user.id === me.id) {
             const title = (
                 <FormattedMessage
                     id='team_members_dropdown.confirmDemoteRoleTitle'
-                    defaultMessage='Confirm demotion from System Admin role'
+                    defaultMessage='Confirm Demotion from System Admin Role'
                 />
             );
 
@@ -252,7 +252,7 @@ export default class TeamMembersDropdown extends React.Component {
                     <Menu
                         openLeft={true}
                         openUp={openUp}
-                        ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                        ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                     >
                         <Menu.ItemAction
                             id='removeFromTeam'

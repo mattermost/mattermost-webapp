@@ -31,7 +31,7 @@ describe('components/RenameChannelModal', () => {
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -41,18 +41,50 @@ describe('components/RenameChannelModal', () => {
         const props = {...baseProps, requestStatus: RequestStatus.STARTED};
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...props}/>
-        ).dive({disableLifecycleMethods: true});
+        );
+
+        wrapper.find('#display_name').simulate(
+            'change', {preventDefault: jest.fn(), target: {value: 'valid name'}}
+        );
 
         wrapper.find('#save-button').simulate('click');
 
-        expect(patchChannel).not.toHaveBeenCalled();
+        expect(patchChannel).toHaveBeenCalled();
+    });
+
+    describe('should validate channel url (name)', () => {
+        const testCases = [
+            [{name: 'must be two or more characters', value: 'a'}, false],
+            [{name: 'must start with a letter or number', value: '_channel'}, false],
+            [{name: 'must end with a letter or number', value: 'channel_'}, false],
+            [{name: 'can not contain two underscores in a row', value: 'channel__two'}, false],
+            [{name: 'valid channel url', value: 'a_valid_channel'}, true],
+        ];
+
+        testCases.forEach(([testCaseProps, patchShouldHaveBeenCalled]) => {
+            it(testCaseProps.name, () => {
+                const {actions: {patchChannel}} = baseProps;
+                const wrapper = shallowWithIntl(
+                    <RenameChannelModal {...baseProps}/>
+                );
+
+                wrapper.setState({channelName: testCaseProps.value});
+
+                wrapper.find('#save-button').simulate('click');
+                if (patchShouldHaveBeenCalled) {
+                    expect(patchChannel).toHaveBeenCalled();
+                } else {
+                    expect(patchChannel).not.toHaveBeenCalled();
+                }
+            });
+        });
     });
 
     test('should not call patchChannel as channel.name.length > Constants.MAX_CHANNELNAME_LENGTH (64)', () => {
         const {actions: {patchChannel}} = baseProps;
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         wrapper.find('#display_name').simulate(
             'change', {preventDefault: jest.fn(), target: {value: 'string-above-sixtyfour-characters-to-test-the-channel-maxlength-limit-properly-in-the-component'}}
@@ -66,7 +98,7 @@ describe('components/RenameChannelModal', () => {
     test('should change state when display_name is edited', () => {
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         wrapper.find('#display_name').simulate(
             'change', {preventDefault: jest.fn(), target: {value: 'New Fake Channel'}}
@@ -78,7 +110,7 @@ describe('components/RenameChannelModal', () => {
     test('should call setError function', () => {
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         const instance = wrapper.instance();
 
@@ -90,7 +122,7 @@ describe('components/RenameChannelModal', () => {
         const props = {...baseProps, serverError: {message: 'This is an error message'}};
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...props}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         wrapper.setState({serverError: props.serverError.message});
         expect(wrapper.state('serverError')).toBe('This is an error message');
@@ -109,7 +141,7 @@ describe('components/RenameChannelModal', () => {
                 {...baseProps}
                 actions={{patchChannel}}
             />
-        ).dive({disableLifecycleMethods: true});
+        );
 
         wrapper.setState({displayName: 'Changed Name', channelName: 'changed-name'});
 
@@ -136,7 +168,7 @@ describe('components/RenameChannelModal', () => {
     test('should call handleCancel', () => {
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         const instance = wrapper.instance();
         instance.handleCancel();
@@ -147,7 +179,7 @@ describe('components/RenameChannelModal', () => {
     test('should call handleHide function', () => {
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         const instance = wrapper.instance();
         instance.handleHide();
@@ -159,7 +191,7 @@ describe('components/RenameChannelModal', () => {
         const changedName = {target: {value: 'changed-name'}};
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
+        );
 
         const instance = wrapper.instance();
         instance.onNameChange(changedName);

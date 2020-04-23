@@ -4,7 +4,7 @@
 import assert from 'assert';
 
 import * as Markdown from 'utils/markdown';
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 
 describe('Markdown.Links', () => {
     it('Not links', () => {

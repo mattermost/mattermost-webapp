@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const timestamp = Date.now();
@@ -35,105 +38,106 @@ function verifyChannel(res, verifyExistence = true) {
 
 describe('channel name tooltips', () => {
     let loggedUser;
+    let longUser;
+    let team;
 
     before(() => {
-        cy.loginAsNewUser().then((user) => {
-            loggedUser = user;
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
-            // # Go to "/"
-            cy.visit('/');
-        });
-    });
+        // # Create new test team
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            team = response.body;
 
-    it('Should show tooltip on hover - open/public channel with long name', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new test channel
-            cy.apiCreateChannel(
-                teamId,
-                'channel-test',
-                `Public channel with a long name-${timestamp}`
-            ).then((res) => {
-                verifyChannel(res);
-            });
-        });
-    });
-
-    it('Should show tooltip on hover - private channel with long name', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new test channel
-            cy.apiCreateChannel(
-                teamId,
-                'channel-test',
-                `Private channel with a long name-${timestamp}`,
-                'P'
-            ).then((res) => {
-                verifyChannel(res);
-            });
-        });
-    });
-
-    it('Should not show tooltip on hover - open/public channel with short name', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new test channel
-            cy.apiCreateChannel(
-                teamId,
-                'channel-test',
-                'Public channel',
-            ).then((res) => {
-                verifyChannel(res, false);
-            });
-        });
-    });
-
-    it('Should not show tooltip on hover - private channel with short name', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new test channel
-            cy.apiCreateChannel(
-                teamId,
-                'channel-test',
-                'Private channel',
-                'P'
-            ).then((res) => {
-                verifyChannel(res, false);
-            });
-        });
-    });
-
-    it('Should show tooltip on hover - user with a long username', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new user
-            cy.createNewUser({
+            // # Create test user with long username
+            cy.apiCreateNewUser({
                 email: `longUser${timestamp}@sample.mattermost.com`,
                 username: `thisIsALongUsername${timestamp}`,
                 firstName: `thisIsALongFirst${timestamp}`,
                 lastName: `thisIsALongLast${timestamp}`,
                 nickname: `thisIsALongNickname${timestamp}`,
                 password: 'password123',
-            }, [teamId]).then((user) => {
-                // # Open a DM with the user
-                cy.get('#addDirectChannel').should('be.visible').click();
-                cy.focused().as('searchBox').type(user.username, {force: true});
+            }, [team.id]).then((user) => {
+                longUser = user;
+            });
 
-                // * Verify that the user is selected in the results list before typing enter
-                cy.get('div.more-modal__row').
-                    should('have.length', 1).
-                    and('have.class', 'clickable').
-                    and('have.class', 'more-modal__row--selected').
-                    and('contain.text', user.username.toLowerCase());
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).then((user) => {
+                loggedUser = user;
 
-                cy.get('@searchBox').type('{enter}', {force: true});
-                cy.get('#saveItems').should('be.visible').click();
-
-                // # Hover on the channel name
-                // cy.get(`#sidebarItem_${loggedUser.id}__${user.id}`).should('be.visible').trigger('mouseover');
-                cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, user.id]).join('__')}`).should('be.visible').trigger('mouseover');
-
-                // * Verify that the tooltip is displayed
-                cy.get('div.tooltip-inner').should('be.visible');
-
-                // # Move cursor away from channel
-                cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, user.id]).join('__')}`).should('be.visible').trigger('mouseout');
+                // # Go to "/"
+                cy.visit(`/${response.body.name}/town-square`);
             });
         });
+    });
+
+    it('Should show tooltip on hover - open/public channel with long name', () => {
+        // # Create new test channel
+        cy.apiCreateChannel(
+            team.id,
+            'channel-test',
+            `Public channel with a long name-${timestamp}`
+        ).then((res) => {
+            verifyChannel(res);
+        });
+    });
+
+    it('Should show tooltip on hover - private channel with long name', () => {
+        // # Create new test channel
+        cy.apiCreateChannel(
+            team.id,
+            'channel-test',
+            `Private channel with a long name-${timestamp}`,
+            'P'
+        ).then((res) => {
+            verifyChannel(res);
+        });
+    });
+
+    it('Should not show tooltip on hover - open/public channel with short name', () => {
+        // # Create new test channel
+        cy.apiCreateChannel(
+            team.id,
+            'channel-test',
+            'Public channel',
+        ).then((res) => {
+            verifyChannel(res, false);
+        });
+    });
+
+    it('Should not show tooltip on hover - private channel with short name', () => {
+        // # Create new test channel
+        cy.apiCreateChannel(
+            team.id,
+            'channel-test',
+            'Private channel',
+            'P'
+        ).then((res) => {
+            verifyChannel(res, false);
+        });
+    });
+
+    it('Should show tooltip on hover - user with a long username', () => {
+        // # Open a DM with the user
+        cy.get('#addDirectChannel').should('be.visible').click();
+        cy.focused().as('searchBox').type(longUser.username, {force: true});
+
+        // * Verify that the user is selected in the results list before typing enter
+        cy.get('div.more-modal__row').
+            should('have.length', 1).
+            and('have.class', 'clickable').
+            and('have.class', 'more-modal__row--selected').
+            and('contain.text', longUser.username.toLowerCase());
+
+        cy.get('@searchBox').type('{enter}', {force: true});
+        cy.get('#saveItems').should('be.visible').click();
+
+        // # Hover on the channel name
+        cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, longUser.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseover');
+
+        // * Verify that the tooltip is displayed
+        cy.get('div.tooltip-inner').should('be.visible');
+
+        // # Move cursor away from channel
+        cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, longUser.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseout');
     });
 });

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
-import {Tabs, Tab, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tabs, Tab} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -18,11 +18,9 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import Constants from 'utils/constants.jsx';
-
-import MarketplaceItem from './marketplace_item';
 
 import './marketplace_modal.scss';
+import MarketplaceList from './marketplace_list/marketplace_list';
 
 const MarketplaceTabs = {
     ALL_PLUGINS: 'allPlugins',
@@ -31,29 +29,6 @@ const MarketplaceTabs = {
 
 const SEARCH_TIMEOUT_MILLISECONDS = 200;
 
-// Plugins renders the list of plugins in a tab.
-export const Plugins = ({plugins}) => (
-    <div className='more-modal__list'>{plugins.map((p) => (
-        <MarketplaceItem
-            key={p.manifest.id}
-            id={p.manifest.id}
-            name={p.manifest.name}
-            description={p.manifest.description}
-            version={p.manifest.version}
-            isPrepackaged={false}
-            downloadUrl={p.download_url}
-            homepageUrl={p.homepage_url}
-            releaseNotesUrl={p.release_notes_url}
-            iconData={p.icon_data}
-            installedVersion={p.installed_version}
-        />
-    ))}</div>
-);
-
-Plugins.propTypes = {
-    plugins: PropTypes.array.isRequired,
-};
-
 // AllPlugins renders the contents of the all plugins tab.
 export const AllPlugins = ({plugins}) => {
     if (plugins.length === 0) {
@@ -61,7 +36,7 @@ export const AllPlugins = ({plugins}) => {
             <div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <div className='margin-top x2 light'>
+                <div className='mt-3 light'>
                     <FormattedMessage
                         id='marketplace_modal.no_plugins'
                         defaultMessage='There are no plugins available at this time.'
@@ -71,7 +46,7 @@ export const AllPlugins = ({plugins}) => {
         );
     }
 
-    return <Plugins plugins={plugins}/>;
+    return <MarketplaceList plugins={plugins}/>;
 };
 
 AllPlugins.propTypes = {
@@ -79,21 +54,22 @@ AllPlugins.propTypes = {
 };
 
 // InstalledPlugins renders the contents of the installed plugins tab.
-export const InstalledPlugins = ({installedPlugins}) => {
+export const InstalledPlugins = ({installedPlugins, changeTab}) => {
     if (installedPlugins.length === 0) {
         return (
             <div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <div className='margin-top x2 light'>
+                <div className='mt-3 light'>
                     <FormattedMessage
                         id='marketplace_modal.no_plugins_installed'
                         defaultMessage='You do not have any plugins installed.'
                     />
                 </div>
                 <button
-                    className='margin-top x3 style--none color--link'
-                    onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                    className='mt-5 style--none color--link'
+                    onClick={() => changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                    data-testid='Install-Plugins-button'
                 >
                     <FormattedMessage
                         id='marketplace_modal.install_plugins'
@@ -104,11 +80,12 @@ export const InstalledPlugins = ({installedPlugins}) => {
         );
     }
 
-    return <Plugins plugins={installedPlugins}/>;
+    return <MarketplaceList plugins={installedPlugins}/>;
 };
 
 InstalledPlugins.propTypes = {
     installedPlugins: PropTypes.array.isRequired,
+    changeTab: PropTypes.func,
 };
 
 // MarketplaceModal is the plugin marketplace.
@@ -141,6 +118,10 @@ export class MarketplaceModal extends React.Component {
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchPlugins();
+
+        if (this.refs.filter) {
+            this.refs.filter.focus();
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -187,15 +168,6 @@ export class MarketplaceModal extends React.Component {
     debouncedSearch = debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS);
 
     render() {
-        const searchClearTooltip = (
-            <Tooltip id='searchClearTooltip'>
-                <FormattedMessage
-                    id='search_bar.clear'
-                    defaultMessage='Clear search query'
-                />
-            </Tooltip>
-        );
-
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
@@ -207,27 +179,9 @@ export class MarketplaceModal extends React.Component {
                         inputComponent={LocalizedInput}
                         onInput={this.onInput}
                         value={this.state.filter}
+                        clearable={true}
+                        onClear={this.handleClearSearch}
                     />
-                    {this.state.filter && this.state.filter.trim() !== '' &&
-                        <div
-                            id='searchClearButton'
-                            className='sidebar__search-clear visible'
-                            onClick={this.handleClearSearch}
-                        >
-                            <OverlayTrigger
-                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                placement='bottom'
-                                overlay={searchClearTooltip}
-                            >
-                                <span
-                                    className='sidebar__search-clear-x'
-                                    aria-hidden='true'
-                                >
-                                    {'×'}
-                                </span>
-                            </OverlayTrigger>
-                        </div>
-                    }
                 </div>
             </div>
         );
@@ -239,11 +193,13 @@ export class MarketplaceModal extends React.Component {
                     className='error-bar'
                     id='error_bar'
                 >
-                    <FormattedMarkdownMessage
-                        id='app.plugin.marketplace_plugins.app_error'
-                        defaultMessage='Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management).'
-                        values={{siteURL: this.props.siteURL}}
-                    />
+                    <div className='error-bar__content'>
+                        <FormattedMarkdownMessage
+                            id='app.plugin.marketplace_plugins.app_error'
+                            defaultMessage='Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management).'
+                            values={{siteURL: this.props.siteURL}}
+                        />
+                    </div>
                 </div>
             );
         }
@@ -253,6 +209,7 @@ export class MarketplaceModal extends React.Component {
                 <FullScreenModal
                     show={this.props.show}
                     onClose={this.close}
+                    ariaLabel={localizeMessage('marketplace_modal.title', 'Plugin Marketplace')}
                 >
                     {errorBanner}
                     <div
@@ -286,7 +243,10 @@ export class MarketplaceModal extends React.Component {
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.installed_plugins', 'Installed') + ` (${this.props.installedPlugins.length})`}
                             >
-                                <InstalledPlugins installedPlugins={this.props.installedPlugins}/>
+                                <InstalledPlugins
+                                    installedPlugins={this.props.installedPlugins}
+                                    changeTab={this.changeTab}
+                                />
                             </Tab>
                         </Tabs>
                     </div>

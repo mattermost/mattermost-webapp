@@ -3,9 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';

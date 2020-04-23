@@ -1,0 +1,901 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Elasticsearch"
+        id="admin.elasticsearch.title"
+        values={Object {}}
+      />
+    </AdminHeader>
+    <SettingsGroup
+      container={true}
+      show={true}
+    >
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, indexing of new posts occurs automatically. Search queries will use database search until \\"Enable Elasticsearch for search queries\\" is enabled. {documentationLink}"
+            id="admin.elasticsearch.enableIndexingDescription"
+            values={
+              Object {
+                "documentationLink": <a
+                  href="https://about.mattermost.com/default-elasticsearch-documentation/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn more about Elasticsearch in our documentation."
+                    id="admin.elasticsearch.enableIndexingDescription.documentationLinkText"
+                    values={Object {}}
+                  />
+                </a>,
+              }
+            }
+          />
+        }
+        id="enableIndexing"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Elasticsearch Indexing:"
+            id="admin.elasticsearch.enableIndexingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <AdminTextSetting
+        disabled={true}
+        helpText={
+          <FormattedMessage
+            defaultMessage="The address of the Elasticsearch server. {documentationLink}"
+            id="admin.elasticsearch.connectionUrlDescription"
+            values={
+              Object {
+                "documentationLink": <a
+                  href="https://about.mattermost.com/default-elasticsearch-server-setup/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="Please see documentation with server setup instructions."
+                    id="admin.elasticsearch.connectionUrlExample.documentationLinkText"
+                    values={Object {}}
+                  />
+                </a>,
+              }
+            }
+          />
+        }
+        id="connectionUrl"
+        label={
+          <FormattedMessage
+            defaultMessage="Server Connection Address:"
+            id="admin.elasticsearch.connectionUrlTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"https://elasticsearch.example.org:9200\\""
+        setByEnv={false}
+        value="test"
+      />
+      <BooleanSetting
+        disabled={true}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority."
+            id="admin.elasticsearch.skipTLSVerificationDescription"
+            values={Object {}}
+          />
+        }
+        id="skipTLSVerification"
+        label={
+          <FormattedMessage
+            defaultMessage="Skip TLS Verification:"
+            id="admin.elasticsearch.skipTLSVerificationTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <AdminTextSetting
+        disabled={true}
+        helpText={
+          <FormattedMessage
+            defaultMessage="(Optional) The username to authenticate to the Elasticsearch server."
+            id="admin.elasticsearch.usernameDescription"
+            values={Object {}}
+          />
+        }
+        id="username"
+        label={
+          <FormattedMessage
+            defaultMessage="Server Username:"
+            id="admin.elasticsearch.usernameTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"elastic\\""
+        setByEnv={false}
+        value="test"
+      />
+      <AdminTextSetting
+        disabled={true}
+        helpText={
+          <FormattedMessage
+            defaultMessage="(Optional) The password to authenticate to the Elasticsearch server."
+            id="admin.elasticsearch.passwordDescription"
+            values={Object {}}
+          />
+        }
+        id="password"
+        label={
+          <FormattedMessage
+            defaultMessage="Server Password:"
+            id="admin.elasticsearch.passwordTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"yourpassword\\""
+        setByEnv={false}
+        value="test"
+      />
+      <BooleanSetting
+        disabled={true}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, sniffing finds and connects to all data nodes in your cluster automatically."
+            id="admin.elasticsearch.sniffDescription"
+            values={Object {}}
+          />
+        }
+        id="sniff"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Cluster Sniffing:"
+            id="admin.elasticsearch.sniffTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <RequestButton
+        buttonText={
+          <FormattedMessage
+            defaultMessage="Test Connection"
+            id="admin.elasticsearch.elasticsearch_test_button"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        errorMessage={
+          Object {
+            "defaultMessage": "Test Failure: {error}",
+            "id": "admin.requestButton.requestFailure",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages."
+            id="admin.elasticsearch.testHelpText"
+            values={Object {}}
+          />
+        }
+        id="testConfig"
+        includeDetailedError={false}
+        requestAction={[Function]}
+        saveNeeded={false}
+        showSuccessMessage={true}
+        successMessage={
+          Object {
+            "defaultMessage": "Test successful. Configuration saved.",
+            "id": "admin.elasticsearch.testConfigSuccess",
+          }
+        }
+      />
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+        >
+          <FormattedMessage
+            defaultMessage="Bulk Indexing:"
+            id="admin.elasticsearch.bulkIndexingTitle"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-sm-8"
+        >
+          <div
+            className="job-table-setting"
+          >
+            <Connect(injectIntl(JobTable))
+              createJobButtonText={
+                <FormattedMessage
+                  defaultMessage="Index Now"
+                  id="admin.elasticsearch.createJob.title"
+                  values={Object {}}
+                />
+              }
+              createJobHelpText={
+                <FormattedMessage
+                  defaultMessage="All users, channels and posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete."
+                  id="admin.elasticsearch.createJob.help"
+                  values={Object {}}
+                />
+              }
+              disabled={true}
+              getExtraInfoText={[Function]}
+              jobType="elasticsearch_post_indexing"
+            />
+          </div>
+        </div>
+      </div>
+      <RequestButton
+        buttonText={
+          <FormattedMessage
+            defaultMessage="Purge Index"
+            id="admin.elasticsearch.purgeIndexesButton"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        errorMessage={
+          Object {
+            "defaultMessage": "Failed to purge indexes: {error}",
+            "id": "admin.elasticsearch.purgeIndexesButton.error",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Purging will entirely remove the indexes on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
+            id="admin.elasticsearch.purgeIndexesHelpText"
+            values={Object {}}
+          />
+        }
+        id="purgeIndexesSection"
+        includeDetailedError={false}
+        label={
+          <FormattedMessage
+            defaultMessage="Purge Indexes:"
+            id="admin.elasticsearch.purgeIndexesButton.label"
+            values={Object {}}
+          />
+        }
+        requestAction={[MockFunction]}
+        saveNeeded={false}
+        showSuccessMessage={true}
+        successMessage={
+          Object {
+            "defaultMessage": "Indexes purged successfully.",
+            "id": "admin.elasticsearch.purgeIndexesButton.success",
+          }
+        }
+      />
+      <BooleanSetting
+        disabled={true}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
+            id="admin.elasticsearch.enableSearchingDescription"
+            values={Object {}}
+          />
+        }
+        id="enableSearching"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Elasticsearch for search queries:"
+            id="admin.elasticsearch.enableSearchingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <BooleanSetting
+        disabled={true}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
+            id="admin.elasticsearch.enableAutocompleteDescription"
+            values={Object {}}
+          />
+        }
+        id="enableAutocomplete"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Elasticsearch for autocomplete queries:"
+            id="admin.elasticsearch.enableAutocompleteTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+    </SettingsGroup>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Elasticsearch"
+        id="admin.elasticsearch.title"
+        values={Object {}}
+      />
+    </AdminHeader>
+    <SettingsGroup
+      container={true}
+      show={true}
+    >
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, indexing of new posts occurs automatically. Search queries will use database search until \\"Enable Elasticsearch for search queries\\" is enabled. {documentationLink}"
+            id="admin.elasticsearch.enableIndexingDescription"
+            values={
+              Object {
+                "documentationLink": <a
+                  href="https://about.mattermost.com/default-elasticsearch-documentation/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn more about Elasticsearch in our documentation."
+                    id="admin.elasticsearch.enableIndexingDescription.documentationLinkText"
+                    values={Object {}}
+                  />
+                </a>,
+              }
+            }
+          />
+        }
+        id="enableIndexing"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Elasticsearch Indexing:"
+            id="admin.elasticsearch.enableIndexingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={true}
+      />
+      <AdminTextSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="The address of the Elasticsearch server. {documentationLink}"
+            id="admin.elasticsearch.connectionUrlDescription"
+            values={
+              Object {
+                "documentationLink": <a
+                  href="https://about.mattermost.com/default-elasticsearch-server-setup/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="Please see documentation with server setup instructions."
+                    id="admin.elasticsearch.connectionUrlExample.documentationLinkText"
+                    values={Object {}}
+                  />
+                </a>,
+              }
+            }
+          />
+        }
+        id="connectionUrl"
+        label={
+          <FormattedMessage
+            defaultMessage="Server Connection Address:"
+            id="admin.elasticsearch.connectionUrlTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"https://elasticsearch.example.org:9200\\""
+        setByEnv={false}
+        value="test"
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, Mattermost will not require the Elasticsearch certificate to be signed by a trusted Certificate Authority."
+            id="admin.elasticsearch.skipTLSVerificationDescription"
+            values={Object {}}
+          />
+        }
+        id="skipTLSVerification"
+        label={
+          <FormattedMessage
+            defaultMessage="Skip TLS Verification:"
+            id="admin.elasticsearch.skipTLSVerificationTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <AdminTextSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="(Optional) The username to authenticate to the Elasticsearch server."
+            id="admin.elasticsearch.usernameDescription"
+            values={Object {}}
+          />
+        }
+        id="username"
+        label={
+          <FormattedMessage
+            defaultMessage="Server Username:"
+            id="admin.elasticsearch.usernameTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"elastic\\""
+        setByEnv={false}
+        value="test"
+      />
+      <AdminTextSetting
+        disabled={false}
+        helpText={
+          <FormattedMessage
+            defaultMessage="(Optional) The password to authenticate to the Elasticsearch server."
+            id="admin.elasticsearch.passwordDescription"
+            values={Object {}}
+          />
+        }
+        id="password"
+        label={
+          <FormattedMessage
+            defaultMessage="Server Password:"
+            id="admin.elasticsearch.passwordTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"yourpassword\\""
+        setByEnv={false}
+        value="test"
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, sniffing finds and connects to all data nodes in your cluster automatically."
+            id="admin.elasticsearch.sniffDescription"
+            values={Object {}}
+          />
+        }
+        id="sniff"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Cluster Sniffing:"
+            id="admin.elasticsearch.sniffTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <RequestButton
+        buttonText={
+          <FormattedMessage
+            defaultMessage="Test Connection"
+            id="admin.elasticsearch.elasticsearch_test_button"
+            values={Object {}}
+          />
+        }
+        disabled={false}
+        errorMessage={
+          Object {
+            "defaultMessage": "Test Failure: {error}",
+            "id": "admin.requestButton.requestFailure",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages."
+            id="admin.elasticsearch.testHelpText"
+            values={Object {}}
+          />
+        }
+        id="testConfig"
+        includeDetailedError={false}
+        requestAction={[Function]}
+        saveNeeded={false}
+        showSuccessMessage={true}
+        successMessage={
+          Object {
+            "defaultMessage": "Test successful. Configuration saved.",
+            "id": "admin.elasticsearch.testConfigSuccess",
+          }
+        }
+      />
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+        >
+          <FormattedMessage
+            defaultMessage="Bulk Indexing:"
+            id="admin.elasticsearch.bulkIndexingTitle"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-sm-8"
+        >
+          <div
+            className="job-table-setting"
+          >
+            <Connect(injectIntl(JobTable))
+              createJobButtonText={
+                <FormattedMessage
+                  defaultMessage="Index Now"
+                  id="admin.elasticsearch.createJob.title"
+                  values={Object {}}
+                />
+              }
+              createJobHelpText={
+                <FormattedMessage
+                  defaultMessage="All users, channels and posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete."
+                  id="admin.elasticsearch.createJob.help"
+                  values={Object {}}
+                />
+              }
+              disabled={false}
+              getExtraInfoText={[Function]}
+              jobType="elasticsearch_post_indexing"
+            />
+          </div>
+        </div>
+      </div>
+      <RequestButton
+        buttonText={
+          <FormattedMessage
+            defaultMessage="Purge Index"
+            id="admin.elasticsearch.purgeIndexesButton"
+            values={Object {}}
+          />
+        }
+        disabled={false}
+        errorMessage={
+          Object {
+            "defaultMessage": "Failed to purge indexes: {error}",
+            "id": "admin.elasticsearch.purgeIndexesButton.error",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Purging will entirely remove the indexes on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
+            id="admin.elasticsearch.purgeIndexesHelpText"
+            values={Object {}}
+          />
+        }
+        id="purgeIndexesSection"
+        includeDetailedError={false}
+        label={
+          <FormattedMessage
+            defaultMessage="Purge Indexes:"
+            id="admin.elasticsearch.purgeIndexesButton.label"
+            values={Object {}}
+          />
+        }
+        requestAction={[MockFunction]}
+        saveNeeded={false}
+        showSuccessMessage={true}
+        successMessage={
+          Object {
+            "defaultMessage": "Indexes purged successfully.",
+            "id": "admin.elasticsearch.purgeIndexesButton.success",
+          }
+        }
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
+            id="admin.elasticsearch.enableSearchingDescription"
+            values={Object {}}
+          />
+        }
+        id="enableSearching"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Elasticsearch for search queries:"
+            id="admin.elasticsearch.enableSearchingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
+            id="admin.elasticsearch.enableAutocompleteDescription"
+            values={Object {}}
+          />
+        }
+        id="enableAutocomplete"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Elasticsearch for autocomplete queries:"
+            id="admin.elasticsearch.enableAutocompleteTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+    </SettingsGroup>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;

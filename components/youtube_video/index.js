@@ -15,7 +15,7 @@ function mapStateToProps(state, ownProps) {
         currentChannelId: getCurrentChannelId(state),
         googleDeveloperKey: config.GoogleDeveloperKey,
         hasImageProxy: config.HasImageProxy === 'true',
-        metadata: getOpenGraphMetadataForUrl(state, ownProps.link),
+        metadata: getOpenGraphMetadataForUrl(state, ownProps.postId, ownProps.link),
     };
 }
 

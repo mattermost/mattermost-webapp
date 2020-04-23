@@ -12,6 +12,11 @@
     z-index: 0;
     pointer-events: none;
 
+    z-index: 1;
+    height: 1px;
+    margin-bottom: 1em;
+    margin-top: -1em;
+
     &:before,
     &:after {
         content: '';
@@ -45,7 +50,7 @@
     }
 
     .separator__hr {
-        border-color: v(center-channel-color-20);
+        border-top: 1px solid v(center-channel-color-20);
         margin: 0;
         position: relative;
         top: 1em;

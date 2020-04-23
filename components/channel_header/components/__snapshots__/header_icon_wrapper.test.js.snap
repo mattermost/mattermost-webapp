@@ -15,7 +15,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="Flagged Posts"
+          defaultMessage="Flagged posts"
           id="channel_header.flagged"
           values={Object {}}
         />
@@ -57,7 +57,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="Recent Mentions"
+          defaultMessage="Recent mentions"
           id="channel_header.recentMentions"
           values={Object {}}
         />
@@ -99,7 +99,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         placement="right"
       >
         <FormattedMessage
-          defaultMessage="Pinned Posts"
+          defaultMessage="Pinned posts"
           id="channel_header.pinnedPosts"
           values={Object {}}
         />

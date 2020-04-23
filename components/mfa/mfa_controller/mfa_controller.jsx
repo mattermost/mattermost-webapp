@@ -8,7 +8,7 @@ import {Route, Switch} from 'react-router-dom';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 
 import Setup from '../setup';

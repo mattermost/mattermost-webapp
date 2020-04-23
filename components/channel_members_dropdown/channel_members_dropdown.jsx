@@ -123,7 +123,7 @@ export default class ChannelMembersDropdown extends React.Component {
         }
         const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
         const canMakeUserChannelAdmin = canChangeMemberRoles && isLicensed && isMember;
-        const canRemoveUserFromChannel = canRemoveMember && !channel.group_constrained && (!isDefaultChannel || isGuest);
+        const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
 
         if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
             return (
@@ -139,14 +139,16 @@ export default class ChannelMembersDropdown extends React.Component {
                     <Menu
                         openLeft={true}
                         openUp={totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
-                        ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Channel member role change')}
+                        ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member')}
                     >
                         <Menu.ItemAction
+                            id={`${user.username}-make-channel-member`}
                             show={canMakeUserChannelMember}
                             onClick={this.handleMakeChannelMember}
                             text={Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member')}
                         />
                         <Menu.ItemAction
+                            id={`${user.username}-make-channel-admin`}
                             show={canMakeUserChannelAdmin}
                             onClick={this.handleMakeChannelAdmin}
                             text={Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Channel Admin')}
@@ -154,7 +156,7 @@ export default class ChannelMembersDropdown extends React.Component {
                         <Menu.ItemAction
                             show={canRemoveUserFromChannel}
                             onClick={this.handleRemoveFromChannel}
-                            text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove From Channel')}
+                            text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel')}
                         />
                         {serverError && (
                             <div className='has-error'>

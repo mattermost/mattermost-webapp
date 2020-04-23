@@ -140,7 +140,7 @@ export default class InstalledCommands extends React.PureComponent {
                                 >
                                     <FormattedMessage
                                         id='installed_commands.help.buildYourOwn'
-                                        defaultMessage='Build your own'
+                                        defaultMessage='Build Your Own'
                                     />
                                 </a>
                             ),

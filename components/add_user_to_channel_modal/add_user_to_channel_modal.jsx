@@ -276,7 +276,7 @@ export default class AddUserToChannelModal extends React.Component {
                     >
                         <FormattedMessage
                             id='add_user_to_channel_modal.title'
-                            defaultMessage='Add {name} to a channel'
+                            defaultMessage='Add {name} to a Channel'
                             values={{
                                 name,
                             }}

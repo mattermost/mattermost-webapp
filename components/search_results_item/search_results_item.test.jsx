@@ -7,7 +7,6 @@ import {Posts} from 'mattermost-redux/constants';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {browserHistory} from 'utils/browser_history';
-import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils';
 import SearchResultsItem from 'components/search_results_item/search_results_item';
 
 jest.mock('utils/browser_history', () => ({
@@ -17,8 +16,6 @@ jest.mock('utils/browser_history', () => ({
 }));
 
 jest.mock('utils/utils.jsx', () => ({
-    getDisplayNameByUser: jest.fn().mockReturnValue('Other guy'),
-    getDirectTeammate: jest.fn().mockReturnValue({}),
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true),
     getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z')),
     localizeMessage: jest.fn(),
@@ -82,13 +79,15 @@ describe('components/SearchResultsItem', () => {
                 selectPostCard: mockFunc,
                 setRhsExpanded: mockFunc,
             },
+            directTeammate: '',
+            displayName: 'Other guy',
         };
     });
 
     test('should match snapshot for channel', () => {
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -110,7 +109,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -131,7 +130,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -147,17 +146,15 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
-        expect(getDirectTeammate).toHaveBeenCalledWith('channel_id');
-        expect(getDisplayNameByUser).toHaveBeenCalledWith({});
     });
 
     test('Check for dotmenu dropdownOpened state', () => {
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        ).dive();
+        );
 
         const instance = wrapper.instance();
         instance.handleDropdownOpened(false);
@@ -178,7 +175,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
         expect(selectPost).toHaveBeenCalledTimes(1);
@@ -197,7 +194,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
@@ -213,7 +210,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });

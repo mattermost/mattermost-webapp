@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
 
@@ -64,7 +66,7 @@ export default class RhsHeaderPost extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToResultsTooltip'
-                        defaultMessage='Back to Search Results'
+                        defaultMessage='Back to search results'
                     />
                 </Tooltip>
             );
@@ -74,7 +76,7 @@ export default class RhsHeaderPost extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToFlaggedTooltip'
-                        defaultMessage='Back to Flagged Posts'
+                        defaultMessage='Back to flagged posts'
                     />
                 </Tooltip>
             );
@@ -84,7 +86,7 @@ export default class RhsHeaderPost extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToPinnedTooltip'
-                        defaultMessage='Back to Pinned Posts'
+                        defaultMessage='Back to pinned posts'
                     />
                 </Tooltip>
             );

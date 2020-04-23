@@ -111,12 +111,6 @@
         }
     }
 
-    .table {
-        &.table-margin--none {
-            margin-bottom: 0;
-        }
-    }
-
     .btn {
         &.btn-spacing--right {
             margin-right: 10px;
@@ -270,7 +264,7 @@
         }
 
         &.warning {
-            background: #fcf8e3; 
+            background: #fcf8e3;
             border-color: #faebcc;
             color: #8a6d3b;
         }
@@ -454,10 +448,15 @@
             overflow: hidden;
 
             .control-label {
-                padding: 0;
+                padding: 5px 0 0 0;
                 @include text-clamp(2, 20);
             }
+
+            div:nth-child(2) > .control-label {
+                padding: 0;
+            }
         }
+
         .reset-defaults-btn {
             position: absolute;
             right: 0;
@@ -524,6 +523,46 @@
     width: 220px;
     z-index: 10;
 
+    .filter-container{
+        position: relative;
+        .search__icon {
+            stroke: #999;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: 16px;
+            left: 21px
+        }
+        .filter {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid #666;
+            border-radius: 20px;
+            color: $white;
+            padding: 5px 36px;
+            margin: 8px;
+            width: 204px;
+            font-size: 14px;
+            outline: none;
+            &:focus, &.active {
+                margin: 7px;
+                border: 2px solid $primary-color;
+            }
+        }
+        .input-clear {
+            color: $white;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 12px
+        }
+    }
+
+    .Menu {
+        .dropdown-menu {
+            overflow: auto;
+        }
+    }
+
     mark {
         border-radius: 5%;
         background-color: $highlight-color;
@@ -551,42 +590,9 @@
         padding-bottom: 20px;
         position: relative;
 
-        .filter-container{
-            position: relative;
-            .search__icon {
-                stroke: #999;
-                width: 16px;
-                height: 16px;
-                position: absolute;
-                top: 16px;
-                left: 21px
-            }
-            .filter {
-                background: rgba(255, 255, 255, .05);
-                border: 1px solid #666;
-                border-radius: 20px;
-                color: $white;
-                padding: 5px 36px;
-                margin: 8px;
-                width: 204px;
-                font-size: 14px;
-                outline: none;
-                &:focus, &.active {
-                    margin: 7px;
-                    border: 2px solid $primary-color;
-                }
-            }
-            .sidebar__search-clear {
-                color: $white;
-                font-weight: bold;
-                position: absolute;
-                top: 10px;
-                right: 12px
-            }
-        }
-
         ul {
             margin-top: 1px;
+            padding-bottom: 20px;
         }
 
     }

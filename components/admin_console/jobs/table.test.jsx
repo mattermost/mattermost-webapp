@@ -79,7 +79,7 @@ describe('components/admin_console/jobs/table', () => {
     test('should call create job func', () => {
         const wrapper = shallowWithIntl(
             <JobTable {...baseProps}/>
-        ).dive();
+        );
 
         wrapper.find('.job-table__create-button > div > .btn-default').simulate('click', {preventDefault: jest.fn()});
         expect(createJob).toHaveBeenCalledTimes(1);
@@ -88,7 +88,7 @@ describe('components/admin_console/jobs/table', () => {
     test('should call cancel job func', () => {
         const wrapper = shallowWithIntl(
             <JobTable {...baseProps}/>
-        ).dive();
+        );
 
         wrapper.find('.job-table__cancel-button').first().simulate('click', {preventDefault: jest.fn(), currentTarget: {getAttribute: () => '1234'}});
         expect(cancelJob).toHaveBeenCalledTimes(1);

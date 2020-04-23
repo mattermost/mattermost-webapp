@@ -8,7 +8,7 @@ import {Modal} from 'react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import GroupsUsers from './group/group_users.jsx';
+import GroupsUsers from './group/group_users';
 
 export default class UsersToBeRemovedModal extends React.PureComponent {
     static propTypes = {

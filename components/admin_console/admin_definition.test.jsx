@@ -106,6 +106,23 @@ const settingJobsTable = yup.object().shape({
     render_job: yup.object().required(),
 });
 
+const settingFileUploadButton = yup.object().shape({
+    type: yup.mixed().oneOf([Constants.SettingsTypes.TYPE_FILE_UPLOAD]),
+    ...fieldShape,
+    action: yup.object(),
+    remove_help_text: yup.string().required(),
+    remove_help_text_default: yup.string().required(),
+    remove_button_text: yup.string().required(),
+    remove_button_text_default: yup.string().required(),
+    removing_text: yup.string().required(),
+    removing_text_default: yup.string().required(),
+    uploading_text: yup.string().required(),
+    uploading_text_default: yup.string().required(),
+    upload_action: yup.object().required(),
+    remove_action: yup.object().required(),
+    fileType: yup.string().required()
+});
+
 // eslint-disable-next-line no-template-curly-in-string
 const setting = yup.mixed().test('is-setting', 'not a valid setting: ${path}', (value) => {
     let valid = false;
@@ -121,6 +138,7 @@ const setting = yup.mixed().test('is-setting', 'not a valid setting: ${path}', (
     valid = valid || settingCustom.isValidSync(value);
     valid = valid || settingJobsTable.isValidSync(value);
     valid = valid || settingPermission.isValidSync(value);
+    valid = valid || settingFileUploadButton.isValidSync(value);
     return valid;
 });
 

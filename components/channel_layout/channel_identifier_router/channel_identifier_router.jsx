@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ChannelView from 'components/channel_view/index';
+import {browserHistory} from 'utils/browser_history';
+import Constants from 'utils/constants.jsx';
 
 export default class ChannelIdentifierRouter extends React.PureComponent {
     static propTypes = {
@@ -16,7 +18,9 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
             params: PropTypes.shape({
                 identifier: PropTypes.string.isRequired,
                 team: PropTypes.string.isRequired,
+                postid: PropTypes.string,
             }).isRequired,
+            url: PropTypes.string.isRequired,
         }).isRequired,
 
         actions: PropTypes.shape({
@@ -27,13 +31,34 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.props.actions.onChannelByIdentifierEnter(props);
+        this.state = {
+            prevProps: props,
+        };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.params.team !== nextProps.match.params.team ||
-            this.props.match.params.identifier !== nextProps.match.params.identifier) {
-            this.props.actions.onChannelByIdentifierEnter(nextProps);
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.team !== prevProps.match.params.team ||
+            this.props.match.params.identifier !== prevProps.match.params.identifier) {
+            clearTimeout(this.replaceUrlTimeout);
+            this.props.actions.onChannelByIdentifierEnter(this.props);
+            this.replaceUrlIfPermalink();
+        }
+    }
+    componentDidMount() {
+        this.props.actions.onChannelByIdentifierEnter(this.props);
+        this.replaceUrlIfPermalink();
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.replaceUrlTimeout);
+    }
+
+    replaceUrlIfPermalink = () => {
+        if (this.props.match.params.postid) {
+            this.replaceUrlTimeout = setTimeout(() => {
+                const channelUrl = this.props.match.url.split('/').slice(0, -1).join('/');
+                browserHistory.replace(channelUrl);
+            }, Constants.PERMALINK_FADEOUT);
         }
     }
 

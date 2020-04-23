@@ -424,7 +424,7 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: 'false',
             title: {
                 id: t('user.settings.display.collapseDisplay'),
-                message: 'Default appearance of image previews',
+                message: 'Default Appearance of Image Previews',
             },
             firstOption: {
                 value: 'false',

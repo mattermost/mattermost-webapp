@@ -31,6 +31,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={Object {}}
   >
     text
@@ -58,6 +59,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={Object {}}
   >
     text
@@ -88,6 +90,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={Object {}}
   >
     text
@@ -118,6 +121,7 @@ describe('components/Menu', () => {
 >
   <ul
     className="Menu__content dropdown-menu"
+    onClick={[Function]}
     style={
       Object {
         "bottom": "100%",

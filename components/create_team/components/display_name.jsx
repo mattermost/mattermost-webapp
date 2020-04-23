@@ -38,7 +38,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
 
     submitNext = (e) => {
         e.preventDefault();
-
+        trackEvent('display_name', 'click_next');
         var displayName = ReactDOM.findDOMNode(this.refs.name).value.trim();
         if (!displayName) {
             this.setState({nameError: (
@@ -124,7 +124,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                     <button
                         id='teamNameNextButton'
                         type='submit'
-                        className='btn btn-primary margin--extra'
+                        className='btn btn-primary mt-8'
                         onClick={this.submitNext}
                     >
                         <FormattedMessage

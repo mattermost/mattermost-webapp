@@ -15,6 +15,12 @@ import './storybook_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import 'cypress-wait-until';
+import 'cypress-plugin-tab';
+import './okta_commands';
+import './saml_commands';
+import './ldap_commands';
+import './common_login_commands';
+
 import addContext from 'mochawesome/addContext';
 
 Cypress.on('test:after:run', (test, runnable) => {
@@ -77,6 +83,12 @@ Cypress.on('test:after:run', (test, runnable) => {
             value: 'screenshots/' + filename,
         });
     }
+});
+
+// Reset config
+before(() => {
+    cy.apiLogin('sysadmin');
+    cy.apiUpdateConfig();
 });
 
 // Add login cookies to whitelist to preserve it

@@ -3,6 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
+
+import Constants from 'utils/constants.jsx';
 
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
@@ -24,11 +30,29 @@ export default class QuickInput extends React.PureComponent {
          * The string value displayed in this input
          */
         value: PropTypes.string.isRequired,
+
+        /**
+         * When true, and an onClear callback is defined, show an X on the input field that clears
+         * the input when clicked.
+         */
+        clearable: PropTypes.bool,
+
+        /**
+         * The optional tooltip text to display on the X shown when clearable. Pass a components
+         * such as FormattedMessage to localize.
+         */
+        clearableTooltipText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+
+        /**
+         * Callback to clear the input value, and used in tandem with the clearable prop above.
+         */
+        onClear: PropTypes.func,
     };
 
     static defaultProps = {
         delayInputUpdate: false,
         value: '',
+        clearable: false,
     };
 
     componentDidUpdate(prevProps) {
@@ -73,12 +97,37 @@ export default class QuickInput extends React.PureComponent {
         this.input = input;
     }
 
+    onClear = () => {
+        if (this.props.onClear) {
+            this.props.onClear();
+        }
+        this.focus();
+    }
+
     render() {
-        const {value, inputComponent, ...props} = this.props;
+        let clearableTooltipText = this.props.clearableTooltipText;
+        if (!clearableTooltipText) {
+            clearableTooltipText = (
+                <FormattedMessage
+                    id={'input.clear'}
+                    defaultMessage='Clear'
+                />
+            );
+        }
+
+        const clearableTooltip = (
+            <Tooltip id={'InputClearTooltip'}>
+                {clearableTooltipText}
+            </Tooltip>
+        );
+
+        const {value, inputComponent, clearable, ...props} = this.props;
 
         Reflect.deleteProperty(props, 'delayInputUpdate');
+        Reflect.deleteProperty(props, 'onClear');
+        Reflect.deleteProperty(props, 'clearableTooltipText');
 
-        return React.createElement(
+        const inputElement = React.createElement(
             inputComponent || 'input',
             {
                 ...props,
@@ -86,5 +135,28 @@ export default class QuickInput extends React.PureComponent {
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             }
         );
+
+        return (<div>
+            {inputElement}
+            {clearable && value && this.props.onClear &&
+                <div
+                    className='input-clear visible'
+                    onClick={this.onClear}
+                >
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={clearableTooltip}
+                    >
+                        <span
+                            className='input-clear-x'
+                            aria-hidden='true'
+                        >
+                            {'×'}
+                        </span>
+                    </OverlayTrigger>
+                </div>
+            }
+        </div>);
     }
 }

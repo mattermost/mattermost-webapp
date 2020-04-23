@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
-import {InjectedIntl, injectIntl} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import CloseIcon from 'components/widgets/icons/close_icon';
 import BackIcon from 'components/widgets/icons/back_icon';
@@ -14,20 +14,36 @@ import './full_screen_modal.scss';
 const ANIMATION_DURATION = 100;
 
 type Props = {
-    intl: InjectedIntl;
     show: boolean;
     onClose: () => void;
     onGoBack?: () => void;
     children: React.ReactNode;
+    ariaLabel?: string;
+    ariaLabelledBy?: string;
+    intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
 };
 
 class FullScreenModal extends React.Component<Props> {
+    private modal = React.createRef<HTMLDivElement>();
+
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
+        document.addEventListener('focus', this.enforceFocus, true);
+        this.enforceFocus();
     }
 
     public componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeypress);
+        document.removeEventListener('focus', this.enforceFocus, true);
+    }
+
+    public enforceFocus = () => {
+        setTimeout(() => {
+            const currentActiveElement = document.activeElement;
+            if (this.modal && this.modal.current && !this.modal.current.contains(currentActiveElement)) {
+                this.modal.current.focus();
+            }
+        });
     }
 
     private handleKeypress = (e: KeyboardEvent) => {
@@ -50,27 +66,43 @@ class FullScreenModal extends React.Component<Props> {
                 timeout={ANIMATION_DURATION}
                 appear={true}
             >
-                <div className='FullScreenModal'>
-                    {this.props.onGoBack &&
-                        <button
-                            onClick={this.props.onGoBack}
-                            className='back'
-                            aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.back', defaultMessage: 'Back'})}
-                        >
-                            <BackIcon id='backIcon'/>
-                        </button>}
-                    <button
-                        onClick={this.close}
-                        className='close-x'
-                        aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.close', defaultMessage: 'Close'})}
+                <>
+                    <div
+                        className='FullScreenModal'
+                        ref={this.modal}
+                        tabIndex={-1}
+                        aria-modal={true}
+                        aria-label={this.props.ariaLabel}
+                        aria-labelledby={this.props.ariaLabelledBy}
+                        role='dialog'
                     >
-                        <CloseIcon id='closeIcon'/>
-                    </button>
-                    {this.props.children}
-                </div>
+                        {this.props.onGoBack &&
+                            <button
+                                onClick={this.props.onGoBack}
+                                className='back'
+                                aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.back', defaultMessage: 'Back'})}
+                            >
+                                <BackIcon id='backIcon'/>
+                            </button>}
+                        <button
+                            onClick={this.close}
+                            className='close-x'
+                            aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.close', defaultMessage: 'Close'})}
+                        >
+                            <CloseIcon id='closeIcon'/>
+                        </button>
+                        {this.props.children}
+                    </div>
+                    <div
+                        tabIndex={0}
+                        style={{display: 'none'}}
+                    />
+                </>
             </CSSTransition>
         );
     }
 }
 
-export default injectIntl(FullScreenModal);
+const wrappedComponent = injectIntl(FullScreenModal, {forwardRef: true});
+wrappedComponent.displayName = 'injectIntl(FullScreenModal)';
+export default wrappedComponent;

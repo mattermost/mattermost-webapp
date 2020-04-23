@@ -3,21 +3,21 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
+import {intlShape} from 'utils/react_intl';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon.jsx';
+import QuickInput from 'components/quick_input';
 
 const renderScrollView = (props) => (
     <div
@@ -40,13 +40,7 @@ const renderScrollThumbVertical = (props) => (
     />
 );
 
-export default class AdminSidebar extends React.Component {
-    static get contextTypes() {
-        return {
-            intl: intlShape.isRequired,
-        };
-    }
-
+class AdminSidebar extends React.Component {
     static propTypes = {
         license: PropTypes.object.isRequired,
         config: PropTypes.object,
@@ -56,6 +50,7 @@ export default class AdminSidebar extends React.Component {
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
         navigationBlocked: PropTypes.bool.isRequired,
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
             /*
@@ -95,7 +90,7 @@ export default class AdminSidebar extends React.Component {
         if (this.idx !== null &&
             (!isEqual(this.props.plugins, prevProps.plugins) ||
                 !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
         }
     }
 
@@ -108,7 +103,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -292,17 +287,26 @@ export default class AdminSidebar extends React.Component {
     }
 
     render() {
-        const filterClearTooltip = (
-            <Tooltip id='admin-sidebar-fitler-clear'>
-                <FormattedMessage
-                    id='admin.sidebar.filter-clear'
-                    defaultMessage='Clear search'
-                />
-            </Tooltip>
-        );
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
+                <div className='filter-container'>
+                    <SearchIcon
+                        className='search__icon'
+                        aria-hidden='true'
+                    />
+                    <QuickInput
+                        className={'filter ' + (this.state.filter ? 'active' : '')}
+                        type='text'
+                        onChange={this.onFilterChange}
+                        value={this.state.filter}
+                        placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
+                        ref={this.searchRef}
+                        id='adminSidebarFilter'
+                        clearable={true}
+                        onClear={this.handleClearFilter}
+                    />
+                </div>
                 <Scrollbars
                     ref='scrollbar'
                     autoHide={true}
@@ -315,39 +319,6 @@ export default class AdminSidebar extends React.Component {
                     <div className='nav-pills__container'>
                         <Highlight filter={this.state.filter}>
                             <ul className='nav nav-pills nav-stacked'>
-                                <li className='filter-container'>
-                                    <SearchIcon
-                                        className='search__icon'
-                                        aria-hidden='true'
-                                    />
-                                    <input
-                                        className={'filter ' + (this.state.filter ? 'active' : '')}
-                                        type='text'
-                                        onChange={this.onFilterChange}
-                                        value={this.state.filter}
-                                        placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
-                                        ref={this.searchRef}
-                                        id='adminSidebarFilter'
-                                    />
-                                    {this.state.filter &&
-                                        <div
-                                            className='sidebar__search-clear visible'
-                                            onClick={this.handleClearFilter}
-                                        >
-                                            <OverlayTrigger
-                                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                                placement='bottom'
-                                                overlay={filterClearTooltip}
-                                            >
-                                                <span
-                                                    className='sidebar__search-clear-x'
-                                                    aria-hidden='true'
-                                                >
-                                                    {'×'}
-                                                </span>
-                                            </OverlayTrigger>
-                                        </div>}
-                                </li>
                                 {this.renderRootMenu(this.props.adminDefinition)}
                             </ul>
                         </Highlight>
@@ -357,3 +328,5 @@ export default class AdminSidebar extends React.Component {
         );
     }
 }
+
+export default injectIntl(AdminSidebar);

@@ -11,12 +11,21 @@ describe('components/team_members_dropdown', () => {
         id: 'user-1',
         username: 'username1',
         roles: 'team_admin',
+        is_bot: false,
     };
 
     const user2 = {
         id: 'user-2',
         username: 'username2',
         roles: 'team_admin',
+        is_bot: false,
+    };
+
+    const bot = {
+        id: 'bot-user',
+        username: 'bot',
+        roles: 'system_user',
+        is_bot: true,
     };
 
     const team = {
@@ -80,6 +89,15 @@ describe('components/team_members_dropdown', () => {
 
     test('should match snapshot with group-constrained team', () => {
         baseProps.currentTeam.group_constrained = true;
+        const wrapper = shallow(
+            <TeamMembersDropdown {...baseProps}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for a bot with group-constrained team', () => {
+        baseProps.currentTeam.group_constrained = true;
+        baseProps.user = bot;
         const wrapper = shallow(
             <TeamMembersDropdown {...baseProps}/>
         );

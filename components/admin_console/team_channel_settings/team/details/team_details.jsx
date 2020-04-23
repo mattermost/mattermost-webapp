@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {cloneDeep} from 'lodash';
 
 import {Groups} from 'mattermost-redux/constants';
 
@@ -35,6 +36,7 @@ export default class TeamDetails extends React.Component {
             membersMinusGroupMembers: PropTypes.func.isRequired,
             getGroups: PropTypes.func.isRequired,
             patchTeam: PropTypes.func.isRequired,
+            patchGroupSyncable: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -62,7 +64,7 @@ export default class TeamDetails extends React.Component {
 
     componentDidUpdate(prevProps) {
         const {totalGroups, team} = this.props;
-        if (prevProps.team.id !== team.id) {
+        if (prevProps.team.id !== team.id || totalGroups !== prevProps.totalGroups) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 totalGroups,
@@ -79,6 +81,16 @@ export default class TeamDetails extends React.Component {
         actions.getTeam(teamID).
             then(() => actions.getGroups(teamID)).
             then(() => this.setState({groups: this.props.groups}));
+    }
+
+    setNewGroupRole = (gid) => {
+        const groups = cloneDeep(this.state.groups).map((g) => {
+            if (g.id === gid) {
+                g.scheme_admin = !g.scheme_admin;
+            }
+            return g;
+        });
+        this.processGroupsChange(groups);
     }
 
     handleSubmit = async () => {
@@ -102,9 +114,22 @@ export default class TeamDetails extends React.Component {
                 allowed_domains: allowedDomainsChecked ? allowedDomains : '',
                 allow_open_invite: allAllowedChecked,
             });
-            const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
-            const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
-            const result = await Promise.all([patchTeamPromise, ...unlink, ...link]);
+            const patchTeamSyncable = groups.
+                filter((g) => {
+                    return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
+                }).
+                map((g) => actions.patchGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: g.scheme_admin}));
+            const unlink = origGroups.
+                filter((g) => {
+                    return !groups.some((group) => group.id === g.id);
+                }).
+                map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
+            const link = groups.
+                filter((g) => {
+                    return !origGroups.some((group) => group.id === g.id);
+                }).
+                map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: g.scheme_admin}));
+            const result = await Promise.all([patchTeamPromise, ...patchTeamSyncable, ...unlink, ...link]);
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
@@ -230,6 +255,7 @@ export default class TeamDetails extends React.Component {
                             totalGroups={totalGroups}
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
+                            setNewGroupRole={this.setNewGroupRole}
                         />
 
                     </div>

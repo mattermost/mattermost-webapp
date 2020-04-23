@@ -54,9 +54,9 @@ describe('components/EmoticonProvider', () => {
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         expect(args.items.length).toEqual(6);
-        expect(args.items[0].name).toEqual('thumbsdown');
-        expect(args.items[1].name).toEqual('thumbsdown-custom');
-        expect(args.items[2].name).toEqual('thumbsup');
+        expect(args.items[0].name).toEqual('thumbsup');
+        expect(args.items[1].name).toEqual('thumbsdown');
+        expect(args.items[2].name).toEqual('thumbsdown-custom');
         expect(args.items[3].name).toEqual('thumbsup-custom');
         expect(args.items[4].name).toEqual('lithuania');
         expect(args.items[5].name).toEqual('lithuania-custom');
@@ -132,8 +132,8 @@ describe('components/EmoticonProvider', () => {
         expect(args.items.length).toEqual(6);
         expect(args.items[0].name).toEqual('thumbsdown-custom');
         expect(args.items[1].name).toEqual('lithuania-custom');
-        expect(args.items[2].name).toEqual('thumbsdown');
-        expect(args.items[3].name).toEqual('thumbsup');
+        expect(args.items[2].name).toEqual('thumbsup');
+        expect(args.items[3].name).toEqual('thumbsdown');
         expect(args.items[4].name).toEqual('thumbsup-custom');
         expect(args.items[5].name).toEqual('lithuania');
     });
@@ -148,9 +148,9 @@ describe('components/EmoticonProvider', () => {
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         expect(args.items.length).toEqual(6);
-        expect(args.items[0].name).toEqual('thumbsdown');
-        expect(args.items[1].name).toEqual('thumbsdown-custom');
-        expect(args.items[2].name).toEqual('thumbsup');
+        expect(args.items[0].name).toEqual('thumbsup');
+        expect(args.items[1].name).toEqual('thumbsdown');
+        expect(args.items[2].name).toEqual('thumbsdown-custom');
         expect(args.items[3].name).toEqual('lithuania-custom');
         expect(args.items[4].name).toEqual('thumbsup-custom');
         expect(args.items[5].name).toEqual('lithuania');

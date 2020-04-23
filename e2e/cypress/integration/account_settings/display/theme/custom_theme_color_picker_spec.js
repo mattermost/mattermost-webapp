@@ -7,15 +7,21 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @account_setting
+
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
+
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
-        // Login as user-1
+        // Login as user-1 and visit town-square channel
         cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     beforeEach(() => {
         // Navigating to account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
         cy.get('#displayButton').click();
         cy.get('#themeTitle').click();
         cy.get('#customThemes').click();
@@ -25,69 +31,68 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.apiSaveThemePreference();
     });
 
+    afterEach(() => {
+        // # Click "x" button to close Account Settings modal and then discard changes made
+        cy.get('#accountSettingsHeader > .close').click();
+        cy.findAllByText('Yes, Discard').click();
+    });
+
     it('Should be able to use color picker input and change Sidebar theme color', () => {
-        cy.get('#sidebarStyles').click({force: true});
-
-        // # Click the Sidebar BG setting
-        cy.get('#sidebarBg-squareColorIcon').click();
-
-        //Filling up input with value #bb123e
-        cy.get('#sidebarBg-ChromePickerModal').within(() => {
-            cy.get('input').clear().type('#bb123e').type('{enter}');
-        });
-
-        //access to theme settings one more time
-        cy.get('#themeTitle').click();
-
-        //access to custom settings one more time
-        cy.get('#customThemes').click();
-
-        //opening Sidebar section again in order to verify change
-        cy.get('#sidebarStyles').click({force: true});
-
-        //verifying configuration change was performed correctly
-        cy.get('#sidebarBg-squareColorIconValue').should('have.css', 'background-color', 'rgb(187, 18, 62)');
+        // # Change "Sidebar BG" and verify color change
+        verifyColorPickerChange(
+            'Sidebar Styles',
+            '#sidebarBg-squareColorIcon',
+            '#sidebarBg-ChromePickerModal',
+            '#sidebarBg-squareColorIconValue',
+            '#bb123e',
+            'rgb(187, 18, 62)'
+        );
     });
 
     it('Should be able to use color picker input and change Center Channel Styles', () => {
-        cy.get('#centerChannelStyles').click({force: true});
-
-        // # Click the Sidebar BG setting
-        cy.get('#centerChannelBg-squareColorIcon').click();
-
-        //Filling up input with value #bb123e
-        cy.get('#centerChannelBg-ChromePickerModal').within(() => {
-            cy.get('input').clear().type('#ff8800').type('{enter}');
-        });
-
-        //access to theme settings one more time
-        cy.get('#themeTitle').click();
-
-        //access to custom settings one more time
-        cy.get('#centerChannelStyles').click({force: true});
-
-        //verifying configuration change was performed correctly
-        cy.get('#centerChannelBg-squareColorIconValue').should('have.css', 'background-color', 'rgb(255, 136, 0)');
+        // # Change "Center Channel BG" and verify color change
+        verifyColorPickerChange(
+            'Center Channel Styles',
+            '#centerChannelBg-squareColorIcon',
+            '#centerChannelBg-ChromePickerModal',
+            '#centerChannelBg-squareColorIconValue',
+            '#ff8800',
+            'rgb(255, 136, 0)'
+        );
     });
 
     it('Should be able to use color picker input and change Link and Button Styles', () => {
-        cy.get('#linkAndButtonsStyles').click({force: true});
-
-        // # Click the Sidebar BG setting
-        cy.get('#linkColor-squareColorIcon').click();
-
-        //Filling up input with value #bb123e
-        cy.get('#linkColor-ChromePickerModal').within(() => {
-            cy.get('input').clear().type('#ffe577').type('{enter}');
-        });
-
-        //access to theme settings one more time
-        cy.get('#themeTitle').click();
-
-        //access to custom settings one more time
-        cy.get('#linkAndButtonsStyles').click({force: true});
-
-        //verifying configuration change was performed correctly
-        cy.get('#linkColor-squareColorIconValue').should('have.css', 'background-color', 'rgb(255, 229, 119)');
+        // # Change "Link Color" and verify color change
+        verifyColorPickerChange(
+            'Link and Button Styles',
+            '#linkColor-squareColorIcon',
+            '#linkColor-ChromePickerModal',
+            '#linkColor-squareColorIconValue',
+            '#ffe577',
+            'rgb(255, 229, 119)'
+        );
     });
 });
+
+function verifyColorPickerChange(stylesText, iconButtonId, modalId, iconValueId, hexValue, rgbValue) {
+    // # Open styles section
+    cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
+
+    // # Click the Sidebar BG setting
+    cy.get(iconButtonId).click();
+
+    // # Enter hex value
+    cy.get(modalId).within(() => {
+        cy.get('input').clear({force: true}).invoke('val', hexValue).wait(TIMEOUTS.TINY).type(' {backspace}{enter}', {force: true});
+    });
+
+    // # Toggle theme colors the custom theme
+    cy.findByText('Theme Colors').scrollIntoView().click({force: true});
+    cy.findByText('Custom Theme').scrollIntoView().click({force: true});
+
+    // # Re-open styles section
+    cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
+
+    // * Verify color change is applied correctly
+    cy.get(iconValueId).should('have.css', 'background-color', rgbValue);
+}

@@ -1,15 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import UsersEmailsInput from './users_emails_input.jsx';
 
 describe('components/widgets/inputs/UsersEmailsInput', () => {
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <UsersEmailsInput
                 placeholder='test'
                 ariaLabel='test'

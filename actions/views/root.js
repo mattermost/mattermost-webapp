@@ -38,7 +38,14 @@ export function registerPluginTranslationsSource(pluginId, sourceFunction) {
         const translations = {};
         Object.assign(translations, immutableTranslations);
         if (immutableTranslations) {
-            copyAndDispatchTranslations(dispatch, translations, sourceFunction(locale), locale);
+            Object.assign(translations, sourceFunction(locale));
+            dispatch({
+                type: ActionTypes.RECEIVED_TRANSLATIONS,
+                data: {
+                    locale,
+                    translations,
+                },
+            });
         }
     };
 }
@@ -48,30 +55,28 @@ export function unregisterPluginTranslationsSource(pluginId) {
 }
 
 export function loadTranslations(locale, url) {
-    return (dispatch) => {
-        const translations = {};
+    return async (dispatch) => {
+        const translations = {...en};
         Object.values(pluginTranslationSources).forEach((pluginFunc) => {
             Object.assign(translations, pluginFunc(locale));
         });
 
-        // No need to go to the server for EN
-        if (locale === 'en') {
-            copyAndDispatchTranslations(dispatch, translations, en, locale);
-            return;
+        // Need to go to the server for languages other than English
+        if (locale !== 'en') {
+            try {
+                const serverTranslations = await Client4.getTranslations(url);
+                Object.assign(translations, serverTranslations);
+            } catch (error) {
+                console.error(error); //eslint-disable-line no-console
+            }
         }
-        Client4.getTranslations(url).then((serverTranslations) => {
-            copyAndDispatchTranslations(dispatch, translations, serverTranslations, locale);
-        }).catch(() => {}); // eslint-disable-line no-empty-function
+        dispatch({
+            type: ActionTypes.RECEIVED_TRANSLATIONS,
+            data: {
+                locale,
+                translations,
+            },
+        });
     };
 }
 
-function copyAndDispatchTranslations(dispatch, translations, from, locale) {
-    Object.assign(translations, from);
-    dispatch({
-        type: ActionTypes.RECEIVED_TRANSLATIONS,
-        data: {
-            locale,
-            translations,
-        },
-    });
-}

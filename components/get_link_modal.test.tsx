@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import GetLinkModal from 'components/get_link_modal';
 
 describe('components/GetLinkModal', () => {
@@ -21,7 +21,7 @@ describe('components/GetLinkModal', () => {
         const helpText = 'help text';
         const props = {...requiredProps, helpText};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <GetLinkModal {...props}/>
         );
 
@@ -29,7 +29,7 @@ describe('components/GetLinkModal', () => {
     });
 
     test('should match snapshot when helpText is not set', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <GetLinkModal {...requiredProps}/>
         );
 

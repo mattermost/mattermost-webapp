@@ -97,11 +97,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
             id: 'id',
             token: 'token',
         };
-        const updateIncomingHookRequest = {
-            status: 'error',
-            error: {message: 'error message'},
-        };
-        const props = {...requiredProps, actions: newActions, hook, updateIncomingHookRequest};
+        const props = {...requiredProps, actions: newActions, hook};
         const wrapper = shallow(<EditIncomingWebhook {...props}/>);
 
         const instance = wrapper.instance();
@@ -110,7 +106,6 @@ describe('components/integrations/EditIncomingWebhook', () => {
         expect(wrapper).toMatchSnapshot();
         expect(newActions.updateIncomingHook).toHaveBeenCalledTimes(1);
         expect(newActions.updateIncomingHook).toBeCalledWith(asyncHook);
-        expect(wrapper.state('serverError')).toEqual(updateIncomingHookRequest.error.message);
     });
 
     test('should have called submitHook when editIncomingHook is initiated (with data)', async () => {

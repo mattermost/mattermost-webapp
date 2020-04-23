@@ -48,6 +48,10 @@ function mapStateToProps(state) {
         }
     }
 
+    const canManageTeamIntegrations = (haveITeamPermission(state, {permission: Permissions.MANAGE_SLASH_COMMANDS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OAUTH}) || haveITeamPermission(state, {permission: Permissions.MANAGE_INCOMING_WEBHOOKS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OUTGOING_WEBHOOKS}));
+    const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
+    const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
+
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
@@ -56,9 +60,11 @@ function mapStateToProps(state) {
         appDownloadLink,
         enableCommands,
         enableCustomEmoji,
+        canManageIntegrations,
         enableIncomingWebhooks,
         enableOAuthServiceProvider,
         enableOutgoingWebhooks,
+        canManageSystemBots,
         enableUserCreation,
         enableEmailInvitations,
         enablePluginMarketplace,
@@ -75,6 +81,7 @@ function mapStateToProps(state) {
         currentUser,
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
+        isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
     };
 }
 

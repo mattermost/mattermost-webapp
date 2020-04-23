@@ -43,9 +43,6 @@ export default class GeneralTab extends React.Component {
     }
 
     updateSection = (section) => {
-        if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
         this.setState(this.setupInitialState(this.props));
         this.props.updateSection(section);
     }
@@ -64,17 +61,23 @@ export default class GeneralTab extends React.Component {
             teamIconFile: null,
             loadingIcon: false,
             submitActive: false,
+            isInitialState: true,
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.setState({
-            name: nextProps.team.display_name,
-            description: nextProps.team.description,
-            allowed_domains: nextProps.team.allowed_domains,
-            invite_id: nextProps.team.invite_id,
-            allow_open_invite: nextProps.team.allow_open_invite,
-        });
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const {team} = nextProps;
+        if (!prevState.isInitialState) {
+            return {
+                name: team.display_name,
+                description: team.description,
+                allowed_domains: team.allowed_domains,
+                invite_id: team.invite_id,
+                allow_open_invite: team.allow_open_invite,
+                isInitialState: false,
+            };
+        }
+        return null;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -409,7 +412,7 @@ export default class GeneralTab extends React.Component {
                             </label>
                             <br/>
                         </div>
-                        <div className='margin-top x3'>
+                        <div className='mt-5'>
                             <FormattedMessage
                                 id='general_tab.openInviteDesc'
                                 defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
@@ -473,7 +476,7 @@ export default class GeneralTab extends React.Component {
                     <div className='setting-list__hint'>
                         <FormattedMessage
                             id='general_tab.codeLongDesc'
-                            defaultMessage='The Invite Code is used as part of the URL in the team invitation link created by {getTeamInviteLink} in the main menu. Regenerating creates a new team invitation link and invalidates the previous link.'
+                            defaultMessage='The Invite Code is part of the unique team invitation link which is sent to members you’re inviting to this team. Regenerating the code creates a new invitation link and invalidates the previous link.'
                             values={{
                                 getTeamInviteLink: (
                                     <strong>

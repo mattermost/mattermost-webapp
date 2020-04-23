@@ -9,7 +9,7 @@ import {PostRequestTypes} from 'utils/constants';
 
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
-import VirtPostList from './post_list_virtualized.jsx';
+import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
@@ -61,6 +61,11 @@ export default class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
+        /**
+         * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
+         */
+        latestPostId: PropTypes.string,
+
         /*
          * Used for passing down to virt list so it can change the chunk of posts selected
          */
@@ -100,9 +105,11 @@ export default class PostList extends React.PureComponent {
              */
             loadLatestPosts: PropTypes.func.isRequired,
 
-            markChannelAsViewed: PropTypes.func.isRequred,
+            markChannelAsViewed: PropTypes.func.isRequired,
 
-            markChannelAsRead: PropTypes.func.isRequred,
+            markChannelAsRead: PropTypes.func.isRequired,
+            updateNewMessagesAtInChannel: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
@@ -122,6 +129,7 @@ export default class PostList extends React.PureComponent {
             checkAndSetMobileView: props.actions.checkAndSetMobileView,
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
+            updateNewMessagesAtInChannel: this.props.actions.updateNewMessagesAtInChannel,
         };
     }
 
@@ -156,11 +164,12 @@ export default class PostList extends React.PureComponent {
         if (!this.props.focusedPostId) {
             this.markChannelAsReadAndViewed();
         }
-
-        this.setState({
-            loadingOlderPosts: false,
-            loadingNewerPosts: false,
-        });
+        if (this.mounted) {
+            this.setState({
+                loadingOlderPosts: false,
+                loadingNewerPosts: false,
+            });
+        }
     }
 
     callLoadPosts = async (channelId, postId, type) => {
@@ -297,6 +306,7 @@ export default class PostList extends React.PureComponent {
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             latestAriaLabelFunc={this.props.latestAriaLabelFunc}
+                            latestPostId={this.props.latestPostId}
                         />
                     </div>
                 </div>

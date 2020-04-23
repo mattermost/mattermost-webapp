@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent';
 import Constants from 'utils/constants';
@@ -16,17 +17,21 @@ import Constants from 'utils/constants';
 import logoImage from 'images/logo.png';
 
 import AnnouncementBar from 'components/announcement_bar';
-import BackButton from 'components/common/back_button.jsx';
+
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
+
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import InfiniteScroll from '../common/infinite_scroll.jsx';
+
 import SelectTeamItem from './components/select_team_item.jsx';
 
-const TEAMS_PER_PAGE = 200;
+export const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 export default class SelectTeam extends React.Component {
@@ -49,6 +54,7 @@ export default class SelectTeam extends React.Component {
             loadRolesIfNeeded: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
         }).isRequired,
+        totalTeamsCount: PropTypes.number.isRequired,
     };
 
     constructor(props) {
@@ -57,13 +63,42 @@ export default class SelectTeam extends React.Component {
         this.state = {
             loadingTeamId: '',
             error: null,
+            endofTeamsData: false,
+            currentPage: 0,
+            currentListableTeams: [],
         };
     }
 
-    componentDidMount() {
-        this.props.actions.getTeams(0, TEAMS_PER_PAGE);
+    static getDerivedStateFromProps(props, state) {
+        if (props.listableTeams.length !== state.currentListableTeams.length) {
+            return {
+                currentListableTeams: props.listableTeams.slice(0, TEAMS_PER_PAGE * state.currentPage),
+            };
+        }
+        return null;
+    }
 
+    componentDidMount() {
+        trackEvent('signup', 'signup_select_team', {userId: this.props.currentUserId});
+        this.fetchMoreTeams();
         this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
+    }
+
+    fetchMoreTeams = async () => {
+        const {currentPage} = this.state;
+        const {actions} = this.props;
+
+        const response = await actions.getTeams(currentPage, TEAMS_PER_PAGE, true);
+
+        // We don't want to increase the page number if no data came back previously
+        if (!response.error && !(response.error instanceof Error)) {
+            this.setState((prevState) => (
+                {
+                    currentPage: prevState.currentPage + 1,
+                }
+            ),
+            );
+        }
     }
 
     handleTeamClick = async (team) => {
@@ -104,6 +139,7 @@ export default class SelectTeam extends React.Component {
 
     handleLogoutClick = (e) => {
         e.preventDefault();
+        trackEvent('select_team', 'click_logout');
         emitUserLoggedOutEvent('/login');
     };
 
@@ -116,16 +152,17 @@ export default class SelectTeam extends React.Component {
     };
 
     render() {
+        const {currentPage, currentListableTeams} = this.state;
         const {
             currentUserIsGuest,
             canManageSystem,
             customDescriptionText,
             isMemberOfTeam,
-            listableTeams,
             siteName,
             canCreateTeams,
             canJoinPublicTeams,
             canJoinPrivateTeams,
+            totalTeamsCount,
         } = this.props;
 
         let openContent;
@@ -154,7 +191,7 @@ export default class SelectTeam extends React.Component {
             );
         } else {
             let joinableTeamContents = [];
-            listableTeams.forEach((listableTeam) => {
+            currentListableTeams.forEach((listableTeam) => {
                 if ((listableTeam.allow_open_invite && canJoinPublicTeams) || (!listableTeam.allow_open_invite && canJoinPrivateTeams)) {
                     joinableTeamContents.push(
                         <SelectTeamItem
@@ -164,7 +201,7 @@ export default class SelectTeam extends React.Component {
                             loading={this.state.loadingTeamId === listableTeam.id}
                             canJoinPublicTeams={canJoinPublicTeams}
                             canJoinPrivateTeams={canJoinPrivateTeams}
-                        />
+                        />,
                     );
                 }
             });
@@ -215,24 +252,36 @@ export default class SelectTeam extends React.Component {
                             defaultMessage='Teams you can join: '
                         />
                     </h4>
-                    <div className='signup-team-all'>
+                    <InfiniteScroll
+                        callBack={this.fetchMoreTeams}
+                        styleClass='signup-team-all'
+                        totalItems={totalTeamsCount}
+                        itemsPerPage={TEAMS_PER_PAGE}
+                        bufferValue={280}
+                        pageNumber={currentPage}
+                        loaderStyle={{padding: '0px', height: '40px'}}
+                    >
                         {joinableTeamContents}
-                    </div>
+                    </InfiniteScroll>
                 </div>
             );
         }
 
         const teamSignUp = (
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
-                <div className='margin--extra'>
+                <div
+                    className='margin--extra'
+                    style={{marginTop: '0.5em'}}
+                >
                     <Link
                         id='createNewTeamLink'
                         to='/create_team'
+                        onClick={() => trackEvent('select_team', 'click_create_team')}
                         className='signup-team-login'
                     >
                         <FormattedMessage
                             id='login.createTeam'
-                            defaultMessage='Create a new team'
+                            defaultMessage='Create a team'
                         />
                     </Link>
                 </div>
@@ -243,10 +292,11 @@ export default class SelectTeam extends React.Component {
         if (!UserAgent.isMobileApp()) {
             adminConsoleLink = (
                 <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
-                    <div className='margin--extra hidden-xs'>
+                    <div className='mt-8 hidden-xs'>
                         <Link
                             to='/admin_console'
                             className='signup-team-login'
+                            onClick={() => trackEvent('select_team', 'click_system_console')}
                         >
                             <FormattedMessage
                                 id='signup_team_system_console'
@@ -285,7 +335,9 @@ export default class SelectTeam extends React.Component {
                 <AnnouncementBar/>
                 {headerButton}
                 <div className='col-sm-12'>
-                    <div className={'signup-team__container'}>
+                    <div
+                        className={'signup-team__container'}
+                    >
                         <img
                             alt={'signup team logo'}
                             className='signup-team-logo'

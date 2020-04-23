@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @interactive_dialog
+
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
@@ -29,8 +32,16 @@ const optionsLength = {
     someradiooptions: 2, // number of defined basic options
 };
 
-describe('ID15888 Interactive Dialog', () => {
+describe('Interactive Dialog', () => {
+    let config;
+
     before(() => {
+        cy.requireWebhookServer();
+
+        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
+        cy.apiLogin('sysadmin');
+        cy.apiSaveTeammateNameDisplayPreference('username');
+
         // Set required ServiceSettings
         const newSettings = {
             ServiceSettings: {
@@ -39,11 +50,9 @@ describe('ID15888 Interactive Dialog', () => {
                 EnablePostIconOverride: true,
             },
         };
-        cy.apiUpdateConfig(newSettings);
-
-        // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
-        cy.apiLogin('sysadmin');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiUpdateConfig(newSettings).then((res) => {
+            config = res.body;
+        });
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
@@ -76,7 +85,7 @@ describe('ID15888 Interactive Dialog', () => {
         cy.reload();
     });
 
-    it('UI check', () => {
+    it('ID15888 - UI check', () => {
         // # Post a slash command
         cy.get('#postListContent').should('be.visible');
         cy.postMessage(`/${createdCommand.trigger}`);
@@ -96,7 +105,7 @@ describe('ID15888 Interactive Dialog', () => {
             cy.get('.modal-body').should('be.visible').children().each(($elForm, index) => {
                 const element = fullDialog.dialog.elements[index];
 
-                cy.wrap($elForm).find('label.control-label').scrollIntoView().should('be.visible').and('have.text', `${element.display_name} ${element.optional ? '(optional)' : '*'}`);
+                cy.wrap($elForm).find('label.control-label').scrollIntoView().should('exist').and('have.text', `${element.display_name} ${element.optional ? '(optional)' : '*'}`);
 
                 if (['someuserselector', 'somechannelselector', 'someoptionselector'].includes(element.name)) {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
@@ -104,7 +113,13 @@ describe('ID15888 Interactive Dialog', () => {
                     // * Verify that the suggestion list or autocomplete open up on click of input element
                     cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
+                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().then((el) => {
+                        if (element.name === 'someuserselector' && config.ElasticsearchSettings.EnableIndexing) {
+                            return;
+                        }
+
+                        cy.wrap(el).should('have.length', optionsLength[element.name]);
+                    });
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 
@@ -131,7 +146,7 @@ describe('ID15888 Interactive Dialog', () => {
                 }
 
                 if (element.help_text) {
-                    cy.wrap($elForm).find('.help-text').should('be.visible').and('have.text', element.help_text);
+                    cy.wrap($elForm).find('.help-text').should('exist').and('have.text', element.help_text);
                 }
             });
 
@@ -145,7 +160,7 @@ describe('ID15888 Interactive Dialog', () => {
         });
     });
 
-    it('Cancel button works', () => {
+    it('ID15888 - Cancel button works', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -159,7 +174,7 @@ describe('ID15888 Interactive Dialog', () => {
         cy.get('#interactiveDialogModal').should('not.be.visible');
     });
 
-    it('"X" closes the dialog', () => {
+    it('ID15888 - "X" closes the dialog', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -175,7 +190,7 @@ describe('ID15888 Interactive Dialog', () => {
         cy.get('#interactiveDialogModal').should('not.be.visible');
     });
 
-    it('Correct error messages displayed if empty form is submitted', () => {
+    it('ID15888 - Correct error messages displayed if empty form is submitted', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -202,7 +217,7 @@ describe('ID15888 Interactive Dialog', () => {
         closeInteractiveDialog();
     });
 
-    it('Email validation', () => {
+    it('ID15888 - Email validation', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -231,7 +246,7 @@ describe('ID15888 Interactive Dialog', () => {
         closeInteractiveDialog();
     });
 
-    it('Number validation', () => {
+    it('ID15888 - Number validation', () => {
         cy.postMessage(`/${createdCommand.trigger}`);
 
         cy.get('#interactiveDialogModal').should('be.visible');

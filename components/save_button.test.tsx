@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import SaveButton from 'components/save_button';
 
@@ -13,7 +12,7 @@ describe('components/SaveButton', () => {
     };
 
     test('should match snapshot, on defaultMessage', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SaveButton {...baseProps}/>
         );
 
@@ -26,7 +25,7 @@ describe('components/SaveButton', () => {
 
     test('should match snapshot, on savingMessage', () => {
         const props = {...baseProps, saving: true, disabled: true};
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SaveButton {...props}/>
         );
 
@@ -39,7 +38,7 @@ describe('components/SaveButton', () => {
 
     test('should match snapshot, extraClasses', () => {
         const props = {...baseProps, extraClasses: 'some-class'};
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SaveButton {...props}/>
         );
 

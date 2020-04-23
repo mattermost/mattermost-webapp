@@ -37,7 +37,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
           />
         </h4>
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <h5>
             <strong>
@@ -117,7 +117,7 @@ exports[`components/SignupController should match snapshot for all signup option
           />
         </h4>
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <h5>
             <strong>
@@ -135,9 +135,15 @@ exports[`components/SignupController should match snapshot for all signup option
           to="/signup_email"
         >
           <span>
-            <span
+            <LocalizedIcon
               className="icon fa fa-envelope"
-              title="Email Icon"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "Email Icon",
+                  "id": "signup.email.icon",
+                }
+              }
             />
             <FormattedMessage
               defaultMessage="Email and Password"
@@ -219,7 +225,7 @@ exports[`components/SignupController should match snapshot for all signup option
           />
         </h4>
         <div
-          className="margin--extra"
+          className="mt-8"
         >
           <h5>
             <strong>
@@ -237,9 +243,15 @@ exports[`components/SignupController should match snapshot for all signup option
           to="/signup_email"
         >
           <span>
-            <span
+            <LocalizedIcon
               className="icon fa fa-envelope"
-              title="Email Icon"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "Email Icon",
+                  "id": "signup.email.icon",
+                }
+              }
             />
             <FormattedMessage
               defaultMessage="Email and Password"
@@ -308,9 +320,15 @@ exports[`components/SignupController should match snapshot for all signup option
           to="/login?extra=create_ldap"
         >
           <span>
-            <span
+            <LocalizedIcon
               className="icon fa fa-folder-open fa--margin-top"
-              title="AD/LDAP Icon"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "AD/LDAP Icon",
+                  "id": "signup.ldap.icon",
+                }
+              }
             />
             <span>
               <FormattedMessage
@@ -327,9 +345,15 @@ exports[`components/SignupController should match snapshot for all signup option
           to="/login/sso/saml?action=signup"
         >
           <span>
-            <span
+            <LocalizedIcon
               className="icon fa fa-lock fa--margin-top"
-              title="SAML Icon"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "SAML Icon",
+                  "id": "signup.saml.icon",
+                }
+              }
             />
             <span>
               SAML

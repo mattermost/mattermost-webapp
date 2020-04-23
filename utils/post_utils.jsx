@@ -4,19 +4,15 @@
 import {createSelector} from 'reselect';
 
 import {Client4} from 'mattermost-redux/client';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
-import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
+import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
-
-import store from 'stores/redux_store.jsx';
 
 import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
@@ -40,8 +36,8 @@ export function isFromWebhook(post) {
     return post.props && post.props.from_webhook === 'true';
 }
 
-export function isPostOwner(post) {
-    return getCurrentUserId(store.getState()) === post.user_id;
+export function isPostOwner(state, post) {
+    return getCurrentUserId(state) === post.user_id;
 }
 
 export function isComment(post) {
@@ -69,32 +65,26 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
-export function canDeletePost(post) {
+export function canDeletePost(state, post, channel) {
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
-    const channel = getChannel(store.getState(), post.channel_id);
 
     if (channel && channel.delete_at !== 0) {
         return false;
     }
 
-    if (isPostOwner(post)) {
-        return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
+    if (isPostOwner(state, post)) {
+        return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
     }
-    return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
+    return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
-export function canEditPost(post) {
-    const state = store.getState();
-    const license = getLicense(state);
-    const config = getConfig(state);
-    const channel = getChannel(state, post.channel_id);
-    const userId = getCurrentUserId(state);
+export function canEditPost(state, post, license, config, channel, userId) {
     return canEditPostRedux(state, config, license, channel && channel.team_id, channel && channel.id, userId, post);
 }
 
-export function shouldShowDotMenu(post) {
+export function shouldShowDotMenu(state, post, channel) {
     if (post && post.state === Posts.POST_DELETED) {
         return false;
     }
@@ -107,24 +97,27 @@ export function shouldShowDotMenu(post) {
         return true;
     }
 
-    if (canDeletePost(post)) {
+    if (canDeletePost(state, post, channel)) {
         return true;
     }
 
-    if (canEditPost(post)) {
+    if (canEditPost(state, post)) {
         return true;
     }
 
     return false;
 }
 
-export function containsAtChannel(text) {
+export function containsAtChannel(text, options = {}) {
     // Don't warn for slash commands
     if (!text || text.startsWith('/')) {
         return false;
     }
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    if (options.checkAllMentions === true) {
+        return (/\B@(all|channel|here)\b/i).test(mentionableText);
+    }
 
     return (/\B@(all|channel)\b/i).test(mentionableText);
 }
@@ -178,8 +171,8 @@ function canAutomaticallyCloseBackticks(message) {
     return {allowSending: true};
 }
 
-function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter) {
-    const match = message.match(Constants.TRIPLE_BACK_TICKS);
+function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter, caretPosition) {
+    const match = message.substring(0, caretPosition).match(Constants.TRIPLE_BACK_TICKS);
     if (isSendMessageOnCtrlEnter && ctrlOrMetaKeyPressed && (!match || match.length % 2 === 0)) {
         return {allowSending: true};
     } else if (!isSendMessageOnCtrlEnter && (!match || match.length % 2 === 0)) {
@@ -191,7 +184,7 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
     return {allowSending: false};
 }
 
-export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0) {
+export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0, caretPosition = 0) {
     if (!event) {
         return {allowSending: false};
     }
@@ -221,9 +214,9 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
     const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
 
     if (sendMessageOnCtrlEnter) {
-        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, true);
+        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, true, caretPosition);
     } else if (sendCodeBlockOnCtrlEnter) {
-        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, false);
+        return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, false, caretPosition);
     }
 
     return {allowSending: false};
@@ -237,7 +230,7 @@ export function isErrorInvalidSlashCommand(error) {
     return false;
 }
 
-function isIdNotPost(postId) {
+export function isIdNotPost(postId) {
     return (
         PostListUtils.isStartOfNewMessages(postId) ||
         PostListUtils.isDateLine(postId) ||
@@ -327,16 +320,16 @@ export function makeCreateAriaLabelForPost() {
         (state, post) => getDisplayName(state, post.user_id),
         (state, post) => getReactionsForPost(state, post.id),
         (state, post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
-        (post, author, reactions, isFlagged) => {
-            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl);
+        getEmojiMap,
+        (post, author, reactions, isFlagged, emojiMap) => {
+            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap);
         }
     );
 }
 
-export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
+export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
     const {formatMessage, formatTime, formatDate} = intl;
 
-    const emojiMap = getEmojiMap(store.getState());
     let message = post.message;
     let match;
 
@@ -356,7 +349,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
     if (post.root_id) {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.replyMessage',
-            defaultMessage: '{authorName} at {time} {date} wrote a reply, {message}',
+            defaultMessage: 'At {time} {date}, {authorName} replied, {message}',
         },
         {
             authorName: author,
@@ -367,7 +360,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
     } else {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.message',
-            defaultMessage: '{authorName} at {time} {date} wrote, {message}',
+            defaultMessage: 'At {time} {date}, {authorName} wrote, {message}',
         },
         {
             authorName: author,
@@ -455,4 +448,25 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
     const firstPiece = message.substring(0, caretPosition);
     const lastPiece = message.substring(caretPosition, message.length);
     return {firstPiece, lastPiece};
+}
+
+export function getNewMessageIndex(postListIds) {
+    return postListIds.findIndex(
+        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+    );
+}
+
+export function makeGetReplyCount() {
+    return createSelector(
+        (state) => state.entities.posts.posts,
+        (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
+        (allPosts, postIds) => {
+            if (!postIds) {
+                return 0;
+            }
+
+            // Count the number of non-ephemeral posts in the thread
+            return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
+        }
+    );
 }

@@ -76,7 +76,7 @@ export default class Logs extends React.PureComponent {
                         id='admin.logs.next'
                         defaultMessage='Next'
                     />
-                    <NextIcon additionalClassName='margin-left'/>
+                    <NextIcon additionalClassName='ml-2'/>
                 </button>
             );
         }
@@ -138,7 +138,7 @@ export default class Logs extends React.PureComponent {
                 >
                     {content}
                 </div>
-                <div className='padding-top padding-bottom x2 filter-controls'>
+                <div className='pt-3 pb-3 filter-controls'>
                     {previousButton}
                     {nextButton}
                 </div>

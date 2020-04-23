@@ -3,9 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
+import LocalizedIcon from 'components/localized_icon';
 
 import Constants from 'utils/constants';
 import {isMac} from 'utils/utils.jsx';
@@ -13,6 +15,8 @@ import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default class UserSettingsSidebar extends React.Component {
     static propTypes = {
@@ -45,9 +49,19 @@ export default class UserSettingsSidebar extends React.Component {
         showChannelOrganization: PropTypes.bool.isRequired,
 
         /**
+         * Display the setting to toggle the new sidebar
+         */
+        showChannelSidebarOrganization: PropTypes.bool.isRequired,
+
+        /**
          * The preferences to show the channel switcher in the sidebar
          */
         channelSwitcherOption: PropTypes.string.isRequired,
+
+        /**
+         * The preferences to show the channel sidebar organization setting
+         */
+        channelSidebarOrganizationOption: PropTypes.string.isRequired,
 
         /**
          * Display the unread channels sections options
@@ -82,10 +96,6 @@ export default class UserSettingsSidebar extends React.Component {
         collapseModal: PropTypes.func.isRequired,
     };
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
     constructor(props) {
         super(props);
 
@@ -96,6 +106,7 @@ export default class UserSettingsSidebar extends React.Component {
         const {
             closeUnusedDirectMessages,
             channelSwitcherOption,
+            channelSidebarOrganizationOption,
             sidebarPreference: {
                 grouping,
                 sorting,
@@ -108,6 +119,7 @@ export default class UserSettingsSidebar extends React.Component {
             settings: {
                 close_unused_direct_messages: closeUnusedDirectMessages,
                 channel_switcher_section: channelSwitcherOption,
+                channel_sidebar_organization: channelSidebarOrganizationOption,
                 grouping,
                 unreadsAtTop,
                 favoriteAtTop,
@@ -153,6 +165,7 @@ export default class UserSettingsSidebar extends React.Component {
             this.trackSettingChangeIfNecessary('sorting');
             this.trackSettingChangeIfNecessary('unreadsAtTop');
             this.trackSettingChangeIfNecessary('favoriteAtTop');
+            this.trackSettingChangeIfNecessary('newSidebar');
         } else {
             preferences.push({
                 user_id: user.id,
@@ -172,11 +185,13 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     getPreviousSection = (sectionName) => {
-        const {showChannelOrganization} = this.props;
+        const {showChannelOrganization, channelSidebarOrganizationOption} = this.props;
         switch (sectionName) {
         case 'autoCloseDM':
-            return 'channelSwitcher';
+            return channelSidebarOrganizationOption === 'true' ? 'channelSidebarOrganization' : 'channelSwitcher';
         case 'groupChannels':
+            return 'dummySectionName';
+        case 'channelSidebarOrganization':
             return 'dummySectionName';
         case 'channelSwitcher':
             return showChannelOrganization ? 'groupChannels' : 'dummySectionName';
@@ -253,7 +268,7 @@ export default class UserSettingsSidebar extends React.Component {
                                     />
                                 </label>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.sidebar.autoCloseDMDesc'
                                     defaultMessage='Direct Message conversations can be reopened with the “+” button in the sidebar or using the Channel Switcher (CTRL+K).'
@@ -392,6 +407,106 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
+    renderChannelSidebarOrganizationSection = () => {
+        const helpChannelSidebarOrganizationText = (
+            <FormattedMarkdownMessage
+                id={t('user.settings.sidebar.channelSidebarOrganizationSection.desc')}
+                defaultMessage={'When enabled, access experimental channel sidebar features, including collapsible sections and unreads filtering. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)'}
+            />
+        );
+
+        let contents = (
+            <SettingItemMin
+                title={
+                    <FormattedMessage
+                        id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
+                        defaultMessage='Experimental Sidebar Features'
+                    />
+                }
+                describe={this.renderChannelSwitcherLabel(this.props.channelSidebarOrganizationOption)}
+                section={'channelSidebarOrganization'}
+                updateSection={this.updateSection}
+            />
+        );
+
+        if (this.props.activeSection === 'channelSidebarOrganization') {
+            contents = (
+                <SettingItemMax
+                    title={
+                        <FormattedMessage
+                            id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
+                            defaultMessage='Experimental Sidebar Features'
+                        />
+                    }
+                    inputs={[
+                        <fieldset key='channelSidebarOrganizationSectionSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
+                                    defaultMessage='Experimental Sidebar Features'
+                                />
+                            </legend>
+                            <div
+                                id='channelSidebarOrganizationRadioOn'
+                                className='radio'
+                            >
+                                <label>
+                                    <input
+                                        id='channelSidebarOrganizationSectionEnabled'
+                                        type='radio'
+                                        name='channelSidebarOrganization'
+                                        checked={this.state.settings.channel_sidebar_organization === 'true'}
+                                        onChange={this.updateSetting.bind(this, 'channel_sidebar_organization', 'true')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.on'
+                                        defaultMessage='On'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div
+                                id='channelSidebarOrganizationRadioOff'
+                                className='radio'
+                            >
+                                <label>
+                                    <input
+                                        id='channelSidebarOrganizationSectionOff'
+                                        type='radio'
+                                        name='channelSidebarOrganization'
+                                        checked={this.state.settings.channel_sidebar_organization === 'false'}
+                                        onChange={this.updateSetting.bind(this, 'channel_sidebar_organization', 'false')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.off'
+                                        defaultMessage='Off'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div id='channelSidebarOrganizationelpText'>
+                                <br/>
+                                {helpChannelSidebarOrganizationText}
+                            </div>
+                        </fieldset>,
+                    ]}
+                    setting={'channel_sidebar_organization'}
+                    submit={this.handleSubmit}
+                    saving={this.state.isSaving}
+                    server_error={this.state.serverError}
+                    updateSection={this.updateSection}
+                />
+            );
+        }
+
+        return (
+            <React.Fragment>
+                {contents}
+                <div className='divider-light'/>
+            </React.Fragment>
+        );
+    }
+
     renderChannelOrganizationSection = () => {
         const {
             grouping,
@@ -441,7 +556,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.groupDesc'
                             defaultMessage='Group channels by type, or combine all types into a list.'
@@ -490,7 +605,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.sortDesc'
                             defaultMessage='Sort channels alphabetically, or by most recent post.'
@@ -517,7 +632,7 @@ export default class UserSettingsSidebar extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.sidebar.unreadsDesc'
                             defaultMessage='Group unread channels separately until read.'
@@ -559,7 +674,7 @@ export default class UserSettingsSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id='user.settings.sidebar.groupAndSortChannelsTitle'
-                            defaultMessage='Channel grouping and sorting'
+                            defaultMessage='Channel Grouping and Sorting'
                         />
                     }
                     inputs={inputs}
@@ -576,7 +691,7 @@ export default class UserSettingsSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id='user.settings.sidebar.groupAndSortChannelsTitle'
-                            defaultMessage='Channel grouping and sorting'
+                            defaultMessage='Channel Grouping and Sorting'
                         />
                     }
                     describe={this.renderOrganizationLabel()}
@@ -695,12 +810,14 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     render() {
-        const {showUnusedOption, showChannelOrganization} = this.props;
-        const {formatMessage} = this.context.intl;
+        const {showUnusedOption, showChannelOrganization, showChannelSidebarOrganization, channelSidebarOrganizationOption} = this.props;
 
-        const channelOrganizationSection = showChannelOrganization ? this.renderChannelOrganizationSection() : null;
+        const channelSidebarOrganizationDisabled = channelSidebarOrganizationOption === 'false';
+
+        const channelOrganizationSection = (showChannelOrganization && channelSidebarOrganizationDisabled) ? this.renderChannelOrganizationSection() : null;
+        const channelSidebarOrganizationSection = showChannelSidebarOrganization ? this.renderChannelSidebarOrganizationSection() : null;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
-        const channelSwitcherSection = this.renderChannelSwitcherSection();
+        const channelSwitcherSection = channelSidebarOrganizationDisabled ? this.renderChannelSwitcherSection() : null;
 
         return (
             <div>
@@ -719,11 +836,13 @@ export default class UserSettingsSidebar extends React.Component {
                         className='modal-title'
                         ref='title'
                     >
-                        <div className='modal-back'>
-                            <i
+                        <div
+                            className='modal-back'
+                            onClick={this.props.collapseModal}
+                        >
+                            <LocalizedIcon
                                 className='fa fa-angle-left'
-                                title={formatMessage({id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'})}
-                                onClick={this.props.collapseModal}
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
                             />
                         </div>
                         <FormattedMessage
@@ -743,6 +862,7 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
+                    {channelSidebarOrganizationSection}
                     {channelOrganizationSection}
                     {channelSwitcherSection}
                     {showUnusedOption ? <div className='divider-light'/> : <div className='divider-dark'/>}

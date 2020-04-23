@@ -17,7 +17,7 @@ export class CommandSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
 
-        let className = 'command';
+        let className = 'slash-command';
         if (isSelection) {
             className += ' suggestion--selected';
         }
@@ -26,13 +26,19 @@ export class CommandSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <div className='command__title'>
-                    {item.suggestion + ' ' + item.hint}
+                <div className='slash-command__icon'>
+                    <span>{'/'}</span>
                 </div>
-                <div className='command__desc'>
-                    {item.description}
+                <div className='slash-command__info'>
+                    <div className='slash-command__title'>
+                        {item.suggestion.substring(1) + ' ' + item.hint}
+                    </div>
+                    <div className='slash-command__desc'>
+                        {item.description}
+                    </div>
                 </div>
             </div>
         );

@@ -48,6 +48,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
         this.state = {
             activeSection,
             emailInterval,
+            enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
             newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -68,6 +69,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
             return {
                 activeSection,
                 emailInterval,
+                enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
                 newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -82,6 +84,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
             return {
                 activeSection,
                 emailInterval,
+                enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
                 newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -104,7 +107,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
 
     handleSubmit = async () => {
         const {newInterval} = this.state;
-        if (this.props.emailInterval === newInterval) {
+        if (this.props.emailInterval === newInterval && this.props.enableEmail === this.state.enableEmail) {
             this.props.updateSection('');
         } else {
             // until the rest of the notification settings are moved to preferences, we have to do this separately
@@ -199,7 +202,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
 
         return (
             <SettingItemMin
-                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 describe={description}
                 focused={focused}
                 section={'email'}
@@ -212,11 +215,11 @@ export default class EmailNotificationSetting extends React.PureComponent {
         if (!this.props.sendEmailNotifications) {
             return (
                 <SettingItemMax
-                    title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                    title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                     inputs={[
                         <div
                             key='oauthEmailInfo'
-                            className='padding-top'
+                            className='pt-2'
                         >
                             <FormattedMessage
                                 id='user.settings.notifications.email.disabled_long'
@@ -285,7 +288,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
 
         return (
             <SettingItemMax
-                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
+                title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
                 inputs={[
                     <fieldset key='userNotificationEmailOptions'>
                         <legend className='form-legend'>
@@ -329,7 +332,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
                                 />
                             </label>
                         </div>
-                        <div className='margin-top x2'>
+                        <div className='mt-3'>
                             <FormattedMessage
                                 id='user.settings.notifications.emailInfo'
                                 defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.'

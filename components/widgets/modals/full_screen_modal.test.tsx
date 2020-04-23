@@ -13,10 +13,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={true}
                 onClose={jest.fn()}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
   appear={true}
@@ -27,7 +28,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
   unmountOnExit={true}
 >
   <div
+    aria-label="test"
+    aria-modal={true}
     className="FullScreenModal"
+    role="dialog"
+    tabIndex={-1}
   >
     <button
       aria-label="Close"
@@ -40,6 +45,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
     </button>
     test
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tabIndex={0}
+  />
 </CSSTransition>
 `);
     });
@@ -48,10 +61,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={false}
                 onClose={jest.fn()}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
   appear={true}
@@ -62,7 +76,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
   unmountOnExit={true}
 >
   <div
+    aria-label="test"
+    aria-modal={true}
     className="FullScreenModal"
+    role="dialog"
+    tabIndex={-1}
   >
     <button
       aria-label="Close"
@@ -75,6 +93,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
     </button>
     test
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tabIndex={0}
+  />
 </CSSTransition>
 `);
     });
@@ -84,10 +110,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 show={true}
                 onClose={jest.fn()}
                 onGoBack={jest.fn()}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
   appear={true}
@@ -98,7 +125,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
   unmountOnExit={true}
 >
   <div
+    aria-label="test"
+    aria-modal={true}
     className="FullScreenModal"
+    role="dialog"
+    tabIndex={-1}
   >
     <button
       aria-label="Back"
@@ -120,6 +151,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
     </button>
     test
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tabIndex={0}
+  />
 </CSSTransition>
 `);
     });
@@ -130,10 +169,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={true}
                 onClose={close}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(close).not.toBeCalled();
         wrapper.find('button.close-x').simulate('click');
         expect(close).toBeCalled();
@@ -146,10 +186,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 show={true}
                 onClose={jest.fn()}
                 onGoBack={back}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(back).not.toBeCalled();
         wrapper.find('button.back').simulate('click');
         expect(back).toBeCalled();
@@ -161,10 +202,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={true}
                 onClose={close}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(close).not.toBeCalled();
         const event = new KeyboardEvent('keydown', {key: 'Escape'});
         document.dispatchEvent(event);

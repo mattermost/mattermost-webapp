@@ -1,16 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
 jest.mock('utils/utils', () => {
     return {
         isMobile: jest.fn(() => false),
-        localizeMessage: jest.fn(),
+        localizeMessage: jest.fn().mockReturnValue(''),
     };
 });
 
@@ -30,6 +29,8 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             postEditTimeLimit: '-1',
             enableEmojiPicker: true,
             components: {},
+            channelIsArchived: false,
+            currentTeamUrl: '',
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -39,9 +40,11 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
             },
+            canEdit: false,
+            canDelete: false,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );
 

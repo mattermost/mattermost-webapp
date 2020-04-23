@@ -3,20 +3,18 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
+
+import LocalizedIcon from 'components/localized_icon';
+
+import {t} from 'utils/i18n';
 
 export default class BackstageHeader extends React.Component {
     static propTypes = {
         children: PropTypes.node,
     };
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
     render() {
         const children = [];
-        const {formatMessage} = this.context.intl;
 
         React.Children.forEach(this.props.children, (child, index) => {
             if (index !== 0) {
@@ -25,9 +23,9 @@ export default class BackstageHeader extends React.Component {
                         key={'divider' + index}
                         className='backstage-header__divider'
                     >
-                        <i
+                        <LocalizedIcon
                             className='fa fa-angle-right'
-                            title={formatMessage({id: 'generic_icons.breadcrumb', defaultMessage: 'Breadcrumb Icon'})}
+                            title={{id: t('generic_icons.breadcrumb'), defaultMessage: 'Breadcrumb Icon'}}
                         />
                     </span>
                 );

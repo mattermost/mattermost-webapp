@@ -13,6 +13,7 @@ export function openModal(modalData) {
         };
 
         dispatch(action);
+        return {data: true};
     };
 }
 
@@ -24,5 +25,6 @@ export function closeModal(modalId) {
         };
 
         dispatch(action);
+        return {data: true};
     };
 }

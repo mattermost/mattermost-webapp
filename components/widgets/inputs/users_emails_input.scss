@@ -11,15 +11,11 @@
     .users-emails-input__control {
         min-height: 48px;
         background: var(--center-channel-bg);
-        color: var(--center-channel-color-60);
+        color: var(--center-channel-color-64);
         box-shadow: none;
         border-color: var(--center-channel-color-20);
         padding: 3px;
         transition: none;
-        &:hover {
-            border-color: var(--center-channel-color-20);
-            cursor: text;
-        }
         &--is-focused, &--menu-is-open {
             &:hover {
                 border-color: var(--button-bg);
@@ -46,7 +42,7 @@
         padding: 0;
     }
     .users-emails-input__placeholder {
-        color: var(--center-channel-color-60);
+        color: var(--center-channel-color-64);
         margin-left: 8px;
     }
     .users-emails-input__input {
@@ -83,7 +79,7 @@
         display: flex;
         align-items: center;
         &--no-matches {
-            color: var(--center-channel-color-50);
+            color: var(--center-channel-color-56);
             text-align: center;
             span {
                 width: 100%;
@@ -98,8 +94,8 @@
         &:last-child {
             border-radius: 0 0 4px 4px;
         }
-        &:hover, &--is-focused {
-            background: var(--button-bg-10);
+        &--is-focused {
+            background: var(--button-bg-08);
         }
         &--no-matches:hover{
             background: none;
@@ -150,12 +146,12 @@
     }
     .users-emails-input__multi-value {
         align-items: center;
-        background: var(--center-channel-color-10);
+        background: var(--center-channel-color-08);
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
         margin: 4px;
-        &:nth-last-child(2) { 
+        &:nth-last-child(2) {
             margin: 4px 0px 4px 4px;
         }
     }
@@ -169,13 +165,13 @@
             width: 24px;
             height: 24px;
             border-radius: 16px;
-            background: var(--center-channel-color-50);
+            background: var(--center-channel-color-56);
             padding: 3px;
             margin-right: 4px;
             svg {
                 width: 18px;
                 height: 18px;
-                fill: var(--button-color-90);
+                fill: var(--button-color-88);
             }
         }
         .Avatar {
@@ -196,7 +192,7 @@
         svg {
             height: 16px;
             width: 16px;
-            fill: var(--center-channel-color-60);
+            fill: var(--center-channel-color-64);
             &:hover {
                 fill: var(--center-channel-color-80);
             }

@@ -15,9 +15,15 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <span
+    <LocalizedIcon
       className="fa fa-refresh fa-spin right signup-team__icon"
-      title="Loading Icon"
+      component="span"
+      title={
+        Object {
+          "defaultMessage": "Loading Icon",
+          "id": "generic_icons.loading",
+        }
+      }
     />
   </a>
 </div>
@@ -38,13 +44,25 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <span
+    <LocalizedIcon
       className="fa fa-lock light"
-      title="Private team"
+      component="i"
+      title={
+        Object {
+          "defaultMessage": "Private team",
+          "id": "select_team.private.icon",
+        }
+      }
     />
-    <span
+    <LocalizedIcon
       className="fa fa-angle-right right signup-team__icon"
-      title="Join Team Icon"
+      component="span"
+      title={
+        Object {
+          "defaultMessage": "Join Team Icon",
+          "id": "select_team.join.icon",
+        }
+      }
     />
   </a>
 </div>
@@ -65,9 +83,15 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <span
+    <LocalizedIcon
       className="fa fa-lock light"
-      title="Private team"
+      component="i"
+      title={
+        Object {
+          "defaultMessage": "Private team",
+          "id": "select_team.private.icon",
+        }
+      }
     />
   </a>
 </div>
@@ -88,9 +112,15 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <span
+    <LocalizedIcon
       className="fa fa-angle-right right signup-team__icon"
-      title="Join Team Icon"
+      component="span"
+      title={
+        Object {
+          "defaultMessage": "Join Team Icon",
+          "id": "select_team.join.icon",
+        }
+      }
     />
   </a>
 </div>
@@ -122,62 +152,11 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
   <OverlayTrigger
     container={
       SelectTeamItem {
-        "context": Object {
-          "intl": Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "onError": [Function],
-            "textComponent": "span",
-            "timeZone": "Etc/UTC",
-          },
-        },
+        "context": Object {},
         "handleTeamClick": [Function],
         "props": Object {
           "canJoinPrivateTeams": false,
           "canJoinPublicTeams": true,
-          "intl": Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "onError": [Function],
-            "textComponent": "span",
-            "timeZone": "Etc/UTC",
-          },
           "loading": false,
           "onTeamClick": [MockFunction],
           "team": Object {
@@ -193,33 +172,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
         "updater": Updater {
           "_callbacks": Array [],
           "_renderer": ReactShallowRenderer {
-            "_context": Object {
-              "intl": Object {
-                "defaultFormats": Object {},
-                "defaultLocale": "en",
-                "formatDate": [Function],
-                "formatHTMLMessage": [Function],
-                "formatMessage": [Function],
-                "formatNumber": [Function],
-                "formatPlural": [Function],
-                "formatRelative": [Function],
-                "formatTime": [Function],
-                "formats": Object {},
-                "formatters": Object {
-                  "getDateTimeFormat": [Function],
-                  "getMessageFormat": [Function],
-                  "getNumberFormat": [Function],
-                  "getPluralFormat": [Function],
-                  "getRelativeFormat": [Function],
-                },
-                "locale": "en",
-                "messages": Object {},
-                "now": [Function],
-                "onError": [Function],
-                "textComponent": "span",
-                "timeZone": "Etc/UTC",
-              },
-            },
+            "_context": Object {},
             "_didScheduleRenderPhaseUpdate": false,
             "_dispatcher": Object {
               "readContext": [Function],
@@ -240,33 +193,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
             "_element": <SelectTeamItem
               canJoinPrivateTeams={false}
               canJoinPublicTeams={true}
-              intl={
-                Object {
-                  "defaultFormats": Object {},
-                  "defaultLocale": "en",
-                  "formatDate": [Function],
-                  "formatHTMLMessage": [Function],
-                  "formatMessage": [Function],
-                  "formatNumber": [Function],
-                  "formatPlural": [Function],
-                  "formatRelative": [Function],
-                  "formatTime": [Function],
-                  "formats": Object {},
-                  "formatters": Object {
-                    "getDateTimeFormat": [Function],
-                    "getMessageFormat": [Function],
-                    "getNumberFormat": [Function],
-                    "getPluralFormat": [Function],
-                    "getRelativeFormat": [Function],
-                  },
-                  "locale": "en",
-                  "messages": Object {},
-                  "now": [Function],
-                  "onError": [Function],
-                  "textComponent": "span",
-                  "timeZone": "Etc/UTC",
-                }
-              }
               loading={false}
               onTeamClick={[MockFunction]}
               team={
@@ -287,7 +213,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
             "_rendered": <div
               className="signup-team-dir"
             >
-              <OverlayTrigger
+              <ForwardRef
                 container={[Circular]}
                 defaultOverlayShown={false}
                 delayShow={1000}
@@ -312,7 +238,7 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 <TeamInfoIcon
                   className="icon icon--info"
                 />
-              </OverlayTrigger>
+              </ForwardRef>
               <a
                 className=""
                 href="#"
@@ -324,9 +250,15 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
                 >
                   team_display_name
                 </span>
-                <span
+                <ForwardRef
                   className="fa fa-angle-right right signup-team__icon"
-                  title="Join Team Icon"
+                  component="span"
+                  title={
+                    Object {
+                      "defaultMessage": "Join Team Icon",
+                      "id": "select_team.join.icon",
+                    }
+                  }
                 />
               </a>
             </div>,
@@ -372,9 +304,15 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     >
       team_display_name
     </span>
-    <span
+    <LocalizedIcon
       className="fa fa-angle-right right signup-team__icon"
-      title="Join Team Icon"
+      component="span"
+      title={
+        Object {
+          "defaultMessage": "Join Team Icon",
+          "id": "select_team.join.icon",
+        }
+      }
     />
   </a>
 </div>

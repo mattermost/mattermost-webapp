@@ -12,6 +12,7 @@ import GenericChannelProvider from 'components/suggestion/generic_channel_provid
 
 import TextSetting from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 
@@ -35,25 +36,34 @@ export default class DialogElement extends React.PureComponent {
         onChange: PropTypes.func,
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
+            autocompleteUsers: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
+        let defaultText = '';
         this.providers = [];
         if (props.type === 'select') {
             if (props.dataSource === 'users') {
-                this.providers = [new GenericUserProvider()];
+                this.providers = [new GenericUserProvider(props.actions.autocompleteUsers)];
             } else if (props.dataSource === 'channels') {
                 this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (props.options) {
                 this.providers = [new MenuActionProvider(props.options)];
             }
+
+            if (props.value && props.options) {
+                const defaultOption = props.options.find(
+                    (option) => option.value === props.value
+                );
+                defaultText = defaultOption ? defaultOption.text : '';
+            }
         }
 
         this.state = {
-            value: '',
+            value: defaultText,
         };
     }
 
@@ -115,7 +125,7 @@ export default class DialogElement extends React.PureComponent {
             helpTextContent = (
                 <React.Fragment>
                     {helpText}
-                    <div className='error-text margin-top x2'>
+                    <div className='error-text mt-3'>
                         {errorText}
                     </div>
                 </React.Fragment>
@@ -158,6 +168,8 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     value={this.state.value}
+                    listComponent={ModalSuggestionList}
+                    listStyle='bottom'
                 />
             );
         } else if (type === 'bool') {

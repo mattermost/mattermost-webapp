@@ -103,4 +103,13 @@ describe('components/SingleImageView', () => {
         expect(wrapper.state('loaded')).toEqual(true);
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should correctly pass prop down to surround small images with a container', () => {
+        const wrapper = shallow(
+            <SingleImageView {...baseProps}/>
+        );
+
+        expect(wrapper.find(SizeAwareImage).prop('handleSmallImageContainer')).
+            toEqual(true);
+    });
 });

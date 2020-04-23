@@ -3,9 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import {trimFilename} from 'utils/file_utils';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -80,25 +81,25 @@ export default class FilenameOverlay extends React.PureComponent {
         } else if (canDownload) {
             filenameOverlay = (
                 <div className={iconClass || 'post-image__name'}>
-                    <a
-                        href={getFileDownloadUrl(fileInfo.id)}
-                        aria-label={localizeMessage('view_image_popover.download', 'Download').toLowerCase()}
-                        download={fileName}
-                        target='_blank'
-                        rel='noopener noreferrer'
+                    <OverlayTrigger
+                        delayShow={1000}
+                        placement='top'
+                        overlay={
+                            <Tooltip id='file-name__tooltip'>
+                                {localizeMessage('view_image_popover.download', 'Download')}
+                            </Tooltip>
+                        }
                     >
-                        <OverlayTrigger
-                            delayShow={1000}
-                            placement='top'
-                            overlay={
-                                <Tooltip id='file-name__tooltip'>
-                                    {localizeMessage('view_image_popover.download', 'Download').toLowerCase()}
-                                </Tooltip>
-                            }
+                        <a
+                            href={getFileDownloadUrl(fileInfo.id)}
+                            aria-label={localizeMessage('view_image_popover.download', 'Download').toLowerCase()}
+                            download={fileName}
+                            target='_blank'
+                            rel='noopener noreferrer'
                         >
                             {children || trimmedFilename}
-                        </OverlayTrigger>
-                    </a>
+                        </a>
+                    </OverlayTrigger>
                 </div>
             );
         } else {

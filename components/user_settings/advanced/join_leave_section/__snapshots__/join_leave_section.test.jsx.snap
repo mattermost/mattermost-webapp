@@ -71,7 +71,7 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
           <br />
         </div>
         <div
-          className="margin-top x3"
+          className="mt-5"
         >
           <FormattedMessage
             defaultMessage="When \\"On\\", System Messages saying a user has joined or left a channel will be visible. When \\"Off\\", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification."

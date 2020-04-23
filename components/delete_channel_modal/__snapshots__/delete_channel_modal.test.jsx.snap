@@ -55,7 +55,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
     <div
       className="alert alert-danger"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="This will archive the channel from the team and make its contents inaccessible for all users. \\\\n \\\\nAre you sure you wish to archive the **{display_name}** channel?"
         id="delete_channel.question"
         values={

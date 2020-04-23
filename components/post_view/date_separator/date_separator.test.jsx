@@ -11,25 +11,25 @@ describe('components/post_view/DateSeparator', () => {
     test('should render date without timezone', () => {
         const wrapper = mountWithIntl(
             <DateSeparator
-                date={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)')}
+                date={new Date('Fri Jan 12 2018 20:15:13 GMT+1200 (+12)')}
             />
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Fri, Jan 12, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Fri, Jan 12, 2018');
     });
 
     test('should render date without timezone enabled', () => {
         const wrapper = mountWithIntl(
             <DateSeparator
-                date={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)')}
+                date={new Date('Fri Jan 12 2018 20:15:13 GMT+1200 (+12)')}
                 enableTimezone={false}
-                timeZone={'Australia/Sydney'}
+                timeZone={'New Zealand/Auckland'}
             />
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Fri, Jan 12, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Fri, Jan 12, 2018');
     });
 
     test('should render date with timezone enabled', () => {
@@ -42,6 +42,6 @@ describe('components/post_view/DateSeparator', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Sat, Jan 13, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Sat, Jan 13, 2018');
     });
 });

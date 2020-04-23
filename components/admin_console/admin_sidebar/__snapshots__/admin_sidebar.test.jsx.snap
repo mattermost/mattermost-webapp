@@ -5,6 +5,25 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter active"
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value="autolink"
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -31,58 +50,6 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <input
-              className="filter active"
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value="autolink"
-            />
-            <div
-              className="sidebar__search-clear visible"
-              onClick={[Function]}
-            >
-              <OverlayTrigger
-                defaultOverlayShown={false}
-                delayShow={400}
-                overlay={
-                  <Tooltip
-                    bsClass="tooltip"
-                    id="admin-sidebar-fitler-clear"
-                    placement="right"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Clear search"
-                      id="admin.sidebar.filter-clear"
-                      values={Object {}}
-                    />
-                  </Tooltip>
-                }
-                placement="bottom"
-                trigger={
-                  Array [
-                    "hover",
-                    "focus",
-                  ]
-                }
-              >
-                <span
-                  aria-hidden="true"
-                  className="sidebar__search-clear-x"
-                >
-                  ×
-                </span>
-              </OverlayTrigger>
-            </div>
-          </li>
           <AdminSidebarCategory
             icon="fa-plug"
             key="6"
@@ -116,6 +83,25 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -142,22 +128,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <input
-              className="filter "
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-info-circle"
             key="0"
@@ -745,6 +715,25 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -771,22 +760,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <input
-              className="filter "
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
@@ -1347,6 +1320,25 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -1373,22 +1365,6 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <input
-              className="filter "
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
@@ -1942,6 +1918,25 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -1968,22 +1963,6 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <input
-              className="filter "
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
@@ -2537,6 +2516,25 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -2563,22 +2561,6 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <input
-              className="filter "
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-info-circle"
             key="0"
@@ -2692,7 +2674,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               title={
                 <FormattedMessage
-                  defaultMessage="Groups"
+                  defaultMessage="Groups (Beta)"
                   id="admin.sidebar.groups"
                   values={Object {}}
                 />
@@ -3368,6 +3350,25 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -3394,22 +3395,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <input
-              className="filter "
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-info-circle"
             key="0"

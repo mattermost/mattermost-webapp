@@ -38,10 +38,6 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
 
-import DraftIcon from 'components/widgets/icons/draft_icon';
-import GlobeIcon from 'components/widgets/icons/globe_icon';
-import LockIcon from 'components/widgets/icons/lock_icon';
-import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
@@ -58,11 +54,13 @@ class SwitchChannelSuggestion extends Suggestion {
             ...super.propTypes,
             channelMember: PropTypes.object,
             hasDraft: PropTypes.bool,
+            userImageUrl: PropTypes.string,
+            dmChannelTeammate: PropTypes.object,
         };
     }
 
     render() {
-        const {item, isSelection} = this.props;
+        const {item, isSelection, userImageUrl} = this.props;
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
@@ -83,28 +81,40 @@ class SwitchChannelSuggestion extends Suggestion {
         let icon = null;
         if (channelIsArchived) {
             icon = (
-                <ArchiveIcon className='icon icon__archive'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-archive-outline'/>
+                </div>
             );
         } else if (this.props.hasDraft) {
             icon = (
-                <DraftIcon className='icon icon__draft icon--body'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-pencil-outline'/>
+                </div>
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <GlobeIcon className='icon icon__globe icon--body'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-globe'/>
+                </div>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <LockIcon className='icon icon__lock icon--body'/>
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-lock-outline'/>
+                </div>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
-            icon = <div className='status status--group'>{'G'}</div>;
+            icon = (
+                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                    <div className='status status--group'>{'G'}</div>
+                </div>
+            );
         } else {
             icon = (
                 <div className='pull-left'>
                     <Avatar
-                        size='xs'
-                        url={Utils.imageURLForUser(channel.userId)}
+                        size='sm'
+                        url={userImageUrl}
                     />
                 </div>
             );
@@ -112,10 +122,7 @@ class SwitchChannelSuggestion extends Suggestion {
 
         let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            var teammate = Utils.getDirectTeammate(channel.id);
-            if (Utils.isEmptyObject(teammate)) {
-                teammate = getUser(getState(), channel.userId);
-            }
+            const teammate = this.props.dmChannelTeammate;
             tag = (
                 <React.Fragment>
                     <BotBadge
@@ -133,7 +140,11 @@ class SwitchChannelSuggestion extends Suggestion {
         return (
             <div
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 className={className}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 id={`switchChannel_${channel.name}`}
                 data-testid={channel.name}
                 {...Suggestion.baseProps}
@@ -148,12 +159,21 @@ class SwitchChannelSuggestion extends Suggestion {
 }
 
 function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
-    const channelId = ownProps.item && ownProps.item.channel ? ownProps.item.channel.id : '';
+    const channel = ownProps.item && ownProps.item.channel;
+    const channelId = channel ? channel.id : '';
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
+    const user = channel && getUser(state, channel.userId);
+    const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
+    let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
+    if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
+        dmChannelTeammate = getUser(state, channel.userId);
+    }
 
     return {
         channelMember: getMyChannelMemberships(state)[channelId],
         hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length),
+        userImageUrl,
+        dmChannelTeammate,
     };
 }
 
@@ -450,7 +470,7 @@ export default class SwitchChannelProvider extends Provider {
 
         const channelNames = channels.
             sort(quickSwitchSorter).
-            map((wrappedChannel) => wrappedChannel.channel.name);
+            map((wrappedChannel) => wrappedChannel.channel.id);
 
         if (skipNotInChannel) {
             channels.push({
@@ -495,7 +515,7 @@ export default class SwitchChannelProvider extends Provider {
             channels.push(wrappedChannel);
         }
 
-        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.name);
+        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.id);
 
         resultsCallback({
             matchedPretext: '',

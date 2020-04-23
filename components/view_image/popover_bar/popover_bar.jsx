@@ -16,7 +16,6 @@ export default class PopoverBar extends React.PureComponent {
         canDownloadFiles: PropTypes.bool.isRequired,
         isExternalFile: PropTypes.bool.isRequired,
         onGetPublicLink: PropTypes.func,
-        isDesktopApp: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -40,7 +39,7 @@ export default class PopoverBar extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='view_image_popover.publicLink'
-                            defaultMessage='Get Public Link'
+                            defaultMessage='Get a public link'
                         />
                     </a>
                     <span className='text'>{' | '}</span>
@@ -50,11 +49,9 @@ export default class PopoverBar extends React.PureComponent {
 
         let downloadLinks = null;
         if (this.props.canDownloadFiles) {
-            const shouldOpenFile = this.props.isExternalFile && !this.props.isDesktopApp;
-
             let downloadLinkText;
             const downloadLinkProps = {};
-            if (shouldOpenFile) {
+            if (this.props.isExternalFile) {
                 downloadLinkText = (
                     <FormattedMessage
                         id='view_image_popover.open'
@@ -90,6 +87,7 @@ export default class PopoverBar extends React.PureComponent {
 
         return (
             <div
+                data-testid='fileCountFooter'
                 ref='imageFooter'
                 className='modal-button-bar'
             >

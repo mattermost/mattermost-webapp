@@ -11,6 +11,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         groupID: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
         group: {
             display_name: 'Group',
+            name: 'Group',
         },
         groupTeams: [
             {team_id: '11111111111111111111111111'},
@@ -34,6 +35,8 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
             link: jest.fn(),
             unlink: jest.fn(),
+            patchGroup: jest.fn(),
+            patchGroupSyncable: jest.fn(),
         },
     };
 
@@ -71,6 +74,8 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn(),
             unlink: jest.fn(),
+            patchGroup: jest.fn(),
+            patchGroupSyncable: jest.fn(),
         };
         shallow(
             <GroupDetails
@@ -91,6 +96,8 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
+            patchGroup: jest.fn(),
+            patchGroupSyncable: jest.fn(),
         };
         const wrapper = shallow(
             <GroupDetails
@@ -101,7 +108,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         const instance = wrapper.instance();
         await instance.addChannels([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);
         expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
-        expect(actions.getGroupSyncables).toBeCalledTimes(3);
+        expect(actions.getGroupSyncables).toBeCalledTimes(4);
         expect(actions.link).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '11111111111111111111111111', 'channel', {auto_add: true});
         expect(actions.link).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'channel', {auto_add: true});
         expect(actions.link).toBeCalledTimes(2);
@@ -114,6 +121,8 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             getMembers: jest.fn(),
             link: jest.fn().mockReturnValue(Promise.resolve()),
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
+            patchGroup: jest.fn(),
+            patchGroupSyncable: jest.fn(),
         };
         const wrapper = shallow(
             <GroupDetails

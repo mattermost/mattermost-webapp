@@ -38,18 +38,12 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        name="Group"
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -61,6 +55,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -75,11 +70,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -112,6 +109,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -210,18 +208,12 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        name="Group"
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -233,6 +225,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -247,11 +240,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -284,6 +279,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -381,18 +377,12 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        name="Group"
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -404,6 +394,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -418,11 +409,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -455,6 +448,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -541,18 +535,12 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        name="Group"
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -564,6 +552,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
             >
               <button
                 className="btn btn-primary"
+                id="add_team_or_channel"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -578,11 +567,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 ariaLabel="Add Team or Channel Menu"
               >
                 <MenuItemAction
+                  id="add_team"
                   onClick={[Function]}
                   show={true}
                   text="Add Team"
                 />
                 <MenuItemAction
+                  id="add_channel"
                   onClick={[Function]}
                   show={true}
                   text="Add Channel"
@@ -615,6 +606,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={false}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {

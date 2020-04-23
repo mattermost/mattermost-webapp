@@ -3,9 +3,10 @@
 
 import emojiRegex from 'emoji-regex';
 
-import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting.jsx';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
+
+import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 describe('formatText', () => {
@@ -113,22 +114,48 @@ describe('highlightSearchTerms', () => {
 });
 
 describe('handleUnicodeEmoji', () => {
-    test('unicode emoji with image support should get replaced with an image', () => {
-        const text = '👍';
-        const emojiMap = getEmojiMap(store.getState());
-        const UNICODE_EMOJI_REGEX = emojiRegex();
+    const emojiMap = getEmojiMap(store.getState());
+    const UNICODE_EMOJI_REGEX = emojiRegex();
 
-        const output = handleUnicodeEmoji(text, emojiMap, UNICODE_EMOJI_REGEX);
-        expect(output).toBe('<span data-emoticon="+1">👍</span>');
-    });
-    test('unicode emoji without image support should get wrapped in a span tag', () => {
-        const text = '🤟'; // note, this test will fail as soon as this emoji gets a corresponding image
-        const emojiMap = getEmojiMap(store.getState());
-        const UNICODE_EMOJI_REGEX = emojiRegex();
+    const tests = [
+        {
+            description: 'should replace supported emojis with an image',
+            text: '👍',
+            output: '<span data-emoticon="+1">👍</span>',
+        },
+        {
+            description: 'should not replace unsupported emojis with an image',
+            text: '🤟', // Note, this test will fail as soon as this emoji gets a corresponding image
+            output: '<span class="emoticon emoticon--unicode">🤟</span>',
+        },
+        {
+            description: 'should correctly match gendered emojis',
+            text: '🙅‍♀️🙅‍♂️',
+            output: '<span data-emoticon="no_good_woman">🙅‍♀️</span><span data-emoticon="no_good_man">🙅‍♂️</span>'
+        },
+        {
+            description: 'should correctly match flags',
+            text: '🏳️🇨🇦🇫🇮',
+            output: '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>'
+        },
+        {
+            description: 'should correctly match emojis with skin tones',
+            text: '👍🏿👍🏻',
+            output: '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>'
+        },
+        {
+            description: 'should correctly match combined emojis',
+            text: '👨‍👩‍👧‍👦👨‍❤️‍👨',
+            output: '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>'
+        },
+    ];
 
-        const output = handleUnicodeEmoji(text, emojiMap, UNICODE_EMOJI_REGEX);
-        expect(output).toBe('<span class="emoticon emoticon--unicode">🤟</span>');
-    });
+    for (const t of tests) {
+        test(t.description, () => {
+            const output = handleUnicodeEmoji(t.text, emojiMap, UNICODE_EMOJI_REGEX);
+            expect(output).toBe(t.output);
+        });
+    }
 });
 
 describe('linkOnlyMarkdown', () => {

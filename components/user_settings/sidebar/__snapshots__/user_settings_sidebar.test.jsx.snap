@@ -24,11 +24,17 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     >
       <div
         className="modal-back"
+        onClick={[Function]}
       >
-        <i
+        <LocalizedIcon
           className="fa fa-angle-left"
-          onClick={[Function]}
-          title="Collapse Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
         />
       </div>
       <FormattedMessage
@@ -53,6 +59,27 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     </h3>
     <div
       className="divider-dark first"
+    />
+    <Connect(SettingItemMin)
+      describe={
+        <FormattedMessage
+          defaultMessage="Off"
+          id="user.settings.sidebar.off"
+          values={Object {}}
+        />
+      }
+      section="channelSidebarOrganization"
+      title={
+        <FormattedMessage
+          defaultMessage="Experimental Sidebar Features"
+          id="user.settings.sidebar.channelSidebarOrganizationSectionTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
     />
     <Connect(SettingItemMin)
       describe={
@@ -81,7 +108,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       section="groupChannels"
       title={
         <FormattedMessage
-          defaultMessage="Channel grouping and sorting"
+          defaultMessage="Channel Grouping and Sorting"
           id="user.settings.sidebar.groupAndSortChannelsTitle"
           values={Object {}}
         />

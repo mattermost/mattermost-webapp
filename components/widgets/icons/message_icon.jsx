@@ -13,6 +13,7 @@ export default class MessageIcon extends React.PureComponent {
                 {...this.props}
                 aria-label={localizeMessage('members_popover.button.message', 'message')}
                 className='style--none icon icon__message'
+                tabIndex='-1'
             >
                 <FormattedMessage
                     id='generic_icons.message'

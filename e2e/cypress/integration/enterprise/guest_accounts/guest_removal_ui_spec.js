@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @guest_account
+
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
@@ -19,6 +22,10 @@ let team2;
 function removeUserFromAllChannels(verifyAlert) {
     // # Remove the Guest user from all channels of a team as a sysadmin
     const channels = ['Town Square', 'Off-Topic'];
+
+    // # Always click on the Town Square channel first
+    cy.get('#sidebarItem_town-square').click({force: true});
+
     channels.forEach((channel) => {
         // # Remove the Guest User from channel
         cy.getCurrentChannelId().then((channelId) => {
@@ -28,7 +35,7 @@ function removeUserFromAllChannels(verifyAlert) {
         // * Verify if guest user gets a message when the channel is removed. Does not appears when removed from last channel of the last team
         if (channel === 'Town Square' || verifyAlert) {
             cy.get('#removeFromChannelModalLabel').should('be.visible').and('have.text', `Removed from ${channel}`);
-            cy.get('.modal-body').should('be.visible').and('have.text', `sysadmin removed you from ${channel}`);
+            cy.get('.modal-body').should('be.visible').contains(`removed you from ${channel}`);
             cy.get('#removedChannelBtn').should('be.visible').and('have.text', 'Okay').click().wait(TIMEOUTS.TINY);
         }
     });
@@ -36,29 +43,29 @@ function removeUserFromAllChannels(verifyAlert) {
 
 describe('Guest Account - Guest User Removal Experience', () => {
     before(() => {
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
         // # Enable Guest Account Settings
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             GuestAccountsSettings: {
                 Enable: true,
             },
         });
 
-        // # Login as new user
-        cy.loginAsNewUser().then((userResponse) => {
-            guest = userResponse;
-            cy.visit('/');
+        // # Get ad-1 as team1
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            team1 = res.body;
 
-            // # Get the Current Team Id
-            cy.getCurrentTeamId().then((teamId) => {
-                cy.apiGetTeam(teamId).then((response) => {
-                    team1 = {id: teamId, name: response.body.name};
+            cy.apiCreateAndLoginAsNewUser({}, [team1.id]).then((userResponse) => {
+                guest = userResponse;
+
+                // # Create new team and visit its URL
+                cy.apiCreateTeam('test-team2', 'Test Team2').then((response) => {
+                    team2 = {id: response.body.id, name: response.body.name};
+                    cy.visit(`/${team2.name}/channels/town-square`);
                 });
-            });
-
-            // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team2', 'Test Team2').then((response) => {
-                team2 = {id: response.body.id, name: response.body.name};
-                cy.visit(`/${team2.name}`);
             });
         });
     });
@@ -86,9 +93,9 @@ describe('Guest Account - Guest User Removal Experience', () => {
         cy.url().should('include', '/select_team');
         cy.get('.signup__content').should('be.visible').and('have.text', 'Your guest account has no channels assigned. Please contact an administrator.');
 
-        // # Login as sysadmin and navigate to channel
+        // Login as sysadmin and verify test team 2
         cy.apiLogin('sysadmin');
-        cy.visit(`/${team2.name}/channels/town-square`);
+        cy.reload().visit(`/${team2.name}/channels/town-square`);
 
         // * Verify if status is displayed indicating guest user is removed from the channel
         cy.getLastPost().

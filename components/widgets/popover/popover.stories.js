@@ -5,7 +5,8 @@ import React from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {text, withKnobs} from '@storybook/addon-knobs';
-import {OverlayTrigger} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import Popover from '.';
 

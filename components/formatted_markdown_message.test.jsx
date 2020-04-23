@@ -46,6 +46,19 @@ describe('components/FormattedMarkdownMessage', () => {
         const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...descriptor}/>));
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should allow to disable links', () => {
+        const descriptor = {
+            id: 'test.vals',
+            defaultMessage: '*Hi* {petName}!',
+            values: {
+                petName: 'http://www.mattermost.com',
+            },
+            disableLinks: true
+        };
+        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...descriptor}/>));
+        expect(wrapper).toMatchSnapshot();
+    });
 });
 
 export function wrapProvider(el) {

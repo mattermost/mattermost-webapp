@@ -2,14 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl, intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 import marked from 'marked';
+
+import {intlShape} from 'utils/react_intl';
 
 const TARGET_BLANK_URL_PREFIX = '!';
 
 export class CustomRenderer extends marked.Renderer {
+    constructor(disableLinks = false) {
+        super();
+        this.disableLinks = disableLinks;
+    }
+
     link(href, title, text) {
+        if (this.disableLinks) {
+            return text;
+        }
         if (href[0] === TARGET_BLANK_URL_PREFIX) {
             return `<a href="${href.substring(1, href.length)}" rel="noreferrer" target="_blank">${text}</a>`;
         }
@@ -36,12 +46,17 @@ export class CustomRenderer extends marked.Renderer {
 * <FormattedMarkdownMessage id='my.example' defaultMessage={'first line\nsecond line'} />
 */
 class FormattedMarkdownMessage extends React.PureComponent {
+    static defaultProps = {
+        disableLinks: false
+    };
+
     static get propTypes() {
         return {
             intl: intlShape.isRequired,
             id: PropTypes.string.isRequired,
             defaultMessage: PropTypes.string.isRequired,
             values: PropTypes.object,
+            disableLinks: PropTypes.bool,
         };
     }
 
@@ -54,7 +69,7 @@ class FormattedMarkdownMessage extends React.PureComponent {
         const markedUpMessage = marked(origMsg, {
             breaks: true,
             sanitize: true,
-            renderer: new CustomRenderer(),
+            renderer: new CustomRenderer(this.props.disableLinks),
         });
 
         return (<span dangerouslySetInnerHTML={{__html: markedUpMessage}}/>);

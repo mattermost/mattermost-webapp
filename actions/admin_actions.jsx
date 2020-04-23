@@ -71,15 +71,6 @@ export async function recycleDatabaseConnection(success, error) {
     }
 }
 
-export async function adminResetPassword(userId, currentPassword, password, success, error) {
-    const {data, error: err} = await UserActions.updateUserPassword(userId, currentPassword, password)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function adminResetEmail(user, success, error) {
     const {data, error: err} = await UserActions.patchUser(user)(dispatch, getState);
     if (data && success) {
@@ -360,4 +351,22 @@ export function registerAdminConsoleCustomSetting(pluginId, key, component, {sho
             },
         });
     };
+}
+
+export async function getSamlMetadataFromIdp(success, error, samlMetadataURL) {
+    const {data, error: err} = await dispatch(AdminActions.getSamlMetadataFromIdp(samlMetadataURL));
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function setSamlIdpCertificateFromMetadata(success, error, certData) {
+    const {data, error: err} = await AdminActions.setSamlIdpCertificateFromMetadata(certData)(dispatch, getState);
+    if (data && success) {
+        success('saml-idp.crt');
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }

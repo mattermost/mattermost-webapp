@@ -122,19 +122,20 @@ export function leaveChannel(channelId) {
         }
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
-        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
+        LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
             return {error};
         }
-        const prevChannelName = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id);
+        const prevChannelName = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
         const prevChannel = getChannelByName(channelsInTeam, prevChannelName);
-        if (!prevChannel || !getMyChannelMemberships(getState())[prevChannel.id]) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
+        if (!prevChannel || !getMyChannelMemberships(state)[prevChannel.id]) {
+            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
         }
+
         if (getMyChannels(getState()).filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).length === 0) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id);
+            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});
             browserHistory.push('/');
@@ -145,6 +146,20 @@ export function leaveChannel(channelId) {
         return {
             data: true,
         };
+    };
+}
+
+export function leaveDirectChannel(channelName) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const currentTeam = getCurrentTeam(state);
+        const previousChannel = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
+        const penultimateChannel = LocalStorageStore.getPenultimateChannelName(currentUserId, currentTeam.id, state);
+
+        if (channelName === previousChannel || channelName === penultimateChannel) {
+            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+        }
     };
 }
 
@@ -160,7 +175,7 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 export function loadUnreads(channelId) {
     return async (dispatch) => {
         const time = Date.now();
-        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId, false));
+        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
         if (error) {
             return {
                 error,
@@ -192,7 +207,7 @@ export function loadUnreads(channelId) {
 
 export function loadPostsAround(channelId, focusedPostId) {
     return async (dispatch) => {
-        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2, false));
+        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
         if (error) {
             return {
                 error,
@@ -216,7 +231,7 @@ export function loadPostsAround(channelId, focusedPostId) {
 export function loadLatestPosts(channelId) {
     return async (dispatch) => {
         const time = Date.now();
-        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2, false));
+        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
 
         if (error) {
             return {
@@ -254,9 +269,9 @@ export function loadPosts({channelId, postId, type}) {
         const page = 0;
         let result;
         if (type === PostRequestTypes.BEFORE_ID) {
-            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT, false));
+            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT));
         } else {
-            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT, false));
+            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT));
         }
 
         const {data} = result;
@@ -287,7 +302,7 @@ export function loadPosts({channelId, postId, type}) {
     };
 }
 
-export function syncPostsInChannel(channelId, since, fetchThreads = true) {
+export function syncPostsInChannel(channelId, since) {
     return async (dispatch, getState) => {
         const time = Date.now();
         const state = getState();
@@ -299,7 +314,7 @@ export function syncPostsInChannel(channelId, since, fetchThreads = true) {
             sinceTimeToGetPosts = lastPostsApiCallForChannel;
         }
 
-        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts, fetchThreads));
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
         if (data) {
             dispatch({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
@@ -324,5 +339,14 @@ export function markChannelAsReadOnFocus(channelId) {
         }
 
         dispatch(markChannelAsRead(channelId));
+    };
+}
+
+export function updateToastStatus(status) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.UPDATE_TOAST_STATUS,
+            data: status,
+        });
     };
 }

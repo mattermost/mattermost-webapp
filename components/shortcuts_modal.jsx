@@ -4,10 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
 
 const allShortcuts = defineMessages({
@@ -65,6 +66,36 @@ const allShortcuts = defineMessages({
             defaultMessage: 'Next unread channel:\t⌥|Shift|Down',
         },
     },
+    teamNavPrev: {
+        default: {
+            id: t('shortcuts.team_nav.prev'),
+            defaultMessage: 'Previous team:\tCtrl|Alt|Up',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.prev.mac'),
+            defaultMessage: 'Previous team:\t⌘|⌥|Up',
+        },
+    },
+    teamNavNext: {
+        default: {
+            id: t('shortcuts.team_nav.next'),
+            defaultMessage: 'Next team:\tCtrl|Alt|Down',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.next.mac'),
+            defaultMessage: 'Next team:\t⌘|⌥|Down',
+        },
+    },
+    teamNavSwitcher: {
+        default: {
+            id: t('shortcuts.team_nav.switcher'),
+            defaultMessage: 'Switch to a specific team:\tCtrl|Alt|[1-9]',
+        },
+        mac: {
+            id: t('shortcuts.team_nav.switcher.mac'),
+            defaultMessage: 'Switch to a specific team:\t⌘|⌥|[1-9]',
+        },
+    },
     navSwitcher: {
         default: {
             id: t('shortcuts.nav.switcher'),
@@ -114,6 +145,16 @@ const allShortcuts = defineMessages({
             id: t('shortcuts.nav.focus_center.mac'),
             defaultMessage: 'Set focus to input field:\t⌘|Shift|L',
         },
+    },
+    navOpenCloseSidebar: {
+        default: {
+            id: t('shortcuts.nav.open_close_sidebar'),
+            defaultMessage: 'Open or close the right sidebar\tCtrl|.',
+        },
+        mac: {
+            id: t('shortcuts.nav.open_close_sidebar.mac'),
+            defaultMessage: 'Open or close the right sidebar\t⌘|.',
+        }
     },
     msgHeader: {
         id: t('shortcuts.msgs.header'),
@@ -166,6 +207,16 @@ const allShortcuts = defineMessages({
     msgCompEmoji: {
         id: t('shortcuts.msgs.comp.emoji'),
         defaultMessage: 'Emoji:\t:|[a-z]|Tab',
+    },
+    msgLastReaction: {
+        default: {
+            id: t('shortcuts.msgs.comp.last_reaction'),
+            defaultMessage: 'React to last message: \tCtrl|Shift|\u29F5',
+        },
+        mac: {
+            id: t('shortcuts.msgs.comp.last_reaction.mac'),
+            defaultMessage: 'React to last message: \t⌘|Shift|\u29F5',
+        },
     },
     filesHeader: {
         id: t('shortcuts.files.header'),
@@ -318,7 +369,7 @@ class ShortcutsModal extends React.PureComponent {
                             <strong>{renderShortcut(formatMessage(shortcuts.mainHeader))}</strong>
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body ref='modalBody'>
+                    <Modal.Body>
                         <div className='row'>
                             <div className='col-sm-4'>
                                 <div className='section'>
@@ -328,11 +379,15 @@ class ShortcutsModal extends React.PureComponent {
                                         {renderShortcut(formatMessage(shortcuts.navNext))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadNext))}
+                                        {renderShortcut(formatMessage(shortcuts.teamNavPrev))}
+                                        {renderShortcut(formatMessage(shortcuts.teamNavNext))}
+                                        {renderShortcut(formatMessage(shortcuts.teamNavSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navDMMenu))}
                                         {renderShortcut(formatMessage(shortcuts.navSettings))}
                                         {renderShortcut(formatMessage(shortcuts.navMentions))}
                                         {renderShortcut(formatMessage(shortcuts.navFocusCenter))}
+                                        {renderShortcut(formatMessage(shortcuts.navOpenCloseSidebar))}
                                     </div>
                                 </div>
                             </div>
@@ -344,6 +399,7 @@ class ShortcutsModal extends React.PureComponent {
                                         <div className='subsection'>
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
                                             {renderShortcut(formatMessage(shortcuts.msgReply))}
+                                            {renderShortcut(formatMessage(shortcuts.msgLastReaction))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintPrev))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintNext))}
                                         </div>

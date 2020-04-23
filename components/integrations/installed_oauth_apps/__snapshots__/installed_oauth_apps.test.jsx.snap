@@ -13,7 +13,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
     />
   }
   emptyTextSearch={
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="No OAuth 2.0 Applications match {searchTerm}"
       id="installed_oauth_apps.emptySearch"
     />
@@ -87,12 +87,6 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 2`] = 
     }
     onDelete={[Function]}
     onRegenerateSecret={[MockFunction]}
-    regenOAuthAppSecretRequest={
-      Object {
-        "error": null,
-        "status": "not_started",
-      }
-    }
     team={
       Object {
         "name": "test",

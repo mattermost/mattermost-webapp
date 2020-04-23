@@ -17,7 +17,25 @@
         padding-right: 15px;
     }
 
-    .sidebar__search-clear {
+    div.navigation-row {
+        margin-top: 10px;
+
+        div {
+            font-size: 14px;
+            text-align: center;
+
+            button {
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+
+        div.count {
+            padding-top: 8px;
+        }
+    }
+
+    .input-clear {
         top: 32px;
         right: 38px;
         font-size: 22px;
@@ -187,15 +205,26 @@
 }
 
 .error-bar {
-    background-color: var(--error-text-08);
+    background-color: var(--center-channel-bg);
     color: var(--error-text);
     min-height: $announcement-bar-height;
     position: fixed;
-    text-align: center;
     top: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 8;
     overflow: hidden;
     padding: 5px 30px;
     max-height: $announcement-bar-height;
+
+    .error-bar__content {
+        background-color: var(--error-text-12);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

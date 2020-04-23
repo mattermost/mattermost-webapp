@@ -8,9 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import JoinLeaveSection from './join_leave_section';
@@ -177,6 +178,40 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         this.props.updateSection(section);
     }
 
+    // This function changes ctrl to cmd when OS is mac
+    getCtrlSendText = () => {
+        const description = {
+            default: {
+                id: t('user.settings.advance.sendDesc'),
+                defaultMessage: 'When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.',
+            },
+            mac: {
+                id: t('user.settings.advance.sendDesc.mac'),
+                defaultMessage: 'When enabled, ⌘ + ENTER will send the message and ENTER inserts a new line.',
+            },
+        };
+        const title = {
+            default: {
+                id: t('user.settings.advance.sendTitle'),
+                defaultMessage: 'Send Messages on CTRL+ENTER',
+            },
+            mac: {
+                id: t('user.settings.advance.sendTitle.mac'),
+                defaultMessage: 'Send Messages on ⌘+ENTER',
+            },
+        };
+        if (Utils.isMac()) {
+            return {
+                ctrlSendTitle: title.mac,
+                ctrlSendDesc: description.mac,
+            };
+        }
+        return {
+            ctrlSendTitle: title.default,
+            ctrlSendDesc: description.default,
+        };
+    }
+
     renderOnOffLabel(enabled) {
         if (enabled === 'false') {
             return (
@@ -271,7 +306,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                 </label>
                                 <br/>
                             </div>
-                            <div className='margin-top x3'>
+                            <div className='mt-5'>
                                 <FormattedMessage
                                     id='user.settings.advance.formattingDesc'
                                     defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'
@@ -320,6 +355,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     render() {
         const serverError = this.state.serverError || null;
         let ctrlSendSection;
+        const {ctrlSendTitle, ctrlSendDesc} = this.getCtrlSendText();
 
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
@@ -331,10 +367,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             const inputs = [
                 <fieldset key='ctrlSendSetting'>
                     <legend className='form-legend hidden-label'>
-                        <FormattedMessage
-                            id='user.settings.advance.sendTitle'
-                            defaultMessage='Send messages on CTRL+ENTER'
-                        />
+                        <FormattedMessage {...ctrlSendTitle}/>
                     </legend>
                     <div className='radio'>
                         <label>
@@ -395,20 +428,14 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     </div>
                     <div>
                         <br/>
-                        <FormattedMessage
-                            id='user.settings.advance.sendDesc'
-                            defaultMessage='When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
-                        />
+                        <FormattedMessage {...ctrlSendDesc}/>
                     </div>
                 </fieldset>,
             ];
             ctrlSendSection = (
                 <SettingItemMax
                     title={
-                        <FormattedMessage
-                            id='user.settings.advance.sendTitle'
-                            defaultMessage='Send messages on CTRL+ENTER'
-                        />
+                        <FormattedMessage {...ctrlSendTitle}/>
                     }
                     inputs={inputs}
                     submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
@@ -421,10 +448,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             ctrlSendSection = (
                 <SettingItemMin
                     title={
-                        <FormattedMessage
-                            id='user.settings.advance.sendTitle'
-                            defaultMessage='Send messages on CTRL+ENTER'
-                        />
+                        <FormattedMessage {...ctrlSendTitle}/>
                     }
                     describe={this.renderCtrlEnterLabel()}
                     section={'advancedCtrlSend'}
@@ -484,7 +508,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         title={
                             <FormattedMessage
                                 id='user.settings.advance.preReleaseTitle'
-                                defaultMessage='Preview pre-release features'
+                                defaultMessage='Preview Pre-release Features'
                             />
                         }
                         inputs={inputs}
@@ -497,7 +521,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             } else {
                 previewFeaturesSection = (
                     <SettingItemMin
-                        title={Utils.localizeMessage('user.settings.advance.preReleaseTitle', 'Preview pre-release features')}
+                        title={Utils.localizeMessage('user.settings.advance.preReleaseTitle', 'Preview Pre-release Features')}
                         describe={
                             <FormattedMessage
                                 id='user.settings.advance.enabledFeatures'

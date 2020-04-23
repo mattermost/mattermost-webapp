@@ -94,10 +94,10 @@ export default class DesktopNotificationSettings extends React.Component {
                             </label>
                             <br/>
                         </div>
-                        <div className='margin-top x3'>
+                        <div className='mt-5'>
                             <FormattedMessage
                                 id='user.settings.notifications.sounds_info'
-                                defaultMessage='Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps.'
+                                defaultMessage='Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps.'
                             />
                         </div>
                     </fieldset>
@@ -183,7 +183,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             />
                         </label>
                     </div>
-                    <div className='margin-top x3'>
+                    <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.notifications.info'
                             defaultMessage='Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps.'
@@ -197,7 +197,7 @@ export default class DesktopNotificationSettings extends React.Component {
 
         return (
             <SettingItemMax
-                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
+                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop Notifications')}
                 inputs={inputs}
                 submit={this.props.submit}
                 saving={this.props.saving}
@@ -253,7 +253,7 @@ export default class DesktopNotificationSettings extends React.Component {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
+                title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop Notifications')}
                 describe={<FormattedMessage {...formattedMessageProps}/>}
                 focused={this.props.focused}
                 section={'desktop'}

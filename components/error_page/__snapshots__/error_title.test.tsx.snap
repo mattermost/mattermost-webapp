@@ -30,8 +30,16 @@ exports[`components/error_page/ErrorTitle should match snapshot, oauth_access_de
 
 exports[`components/error_page/ErrorTitle should match snapshot, oauth_missing_code type 1`] = `
 <FormattedMessage
-  defaultMessage="Mattermost needs your help"
+  defaultMessage="Mattermost Needs Your Help"
   id="error.oauth_missing_code.title"
+  values={Object {}}
+/>
+`;
+
+exports[`components/error_page/ErrorTitle should match snapshot, oauth_invalid_param type 1`] = `
+<FormattedMessage
+  defaultMessage="OAuth Parameter Error"
+  id="error.oauth_invalid_param.title"
   values={Object {}}
 />
 `;

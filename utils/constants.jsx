@@ -12,7 +12,7 @@ import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';
 import excelIcon from 'images/icons/excel.svg';
 import genericIcon from 'images/icons/generic.svg';
-import patchIcon from 'images/icons/patch.png';
+import patchIcon from 'images/icons/patch.svg';
 import pdfIcon from 'images/icons/pdf.svg';
 import pptIcon from 'images/icons/ppt.svg';
 import videoIcon from 'images/icons/video.svg';
@@ -56,6 +56,7 @@ export const SettingsTypes = {
     TYPE_BUTTON: 'button',
     TYPE_LANGUAGE: 'language',
     TYPE_JOBSTABLE: 'jobstable',
+    TYPE_FILE_UPLOAD: 'fileupload',
     TYPE_CUSTOM: 'custom',
 };
 
@@ -97,6 +98,7 @@ export const Preferences = {
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
+    TEAMS_ORDER: 'teams_order',
 };
 
 export const ActionTypes = keyMirror({
@@ -123,7 +125,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_POST_LINK_MODAL: null,
     TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
     TOGGLE_GET_PUBLIC_LINK_MODAL: null,
     TOGGLE_QUICK_SWITCH_MODAL: null,
@@ -132,6 +133,8 @@ export const ActionTypes = keyMirror({
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
+
+    EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
 
@@ -152,12 +155,18 @@ export const ActionTypes = keyMirror({
     MODAL_CLOSE: null,
 
     SELECT_CHANNEL_WITH_MEMBER: null,
+    UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
 
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
+
+    SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
+    SET_SHOW_PREVIEW_ON_CREATE_POST: null,
+    SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
+    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
@@ -187,6 +196,11 @@ export const ActionTypes = keyMirror({
     FILTER_MARKETPLACE_PLUGINS: null,
 
     POST_UNREAD_SUCCESS: null,
+
+    SET_UNREAD_FILTER_ENABLED: null,
+    UPDATE_TOAST_STATUS: null,
+    TRACK_ANNOUNCEMENT_BAR: null,
+    DISMISS_ANNOUNCEMENT_BAR: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -199,6 +213,7 @@ export const ModalIdentifiers = {
     TEAM_SETTINGS: 'team_settings',
     CHANNEL_INFO: 'channel_info',
     DELETE_CHANNEL: 'delete_channel',
+    UNARCHIVE_CHANNEL: 'unarchive_channel',
     CHANNEL_NOTIFICATIONS: 'channel_notifications',
     CHANNEL_INVITE: 'channel_invite',
     CHANNEL_MEMBERS: 'channel_members',
@@ -282,9 +297,11 @@ export const SocketEvents = {
     CHANNEL_CONVERTED: 'channel_converted',
     CHANNEL_CREATED: 'channel_created',
     CHANNEL_DELETED: 'channel_deleted',
+    CHANNEL_UNARCHIVED: 'channel_restored',
     CHANNEL_UPDATED: 'channel_updated',
     CHANNEL_VIEWED: 'channel_viewed',
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
+    CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
     DIRECT_ADDED: 'direct_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
@@ -342,6 +359,7 @@ export const PostTypes = {
     CONVERT_CHANNEL: 'system_convert_channel',
     PURPOSE_CHANGE: 'system_purpose_change',
     CHANNEL_DELETED: 'system_channel_deleted',
+    CHANNEL_UNARCHIVED: 'system_channel_restored',
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
@@ -435,12 +453,20 @@ export const StoragePrefixes = {
     LOGIN: '__login__',
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
+    LANDING_PREFERENCE: '__landing-preference__',
+    CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
+};
+
+export const LandingPreferenceTypes = {
+    MATTERMOSTAPP: 'mattermostapp',
+    BROWSER: 'browser',
 };
 
 export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
     OAUTH_ACCESS_DENIED: 'oauth_access_denied',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
+    OAUTH_INVALID_PARAM: 'oauth_invalid_param',
     PAGE_NOT_FOUND: 'page_not_found',
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
@@ -486,6 +512,7 @@ export const VerifyEmailErrors = {
 };
 
 export const FileTypes = {
+    TEXT: 'text',
     IMAGE: 'image',
     AUDIO: 'audio',
     VIDEO: 'video',
@@ -619,6 +646,8 @@ export const PermissionsScope = {
     [Permissions.CREATE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
+    [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
+    [Permissions.USE_GROUP_MENTIONS]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -654,9 +683,18 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_GROUP_MENTIONS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
+        Permissions.CREATE_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_GROUP_MENTIONS,
     ],
     team_admin: [
         Permissions.EDIT_OTHERS_POSTS,
@@ -671,6 +709,25 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_OUTGOING_WEBHOOKS,
         Permissions.DELETE_POST,
         Permissions.DELETE_OTHERS_POSTS,
+        Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS,
+        Permissions.ADD_REACTION,
+        Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        Permissions.CREATE_POST,
+        Permissions.REMOVE_REACTION,
+        Permissions.USE_GROUP_MENTIONS,
+    ],
+    guests: [
+        Permissions.EDIT_POST,
+        Permissions.ADD_REACTION,
+        Permissions.REMOVE_REACTION,
+        Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_SLASH_COMMANDS,
+        Permissions.READ_CHANNEL,
+        Permissions.UPLOAD_FILE,
+        Permissions.CREATE_POST,
     ],
 };
 
@@ -679,6 +736,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
+    NO_WHERE: 'NO_WHERE'
 };
 
 export const PostListRowListIds = {
@@ -732,13 +790,15 @@ export const Constants = {
     NOTIFY_ALL_MEMBERS: 5,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
+    TEXT_TYPES: ['txt', 'rtf'],
     IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
     PRESENTATION_TYPES: ['ppt', 'pptx'],
     SPREADSHEET_TYPES: ['xlsx', 'csv'],
     WORD_TYPES: ['doc', 'docx'],
-    CODE_TYPES: ['applescript', 'as', 'atom', 'bas', 'bash', 'boot', 'c', 'c++', 'cake', 'cc', 'cjsx', 'cl2', 'clj', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', '_coffee', 'coffee', 'cpp', 'cs', 'csharp', 'cson', 'css', 'd', 'dart', 'delphi', 'dfm', 'di', 'diff', 'django', 'docker', 'dockerfile', 'dpr', 'erl', 'ex', 'exs', 'f90', 'f95', 'freepascal', 'fs', 'fsharp', 'gcode', 'gemspec', 'go', 'groovy', 'gyp', 'h', 'h++', 'handlebars', 'hbs', 'hic', 'hpp', 'hs', 'html', 'html.handlebars', 'html.hbs', 'hx', 'iced', 'irb', 'java', 'jinja', 'jl', 'js', 'json', 'jsp', 'jsx', 'kt', 'ktm', 'kts', 'lazarus', 'less', 'lfm', 'lisp', 'log', 'lpr', 'lua', 'm', 'mak', 'matlab', 'md', 'mk', 'mkd', 'mkdown', 'ml', 'mm', 'nc', 'obj-c', 'objc', 'osascript', 'pas', 'pascal', 'perl', 'php', 'php3', 'php4', 'php5', 'php6', 'pl', 'plist', 'podspec', 'pp', 'ps', 'ps1', 'py', 'r', 'rb', 'rs', 'rss', 'ruby', 'scala', 'scm', 'scpt', 'scss', 'sh', 'sld', 'sql', 'st', 'styl', 'swift', 'tex', 'thor', 'txt', 'v', 'vb', 'vbnet', 'vbs', 'veo', 'xhtml', 'xml', 'xsl', 'yaml', 'zsh'],
+    CHANNEL_HEADER_HEIGHT: 62,
+    CODE_TYPES: ['applescript', 'as', 'atom', 'bas', 'bash', 'boot', 'c', 'c++', 'cake', 'cc', 'cjsx', 'cl2', 'clj', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', '_coffee', 'coffee', 'cpp', 'cs', 'csharp', 'cson', 'css', 'd', 'dart', 'delphi', 'dfm', 'di', 'diff', 'django', 'docker', 'dockerfile', 'dpr', 'erl', 'ex', 'exs', 'f90', 'f95', 'freepascal', 'fs', 'fsharp', 'gcode', 'gemspec', 'go', 'groovy', 'gyp', 'h', 'h++', 'handlebars', 'hbs', 'hic', 'hpp', 'hs', 'html', 'html.handlebars', 'html.hbs', 'hx', 'iced', 'irb', 'java', 'jinja', 'jl', 'js', 'json', 'jsp', 'jsx', 'kt', 'ktm', 'kts', 'lazarus', 'less', 'lfm', 'lisp', 'log', 'lpr', 'lua', 'm', 'mak', 'matlab', 'md', 'mk', 'mkd', 'mkdown', 'ml', 'mm', 'nc', 'obj-c', 'objc', 'osascript', 'pas', 'pascal', 'perl', 'php', 'php3', 'php4', 'php5', 'php6', 'pl', 'plist', 'podspec', 'pp', 'ps', 'ps1', 'py', 'r', 'rb', 'rs', 'rss', 'ruby', 'scala', 'scm', 'scpt', 'scss', 'sh', 'sld', 'sql', 'st', 'styl', 'swift', 'tex', 'thor', 'v', 'vb', 'vbnet', 'vbs', 'veo', 'xhtml', 'xml', 'xsl', 'yaml', 'zsh'],
     PDF_TYPES: ['pdf'],
     PATCH_TYPES: ['patch'],
     SVG_TYPES: ['svg'],
@@ -754,6 +814,7 @@ export const Constants = {
         other: genericIcon,
     },
     ICON_NAME_FROM_TYPE: {
+        text: 'text',
         audio: 'audio',
         video: 'video',
         spreadsheet: 'excel',
@@ -795,6 +856,7 @@ export const Constants = {
     SIGNIN_VERIFIED: 'verified',
     CREATE_LDAP: 'create_ldap',
     SESSION_EXPIRED: 'expired',
+    POST_AREA_HEIGHT: 80,
     POST_CHUNK_SIZE: 60,
     PROFILE_CHUNK_SIZE: 100,
     POST_FOCUS_CONTEXT_RADIUS: 10,
@@ -804,6 +866,7 @@ export const Constants = {
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
+    SUGGESTION_LIST_SPACE_RHS: 420,
     AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
@@ -814,6 +877,9 @@ export const Constants = {
         'post',
         'api',
         'oauth',
+        'error',
+        'help',
+        'plugins',
     ],
     RESERVED_USERNAMES: [
         'valet',
@@ -1290,6 +1356,7 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
+    PERMALINK_FADEOUT: 6000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
@@ -1298,6 +1365,9 @@ export const Constants = {
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
     MAX_CHANNELNAME_LENGTH: 64,
+    MAX_FIRSTNAME_LENGTH: 64,
+    MAX_LASTNAME_LENGTH: 64,
+    MAX_EMAIL_LENGTH: 128,
     MIN_USERNAME_LENGTH: 3,
     MAX_USERNAME_LENGTH: 22,
     MAX_NICKNAME_LENGTH: 22,
@@ -1310,7 +1380,6 @@ export const Constants = {
     MAX_CUSTOM_BRAND_TEXT_LENGTH: 500,
     MAX_TERMS_OF_SERVICE_TEXT_LENGTH: 16383,
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
-    CHANNEL_SCROLL_ADJUSTMENT: 130,
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
@@ -1336,6 +1405,7 @@ export const Constants = {
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_SPECIAL: 'mention.special',
+    MENTION_GROUPS: 'mention.groups',
     DEFAULT_NOTIFICATION_DURATION: 5000,
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
@@ -1365,5 +1435,6 @@ t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
 t('suggestion.mention.special');
 t('suggestion.archive');
+t('suggestion.mention.groups');
 
 export default Constants;

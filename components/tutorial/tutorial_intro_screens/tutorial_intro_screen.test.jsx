@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import TutorialIntroScreens from 'components/tutorial/tutorial_intro_screens/tutorial_intro_screens.jsx';
 import {Constants, Preferences} from 'utils/constants';
@@ -28,7 +27,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<TutorialIntroScreens {...requiredProps}/>);
+        const wrapper = shallow(<TutorialIntroScreens {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -36,7 +35,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
         const savePreferences = jest.fn();
 
         const props = {...requiredProps, actions: {savePreferences}};
-        const wrapper = shallowWithIntl(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().handleNext();
         expect(savePreferences).toHaveBeenCalledTimes(0);
@@ -49,7 +48,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
         const savePreferences = jest.fn();
 
         const props = {...requiredProps, actions: {savePreferences}};
-        const wrapper = shallowWithIntl(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().handleNext();
         wrapper.instance().handleNext();
@@ -70,7 +69,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
         const mockEvent = {preventDefault: jest.fn()};
 
         const props = {...requiredProps};
-        const wrapper = shallowWithIntl(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().skipTutorial(mockEvent);
         expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1);
@@ -81,7 +80,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
         const mockEvent = {preventDefault: jest.fn()};
 
         const props = {...requiredProps, actions: {savePreferences}};
-        const wrapper = shallowWithIntl(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().skipTutorial(mockEvent);
 
