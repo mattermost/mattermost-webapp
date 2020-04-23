@@ -20,8 +20,7 @@ import SaveChangesPanel from '../../save_changes_panel';
 import {TeamProfile} from './team_profile';
 import {TeamModes} from './team_modes';
 import {TeamGroups} from './team_groups';
-
-import UserGrid from 'components/admin_console/user_grid/index';
+import TeamMembers from './team_members/index';
 
 export default class TeamDetails extends React.Component {
     static propTypes = {
@@ -39,6 +38,7 @@ export default class TeamDetails extends React.Component {
             getGroups: PropTypes.func.isRequired,
             patchTeam: PropTypes.func.isRequired,
             patchGroupSyncable: PropTypes.func.isRequired,
+            removeUserFromTeam: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -57,7 +57,8 @@ export default class TeamDetails extends React.Component {
             allowedDomains: team.allowed_domains || '',
             saving: false,
             showRemoveConfirmation: false,
-            usersToRemove: 0,
+            usersToRemoveCount: 0,
+            usersToRemove: [],
             totalGroups: props.totalGroups,
             saveNeeded: false,
             serverError: null,
@@ -97,7 +98,7 @@ export default class TeamDetails extends React.Component {
 
     handleSubmit = async () => {
         this.setState({showRemoveConfirmation: false, saving: true});
-        const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked} = this.state;
+        const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToRemove} = this.state;
 
         let serverError = null;
         let saveNeeded = false;
@@ -140,6 +141,20 @@ export default class TeamDetails extends React.Component {
             }
         }
 
+        if (usersToRemove.length > 0) {
+            const removeUsersFromTeam = [];
+            const {removeUserFromTeam} = this.props.actions;
+            usersToRemove.forEach((user) => {
+                removeUsersFromTeam.push(removeUserFromTeam(teamID, user.id))
+            });
+
+            const result = await Promise.all(removeUsersFromTeam);
+            const resultWithError = result.find((r) => r.error);
+            if (resultWithError) {
+                serverError = <FormError error={resultWithError.error.message}/>;
+            }
+        }
+
         this.setState({serverError, saving: false, saveNeeded});
         actions.setNavigationBlocked(saveNeeded);
     }
@@ -160,18 +175,18 @@ export default class TeamDetails extends React.Component {
         actions.setNavigationBlocked(true);
 
         let serverError = null;
-        let usersToRemove = 0;
+        let usersToRemoveCount = 0;
         if (this.state.syncChecked) {
             try {
                 if (groups.length === 0) {
                     serverError = <NeedGroupsError warning={true}/>;
                 } else {
                     const result = await actions.membersMinusGroupMembers(teamID, groups.map((g) => g.id));
-                    usersToRemove = result.data.total_count;
-                    if (usersToRemove > 0) {
+                    usersToRemoveCount = result.data.total_count;
+                    if (usersToRemoveCount > 0) {
                         serverError = (
                             <UsersWillBeRemovedError
-                                total={usersToRemove}
+                                total={usersToRemoveCount}
                                 users={result.data.users}
                             />
                         );
@@ -181,7 +196,18 @@ export default class TeamDetails extends React.Component {
                 serverError = ex;
             }
         }
-        this.setState({groups, usersToRemove, saveNeeded: true, serverError});
+        this.setState({groups, usersToRemoveCount, saveNeeded: true, serverError});
+    }
+
+    addUsersToRemove = (user) => {
+        let {usersToRemoveCount, usersToRemove} = this.state;
+        usersToRemoveCount += 1;
+        if (usersToRemove?.length) {
+            usersToRemove.push(user);
+        } else {
+            usersToRemove = [user];
+        }
+        this.setState({usersToRemove, usersToRemoveCount, saveNeeded: true})
     }
 
     handleGroupRemoved = (gid) => {
@@ -200,7 +226,7 @@ export default class TeamDetails extends React.Component {
         this.setState({showRemoveConfirmation: false});
     }
     showRemoveUsersModal = () => {
-        if (this.state.usersToRemove > 0) {
+        if (this.state.usersToRemoveCount > 0) {
             this.setState({showRemoveConfirmation: true});
         } else {
             this.handleSubmit();
@@ -209,7 +235,7 @@ export default class TeamDetails extends React.Component {
 
     render = () => {
         const {team} = this.props;
-        const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemove} = this.state;
+        const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount} = this.state;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
 
@@ -231,7 +257,7 @@ export default class TeamDetails extends React.Component {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <RemoveConfirmModal
-                            amount={usersToRemove}
+                            amount={usersToRemoveCount}
                             inChannel={false}
                             show={showRemoveConfirmation}
                             onCancel={this.hideRemoveUsersModal}
@@ -260,14 +286,10 @@ export default class TeamDetails extends React.Component {
                             setNewGroupRole={this.setNewGroupRole}
                         />
 
-                        <UserGrid
-                            titleId='admin.team_settings.team_detail.membersTitle'
-                            titleDefault='Members'
-                            subtitleId='admin.team_settings.team_detail.membersDescription'
-                            subtitleDefault='The users in this list are members of this team'
+                        <TeamMembers
+                            addUsersToRemove={this.addUsersToRemove}
                             teamId={this.props.teamID}
                         />
-
                     </div>
                 </div>
 

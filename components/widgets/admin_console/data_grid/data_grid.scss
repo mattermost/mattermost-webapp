@@ -26,7 +26,7 @@ $white: #FFF;
 
         .dg-cell {
             flex-basis: 100%;
-            flex: 1 0 200px;
+            flex: 1 0 75px;
         }
     }
 
@@ -40,6 +40,7 @@ $white: #FFF;
             margin: auto;
             text-overflow: ellipsis;
             padding-right: 10px;
+            overflow: hidden;
         }
     }
 

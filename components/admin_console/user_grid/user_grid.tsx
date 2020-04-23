@@ -113,7 +113,6 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 titleDefault={this.props.titleDefault}
                 subtitleId={t(this.props.subtitleId)}
                 subtitleDefault={this.props.subtitleDefault}
-                // button=
             >
                 <DataGrid
                     columns={columns}

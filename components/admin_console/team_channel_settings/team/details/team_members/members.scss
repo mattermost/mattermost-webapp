@@ -1,0 +1,13 @@
+.team-members-row {
+    display: flex;
+    height: 80px;
+
+    .team-members-name {
+        align-self: center;
+        flex-grow: 1;
+        flex-shrink: 1;
+        overflow: hidden;
+        padding-left: 10px;
+        text-overflow: ellipsis;
+    }
+}

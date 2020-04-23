@@ -17,6 +17,9 @@ export type Column = {
     name: string,
     field: string,
     width?: number,
+    fixed?: boolean,
+
+    textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined,
 }
 
 type Props = {
@@ -36,6 +39,7 @@ type Props = {
 
 type State = {
     visibleColumns: Column[],
+    fixedColumns: Column[],
     hiddenColumns: Column[],
 };
 
@@ -48,6 +52,7 @@ class DataGrid extends React.PureComponent<Props, State> {
         this.state = {
             visibleColumns: this.props.columns,
             hiddenColumns: [],
+            fixedColumns: this.props.columns.filter((col) => col.fixed),
         };
 
         this.ref = React.createRef();
@@ -59,10 +64,26 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private handleResize = () => {
-        const visibleColumnLength = (this.ref.current.clientWidth / 200);
-        const visibleColumns = this.props.columns.slice(0, visibleColumnLength)
-        const hiddenColumns = this.props.columns.slice(visibleColumnLength, this.props.columns.length)
-        this.setState({visibleColumns, hiddenColumns});
+        if (!this.ref || !this.ref.current) {
+            return;
+        }
+
+        let visibleColumns: Column[] = this.props.columns;
+        const numVisibleColumns = (this.ref.current.clientWidth - 50) / 125 - this.state.fixedColumns.length;
+        let columnCount = 0;
+
+        visibleColumns = visibleColumns.filter((column) => {
+            if (column.fixed) {
+                return true;
+            } else if (numVisibleColumns > columnCount) {
+                columnCount += column.width || 1;
+                return true
+            }
+
+            return false;
+        });
+
+        this.setState({visibleColumns});
     }
 
     renderRows() {
@@ -104,12 +125,13 @@ class DataGrid extends React.PureComponent<Props, State> {
 
     renderFooter() {
         const { startCount, endCount, total } = this.props;
-        const firstPage = startCount <= 1;
-        const lastPage = endCount >= total;
 
         if (!total) {
             return;
         }
+
+        const firstPage = startCount <= 1;
+        const lastPage = endCount >= total;
 
         return (
             <div className="dg-row">
@@ -126,14 +148,14 @@ class DataGrid extends React.PureComponent<Props, State> {
 
                     <button
                         className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                        onClick={firstPage ? null : this.previousPage}
+                        onClick={firstPage ? undefined : this.previousPage}
                         disabled={firstPage}
                     >
                         <PreviousIcon/>
                     </button>
                     <button
                         className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                        onClick={lastPage ? null : this.nextPage}
+                        onClick={lastPage ? undefined : this.nextPage}
                         disabled={lastPage}
                     >
                         <NextIcon/>

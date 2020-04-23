@@ -32,6 +32,10 @@ class DataGridRow extends React.Component<Props> {
             style['flexGrow'] = column.width;
         }
 
+        if (column.textAlign) {
+            style['textAlign'] = column.textAlign;
+        }
+
         return (
             <div
                 key={column.field}
