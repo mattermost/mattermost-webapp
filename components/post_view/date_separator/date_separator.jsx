@@ -31,10 +31,6 @@ export default class DateSeparator extends React.PureComponent {
                 <RecentDate
                     {...timezoneProps}
                     value={date}
-                    weekday='short'
-                    month='short'
-                    day='2-digit'
-                    year='numeric'
                 />
             </BasicSeparator>
         );

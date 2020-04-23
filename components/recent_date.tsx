@@ -4,6 +4,7 @@
 import React from 'react';
 import {
     FormattedMessage,
+    FormattedRelativeTime,
     injectIntl,
     IntlShape,
 } from 'react-intl';
@@ -14,37 +15,70 @@ type Props = {
     value: number | Date;
     children?(val: string): React.ReactElement | null;
     intl: IntlShape;
+    useTitleCase?: boolean;
+    dateTimeFormat?: Intl.DateTimeFormatOptions;
 }
 
 class RecentDate extends React.PureComponent<Props> {
     public render() {
-        const {value, timeZone} = this.props;
+        const {
+            value,
+            timeZone,
+            useTitleCase = true,
+            dateTimeFormat,
+            intl
+        } = this.props;
         const date = new Date(value);
 
-        if (isToday(date)) {
-            return (
-                <FormattedMessage
-                    id='date_separator.today'
-                    defaultMessage='Today'
-                />
-            );
-        } else if (isYesterday(date)) {
-            return (
-                <FormattedMessage
-                    id='date_separator.yesterday'
-                    defaultMessage='Yesterday'
-                />
-            );
+        const {is} = fromNow(date);
+
+        if (dateTimeFormat == null) {
+            if (useTitleCase && is.today) {
+                return (
+                    <FormattedMessage
+                        id='date_separator.today'
+                        defaultMessage='Today'
+                    />
+                );
+            } else if (useTitleCase && is.yesterday) {
+                return (
+                    <FormattedMessage
+                        id='date_separator.yesterday'
+                        defaultMessage='Yesterday'
+                    />
+                );
+            } else if (!useTitleCase && is.today) {
+                return (
+                    <FormattedRelativeTime
+                        value={0}
+                        unit='day'
+                        numeric='auto'
+                    />
+                );
+            } else if (!useTitleCase && is.yesterday) {
+                return (
+                    <FormattedRelativeTime
+                        value={-1}
+                        unit='day'
+                        numeric='auto'
+                    />
+                );
+            }
         }
 
-        const options = {
-            timeZone,
-            weekday: 'short',
-            month: 'short',
+        const options: Intl.DateTimeFormatOptions = dateTimeFormat ?? is.withinPastSevenDays ? {
+            weekday: 'long'
+        } : {
             day: '2-digit',
-            year: 'numeric'
+            month: 'long',
+            ...is.sameYear ? {
+
+            } : {
+                year: 'numeric'
+            }
         };
-        const formattedDate = this.props.intl.formatDate(value, options);
+
+        const formattedDate = intl.formatDate(value, {timeZone, ...options});
 
         // On error, `formatDate` returns unformatted date or value string like in the case of (react-intl) unsupported timezone.
         // Therefore, use react-intl by default or moment-timezone for unsupported timezone.
@@ -62,14 +96,35 @@ class RecentDate extends React.PureComponent<Props> {
     }
 }
 
-export function isSameDay(a: Date, b: Date) {
-    return a.getDate() === b.getDate() && a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
+function fromNow(a: Date) {
+    const now = new Date();
+    const today = isSameDay(a, now);
+
+    return {
+        is: {
+            today,
+            yesterday: isYesterday(a),
+            withinPastSevenDays: moment(a).startOf('day').isAfter(moment(now).startOf('day').subtract(7, 'd')),
+            sameMonth: today || isSameMonth(a, now),
+            sameYear: today || isSameYear(a, now),
+        }
+    };
+}
+
+export function isSameDay(a: Date, b: Date = new Date()) {
+    return a.getDate() === b.getDate() && isSameMonth(a, b);
+}
+
+export function isSameMonth(a: Date, b: Date) {
+    return a.getMonth() === b.getMonth() && isSameYear(a, b);
+}
+
+export function isSameYear(a: Date, b: Date) {
+    return a.getFullYear() === b.getFullYear();
 }
 
 export function isToday(date: Date) {
-    const now = new Date();
-
-    return isSameDay(date, now);
+    return isSameDay(date);
 }
 
 export function isYesterday(date: Date) {

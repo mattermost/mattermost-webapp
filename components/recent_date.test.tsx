@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import moment from 'moment-timezone';
+import {FormattedMessage, FormattedRelativeTime} from 'react-intl';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -11,15 +12,22 @@ import RecentDate, {
     isYesterday,
 } from './recent_date';
 
-// Date format for "ddd, MMM D, YYYY"
-const reDateFormat = /^[a-zA-Z]{3}, [a-zA-Z]{3} \d{1,2}, \d{4}$/;
+const NOW = new Date();
+const MONTHS = moment.months(); // January, +
+const WEEKDAYS = moment.weekdays(); // Monday
+
+// Date format for "MMMM DD" (en)
+const CURRENT_YEAR_FORMAT = /^[a-zA-Z]{3,9} \d{2}$/;
+
+// Date format for "MMMM DD, YYYY" (en)
+const PAST_YEAR_FORMAT = /^[a-zA-Z]{3,9} \d{2}, \d{4}$/;
 
 describe('RecentDate', () => {
-    test('should render "Today" today', () => {
+    test('should render title-case "Today" today', () => {
         const today = new Date();
 
         const props = {
-            value: today,
+            value: today
         };
 
         const wrapper = shallowWithIntl(<RecentDate {...props}/>);
@@ -28,7 +36,7 @@ describe('RecentDate', () => {
         expect(wrapper.find(FormattedMessage).prop('id')).toBe('date_separator.today');
     });
 
-    test('should render "Yesterday" yesterday', () => {
+    test('should render title-case "Yesterday" yesterday', () => {
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
 
@@ -42,6 +50,37 @@ describe('RecentDate', () => {
         expect(wrapper.find(FormattedMessage).prop('id')).toBe('date_separator.yesterday');
     });
 
+    test('should render "today" today', () => {
+        const today = new Date();
+
+        const props = {
+            value: today,
+            useTitleCase: false
+        };
+
+        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+
+        expect(wrapper.find(FormattedRelativeTime).exists()).toBe(true);
+        expect(wrapper.find(FormattedRelativeTime).prop('value')).toBe(0);
+        expect(wrapper.find(FormattedRelativeTime).prop('unit')).toBe('day');
+    });
+
+    test('should render "yesterday" yesterday', () => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        const props = {
+            value: yesterday,
+            useTitleCase: false
+        };
+
+        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+
+        expect(wrapper.find(FormattedRelativeTime).exists()).toBe(true);
+        expect(wrapper.find(FormattedRelativeTime).prop('value')).toBe(-1);
+        expect(wrapper.find(FormattedRelativeTime).prop('unit')).toBe('day');
+    });
+
     test('should render date two days ago', () => {
         const twoDaysAgo = new Date();
         twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
@@ -52,7 +91,7 @@ describe('RecentDate', () => {
 
         const wrapper = shallowWithIntl(<RecentDate {...props}/>);
 
-        expect(wrapper.text()).toMatch(reDateFormat);
+        expect(WEEKDAYS).toContain(wrapper.text());
     });
 
     test('should render date two days ago for supported timezone', () => {
@@ -66,7 +105,46 @@ describe('RecentDate', () => {
 
         const wrapper = shallowWithIntl(<RecentDate {...props}/>);
 
-        expect(wrapper.text()).toMatch(reDateFormat);
+        expect(WEEKDAYS).toContain(wrapper.text());
+    });
+
+    test('should render date from four days ago', () => {
+        const xAgo = new Date();
+        xAgo.setDate(xAgo.getDate() - 4);
+
+        const props = {
+            value: xAgo,
+        };
+
+        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+
+        expect(WEEKDAYS).toContain(wrapper.text());
+    });
+
+    test('should render date from eleven days ago', () => {
+        const xAgo = new Date();
+        xAgo.setDate(xAgo.getDate() - 11);
+
+        const props = {
+            value: xAgo,
+        };
+
+        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+
+        expect(wrapper.text()).toMatch(xAgo.getFullYear() === NOW.getFullYear() ? CURRENT_YEAR_FORMAT : PAST_YEAR_FORMAT);
+    });
+
+    test('should render date from 365 days ago', () => {
+        const xAgo = new Date();
+        xAgo.setDate(xAgo.getDate() - 365);
+
+        const props = {
+            value: xAgo,
+        };
+
+        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+
+        expect(wrapper.text()).toMatch(PAST_YEAR_FORMAT);
     });
 });
 

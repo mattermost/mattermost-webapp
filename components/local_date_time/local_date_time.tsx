@@ -2,7 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {
+    injectIntl,
+    IntlShape
+} from 'react-intl';
 import moment from 'moment-timezone';
 
 // Feature test the browser for support of hourCycle.
@@ -32,7 +35,7 @@ type Props = {
      */
     enableTimezone?: boolean;
 
-    intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
+    intl: IntlShape;
 }
 
 class LocalDateTime extends React.PureComponent<Props> {
