@@ -144,7 +144,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
             newDropBox = (
                 <div className='SidebarCategory_newDropBox'>
-                    <i className='icon-soccer'/>
+                    <i className='icon-hand-right'/>
                     <span className='SidebarCategory_newDropBox-label'>
                         {localizeMessage('sidebar_left.sidebar_category.newDropBoxLabel', 'Drag channels here...')}
                     </span>

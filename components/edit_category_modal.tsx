@@ -79,6 +79,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                             clearable={true}
                             onClear={this.handleClear}
                             onChange={this.handleChange}
+                            maxlength={22}
                         />
                         <span className='edit-category__helpText'>
                             <FormattedMessage

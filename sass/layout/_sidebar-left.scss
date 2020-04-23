@@ -349,7 +349,7 @@
         width: 32px;
         height: 16px;
         padding: 0 4px;
-        margin-left: auto;
+        margin-left: 4px;
         margin-right: 16px;
     }
 
@@ -414,7 +414,9 @@
         align-items: center;
 
         > div:not(.SidebarCategory_newLabel) {
-            flex: 1 1 auto;
+            flex: 0 1 auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         i.icon-chevron-down {
