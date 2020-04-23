@@ -647,6 +647,7 @@ export const PermissionsScope = {
     [Permissions.DELETE_EMOJIS]: 'team_scope',
     [Permissions.DELETE_OTHERS_EMOJIS]: 'team_scope',
     [Permissions.USE_CHANNEL_MENTIONS]: 'channel_scope',
+    [Permissions.USE_GROUP_MENTIONS]: 'channel_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -683,6 +684,7 @@ export const DefaultRolePermissions = {
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_GROUP_MENTIONS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -692,6 +694,7 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.USE_CHANNEL_MENTIONS,
+        Permissions.USE_GROUP_MENTIONS,
     ],
     team_admin: [
         Permissions.EDIT_OTHERS_POSTS,
@@ -714,6 +717,7 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.CREATE_POST,
         Permissions.REMOVE_REACTION,
+        Permissions.USE_GROUP_MENTIONS,
     ],
     guests: [
         Permissions.EDIT_POST,
@@ -1410,6 +1414,8 @@ export const Constants = {
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
+    DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
+    DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
