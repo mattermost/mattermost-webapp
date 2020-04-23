@@ -96,10 +96,10 @@ export default class AbstractList extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
-    private renderHeaderLabels = (): React.ReactFragment => {
+    private renderHeaderLabels = () => {
         if (this.props.data.length > 0) {
             return (
-                <React.Fragment>
+                <div className='AbstractList__header'>
                     {this.props.headerLabels.map((headerLabel, id) => (
                         <div
                             key={id}
@@ -107,10 +107,10 @@ export default class AbstractList extends React.PureComponent<Props, State> {
                             style={headerLabel.style}
                         >{headerLabel.default}</div>
                     ))}
-                </React.Fragment>
+                </div>
             );
         }
-        return (<></>);
+        return null;
     }
 
     private renderRows = (): JSX.Element | JSX.Element[] => {
@@ -143,9 +143,7 @@ export default class AbstractList extends React.PureComponent<Props, State> {
         const firstPage = this.state.page === 0;
         return (
             <div className='AbstractList'>
-                <div className='AbstractList__header'>
-                    {this.renderHeaderLabels()}
-                </div>
+                {this.renderHeaderLabels()}
                 <div className='AbstractList__body'>
                     {this.renderRows()}
                 </div>

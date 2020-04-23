@@ -160,7 +160,7 @@ export default class GroupsList extends React.PureComponent {
     }
     renderHeader = () => {
         if (this.props.groups.length === 0) {
-            return (<></>);
+            return null;
         }
         return (
             <div className='groups-list--header'>
