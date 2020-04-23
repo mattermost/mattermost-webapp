@@ -5,7 +5,6 @@ import React, {ReactNode} from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
-import RemoveIcon from 'components/widgets/icons/fa_remove_icon';
 import Constants, {FileTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
@@ -113,7 +112,7 @@ export default class FilePreview extends React.PureComponent<Props> {
                                 className='file-preview__remove'
                                 onClick={this.handleRemove.bind(this, info.id)}
                             >
-                                <RemoveIcon/>
+                                <i className='icon icon-close'/>
                             </a>
                         </div>
                     </div>
