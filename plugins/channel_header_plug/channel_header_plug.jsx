@@ -66,13 +66,13 @@ class CustomToggle extends React.PureComponent {
 
         let activeClass = '';
         if (this.props.dropdownOpen) {
-            activeClass = ' active';
+            activeClass = ' channel-header__icon--active';
         }
 
         return (
             <button
                 id='pluginChannelHeaderButtonDropdown'
-                className={'wide channel-header__icon style--none' + activeClass}
+                className={'channel-header__icon channel-header__icon--wide ' + activeClass}
                 type='button'
                 onClick={this.handleClick}
             >
@@ -122,6 +122,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     createButton = (plug) => {
         return (
             <HeaderIconWrapper
+                key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon style--none'
                 iconComponent={plug.icon}
                 onClick={() => plug.action(this.props.channel, this.props.channelMember)}
@@ -176,19 +177,19 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                                 </Tooltip>
                             )}
                         >
-                            <div>
+                            <React.Fragment>
+                                <PluginChannelHeaderIcon
+                                    id='pluginChannelHeaderIcon'
+                                    className='icon icon--standard icon__pluginChannelHeader'
+                                    aria-hidden='true'
+                                />
                                 <span
                                     id='pluginCount'
                                     className='icon__text'
                                 >
                                     {plugs.length}
                                 </span>
-                                <PluginChannelHeaderIcon
-                                    id='pluginChannelHeaderIcon'
-                                    className='icon icon__pluginChannelHeader'
-                                    aria-hidden='true'
-                                />
-                            </div>
+                            </React.Fragment>
                         </OverlayTrigger>
                     </CustomToggle>
                     <CustomMenu
@@ -208,8 +209,8 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         if (components.length === 0) {
             return null;
-        } else if (components.length === 1) {
-            return this.createButton(components[0]);
+        } else if (components.length <= 5) {
+            return components.map(this.createButton);
         }
 
         return this.createDropdown(components);

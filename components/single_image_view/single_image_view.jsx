@@ -117,7 +117,7 @@ export default class SingleImageView extends React.PureComponent {
         const toggle = (
             <button
                 key='toggle'
-                className='style--none post__embed-visibility color--link'
+                className='style--none post__embed-visibility'
                 data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.toggleEmbedVisibility}
@@ -134,12 +134,12 @@ export default class SingleImageView extends React.PureComponent {
                 data-testid='image-name'
                 className={imageNameClass}
             >
-                {toggle}
                 <div
                     onClick={this.handleImageClick}
                 >
                     {fileInfo.name}
                 </div>
+                {toggle}
             </div>
         );
 

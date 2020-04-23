@@ -63,7 +63,8 @@ export default class PostMarkdown extends React.PureComponent {
         const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
         let {message} = this.props;
-        const {post, options} = this.props;
+        const {post} = this.props;
+        const options = {...this.props.options};
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {

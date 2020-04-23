@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
+import debounce from 'lodash/debounce';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
@@ -77,7 +78,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
     scrollAnimation: Spring;
-    closedDirectChannel: boolean;
 
     constructor(props: Props) {
         super(props);
@@ -88,7 +88,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             showBottomUnread: false,
         };
         this.scrollbar = React.createRef();
-        this.closedDirectChannel = false;
 
         this.animate = new SpringSystem();
         this.scrollAnimation = this.animate.createSpring();
@@ -118,17 +117,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         // Scroll to selected channel so it's in view
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.scrollToChannel(this.props.currentChannel.id);
+            // This will be re-enabled when we can avoid animating the scroll on first load and team switch
+            // this.scrollToChannel(this.props.currentChannel.id);
         }
 
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
         // close the LHS on mobile when you change channels
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            if (this.closedDirectChannel) {
-                this.closedDirectChannel = false;
-            } else {
-                this.props.actions.close();
-            }
+            this.props.actions.close();
         }
 
         this.updateUnreadIndicators();
@@ -330,6 +326,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         this.updateUnreadIndicators();
     }
 
+    onTransitionEnd = debounce(() => {
+        this.updateUnreadIndicators();
+    }, 100);
+
     render() {
         const {categories} = this.props;
         const renderedCategories = categories.map(this.renderCategory);
@@ -337,21 +337,25 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         const above = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More unreads'
+                defaultMessage='More Unreads'
             />
         );
 
         const below = (
             <FormattedMessage
                 id='sidebar.unreads'
-                defaultMessage='More unreads'
+                defaultMessage='More Unreads'
             />
         );
 
         return (
+
+            // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <div
+                id='sidebar-left'
                 className={classNames('SidebarNavContainer a11y__region', {disabled: this.props.isUnreadFilterEnabled})}
                 data-a11y-sort-order='7'
+                onTransitionEnd={this.onTransitionEnd}
             >
                 <UnreadChannelIndicator
                     name='Top'

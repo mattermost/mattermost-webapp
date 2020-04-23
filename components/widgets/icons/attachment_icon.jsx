@@ -14,9 +14,9 @@ export default class AttachmentIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            width='18px'
-                            height='18px'
-                            viewBox='0 0 18 15'
+                            width='16px'
+                            height='16px'
+                            viewBox='0 0 16 16'
                             role='img'
                             aria-label={ariaLabel}
                         >

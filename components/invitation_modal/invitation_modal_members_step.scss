@@ -20,7 +20,7 @@
         .share-link-input {
             flex-grow: 1;
             height: 48px;
-            background: var(--center-channel-color-05);
+            background: var(--center-channel-color-04);
             border-top: 1px solid var(--center-channel-color-20);
             border-left: 1px solid var(--center-channel-color-20);
             border-bottom: 1px solid var(--center-channel-color-20);
@@ -28,7 +28,7 @@
             border-radius: 4px 0 0 4px;
             padding: 12px 14px;
             font-size: 16px;
-            color: var(--center-channel-color-50);
+            color: var(--center-channel-color-56);
         }
         .share-link-input-button {
             display: flex;
@@ -45,10 +45,10 @@
             font-size: 16px;
             font-weight: 600;
             &:hover {
-                background: var(--button-bg-05);
+                background: var(--button-bg-08);
             }
             &:active {
-                background: var(--button-bg-10);
+                background: var(--button-bg-08);
             }
             span {
                 display: inline-block;
@@ -61,7 +61,7 @@
         }
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-60);
+            color: var(--center-channel-color-64);
         }
     }
     .search-and-add {
@@ -78,7 +78,7 @@
         }
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-60);
+            color: var(--center-channel-color-64);
         }
     }
     .invitation-modal-or {
@@ -92,7 +92,7 @@
             max-width: 720px;
             width: calc(100% - 40px);
             margin: 45px 0;
-            border-color: var(--center-channel-color-10);
+            border-color: var(--center-channel-color-08);
         }
         div {
             text-align: center;
@@ -122,8 +122,8 @@
                 border-color: transparent;
             }
             &.btn-inactive {
-                background: var(--center-channel-color-10);
-                color: var(--center-channel-color-50);
+                background: var(--center-channel-color-08);
+                color: var(--center-channel-color-56);
             }
         }
     }

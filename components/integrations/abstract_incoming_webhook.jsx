@@ -201,7 +201,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.displayName.help'
-                                        defaultMessage='Choose a title to be displayed on the webhook settings page. Maximum 64 characters.'
+                                        defaultMessage='Specify a title, of up to 64 characters, for the webhook settings page.'
                                     />
                                 </div>
                             </div>
@@ -228,7 +228,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.description.help'
-                                        defaultMessage='Description for your incoming webhook.'
+                                        defaultMessage='Describe your incoming webhook.'
                                     />
                                 </div>
                             </div>
@@ -254,7 +254,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.channel.help'
-                                        defaultMessage='The default public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook.'
+                                        defaultMessage='This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel.'
                                     />
                                 </div>
                             </div>
@@ -279,7 +279,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.channelLocked.help'
-                                        defaultMessage='If set, the incoming webhook can only post to the channel selected above.'
+                                        defaultMessage='If set, the incoming webhook can post only to the selected channel.'
                                     />
                                 </div>
                             </div>
@@ -307,7 +307,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_incoming_webhook.username.help'
-                                            defaultMessage='Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols "-", "_", and ".".'
+                                            defaultMessage='Specify the username this integration will post as. Usernames can be up to 22 characters, and can contain lowercase letters, numbers and the symbols \"-\", \"_\", and \".\". If left blank, the name specified by the webhook creator is used.'
                                         />
                                     </div>
                                 </div>
@@ -336,7 +336,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_incoming_webhook.icon_url.help'
-                                            defaultMessage='Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels.'
+                                            defaultMessage='Enter the URL of a .png or .jpg file for the profile picture of this integration when posting. The file should be at least 128 pixels by 128 pixels. If left blank, the profile picture specified by the webhook creator is used.'
                                         />
                                     </div>
                                 </div>

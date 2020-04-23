@@ -47,6 +47,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <tbody>
           <ChannelModerationTableRow
             errorMessages={Array []}
+            guestAccountsEnabled={true}
             guests={true}
             guestsDisabled={false}
             key="create_post"
@@ -74,6 +75,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                 </div>,
               ]
             }
+            guestAccountsEnabled={true}
             guests={false}
             guestsDisabled={true}
             key="use_channel_mentions"
@@ -136,6 +138,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <tbody>
           <ChannelModerationTableRow
             errorMessages={Array []}
+            guestAccountsEnabled={true}
             guests={true}
             guestsDisabled={false}
             key="create_post"
@@ -198,6 +201,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <tbody>
           <ChannelModerationTableRow
             errorMessages={Array []}
+            guestAccountsEnabled={true}
             guests={false}
             guestsDisabled={false}
             key="create_post"
@@ -220,6 +224,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                 </div>,
               ]
             }
+            guestAccountsEnabled={true}
             guests={false}
             guestsDisabled={true}
             key="use_channel_mentions"
@@ -281,6 +286,42 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
 </tr>
 `;
 
+exports[`admin_console/team_channel_settings/channel/ChannelModeration Should match seventh Snapshot 1`] = `
+<tr>
+  <td>
+    <label
+      data-testid="admin-channel_settings-channel_moderation-createPosts"
+    >
+      <FormattedMessage
+        defaultMessage="Create Posts"
+        id="admin.channel_settings.channel_moderation.createPosts"
+        values={Object {}}
+      />
+    </label>
+    <div
+      data-testid="admin-channel_settings-channel_moderation-createPostsDesc"
+    >
+      <FormattedMessage
+        defaultMessage="The ability for members to create posts in the channel."
+        id="admin.channel_settings.channel_moderation.createPostsDescMembers"
+        values={Object {}}
+      />
+    </div>
+    <Component />
+  </td>
+  <td>
+    <button
+      className="checkbox checked"
+      data-testid="create_post-members"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <CheckboxCheckedIcon />
+    </button>
+  </td>
+</tr>
+`;
+
 exports[`admin_console/team_channel_settings/channel/ChannelModeration Should match sixth Snapshot 1`] = `
 <AdminPanel
   className=""
@@ -328,6 +369,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <tbody>
           <ChannelModerationTableRow
             errorMessages={Array []}
+            guestAccountsEnabled={true}
             guests={false}
             guestsDisabled={false}
             key="create_post"
@@ -364,12 +406,69 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                 </div>,
               ]
             }
+            guestAccountsEnabled={true}
             guests={false}
             guestsDisabled={true}
             key="use_channel_mentions"
             members={false}
             membersDisabled={true}
             name="use_channel_mentions"
+            onClick={[Function]}
+          />
+        </tbody>
+      </table>
+    </div>
+  </div>
+</AdminPanel>
+`;
+
+exports[`admin_console/team_channel_settings/channel/ChannelModeration Should match sixth Snapshot 2`] = `
+<AdminPanel
+  className=""
+  id="channel_moderation"
+  subtitleDefault="Manage the actions available to channel members."
+  subtitleId="admin.channel_settings.channel_moderation.subtitleMembers"
+  titleDefault="Channel Moderation (Beta)"
+  titleId="admin.channel_settings.channel_moderation.title"
+>
+  <div
+    className="channel-moderation"
+  >
+    <div
+      className="channel-moderation--body"
+    >
+      <table
+        className="channel-moderation--table"
+        id="channel_moderation_table"
+      >
+        <thead>
+          <tr>
+            <th>
+              <FormattedMessage
+                defaultMessage="Permissions"
+                id="admin.channel_settings.channel_moderation.permissions"
+                values={Object {}}
+              />
+            </th>
+            <th>
+              <FormattedMessage
+                defaultMessage="Members"
+                id="admin.channel_settings.channel_moderation.members"
+                values={Object {}}
+              />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ChannelModerationTableRow
+            errorMessages={Array []}
+            guestAccountsEnabled={false}
+            guests={true}
+            guestsDisabled={false}
+            key="create_post"
+            members={true}
+            membersDisabled={false}
+            name="create_post"
             onClick={[Function]}
           />
         </tbody>
@@ -426,6 +525,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <tbody>
           <ChannelModerationTableRow
             errorMessages={Array []}
+            guestAccountsEnabled={true}
             guests={true}
             guestsDisabled={false}
             key="create_post"
@@ -462,6 +562,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                 </div>,
               ]
             }
+            guestAccountsEnabled={true}
             guests={false}
             guestsDisabled={true}
             key="use_channel_mentions"

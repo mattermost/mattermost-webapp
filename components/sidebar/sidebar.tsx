@@ -23,6 +23,7 @@ import SidebarCategoryList from './sidebar_category_list';
 type Props = {
     canCreatePublicChannel: boolean;
     canCreatePrivateChannel: boolean;
+    canJoinPublicChannel: boolean;
     isOpen: boolean;
 };
 
@@ -139,6 +140,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         <AddChannelDropdown
                             showNewChannelModal={this.showNewChannelModal}
                             showMoreChannelsModal={this.showMoreChannelsModal}
+                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                            canJoinPublicChannel={this.props.canJoinPublicChannel}
                         />
                     </div>
                 </div>
