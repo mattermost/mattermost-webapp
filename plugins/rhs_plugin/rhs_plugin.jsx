@@ -18,14 +18,21 @@ export default class RhsPlugin extends React.PureComponent {
     }
 
     render() {
+        let header = null;
+        if (this.props.title !== null) {
+            header = (
+                <SearchResultsHeader>
+                    {this.props.title}
+                </SearchResultsHeader>
+            );
+        }
+
         return (
             <div
                 id='rhsContainer'
                 className='sidebar-right__body'
             >
-                <SearchResultsHeader>
-                    {this.props.title}
-                </SearchResultsHeader>
+                {header}
                 <Pluggable
                     pluggableName='RightHandSidebarComponent'
                     pluggableId={this.props.pluggableId}

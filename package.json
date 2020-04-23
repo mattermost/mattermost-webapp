@@ -234,7 +234,7 @@
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --forceExit --detectOpenHandles",
     "test-ci": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --forceExit --detectOpenHandles --maxWorkers=2",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
-    "updatesnapshot": "jest --updateSnapshot",
+    "updatesnapshot": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --updateSnapshot",
     "test:watch": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --watch",
     "test:coverage": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --coverage",
     "mmjstool": "mmjstool",

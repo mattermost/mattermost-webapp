@@ -561,7 +561,8 @@ export default class PluginRegistry {
 
     // Register a Right-Hand Sidebar component by providing a title for the right hand component.
     // Accepts the following:
-    // - title - A string or JSX element to display as a title for the RHS.
+    // - title - A string or JSX element to display as a title for the RHS. Passing null will
+    //           cause the default header not to be shown allowing you to customize its appearance.
     // - component - A react component to display in the Right-Hand Sidebar.
     // Returns:
     // - id: a unique identifier
