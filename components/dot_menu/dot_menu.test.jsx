@@ -117,6 +117,7 @@ describe('components/dot_menu/DotMenu', () => {
             pluginMenuItems: [
                 {id: 'test_plugin_menu_item_1', text: 'woof'},
             ],
+            [PLUGGABLE_COMPONENT]: {},
         });
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
     });
@@ -130,6 +131,9 @@ describe('components/dot_menu/DotMenu', () => {
         wrapper.setProps({
             components: {
                 [PLUGGABLE_COMPONENT]: {},
+                pluginMenuItems: [
+                    {id: 'test_plugin_menu_item_1', text: 'woof'},
+                ],
             },
         });
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
