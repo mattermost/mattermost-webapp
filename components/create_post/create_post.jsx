@@ -584,6 +584,7 @@ class CreatePost extends React.PureComponent {
                         }
                         return `@${group.name}`;
                     });
+                mentions = [...new Set(mentions)];
             }
         }
 
@@ -1266,7 +1267,7 @@ class CreatePost extends React.PureComponent {
                         id='notify_all.question_timezone_groups'
                         defaultMessage='By using **{mentions}** and **{finalMention}** you are about to send notifications to at least **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
                         values={{
-                            mentions: mentions.slice(0, -1).join(' ,'),
+                            mentions: mentions.slice(0, -1).join(', '),
                             finalMention: mentions[mentions.length - 1],
                             totalMembers: memberNotifyCount,
                             timezones: channelTimezoneCount,
