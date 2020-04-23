@@ -2,12 +2,12 @@
 
  @font-face {
   font-family: 'mattermosticons';
-  src: url('../fonts/mattermosticons.eot?90155930');
-  src: url('../fonts/mattermosticons.eot?90155930#iefix') format('embedded-opentype'),
-       url('../fonts/mattermosticons.woff2?90155930') format('woff2'),
-       url('../fonts/mattermosticons.woff?90155930') format('woff'),
-       url('../fonts/mattermosticons.ttf?90155930') format('truetype'),
-       url('../fonts/mattermosticons.svg?90155930#mattermosticons') format('svg');
+  src: url('../fonts/mattermosticons.eot?99822813');
+  src: url('../fonts/mattermosticons.eot?99822813#iefix') format('embedded-opentype'),
+       url('../fonts/mattermosticons.woff2?99822813') format('woff2'),
+       url('../fonts/mattermosticons.woff?99822813') format('woff'),
+       url('../fonts/mattermosticons.ttf?99822813') format('truetype'),
+       url('../fonts/mattermosticons.svg?99822813#mattermosticons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -17,7 +17,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'mattermosticons';
-    src: url('../fonts/mattermosticons.svg?90155930#mattermosticons') format('svg');
+    src: url('../fonts/mattermosticons.svg?99822813#mattermosticons') format('svg');
   }
 }
 */
@@ -84,6 +84,7 @@
 .icon-arrow-back-ios:before { content: '\e810'; } /* '' */
 .icon-arrow-forward-ios:before { content: '\e811'; } /* '' */
 .icon-mark-as-unread:before { content: '\e812'; } /* '' */
+.icon-shield-alert-outline-2:before { content: '\e813'; } /* '' */
 .icon-account-multiple-outline:before { content: '\f00f'; } /* '' */
 .icon-account-outline:before { content: '\f013'; } /* '' */
 .icon-airplane:before { content: '\f01d'; } /* '' */
@@ -213,4 +214,6 @@
 .icon-minus-circle-outline:before { content: '󰍷'; } /* '\f0377' */
 .icon-trash-can-outline:before { content: '󰩺'; } /* '\f0a7a' */
 .icon-folder-plus-outline:before { content: '󰮝'; } /* '\f0b9d' */
+.icon-hand-right:before { content: '󰹇'; } /* '\f0e47' */
+.icon-shield-alert-outline:before { content: '󰻍'; } /* '\f0ecd' */
 .icon-folder-move-outline:before { content: '󱉆'; } /* '\f1246' */

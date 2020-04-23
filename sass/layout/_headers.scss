@@ -101,11 +101,20 @@
         max-width: 300px;
         padding: 0;
 
-        svg,
-        .fa {
+        .icon {
             text-align: center;
             width: 20px;
-            margin-right: 4px;
+            height: 20px;
+            margin-right: 8px;
+            font-size: 1.6rem;
+            fill: v(center-channel-color-56);
+            color: v(center-channel-color-56);
+
+            svg,
+            img {
+                width: 16px;
+                height: 16px;
+            }
         }
 
         a {
