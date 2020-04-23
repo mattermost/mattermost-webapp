@@ -631,7 +631,7 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon';
+        let pinnedIconClass = 'channel-header__icon channel-header__icon--wide';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' channel-header__icon--active';
         }
