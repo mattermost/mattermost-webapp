@@ -37,7 +37,6 @@ type ClientErrorPlaceholder = {
     server_error_id: string;
 }
 
-// eslint-disable-next-line react/require-optimization
 export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
     public constructor(props: Props) {
         super(props);
@@ -48,13 +47,13 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
             errorTooltip: false,
         };
         if (props.config) {
-            this.state = Object.assign(this.getStateFromConfig(props.config), stateInit);
+            this.state = Object.assign(this.getStateFromConfig(props.config), stateInit) as Readonly<State>;
         } else {
-            this.state = stateInit;
+            this.state = stateInit as Readonly<State>;
         }
     }
 
-    protected abstract getStateFromConfig(config: AdminConfig): State;
+    protected abstract getStateFromConfig(config: AdminConfig): Partial<State>;
 
     protected abstract getConfigFromState(config: AdminConfig): object;
 
@@ -110,7 +109,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
             const {data, error} = await this.props.updateConfig(config);
 
             if (data) {
-                this.setState(this.getStateFromConfig(data));
+                this.setState(this.getStateFromConfig(data) as State);
 
                 this.setState({
                     saveNeeded: false,

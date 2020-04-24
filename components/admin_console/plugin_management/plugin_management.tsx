@@ -140,16 +140,23 @@ const PluginItemStateDescription = ({state}: {state: number}) => {
     }
 };
 
-type PluginItemProps = {
-    pluginStatus: {
-        state: number;
-        active: boolean;
-        id: string;
-        description: string;
-        version: string;
-        name: string;
-        instances: Array<any>; //TODO Replace with actual object
+type PluginStatus = {
+    state: number;
+    active: boolean;
+    id: string;
+    description: string;
+    version: string;
+    name: string;
+    instances: Array<any>;
+    settings_schema: {
+        header: string;
+        footer: string;
+        settings?: Array<object>;
     };
+}
+
+type PluginItemProps = {
+    pluginStatus: PluginStatus;
     removing: boolean;
     handleEnable: (e: any) => any;
     handleDisable: (e: any) => any;
@@ -394,7 +401,7 @@ type Props = BaseProps & {
         };
     };
     pluginStatuses: object;
-    plugins: object;
+    plugins: any;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
@@ -903,8 +910,8 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                 return 0;
             });
 
-            pluginsList = plugins.map((pluginStatus) => {
-                const p = this.props.plugins[pluginStatus.id];
+            pluginsList = plugins.map((pluginStatus: PluginStatus) => {
+                const p = this.props.plugins.get(pluginStatus.id);
                 const hasSettings = Boolean(p && p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || (p.settings_schema.settings && p.settings_schema.settings.length > 0)));
                 return (
                     <PluginItem
