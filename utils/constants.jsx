@@ -787,9 +787,9 @@ export const Constants = {
     },
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
-    SPECIAL_MENTIONS_REGEX: /\B@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    SPECIAL_MENTIONS_REGEX: /\B@(channel|all|here)(?!(\.|-|_)*[^\W_])/i,
     NOTIFY_ALL_MEMBERS: 5,
-    ALL_MEMBERS_MENTIONS_REGEX: /\B@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
+    ALL_MEMBERS_MENTIONS_REGEX: /\B@(channel|all)(?!(\.|-|_)*[^\W_])/i,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
