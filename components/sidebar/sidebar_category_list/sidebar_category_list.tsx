@@ -432,8 +432,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <div
                 id='sidebar-left'
-                className={classNames('SidebarNavContainer', {
-                    'a11y__region': !this.props.draggingState.type,
+                className={classNames('SidebarNavContainer a11y__region', {
                     disabled: this.props.isUnreadFilterEnabled
                 })}
                 data-a11y-sort-order='7'
