@@ -15,7 +15,7 @@ type Props = {
     onToggle?: (open: boolean) => void;
     animationComponent: any;
     id?: string;
-    isDisabled: boolean;
+    isDisabled?: boolean;
 }
 
 type State = {
@@ -97,7 +97,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
                 className={'MenuWrapper ' + this.props.className}
                 onClick={this.toggle}
                 ref={this.node}
-                disabled={this.props.isDisabled}
+                disabled={Boolean(this.props.isDisabled)}
             >
                 {children ? Object.values(children)[0] : {}}
                 <Animation show={this.state.open}>
