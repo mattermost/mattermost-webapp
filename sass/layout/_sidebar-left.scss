@@ -34,7 +34,6 @@
 
     &.dragging {
         z-index: 14;
-
         & + div {
             cursor: no-drop !important;
         }
@@ -46,12 +45,8 @@
         .dropDisabled {
             cursor: no-drop !important;
 
-            .SidebarChannelGroupHeader_groupButton, span, i {
-                color: var(--sidebar-text-08) !important;
-            }
-
-            .status.status--group {
-                opacity: 0.08;
+            .SidebarChannelGroupHeader_groupButton, .SidebarLink {
+                opacity: 0.4;
             }
         }
 
@@ -404,6 +399,7 @@
         &.dragging {
             border-radius: 4px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            color: var(--sidebar-text);
         }
 
         &.draggingOver:hover {
