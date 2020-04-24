@@ -20,20 +20,19 @@ exports[`components/admin_console/group_settings/group_details/GroupProfile shou
       className="col-sm-8"
     >
       <div
-        className="input-icons"
+        className="icon-over-input"
       >
-        <i
-          className="fa icon"
-        >
-          @
-        </i>
-        <input
-          className="form-control group_at_mention_input"
-          disabled={false}
-          type="text"
-          value="Test"
+        <MentionsIcon
+          aria-hidden="true"
+          className="icon icon__mentions"
         />
       </div>
+      <input
+        className="form-control group_at_mention_input"
+        disabled={false}
+        type="text"
+        value="Test"
+      />
     </div>
   </div>
 </div>
