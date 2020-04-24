@@ -36,11 +36,14 @@ type State = {
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
+    newDropBoxRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
         super(props);
 
         this.categoryTitleRef = React.createRef();
+        this.newDropBoxRef = React.createRef();
+
         this.state = {
             isNewCategory: props.isNewCategory,
         };
@@ -50,6 +53,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         if (prevProps.channels.length !== this.props.channels.length && this.state.isNewCategory) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({isNewCategory: false});
+        }
+
+        if (this.props.isCollapsed !== prevProps.isCollapsed && this.newDropBoxRef.current) {
+            this.newDropBoxRef.current.classList.add('animating');
         }
     }
 
@@ -112,6 +119,12 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.props.actions.setCategoryCollapsed(category.id, !isCollapsed);
     }
 
+    removeAnimation = () => {
+        if (this.newDropBoxRef.current) {
+            this.newDropBoxRef.current.classList.remove('animating');
+        }
+    }
+
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
@@ -143,7 +156,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             );
 
             newDropBox = (
-                <div className='SidebarCategory_newDropBox'>
+                <div
+                    ref={this.newDropBoxRef}
+                    className={classNames('SidebarCategory_newDropBox', {
+                        collapsed: isCollapsed,
+                    })}
+                    onTransitionEnd={this.removeAnimation}
+                >
                     <i className='icon-hand-right'/>
                     <span className='SidebarCategory_newDropBox-label'>
                         {localizeMessage('sidebar_left.sidebar_category.newDropBoxLabel', 'Drag channels here...')}

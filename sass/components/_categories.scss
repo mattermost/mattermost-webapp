@@ -11,7 +11,7 @@
             padding: 0;
 
             .form-control {
-                border: 2px solid var(--sidebar-text-active-border);
+                border: 2px solid var(--button-bg);
                 box-sizing: border-box;
                 border-radius: 4px;
                 height: 40px;
@@ -101,7 +101,6 @@
     font-size: 12px;
     line-height: 40px;
     color: var(--center-channel-color-56);
-    margin-left: 12px;
 }
 
 .edit_category__button {
@@ -122,7 +121,7 @@
         color: var(--button-color);
 
         &.disabled {
-            color: var(--center-channel-color);
+            color: var(--center-channel-color-64);
             background: var(--center-channel-color-08);
         }
     }
