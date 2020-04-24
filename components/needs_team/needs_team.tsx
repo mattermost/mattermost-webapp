@@ -229,7 +229,9 @@ export default class NeedsTeam extends React.Component<Props, State> {
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
-        if (this.props.license && this.props.license.IsLicensed === 'true') {
+        if (this.props.license
+            && this.props.license.IsLicensed === 'true'
+            && this.props.license.LDAPGroups === 'true') {
             this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
             if (team.group_constrained) {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
