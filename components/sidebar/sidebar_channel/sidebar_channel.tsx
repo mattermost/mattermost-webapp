@@ -156,7 +156,6 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                 {(provided, snapshot) => {
                     return (
                         <li
-                            role='listitem'
                             draggable='false'
                             ref={this.setRef(provided.innerRef)}
                             className={classNames('SidebarChannel', {
@@ -168,6 +167,8 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                             onTransitionEnd={this.removeAnimation}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            role='listitem'
+                            tabIndex={-1}
                             style={this.getStyle(provided.draggableProps.style, snapshot)}
                         >
                             <ChannelComponent
