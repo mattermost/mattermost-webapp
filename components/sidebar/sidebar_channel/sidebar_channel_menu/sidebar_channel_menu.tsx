@@ -167,7 +167,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         let muteChannel;
         if (isMuted) {
             let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'});
-            if (channel.type === 'D' || channel.type === 'G') {
+            if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
                 muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteConversation', defaultMessage: 'Unmute Conversation'});
             }
             muteChannel = (
@@ -180,7 +180,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         } else {
             let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteChannel', defaultMessage: 'Mute Channel'});
-            if (channel.type === 'D' || channel.type === 'G') {
+            if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
                 muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteConversation', defaultMessage: 'Mute Conversation'});
             }
             muteChannel = (
@@ -196,12 +196,12 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         // TODO: Filter out the current category
         const categoryMenuItems = categories.filter((category) => {
             switch (channel.type) {
-            case 'O':
+            case Constants.OPEN_CHANNEL:
                 return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PRIVATE;
-            case 'P':
+            case Constants.PRIVATE_CHANNEL:
                 return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PUBLIC;
-            case 'D':
-            case 'G':
+            case Constants.DM_CHANNEL:
+            case Constants.GM_CHANNEL:
                 return category.type !== CategoryTypes.PRIVATE && category.type !== CategoryTypes.PUBLIC;
             default:
                 return true;
@@ -231,7 +231,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         );
 
         let copyLink;
-        if (channel.type === 'O') {
+        if (channel.type === Constants.OPEN_CHANNEL) {
             copyLink = (
                 <Menu.ItemAction
                     id={`copyLink-${channel.id}`}
@@ -243,7 +243,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         }
 
         let addMembers;
-        if ((channel.type === 'P' && this.props.managePrivateChannelMembers) || (channel.type === 'O' && this.props.managePublicChannelMembers)) {
+        if ((channel.type === Constants.PRIVATE_CHANNEL && this.props.managePrivateChannelMembers) || (channel.type === Constants.OPEN_CHANNEL && this.props.managePublicChannelMembers)) {
             addMembers = (
                 <Menu.ItemAction
                     id={`addMembers-${channel.id}`}
@@ -255,7 +255,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
         }
 
         let leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
-        if (channel.type === 'D' || channel.type === 'G') {
+        if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
             leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
         }
 

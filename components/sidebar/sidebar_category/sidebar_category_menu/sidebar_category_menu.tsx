@@ -49,6 +49,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
             deleteCategory = (
                 <Menu.Group>
                     <Menu.ItemAction
+                        isDangerous={true}
                         id={`delete-${category.id}`}
                         onClick={this.deleteCategory}
                         icon={<i className='icon-bell-outline'/>}
