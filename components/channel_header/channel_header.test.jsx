@@ -6,6 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
 import Markdown from 'components/markdown';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 import Constants, {RHSStates} from 'utils/constants';
 
 describe('components/ChannelHeader', () => {
@@ -191,5 +192,35 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render the guest badges on gms', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'test',
+                display_name: 'regular_user, guest_user',
+                type: Constants.GM_CHANNEL,
+            },
+            gmMembers: [
+                {
+                    id: 'user_id',
+                    username: 'regular_user',
+                    roles: 'system_user',
+                },
+                {
+                    id: 'guest_id',
+                    username: 'guest_user',
+                    roles: 'system_guest',
+                },
+            ],
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        );
+        expect(wrapper.containsMatchingElement(
+            <GuestBadge show={true}/>
+        )).toEqual(true);
     });
 });
