@@ -103,9 +103,9 @@ const channelMentionsPermissionCheck = (enabled) => {
 // # Checks to see if the post input is enabled or disalbed and that the API
 // accepts or rejects the create post request.
 const createPostPermissionCheck = (enabled) => {
-    if (enabled){
+    if (enabled) {
         // # Try post it to the channel
-        cy.get('#post_textbox').should('not.be.disabled')
+        cy.get('#post_textbox').should('not.be.disabled');
         cy.get('#post_textbox').clear().type('test{enter}');
     } else {
         // # Ensure the input is disabled
