@@ -183,7 +183,8 @@ export default class SidebarCategory extends React.PureComponent<Props> {
                 {(provided, snapshot) => {
                     return (
                         <div
-                            className={classNames('SidebarChannelGroup a11y__section', {
+                            className={classNames('SidebarChannelGroup', {
+                                'a11y__section': !this.props.draggingState.type,
                                 dropDisabled: this.isDropDisabled(),
                             })}
                             ref={provided.innerRef}
