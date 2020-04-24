@@ -747,11 +747,6 @@ export async function handleUserRemovedEvent(msg) {
             dispatch(closeRightHandSide());
         }
 
-        await dispatch({
-            type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-        });
-
         if (msg.data.channel_id === currentChannel.id) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
