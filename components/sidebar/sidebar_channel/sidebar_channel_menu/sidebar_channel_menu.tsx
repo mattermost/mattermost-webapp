@@ -175,7 +175,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                     id={`unmute-${channel.id}`}
                     onClick={this.unmuteChannel}
                     icon={<i className='icon-bell-off-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'})}
+                    text={muteChannelText}
                 />
             );
         } else {
@@ -188,7 +188,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
                     id={`mute-${channel.id}`}
                     onClick={this.muteChannel}
                     icon={<i className='icon-bell-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteChannel', defaultMessage: 'Mute Channel'})}
+                    text={muteChannelText}
                 />
             );
         }
@@ -256,7 +256,7 @@ class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
         let leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
         if (channel.type === 'D' || channel.type === 'G') {
-            leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Leave Conversation'});
+            leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
         }
 
         let leaveChannel;

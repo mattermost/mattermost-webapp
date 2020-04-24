@@ -126,6 +126,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         const offset = (root ? 2 : childOffset);
         const subMenuStyle: CSSProperties = {
             visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
+            top: this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset',
         };
 
         const menuOffset = (parseInt(String(xOffset), 10) - offset) + 'px';
@@ -133,12 +134,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
             subMenuStyle.right = menuOffset;
         } else {
             subMenuStyle.left = menuOffset;
-        }
-
-        if (openUp) {
-            subMenuStyle.bottom = this.node && this.node.current ? String(this.node.current.offsetTop + this.node.current.clientHeight) + 'px' : 'unset';
-        } else {
-            subMenuStyle.top = this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset';
         }
 
         let subMenuContent: React.ReactNode = '';

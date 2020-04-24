@@ -228,7 +228,7 @@
 
             i {
                 font-size: 16px;
-                color: var(--center-channel-color-72);
+                color: var(--center-channel-color-48);
                 line-height: 16px;
             }
         }
@@ -318,7 +318,7 @@
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text);
+        color: var(--sidebar-text-60);
         font-size: 16px;
         line-height: 16px;
         border-radius: 4px;
@@ -326,7 +326,6 @@
 
     .SidebarMenu_menuButton:hover, .SidebarMenu_menuButton:active, .SidebarMenu_menuButton:focus {
         cursor: pointer;
-        background: rgba(255, 255, 255, 0.08);
         color: var(--sidebar-text);
     }
     .SidebarMenu_menuButton:focus {
@@ -483,11 +482,14 @@
         transition: box-shadow 0.25s ease-in-out; */
     }
     .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
-        color: var(--sidebar-text);
         cursor: pointer;
 
         .SidebarMenu {
             display: block;
+        }
+
+        > div, > i {
+            color: var(--sidebar-text);
         }
     }
 
@@ -512,21 +514,40 @@
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text-80);
+        color: var(--sidebar-text-64);
+        font-size: 18px;
+        line-height: 16px;
+        height: 28px;
+        width: 28px;
+        border-radius: 4px;
+        margin-right: 16px;
+    }
+    .SidebarChannelGroupHeader_addButton:hover {
+        cursor: pointer;
+        color: var(--sidebar-text);
+    }
+    .SidebarChannelGroupHeader_addButton:focus {
+        outline-style: none;
+    }
+
+    .SidebarChannelGroupHeader_sortButton {
+        padding: 0;
+        z-index: 1;
+        background: transparent;
+        border: none;
+        color: var(--sidebar-text-64);
         font-size: 18px;
         line-height: 16px;
         height: 28px;
         width: 28px;
         border-radius: 4px;
         margin-left: auto;
-        margin-right: 16px;
     }
-    .SidebarChannelGroupHeader_addButton:hover {
+    .SidebarChannelGroupHeader_sortButton:hover {
         cursor: pointer;
-        background: rgba(255, 255, 255, 0.24);
         color: var(--sidebar-text);
     }
-    .SidebarChannelGroupHeader_addButton:focus {
+    .SidebarChannelGroupHeader_sortButton:focus {
         outline-style: none;
     }
 
@@ -624,8 +645,10 @@
 
 
         &.muted {
-            opacity: 0.4;
-            font-weight: 300;
+            > span, > i, .status.status--group {
+                opacity: 0.4;
+                font-weight: 300;
+            }
         }
 
         .SidebarMenu:not(.menuOpen) {
