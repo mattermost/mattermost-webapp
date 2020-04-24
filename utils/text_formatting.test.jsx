@@ -51,6 +51,17 @@ describe('autolinkAtMentions', () => {
             expect(tokens.get('$MM_ATMENTION0$')).toBeUndefined();
         });
     }
+    function runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions(leadingText = '', trailingText = '') {
+        mentionTestCases.forEach((testCase) => {
+            const mention = `@${testCase}`;
+            const text = `${leadingText}${mention}${trailingText}`;
+            const tokens = new Map();
+
+            const output = autolinkAtMentions(text, tokens);
+            expect(output).toBe(`${leadingText}$MM_ATMENTION0$`);
+            expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}${trailingText}">${mention}${trailingText}</span>`);
+        });
+    }
 
     // cases where highlights should be successful
     test('@channel, @all, @here should highlight properly with no leading or trailing content', () => {
@@ -68,17 +79,29 @@ describe('autolinkAtMentions', () => {
     test('@channel, @all, @here should highlight properly with a trailing period', () => {
         runSuccessfulAtMentionTests('', '.');
     });
+    test('@channel, @all, @here should highlight properly with multiple leading and trailing periods', () => {
+        runSuccessfulAtMentionTests('...', '...');
+    });
     test('@channel, @all, @here should highlight properly with a leading dash', () => {
         runSuccessfulAtMentionTests('-', '');
     });
     test('@channel, @all, @here should highlight properly with a trailing dash', () => {
         runSuccessfulAtMentionTests('', '-');
     });
+    test('@channel, @all, @here should highlight properly with multiple leading and trailing dashes', () => {
+        runSuccessfulAtMentionTests('---', '---');
+    });
+    test('@channel, @all, @here should highlight properly with a trailing underscore', () => {
+        runSuccessfulAtMentionTests('', '____');
+    });
+    test('@channel, @all, @here should highlight properly with multiple trailing underscores', () => {
+        runSuccessfulAtMentionTests('', '____');
+    });
     test('@channel, @all, @here should highlight properly within a typical sentance', () => {
         runSuccessfulAtMentionTests('This is a typical sentance, ', ' check out this sentance!');
     });
 
-    // cases where highlights should be unseccessful
+    // cases where highlights should be unsuccessful
     test('@channel, @all, @here should not highlight with a leading underscore', () => {
         runUnsuccessfulAtMentionTests('_');
     });
@@ -87,6 +110,26 @@ describe('autolinkAtMentions', () => {
     });
     test('@channel, @all, @here should not highlight when in the middle of a word', () => {
         runUnsuccessfulAtMentionTests('test', 'ing');
+    });
+
+    // cases where highlights should be unsucessful but a non special mention should be created
+    test('@channel, @all, @here should be treated as non special mentions with trailing period followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '.developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with multiple trailing periods followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '...developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with trailing dash followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '-developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with multiple trailing dashes followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '---developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with trailing underscore followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '_developers');
+    });
+    test('@channel, @all, @here should be treated as non special mentions with multiple trailing underscores followed by a word', () => {
+        runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions('Hello ', '___developers');
     });
 });
 

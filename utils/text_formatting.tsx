@@ -13,6 +13,8 @@ import {formatWithRenderer} from 'utils/markdown';
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
 
+import Constants from './constants';
+
 import EmojiMap from './emoji_map.js';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
@@ -350,7 +352,7 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
 
     // handle @channel, @all, @here mentions first (purposely excludes trailing punctuation)
     output = output.replace(
-        /\B@(channel|all|here)\b/gi,
+        Constants.SPECIAL_MENTIONS_REGEX,
         replaceAtMentionWithToken
     );
 
