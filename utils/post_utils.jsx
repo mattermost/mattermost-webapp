@@ -114,12 +114,15 @@ export function containsAtChannel(text, options = {}) {
         return false;
     }
 
-    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    let mentionsRegex;
     if (options.checkAllMentions === true) {
-        return Constants.SPECIAL_MENTIONS_REGEX.test(mentionableText);
+        mentionsRegex = new RegExp(Constants.SPECIAL_MENTIONS_REGEX);
+    } else {
+        mentionsRegex = new RegExp(Constants.ALL_MEMBERS_MENTIONS_REGEX);
     }
 
-    return Constants.ALL_MEMBERS_MENTIONS_REGEX.test(mentionableText);
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    return mentionsRegex.test(mentionableText);
 }
 
 export function shouldFocusMainTextbox(e, activeElement) {
