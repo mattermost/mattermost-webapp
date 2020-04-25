@@ -9,6 +9,11 @@ import MenuWrapperAnimation from './menu_wrapper_animation';
 
 import './menu_wrapper.scss';
 
+declare module 'react' {
+    interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+        disabled?: boolean;
+    }
+}
 type Props = {
     children?: React.ReactNode;
     className: string;
@@ -97,7 +102,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
                 className={'MenuWrapper ' + this.props.className}
                 onClick={this.toggle}
                 ref={this.node}
-                disabled={Boolean(this.props.isDisabled)}
+                disabled={this.props.isDisabled}
             >
                 {children ? Object.values(children)[0] : {}}
                 <Animation show={this.state.open}>

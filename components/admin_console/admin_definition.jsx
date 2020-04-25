@@ -273,16 +273,6 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         isHidden: it.userHasNoPermissionOnResource('user_management'),
-
-        //TODO (temporarily disabled until issue is figured)
-        // system_user_detail: {
-        //     url: 'user_management/user/:user_id',
-        //     isDisabled: it.userHasNoWritePermissionOnResource('user_management.users'),
-        //     schema: {
-        //         id: 'SystemUserDetail',
-        //         component: SystemUserDetail,
-        //     },
-        // },
         system_users: {
             url: 'user_management/users',
             title: t('admin.sidebar.users'),
@@ -294,6 +284,14 @@ const AdminDefinition = {
             schema: {
                 id: 'SystemUsers',
                 component: SystemUsers,
+            },
+        },
+        system_user_detail: {
+            url: 'user_management/user/:user_id',
+            isDisabled: it.userHasNoWritePermissionOnResource('user_management.users'),
+            schema: {
+                id: 'SystemUserDetail',
+                component: SystemUserDetail,
             },
         },
         group_detail: {

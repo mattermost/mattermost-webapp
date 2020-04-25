@@ -104,6 +104,7 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
                 placeholder='mattermost.org'
                 className='form-control'
                 onChange={(e) => onToggle(syncChecked, allAllowedChecked, allowedDomainsChecked, e.currentTarget.value)}
+                disabled={isDisabled}
             />
         </LineSwitch>);
 
