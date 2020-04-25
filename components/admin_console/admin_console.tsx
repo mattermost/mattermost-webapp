@@ -6,10 +6,13 @@ import 'bootstrap';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
+import {OutputParametricSelector} from 'reselect';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Role} from 'mattermost-redux/types/roles';
-
+import {GlobalState} from 'mattermost-redux/types/store';
 import {haveINoPermissionOnSysConsoleItem, haveINoWritePermissionOnSysConsoleItem} from 'mattermost-redux/selectors/entities/roles';
+import {SysConsoleItemOptions} from 'mattermost-redux/selectors/entities/roles_helpers';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -69,7 +72,7 @@ type ExtraProps = {
 
 type Item = {
     isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: ActionFunc) => boolean;
-    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, globalstate?: any, func?: ActionFunc) => boolean;
+    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean;
     schema: Record<string, any>;
     url: string;
 }
@@ -111,8 +114,16 @@ export default class AdminConsole extends React.Component<Props, State> {
 
     private renderRoutes = (extraProps: ExtraProps) => {
         const schemas = Object.values(this.props.adminDefinition).reduce((acc, section: Item[]) => {
-            let items = [];
-            const isSectionHidden = section.isHidden && section.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem);
+            let items: Item[] = [];
+
+            let isSectionHidden = false;
+            Object.entries(section).find(entry => {
+                if(entry[0] == 'isHidden' && typeof entry[1] === "function") {
+                    let isHiddenFunc = entry[1] as ((config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, globalstate?: any, func?: OutputParametricSelector<GlobalState, SysConsoleItemOptions, boolean, (res1: Set<string>, res2: string[]) => boolean>) => boolean);
+
+                    isSectionHidden = isHiddenFunc(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady, this.props.globalstate, haveINoPermissionOnSysConsoleItem)
+                }
+            });
 
             if (!isSectionHidden) {
                 items = Object.values(section).filter((item: Item) => {
