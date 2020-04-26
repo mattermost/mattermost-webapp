@@ -5,10 +5,14 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {Preferences} from 'mattermost-redux/constants';
+import channelCategories from 'mattermost-redux/selectors/entities/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import * as UserActions from 'actions/user_actions';
 
 const mockStore = configureStore([thunk]);
+const mockChannelsObj1 = [{id: 'gmChannel', type: 'G1'}];
+const mockChannelsObj2 = [{id: 'gmChannel', type: 'G2'}];
 
 jest.mock('mattermost-redux/actions/users', () => {
     const original = require.requireActual('mattermost-redux/actions/users');
@@ -18,6 +22,17 @@ jest.mock('mattermost-redux/actions/users', () => {
         getProfilesInChannel: (...args) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args, data: [{id: 'user_1'}]}),
         getProfilesInGroupChannels: (...args) => ({type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS', args}),
         getStatusesByIds: (...args) => ({type: 'MOCK_GET_STATUSES_BY_ID', args}),
+    };
+});
+
+jest.mock('mattermost-redux/selectors/entities/channel_categories', () => {
+    const original = require.requireActual('mattermost-redux/selectors/entities/channel_categories');
+    const mockChannelsObj = [{id: 'gmChannel', type: 'G2'}];
+    const mockFunc = jest.fn();
+    return {
+        ...original,
+        makeFilterAutoclosedDMs: jest.fn().mockReturnValue(mockFunc),
+        makeFilterManuallyClosedDMs: () => jest.fn().mockReturnValue(mockChannelsObj),
     };
 });
 
@@ -231,5 +246,11 @@ describe('Actions.User', () => {
         const testStore = await mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesForGroupChannels(mockedGroupChannels));
         expect(testStore.getActions()).toEqual(expectedActions);
+    });
+
+    test('filterGMsDMs', () => {
+        const filteredResults = UserActions.filterGMsDMs(initialState, mockChannelsObj1);
+        expect(channelCategories.makeFilterAutoclosedDMs()).toHaveBeenCalledWith(initialState, mockChannelsObj1, CategoryTypes.DIRECT_MESSAGES);
+        expect(filteredResults).toEqual(mockChannelsObj2);
     });
 });
