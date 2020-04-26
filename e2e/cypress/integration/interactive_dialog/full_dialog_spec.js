@@ -287,7 +287,6 @@ describe('Interactive Dialog', () => {
         cy.get('#somepassword').should('have.attr', 'type', 'password');
 
         closeInteractiveDialog();
-
     });
 });
 
