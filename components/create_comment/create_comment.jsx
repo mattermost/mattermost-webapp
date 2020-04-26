@@ -441,7 +441,7 @@ class CreateComment extends React.PureComponent {
 
         let newMessage = '';
         if (draft.message === '') {
-            newMessage = `![](${gif})`;;
+            newMessage = `![](${gif}) `;
         } else if ((/\s+$/).test(draft.message)) {
             // Check whether there is already a blank at the end of the current message
             newMessage = `${draft.message}![](${gif}) `;
