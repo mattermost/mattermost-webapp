@@ -148,7 +148,7 @@ type PluginStatus = {
     version: string;
     name: string;
     instances: Array<any>;
-    settings_schema: {
+    settings_schema?: {
         header: string;
         footer: string;
         settings?: Array<object>;
@@ -400,7 +400,7 @@ type Props = BaseProps & {
             RestrictSystemAdmin: boolean;
         };
     };
-    pluginStatuses: object;
+    pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
@@ -695,7 +695,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
 
     handleRemove = async () => {
         this.setState({lastMessage: null, serverError: null});
-        if (this.state.removing) {
+        if (this.state.removing !== null) {
             const {error} = await this.props.actions.removePlugin(this.state.removing);
             this.setState({removing: null});
 
@@ -779,8 +779,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     }
 
     renderRemovePluginModal = (
-        {show, onConfirm, onCancel}:
-        {show: boolean; onConfirm: (checked: boolean) => void; onCancel: (checked: boolean) => void }) => {
+        show: boolean, onConfirm: (checked: boolean) => void, onCancel: (checked: boolean) => void) => {
         const title = (
             <FormattedMessage
                 id='admin.plugin.remove_modal.title'
