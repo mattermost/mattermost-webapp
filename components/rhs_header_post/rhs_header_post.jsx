@@ -6,7 +6,6 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import store from 'stores/redux_store.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
@@ -20,6 +19,7 @@ export default class RhsHeaderPost extends React.Component {
         previousRhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
+        relativeTeamUrl: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func,
             showMentions: PropTypes.func,

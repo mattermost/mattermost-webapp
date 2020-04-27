@@ -36,7 +36,6 @@ import {
     showMentions,
     openRHSSearch,
     closeRightHandSide,
-    setRhsExpanded,
 } from 'actions/views/rhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
@@ -97,7 +96,6 @@ const mapDispatchToProps = (dispatch) => ({
         showMentions,
         openRHSSearch,
         closeRightHandSide,
-        setRhsExpanded,
         getCustomEmojisInText,
         updateChannelNotifyProps,
         goToLastViewedChannel,

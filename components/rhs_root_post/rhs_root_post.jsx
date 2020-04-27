@@ -45,8 +45,6 @@ class RhsRootPost extends React.PureComponent {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
-        channelType: PropTypes.string,
-        channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
 
         /**
