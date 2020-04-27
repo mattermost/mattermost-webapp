@@ -10,6 +10,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -123,7 +124,7 @@ export default class ReactionList extends React.PureComponent {
                 <Tooltip id='addReactionTooltip'>
                     <FormattedMessage
                         id='reaction_list.addReactionTooltip'
-                        defaultMessage='Add reaction'
+                        defaultMessage='Add a reaction'
                     />
                 </Tooltip>
             );
@@ -150,7 +151,7 @@ export default class ReactionList extends React.PureComponent {
                             overlay={addReactionTooltip}
                         >
                             <button
-                                aria-label={localizeMessage('reaction.add.ariaLabel', 'add reaction')}
+                                aria-label={localizeMessage('reaction.add.ariaLabel', 'Add a reaction')}
                                 className='style--none post-reaction'
                                 onClick={this.toggleEmojiPicker}
                             >
@@ -159,7 +160,7 @@ export default class ReactionList extends React.PureComponent {
                                     className='post-reaction__add'
                                     ref='addReactionButton'
                                 >
-                                    {'+'}
+                                    <AddReactionIcon/>
                                 </span>
                             </button>
                         </OverlayTrigger>

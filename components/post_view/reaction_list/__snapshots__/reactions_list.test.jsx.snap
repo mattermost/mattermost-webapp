@@ -62,7 +62,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
               placement="right"
             >
               <FormattedMessage
-                defaultMessage="Add reaction"
+                defaultMessage="Add a reaction"
                 id="reaction_list.addReactionTooltip"
                 values={Object {}}
               />
@@ -77,7 +77,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
           }
         >
           <button
-            aria-label="add reaction"
+            aria-label="Add a reaction"
             className="style--none post-reaction"
             onClick={[Function]}
           >
@@ -85,7 +85,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
               className="post-reaction__add"
               id="addReaction-post_id"
             >
-              +
+              <AddReactionIcon />
             </span>
           </button>
         </OverlayTrigger>

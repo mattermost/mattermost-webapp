@@ -146,7 +146,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
     private restrictChannelMentions() {
         // Disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
         let channelPermissions = this.props.channelPermissions;
-        const currentCreatePostRoles: any = channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.['roles'];
+        const currentCreatePostRoles: any = channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.roles;
         for (const channelRole of Object.keys(currentCreatePostRoles)) {
             channelPermissions = channelPermissions!.map((permission) => {
                 if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
@@ -190,7 +190,12 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         if (this.state.isSynced) {
             try {
                 if (groups.length === 0) {
-                    serverError = <NeedGroupsError/>;
+                    serverError = (
+                        <NeedGroupsError
+                            warning={true}
+                            isChannel={true}
+                        />
+                    );
                 } else {
                     if (!channelID) {
                         return;
@@ -238,7 +243,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let channelPermissions = [...this.state.channelPermissions!];
 
         if (name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST) {
-            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.['roles']![channelRole];
+            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.roles![channelRole];
             channelPermissions = channelPermissions.map((permission) => {
                 if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && !newValue) {
                     return {
@@ -257,8 +262,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         roles: {
                             ...permission.roles,
                             [channelRole]: {
-                                value: originalObj?.['value'],
-                                enabled: originalObj?.['enabled'],
+                                value: originalObj?.value,
+                                enabled: originalObj?.enabled,
                             }
                         }
                     };
@@ -306,9 +311,6 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 isPublic,
                 isPrivacyChanging
             });
-            if (this.state.groups.length === 0) {
-                return;
-            }
         }
         if (isPrivacyChanging && usersToRemove > 0) {
             this.setState({showConvertAndRemoveConfirmModal: true});
@@ -331,68 +333,71 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         let saveNeeded = false;
         const {groups: origGroups, channelID, actions, channel} = this.props;
         if (this.state.groups.length === 0 && isSynced) {
-            serverError = <NeedGroupsError/>;
+            serverError = <NeedGroupsError isChannel={true}/>;
             saveNeeded = true;
-        } else {
-            const promises = [];
-            if (isPrivacyChanging) {
-                const convert = actions.updateChannelPrivacy(channel.id, isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL);
-                promises.push(
-                    convert.then((res) => {
-                        if ('error' in res) {
-                            return res;
-                        }
-                        return actions.patchChannel(channel.id, {
-                            ...channel,
-                            group_constrained: isSynced
-                        });
-                    })
-                );
-            } else {
-                promises.push(
-                    actions.patchChannel(channel.id, {
+            this.setState({serverError, saving: false, saveNeeded});
+            actions.setNavigationBlocked(saveNeeded);
+            return;
+        }
+
+        const promises = [];
+        if (isPrivacyChanging) {
+            const convert = actions.updateChannelPrivacy(channel.id, isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL);
+            promises.push(
+                convert.then((res) => {
+                    if ('error' in res) {
+                        return res;
+                    }
+                    return actions.patchChannel(channel.id, {
                         ...channel,
                         group_constrained: isSynced
+                    });
+                })
+            );
+        } else {
+            promises.push(
+                actions.patchChannel(channel.id, {
+                    ...channel,
+                    group_constrained: isSynced
+                })
+            );
+        }
+
+        const patchChannelSyncable = groups.
+            filter((g) => {
+                return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
+            }).
+            map((g) => actions.patchGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: g.scheme_admin}));
+        const unlink = origGroups.
+            filter((g) => {
+                return !groups.some((group) => group.id === g.id);
+            }).
+            map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+        const link = groups.
+            filter((g) => {
+                return !origGroups.some((group) => group.id === g.id);
+            }).
+            map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
+        const result = await Promise.all([...promises, ...patchChannelSyncable, ...unlink, ...link]);
+        const resultWithError = result.find((r) => 'error' in r);
+        if (resultWithError && 'error' in resultWithError) {
+            serverError = <FormError error={resultWithError.error.message}/>;
+        } else {
+            const actionsToAwait: any[] = [actions.getGroups(channelID)];
+            if (isPrivacyChanging) {
+                // If the privacy is changing update the manage_members value for the channel moderation widget
+                actionsToAwait.push(
+                    actions.getChannelModerations(channelID).then(() => {
+                        const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                        if (channelPermissions) {
+                            const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                            channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
+                        }
+                        this.setState({channelPermissions});
                     })
                 );
             }
-
-            const patchChannelSyncable = groups.
-                filter((g) => {
-                    return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
-                }).
-                map((g) => actions.patchGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: g.scheme_admin}));
-            const unlink = origGroups.
-                filter((g) => {
-                    return !groups.some((group) => group.id === g.id);
-                }).
-                map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
-            const link = groups.
-                filter((g) => {
-                    return !origGroups.some((group) => group.id === g.id);
-                }).
-                map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
-            const result = await Promise.all([...promises, ...patchChannelSyncable, ...unlink, ...link]);
-            const resultWithError = result.find((r) => 'error' in r);
-            if (resultWithError && 'error' in resultWithError) {
-                serverError = <FormError error={resultWithError.error.message}/>;
-            } else {
-                const actionsToAwait: any[] = [actions.getGroups(channelID)];
-                if (isPrivacyChanging) {
-                    // If the privacy is changing update the manage_members value for the channel moderation widget
-                    actionsToAwait.push(
-                        actions.getChannelModerations(channelID).then(() => {
-                            const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
-                            if (channelPermissions) {
-                                const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
-                                channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
-                            }
-                            this.setState({channelPermissions});
-                        })
-                    );
-                }
-                await Promise.all(actionsToAwait);
-            }
+            await Promise.all(actionsToAwait);
         }
 
         const patchChannelPermissionsArray: Array<ChannelModerationPatch> = channelPermissions!.map((p) => {
@@ -405,9 +410,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             };
         });
 
-        const result = await actions.patchChannelModerations(channelID, patchChannelPermissionsArray);
-        if (result.error) {
-            serverError = <FormError error={result.error.message}/>;
+        const patchChannelModerationsResult = await actions.patchChannelModerations(channelID, patchChannelPermissionsArray);
+        if (patchChannelModerationsResult.error) {
+            serverError = <FormError error={patchChannelModerationsResult.error.message}/>;
         }
         this.restrictChannelMentions();
 
@@ -417,7 +422,6 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         }
 
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging});
-
         actions.setNavigationBlocked(saveNeeded);
     };
 
@@ -497,7 +501,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         <ChannelModeration
                             channelPermissions={channelPermissions}
                             onChannelPermissionsChanged={this.channelPermissionsChanged}
-                            teamSchemeID={teamScheme?.['id']}
+                            teamSchemeID={teamScheme?.id}
                             teamSchemeDisplayName={teamScheme?.['display_name']}
                             guestAccountsEnabled={this.props.guestAccountsEnabled}
                         />

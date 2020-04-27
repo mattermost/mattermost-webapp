@@ -5,6 +5,7 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
@@ -73,6 +74,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
+    setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -84,6 +86,7 @@ const actionsProp = {
         return {data: {message, args}};
     },
     scrollPostListToBottom: jest.fn(),
+    selectChannelMemberCountsByGroup: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -105,6 +108,7 @@ function createPost({
     readOnlyChannel = false,
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
+    isTimezoneEnabled = false,
 } = {}) {
     return (
         <CreatePost
@@ -133,9 +137,11 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
-            isTimezoneEnabled={false}
+            shouldShowPreview={false}
+            isTimezoneEnabled={isTimezoneEnabled}
             canPost={true}
             useChannelMentions={true}
+            useGroupMentions={true}
         />
     );
 }
@@ -265,10 +271,6 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
-        wrapper.setState({
-            showPreview: false,
-        });
-
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
@@ -292,6 +294,155 @@ describe('components/create_post', () => {
         });
 
         form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
+    it('onSubmit test for @groups', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        wrapper.setProps({
+            groupsWithAllowReference: new Map([
+                ['@developers', {
+                    id: 'developers',
+                    name: 'developers'
+                }]
+            ]),
+            channelMemberCountsByGroup: {
+                developers: {
+                    channel_member_count: 10,
+                    channel_member_timezones_count: 0,
+                }
+            }
+        });
+        wrapper.setState({
+            message: '@developers',
+        });
+
+        const form = wrapper.find('#create_post');
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+        expect(wrapper.state('memberNotifyCount')).toBe(10);
+        expect(wrapper.state('channelTimezoneCount')).toBe(0);
+        expect(wrapper.state('mentions')).toMatchObject(['@developers']);
+        wrapper.instance().hideNotifyAllModal();
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
+    it('onSubmit test for several @groups', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        wrapper.setProps({
+            groupsWithAllowReference: new Map([
+                ['@developers', {
+                    id: 'developers',
+                    name: 'developers',
+                }],
+                ['@boss', {
+                    id: 'boss',
+                    name: 'boss',
+                }],
+                ['@love', {
+                    id: 'love',
+                    name: 'love',
+                }],
+                ['@you', {
+                    id: 'you',
+                    name: 'you',
+                }],
+                ['@software-developers', {
+                    id: 'softwareDevelopers',
+                    name: 'software-developers',
+                }],
+            ]),
+            channelMemberCountsByGroup: {
+                developers: {
+                    channel_member_count: 10,
+                    channel_member_timezones_count: 0,
+                },
+                boss: {
+                    channel_member_count: 20,
+                    channel_member_timezones_count: 0,
+                },
+                love: {
+                    channel_member_count: 30,
+                    channel_member_timezones_count: 0,
+                },
+                you: {
+                    channel_member_count: 40,
+                    channel_member_timezones_count: 0,
+                },
+                softwareDevelopers: {
+                    channel_member_count: 5,
+                    channel_member_timezones_count: 0,
+                },
+            }
+        });
+        wrapper.setState({
+            message: '@developers @boss @love @you @software-developers',
+        });
+
+        const form = wrapper.find('#create_post');
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+        expect(wrapper.state('memberNotifyCount')).toBe(40);
+        expect(wrapper.state('channelTimezoneCount')).toBe(0);
+        expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you', '@software-developers']);
+        wrapper.instance().hideNotifyAllModal();
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
+    it('onSubmit test for several @groups with timezone', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        wrapper.setProps({
+            groupsWithAllowReference: new Map([
+                ['@developers', {
+                    id: 'developers',
+                    name: 'developers',
+                }],
+                ['@boss', {
+                    id: 'boss',
+                    name: 'boss',
+                }],
+                ['@love', {
+                    id: 'love',
+                    name: 'love',
+                }],
+                ['@you', {
+                    id: 'you',
+                    name: 'you',
+                }],
+            ]),
+            channelMemberCountsByGroup: {
+                developers: {
+                    channel_member_count: 10,
+                    channel_member_timezones_count: 10,
+                },
+                boss: {
+                    channel_member_count: 20,
+                    channel_member_timezones_count: 130,
+                },
+                love: {
+                    channel_member_count: 30,
+                    channel_member_timezones_count: 2,
+                },
+                you: {
+                    channel_member_count: 40,
+                    channel_member_timezones_count: 5,
+                },
+            }
+        });
+        wrapper.setState({
+            message: '@developers @boss @love @you',
+        });
+
+        const form = wrapper.find('#create_post');
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+        expect(wrapper.state('memberNotifyCount')).toBe(40);
+        expect(wrapper.state('channelTimezoneCount')).toBe(5);
+        expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you']);
+        wrapper.instance().hideNotifyAllModal();
         expect(wrapper.state('showConfirmModal')).toBe(false);
     });
 
@@ -358,20 +509,27 @@ describe('components/create_post', () => {
     it('onSubmit test for @all with timezones', () => {
         const wrapper = shallowWithIntl(
             createPost({
-                getChannelTimezones: jest.fn(() => Promise.resolve([])),
+                actions: {
+                    ...actionsProp,
+                    getChannelTimezones: jest.fn(() => Promise.resolve({data: [1, 2, 3, 4]})),
+                },
                 isTimezoneEnabled: true,
+                currentChannelMembersCount: 9,
             })
         );
 
         wrapper.setState({
             message: 'test @all',
             channelTimezoneCount: 4,
+            showConfirmModal: true,
+            memberNotifyCount: 8,
         });
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.state('showConfirmModal')).toBe(true);
         expect(wrapper.state('channelTimezoneCount')).toBe(4);
+        expect(wrapper.state('memberNotifyCount')).toBe(8);
         wrapper.instance().hideNotifyAllModal();
         expect(wrapper.state('showConfirmModal')).toBe(false);
 
@@ -1036,4 +1194,9 @@ describe('components/create_post', () => {
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
+
+    testComponentForLineBreak(
+        (value) => createPost({draft: {...draftProp, message: value}}),
+        (instance) => instance.state().message
+    );
 });

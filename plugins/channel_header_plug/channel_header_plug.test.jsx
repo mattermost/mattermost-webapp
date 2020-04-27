@@ -41,10 +41,17 @@ describe('plugins/ChannelHeaderPlug', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with two extended components', () => {
+    test('should match snapshot with six extended components', () => {
         const wrapper = mountWithIntl(
             <ChannelHeaderPlug
-                components={[testPlug, {...testPlug, id: 'someid2'}]}
+                components={[
+                    testPlug,
+                    {...testPlug, id: 'someid2'},
+                    {...testPlug, id: 'someid3'},
+                    {...testPlug, id: 'someid4'},
+                    {...testPlug, id: 'someid5'},
+                    {...testPlug, id: 'someid6'},
+                ]}
                 channel={{}}
                 channelMember={{}}
                 theme={{}}

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import CopyUrlContextMenu from 'components/copy_url_context_menu/copy_url_context_menu';
+import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions';

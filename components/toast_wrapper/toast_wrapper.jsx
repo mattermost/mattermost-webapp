@@ -32,6 +32,16 @@ class ToastWrapper extends React.PureComponent {
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
         updateLastViewedBottomAt: PropTypes.func,
+
+        /*
+         * Object from react-router
+         */
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                team: PropTypes.string,
+            }).isRequired,
+        }).isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -244,19 +254,42 @@ class ToastWrapper extends React.PureComponent {
         );
     }
 
+    changeUrlToRemountChannelView = () => {
+        const {match} = this.props;
+
+        // Inorder of mount the channel view we are redirecting to /team url to load the channel again
+        // Todo: Can be changed to dispatch if we put focussedPostId in redux state.
+        browserHistory.replace(`/${match.params.team}`);
+    }
+
     scrollToNewMessage = () => {
-        this.props.scrollToNewMessage();
-        this.props.updateLastViewedBottomAt();
+        const {focusedPostId, atLatestPost, scrollToNewMessage, updateLastViewedBottomAt} = this.props;
+
+        // if latest set of posts are not loaded in the view then we cannot scroll to the message
+        // We will be chaging the url to remount the channel view so we can remove the focussedPostId react state
+        // if we don't remove the focussedPostId state then scroll tries to correct to that instead of new message line
+        if (focusedPostId && !atLatestPost) {
+            this.changeUrlToRemountChannelView();
+            return;
+        }
+
+        scrollToNewMessage();
+        updateLastViewedBottomAt();
         this.hideNewMessagesToast();
     }
 
     scrollToLatestMessages = () => {
-        if (this.props.focusedPostId) {
+        const {focusedPostId, atLatestPost, scrollToLatestMessages} = this.props;
+
+        if (focusedPostId) {
+            if (!atLatestPost) {
+                this.changeUrlToRemountChannelView();
+                return;
+            }
             this.hideArchiveToast();
-            const channelUrl = browserHistory.location.pathname.split('/').slice(0, -1).join('/');
-            browserHistory.push(channelUrl);
         }
-        this.props.scrollToLatestMessages();
+
+        scrollToLatestMessages();
         this.hideUnreadToast();
     }
 

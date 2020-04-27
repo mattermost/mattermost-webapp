@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @enterprise @system_console
+
 describe('System Console - Enterprise', () => {
     before(() => {
         // * Login as sysadmin and check if server has license

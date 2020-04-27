@@ -48,6 +48,14 @@ const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
                 />
             );
             break;
+        case ErrorPageTypes.OAUTH_INVALID_PARAM:
+            errorTitle = (
+                <FormattedMessage
+                    id='error.oauth_invalid_param.title'
+                    defaultMessage='OAuth Parameter Error'
+                />
+            );
+            break;
         case ErrorPageTypes.TEAM_NOT_FOUND:
             errorTitle = (
                 <FormattedMessage

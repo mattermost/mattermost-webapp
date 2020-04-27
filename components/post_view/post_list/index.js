@@ -44,7 +44,7 @@ function makeMapStateToProps() {
         let latestAriaLabelFunc;
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
 
-        if (ownProps.focusedPostId) {
+        if (ownProps.focusedPostId && ownProps.unreadChunkTimeStamp !== '') {
             chunk = getPostsChunkAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
         } else if (ownProps.unreadChunkTimeStamp) {
             chunk = getUnreadPostsChunk(state, ownProps.channelId, ownProps.unreadChunkTimeStamp);

@@ -22,6 +22,7 @@ import {
     getChannelStats,
     viewChannel,
     markChannelAsRead,
+    getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -718,13 +719,21 @@ function handleDirectAddedEvent(msg) {
 }
 
 function handleUserAddedEvent(msg) {
-    const currentChannelId = getCurrentChannelId(getState());
+    const state = getState();
+    const config = getConfig(state);
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const currentChannelId = getCurrentChannelId(state);
     if (currentChannelId === msg.broadcast.channel_id) {
         dispatch(getChannelStats(currentChannelId));
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
+        if (isTimezoneEnabled) {
+            dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
+        } else {
+            dispatch(getChannelMemberCountsByGroup(currentChannelId, false));
+        }
     }
 
     const currentTeamId = getCurrentTeamId(getState());
@@ -738,6 +747,8 @@ export async function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
+    const config = getConfig(state);
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
     if (msg.broadcast.user_id === currentUser.id) {
         dispatch(loadChannelsForCurrentUser());
@@ -746,11 +757,6 @@ export async function handleUserRemovedEvent(msg) {
         if (msg.data.channel_id === rhsChannelId) {
             dispatch(closeRightHandSide());
         }
-
-        await dispatch({
-            type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-        });
 
         if (msg.data.channel_id === currentChannel.id) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
@@ -782,6 +788,11 @@ export async function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
+        if (isTimezoneEnabled) {
+            dispatch(getChannelMemberCountsByGroup(currentChannel.id, true));
+        } else {
+            dispatch(getChannelMemberCountsByGroup(currentChannel.id, false));
+        }
     }
 
     if (msg.broadcast.user_id !== currentUser.id) {
@@ -944,7 +955,7 @@ function addedNewDmUser(preference) {
 }
 
 export function handleUserTypingEvent(msg) {
-    return (doDispatch, doGetState) => {
+    return async (doDispatch, doGetState) => {
         const state = doGetState();
         const config = getConfig(state);
         const currentUserId = getCurrentUserId(state);
@@ -969,7 +980,11 @@ export function handleUserTypingEvent(msg) {
         }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
         if (userId !== currentUserId) {
-            doDispatch(getMissingProfilesByIds([userId]));
+            const result = await doDispatch(getMissingProfilesByIds([userId]));
+            if (result.data && result.data.length > 0) {
+                // Already loaded the user status
+                return;
+            }
         }
 
         const status = getStatusForUserId(state, userId);

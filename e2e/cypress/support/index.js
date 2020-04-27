@@ -18,6 +18,8 @@ import 'cypress-wait-until';
 import 'cypress-plugin-tab';
 import './okta_commands';
 import './saml_commands';
+import './ldap_commands';
+import './common_login_commands';
 
 import addContext from 'mochawesome/addContext';
 
