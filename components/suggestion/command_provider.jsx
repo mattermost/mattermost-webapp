@@ -46,8 +46,6 @@ export class CommandSuggestion extends Suggestion {
 }
 
 export default class CommandProvider extends Provider {
-    callback = () => {}; //eslint-disable-line no-empty-function
-
     handlePretextChanged(pretext, resultCallback) {
         if (UserAgent.isMobile()) {
             return this.handleMobile(pretext, resultCallback);
