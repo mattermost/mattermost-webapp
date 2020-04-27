@@ -1323,6 +1323,7 @@ export const Constants = {
         swift: {name: 'Swift', extensions: ['swift']},
         tex: {name: 'TeX', extensions: ['tex'], aliases: ['latex']},
         text: {name: 'Text', extensions: ['txt', 'log']},
+        typescript: {name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx']},
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
         vbscript: {name: 'VBScript', extensions: ['vbs']},
         verilog: {name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh']},
@@ -1413,6 +1414,8 @@ export const Constants = {
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
+    DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
+    DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
