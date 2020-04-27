@@ -141,8 +141,19 @@ describe('Message', () => {
 
     it('M23361 Focus remains in the RHS text box', () => {
         cy.postMessage(MESSAGES.MEDIUM);
+
+        // # Open reply thread (RHS)
         cy.clickPostCommentIcon();
-        cy.postMessageReplyInRHS(MESSAGES.SMALL);
+
+        // # Add some text to RHS text box
+        cy.get('#reply_textbox').type(MESSAGES.TINY);
+
+        // # Click on Preview
+
+        // # Click on Add Comment
+        cy.get('#addCommentButton').click();
+
+        // * Focus to remain in the RHS text box
         cy.get('#reply_textbox').should('be.focused');
     });
 });
