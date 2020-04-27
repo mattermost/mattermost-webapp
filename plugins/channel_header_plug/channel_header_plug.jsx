@@ -122,6 +122,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     createButton = (plug) => {
         return (
             <HeaderIconWrapper
+                key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon style--none'
                 iconComponent={plug.icon}
                 onClick={() => plug.action(this.props.channel, this.props.channelMember)}
@@ -208,8 +209,8 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
         if (components.length === 0) {
             return null;
-        } else if (components.length === 1) {
-            return this.createButton(components[0]);
+        } else if (components.length <= 5) {
+            return components.map(this.createButton);
         }
 
         return this.createDropdown(components);
