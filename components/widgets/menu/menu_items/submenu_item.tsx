@@ -7,6 +7,7 @@ import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
 
 import './menu_item.scss';
+import Constants from 'utils/constants';
 
 // Requires an object conforming to a submenu structure passed to registerPostDropdownSubMenuAction
 // of the form:
@@ -102,6 +103,28 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
     }
 
+    private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (Utils.isKeyPressed(event, Constants.KeyCodes.ENTER)) {
+            this.show();
+        }
+
+        if (Utils.isKeyPressed(event, Constants.KeyCodes.RIGHT)) {
+            if (this.props.direction === 'right') {
+                this.show();
+            } else {
+                this.hide();
+            }
+        }
+
+        if (Utils.isKeyPressed(event, Constants.KeyCodes.LEFT)) {
+            if (this.props.direction === 'left') {
+                this.show();
+            } else {
+                this.hide();
+            }
+        }
+    }
+
     public render() {
         const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction, openUp} = this.props;
         const isMobile = Utils.isMobile();
@@ -179,6 +202,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     onMouseEnter={this.show}
                     onMouseLeave={this.hide}
                     onClick={this.onClick}
+                    tabIndex={0}
+                    onKeyDown={this.handleKeyDown}
                 >
                     <span
                         id={'channelHeaderDropdownIconLeft_' + id}
