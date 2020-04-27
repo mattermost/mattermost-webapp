@@ -277,6 +277,7 @@ export const A11yClassNames = {
     FOCUSED: 'a11y--focused',
     MODAL: 'a11y__modal',
     POPUP: 'a11y__popup',
+    DISABLE_NAVIGATION: 'a11y__disable-navigation',
 };
 
 export const A11yAttributeNames = {

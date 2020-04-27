@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
-import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture, DragUpdate} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
@@ -433,6 +433,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             <div
                 id='sidebar-left'
                 className={classNames('SidebarNavContainer a11y__region', {
+                    'a11y__disable-navigation': this.props.draggingState.type,
                     disabled: this.props.isUnreadFilterEnabled
                 })}
                 data-a11y-sort-order='7'

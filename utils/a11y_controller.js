@@ -181,6 +181,13 @@ export default class A11yController {
         return this.popupHTMLCollection.length > 0;
     }
 
+    /**
+     * Indicates if the region should stop up/down arrow navigation through sections
+     */
+    get disableSectionNavigation() {
+        return this.activeRegion.classList.contains(A11yClassNames.DISABLE_NAVIGATION);
+    }
+
     // public methods
 
     /**
@@ -252,13 +259,15 @@ export default class A11yController {
         ) {
             return;
         }
-        let newSection;
-        if (this.activeSection && this.activeSectionIndex < sections.length - 1) {
-            newSection = sections[this.activeSectionIndex + 1];
-        } else {
-            newSection = sections[0];
+        if (!this.disableSectionNavigation) {
+            let newSection;
+            if (this.activeSection && this.activeSectionIndex < sections.length - 1) {
+                newSection = sections[this.activeSectionIndex + 1];
+            } else {
+                newSection = sections[0];
+            }
+            this.setActiveSection(newSection);
         }
-        this.setActiveSection(newSection);
         this.setCurrentFocus();
         this.resetNavigation = true;
     }
@@ -278,15 +287,17 @@ export default class A11yController {
         ) {
             return;
         }
-        let newSection;
-        if (this.activeSection && this.activeSectionIndex > 0) {
-            newSection = sections[this.activeSectionIndex - 1];
-        } else if (this.activeSection && this.activeSectionIndex === 0) {
-            newSection = sections[sections.length - 1];
-        } else {
-            newSection = sections[0];
+        if (!this.disableSectionNavigation) {
+            let newSection;
+            if (this.activeSection && this.activeSectionIndex > 0) {
+                newSection = sections[this.activeSectionIndex - 1];
+            } else if (this.activeSection && this.activeSectionIndex === 0) {
+                newSection = sections[sections.length - 1];
+            } else {
+                newSection = sections[0];
+            }
+            this.setActiveSection(newSection);
         }
-        this.setActiveSection(newSection);
         this.setCurrentFocus();
         this.resetNavigation = true;
     }
