@@ -364,7 +364,7 @@ class ChannelHeader extends React.PureComponent {
                 if (user.id === currentUser.id) {
                     continue;
                 }
-                const userDisplayName = displayUsername(user.id, this.props.teammateNameDisplaySetting);
+                const userDisplayName = displayUsername(user, this.props.teammateNameDisplaySetting);
 
                 if (!membersMap[userDisplayName]) {
                     membersMap[userDisplayName] = []; //Create an array for cases with same display name
@@ -373,7 +373,7 @@ class ChannelHeader extends React.PureComponent {
                 membersMap[userDisplayName].push(user);
             }
 
-            const displayNames = channel.display_name.split('');
+            const displayNames = channel.display_name.split(', ');
 
             channelTitle = displayNames.map((displayName, index) => {
                 if (!membersMap[displayName]) {
@@ -504,7 +504,7 @@ class ChannelHeader extends React.PureComponent {
                     if (!isDirect || !dmUser.is_bot) {
                         editMessage = (
                             <button
-                                className='style--none'
+                                className='header-placeholder style--none'
                                 onClick={this.showEditChannelHeaderModal}
                             >
                                 <FormattedMessage
@@ -528,7 +528,7 @@ class ChannelHeader extends React.PureComponent {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <button
-                                className='style--none'
+                                className='header-placeholder style--none'
                                 onClick={this.showEditChannelHeaderModal}
                             >
                                 <FormattedMessage
@@ -631,7 +631,7 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon';
+        let pinnedIconClass = 'channel-header__icon channel-header__icon--wide';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' channel-header__icon--active';
         }
