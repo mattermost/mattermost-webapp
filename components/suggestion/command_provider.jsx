@@ -49,21 +49,44 @@ export default class CommandProvider extends Provider {
     callback = () => {}; //eslint-disable-line no-empty-function
 
     handlePretextChanged(pretext, resultCallback) {
-        this.callback = resultCallback;
+        if (UserAgent.isMobile()) {
+            return this.handleMobile(pretext, resultCallback);
+        }
+        return this.handleWebapp(pretext, resultCallback);
+    }
+
+    handleCompleteWord(term, pretext, callback) {
+        callback(term + ' ');
+    }
+
+    handleMobile(pretext, resultCallback) {
         if (pretext.startsWith('/')) {
             const command = pretext.toLowerCase();
-            Client4.getCommandAutocompleteSuggestionsList(command, getCurrentTeamId(store.getState())).then(
+            Client4.getCommandsList(getCurrentTeamId(store.getState())).then(
                 (data) => {
-                    const matches = [];
-                    data.forEach((sug) => {
-                        if (!UserAgent.isMobile()) {
-                            matches.push({
-                                suggestion: '/' + sug.Suggestion,
-                                hint: sug.Hint,
-                                description: sug.Description,
-                            });
+                    let matches = [];
+                    data.forEach((cmd) => {
+                        if (!cmd.auto_complete) {
+                            return;
+                        }
+
+                        if (cmd.trigger !== 'shortcuts') {
+                            if (('/' + cmd.trigger).indexOf(command) === 0) {
+                                const s = '/' + cmd.trigger;
+                                let hint = '';
+                                if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
+                                    hint = cmd.auto_complete_hint;
+                                }
+                                matches.push({
+                                    suggestion: s,
+                                    hint,
+                                    description: cmd.auto_complete_desc,
+                                });
+                            }
                         }
                     });
+
+                    matches = matches.sort((a, b) => a.suggestion.localeCompare(b.suggestion));
 
                     // pull out the suggested commands from the returned data
                     const terms = matches.map((suggestion) => suggestion.suggestion);
@@ -84,7 +107,37 @@ export default class CommandProvider extends Provider {
         return false;
     }
 
-    handleCompleteWord(term) {
-        this.handlePretextChanged(term + ' ', this.callback);
+    handleWebapp(pretext, resultCallback) {
+        if (pretext.startsWith('/')) {
+            const command = pretext.toLowerCase();
+            Client4.getCommandAutocompleteSuggestionsList(command, getCurrentTeamId(store.getState())).then(
+                (data) => {
+                    const matches = [];
+                    data.forEach((sug) => {
+                        matches.push({
+                            complete: '/' + sug.Complete,
+                            suggestion: '/' + sug.Suggestion,
+                            hint: sug.Hint,
+                            description: sug.Description,
+                        });
+                    });
+
+                    // pull out the suggested commands from the returned data
+                    const terms = matches.map((suggestion) => suggestion.complete);
+
+                    resultCallback({
+                        matchedPretext: command,
+                        terms,
+                        items: matches,
+                        component: CommandSuggestion,
+                    });
+                }
+            ).catch(
+                () => {} //eslint-disable-line no-empty-function
+            );
+
+            return true;
+        }
+        return false;
     }
 }
