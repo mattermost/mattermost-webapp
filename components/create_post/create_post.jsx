@@ -665,6 +665,9 @@ class CreatePost extends React.PureComponent {
             currentChannel,
             currentUserId,
             draft,
+            useGroupMentions,
+            useChannelMentions,
+            groupsWithAllowReference
         } = this.props;
 
         let post = originalPost;
@@ -679,9 +682,13 @@ class CreatePost extends React.PureComponent {
         post.parent_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
-        if (!this.props.useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
+        if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
+        if (!useGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
+            post.props.disable_group_highlight = true;
+        }
+
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
