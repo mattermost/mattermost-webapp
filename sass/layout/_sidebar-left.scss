@@ -528,6 +528,15 @@
             }
         }
 
+        &.fadeDMs {
+            opacity: 0;
+            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+        }
+
+        &.noFloat {
+            transform: none !important;
+        }
+
         .btn-close {
             @include opacity(0);
             visibility: hidden;

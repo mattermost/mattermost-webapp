@@ -117,29 +117,8 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         };
     }
 
-    getStyle = (style: DraggingStyle | NotDraggingStyle | undefined, snapshot: DraggableStateSnapshot) => {
-        // Turn off channel floating for the DM category, since you can't reorder DMs
-        if (this.props.isDMCategory && !snapshot.isDragging) {
-            return {
-                ...style,
-                transform: 'none',
-            };
-        }
-
-        // Fade DMs into the DM category instead of dropping them into a slot
-        if (snapshot.isDropAnimating && snapshot.draggingOver?.includes('direct_messages')) {
-            return {
-                ...style,
-                opacity: 0,
-                transition: `all ${snapshot.dropAnimation?.curve} ${snapshot.dropAnimation?.duration}s`,
-            };
-        }
-
-        return style;
-    }
-
     render() {
-        const {channel, currentTeamName, channelIndex} = this.props;
+        const {channel, currentTeamName, channelIndex, isDMCategory, isCurrentChannel} = this.props;
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string}> = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {
@@ -161,15 +140,16 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                             className={classNames('SidebarChannel', {
                                 collapsed: this.isCollapsed(this.props),
                                 unread: this.isUnread(),
-                                active: this.props.isCurrentChannel,
+                                active: isCurrentChannel,
                                 dragging: snapshot.isDragging,
+                                fadeDMs: snapshot.isDropAnimating && snapshot.draggingOver?.includes('direct_messages'),
+                                noFloat: isDMCategory && !snapshot.isDragging,
                             })}
                             onTransitionEnd={this.removeAnimation}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             role='listitem'
                             tabIndex={-1}
-                            style={this.getStyle(provided.draggableProps.style, snapshot)}
                         >
                             <ChannelComponent
                                 channel={channel}
