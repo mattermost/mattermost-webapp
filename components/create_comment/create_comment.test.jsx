@@ -974,6 +974,7 @@ describe('components/CreateComment', () => {
                 expect(wrapper.state('draft').props).toBe(undefined);
             });
         });
+        
         it('should not set mentionHighlightDisabled when user does not have useChannelMentions permission and message contains no mention', async () => {
             const props = {
                 ...baseProps,
