@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Markdown from 'components/markdown';
 
-import AnnouncementBar from './announcement_bar.jsx';
+import AnnouncementBar from './default_announcement_bar';
 
 const localStoragePrefix = '__announcement__';
 

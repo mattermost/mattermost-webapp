@@ -45,6 +45,11 @@ export default class Bot extends React.PureComponent {
         owner: PropTypes.object,
 
         /**
+        * User of the bot we are displaying
+        */
+        user: PropTypes.object,
+
+        /**
         * The access tokens of the bot user
         */
         accessTokens: PropTypes.object.isRequired,
@@ -444,7 +449,7 @@ export default class Bot extends React.PureComponent {
             );
         }
 
-        const imageURL = Utils.imageURLForUser(this.props.bot.user_id);
+        const imageURL = Utils.imageURLForUser(this.props.user.id, this.props.user.last_picture_update);
 
         return (
             <div className='backstage-list__item'>

@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -964,7 +965,10 @@ class CreatePost extends React.PureComponent {
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
-        if (ctrlEnterKeyCombo) {
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+        } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
@@ -1287,11 +1291,13 @@ class CreatePost extends React.PureComponent {
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                        className='style--none emoji-picker__container post-action'
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
                         <EmojiIcon
                             id='emojiPickerButton'
-                            className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
+                            className={'icon icon--emoji '}
                         />
                     </button>
                 </div>
@@ -1373,7 +1379,7 @@ class CreatePost extends React.PureComponent {
                                         className='fa fa-paper-plane'
                                         title={{
                                             id: t('create_post.icon'),
-                                            defaultMessage: 'Send Post Icon',
+                                            defaultMessage: 'Create a post',
                                         }}
                                     />
                                 </a>

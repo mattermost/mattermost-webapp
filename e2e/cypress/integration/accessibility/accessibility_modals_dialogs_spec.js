@@ -76,7 +76,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-22623 Accessibility Support in Direct Messages Dialog screen', () => {
         // * Verify the aria-label in create direct message button
-        cy.get('#addDirectChannel').should('have.attr', 'aria-label', 'create new direct message').click();
+        cy.get('#addDirectChannel').should('have.attr', 'aria-label', 'write a direct message').click();
 
         // * Verify the accessibility support in Direct Messages Dialog`
         cy.get('#moreDmModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreDmModalLabel').within(() => {
@@ -92,6 +92,9 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
                 });
+
+                // * Verify image alt is displayed
+                cy.get('img.Avatar').should('have.attr', 'alt', 'user profile image');
             });
 
             // * Verify if the reader is able to read out the selected row
@@ -112,7 +115,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-22623 Accessibility Support in More Channels Dialog screen', () => {
         // * Verify the aria-label in more public channels button
-        cy.get('#sidebarPublicChannelsMore').should('have.attr', 'aria-label', 'more public channels').click();
+        cy.get('#sidebarPublicChannelsMore').should('have.attr', 'aria-label', 'See more public channels').click();
 
         // * Verify the accessibility support in More Channels Dialog`
         cy.get('#moreChannelsModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreChannelsModalLabel').within(() => {
@@ -173,6 +176,9 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
                 });
+
+                // * Verify image alt is displayed
+                cy.get('img.Avatar').should('have.attr', 'alt', 'user profile image');
             });
 
             // * Verify if the reader is able to read out the selected row
@@ -227,6 +233,9 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
                     cy.get('.more-modal__actions button .sr-only').should('have.text', selectedRowText);
                 });
+
+                // * Verify image alt is displayed
+                cy.get('img.Avatar').should('have.attr', 'alt', 'user profile image');
             });
 
             // * Press Tab again and verify if focus changes to next row

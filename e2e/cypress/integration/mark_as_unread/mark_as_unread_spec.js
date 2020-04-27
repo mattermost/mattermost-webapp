@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import TIMEOUTS from '../../fixtures/timeouts';
 
 const user1 = users['user-1'];
 const sysadmin = users.sysadmin;
