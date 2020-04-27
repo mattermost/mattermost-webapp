@@ -488,7 +488,7 @@ class CreateComment extends React.PureComponent {
                 ...draft,
                 props: {
                     ...draft.props,
-                    disable_channel_highlight: true,
+                    mentionHighlightDisabled: true,
                 },
             };
 

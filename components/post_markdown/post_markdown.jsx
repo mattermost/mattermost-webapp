@@ -81,7 +81,7 @@ export default class PostMarkdown extends React.PureComponent {
                 mentionKeys = mentionKeysWithoutGroups;
             }
 
-            if (post.props.disable_channel_highlight) {
+            if (post.props.mentionHighlightDisabled) {
                 mentionKeys = mentionKeys.filter((value) => !['@all', '@channel', '@here'].includes(value.key));
             }
         }
