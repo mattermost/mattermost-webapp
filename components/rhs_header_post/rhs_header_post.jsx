@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import store from 'stores/redux_store.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -59,7 +58,7 @@ export default class RhsHeaderPost extends React.Component {
         }
 
         this.props.actions.setRhsExpanded(false);
-        const teamUrl = getCurrentRelativeTeamUrl(store.getState());
+        const teamUrl = this.props.relativeTeamUrl;
         browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
     }
 

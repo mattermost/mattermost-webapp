@@ -31,8 +31,9 @@
         position: absolute;
         top: -70px;
         visibility: hidden;
-        width: 1000%;
         z-index: 5;
+        // Since the element (sidebar--right__bg) is tied to the sidebar, we need to expand beyond it, we're given an arbitrary large width and left positioning so that it may take the width completely
+        width: 1000%;
         left: -500%;
     }
 
