@@ -1,131 +1,119 @@
 {
-  "extends": [
-    "plugin:mattermost/react",
-    "plugin:cypress/recommended"
-  ],
-  "plugins": [
-    "mattermost",
-    "import",
-    "cypress"
-  ],
-  "env": {
-    "jest": true,
-    "cypress/globals": true
-  },
-  "settings": {
-    "import/resolver": "webpack",
-    "react": {
-        "pragma": "React",
-        "version": "16.4"
-    }
-  },
-  "rules": {
-    "import/no-unresolved": 2,
-    "comma-dangle": 0,
-    "import/order": [
-      "error",
-      {
-        "newlines-between": "always-and-inside-groups",
-        "groups": [
-          "builtin",
-          "external",
-          [
-            "internal",
-            "parent"
-          ],
-          "sibling",
-          "index"
-        ]
-      }
-    ],
-    "no-magic-numbers": [
-      1,
-      {
-        "ignore": [
-          -1,
-          0,
-          1,
-          2
-        ],
-        "enforceConst": true,
-        "detectObjects": true
-      }
-    ],
-    "react/jsx-filename-extension": 0,
-    "react/prop-types": [
-      2,
-      {
-        "ignore": [
-          "location",
-          "history",
-          "component"
-        ]
-      }
-    ]
-  },
-  "overrides": [
-    {
-      "files": ["**/*.tsx", "**/*.ts"],
-      "extends": [
-        "plugin:@typescript-eslint/recommended"
-      ],
-      "rules": {
+    "extends": ["plugin:mattermost/react", "plugin:cypress/recommended"],
+    "plugins": ["mattermost", "import", "cypress"],
+    "env": {
+        "jest": true,
+        "cypress/globals": true
+    },
+    "settings": {
+        "import/resolver": "webpack",
+        "react": {
+            "pragma": "React",
+            "version": "16.4"
+        }
+    },
+    "rules": {
+        "import/no-unresolved": 2,
         "comma-dangle": 0,
-        "@typescript-eslint/no-non-null-assertion": 0,
-        "@typescript-eslint/no-var-requires": 0,
-        "@typescript-eslint/no-empty-function": 0,
-        "@typescript-eslint/prefer-interface": 0,
-        "@typescript-eslint/explicit-function-return-type": 0,
-        "@typescript-eslint/indent": [
-          2,
-          4,
-          {
-            "SwitchCase": 0
-          }
+        "import/order": [
+            "error",
+            {
+                "newlines-between": "always-and-inside-groups",
+                "groups": ["builtin", "external", ["internal", "parent"], "sibling", "index"]
+            }
         ],
-        "@typescript-eslint/no-use-before-define": [
-          2,
-          {
-            "classes": false,
-            "functions": false,
-            "variables": false
-          }
+        "no-magic-numbers": [
+            1,
+            {
+                "ignore": [-1, 0, 1, 2],
+                "enforceConst": true,
+                "detectObjects": true
+            }
         ],
-        "@typescript-eslint/camelcase": [
-          2,
-          {
-            "properties": "never"
-          }
-        ],
-        "react/jsx-filename-extension": [
-          1,
-          {
-            "extensions": [".jsx", ".tsx"]
-          }
+        "react/jsx-filename-extension": 0,
+        "react/prop-types": [
+            2,
+            {
+                "ignore": ["location", "history", "component"]
+            }
         ]
-      }
     },
-    {
-      "files": ["tests/**"],
-      "env": {
-        "jest": true
-      },
-      "rules": {
-        "func-names": 0,
-        "global-require": 0,
-        "new-cap": 0,
-        "prefer-arrow-callback": 0
-      }
-    },
-    {
-      "files": ["e2e/**"],
-      "rules": {
-        "func-names": 0,
-        "import/no-unresolved": 0,
-        "max-nested-callbacks": 0,
-        "no-process-env": 0,
-        "no-unused-expressions": 0
-      }
-    }
-  ]
+    "overrides": [
+        {
+            "files": ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js"],
+            "extends": ["plugin:@typescript-eslint/recommended"],
+            "rules": {
+                "react/require-optimization": [0],
+                "comma-dangle": 0,
+                "@typescript-eslint/no-non-null-assertion": 0,
+                "@typescript-eslint/no-var-requires": 0,
+                "@typescript-eslint/no-empty-function": 0,
+                "@typescript-eslint/prefer-interface": 0,
+                "@typescript-eslint/explicit-function-return-type": 0,
+                "@typescript-eslint/indent": [
+                    1,
+                    4,
+                    {
+                        "SwitchCase": 0
+                    }
+                ],
+                "indent": [
+                    1,
+                    4,
+                    {
+                        "SwitchCase": 0
+                    }
+                ],
+                "react/jsx-indent": [1, 4],
+                "react/jsx-indent-props": [1, 4],
+                "jsx-quotes": [0],
+                "react/jsx-max-props-per-line": [0],
+                "react/jsx-tag-spacing": [0],
+                "object-curly-spacing": [0],
+                "dot-location": [0],
+                "@typescript-eslint/no-use-before-define": [
+                    2,
+                    {
+                        "classes": false,
+                        "functions": false,
+                        "variables": false
+                    }
+                ],
+                "@typescript-eslint/camelcase": [
+                    2,
+                    {
+                        "properties": "never"
+                    }
+                ],
+                "react/jsx-filename-extension": [
+                    1,
+                    {
+                        "extensions": [".jsx", ".tsx"]
+                    }
+                ]
+            }
+        },
+        {
+            "files": ["tests/**"],
+            "env": {
+                "jest": true
+            },
+            "rules": {
+                "func-names": 0,
+                "global-require": 0,
+                "new-cap": 0,
+                "prefer-arrow-callback": 0
+            }
+        },
+        {
+            "files": ["e2e/**"],
+            "rules": {
+                "func-names": 0,
+                "import/no-unresolved": 0,
+                "max-nested-callbacks": 0,
+                "no-process-env": 0,
+                "no-unused-expressions": 0
+            }
+        }
+    ]
 }

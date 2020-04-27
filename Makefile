@@ -4,6 +4,7 @@ BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
 MM_UTILITIES_DIR = ../mattermost-utilities
 EMOJI_TOOLS_DIR = ./build/emoji
+export MM_LIVE_RELOAD=true
 
 build-storybook: node_modules ## Build the storybook
 	@echo Building storybook

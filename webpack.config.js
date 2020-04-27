@@ -23,15 +23,12 @@ const targetIsDevServer = NPM_TARGET === 'dev-server';
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
-const STANDARD_EXCLUDE = [
-    path.join(__dirname, 'node_modules'),
-];
+const STANDARD_EXCLUDE = [path.join(__dirname, 'node_modules')];
 
 // react-hot-loader requires eval
-const CSP_UNSAFE_EVAL_IF_DEV = targetIsDevServer ? ' \'unsafe-eval\'' : '';
+const CSP_UNSAFE_EVAL_IF_DEV = targetIsDevServer ? " 'unsafe-eval'" : '';
 
 var MYSTATS = {
-
     // Add asset Information
     assets: false,
 
@@ -157,9 +154,7 @@ var config = {
             {
                 type: 'javascript/auto',
                 test: /\.json$/,
-                include: [
-                    path.resolve(__dirname, 'i18n'),
-                ],
+                include: [path.resolve(__dirname, 'i18n')],
                 exclude: [/en\.json$/],
                 use: [
                     {
@@ -222,10 +217,7 @@ var config = {
         ],
     },
     resolve: {
-        modules: [
-            'node_modules',
-            path.resolve(__dirname),
-        ],
+        modules: ['node_modules', path.resolve(__dirname)],
         alias: {
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
@@ -253,23 +245,25 @@ var config = {
             filename: 'root.html',
             inject: 'head',
             template: 'root.html',
-            meta: {
-                csp: {
-                    'http-equiv': 'Content-Security-Policy',
-                    content: 'script-src \'self\' cdn.segment.com/analytics.js/ cdn.rudderlabs.com/' + CSP_UNSAFE_EVAL_IF_DEV,
-                },
-            },
+            // meta: {
+            //     csp: {
+            //         'http-equiv': 'Content-Security-Policy',
+            //         content:
+            //             "script-src 'self' cdn.segment.com/analytics.js/ cdn.rudd1erlabs.com/ apis.google.com/" +
+            //             CSP_UNSAFE_EVAL_IF_DEV,
+            //     },
+            // },
         }),
         new CopyWebpackPlugin([
-            {from: 'images/emoji', to: 'emoji'},
-            {from: 'images/img_trans.gif', to: 'images'},
-            {from: 'images/logo-email.png', to: 'images'},
-            {from: 'images/circles.png', to: 'images'},
-            {from: 'images/favicon', to: 'images/favicon'},
-            {from: 'images/appIcons.png', to: 'images'},
-            {from: 'images/warning.png', to: 'images'},
-            {from: 'images/logo-email.png', to: 'images'},
-            {from: 'images/browser-icons', to: 'images/browser-icons'},
+            { from: 'images/emoji', to: 'emoji' },
+            { from: 'images/img_trans.gif', to: 'images' },
+            { from: 'images/logo-email.png', to: 'images' },
+            { from: 'images/circles.png', to: 'images' },
+            { from: 'images/favicon', to: 'images/favicon' },
+            { from: 'images/appIcons.png', to: 'images' },
+            { from: 'images/warning.png', to: 'images' },
+            { from: 'images/logo-email.png', to: 'images' },
+            { from: 'images/browser-icons', to: 'images/browser-icons' },
         ]),
 
         // Generate manifest.json, honouring any configured publicPath. This also handles injecting
@@ -285,58 +279,70 @@ var config = {
             fingerprints: false,
             orientation: 'any',
             filename: 'manifest.json',
-            icons: [{
-                src: path.resolve('images/favicon/android-chrome-192x192.png'),
-                type: 'image/png',
-                sizes: '192x192',
-            }, {
-                src: path.resolve('images/favicon/apple-touch-icon-120x120.png'),
-                type: 'image/png',
-                sizes: '120x120',
-                ios: true,
-            }, {
-                src: path.resolve('images/favicon/apple-touch-icon-144x144.png'),
-                type: 'image/png',
-                sizes: '144x144',
-                ios: true,
-            }, {
-                src: path.resolve('images/favicon/apple-touch-icon-152x152.png'),
-                type: 'image/png',
-                sizes: '152x152',
-                ios: true,
-            }, {
-                src: path.resolve('images/favicon/apple-touch-icon-57x57.png'),
-                type: 'image/png',
-                sizes: '57x57',
-                ios: true,
-            }, {
-                src: path.resolve('images/favicon/apple-touch-icon-60x60.png'),
-                type: 'image/png',
-                sizes: '60x60',
-                ios: true,
-            }, {
-                src: path.resolve('images/favicon/apple-touch-icon-72x72.png'),
-                type: 'image/png',
-                sizes: '72x72',
-                ios: true,
-            }, {
-                src: path.resolve('images/favicon/apple-touch-icon-76x76.png'),
-                type: 'image/png',
-                sizes: '76x76',
-                ios: true,
-            }, {
-                src: path.resolve('images/favicon/favicon-16x16.png'),
-                type: 'image/png',
-                sizes: '16x16',
-            }, {
-                src: path.resolve('images/favicon/favicon-32x32.png'),
-                type: 'image/png',
-                sizes: '32x32',
-            }, {
-                src: path.resolve('images/favicon/favicon-96x96.png'),
-                type: 'image/png',
-                sizes: '96x96',
-            }],
+            icons: [
+                {
+                    src: path.resolve('images/favicon/android-chrome-192x192.png'),
+                    type: 'image/png',
+                    sizes: '192x192',
+                },
+                {
+                    src: path.resolve('images/favicon/apple-touch-icon-120x120.png'),
+                    type: 'image/png',
+                    sizes: '120x120',
+                    ios: true,
+                },
+                {
+                    src: path.resolve('images/favicon/apple-touch-icon-144x144.png'),
+                    type: 'image/png',
+                    sizes: '144x144',
+                    ios: true,
+                },
+                {
+                    src: path.resolve('images/favicon/apple-touch-icon-152x152.png'),
+                    type: 'image/png',
+                    sizes: '152x152',
+                    ios: true,
+                },
+                {
+                    src: path.resolve('images/favicon/apple-touch-icon-57x57.png'),
+                    type: 'image/png',
+                    sizes: '57x57',
+                    ios: true,
+                },
+                {
+                    src: path.resolve('images/favicon/apple-touch-icon-60x60.png'),
+                    type: 'image/png',
+                    sizes: '60x60',
+                    ios: true,
+                },
+                {
+                    src: path.resolve('images/favicon/apple-touch-icon-72x72.png'),
+                    type: 'image/png',
+                    sizes: '72x72',
+                    ios: true,
+                },
+                {
+                    src: path.resolve('images/favicon/apple-touch-icon-76x76.png'),
+                    type: 'image/png',
+                    sizes: '76x76',
+                    ios: true,
+                },
+                {
+                    src: path.resolve('images/favicon/favicon-16x16.png'),
+                    type: 'image/png',
+                    sizes: '16x16',
+                },
+                {
+                    src: path.resolve('images/favicon/favicon-32x32.png'),
+                    type: 'image/png',
+                    sizes: '32x32',
+                },
+                {
+                    src: path.resolve('images/favicon/favicon-96x96.png'),
+                    type: 'image/png',
+                    sizes: '96x96',
+                },
+            ],
         }),
     ],
 };
@@ -360,16 +366,19 @@ if (!DEV) {
 const env = {};
 if (DEV) {
     env.PUBLIC_PATH = JSON.stringify(publicPath);
-    if (process.env.MM_LIVE_RELOAD) { //eslint-disable-line no-process-env
+    if (process.env.MM_LIVE_RELOAD) {
+        //eslint-disable-line no-process-env
         config.plugins.push(new LiveReloadPlugin());
     }
 } else {
     env.NODE_ENV = JSON.stringify('production');
 }
 
-config.plugins.push(new webpack.DefinePlugin({
-    'process.env': env,
-}));
+config.plugins.push(
+    new webpack.DefinePlugin({
+        'process.env': env,
+    })
+);
 
 // Test mode configuration
 if (targetIsTest) {
@@ -387,27 +396,31 @@ if (targetIsDevServer) {
             injectHot: true,
             liveReload: false,
             overlay: true,
-            proxy: [{
-                context: () => true,
-                bypass(req) {
-                    if (req.url.indexOf('/api') === 0 ||
-                        req.url.indexOf('/plugins') === 0 ||
-                        req.url.indexOf('/static/plugins/') === 0 ||
-                        req.url.indexOf('/sockjs-node/') !== -1) {
-                        return null; // send through proxy to the server
-                    }
-                    if (req.url.indexOf('/static/') === 0) {
-                        return path; // return the webpacked asset
-                    }
+            proxy: [
+                {
+                    context: () => true,
+                    bypass(req) {
+                        if (
+                            req.url.indexOf('/api') === 0 ||
+                            req.url.indexOf('/plugins') === 0 ||
+                            req.url.indexOf('/static/plugins/') === 0 ||
+                            req.url.indexOf('/sockjs-node/') !== -1
+                        ) {
+                            return null; // send through proxy to the server
+                        }
+                        if (req.url.indexOf('/static/') === 0) {
+                            return path; // return the webpacked asset
+                        }
 
-                    // redirect (root, team routes, etc)
-                    return '/static/root.html';
+                        // redirect (root, team routes, etc)
+                        return '/static/root.html';
+                    },
+                    logLevel: 'silent',
+                    target: 'http://localhost:8065',
+                    xfwd: true,
+                    ws: true,
                 },
-                logLevel: 'silent',
-                target: 'http://localhost:8065',
-                xfwd: true,
-                ws: true,
-            }],
+            ],
             port: 9005,
             watchContentBase: true,
             writeToDisk: false,
@@ -432,12 +445,12 @@ if (targetIsDevServer) {
 // not helpful.)
 // See https://reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html and
 // https://gist.github.com/bvaughn/25e6233aeb1b4f0cdb8d8366e54a3977
-if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
+if (process.env.PRODUCTION_PERF_DEBUG) {
+    //eslint-disable-line no-process-env
     console.log('Enabling production performance debug settings'); //eslint-disable-line no-console
     config.resolve.alias['react-dom'] = 'react-dom/profiling';
     config.resolve.alias['schedule/tracing'] = 'schedule/tracing-profiling';
     config.optimization = {
-
         // Skip minification to make the profiled data more useful.
         minimize: false,
     };

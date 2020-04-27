@@ -5,7 +5,7 @@ import './entry.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {logError} from 'mattermost-redux/actions/errors';
+import { logError } from 'mattermost-redux/actions/errors';
 import PDFJS from 'pdfjs-dist';
 
 // Import our styles
@@ -13,7 +13,7 @@ import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
 import 'sass/styles.scss';
 import 'katex/dist/katex.min.css';
 
-import {isDevMode, setCSRFFromCookie} from 'utils/utils';
+import { isDevMode, setCSRFFromCookie } from 'utils/utils';
 import store from 'stores/redux_store.jsx';
 import App from 'components/app';
 
@@ -36,7 +36,20 @@ function preRenderSetup(callwhendone) {
         req.send(JSON.stringify(l));
 
         if (isDevMode()) {
-            store.dispatch(logError({type: 'developer', message: 'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' + line + ' col: ' + column + ').'}, true));
+            store.dispatch(
+                logError(
+                    {
+                        type: 'developer',
+                        message:
+                            'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' +
+                            line +
+                            ' col: ' +
+                            column +
+                            ').',
+                    },
+                    true
+                )
+            );
         }
     };
     setCSRFFromCookie();
@@ -44,10 +57,7 @@ function preRenderSetup(callwhendone) {
 }
 
 function renderRootComponent() {
-    ReactDOM.render((
-        <App/>
-    ),
-    document.getElementById('root'));
+    ReactDOM.render(<App />, document.getElementById('root'));
 }
 
 /**
