@@ -277,7 +277,6 @@ export const A11yClassNames = {
     FOCUSED: 'a11y--focused',
     MODAL: 'a11y__modal',
     POPUP: 'a11y__popup',
-    DISABLE_NAVIGATION: 'a11y__disable-navigation',
 };
 
 export const A11yAttributeNames = {
@@ -285,6 +284,7 @@ export const A11yAttributeNames = {
     ORDER_REVERSE: 'data-a11y-order-reversed',
     FOCUS_CHILD: 'data-a11y-focus-child',
     LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+    DISABLE_NAVIGATION: 'data-a11y-disable-nav',
 };
 
 export const A11yCustomEventTypes = {

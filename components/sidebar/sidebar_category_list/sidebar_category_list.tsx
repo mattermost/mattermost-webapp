@@ -433,9 +433,9 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             <div
                 id='sidebar-left'
                 className={classNames('SidebarNavContainer a11y__region', {
-                    'a11y__disable-navigation': this.props.draggingState.type,
                     disabled: this.props.isUnreadFilterEnabled
                 })}
+                data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
                 data-a11y-sort-order='7'
                 onTransitionEnd={this.onTransitionEnd}
             >
