@@ -15,7 +15,6 @@ import {mark, trackEvent} from 'actions/diagnostics_actions';
 import {localizeMessage} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelClose from '../sidebar_channel_close';
