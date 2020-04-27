@@ -3103,7 +3103,6 @@
   "rhs_header.expandSidebarTooltip.icon": "Expand the sidebar icon",
   "rhs_header.expandTooltip.icon": "Shrink the sidebar icon",
   "rhs_header.shrinkSidebarTooltip": "Shrink the sidebar",
-  "rhs_root.direct": "Direct Message",
   "rhs_root.mobile.add_reaction": "Add Reaction",
   "rhs_root.mobile.flag": "Flag",
   "rhs_root.mobile.unflag": "Unflag",
