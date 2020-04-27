@@ -18,7 +18,6 @@ import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import ChannelMentionBadge from '../channel_mention_badge';
-import SidebarChannelClose from '../sidebar_channel_close';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 
