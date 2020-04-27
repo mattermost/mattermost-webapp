@@ -14,6 +14,8 @@ describe('components/PostMarkdown', () => {
         isRHS: false,
         message: 'message',
         post: {},
+        allMentionKeys: ['a', 'b', 'c'],
+        mentionKeysWithoutGroups: ['g1', 'g2', 'g3'],
     };
 
     test('should not error when rendering without a post', () => {
