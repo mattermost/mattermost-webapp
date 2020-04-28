@@ -989,11 +989,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
             onCancel: this.handleOverwriteUploadPluginCancel,
         });
 
-        const removePluginModal = this.state.showRemoveModal && this.renderRemovePluginModal({
-            show: this.state.showRemoveModal,
-            onConfirm: this.handleRemovePlugin,
-            onCancel: this.handleRemovePluginCancel,
-        });
+        const removePluginModal = this.state.showRemoveModal && this.renderRemovePluginModal(
+            this.state.showRemoveModal,
+            this.handleRemovePlugin,
+            this.handleRemovePluginCancel,
+        );
 
         return (
             <div className='admin-console__wrapper'>
