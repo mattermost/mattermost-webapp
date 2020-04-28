@@ -10,6 +10,7 @@ import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
 
 const allShortcuts = defineMessages({
     mainHeader: {
@@ -351,6 +352,8 @@ class ShortcutsModal extends React.PureComponent {
         const shortcuts = this.getShortcuts();
         const {formatMessage} = this.props.intl;
 
+        const isLinux = Utils.isLinux();
+
         return (
             <Modal
                 dialogClassName='a11y__modal shortcuts-modal'
@@ -379,8 +382,8 @@ class ShortcutsModal extends React.PureComponent {
                                         {renderShortcut(formatMessage(shortcuts.navNext))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadNext))}
-                                        {renderShortcut(formatMessage(shortcuts.teamNavPrev))}
-                                        {renderShortcut(formatMessage(shortcuts.teamNavNext))}
+                                        {!isLinux && renderShortcut(formatMessage(shortcuts.teamNavPrev))}
+                                        {!isLinux && renderShortcut(formatMessage(shortcuts.teamNavNext))}
                                         {renderShortcut(formatMessage(shortcuts.teamNavSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navDMMenu))}

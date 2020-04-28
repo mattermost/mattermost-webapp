@@ -33,6 +33,10 @@ export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
 
+export function isLinux() {
+    return navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
+}
+
 export function createSafeId(prop) {
     if (prop === null) {
         return null;
