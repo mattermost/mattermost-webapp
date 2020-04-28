@@ -101,7 +101,7 @@ describe('components/PluginManagement', () => {
         },
     };
 
-    test.only('should match snapshot', () => {
+    test('should match snapshot', () => {
         const props = {...defaultProps};
         const wrapper = shallow(<PluginManagement {...props}/>);
         expect(wrapper).toMatchSnapshot();
