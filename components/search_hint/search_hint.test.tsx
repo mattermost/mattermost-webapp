@@ -9,25 +9,26 @@ import {searchHintOptions} from 'utils/constants';
 import SearchHint from 'components/search_hint/search_hint';
 
 describe('components/SearchHint', () => {
-    const updateSearchTerms = jest.fn();
+    const baseProps = {
+        withTitle: false,
+        onOptionSelected: jest.fn(),
+        options: searchHintOptions,
+    };
 
     test('should match snapshot, with title', () => {
+        const props = {
+            ...baseProps,
+            withTitle: true,
+        };
         const wrapper = shallow(
-            <SearchHint
-                withTitle={true}
-                onOptionSelected={updateSearchTerms}
-                options={searchHintOptions}
-            />
+            <SearchHint {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, without title', () => {
         const wrapper = shallow(
-            <SearchHint
-                onOptionSelected={updateSearchTerms}
-                options={searchHintOptions}
-            />
+            <SearchHint {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });

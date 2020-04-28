@@ -5,8 +5,6 @@ import React from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
 
-import {t} from 'utils/i18n';
-
 interface SearchTerm {
     searchTerm: string;
     message: MessageDescriptor;
@@ -55,7 +53,7 @@ const SearchHint = (props: Props) => {
                         </div>
                         <div className='search-hint__suggestion-list__value'>
                             <FormattedMessage
-                                id={t(option.message.id)}
+                                id={option.message.id}
                                 defaultMessage={option.message.defaultMessage}
                             />
                         </div>
