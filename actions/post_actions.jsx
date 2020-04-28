@@ -35,7 +35,9 @@ export function handleNewPost(post, msg) {
         }
 
         const myChannelMember = getMyChannelMemberSelector(state, post.channel_id);
-        if (myChannelMember && Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object') {
+        const myChannelMemberDoesntExist = !myChannelMember || (Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object');
+
+        if (myChannelMemberDoesntExist) {
             await dispatch(getMyChannelMember(post.channel_id));
         }
 

@@ -288,4 +288,22 @@ describe('Verify Accessibility Support in Post', () => {
             });
         });
     });
+
+    it('MM-24078 Verify incoming messages are read', () => {
+        // # Submit a post as another user
+        cy.getCurrentChannelId().then((channelId) => {
+            message = `verify incoming message from ${otherUser.username}: ${Date.now()}`;
+            cy.postMessageAs({sender: otherUser, message, channelId});
+        });
+
+        // # Get the element which stores the incoming messages
+        cy.get('#postListContent').within(() => {
+            cy.get('.sr-only').should('have.attr', 'aria-live', 'polite').as('incomingMessage');
+        });
+
+        // * Verify incoming message is read
+        cy.get('@incomingMessage').invoke('text').then((text) => {
+            expect(text).contain(message);
+        });
+    });
 });
