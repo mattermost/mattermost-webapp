@@ -74,17 +74,27 @@ describe('Utils.URL', () => {
             {
                 description: 'Called with a url starting and ending with an underscore',
                 url: '_a_',
-                expectedErrors: ['change_url.startWithLetter', 'change_url.endWithLetter'],
+                expectedErrors: ['change_url.startAndEndWithLetter'],
             },
             {
                 description: 'Called with a url starting and ending with an dash',
                 url: '-a-',
-                expectedErrors: ['change_url.startWithLetter', 'change_url.endWithLetter'],
+                expectedErrors: ['change_url.startAndEndWithLetter'],
             },
             {
-                description: 'Called with a containing two underscores',
+                description: 'Called with a url ending with an dash',
+                url: 'a----',
+                expectedErrors: ['change_url.endWithLetter'],
+            },
+            {
+                description: 'Called with a url containing two underscores',
                 url: 'foo__bar',
-                expectedErrors: ['change_url.noUnderscore'],
+                expectedErrors: [],
+            },
+            {
+                description: 'Called with a url resembling a direct message url',
+                url: 'uzsfmtmniifsjgesce4u7yznyh__uzsfmtmniifsjgesce4u7yznyh',
+                expectedErrors: ['change_url.invalidDirectMessage'],
             },
             {
                 description: 'Called with a containing two dashes',

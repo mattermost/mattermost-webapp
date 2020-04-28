@@ -33,6 +33,10 @@ export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
 
+export function isLinux() {
+    return navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
+}
+
 export function createSafeId(prop) {
     if (prop === null) {
         return null;
@@ -850,7 +854,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.errorTextColor) {
-        changeCss('.app__body .error-text, .app__body .modal .settings-modal .settings-table .settings-content .has-error, .app__body .modal .form-horizontal .input__help.error, .app__body .color--error, .app__body .has-error .help-block, .app__body .has-error .control-label, .app__body .has-error .radio, .app__body .has-error .checkbox, .app__body .has-error .radio-inline, .app__body .has-error .checkbox-inline, .app__body .has-error.radio label, .app__body .has-error.checkbox label, .app__body .has-error.radio-inline label, .app__body .has-error.checkbox-inline label', 'color:' + theme.errorTextColor);
+        changeCss('.app__body .error-text, .app__body .modal .settings-modal .settings-table .settings-content .has-error, .app__body .modal .input__help.error, .app__body .color--error, .app__body .has-error .help-block, .app__body .has-error .control-label, .app__body .has-error .radio, .app__body .has-error .checkbox, .app__body .has-error .radio-inline, .app__body .has-error .checkbox-inline, .app__body .has-error.radio label, .app__body .has-error.checkbox label, .app__body .has-error.radio-inline label, .app__body .has-error.checkbox-inline label', 'color:' + theme.errorTextColor);
     }
 
     if (theme.mentionHighlightBg) {
@@ -1308,6 +1312,34 @@ export function displayEntireNameForUser(user) {
                 {' - '}
                 <span className='light'>{'(' + user.nickname + ')'}</span>
             </span>
+        );
+    }
+
+    return displayName;
+}
+
+/**
+ * Gets the full name and nickname of the specified user
+ */
+export function displayFullAndNicknameForUser(user) {
+    if (!user) {
+        return '';
+    }
+
+    let displayName;
+    const fullName = getFullName(user);
+
+    if (fullName && user.nickname) {
+        displayName = (
+            <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
+        );
+    } else if (fullName) {
+        displayName = (
+            <span className='light'>{fullName}</span>
+        );
+    } else if (user.nickname) {
+        displayName = (
+            <span className='light'>{'(' + user.nickname + ')'}</span>
         );
     }
 
