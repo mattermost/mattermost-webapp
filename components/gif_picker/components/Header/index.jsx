@@ -53,6 +53,8 @@ export class Header extends PureComponent {
         saveSearchBarText: PropTypes.func,
         searchTextUpdate: PropTypes.func,
         theme: PropTypes.object.isRequired,
+        defaultSearchText: PropTypes.string,
+        handleSearchTextChange: PropTypes.func.isRequired
     }
 
     constructor(props) {
