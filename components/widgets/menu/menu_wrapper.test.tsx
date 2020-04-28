@@ -112,11 +112,11 @@ describe('components/MenuWrapper', () => {
     test('should call the onToggle callback when toggled', () => {
         const onToggle = jest.fn();
         const wrapper = shallow<MenuWrapper>(
-          <MenuWrapper onToggle={onToggle}>
-              <p>{'title'}</p>
-              <p>{'menu'}</p>
-          </MenuWrapper>
-      );
+            <MenuWrapper onToggle={onToggle}>
+                <p>{'title'}</p>
+                <p>{'menu'}</p>
+            </MenuWrapper>
+        );
         const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
         wrapper.instance().toggle(event);
 
