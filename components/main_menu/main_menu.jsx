@@ -115,6 +115,8 @@ class MainMenu extends React.PureComponent {
         }
     }
 
+    handleToggleAboutModal = () => this.props.actions.openModal({ModalId: ModalIdentifiers.ABOUT, dialogType: AboutBuildModal})
+
     render() {
         const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups} = this.props;
 
@@ -142,6 +144,37 @@ class MainMenu extends React.PureComponent {
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
 
         const {formatMessage} = this.props.intl;
+        const helpSubmenuItems = [
+            {
+                key: 'helpLink',
+                id: 'helpLink',
+                show: Boolean(this.props.helpLink),
+                text: formatMessage({id: 'navbar_dropdown.getHelp', defaultMessage: 'Get Help'}),
+                url: this.props.helpLink,
+                icon: this.props.mobile && <i className='fa fa-question'/>,
+                subMenu: [],
+            },
+
+            {
+                key: 'reportLink',
+                id: 'reportLink',
+                show: Boolean(this.props.reportAProblemLink),
+                text: formatMessage({id: 'navbar_dropdown.report', defaultMessage: 'Report a Problem'}),
+                url: this.props.reportAProblemLink,
+                icon: this.props.mobile && <i className='fa fa-phone'/>,
+                subMenu: [],
+            },
+
+            {
+                key: 'about',
+                id: 'about',
+                action: this.handleToggleAboutModal,
+                text: formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'}),
+                icon: this.props.mobile && <i className='fa fa-info'/>,
+                subMenu: [],
+            }
+
+        ];
 
         return (
             <Menu
@@ -196,11 +229,58 @@ class MainMenu extends React.PureComponent {
                             id='invitePeople'
                             modalId={ModalIdentifiers.INVITATION}
                             dialogType={InvitationModal}
-                            text={formatMessage({id: 'navbar_dropdown.invitePeople', defaultMessage: 'Invite People'})}
-                            extraText={formatMessage({id: 'navbar_dropdown.invitePeopleExtraText', defaultMessage: 'Add or invite people to the team'})}
+                            text={formatMessage({id: 'navbar_dropdown.invitePeople', defaultMessage: 'Invite People to Team'})}
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='manageMembers'
+                            modalId={ModalIdentifiers.TEAM_MEMBERS}
+                            dialogType={TeamMembersModal}
+                            text={formatMessage({id: 'navbar_dropdown.manageMembers', defaultMessage: 'Manage Members'})}
+                            icon={this.props.mobile && <i className='fa fa-users'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                        invert={true}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='viewMembers'
+                            modalId={ModalIdentifiers.TEAM_MEMBERS}
+                            dialogType={TeamMembersModal}
+                            text={formatMessage({id: 'navbar_dropdown.viewMembers', defaultMessage: 'View Members'})}
+                            icon={this.props.mobile && <i className='fa fa-users'/>}
+                        />
+                    </TeamPermissionGate>
+                    <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
+                        <Menu.ItemLink
+                            id='createTeam'
+                            to='/create_team'
+                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
+                            icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                        />
+                    </SystemPermissionGate>
+                    <Menu.ItemLink
+                        id='joinTeam'
+                        show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
+                        to='/select_team'
+                        text={formatMessage({id: 'navbar_dropdown.join', defaultMessage: 'Join Another Team'})}
+                        icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                    />
+                    <Menu.ItemToggleModalRedux
+                        id='leaveTeam'
+                        show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
+                        modalId={ModalIdentifiers.LEAVE_TEAM}
+                        dialogType={LeaveTeamModal}
+                        text={formatMessage({id: 'navbar_dropdown.leave', defaultMessage: 'Leave Team'})}
+                        icon={this.props.mobile && <LeaveTeamIcon/>}
+                    />
                 </Menu.Group>
                 <Menu.Group>
                     <TeamPermissionGate
@@ -231,56 +311,6 @@ class MainMenu extends React.PureComponent {
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='manageMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={formatMessage({id: 'navbar_dropdown.manageMembers', defaultMessage: 'Manage Members'})}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
-                        invert={true}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='viewMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={formatMessage({id: 'navbar_dropdown.viewMembers', defaultMessage: 'View Members'})}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
-                </Menu.Group>
-                <Menu.Group>
-                    <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
-                        <Menu.ItemLink
-                            id='createTeam'
-                            to='/create_team'
-                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
-                            icon={this.props.mobile && <i className='fa fa-plus-square'/>}
-                        />
-                    </SystemPermissionGate>
-                    <Menu.ItemLink
-                        id='joinTeam'
-                        show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
-                        to='/select_team'
-                        text={formatMessage({id: 'navbar_dropdown.join', defaultMessage: 'Join Another Team'})}
-                        icon={this.props.mobile && <i className='fa fa-plus-square'/>}
-                    />
-                    <Menu.ItemToggleModalRedux
-                        id='leaveTeam'
-                        show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
-                        modalId={ModalIdentifiers.LEAVE_TEAM}
-                        dialogType={LeaveTeamModal}
-                        text={formatMessage({id: 'navbar_dropdown.leave', defaultMessage: 'Leave Team'})}
-                        icon={this.props.mobile && <LeaveTeamIcon/>}
-                    />
                 </Menu.Group>
                 <Menu.Group>
                     {pluginItems}
@@ -323,13 +353,16 @@ class MainMenu extends React.PureComponent {
                     </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
-                    <Menu.ItemExternalLink
-                        id='helpLink'
-                        show={Boolean(this.props.helpLink)}
-                        url={this.props.helpLink}
+                    <Menu.ItemSubMenu
+                        key='helpDropdown'
+                        id='helpDropdown'
+                        className='dropdown-menu__help-dropdown'
                         text={formatMessage({id: 'navbar_dropdown.help', defaultMessage: 'Help'})}
-                        icon={this.props.mobile && <i className='fa fa-question'/>}
-                    />
+                        subMenu={helpSubmenuItems}
+                        root={false}
+                        right={true}
+                    >
+                    </Menu.ItemSubMenu>
                     <Menu.ItemAction
                         id='keyboardShortcuts'
                         show={!this.props.mobile}
@@ -337,25 +370,11 @@ class MainMenu extends React.PureComponent {
                         text={formatMessage({id: 'navbar_dropdown.keyboardShortcuts', defaultMessage: 'Keyboard Shortcuts'})}
                     />
                     <Menu.ItemExternalLink
-                        id='reportLink'
-                        show={Boolean(this.props.reportAProblemLink)}
-                        url={this.props.reportAProblemLink}
-                        text={formatMessage({id: 'navbar_dropdown.report', defaultMessage: 'Report a Problem'})}
-                        icon={this.props.mobile && <i className='fa fa-phone'/>}
-                    />
-                    <Menu.ItemExternalLink
                         id='nativeAppLink'
                         show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
                         url={useSafeUrl(this.props.appDownloadLink)}
                         text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                         icon={this.props.mobile && <i className='fa fa-mobile'/>}
-                    />
-                    <Menu.ItemToggleModalRedux
-                        id='about'
-                        modalId={ModalIdentifiers.ABOUT}
-                        dialogType={AboutBuildModal}
-                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
-                        icon={this.props.mobile && <i className='fa fa-info'/>}
                     />
                 </Menu.Group>
                 <Menu.Group>

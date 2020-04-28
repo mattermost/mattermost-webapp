@@ -26,14 +26,28 @@
         }
     }
 
+    .dropdown-menu__help-dropdown {
+        position: relative;
+        overflow: visible;
+    }
+
+    ul.dropdown-menu__help-dropdown_submenu {
+        position: absolute;
+        top: 0;
+        left: 220px;
+        padding: 10px 0;
+
+        .SubMenuItem.MenuItem {
+            padding: 5px 0;
+        }
+    }
+
     &.Menu-enter {
         .dropdown-menu {
             opacity: 0;
 
             @media screen and (min-width: 768px) {
                 max-height: 0;
-                overflow: hidden;
-                overflow-y: hidden;
             }
         }
     }
@@ -44,7 +58,6 @@
             @media screen and (min-width: 768px) {
                 max-height: 80vh;
                 transition: max-height 1000ms ease-in, opacity 250ms linear;
-                overflow-y: hidden;
             }
             @media screen and (max-width: 640px) {
                 transition: opacity 1000ms linear;
@@ -57,7 +70,6 @@
             opacity: 1;
             @media screen and (min-width: 768px) {
                 max-height: 80vh;
-                overflow-y: auto;
             }
         }
     }
@@ -68,7 +80,6 @@
             @media screen and (min-width: 768px) {
                 max-height: 0;
                 transition: max-height 1000ms ease-in 0ms, opacity 250ms linear 750ms;
-                overflow-y: hidden;
             }
             @media screen and (max-width: 768px) {
                 transition: opacity 1000ms linear;

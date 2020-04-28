@@ -207,6 +207,7 @@
     }
 
     .post__header {
+        // TODO: Refactor and add specific classes and eliminate nesting pyramids
         .dropdown-menu {
             >li {
                 >div {
@@ -1271,6 +1272,7 @@
             }
 
             .dropdown-menu {
+                // TODO: Refactor CSS and eliminate nesting and add specific classes to elements (especially dropdown-menu)
                 .dropdown__divider {
                     &+.dropdown__divider {
                         display: none;

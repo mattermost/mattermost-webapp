@@ -2,7 +2,7 @@
 @import 'utils/variables';
 
 @media screen and (max-width: 768px) {
-
+// TODO: Let's not build CSS pyramids as it's getting hard to fight specificity. Open a Jira ticket to refactor.
     #submenuModal {
         padding: 0px;
 
