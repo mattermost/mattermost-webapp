@@ -1314,6 +1314,34 @@ export function displayEntireNameForUser(user) {
     return displayName;
 }
 
+/**
+ * Gets the full name and nickname of the specified user
+ */
+export function displayFullAndNicknameForUser(user) {
+    if (!user) {
+        return '';
+    }
+
+    let displayName;
+    const fullName = getFullName(user);
+
+    if (fullName && user.nickname) {
+        displayName = (
+            <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
+        );
+    } else if (fullName) {
+        displayName = (
+            <span className='light'>{fullName}</span>
+        );
+    } else if (user.nickname) {
+        displayName = (
+            <span className='light'>{'(' + user.nickname + ')'}</span>
+        );
+    }
+
+    return displayName;
+}
+
 export function imageURLForUser(userId, lastPictureUpdate = 0) {
     return Client4.getUsersRoute() + '/' + userId + '/image?_=' + lastPictureUpdate;
 }
