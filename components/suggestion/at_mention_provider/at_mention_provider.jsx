@@ -205,13 +205,9 @@ export default class AtMentionProvider extends Provider {
         // Combine the local and remote members, sorting to mix the results together.
         const localAndRemoteMembers = localMembers.concat(remoteMembers).sort(orderUsers);
 
-        const remoteNonMembers = this.remoteNonMembers().
-            filter((member) => !localUserIds[member.id]).
-            sort(orderUsers);
+        let items = localAndRemoteMembers.concat(specialMentions);
 
-        let items = localAndRemoteMembers.concat(specialMentions).concat(remoteNonMembers);
-
-        //handle groups
+        // handle groups
         const localGroups = this.localGroups();
 
         const localGroupIds = {};
@@ -242,6 +238,12 @@ export default class AtMentionProvider extends Provider {
         const localAndRemoteGroups = localGroups.concat(remoteGroups).sort(orderGroups);
 
         items = items.concat(localAndRemoteGroups);
+
+        const remoteNonMembers = this.remoteNonMembers().
+            filter((member) => !localUserIds[member.id]).
+            sort(orderUsers);
+
+        items = items.concat(remoteNonMembers);
 
         return items;
     }
