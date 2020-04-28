@@ -42,7 +42,7 @@ type Props = {
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
-    direction: 'left' | 'right';
+    direction?: 'left' | 'right';
     openUp?: boolean;
 }
 
@@ -67,11 +67,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         };
     }
 
-    private show = () => {
+    show = () => {
         this.setState({show: true});
     }
 
-    private hide = () => {
+    hide = () => {
         this.setState({show: false});
     }
 
@@ -103,7 +103,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
     }
 
-    private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (Utils.isKeyPressed(event, Constants.KeyCodes.ENTER)) {
             this.show();
         }

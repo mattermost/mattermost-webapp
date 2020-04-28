@@ -28,7 +28,6 @@ type State = {
 export default class SidebarMenu extends React.PureComponent<Props, State> {
     menuRef?: Menu;
     menuButtonRef: React.RefObject<HTMLButtonElement>;
-    isLeaving: boolean;
 
     constructor(props: Props) {
         super(props);
@@ -40,7 +39,6 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         };
 
         this.menuButtonRef = React.createRef();
-        this.isLeaving = false;
     }
 
     // TODO: Temporary code to keep the menu in place while scrolling

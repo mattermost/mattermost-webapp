@@ -39,7 +39,7 @@ type State = {
     width: number;
 };
 
-class SidebarChannelMenu extends React.PureComponent<Props, State> {
+export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     isLeaving: boolean;
 
     constructor(props: Props) {

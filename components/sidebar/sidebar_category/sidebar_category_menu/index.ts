@@ -31,7 +31,6 @@ function makeMapStateToProps() {
         return {
             canCreatePrivateChannel,
             canCreatePublicChannel,
-            isMuted: false, // TODO
         };
     };
 }

@@ -16,7 +16,6 @@ type Props = {
     canCreatePrivateChannel: boolean;
 
     //currentUserId: string;
-    isMuted: boolean;
     intl: IntlShape;
     actions: {
 
@@ -41,7 +40,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
     }
 
     renderDropdownItems = () => {
-        const {intl, isMuted, category} = this.props;
+        const {intl, category} = this.props;
 
         let deleteCategory;
         let renameCategory;
