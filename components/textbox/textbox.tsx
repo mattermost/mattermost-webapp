@@ -52,7 +52,7 @@ type Props = {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
-    }
+    };
     useChannelMentions: boolean;
 };
 
@@ -111,7 +111,6 @@ export default class Textbox extends React.PureComponent<Props> {
                 if (providers[i] instanceof AtMentionProvider) {
                     (providers[i] as AtMentionProvider).setProps({
                         currentUserId: this.props.currentUserId,
-                        // currentChannelId: this.props.channelId,
                         profilesInChannel: this.props.profilesInChannel,
                         profilesNotInChannel: this.props.profilesNotInChannel,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),

@@ -25,20 +25,20 @@ type Props = {
 
 /* eslint-disable camelcase */
 
-const makeMapStateToProps = (state: GlobalState, ownProps: Props) => {
+const makeMapStateToProps = () => {
     const getProfilesInChannel = makeGetProfilesInChannel();
     const getProfilesNotInChannel = makeGetProfilesNotInChannel();
 
-    const teamId = getCurrentTeamId(state);
-    const channelId = getCurrentChannelId(state);
-
-    return (state: GlobalState, ownProps: Props) => ({
-        currentUserId: getCurrentUserId(state),
-        currentTeamId: teamId,
-        profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
-        profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
-        autocompleteGroups: getAssociatedGroupsForReference(state, teamId, channelId)
-    });
+    return (state: GlobalState, ownProps: Props) => {
+        const teamId = getCurrentTeamId(state);
+        return {
+            currentUserId: getCurrentUserId(state),
+            currentTeamId: teamId,
+            profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
+            profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
+            autocompleteGroups: getAssociatedGroupsForReference(state, teamId, ownProps.channelId)
+        };
+    };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
