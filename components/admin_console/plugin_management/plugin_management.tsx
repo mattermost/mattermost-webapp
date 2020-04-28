@@ -182,7 +182,6 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
-                data-disabled={deactivating}
                 onClick={handleDisable}
             >
                 {deactivating ?
@@ -201,7 +200,6 @@ const PluginItem = ({
         activateButton = (
             <a
                 data-plugin-id={pluginStatus.id}
-                data-disabled={activating}
                 onClick={handleEnable}
             >
                 {activating ?
@@ -256,7 +254,6 @@ const PluginItem = ({
             {' - '}
             <a
                 data-plugin-id={pluginStatus.id}
-                data-disabled={removing}
                 onClick={handleRemove}
             >
                 {removeButtonText}
@@ -639,7 +636,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     <div className='alert-warning'>
                         <i className='fa fa-warning'/>
                         <FormattedMarkdownMessage
-                            id='admin..settings.marketplaceUrlDesc.empty'
+                            id='admin.plugins.settings.marketplaceUrlDesc.empty'
                             defaultMessage=' Marketplace URL is a required field.'
                         />
                     </div>
