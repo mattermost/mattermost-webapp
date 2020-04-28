@@ -10,6 +10,7 @@ describe('components/UserProfile', () => {
     const baseProps = {
         displayName: 'nickname',
         isBusy: false,
+        user: {username: 'username'},
         userId: 'user_id',
     };
 
@@ -23,6 +24,16 @@ describe('components/UserProfile', () => {
             <UserProfile
                 {...baseProps}
                 disablePopover={true}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, when displayUsername is enabled', () => {
+        const wrapper = shallow(
+            <UserProfile
+                {...baseProps}
+                displayUsername={true}
             />
         );
         expect(wrapper).toMatchSnapshot();
