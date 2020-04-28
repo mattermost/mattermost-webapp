@@ -163,7 +163,6 @@ describe('RecentDate', () => {
 
         expect(wrapper.text()).toMatch(MONTH_DAY_YEAR);
     });
-
 });
 
 describe('isToday and isYesterday', () => {
