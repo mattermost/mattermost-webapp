@@ -22,6 +22,7 @@ export default class PermissionsTree extends React.Component {
         selected: PropTypes.string,
         selectRow: PropTypes.func.isRequired,
         readOnly: PropTypes.bool,
+        license: PropTypes.object,
     };
 
     static defaultProps = {
@@ -103,7 +104,6 @@ export default class PermissionsTree extends React.Component {
                         ],
                     },
                     Permissions.USE_CHANNEL_MENTIONS,
-                    Permissions.USE_GROUP_MENTIONS,
                 ],
             },
             {
@@ -116,8 +116,9 @@ export default class PermissionsTree extends React.Component {
     }
 
     updateGroups = () => {
-        const {config, scope} = this.props;
+        const {config, scope, license} = this.props;
         const integrationsGroup = this.groups[this.groups.length - 1];
+        const postsGroup = this.groups[this.groups.length - 2];
         const teamsGroup = this.groups[0];
         if (config.EnableIncomingWebhooks === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_INCOMING_WEBHOOKS) === -1) {
             integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
@@ -146,6 +147,9 @@ export default class PermissionsTree extends React.Component {
         if (scope === 'team_scope' && this.groups[0].id !== 'teams_team_scope') {
             this.groups[0].id = 'teams_team_scope';
         }
+        if (license.LDAPGroups === 'true' && postsGroup.permissions.indexOf(Permissions.USE_GROUP_MENTIONS) === -1) {
+            postsGroup.permissions.push(Permissions.USE_GROUP_MENTIONS);
+        }
     }
 
     openPostTimeLimitModal = () => {
@@ -157,7 +161,7 @@ export default class PermissionsTree extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.config !== prevProps.config) {
+        if (this.props.config !== prevProps.config || this.props.license !== prevProps.license) {
             this.updateGroups();
         }
     }
