@@ -15,7 +15,7 @@ import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -310,12 +310,23 @@ class CreateComment extends React.PureComponent {
         }
     }
 
+    setCaretPosition = (newCaretPosition) => {
+        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+
+        this.setState({
+            caretPosition: newCaretPosition,
+        }, () => {
+            Utils.setCaretPosition(textbox, newCaretPosition);
+        });
+    }
+
     pasteHandler = (e) => {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox') {
             return;
         }
 
-        const table = getTable(e.clipboardData);
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
         if (!table) {
             return;
         }
@@ -323,9 +334,13 @@ class CreateComment extends React.PureComponent {
         e.preventDefault();
 
         const {draft} = this.state;
-        let message = '';
+        let message = draft.message;
+
         if (isGitHubCodeBlock(table.className)) {
-            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
+            message = formattedMessage;
+            this.setCaretPosition(newCaretPosition);
         } else {
             message = formatMarkdownTableMessage(table, draft.message.trim());
         }
@@ -378,14 +393,7 @@ class CreateComment extends React.PureComponent {
             newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
 
             const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-
-            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
-
-            this.setState({
-                caretPosition: newCaretPosition,
-            }, () => {
-                Utils.setCaretPosition(textbox, newCaretPosition);
-            });
+            this.setCaretPosition(newCaretPosition);
         }
 
         const modifiedDraft = {
