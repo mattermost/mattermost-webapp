@@ -4,12 +4,17 @@
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
+import {getAssociatedGroupsForReference} from 'mattermost-redux/selectors/entities/groups';
+
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {getCurrentUserId, makeGetProfilesInChannel, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
+import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {autocompleteChannels} from 'actions/channel_actions';
 
 import Textbox from './textbox';
@@ -18,14 +23,21 @@ type Props = {
     channelId: string;
 };
 
-const makeMapStateToProps = () => {
+/* eslint-disable camelcase */
+
+const makeMapStateToProps = (state: GlobalState, ownProps: Props) => {
     const getProfilesInChannel = makeGetProfilesInChannel();
     const getProfilesNotInChannel = makeGetProfilesNotInChannel();
 
+    const teamId = getCurrentTeamId(state);
+    const channelId = getCurrentChannelId(state);
+
     return (state: GlobalState, ownProps: Props) => ({
         currentUserId: getCurrentUserId(state),
+        currentTeamId: teamId,
         profilesInChannel: getProfilesInChannel(state, ownProps.channelId, true),
         profilesNotInChannel: getProfilesNotInChannel(state, ownProps.channelId, true),
+        autocompleteGroups: getAssociatedGroupsForReference(state, teamId, channelId)
     });
 };
 
@@ -33,6 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     actions: bindActionCreators({
         autocompleteUsersInChannel,
         autocompleteChannels,
+        searchAssociatedGroupsForReference,
     }, dispatch),
 });
 

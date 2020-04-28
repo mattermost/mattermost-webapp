@@ -5,6 +5,7 @@ import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {Group} from 'mattermost-redux/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
@@ -42,13 +43,16 @@ type Props = {
     badConnection?: boolean;
     listenForMentionKeyClick?: boolean;
     currentUserId: string;
+    currentTeamId: string;
     preview?: boolean;
-    profilesInChannel: UserProfile[];
-    profilesNotInChannel: UserProfile[];
+    profilesInChannel: { id: string }[];
+    profilesNotInChannel: { id: string }[];
+    autocompleteGroups: { id: string }[];
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
-    };
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
+    }
     useChannelMentions: boolean;
 };
 
@@ -72,8 +76,10 @@ export default class Textbox extends React.PureComponent<Props> {
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
                 profilesNotInChannel: this.props.profilesNotInChannel,
-                autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
+                autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
+                autocompleteGroups: this.props.autocompleteGroups,
+                searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -97,17 +103,21 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel) {
+            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel ||
+            this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;
             for (let i = 0; i < providers.length; i++) {
                 if (providers[i] instanceof AtMentionProvider) {
                     (providers[i] as AtMentionProvider).setProps({
                         currentUserId: this.props.currentUserId,
+                        // currentChannelId: this.props.channelId,
                         profilesInChannel: this.props.profilesInChannel,
                         profilesNotInChannel: this.props.profilesNotInChannel,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
+                        autocompleteGroups: this.props.autocompleteGroups,
+                        searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                     });
                 }
             }

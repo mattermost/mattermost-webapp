@@ -44,12 +44,25 @@ const mkUserProfile = (id: string): UserProfile => ({
 
 describe('components/TextBox', () => {
     const baseProps = {
+        channelId: 'channelId',
         currentUserId: 'currentUserId',
-        profilesInChannel: ['id1', 'id2'].map(mkUserProfile),
-        profilesNotInChannel: ['id3', 'id4'].map(mkUserProfile),
+        currentTeamId: 'currentTeamId',
+        profilesInChannel: [
+            {id: 'id1'},
+            {id: 'id2'},
+        ],
+        profilesNotInChannel: [
+            {id: 'id3'},
+            {id: 'id4'},
+        ],
+        autocompleteGroups: [
+            {id: 'gid1'},
+            {id: 'gid2'},
+        ],
         actions: {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),
+            searchAssociatedGroupsForReference: jest.fn(),
         },
         useChannelMentions: true,
     };
