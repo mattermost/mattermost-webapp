@@ -135,7 +135,7 @@ export default class SidebarRight extends React.PureComponent {
     };
 
     handleUpdateSearchTerms = (term) => {
-        this.props.actions.updateSearchTerms(term + ' ');
+        this.props.actions.updateSearchTerms(term);
         this.focusSearchBar();
     }
 

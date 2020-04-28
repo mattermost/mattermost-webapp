@@ -268,14 +268,6 @@
     cursor: pointer;
     box-sizing: border-box;
 
-    &:first-child {
-        padding-top: 13px;
-    }
-
-    &:last-child {
-        padding-bottom: 15px;
-    }
-
     &.highlighted {
         background: rgba(61, 60, 64, 0.06);
     }

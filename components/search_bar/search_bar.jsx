@@ -128,6 +128,9 @@ export default class SearchBar extends React.Component {
 
     onClear = () => {
         this.props.actions.updateSearchTerms('');
+        if (this.props.isMentionSearch) {
+            this.setState({keepInputFocused: false});
+        }
         this.setState({keepInputFocused: true, termsUsed: 0});
     }
 
@@ -204,6 +207,13 @@ export default class SearchBar extends React.Component {
             this.search.focus();
             this.setState({focused: true});
         }, 0);
+
+        if (this.search.value === '""') {
+            this.search.selectionStart = this.search.length / 2;
+            this.search.selectionEnd = this.search.length / 2;
+        } else {
+            this.search.selectionStart = this.search.length;
+        }
     }
 
     keepInputFocused = () => {
@@ -223,12 +233,12 @@ export default class SearchBar extends React.Component {
         const pretextArray = this.props.searchTerms.split(' ');
         const pretext = pretextArray[pretextArray.length - 1];
         try {
-            filteredOptions = searchHintOptions.filter((option) => new RegExp(pretext, 'gi').test(option.searchTerm) && option.searchTerm !== pretext);
+            filteredOptions = searchHintOptions.filter((option) => new RegExp(pretext, 'ig').test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase());
         } catch {
             filteredOptions = [];
         }
 
-        if (filteredOptions.length > 0) {
+        if (filteredOptions.length > 0 && !this.props.isMentionSearch) {
             let helpClass = 'search-help-popover';
             if (this.state.focused && this.state.termsUsed <= 1) {
                 helpClass += ' visible';
