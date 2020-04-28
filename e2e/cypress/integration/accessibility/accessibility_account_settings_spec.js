@@ -172,6 +172,9 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#generalButton').click();
         cy.get('#pictureEdit').click();
 
+        // * Verify image alt in profile image
+        cy.get('.profile-img').should('have.attr', 'alt', 'profile image');
+
         cy.get('#generalSettings').then((el) => {
             if (el.find('.profile-img__remove').length > 0) {
                 cy.findByTestId('removeSettingPicture').click();
@@ -191,6 +194,9 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
         // # Click on Edit Profile Picture
         cy.get('#pictureEdit').click();
+
+        // * Verify image alt in profile image
+        cy.get('.profile-img').should('have.attr', 'alt', 'profile image');
 
         // # Option to Remove Profile picture should be present
         cy.findByTestId('removeSettingPicture').within(() => {
