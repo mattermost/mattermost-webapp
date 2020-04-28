@@ -60,14 +60,80 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text="Invite People to Team"
       />
     </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        id="createTeam"
+        show={true}
+        text="Create a Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={false}
+      id="joinTeam"
+      show={true}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="leaveTeam"
+      modalId="leave_team"
+      show={false}
+      text="Leave Team"
+    />
   </MenuGroup>
   <MenuGroup>
     <Connect(TeamPermissionGate)
@@ -109,75 +175,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         text="Manage Groups"
       />
     </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "remove_user_from_team",
-          "manage_team_roles",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={[Function]}
-        icon={false}
-        id="manageMembers"
-        modalId="team_members"
-        show={true}
-        text="Manage Members"
-      />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      invert={true}
-      permissions={
-        Array [
-          "remove_user_from_team",
-          "manage_team_roles",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={[Function]}
-        icon={false}
-        id="viewMembers"
-        modalId="team_members"
-        show={true}
-        text="View Members"
-      />
-    </Connect(TeamPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "create_team",
-        ]
-      }
-    >
-      <MenuItemLink
-        icon={false}
-        id="createTeam"
-        show={true}
-        text="Create a Team"
-        to="/create_team"
-      />
-    </Connect(SystemPermissionGate)>
-    <MenuItemLink
-      icon={false}
-      id="joinTeam"
-      show={true}
-      text="Join Another Team"
-      to="/select_team"
-    />
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="leaveTeam"
-      modalId="leave_team"
-      show={false}
-      text="Leave Team"
-    />
   </MenuGroup>
   <MenuGroup>
     <MenuItemAction
@@ -237,10 +234,43 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     </Connect(SystemPermissionGate)>
   </MenuGroup>
   <MenuGroup>
-    <MenuItemExternalLink
-      icon={false}
-      id="helpLink"
-      show={false}
+    <SubMenuItem
+      className="dropdown-menu__help-dropdown"
+      id="helpDropdown"
+      key="helpDropdown"
+      right={true}
+      root={false}
+      show={true}
+      subMenu={
+        Array [
+          Object {
+            "icon": false,
+            "id": "helpLink",
+            "key": "helpLink",
+            "show": false,
+            "subMenu": Array [],
+            "text": "Get Help",
+            "url": undefined,
+          },
+          Object {
+            "icon": false,
+            "id": "reportLink",
+            "key": "reportLink",
+            "show": false,
+            "subMenu": Array [],
+            "text": "Report a Problem",
+            "url": undefined,
+          },
+          Object {
+            "action": [Function],
+            "icon": false,
+            "id": "about",
+            "key": "about",
+            "subMenu": Array [],
+            "text": "About Mattermost",
+          },
+        ]
+      }
       text="Help"
     />
     <MenuItemAction
@@ -251,23 +281,9 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     />
     <MenuItemExternalLink
       icon={false}
-      id="reportLink"
-      show={false}
-      text="Report a Problem"
-    />
-    <MenuItemExternalLink
-      icon={false}
       id="nativeAppLink"
       show={true}
       text="Download Apps"
-    />
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="about"
-      modalId="about"
-      show={true}
-      text="About Mattermost"
     />
   </MenuGroup>
   <MenuGroup>

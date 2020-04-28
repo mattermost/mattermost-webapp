@@ -149,7 +149,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         if (!isMobile) {
             subMenuContent = (
                 <ul
-                    className={`a11y__popup Menu dropdown-menu SubMenu ${className}_submenu`}
+                    className={`a11y__popup Menu dropdown-menu SubMenu${className ? ` ${className}_submenu` : ''}`}
                     style={subMenuStyle}
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
