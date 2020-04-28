@@ -54,6 +54,8 @@ describe('components/CreateComment', () => {
         isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
+        selectChannelMemberCountsByGroup: jest.fn(),
+        useGroupMentions: true,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -713,6 +715,161 @@ describe('components/CreateComment', () => {
             });
         });
 
+        it('should show Confirm Modal for @group mention when needed and no timezone notification', async () => {
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: 'Test message @developers',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers'
+                    }]
+                ]),
+                channelMemberCountsByGroup: {
+                    developers: {
+                        channel_member_count: 10,
+                        channel_member_timezones_count: 0,
+                    }
+                },
+                isTimezoneEnabled: false,
+                channelMembersCount: 8,
+                useChannelMentions: true,
+                enableConfirmNotificationsToChannel: true,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).not.toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.state('memberNotifyCount')).toBe(10);
+            expect(wrapper.state('channelTimezoneCount')).toBe(0);
+            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
+            expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
+            expect(wrapper.state('showConfirmModal')).toBe(true);
+        });
+
+        it('should show Confirm Modal for @group mentions when needed and no timezone notification', async () => {
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: 'Test message @developers @boss @love @you @software-developers',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers',
+                    }],
+                    ['@boss', {
+                        id: 'boss',
+                        name: 'boss',
+                    }],
+                    ['@love', {
+                        id: 'love',
+                        name: 'love',
+                    }],
+                    ['@you', {
+                        id: 'you',
+                        name: 'you',
+                    }],
+                    ['@software-developers', {
+                        id: 'softwareDevelopers',
+                        name: 'software-developers',
+                    }],
+                ]),
+                channelMemberCountsByGroup: {
+                    developers: {
+                        channel_member_count: 10,
+                        channel_member_timezones_count: 0,
+                    },
+                    boss: {
+                        channel_member_count: 20,
+                        channel_member_timezones_count: 0,
+                    },
+                    love: {
+                        channel_member_count: 30,
+                        channel_member_timezones_count: 0,
+                    },
+                    you: {
+                        channel_member_count: 40,
+                        channel_member_timezones_count: 0,
+                    },
+                    softwareDevelopers: {
+                        channel_member_count: 5,
+                        channel_member_timezones_count: 0,
+                    },
+                },
+                isTimezoneEnabled: false,
+                channelMembersCount: 8,
+                useChannelMentions: true,
+                enableConfirmNotificationsToChannel: true,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).not.toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.state('memberNotifyCount')).toBe(40);
+            expect(wrapper.state('channelTimezoneCount')).toBe(0);
+            expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you', '@software-developers']);
+            expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
+            expect(wrapper.state('showConfirmModal')).toBe(true);
+        });
+
+        it('should show Confirm Modal for @group mention with timezone enabled', async () => {
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: 'Test message @developers',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers'
+                    }]
+                ]),
+                channelMemberCountsByGroup: {
+                    developers: {
+                        channel_member_count: 10,
+                        channel_member_timezones_count: 5,
+                    }
+                },
+                isTimezoneEnabled: true,
+                channelMembersCount: 8,
+                useChannelMentions: true,
+                enableConfirmNotificationsToChannel: true,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).not.toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.state('memberNotifyCount')).toBe(10);
+            expect(wrapper.state('channelTimezoneCount')).toBe(5);
+            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
+            expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
+            expect(wrapper.state('showConfirmModal')).toBe(true);
+        });
+
         it('should allow to force send invalid slash command as a message', async () => {
             const error = new Error('No command found');
             error.server_error_id = 'api.command.execute_command.not_found.app_error';
@@ -777,6 +934,7 @@ describe('components/CreateComment', () => {
                 const props = {
                     ...baseProps,
                     useChannelMentions: false,
+                    enableConfirmNotificationsToChannel: false,
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
@@ -798,6 +956,7 @@ describe('components/CreateComment', () => {
                 const props = {
                     ...baseProps,
                     useChannelMentions: true,
+                    enableConfirmNotificationsToChannel: false,
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
