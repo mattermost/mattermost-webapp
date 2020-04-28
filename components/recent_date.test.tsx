@@ -13,14 +13,14 @@ import RecentDate, {
 } from './recent_date';
 
 const NOW = new Date();
-const MONTHS = moment.months(); // January, +
 const WEEKDAYS = moment.weekdays(); // Monday
 
 // Date format for "MMMM DD" (en)
-const CURRENT_YEAR_FORMAT = /^[a-zA-Z]{3,9} \d{2}$/;
+const MONTH_DAY = /^[a-zA-Z]{3,9} \d{2}$/;
 
 // Date format for "MMMM DD, YYYY" (en)
-const PAST_YEAR_FORMAT = /^[a-zA-Z]{3,9} \d{2}, \d{4}$/;
+const MONTH_DAY_YEAR = /^[a-zA-Z]{3,9} \d{2}, \d{4}$/;
+
 
 describe('RecentDate', () => {
     test('should render title-case "Today" today', () => {
@@ -108,12 +108,12 @@ describe('RecentDate', () => {
         expect(WEEKDAYS).toContain(wrapper.text());
     });
 
-    test('should render date from four days ago', () => {
-        const xAgo = new Date();
-        xAgo.setDate(xAgo.getDate() - 4);
+    test('should render date two days ago', () => {
+        const twoDaysAgo = new Date();
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 
         const props = {
-            value: xAgo,
+            value: twoDaysAgo,
         };
 
         const wrapper = shallowWithIntl(<RecentDate {...props}/>);
@@ -131,7 +131,7 @@ describe('RecentDate', () => {
 
         const wrapper = shallowWithIntl(<RecentDate {...props}/>);
 
-        expect(wrapper.text()).toMatch(xAgo.getFullYear() === NOW.getFullYear() ? CURRENT_YEAR_FORMAT : PAST_YEAR_FORMAT);
+        expect(wrapper.text()).toMatch(xAgo.getFullYear() === NOW.getFullYear() ? MONTH_DAY : MONTH_DAY_YEAR);
     });
 
     test('should render date from 365 days ago', () => {
@@ -144,8 +144,27 @@ describe('RecentDate', () => {
 
         const wrapper = shallowWithIntl(<RecentDate {...props}/>);
 
-        expect(wrapper.text()).toMatch(PAST_YEAR_FORMAT);
+        expect(wrapper.text()).toMatch(MONTH_DAY_YEAR);
     });
+
+    test('should render 2 days ago with explicit format options', () => {
+        const xAgo = new Date();
+        xAgo.setDate(xAgo.getDate() - 2);
+
+        const props = {
+            value: xAgo,
+            dateTimeFormat: {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            }
+        };
+
+        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+
+        expect(wrapper.text()).toMatch(MONTH_DAY_YEAR);
+    });
+
 });
 
 describe('isToday and isYesterday', () => {

@@ -66,17 +66,19 @@ class RecentDate extends React.PureComponent<Props> {
             }
         }
 
-        const options: Intl.DateTimeFormatOptions = dateTimeFormat ?? is.withinPastSevenDays ? {
-            weekday: 'long'
-        } : {
-            day: '2-digit',
-            month: 'long',
-            ...is.sameYear ? {
-
+        const options: Intl.DateTimeFormatOptions = dateTimeFormat ?? (
+            is.withinPastSixDays ? {
+                weekday: 'long'
             } : {
-                year: 'numeric'
+                day: '2-digit',
+                month: 'long',
+                ...is.sameYear ? {
+
+                } : {
+                    year: 'numeric'
+                }
             }
-        };
+        );
 
         const formattedDate = intl.formatDate(value, {timeZone, ...options});
 
@@ -104,7 +106,7 @@ function fromNow(a: Date) {
         is: {
             today,
             yesterday: isYesterday(a),
-            withinPastSevenDays: moment(a).startOf('day').isAfter(moment(now).startOf('day').subtract(7, 'd')),
+            withinPastSixDays: moment(a).startOf('day').isAfter(moment(now).startOf('day').subtract(7, 'd')),
             sameMonth: today || isSameMonth(a, now),
             sameYear: today || isSameYear(a, now),
         }
