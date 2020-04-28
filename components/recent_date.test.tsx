@@ -15,12 +15,11 @@ import RecentDate, {
 const NOW = new Date();
 const WEEKDAYS = moment.weekdays(); // Monday
 
-// Date format for "MMMM DD" (en)
+// Date format for "MMMM DD" (en-US)
 const MONTH_DAY = /^[a-zA-Z]{3,9} \d{2}$/;
 
-// Date format for "MMMM DD, YYYY" (en)
+// Date format for "MMMM DD, YYYY" (en-US)
 const MONTH_DAY_YEAR = /^[a-zA-Z]{3,9} \d{2}, \d{4}$/;
-
 
 describe('RecentDate', () => {
     test('should render title-case "Today" today', () => {
