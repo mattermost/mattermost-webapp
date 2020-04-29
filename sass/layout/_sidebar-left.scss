@@ -488,6 +488,10 @@
             display: block;
         }
 
+        .SidebarChannelGroupHeader_sortButton {
+            display: block;
+        }
+
         > div, > i {
             color: var(--sidebar-text);
         }
@@ -542,6 +546,7 @@
         width: 28px;
         border-radius: 4px;
         margin-left: auto;
+        display: none;
     }
     .SidebarChannelGroupHeader_sortButton:hover {
         cursor: pointer;

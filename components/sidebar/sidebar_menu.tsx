@@ -106,6 +106,22 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             </Tooltip>
         );
 
+        let buttonContents = (
+            <i className='icon-dots-vertical'/>
+        );
+
+        if (!this.state.isMenuOpen) {
+            buttonContents = (
+                <OverlayTrigger
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
+                >
+                    {buttonContents}
+                </OverlayTrigger>
+            );
+        }
+
         return (
             <MenuWrapper
                 className={classNames('SidebarMenu', {
@@ -119,13 +135,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                     className='SidebarMenu_menuButton'
                     aria-label={buttonAriaLabel}
                 >
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={tooltip}
-                    >
-                        <i className='icon-dots-vertical'/>
-                    </OverlayTrigger>
+                    {buttonContents}
                 </button>
                 <Menu
                     ref={this.refCallback}
