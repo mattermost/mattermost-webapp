@@ -5,7 +5,10 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import store from 'stores/redux_store.jsx';
 
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
+import * as ua from 'tests/helpers/user_agent_mocks';
 
 describe('Utils.getDisplayNameByUser', () => {
     afterEach(() => {
@@ -744,5 +747,51 @@ describe('Utils.imageURLForUser', () => {
     test('should return url when user id is given without last_picture_update', () => {
         const imageUrl = Utils.imageURLForUser('foobar-123');
         expect(imageUrl).toEqual('/api/v4/users/foobar-123/image?_=0');
+    });
+});
+
+describe('Utils.isUnhandledLineBreakKeyCombo', () => {
+    test('isUnhandledLineBreakKeyCombo returns true for alt + enter for Chrome UA', () => {
+        ua.mockChrome();
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent())).toBe(true);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for alt + enter for Safari UA', () => {
+        ua.mockSafari();
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent())).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for shift + enter', () => {
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getShiftKeyEvent())).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for ctrl/command + enter', () => {
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getCtrlKeyEvent())).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getMetaKeyEvent())).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for just enter', () => {
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.BASE_EVENT)).toBe(false);
+    });
+
+    test('isUnhandledLineBreakKeyCombo returns false for f (random key)', () => {
+        const e = {
+            ...lineBreakHelpers.BASE_EVENT,
+            key: Constants.KeyCodes.F[0],
+            keyCode: Constants.KeyCodes.F[1],
+        };
+        expect(Utils.isUnhandledLineBreakKeyCombo(e)).toBe(false);
+    });
+
+    // restore initial user agent
+    afterEach(ua.reset);
+});
+
+describe('Utils.insertLineBreakFromKeyEvent', () => {
+    test('insertLineBreakFromKeyEvent returns with line break appending (no selection range)', () => {
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent())).toBe(lineBreakHelpers.OUTPUT_APPEND);
+    });
+    test('insertLineBreakFromKeyEvent returns with line break replacing (with selection range)', () => {
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent())).toBe(lineBreakHelpers.OUTPUT_REPLACE);
     });
 });
