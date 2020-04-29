@@ -28,6 +28,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
         readOnly: false,
         license: {
             LDAPGroups: 'true',
+            isLicensed: 'true',
         },
     };
 
