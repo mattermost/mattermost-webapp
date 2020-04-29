@@ -2952,6 +2952,17 @@ const AdminDefinition = {
                         setFromMetadataField: 'idp_public_certificate',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.ServiceProviderIdentifier',
+                        label: t('admin.saml.serviceProviderIdentiferTitle'),
+                        label_default: 'Service Provider Identifer:',
+                        help_text: t('admin.saml.serviceProviderIdentiferDesc'),
+                        help_text_default: 'The unique identifer for the Service Provider, in ADFS Systems this is the Relying Party Identifier. In other systems, it is typically left blank.',
+                        placeholder: t('admin.saml.serviceProviderIdentifierEx'),
+                        placeholder_default: 'E.g.: "https://<your-mattermost-url>/login/sso/saml"',
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'SamlSettings.Verify',
                         label: t('admin.saml.verifyTitle'),
