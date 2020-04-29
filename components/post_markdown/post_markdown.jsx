@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Markdown from 'components/markdown';
-
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
 export default class PostMarkdown extends React.PureComponent {
@@ -52,6 +52,10 @@ export default class PostMarkdown extends React.PureComponent {
         options: {},
     };
 
+    memoizedGetMentionKeysWithoutChannelMentions() {
+        return memoizeResult(() => mentionKeys.filter((value) => !['@all', '@channel', '@here'].includes(value.key)));
+    }
+
     render() {
         if (this.props.post) {
             const renderedSystemMessage = renderSystemMessage(this.props.post, this.props.channel, this.props.isUserCanManageMembers);
@@ -82,7 +86,7 @@ export default class PostMarkdown extends React.PureComponent {
             }
 
             if (post.props.mentionHighlightDisabled) {
-                mentionKeys = mentionKeys.filter((value) => !['@all', '@channel', '@here'].includes(value.key));
+                mentionKeys = memoizedGetMentionKeysWithoutChannelMentions();
             }
         }
 
