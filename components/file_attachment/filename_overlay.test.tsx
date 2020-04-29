@@ -23,7 +23,7 @@ describe('components/file_attachment/FilenameOverlay', () => {
         delete_at: 0,
         size: 100,
         mime_type: '',
-        clientId: ''
+        clientId: '',
     };
 
     const baseProps = {

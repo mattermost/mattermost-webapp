@@ -25,7 +25,7 @@ describe('FilePreview', () => {
             delete_at: 0,
             size: 100,
             mime_type: '',
-            clientId: ''
+            clientId: '',
         },
     ];
     const uploadsInProgress = ['clientID_1'];
@@ -44,7 +44,7 @@ describe('FilePreview', () => {
             delete_at: 0,
             size: 100,
             mime_type: '',
-            clientId: ''
+            clientId: '',
         },
     };
 
@@ -100,20 +100,9 @@ describe('FilePreview', () => {
             ...baseProps,
             fileInfos: [
                 {
-                    width: 100,
-                    height: 100,
-                    name: 'test_filename',
-                    id: 'file_id_1',
+                    ...baseProps.fileInfos[0],
                     type: 'image/svg',
                     extension: 'svg',
-                    has_preview_image: true,
-                    user_id: '',
-                    create_at: 0,
-                    update_at: 0,
-                    delete_at: 0,
-                    size: 100,
-                    mime_type: '',
-                    clientId: ''
                 }
             ],
         };
@@ -131,22 +120,13 @@ describe('FilePreview', () => {
         const props = {
             ...baseProps,
             enableSVGs: true,
-            fileInfos: [{
-                width: 100,
-                height: 100,
-                name: 'test_filename',
-                id: 'file_id_1',
-                type: 'image/svg',
-                extension: 'svg',
-                has_preview_image: true,
-                user_id: '',
-                create_at: 0,
-                update_at: 0,
-                delete_at: 0,
-                size: 100,
-                mime_type: '',
-                clientId: ''
-            }],
+            fileInfos: [
+                {
+                    ...baseProps.fileInfos[0],
+                    type: 'image/svg',
+                    extension: 'svg',
+                }
+            ],
         };
 
         const wrapper = shallow(

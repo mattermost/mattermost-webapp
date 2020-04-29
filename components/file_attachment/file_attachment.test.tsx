@@ -30,7 +30,7 @@ describe('FileAttachment', () => {
         update_at: 0,
         delete_at: 0,
         mime_type: '',
-        clientId: ''
+        clientId: '',
     };
 
     const baseProps = {
@@ -48,19 +48,12 @@ describe('FileAttachment', () => {
 
     test('should match snapshot, regular image', () => {
         const fileInfo = {
-            id: 'thumbnail_id',
+            ...baseFileInfo,
             extension: 'png',
             name: 'test.png',
             width: 600,
             height: 400,
             size: 100,
-            has_preview_image: true,
-            user_id: '',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
-            mime_type: '',
-            clientId: ''
         };
         const props = {...baseProps, fileInfo};
         const wrapper = shallow(<FileAttachment {...props}/>);
@@ -69,19 +62,12 @@ describe('FileAttachment', () => {
 
     test('should match snapshot, small image', () => {
         const fileInfo = {
-            id: 'thumbnail_id',
+            ...baseFileInfo,
             extension: 'png',
             name: 'test.png',
             width: 16,
             height: 16,
             size: 100,
-            has_preview_image: true,
-            user_id: '',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
-            mime_type: '',
-            clientId: ''
         };
         const props = {...baseProps, fileInfo};
         const wrapper = shallow(<FileAttachment {...props}/>);
@@ -90,19 +76,12 @@ describe('FileAttachment', () => {
 
     test('should match snapshot, svg image', () => {
         const fileInfo = {
-            id: 'thumbnail_id',
+            ...baseFileInfo,
             extension: 'svg',
             name: 'test.svg',
             width: 600,
             height: 400,
             size: 100,
-            has_preview_image: true,
-            user_id: '',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
-            mime_type: '',
-            clientId: ''
         };
         const props = {...baseProps, fileInfo};
         const wrapper = shallow(<FileAttachment {...props}/>);
@@ -111,19 +90,12 @@ describe('FileAttachment', () => {
 
     test('should match snapshot, after change from file to image', () => {
         const fileInfo = {
-            id: 'thumbnail_id',
+            ...baseFileInfo,
             extension: 'png',
             name: 'test.png',
             width: 600,
             height: 400,
             size: 100,
-            has_preview_image: true,
-            user_id: '',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
-            mime_type: '',
-            clientId: ''
         };
         const wrapper = shallow(<FileAttachment {...baseProps}/>);
         wrapper.setProps({...baseProps, fileInfo});
@@ -144,19 +116,10 @@ describe('FileAttachment', () => {
 
     test('should match snapshot, file with long name', () => {
         const fileInfo = {
-            id: 'thumbnail_id',
+            ...baseFileInfo,
             extension: 'pdf',
             name: 'a-quite-long-filename-to-test-the-filename-shortener.pdf',
-            width: 100,
-            height: 80,
-            size: 100,
-            has_preview_image: true,
-            user_id: '',
-            create_at: 0,
-            update_at: 0,
-            delete_at: 0,
-            mime_type: '',
-            clientId: ''
+
         };
         const props = {...baseProps, fileInfo};
         const wrapper = shallow(<FileAttachment {...props}/>);

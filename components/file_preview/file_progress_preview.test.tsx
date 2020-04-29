@@ -24,7 +24,7 @@ describe('component/file_preview/file_progress_preview', () => {
         delete_at: 0,
         size: 100,
         mime_type: '',
-        clientId: ''
+        clientId: '',
     };
 
     const baseProps = {
