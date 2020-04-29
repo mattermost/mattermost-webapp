@@ -22,12 +22,42 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import { ActionsFunction } from '@storybook/addon-actions';
 
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 
-export default class DotMenu extends React.PureComponent {
+interface DotMenuProps {
+    post:any, 
+    isLicensed:boolean, 
+    postEditTimeLimit:string,
+    isFlagged:boolean,
+    handleAddReactionClick():any,
+    currentTeamUrl:string,
+    actions:any,
+    commentCount:number, 
+    location:any,
+    pluginMenuItems:any,
+    handleDropdownOpened:any,
+    handleCommentClick:any,
+    components:any,
+    isReadOnly:boolean,
+    channelIsArchived:boolean,
+    isMenuOpen:boolean,
+    teamId:any,
+    enableEmojiPicker:boolean
+  }
+  
+  interface DotMenuState {
+      canEdit:boolean,
+      openUp:boolean,
+      width:number,
+      canDelete:boolean
+  }
+
+
+export default class DotMenu extends React.PureComponent<DotMenuProps, DotMenuState> {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string,
@@ -102,8 +132,10 @@ export default class DotMenu extends React.PureComponent {
         location: Locations.CENTER,
         enableEmojiPicker: false,
     }
+    editDisableAction: DelayedAction;
+    buttonRef: React.RefObject<HTMLButtonElement>
 
-    constructor(props) {
+    constructor(props:any) {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
@@ -112,9 +144,10 @@ export default class DotMenu extends React.PureComponent {
             openUp: false,
             width: 0,
             canEdit: props.canEdit && !props.isReadOnly,
+            canDelete:props.canDelete
         };
 
-        this.buttonRef = React.createRef();
+        this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
     disableCanEditPostByTime() {
@@ -124,7 +157,7 @@ export default class DotMenu extends React.PureComponent {
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                const timeLeft= (post.create_at + (Number(postEditTimeLimit) * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -136,7 +169,7 @@ export default class DotMenu extends React.PureComponent {
         this.disableCanEditPostByTime();
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props:any) {
         return {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
@@ -160,7 +193,7 @@ export default class DotMenu extends React.PureComponent {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e) => {
+    handleAddReactionMenuItemActivated = (e:any) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -194,12 +227,12 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    handleUnreadMenuItemActivated = (e) => {
+    handleUnreadMenuItemActivated = (e:any) => {
         e.preventDefault();
         this.props.actions.markPostAsUnread(this.props.post);
     }
 
-    handleDeleteMenuItemActivated = (e) => {
+    handleDeleteMenuItemActivated = (e:any) => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -237,8 +270,8 @@ export default class DotMenu extends React.PureComponent {
         </Tooltip>
     )
 
-    refCallback = (menuRef) => {
-        if (menuRef) {
+    refCallback = (menuRef:any) => {
+        if (menuRef && null !== this.buttonRef.current) {
             const rect = menuRef.rect();
             const buttonRect = this.buttonRef.current.getBoundingClientRect();
             const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
@@ -255,7 +288,7 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    renderDivider = (suffix) => {
+    renderDivider = (suffix:string) => {
         return (
             <li
                 id={`divider_post_${this.props.post.id}_${suffix}`}
@@ -270,10 +303,10 @@ export default class DotMenu extends React.PureComponent {
         const isMobile = Utils.isMobile();
 
         const pluginItems = this.props.pluginMenuItems.
-            filter((item) => {
+            filter((item:any) => {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
-            map((item) => {
+            map((item:any) => {
                 if (item.subMenu) {
                     return (
                         <Menu.ItemSubMenu
@@ -343,6 +376,7 @@ export default class DotMenu extends React.PureComponent {
                         channelId={this.props.post.channel_id}
                         teamId={this.props.teamId}
                         permissions={[Permissions.ADD_REACTION]}
+                        hasPermission={false}
                     >
                         <Menu.ItemAction
                             show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}

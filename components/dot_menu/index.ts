@@ -23,9 +23,9 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import DotMenu from './dot_menu.jsx';
+import DotMenu from './dot_menu'
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state:any, ownProps:any) {
     const {post} = ownProps;
 
     const license = getLicense(state);
@@ -49,7 +49,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch:any) {
     return {
         actions: bindActionCreators({
             flagPost,

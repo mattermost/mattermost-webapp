@@ -24,6 +24,7 @@ describe('components/dot_menu/DotMenu', () => {
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         enableEmojiPicker: true,
+        handleAddReactionClick:jest.fn(),
         components: {},
         channelIsArchived: false,
         currentTeamUrl: '',
@@ -38,6 +39,7 @@ describe('components/dot_menu/DotMenu', () => {
         },
         canEdit: false,
         canDelete: false,
+        isMenuOpen:false,
     };
 
     test('should match snapshot, on Center', () => {
@@ -54,7 +56,7 @@ describe('components/dot_menu/DotMenu', () => {
         const instance = wrapper.instance();
         const setStateMock = jest.fn();
         instance.setState = setStateMock;
-        wrapper.instance().handleEditDisable();
+        (wrapper.instance() as DotMenu).handleEditDisable();
         expect(setStateMock).toBeCalledWith({canEdit: false});
     });
 
