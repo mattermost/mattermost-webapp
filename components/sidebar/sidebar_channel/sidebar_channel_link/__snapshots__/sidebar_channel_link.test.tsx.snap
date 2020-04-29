@@ -136,6 +136,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
 <OverlayTrigger
   defaultOverlayShown={false}
   delayShow={400}
+  onEntering={[Function]}
   overlay={
     <Tooltip
       bsClass="tooltip"
@@ -153,69 +154,71 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     ]
   }
 >
-  <Link
-    aria-label="channel_label"
-    className="SidebarLink"
-    id="sidebarItem_"
-    onClick={[Function]}
-    to="http://a.fake.link"
-  >
-    <Connect(SidebarChannelIcon)
-      channel={
-        Object {
-          "create_at": 0,
-          "creator_id": "",
-          "delete_at": 0,
-          "display_name": "channel_display_name",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "",
-          "id": "channel_id",
-          "last_post_at": 0,
-          "name": "",
-          "purpose": "",
-          "scheme_id": "",
-          "team_id": "",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
-        }
-      }
-      icon={null}
-    />
-    <span
-      className="SidebarChannelLinkLabel"
+  <div>
+    <Link
+      aria-label="channel_label"
+      className="SidebarLink"
+      id="sidebarItem_"
+      onClick={[Function]}
+      to="http://a.fake.link"
     >
-      channel_label
-    </span>
-    <ChannelMentionBadge
-      channelId="channel_id"
-      unreadMentions={0}
-    />
-    <SidebarChannelClose
-      channel={
-        Object {
-          "create_at": 0,
-          "creator_id": "",
-          "delete_at": 0,
-          "display_name": "channel_display_name",
-          "extra_update_at": 0,
-          "group_constrained": false,
-          "header": "",
-          "id": "channel_id",
-          "last_post_at": 0,
-          "name": "",
-          "purpose": "",
-          "scheme_id": "",
-          "team_id": "",
-          "total_msg_count": 0,
-          "type": "O",
-          "update_at": 0,
+      <Connect(SidebarChannelIcon)
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "",
+            "delete_at": 0,
+            "display_name": "channel_display_name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "",
+            "id": "channel_id",
+            "last_post_at": 0,
+            "name": "",
+            "purpose": "",
+            "scheme_id": "",
+            "team_id": "",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
+          }
         }
-      }
-      show={true}
-    />
-  </Link>
+        icon={null}
+      />
+      <span
+        className="SidebarChannelLinkLabel"
+      >
+        channel_label
+      </span>
+      <ChannelMentionBadge
+        channelId="channel_id"
+        unreadMentions={0}
+      />
+      <SidebarChannelClose
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "",
+            "delete_at": 0,
+            "display_name": "channel_display_name",
+            "extra_update_at": 0,
+            "group_constrained": false,
+            "header": "",
+            "id": "channel_id",
+            "last_post_at": 0,
+            "name": "",
+            "purpose": "",
+            "scheme_id": "",
+            "team_id": "",
+            "total_msg_count": 0,
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        show={true}
+      />
+    </Link>
+  </div>
 </OverlayTrigger>
 `;
 

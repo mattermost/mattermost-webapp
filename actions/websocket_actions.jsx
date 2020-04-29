@@ -284,6 +284,10 @@ export function handleEvent(msg) {
         handleUpdateTeamEvent(msg);
         break;
 
+    case SocketEvents.UPDATE_TEAM_SCHEME:
+        handleUpdateTeamSchemeEvent(msg);
+        break;
+
     case SocketEvents.DELETE_TEAM:
         handleDeleteTeamEvent(msg);
         break;
@@ -644,6 +648,10 @@ export function handleLeaveTeamEvent(msg) {
 
 function handleUpdateTeamEvent(msg) {
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
+}
+
+function handleUpdateTeamSchemeEvent() {
+    dispatch(TeamActions.getMyTeamMembers());
 }
 
 function handleDeleteTeamEvent(msg) {
