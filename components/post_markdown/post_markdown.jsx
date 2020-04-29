@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
-
 import Markdown from 'components/markdown';
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
@@ -46,6 +44,7 @@ export default class PostMarkdown extends React.PureComponent {
         isUserCanManageMembers: PropTypes.bool,
         allMentionKeys: PropTypes.array.isRequired,
         mentionKeysWithoutGroups: PropTypes.array.isRequired,
+        mentionKeysWithoutChannelMentions: PropTypes.array.isRequired,
     };
 
     static defaultProps = {
@@ -53,10 +52,6 @@ export default class PostMarkdown extends React.PureComponent {
         pluginHooks: [],
         options: {},
     };
-
-    memoizedGetMentionKeysWithoutChannelMentions(mentionKeys) {
-        return memoizeResult(() => mentionKeys.filter((value) => !['@all', '@channel', '@here'].includes(value.key)));
-    }
 
     render() {
         if (this.props.post) {
@@ -71,7 +66,7 @@ export default class PostMarkdown extends React.PureComponent {
         const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
         let {message} = this.props;
-        const {post, allMentionKeys, mentionKeysWithoutGroups, options} = this.props;
+        const {post, allMentionKeys, mentionKeysWithoutGroups, options, mentionKeysWithoutChannelMentions} = this.props;
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {
@@ -88,7 +83,7 @@ export default class PostMarkdown extends React.PureComponent {
             }
 
             if (post.props.mentionHighlightDisabled) {
-                mentionKeys = this.memoizedGetMentionKeysWithoutChannelMentions(mentionKeys);
+                mentionKeys = mentionKeysWithoutChannelMentions;
             }
         }
 
