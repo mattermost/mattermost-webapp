@@ -4,8 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Markdown from 'components/markdown';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+
+import Markdown from 'components/markdown';
+
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
 export default class PostMarkdown extends React.PureComponent {
@@ -52,7 +54,7 @@ export default class PostMarkdown extends React.PureComponent {
         options: {},
     };
 
-    memoizedGetMentionKeysWithoutChannelMentions() {
+    memoizedGetMentionKeysWithoutChannelMentions(mentionKeys) {
         return memoizeResult(() => mentionKeys.filter((value) => !['@all', '@channel', '@here'].includes(value.key)));
     }
 
@@ -86,7 +88,7 @@ export default class PostMarkdown extends React.PureComponent {
             }
 
             if (post.props.mentionHighlightDisabled) {
-                mentionKeys = memoizedGetMentionKeysWithoutChannelMentions();
+                mentionKeys = this.memoizedGetMentionKeysWithoutChannelMentions(mentionKeys);
             }
         }
 
