@@ -25,7 +25,7 @@ import SidebarRight from './sidebar_right.jsx';
 
 function mapStateToProps(state) {
     const rhsState = getRhsState(state);
-    const channel = getCurrentChannel(state) || {};
+    const channel = getCurrentChannel(state);
     const channelId = getSelectedChannelId(state);
 
     let rhsChannel = null;
