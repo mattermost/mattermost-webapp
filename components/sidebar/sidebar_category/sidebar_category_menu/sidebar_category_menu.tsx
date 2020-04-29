@@ -14,6 +14,7 @@ type Props = {
     category: ChannelCategory;
     canCreatePublicChannel: boolean;
     canCreatePrivateChannel: boolean;
+    onToggle: (open: boolean) => void;
 
     //currentUserId: string;
     intl: IntlShape;
@@ -107,6 +108,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                 buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                 tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+                onToggle={this.props.onToggle}
             >
                 {this.renderDropdownItems()}
             </SidebarMenu>

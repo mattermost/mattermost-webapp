@@ -18,6 +18,7 @@ import {isKeyPressed} from 'utils/utils';
 import SidebarChannel from '../sidebar_channel';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
+import {SidebarCategoryMenu as SidebarCategoryMenuType} from './sidebar_category_menu/sidebar_category_menu';
 
 type Props = {
     category: ChannelCategory;
@@ -31,13 +32,23 @@ type Props = {
     };
 };
 
-export default class SidebarCategory extends React.PureComponent<Props> {
+type State = {
+    isMenuOpen: boolean;
+}
+
+export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
+    categoryMenuRef: React.RefObject<SidebarCategoryMenuType>;
 
     constructor(props: Props) {
         super(props);
 
         this.categoryTitleRef = React.createRef();
+        this.categoryMenuRef = React.createRef();
+
+        this.state = {
+            isMenuOpen: false,
+        };
     }
 
     componentDidMount() {
@@ -108,6 +119,10 @@ export default class SidebarCategory extends React.PureComponent<Props> {
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
+    }
+
+    handleMenuToggle = (open: boolean) => {
+        this.setState({isMenuOpen: open});
     }
 
     render() {
@@ -185,6 +200,7 @@ export default class SidebarCategory extends React.PureComponent<Props> {
             categoryMenu = (
                 <SidebarCategoryMenu
                     category={category}
+                    onToggle={this.handleMenuToggle}
                 />
             );
         }
@@ -194,12 +210,16 @@ export default class SidebarCategory extends React.PureComponent<Props> {
             displayName = localizeMessage(`sidebar.types.${category.type}`, category.display_name);
         }
 
+        console.log(this.categoryMenuRef?.current?.menuRef?.current?.state.isMenuOpen);
+
         return (
-            <div className='SidebarChannelGroup a11y__section'>
+            <div className={classNames('SidebarChannelGroup a11y__section', {
+                menuIsOpen: this.state.isMenuOpen,
+            })}>
                 <div className='SidebarChannelGroupHeader'>
                     <button
                         ref={this.categoryTitleRef}
-                        className={classNames('SidebarChannelGroupHeader_groupButton', {favorites: category.type === CategoryTypes.FAVORITES})}
+                        className={'SidebarChannelGroupHeader_groupButton'}
                         onClick={this.handleCollapse}
                         aria-label={displayName}
                     >

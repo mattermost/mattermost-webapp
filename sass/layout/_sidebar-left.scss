@@ -284,6 +284,16 @@
         .Menu {
             position: fixed;
 
+            .MenuItem {
+                span.icon {
+                    padding-right: 12px;
+                }
+
+                i:before {
+                    margin: 0;
+                }
+            }
+
             .SubMenu {
                 position: absolute;
                 margin-top: -8px;
@@ -297,6 +307,7 @@
 
             .SubMenu__icon-right {
                 margin-right: -32px;
+                padding-right: 20px;
             }
 
             #SidebarChannelMenu-moveToDivider {
@@ -467,6 +478,10 @@
         .SidebarMenu:not(.menuOpen) {
             display: none;
         }
+    }
+
+    .SidebarChannelGroup.menuIsOpen + .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+        background-color: inherit !important;
     }
 
     .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {

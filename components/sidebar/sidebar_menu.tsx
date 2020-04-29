@@ -17,6 +17,7 @@ type Props = {
     buttonAriaLabel: string;
     ariaLabel: string;
     refCallback?: (ref: SidebarMenu) => void;
+    onToggle: (open: boolean) => void;
 };
 
 type State = {
@@ -90,6 +91,9 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
 
     handleMenuToggle = (isMenuOpen: boolean) => {
         this.setState({isMenuOpen}, () => {
+            if (this.props.onToggle) {
+                this.props.onToggle(isMenuOpen);
+            }
             this.setMenuPosition();
         });
     }
