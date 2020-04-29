@@ -38,10 +38,8 @@ interface Props {
     * Display in compact format
     */
     compactDisplay?: boolean;
-
     canDownloadFiles?: boolean;
     enableSVGs: boolean;
-
 }
 
 interface State {
@@ -110,11 +108,11 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         }
     }
 
-    onAttachmentClick = (e: React.MouseEvent<HTMLAnchorElement|HTMLDivElement, MouseEvent>) => {
+    onAttachmentClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
 
-        if ('blur' in e.target) {
-            (e.target as HTMLAnchorElement).blur();
+        if (e.target instanceof HTMLElement) {
+            e.target.blur();
         }
 
         if (this.props.handleImageClick) {

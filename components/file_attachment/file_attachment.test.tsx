@@ -172,9 +172,11 @@ describe('FileAttachment', () => {
     test('should blur file attachment link after click', () => {
         const props = {...baseProps, compactDisplay: true};
         const wrapper = mountWithIntl(<FileAttachment {...props}/>);
+        const mockedTarget = document.createElement('div');
+        mockedTarget.blur = jest.fn();
         const e = {
             preventDefault: jest.fn(),
-            target: {blur: jest.fn()},
+            target: mockedTarget
         };
 
         const a = wrapper.find('#file-attachment-link');
