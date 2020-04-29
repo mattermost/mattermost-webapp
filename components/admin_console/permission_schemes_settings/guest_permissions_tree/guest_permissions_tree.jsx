@@ -58,7 +58,7 @@ export default class GuestPermissionsTree extends React.Component {
             Permissions.USE_CHANNEL_MENTIONS,
         ];
 
-        if (props.license.LDAPGroups === 'true') {
+        if (props.license && props.license.IsLicensed === 'true' && props.license.LDAPGroups === 'true') {
             this.permissions.push(Permissions.USE_GROUP_MENTIONS);
         }
     }
