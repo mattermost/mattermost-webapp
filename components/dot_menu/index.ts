@@ -23,7 +23,7 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import DotMenu from './dot_menu'
+import DotMenu from 'components/dot_menu';
 
 function mapStateToProps(state:any, ownProps:any) {
     const {post} = ownProps;

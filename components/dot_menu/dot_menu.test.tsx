@@ -24,7 +24,7 @@ describe('components/dot_menu/DotMenu', () => {
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         enableEmojiPicker: true,
-        handleAddReactionClick:jest.fn(),
+        handleAddReactionClick: jest.fn(),
         components: {},
         channelIsArchived: false,
         currentTeamUrl: '',
@@ -39,7 +39,7 @@ describe('components/dot_menu/DotMenu', () => {
         },
         canEdit: false,
         canDelete: false,
-        isMenuOpen:false,
+        isMenuOpen: false,
     };
 
     test('should match snapshot, on Center', () => {
