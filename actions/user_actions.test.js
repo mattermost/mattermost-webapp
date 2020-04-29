@@ -4,15 +4,16 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import {Preferences} from 'mattermost-redux/constants';
+import {Preferences, General} from 'mattermost-redux/constants';
 import channelCategories from 'mattermost-redux/selectors/entities/channel_categories';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import * as UserActions from 'actions/user_actions';
 
 const mockStore = configureStore([thunk]);
-const mockChannelsObj1 = [{id: 'gmChannel', type: 'G1'}];
-const mockChannelsObj2 = [{id: 'gmChannel', type: 'G2'}];
+
+const mockChannelsObj1 = [{id: 'gmChannel1', type: General.GM_CHANNEL}];
+const mockChannelsObj2 = [{id: 'gmChannel2', type: General.GM_CHANNEL}];
 
 jest.mock('mattermost-redux/actions/users', () => {
     const original = require.requireActual('mattermost-redux/actions/users');
@@ -26,8 +27,10 @@ jest.mock('mattermost-redux/actions/users', () => {
 });
 
 jest.mock('mattermost-redux/selectors/entities/channel_categories', () => {
+    const GeneralTypes = require.requireActual('mattermost-redux/constants').General;
     const original = require.requireActual('mattermost-redux/selectors/entities/channel_categories');
-    const mockChannelsObj = [{id: 'gmChannel', type: 'G2'}];
+
+    const mockChannelsObj = [{id: 'gmChannel2', type: GeneralTypes.GM_CHANNEL}];
     const mockFunc = jest.fn();
     return {
         ...original,
