@@ -111,8 +111,8 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
     onAttachmentClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
 
-        if (e.target instanceof HTMLElement) {
-            e.target.blur();
+        if ('blur' in e.target) {
+            (e.target as HTMLElement).blur();
         }
 
         if (this.props.handleImageClick) {

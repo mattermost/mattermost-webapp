@@ -38,7 +38,7 @@ describe('FileAttachment', () => {
         handleImageClick: jest.fn(),
         index: 3,
         canDownloadFiles: true,
-        enableSVGs: false
+        enableSVGs: false,
     };
 
     test('should match snapshot, regular file', () => {
@@ -135,11 +135,9 @@ describe('FileAttachment', () => {
     test('should blur file attachment link after click', () => {
         const props = {...baseProps, compactDisplay: true};
         const wrapper = mountWithIntl(<FileAttachment {...props}/>);
-        const mockedTarget = document.createElement('div');
-        mockedTarget.blur = jest.fn();
         const e = {
             preventDefault: jest.fn(),
-            target: mockedTarget
+            target: {blur: jest.fn()},
         };
 
         const a = wrapper.find('#file-attachment-link');
