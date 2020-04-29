@@ -39,10 +39,18 @@ context('Okta', () => {
             Verify: true,
             Encrypt: true,
             SignRequest: true,
+<<<<<<< HEAD
             IdpUrl: idpUrl,
             IdpDescriptorUrl: `http://www.okta.com/${oktaMMEntityId}`,
             IdpMetadataUrl: idpMetadataUrl,
             AssertionConsumerServiceURL: `${Cypress.config('baseUrl')}/login/sso/saml`,
+=======
+            IdpUrl: Cypress.env('oktaBaseUrl') + '/app/' + Cypress.env('oktaMMAppName') + '/' + Cypress.env('oktaMMEntityId') + '/sso/saml',
+            IdpDescriptorUrl: 'http://www.okta.com/' + Cypress.env('oktaMMEntityId'),
+            IdpMetadataUrl: Cypress.env('oktaBaseUrl') + '/app/' + Cypress.env('oktaMMEntityId') + '/sso/saml/metadata',
+            ServiceProviderIdentifier: Cypress.config('baseUrl') + '/login/sso/saml',
+            AssertionConsumerServiceURL: Cypress.config('baseUrl') + '/login/sso/saml',
+>>>>>>> add configuration setting for ServiceProviderIdentifier
             SignatureAlgorithm: 'RSAwithSHA1',
             CanonicalAlgorithm: 'Canonical1.0',
             IdpCertificateFile: 'saml-idp.crt',
@@ -141,6 +149,7 @@ context('Okta', () => {
             testSettings.user = guest1;
             newConfig.SamlSettings.GuestAttribute = 'UserType=Guest';
 
+            cy.apiLogin('sysadmin');
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
@@ -176,6 +185,7 @@ context('Okta', () => {
             testSettings.user = guest2;
             newConfig.SamlSettings.GuestAttribute = 'IsGuest=true';
 
+            cy.apiLogin('sysadmin');
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
@@ -212,6 +222,7 @@ context('Okta', () => {
             newConfig.SamlSettings.EnableAdminAttribute = true;
             newConfig.SamlSettings.AdminAttribute = 'UserType=Admin';
 
+            cy.apiLogin('sysadmin');
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
@@ -247,6 +258,7 @@ context('Okta', () => {
             newConfig.SamlSettings.EnableAdminAttribute = true;
             newConfig.SamlSettings.AdminAttribute = 'IsAdmin=true';
 
+            cy.apiLogin('sysadmin');
             cy.apiUpdateConfig(newConfig).then(() => {
                 //login new user
                 cy.oktaGetOrCreateUser(testSettings.user).then((oktaUserId) => {
