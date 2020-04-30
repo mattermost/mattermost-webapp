@@ -1,49 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class DeleteChannelModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    onHide: () => void;
+    channel: Channel;
+    currentTeamDetails: {name: string};
+    canViewArchivedChannels?: boolean;
+    penultimateViewedChannelName: string;
+    actions: {
+        deleteChannel: (channelId: string) => {data: boolean};
+    };
+}
 
-        /**
-        * Function called when modal is dismissed
-        */
-        onHide: PropTypes.func.isRequired,
+type State = {
+    show: boolean;
+}
 
-        /**
-         * channel data
-         */
-        channel: PropTypes.object.isRequired,
-
-        /**
-         * currentTeamDetails used for redirection after deleting channel
-         */
-        currentTeamDetails: PropTypes.object.isRequired,
-
-        canViewArchivedChannels: PropTypes.bool,
-        penultimateViewedChannelName: PropTypes.string.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-            * Function called for deleting channel,
-            */
-
-            deleteChannel: PropTypes.func.isRequired,
-        }),
-    }
-
-    constructor(props) {
+export default class DeleteChannelModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
-
         this.state = {show: true};
     }
 
