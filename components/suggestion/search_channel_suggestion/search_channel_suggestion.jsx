@@ -91,6 +91,7 @@ export default class SearchChannelSuggestion extends Suggestion {
         return (
             <div
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 className={className}
                 ref={(node) => {
                     this.node = node;

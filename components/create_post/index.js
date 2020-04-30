@@ -6,10 +6,10 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getChannelTimezones} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -19,6 +19,9 @@ import {
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
+import {
+    getAssociatedGroupsForReference,
+} from 'mattermost-redux/selectors/entities/groups';
 import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
@@ -81,9 +84,16 @@ function makeMapStateToProps() {
             team: currentChannel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
+        const useGroupMentions = haveIChannelPermission(state, {
+            channel: currentChannel.id,
+            team: currentChannel.team_id,
+            permission: Permissions.USE_GROUP_MENTIONS,
+        });
+        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, currentChannel.id);
+        const currentTeamId = getCurrentTeamId(state);
 
         return {
-            currentTeamId: getCurrentTeamId(state),
+            currentTeamId,
             currentChannel,
             currentChannelMembersCount,
             currentUserId,
@@ -112,6 +122,9 @@ function makeMapStateToProps() {
             canPost,
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreatePost(state),
+            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, currentTeamId, currentChannel.id).map((group) => [`@${group.name}`, group])),
+            useGroupMentions,
+            channelMemberCountsByGroup,
         };
     };
 }
@@ -143,6 +156,7 @@ function mapDispatchToProps(dispatch) {
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
             setShowPreview: setShowPreviewOnCreatePost,
+            selectChannelMemberCountsByGroup,
         }, dispatch),
     };
 }

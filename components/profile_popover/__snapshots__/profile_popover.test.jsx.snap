@@ -151,6 +151,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     <a
       className="text-nowrap"
       href="#"
+      onClick={[Function]}
     >
       <Connect(injectIntl(ModalToggleButtonRedux))
         accessibilityLabel="Add to a Channel"
