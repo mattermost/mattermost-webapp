@@ -17,6 +17,24 @@
         padding-right: 15px;
     }
 
+    div.navigation-row {
+        margin-top: 10px;
+
+        div {
+            font-size: 14px;
+            text-align: center;
+
+            button {
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+
+        div.count {
+            padding-top: 8px;
+        }
+    }
+
     .input-clear {
         top: 32px;
         right: 38px;

@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 
 import RemovedFromChannelModal from './removed_from_channel_modal';
 

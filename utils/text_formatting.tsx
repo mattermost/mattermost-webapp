@@ -6,9 +6,9 @@ import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import {formatWithRenderer} from 'utils/markdown';
-import {getEmojiMap} from 'selectors/emojis';
-import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
@@ -27,7 +27,8 @@ const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoti
 export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
-    };
+        team_name?: string;
+    } | Channel;
 };
 
 export type Tokens = Map<
@@ -177,7 +178,8 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 
 export function formatText(
     text: string,
-    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS
+    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS,
+    emojiMap: EmojiMap
 ) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -197,10 +199,10 @@ export function formatText(
 
     if (options.renderer) {
         output = formatWithRenderer(output, options.renderer);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
-        output = Markdown.format(output, options);
+        output = Markdown.format(output, options, emojiMap);
         if (output.includes('class="markdown-inline-img"')) {
             /*
             ** remove p tag to allow other divs to be nested,
@@ -213,7 +215,7 @@ export function formatText(
         }
     } else {
         output = sanitizeHtml(output);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     }
 
     // replace newlines with spaces if necessary
@@ -229,7 +231,7 @@ export function formatText(
 }
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
-export function doFormatText(text: string, options: TextFormattingOptions) {
+export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap) {
     let output = text;
 
     const tokens = new Map();
@@ -264,8 +266,7 @@ export function doFormatText(text: string, options: TextFormattingOptions) {
     }
 
     if (!('emoticons' in options) || options.emoticons) {
-        const emojiMap = getEmojiMap(store.getState());
-        output = handleUnicodeEmoji(output, emojiMap);
+        output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
 
     // reinsert tokens with formatted versions of the important words and phrases
@@ -363,6 +364,10 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
     return output;
 }
 
+export function allAtMentions(text: string) {
+    return text.match(/\B@(channel|all|here)\b/gi && AT_MENTION_PATTERN) || [];
+}
+
 function autolinkChannelMentions(
     text: string,
     tokens: Tokens,
@@ -372,19 +377,26 @@ function autolinkChannelMentions(
     function channelMentionExists(c: string) {
         return Boolean(channelNamesMap[c]);
     }
-    function addToken(channelName: string, mention: string, displayName: string) {
+    function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
         const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
-        if (team) {
+        if (teamName) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href = ((window as any).basename || '') + '/' + teamName + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention-team="${teamName}" "data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
+        } else if (team) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             href = ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
         }
 
-        tokens.set(alias, {
-            value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
-            originalText: mention,
-        });
         return alias;
     }
 
@@ -397,10 +409,16 @@ function autolinkChannelMentions(
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
+            let teamName = '';
+            const channelValue = channelNamesMap[channelNameLower];
+            if ('team_name' in channelValue) {
+                teamName = channelValue.team_name || '';
+            }
             const alias = addToken(
                 channelNameLower,
+                teamName,
                 mention,
-                escapeHtml(channelNamesMap[channelNameLower].display_name)
+                escapeHtml(channelValue.display_name)
             );
             return alias;
         }
@@ -414,10 +432,16 @@ function autolinkChannelMentions(
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
+                    let teamName = '';
+                    const channelValue = channelNamesMap[channelNameLower];
+                    if ('team_name' in channelValue) {
+                        teamName = channelValue.team_name || '';
+                    }
                     const alias = addToken(
                         channelNameLower,
+                        teamName,
                         '~' + channelNameLower,
-                        escapeHtml(channelNamesMap[channelNameLower].display_name)
+                        escapeHtml(channelValue.display_name)
                     );
                     return alias + suffix;
                 }
@@ -482,10 +506,7 @@ function highlightCurrentMentions(
     for (const [alias, token] of tokens) {
         const tokenTextLower = token.originalText.toLowerCase();
 
-        if (
-            mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !==
-      -1
-        ) {
+        if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}$`;
 
@@ -788,11 +809,11 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
-    output = output.replace(UNICODE_EMOJI_REGEX, (emojiMatch) => {
+    output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
         const codePoints = [fixedCharCodeAt(emojiMatch, 0)];
 

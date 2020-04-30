@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels.jsx';
+import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels';
 
 describe('components/MoreDirectChannels', () => {
     function emptyFunction() {} //eslint-disable-line no-empty-function

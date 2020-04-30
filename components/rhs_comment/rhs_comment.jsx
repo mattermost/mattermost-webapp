@@ -9,6 +9,7 @@ import {Posts} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,
     isPostPendingOrFailed,
+    isMeMessage as checkIsMeMessage
 } from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
@@ -72,6 +73,7 @@ class RhsComment extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func
         }),
+        emojiMap: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -194,14 +196,14 @@ class RhsComment extends React.PureComponent {
         });
     };
 
-    getClassName = (post, isSystemMessage) => {
+    getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--thread same--root post--comment';
 
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
 
-        if (isSystemMessage) {
+        if (isSystemMessage || isMeMessage) {
             className += ' post--system';
         }
 
@@ -271,8 +273,8 @@ class RhsComment extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
+        const {post, author, reactions, isFlagged, intl, emojiMap} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap)});
     }
 
     render() {
@@ -281,6 +283,7 @@ class RhsComment extends React.PureComponent {
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         let botIndicator;
@@ -440,6 +443,7 @@ class RhsComment extends React.PureComponent {
                     handleDropdownOpened={this.handleDropdownOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
+                    isMenuOpen={this.state.dropdownOpened}
                     enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
@@ -447,7 +451,7 @@ class RhsComment extends React.PureComponent {
             options = (
                 <div
                     ref='dotMenu'
-                    className='col col__reply'
+                    className='col post-menu'
                 >
                     {dotMenu}
                     {postReaction}
@@ -496,7 +500,7 @@ class RhsComment extends React.PureComponent {
                     }
                 >
                     <button
-                        className='card-icon__container icon--show style--none'
+                        className='post-menu__item post-menu__item--show'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -517,7 +521,7 @@ class RhsComment extends React.PureComponent {
                 ref={this.postRef}
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={`a11y__section ${this.getClassName(post, isSystemMessage)}`}
+                className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}

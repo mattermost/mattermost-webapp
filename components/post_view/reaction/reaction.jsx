@@ -80,6 +80,7 @@ export default class Reaction extends React.PureComponent {
              */
             removeReaction: PropTypes.func.isRequired,
         }),
+        sortedUsers: PropTypes.object.isRequired,
     }
 
     handleAddReaction = (e) => {
@@ -98,35 +99,12 @@ export default class Reaction extends React.PureComponent {
         this.props.actions.getMissingProfilesByIds(ids);
     }
 
-    getSortedUsers = (getDisplayName) => {
-        // Sort users by who reacted first with "you" being first if the current user reacted
-        let currentUserReacted = false;
-        const sortedReactions = this.props.reactions.sort((a, b) => a.create_at - b.create_at);
-        const users = sortedReactions.reduce((accumulator, current) => {
-            if (current.user_id === this.props.currentUserId) {
-                currentUserReacted = true;
-            } else {
-                const user = this.props.profiles.find((u) => u.id === current.user_id);
-                if (user) {
-                    accumulator.push(getDisplayName(user));
-                }
-            }
-            return accumulator;
-        }, []);
-
-        if (currentUserReacted) {
-            users.unshift(Utils.localizeMessage('reaction.you', 'You'));
-        }
-
-        return {currentUserReacted, users};
-    }
-
     render() {
         if (!this.props.emojiImageUrl) {
             return null;
         }
 
-        const {currentUserReacted, users} = this.getSortedUsers(Utils.getDisplayNameByUser);
+        const {currentUserReacted, users} = this.props.sortedUsers;
 
         const otherUsersCount = this.props.otherUsersCount;
         let names;

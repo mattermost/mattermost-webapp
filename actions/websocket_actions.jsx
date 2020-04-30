@@ -17,10 +17,12 @@ import {
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
+    getMyChannelMember,
     getChannelMember,
     getChannelStats,
     viewChannel,
     markChannelAsRead,
+    getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -43,11 +45,12 @@ import {
     getStatusesByIds,
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
+import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
@@ -281,6 +284,10 @@ export function handleEvent(msg) {
         handleUpdateTeamEvent(msg);
         break;
 
+    case SocketEvents.UPDATE_TEAM_SCHEME:
+        handleUpdateTeamSchemeEvent(msg);
+        break;
+
     case SocketEvents.DELETE_TEAM:
         handleDeleteTeamEvent(msg);
         break;
@@ -307,6 +314,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.ROLE_REMOVED:
         handleRoleRemovedEvent(msg);
+        break;
+
+    case SocketEvents.CHANNEL_SCHEME_UPDATED:
+        handleChannelSchemeUpdatedEvent(msg);
         break;
 
     case SocketEvents.MEMBERROLE_UPDATED:
@@ -542,6 +553,7 @@ export function handlePostEditEvent(msg) {
 
     // Update channel state
     if (currentChannelId === msg.broadcast.channel_id) {
+        dispatch(getChannelStats(currentChannelId));
         if (window.isActive) {
             dispatch(viewChannel(currentChannelId));
         }
@@ -551,6 +563,9 @@ export function handlePostEditEvent(msg) {
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(postDeleted(post));
+    if (post.is_pinned) {
+        dispatch(getChannelStats(post.channel_id));
+    }
 }
 
 export function handlePostUnreadEvent(msg) {
@@ -598,8 +613,9 @@ export function handleLeaveTeamEvent(msg) {
     }
 
     dispatch(batchActions(actions));
+    const currentUser = getCurrentUser(state);
 
-    if (getCurrentUserId(state) === msg.data.user_id) {
+    if (currentUser.id === msg.data.user_id) {
         dispatch({type: TeamTypes.LEAVE_TEAM, data: {id: msg.data.team_id}});
 
         // if they are on the team being removed redirect them to default team
@@ -608,11 +624,34 @@ export function handleLeaveTeamEvent(msg) {
                 redirectUserToDefaultTeam();
             }
         }
+        if (isGuest(currentUser)) {
+            dispatch(removeNotVisibleUsers());
+        }
+    } else {
+        const team = getTeam(state, msg.data.team_id);
+        const members = getChannelMembersInChannels(state);
+        const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
+        if (team && isGuest(currentUser) && !isMember) {
+            dispatch(batchActions([
+                {
+                    type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
+                    data: {user_id: msg.data.user_id},
+                },
+                {
+                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                    data: {team_id: team.id, user_id: msg.data.user_id},
+                },
+            ]));
+        }
     }
 }
 
 function handleUpdateTeamEvent(msg) {
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
+}
+
+function handleUpdateTeamSchemeEvent() {
+    dispatch(TeamActions.getMyTeamMembers());
 }
 
 function handleDeleteTeamEvent(msg) {
@@ -688,13 +727,21 @@ function handleDirectAddedEvent(msg) {
 }
 
 function handleUserAddedEvent(msg) {
-    const currentChannelId = getCurrentChannelId(getState());
+    const state = getState();
+    const config = getConfig(state);
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const currentChannelId = getCurrentChannelId(state);
     if (currentChannelId === msg.broadcast.channel_id) {
         dispatch(getChannelStats(currentChannelId));
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
+        if (isTimezoneEnabled) {
+            dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
+        } else {
+            dispatch(getChannelMemberCountsByGroup(currentChannelId, false));
+        }
     }
 
     const currentTeamId = getCurrentTeamId(getState());
@@ -704,12 +751,14 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export function handleUserRemovedEvent(msg) {
+export async function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
-    const currentUserId = getCurrentUserId(state);
+    const currentUser = getCurrentUser(state);
+    const config = getConfig(state);
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
-    if (msg.broadcast.user_id === currentUserId) {
+    if (msg.broadcast.user_id === currentUser.id) {
         dispatch(loadChannelsForCurrentUser());
 
         const rhsChannelId = getSelectedChannelId(state);
@@ -738,16 +787,39 @@ export function handleUserRemovedEvent(msg) {
             }
         }
 
-        dispatch({
-            type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-        });
+        if (isGuest(currentUser)) {
+            dispatch(removeNotVisibleUsers());
+        }
     } else if (msg.broadcast.channel_id === currentChannel.id) {
         dispatch(getChannelStats(currentChannel.id));
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
+        if (isTimezoneEnabled) {
+            dispatch(getChannelMemberCountsByGroup(currentChannel.id, true));
+        } else {
+            dispatch(getChannelMemberCountsByGroup(currentChannel.id, false));
+        }
+    }
+
+    if (msg.broadcast.user_id !== currentUser.id) {
+        const channel = getChannel(state, msg.broadcast.channel_id);
+        const members = getChannelMembersInChannels(state);
+        const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
+        if (channel && isGuest(currentUser) && !isMember) {
+            const actions = [
+                {
+                    type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
+                    data: {user_id: msg.data.user_id},
+                },
+                {
+                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                    data: {team_id: channel.team_id, user_id: msg.data.user_id},
+                },
+            ];
+            dispatch(batchActions(actions));
+        }
     }
 
     const channelId = msg.broadcast.channel_id || msg.data.channel_id;
@@ -816,6 +888,10 @@ function handleRoleRemovedEvent(msg) {
         type: RoleTypes.ROLE_DELETED,
         data: role,
     });
+}
+
+function handleChannelSchemeUpdatedEvent(msg) {
+    dispatch(getMyChannelMember(msg.broadcast.channel_id));
 }
 
 function handleRoleUpdatedEvent(msg) {
@@ -887,7 +963,7 @@ function addedNewDmUser(preference) {
 }
 
 export function handleUserTypingEvent(msg) {
-    return (doDispatch, doGetState) => {
+    return async (doDispatch, doGetState) => {
         const state = doGetState();
         const config = getConfig(state);
         const currentUserId = getCurrentUserId(state);
@@ -912,7 +988,11 @@ export function handleUserTypingEvent(msg) {
         }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
 
         if (userId !== currentUserId) {
-            doDispatch(getMissingProfilesByIds([userId]));
+            const result = await doDispatch(getMissingProfilesByIds([userId]));
+            if (result.data && result.data.length > 0) {
+                // Already loaded the user status
+                return;
+            }
         }
 
         const status = getStatusForUserId(state, userId);

@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style run-unit emojis help package-ci storybook build-storybook update-dependencies
+.PHONY: build test run clean stop check-style fix-style run-unit emojis help package-ci storybook build-storybook update-dependencies
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -17,6 +17,11 @@ check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
 
 	npm run check
+
+fix-style: node_modules ## Fix JS file ESLint issues
+	@echo Fixing lint issues to follow style guide
+
+	npm run fix
 
 check-types: node_modules ## Checks TS file for TypeScript confirmity
 	@echo Checking for TypeScript compliance

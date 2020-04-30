@@ -7,12 +7,15 @@ import {bindActionCreators} from 'redux';
 import {getTermsOfService, updateMyTermsOfServiceStatus} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getEmojiMap} from 'selectors/emojis';
+
 import TermsOfService from './terms_of_service';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
     return {
         termsEnabled: config.EnableCustomTermsOfService === 'true',
+        emojiMap: getEmojiMap(state)
     };
 }
 

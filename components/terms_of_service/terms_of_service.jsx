@@ -28,6 +28,7 @@ export default class TermsOfService extends React.PureComponent {
             getTermsOfService: PropTypes.func.isRequired,
             updateMyTermsOfServiceStatus: PropTypes.func.isRequired,
         }).isRequired,
+        emojiMap: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -42,7 +43,7 @@ export default class TermsOfService extends React.PureComponent {
             serverError: null,
         };
 
-        this.formattedText = memoizeResult((text) => formatText(text));
+        this.formattedText = memoizeResult((text) => formatText(text, {}, props.emojiMap));
     }
 
     componentDidMount() {

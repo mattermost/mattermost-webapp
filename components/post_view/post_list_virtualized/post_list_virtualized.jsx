@@ -135,6 +135,8 @@ class PostList extends React.PureComponent {
             dynamicListStyle: {
                 willChange: 'transform',
             },
+            initScrollCompleted: false,
+            initScrollOffsetFromBottom: 0,
         };
 
         this.listRef = React.createRef();
@@ -367,6 +369,13 @@ class PostList extends React.PureComponent {
             if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
+
+            if (!this.state.atBottom && scrollHeight) {
+                const initScrollOffsetFromBottom = scrollHeight - clientHeight - scrollOffset;
+                this.setState({
+                    initScrollOffsetFromBottom,
+                });
+            }
         }
     }
 
@@ -499,6 +508,8 @@ class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}
+                focusedPostId={this.props.focusedPostId}
+                initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
             />
         );
     }
@@ -571,7 +582,7 @@ class PostList extends React.PureComponent {
                                             onScroll={this.onScroll}
                                             initScrollToIndex={this.initScrollToIndex}
                                             canLoadMorePosts={this.props.actions.canLoadMorePosts}
-                                            skipResizeClass='col__reply'
+                                            skipResizeClass='post-menu'
                                             innerRef={this.postListRef}
                                             style={{...virtListStyles, ...dynamicListStyle}}
                                             innerListStyle={postListStyle}

@@ -120,6 +120,8 @@ export default class PostInfo extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func
         }).isRequired,
+
+        shouldShowDotMenu: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -169,7 +171,7 @@ export default class PostInfo extends React.PureComponent {
     };
 
     buildOptions = (post, isSystemMessage, fromAutoResponder) => {
-        if (!PostUtils.shouldShowDotMenu(post)) {
+        if (!this.props.shouldShowDotMenu) {
             return null;
         }
 
@@ -217,6 +219,7 @@ export default class PostInfo extends React.PureComponent {
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
+                    isMenuOpen={this.state.showDotMenu}
                     isReadOnly={isReadOnly}
                     enableEmojiPicker={this.props.enableEmojiPicker}
                 />
@@ -226,7 +229,8 @@ export default class PostInfo extends React.PureComponent {
         return (
             <div
                 ref='dotMenu'
-                className={'col col__reply'}
+                data-testid={`post-menu-${post.id}`}
+                className={'col post-menu'}
             >
                 {dotMenu}
                 {postReaction}
@@ -311,7 +315,7 @@ export default class PostInfo extends React.PureComponent {
                     }
                 >
                     <button
-                        className={'card-icon__container icon--show style--none ' + (this.props.isCardOpen ? 'active' : '')}
+                        className={'post-menu__item post-menu__item--show ' + (this.props.isCardOpen ? 'active' : '')}
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);

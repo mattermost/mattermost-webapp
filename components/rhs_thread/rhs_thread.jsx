@@ -55,6 +55,7 @@ export default class RhsThread extends React.Component {
             selectPostCard: PropTypes.func.isRequired,
             getPostThread: PropTypes.func.isRequired,
         }).isRequired,
+        directTeammate: PropTypes.string.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -332,7 +333,7 @@ export default class RhsThread extends React.Component {
         }
 
         if (this.props.channel.type === Constants.DM_CHANNEL) {
-            const teammate = Utils.getDirectTeammate(this.props.channel.id);
+            const teammate = this.props.directTeammate;
             if (teammate && teammate.delete_at) {
                 createComment = (
                     <div

@@ -7,46 +7,25 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @plugin_marketplace
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Plugin Marketplace', () => {
-    after(() => {
-        // # Restore default configuration
-        const newSettings = {
-            PluginSettings: {
-                Enable: true,
-                EnableMarketplace: true,
-                EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-    });
-
     describe('should not render in main menu', () => {
-        afterEach(() => {
-            cy.get('#lhsHeader').should('be.visible').within(() => {
-                // # Click hamburger main menu
-                cy.get('#sidebarHeaderDropdownButton').click();
-
-                // * Dropdown menu should be visible
-                cy.get('.dropdown-menu').should('be.visible').within(() => {
-                    // * Plugin Marketplace button should not be visible
-                    cy.findByText('Plugin Marketplace').should('not.be.visible');
-                });
-            });
-        });
-
         it('for non-admin', () => {
-            // # Configure marketplace as enabled
-            const newSettings = {
+            // # Login as sysadmin
+            cy.apiLogin('sysadmin');
+
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
             // # Login as non admin user
             cy.apiLogin('user-1');
@@ -54,56 +33,60 @@ describe('Plugin Marketplace', () => {
         });
 
         it('when marketplace disabled', () => {
-            // # Configure marketplace as disabled
-            const newSettings = {
+            // # Login as sysadmin
+            cy.apiLogin('sysadmin');
+
+            // # Disable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: false,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            // # Visit town-square channel
             cy.visit('/ad-1/channels/town-square');
         });
 
         it('when plugins disabled', () => {
-            // # Configure plugins as disabled
-            const newSettings = {
+            // # Login as sysadmin
+            cy.apiLogin('sysadmin');
+
+            // # Disable Plugin
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: false,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            // # Visit town-square channel
             cy.visit('/ad-1/channels/town-square');
         });
     });
+
     describe('invalid marketplace, should', () => {
-        before(() => {
-            // # Set ServiceSettings to expected values
-            const newSettings = {
+        beforeEach(() => {
+            // # Login as sysadmin
+            cy.apiLogin('sysadmin');
+
+            // # Enable Plugin Marketplace and Remote Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     EnableRemoteMarketplace: true,
                     MarketplaceUrl: 'example.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
-        });
+            });
 
-        beforeEach(() => {
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            // # Cleanup installed plugins
+            uninstallAllPlugins();
 
-            // # Go to main channel
+            // # Visit the Town Square channel
             cy.visit('/ad-1/channels/town-square');
 
             cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
@@ -118,25 +101,20 @@ describe('Plugin Marketplace', () => {
             });
         });
 
-        afterEach(() => {
-            // * cleanup installed plugins
-            uninstallAllPlugins();
-        });
-
         it('render an error bar', () => {
             // * Should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
+
         it('show an error bar on failing to filter', () => {
-            // # Set ServiceSettings to expected values
-            const newSettings = {
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'example.com',
                 },
-            };
-            cy.apiUpdateConfigBasic(newSettings);
+            });
 
             // # filter to jira plugin only
             cy.get('#searchMarketplaceTextbox').type('jira', {force: true});
@@ -159,8 +137,9 @@ describe('Plugin Marketplace', () => {
 
     describe('should', () => {
         beforeEach(() => {
-            // # Configure marketplace as enabled, and GitHub plugin as disabled.
-            const newSettings = {
+            // # Enable Plugin Marketplace and Remote Marketplace
+            // # Disable Plugin State Github and Webex
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
@@ -175,11 +154,12 @@ describe('Plugin Marketplace', () => {
                         },
                     },
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            // # Cleanup installed plugins
+            uninstallAllPlugins();
+
+            // # Visit the Town Square channel
             cy.visit('/ad-1/channels/town-square');
 
             cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
@@ -197,7 +177,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.be.visible');
 
             // * search should be visible
-            cy.findByPlaceholderText('Search Plugins').should('be.visible').click();
+            cy.findByPlaceholderText('Search Plugins').should('be.visible');
 
             // * tabs should be visible
             cy.get('#marketplaceTabs').should('exist');
@@ -209,14 +189,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-tab-installed').should('be.visible');
         });
 
-        afterEach(() => {
-            // * cleanup installed plugins
-            uninstallAllPlugins();
-        });
-
         it('autofocus on search plugin input box', () => {
             cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
         });
+
         it('render the list of all plugins by default', () => {
             // * all plugins tab should be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
@@ -257,15 +233,14 @@ describe('Plugin Marketplace', () => {
         });
 
         it('should show an error bar on failing to filter', () => {
-            // # Set ServiceSettings to expected values
-            const newSettings = {
+            // # Enable Plugin Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     MarketplaceUrl: 'example.com',
                 },
-            };
-            cy.apiUpdateConfigBasic(newSettings);
+            });
 
             // # filter to jira plugin only
             cy.findByPlaceholderText('Search Plugins').should('be.visible').type('jira');
@@ -385,18 +360,18 @@ describe('Plugin Marketplace', () => {
 
     describe('EnableRemoteMarketplace disabled, should', () => {
         beforeEach(() => {
-            const newSettings = {
+            // # Enable Plugin Marketplace
+            // # Disable Plugin Remote Marketplace
+            cy.apiUpdateConfig({
                 PluginSettings: {
                     Enable: true,
                     EnableMarketplace: true,
                     EnableRemoteMarketplace: false,
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
-            };
-            cy.apiUpdateConfig(newSettings);
+            });
 
-            // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            // # Visit town-square channel
             cy.visit('/ad-1/channels/town-square');
 
             // # Click hamburger main menu

@@ -40,6 +40,8 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
             },
+            canEdit: false,
+            canDelete: false,
         };
 
         const wrapper = shallow(

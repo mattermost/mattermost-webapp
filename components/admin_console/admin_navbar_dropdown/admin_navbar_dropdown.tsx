@@ -7,6 +7,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Team} from 'mattermost-redux/types/teams';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
@@ -91,18 +92,22 @@ class AdminNavbarDropdown extends React.Component<Props, {}> {
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemExternalLink
+                        onClick={() => trackEvent('admin', 'click_administrators_guide')}
                         url='https://about.mattermost.com/administrators-guide/'
                         text={formatMessage({id: 'admin.nav.administratorsGuide', defaultMessage: 'Administrator Guide'})}
                     />
                     <Menu.ItemExternalLink
+                        onClick={() => trackEvent('admin', 'click_administrators_forum')}
                         url='https://about.mattermost.com/troubleshooting-forum/'
                         text={formatMessage({id: 'admin.nav.troubleshootingForum', defaultMessage: 'Troubleshooting Forum'})}
                     />
                     <Menu.ItemExternalLink
+                        onClick={() => trackEvent('admin', 'click_administrators_support')}
                         url='https://about.mattermost.com/commercial-support/'
                         text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
                     />
                     <Menu.ItemToggleModalRedux
+                        onClick={() => trackEvent('admin', 'click_administrators_about')}
                         modalId={ModalIdentifiers.ABOUT}
                         dialogType={AboutBuildModal}
                         text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: siteName || 'Mattermost'})}

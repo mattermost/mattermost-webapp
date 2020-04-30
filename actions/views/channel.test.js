@@ -129,13 +129,14 @@ describe('channel view actions', () => {
                 entities: {
                     ...initialState.entities,
                     channels: {
-                        ...initialState.channels,
+                        ...initialState.entities,
                         myMembers: {
                             channelid1: {channel_id: 'channelid1', user_id: 'userid1'},
                         },
                     },
                 },
             });
+
             await store.dispatch(Actions.leaveChannel('channelid1'));
             expect(browserHistory.push).toHaveBeenCalledWith('/');
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
@@ -516,6 +517,17 @@ describe('channel view actions', () => {
             await store.dispatch(Actions.markChannelAsReadOnFocus(channel1.id));
 
             expect(markChannelAsRead).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('updateToastStatus', () => {
+        test('should disptach updateToastStatus action with the true as argument', async () => {
+            await store.dispatch(Actions.updateToastStatus(true));
+
+            expect(store.getActions()).toEqual([{
+                data: true,
+                type: 'UPDATE_TOAST_STATUS'
+            }]);
         });
     });
 });

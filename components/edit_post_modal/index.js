@@ -13,6 +13,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
+import {setShowPreviewOnEditPostModal} from 'actions/views/textbox';
+import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {hideEditPostModal} from 'actions/post_actions';
 import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
@@ -24,15 +26,23 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const editingPost = getEditingPost(state);
     const currentUserId = getCurrentUserId(state);
+    const channelId = getCurrentChannelId(state);
+    const teamId = getCurrentTeamId(state);
     let canDeletePost = false;
     let canEditPost = false;
     if (editingPost && editingPost.post && editingPost.post.user_id === currentUserId) {
-        canDeletePost = haveIChannelPermission(state, {channel: getCurrentChannelId(state), team: getCurrentTeamId(state), permission: Permissions.DELETE_POST});
-        canEditPost = haveIChannelPermission(state, {channel: getCurrentChannelId(state), team: getCurrentTeamId(state), permission: Permissions.EDIT_POST});
+        canDeletePost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.DELETE_POST});
+        canEditPost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.EDIT_POST});
     } else {
-        canDeletePost = haveIChannelPermission(state, {channel: getCurrentChannelId(state), team: getCurrentTeamId(state), permission: Permissions.DELETE_OTHERS_POSTS});
-        canEditPost = haveIChannelPermission(state, {channel: getCurrentChannelId(state), team: getCurrentTeamId(state), permission: Permissions.EDIT_OTHERS_POSTS});
+        canDeletePost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.DELETE_OTHERS_POSTS});
+        canEditPost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.EDIT_OTHERS_POSTS});
     }
+
+    const useChannelMentions = haveIChannelPermission(state, {
+        channel: channelId,
+        team: teamId,
+        permission: Permissions.USE_CHANNEL_MENTIONS,
+    });
 
     return {
         canEditPost,
@@ -41,7 +51,9 @@ function mapStateToProps(state) {
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config,
         editingPost,
+        shouldShowPreview: showPreviewOnEditPostModal(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
+        useChannelMentions,
     };
 }
 
@@ -52,6 +64,7 @@ function mapDispatchToProps(dispatch) {
             editPost,
             hideEditPostModal,
             openModal,
+            setShowPreview: setShowPreviewOnEditPostModal,
         }, dispatch),
     };
 }

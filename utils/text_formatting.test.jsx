@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import emojiRegex from 'emoji-regex';
+
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
@@ -113,6 +115,7 @@ describe('highlightSearchTerms', () => {
 
 describe('handleUnicodeEmoji', () => {
     const emojiMap = getEmojiMap(store.getState());
+    const UNICODE_EMOJI_REGEX = emojiRegex();
 
     const tests = [
         {
@@ -149,7 +152,7 @@ describe('handleUnicodeEmoji', () => {
 
     for (const t of tests) {
         test(t.description, () => {
-            const output = handleUnicodeEmoji(t.text, emojiMap);
+            const output = handleUnicodeEmoji(t.text, emojiMap, UNICODE_EMOJI_REGEX);
             expect(output).toBe(t.output);
         });
     }

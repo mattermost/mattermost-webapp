@@ -309,7 +309,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         let viewApp = (
             <FormattedMessage
                 id='get_app.ifNothingPrompts'
-                defaultMessage='You can view it in the{siteName} desktop app or continue in the web browser.'
+                defaultMessage='You can view {siteName} in the desktop app or continue in your web browser.'
                 values={{
                     siteName: this.props.enableCustomBrand ? '' : ' Mattermost',
                 }}
@@ -319,7 +319,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             viewApp = (
                 <FormattedMessage
                     id='get_app.ifNothingPromptsMobile'
-                    defaultMessage='You can view it in the{siteName} mobile app or continue in the web browser.'
+                    defaultMessage='You can view {siteName} in the mobile app or continue in your web browser.'
                     values={{
                         siteName: this.props.enableCustomBrand ? '' : ' Mattermost',
                     }}

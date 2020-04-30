@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -17,8 +18,9 @@ import {
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
+    groupsMentionedInText,
 } from 'utils/post_utils.jsx';
-import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -35,7 +37,7 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
-import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -185,7 +187,18 @@ class CreatePost extends React.PureComponent {
         useChannelMentions: PropTypes.bool.isRequired,
 
         intl: intlShape.isRequired,
+
+        /**
+         * Should preview be showed
+         */
+        shouldShowPreview: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
+
+            /**
+             * Set show preview for textbox
+             */
+            setShowPreview: PropTypes.func.isRequired,
 
             /**
              *  func called after message submit.
@@ -263,8 +276,14 @@ class CreatePost extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            emitShortcutReactToLastPostFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func,
+
+            selectChannelMemberCountsByGroup: PropTypes.func,
         }).isRequired,
+
+        groupsWithAllowReference: PropTypes.object,
+        channelMemberCountsByGroup: PropTypes.object,
+        useGroupMentions: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -279,7 +298,6 @@ class CreatePost extends React.PureComponent {
                 message: props.draft.message,
                 submitting: false,
                 serverError: null,
-                showPreview: false,
             };
         }
         return updatedState;
@@ -295,10 +313,11 @@ class CreatePost extends React.PureComponent {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelTimezoneCount: 0,
-            showPreview: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             currentChannel: props.currentChannel,
+            mentions: [],
+            memberNotifyCount: 0,
         };
 
         this.lastBlurAt = 0;
@@ -309,13 +328,13 @@ class CreatePost extends React.PureComponent {
 
     componentDidMount() {
         this.onOrientationChange();
+        this.props.actions.setShowPreview(false);
         this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
             }
             return value;
         });
-
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
@@ -326,6 +345,11 @@ class CreatePost extends React.PureComponent {
         if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+            this.props.actions.selectChannelMemberCountsByGroup(this.props.currentChannel.id, this.props.isTimezoneEnabled);
+        }
+
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.props.actions.setShowPreview(false);
         }
 
         // Focus on textbox when emoji picker is closed
@@ -345,8 +369,8 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.setState({showPreview: newState});
+    setShowPreview = (newPreviewValue) => {
+        this.props.actions.setShowPreview(newPreviewValue);
     }
 
     setOrientationListeners = () => {
@@ -536,21 +560,51 @@ class CreatePost extends React.PureComponent {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
+            groupsWithAllowReference,
+            channelMemberCountsByGroup,
+            currentChannelMembersCount,
+            useGroupMentions
         } = this.props;
 
-        const currentMembersCount = this.props.currentChannelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
+        let memberNotifyCount = 0;
+        let channelTimezoneCount = 0;
+        let mentions = [];
+        const notContainsAtChannel = !containsAtChannel(this.state.message);
+        if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
+            // Groups mentioned in users text
+            mentions = groupsMentionedInText(this.state.message, groupsWithAllowReference);
+            if (mentions.length > 0) {
+                mentions = mentions.
+                    map((group) => {
+                        const mappedValue = channelMemberCountsByGroup[group.id];
+                        if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
+                            memberNotifyCount = mappedValue.channel_member_count;
+                            channelTimezoneCount = mappedValue.channel_member_timezones_count;
+                        }
+                        return `@${group.name}`;
+                    });
+                mentions = [...new Set(mentions)];
+            }
+        }
+
         if (notificationsToChannel &&
-            currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            containsAtChannel(this.state.message)) {
+            currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
+            !notContainsAtChannel) {
+            memberNotifyCount = currentChannelMembersCount - 1;
+            mentions = ['@all', '@channel'];
             if (this.props.isTimezoneEnabled) {
                 const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
-                if (data) {
-                    this.setState({channelTimezoneCount: data.length});
-                } else {
-                    this.setState({channelTimezoneCount: 0});
-                }
+                channelTimezoneCount = data ? data.length : 0;
             }
+        }
+
+        if (memberNotifyCount > 0) {
+            this.setState({
+                channelTimezoneCount,
+                memberNotifyCount,
+                mentions,
+            });
             this.showNotifyAllModal();
             return;
         }
@@ -625,6 +679,9 @@ class CreatePost extends React.PureComponent {
         post.parent_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
+        if (!this.props.useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
+            post.props.mentionHighlightDisabled = true;
+        }
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
@@ -665,6 +722,11 @@ class CreatePost extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
+        const postTextboxDisabled = this.props.readOnlyChannel || !this.props.canPost;
+        if (this.refs.textbox && postTextboxDisabled) {
+            this.refs.textbox.getWrappedInstance().blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
+            return;
+        }
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.getWrappedInstance().focus();
         }
@@ -693,7 +755,7 @@ class CreatePost extends React.PureComponent {
                 this.handleSubmit(e);
             }
 
-            this.updatePreview(false);
+            this.setShowPreview(false);
         }
 
         this.emitTypingEvent();
@@ -733,19 +795,23 @@ class CreatePost extends React.PureComponent {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
-        const table = getTable(e.clipboardData);
+
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
         if (!table) {
             return;
         }
 
         e.preventDefault();
 
-        let message = '';
+        let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
-        } else {
-            message = formatMarkdownTableMessage(table, this.state.message.trim());
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
+            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition, clipboardData);
+            return;
         }
+        message = formatMarkdownTableMessage(table, message.trim());
         this.setState({message});
     }
 
@@ -942,7 +1008,10 @@ class CreatePost extends React.PureComponent {
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
-        if (ctrlEnterKeyCombo) {
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+        } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
@@ -1033,6 +1102,17 @@ class CreatePost extends React.PureComponent {
         this.setState({showEmojiPicker: false});
     }
 
+    setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
+        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+
+        this.setState({
+            message: newMessage,
+            caretPosition: newCaretPosition,
+        }, () => {
+            Utils.setCaretPosition(textbox, newCaretPosition);
+        });
+    }
+
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
 
@@ -1051,15 +1131,7 @@ class CreatePost extends React.PureComponent {
             const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
 
             const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-
-            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
-
-            this.setState({
-                message: newMessage,
-                caretPosition: newCaretPosition,
-            }, () => {
-                Utils.setCaretPosition(textbox, newCaretPosition);
-            });
+            this.setMessageAndCaretPostion(newMessage, newCaretPosition);
         }
 
         this.handleEmojiClose();
@@ -1123,7 +1195,6 @@ class CreatePost extends React.PureComponent {
     render() {
         const {
             currentChannel,
-            currentChannelMembersCount,
             draft,
             fullWidthTextBox,
             showTutorialTip,
@@ -1131,16 +1202,99 @@ class CreatePost extends React.PureComponent {
         } = this.props;
         const readOnlyChannel = this.props.readOnlyChannel || !canPost;
         const {formatMessage} = this.props.intl;
-        const members = currentChannelMembersCount - 1;
-        const {renderScrollbar} = this.state;
+        const {renderScrollbar, channelTimezoneCount, mentions, memberNotifyCount} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
+        let notifyAllMessage = '';
+        let notifyAllTitle = '';
+        if (mentions.includes('@all') || mentions.includes('@channel')) {
+            notifyAllTitle = (
+                <FormattedMessage
+                    id='notify_all.title.confirm'
+                    defaultMessage='Confirm sending notifications to entire channel'
+                />
+            );
+            if (channelTimezoneCount > 0) {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question_timezone'
+                        defaultMessage='By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                        values={{
+                            totalMembers: memberNotifyCount,
+                            timezones: channelTimezoneCount,
+                        }}
+                    />
+                );
+            } else {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question'
+                        defaultMessage='By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?'
+                        values={{
+                            totalMembers: memberNotifyCount,
+                        }}
+                    />
+                );
+            }
+        } else if (mentions.length > 0) {
+            notifyAllTitle = (
+                <FormattedMessage
+                    id='notify_all.title.confirm_groups'
+                    defaultMessage='Confirm sending notifications to groups'
+                />
+            );
 
-        const notifyAllTitle = (
-            <FormattedMessage
-                id='notify_all.title.confirm'
-                defaultMessage='Confirm Sending Notifications to Entire Channel'
-            />
-        );
+            if (mentions.length === 1) {
+                if (channelTimezoneCount > 0) {
+                    notifyAllMessage = (
+                        <FormattedMarkdownMessage
+                            id='notify_all.question_timezone_one_group'
+                            defaultMessage='By using **{mention}** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                            values={{
+                                mention: mentions[0],
+                                totalMembers: memberNotifyCount,
+                                timezones: channelTimezoneCount,
+                            }}
+                        />
+                    );
+                } else {
+                    notifyAllMessage = (
+                        <FormattedMarkdownMessage
+                            id='notify_all.question_one_group'
+                            defaultMessage='By using **{mention}** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?'
+                            values={{
+                                mention: mentions[0],
+                                totalMembers: memberNotifyCount,
+                            }}
+                        />
+                    );
+                }
+            } else if (channelTimezoneCount > 0) {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question_timezone_groups'
+                        defaultMessage='By using **{mentions}** and **{finalMention}** you are about to send notifications to at least **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                        values={{
+                            mentions: mentions.slice(0, -1).join(', '),
+                            finalMention: mentions[mentions.length - 1],
+                            totalMembers: memberNotifyCount,
+                            timezones: channelTimezoneCount,
+                        }}
+                    />
+                );
+            } else {
+                notifyAllMessage = (
+                    <FormattedMarkdownMessage
+                        id='notify_all.question_groups'
+                        defaultMessage='By using **{mentions}** and **{finalMention}** you are about to send notifications to at least **{totalMembers} people**. Are you sure you want to do this?'
+                        values={{
+                            mentions: mentions.slice(0, -1).join(', '),
+                            finalMention: mentions[mentions.length - 1],
+                            totalMembers: memberNotifyCount,
+                        }}
+                    />
+                );
+            }
+        }
 
         const notifyAllConfirm = (
             <FormattedMessage
@@ -1148,30 +1302,6 @@ class CreatePost extends React.PureComponent {
                 defaultMessage='Confirm'
             />
         );
-
-        let notifyAllMessage = '';
-        if (this.state.channelTimezoneCount && this.props.isTimezoneEnabled) {
-            notifyAllMessage = (
-                <FormattedMarkdownMessage
-                    id='notify_all.question_timezone'
-                    defaultMessage='By using @all or @channel you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
-                    values={{
-                        totalMembers: members,
-                        timezones: this.state.channelTimezoneCount,
-                    }}
-                />
-            );
-        } else {
-            notifyAllMessage = (
-                <FormattedMessage
-                    id='notify_all.question'
-                    defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
-                    values={{
-                        totalMembers: members,
-                    }}
-                />
-            );
-        }
 
         let serverError = null;
         if (this.state.serverError) {
@@ -1229,7 +1359,7 @@ class CreatePost extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel && !this.state.showPreview) {
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1248,7 +1378,7 @@ class CreatePost extends React.PureComponent {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -1265,11 +1395,13 @@ class CreatePost extends React.PureComponent {
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={this.toggleEmojiPicker}
-                        className='style--none emoji-picker__container post-action'
+                        className={classNames('emoji-picker__container', 'post-action', {
+                            'post-action--active': this.state.showEmojiPicker,
+                        })}
                     >
                         <EmojiIcon
                             id='emojiPickerButton'
-                            className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
+                            className={'icon icon--emoji '}
                         />
                     </button>
                 </div>
@@ -1326,7 +1458,7 @@ class CreatePost extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                preview={this.props.shouldShowPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
@@ -1351,7 +1483,7 @@ class CreatePost extends React.PureComponent {
                                         className='fa fa-paper-plane'
                                         title={{
                                             id: t('create_post.icon'),
-                                            defaultMessage: 'Send Post Icon',
+                                            defaultMessage: 'Create a post',
                                         }}
                                     />
                                 </a>
@@ -1361,6 +1493,7 @@ class CreatePost extends React.PureComponent {
                     </div>
                     <div
                         id='postCreateFooter'
+                        role='form'
                         className={postFooterClassName}
                     >
                         <div className='d-flex justify-content-between'>
@@ -1370,8 +1503,8 @@ class CreatePost extends React.PureComponent {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.state.showPreview}
-                                updatePreview={this.updatePreview}
+                                showPreview={this.props.shouldShowPreview}
+                                updatePreview={this.setShowPreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />
                         </div>

@@ -67,6 +67,7 @@ class RhsRootPost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func
         }),
+        emojiMap: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -167,13 +168,13 @@ class RhsRootPost extends React.PureComponent {
         });
     };
 
-    getClassName = (post, isSystemMessage) => {
+    getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--root post--thread';
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
 
-        if (isSystemMessage) {
+        if (isSystemMessage || isMeMessage) {
             className += ' post--system';
         }
 
@@ -219,8 +220,8 @@ class RhsRootPost extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
+        const {post, author, reactions, isFlagged, emojiMap} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap)});
     }
 
     getDotMenuRef = () => {
@@ -233,6 +234,7 @@ class RhsRootPost extends React.PureComponent {
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
         let channelName;
         if (channelType === 'D') {
@@ -346,6 +348,7 @@ class RhsRootPost extends React.PureComponent {
                 handleDropdownOpened={this.handleDropdownOpened}
                 handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
+                isMenuOpen={this.state.dropdownOpened}
                 isReadOnly={isReadOnly || channelIsArchived}
                 enableEmojiPicker={this.props.enableEmojiPicker}
             />
@@ -356,7 +359,7 @@ class RhsRootPost extends React.PureComponent {
             dotMenuContainer = (
                 <div
                     ref='dotMenu'
-                    className='col col__reply'
+                    className='col post-menu'
                 >
                     {dotMenu}
                     {postReaction}
@@ -392,7 +395,7 @@ class RhsRootPost extends React.PureComponent {
                     }
                 >
                     <button
-                        className='card-icon__container icon--show style--none'
+                        className='post-menu__item post-menu__item--show'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -412,7 +415,7 @@ class RhsRootPost extends React.PureComponent {
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
+                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 aria-label={this.state.currentAriaLabel}
                 onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}

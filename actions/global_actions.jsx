@@ -291,13 +291,17 @@ export async function getTeamRedirectChannelIfIsAccesible(user, team) {
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
+
     const channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
     channel = teamChannels[channelName];
+
     if (typeof channel === 'undefined') {
         const dmList = getAllDirectChannels(state);
         channel = dmList.find((directChannel) => directChannel.name === channelName);
     }
+
     let channelMember = getMyChannelMember(state, channel && channel.id);
+
     if (!channel || !channelMember) {
         // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
         await dispatch(getChannelByNameAndTeamName(team.name, channelName)); // eslint-disable-line no-await-in-loop

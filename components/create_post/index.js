@@ -6,10 +6,10 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getChannelTimezones} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -19,6 +19,9 @@ import {
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
+import {
+    getAssociatedGroupsForReference,
+} from 'mattermost-redux/selectors/entities/groups';
 import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
@@ -32,9 +35,11 @@ import {connectionErrorCount} from 'selectors/views/system';
 import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
+import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
+import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
@@ -76,11 +81,19 @@ function makeMapStateToProps() {
         );
         const useChannelMentions = haveIChannelPermission(state, {
             channel: currentChannel.id,
+            team: currentChannel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
+        const useGroupMentions = haveIChannelPermission(state, {
+            channel: currentChannel.id,
+            team: currentChannel.team_id,
+            permission: Permissions.USE_GROUP_MENTIONS,
+        });
+        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, currentChannel.id);
+        const currentTeamId = getCurrentTeamId(state);
 
         return {
-            currentTeamId: getCurrentTeamId(state),
+            currentTeamId,
             currentChannel,
             currentChannelMembersCount,
             currentUserId,
@@ -108,6 +121,10 @@ function makeMapStateToProps() {
             shortcutReactToLastPostEmittedFrom,
             canPost,
             useChannelMentions,
+            shouldShowPreview: showPreviewOnCreatePost(state),
+            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, currentTeamId, currentChannel.id).map((group) => [`@${group.name}`, group])),
+            useGroupMentions,
+            channelMemberCountsByGroup,
         };
     };
 }
@@ -138,6 +155,8 @@ function mapDispatchToProps(dispatch) {
             runMessageWillBePostedHooks,
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
+            setShowPreview: setShowPreviewOnCreatePost,
+            selectChannelMemberCountsByGroup,
         }, dispatch),
     };
 }

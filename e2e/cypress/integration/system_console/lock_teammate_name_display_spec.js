@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @system_console
+
 describe('System Console', () => {
     it('MM-19309 Allow System Admins to control Teammate Name Display at the system level', () => {
         cy.apiLogin('sysadmin');
@@ -28,7 +31,7 @@ describe('System Console', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Go to Account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
 
         // # Click Display on the left hand side
         cy.get('#displayButton').click();
@@ -59,7 +62,7 @@ describe('System Console', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Go to Account settings
-        cy.toAccountSettingsModal(null, true);
+        cy.toAccountSettingsModal();
 
         // # Click Display on the left hand side
         cy.get('#displayButton').click();

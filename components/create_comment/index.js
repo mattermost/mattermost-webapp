@@ -7,11 +7,14 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getAllChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
-import {getChannelTimezones} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
+import {
+    getAssociatedGroupsForReference,
+} from 'mattermost-redux/selectors/entities/groups';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
@@ -27,6 +30,8 @@ import {
 } from 'actions/views/create_comment';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
+import {showPreviewOnCreateComment} from 'selectors/views/textbox';
+import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 
 import CreateComment from './create_comment.jsx';
 
@@ -59,9 +64,16 @@ function makeMapStateToProps() {
             }
         );
         const useChannelMentions = haveIChannelPermission(state, {
-            channel: ownProps.channelId,
+            channel: channel.id,
+            team: channel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
+        const useGroupMentions = haveIChannelPermission(state, {
+            channel: channel.id,
+            team: channel.team_id,
+            permission: Permissions.USE_GROUP_MENTIONS,
+        });
+        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, ownProps.channelId);
 
         return {
             draft,
@@ -83,6 +95,10 @@ function makeMapStateToProps() {
             selectedPostFocussedAt: getSelectedPostFocussedAt(state),
             canPost,
             useChannelMentions,
+            shouldShowPreview: showPreviewOnCreateComment(state),
+            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, channel.team_id, channel.id).map((group) => [`@${group.name}`, group])),
+            useGroupMentions,
+            channelMemberCountsByGroup,
         };
     };
 }
@@ -136,7 +152,9 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
-            emitShortcutReactToLastPostFrom
+            emitShortcutReactToLastPostFrom,
+            setShowPreview: setShowPreviewOnCreateComment,
+            selectChannelMemberCountsByGroup
         }, dispatch);
     };
 }

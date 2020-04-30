@@ -95,7 +95,7 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     formatOptionLabel = (user, options) => {
-        const profileImg = imageURLForUser(user);
+        const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
         if (!isEmail(user.value) && isGuest(user)) {
             guestBadge = <GuestBadge/>;

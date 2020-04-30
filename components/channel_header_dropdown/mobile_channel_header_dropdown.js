@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import StatusIcon from 'components/status_icon';
 
 import {Constants} from 'utils/constants';
-import {getDisplayNameByUserId} from 'utils/utils';
 
 import {ChannelHeaderDropdownItems} from 'components/channel_header_dropdown';
 
@@ -24,23 +23,23 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         teammateId: PropTypes.string,
         teammateIsBot: PropTypes.bool,
         teammateStatus: PropTypes.string,
+        displayName: PropTypes.string.isRequired,
     }
 
     getChannelTitle = () => {
-        const {user, channel, teammateId} = this.props;
+        const {user, channel, teammateId, displayName} = this.props;
 
         if (channel.type === Constants.DM_CHANNEL) {
-            const displayname = getDisplayNameByUserId(teammateId);
             if (user.id === teammateId) {
                 return (
                     <FormattedMessage
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you)'
-                        values={{displayname}}
+                        values={{displayname: displayName}}
                     />
                 );
             }
-            return displayname;
+            return displayName;
         }
         return channel.display_name;
     }

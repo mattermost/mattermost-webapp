@@ -36,6 +36,7 @@ describe('components/login/LoginController', () => {
             login: jest.fn(),
             addUserToTeamFromInvite: jest.fn(),
         },
+        emojiMap: {},
     };
 
     it('should match snapshot', () => {
