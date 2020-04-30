@@ -12,6 +12,7 @@ import './invitation_modal_confirm_step_table.scss';
 export default class InvitationModalConfirmStepTable extends React.Component {
     static propTypes = {
         invites: PropTypes.arrayOf(PropTypes.object).isRequired,
+        fixInviteRow: PropTypes.func.isRequired,
     }
     render() {
         return (
@@ -35,6 +36,7 @@ export default class InvitationModalConfirmStepTable extends React.Component {
                         <InvitationModalConfirmStepRow
                             key={invitation.text || invitation.email || invitation.user.id}
                             invitation={invitation}
+                            fixInviteRow={this.props.fixInviteRow}
                         />
                     ))}
                 </div>

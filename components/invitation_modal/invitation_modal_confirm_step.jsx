@@ -17,6 +17,7 @@ export default class InvitationModalConfirmStep extends React.Component {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
         onDone: PropTypes.func.isRequired,
+        fixInviteRow: PropTypes.func.isRequired,
         onInviteMore: PropTypes.func.isRequired,
         invitesType: PropTypes.oneOf([InviteTypes.INVITE_MEMBER, InviteTypes.INVITE_GUEST]).isRequired,
         invitesSent: PropTypes.array.isRequired,
@@ -61,7 +62,7 @@ export default class InvitationModalConfirmStep extends React.Component {
     }
 
     render() {
-        const {teamName, invitesType, invitesSent, invitesNotSent, onDone, onInviteMore} = this.props;
+        const {teamName, invitesType, invitesSent, invitesNotSent, onDone, onInviteMore, fixInviteRow} = this.props;
         return (
             <div className='InvitationModalConfirmStep'>
                 <div className='modal-icon'>
@@ -94,7 +95,10 @@ export default class InvitationModalConfirmStep extends React.Component {
                                 defaultMessage='Successful Invites'
                             />
                         </h2>
-                        <InvitationModalConfirmStepTable invites={invitesSent}/>
+                        <InvitationModalConfirmStepTable
+                            fixInviteRow={fixInviteRow}
+                            invites={invitesSent}
+                        />
                     </div>}
                 {invitesNotSent.length > 0 &&
                     <div className='invitation-modal-confirm-not-sent'>
@@ -104,7 +108,10 @@ export default class InvitationModalConfirmStep extends React.Component {
                                 defaultMessage='Invitations Not Sent'
                             />
                         </h2>
-                        <InvitationModalConfirmStepTable invites={invitesNotSent}/>
+                        <InvitationModalConfirmStepTable
+                            fixInviteRow={fixInviteRow}
+                            invites={invitesNotSent}
+                        />
                     </div>}
                 <div className='button-input-block'>
                     <button

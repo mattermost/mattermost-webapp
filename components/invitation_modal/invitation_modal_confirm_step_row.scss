@@ -58,5 +58,22 @@
         align-items: center;
         width: 50%;
         padding: 12px;
+        .reason-with-fix {
+            display: flex;
+            flex-direction: column;
+            a, b {
+                display: block;
+            }
+            .fixing {
+                opacity: .6;
+            }
+            .fixed {
+                font-weight: bold;
+            }
+            .fix-error {
+                color: $red;
+                font-weight: bold;
+            }
+        }
     }
 }

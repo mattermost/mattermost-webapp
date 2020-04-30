@@ -10,6 +10,7 @@ import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
 
 import {InviteTypes} from 'utils/constants';
+import {localizeMessage} from 'utils/utils';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
@@ -38,6 +39,8 @@ export default class InvitationModal extends React.Component {
             searchProfiles: PropTypes.func.isRequired,
             searchChannels: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
+            addUserToTeam: PropTypes.func.isRequired,
+            addChannelMember: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -72,6 +75,28 @@ export default class InvitationModal extends React.Component {
         if (this.state.step === STEPS_INVITE_MEMBERS && prevState.step !== STEPS_INVITE_MEMBERS && !this.props.currentTeam.invite_id) {
             this.props.actions.getTeam(this.props.currentTeam.id);
         }
+    }
+
+    fixInviteRow = async (user) => {
+        try {
+            await this.props.actions.addUserToTeam(this.props.currentTeam.id, user.id);
+        } catch (e) {
+            return false;
+        }
+        const promises = [];
+        for (const channel of this.state.lastInviteChannels) {
+            promises.push(this.props.actions.addChannelMember(channel.id, user.id));
+        }
+
+        try {
+            await Promise.all(promises);
+        } catch (e) {
+            return false;
+        }
+
+        this.state.invitesSent.push({user, reason: localizeMessage('invite.members.added-to-channel', 'This member has been added to the channels.')});
+
+        return true;
     }
 
     goToFirstStep = () => {
@@ -289,6 +314,7 @@ export default class InvitationModal extends React.Component {
                                 currentTeamId={this.props.currentTeam.id}
                                 onDone={this.close}
                                 onInviteMore={this.goToFirstStep}
+                                fixInviteRow={this.fixInviteRow}
                                 invitesType={this.state.invitesType}
                                 invitesSent={this.state.invitesSent}
                                 invitesNotSent={this.state.invitesNotSent}

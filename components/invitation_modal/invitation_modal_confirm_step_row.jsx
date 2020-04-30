@@ -18,6 +18,26 @@ import './invitation_modal_confirm_step_row.scss';
 export default class InvitationModalConfirmStepRow extends React.Component {
     static propTypes = {
         invitation: PropTypes.object.isRequired,
+        fixInviteRow: PropTypes.func.isRequired,
+    }
+
+    constructor() {
+        super();
+        this.state = {
+            fixing: false,
+            fixed: false,
+            error: false,
+        };
+    }
+
+    addUserToChannels = async () => {
+        this.setState({fixing: true});
+        try {
+            const fixed = await this.props.fixInviteRow(this.props.invitation.user);
+            this.setState({fixing: false, fixed, error: !fixed});
+        } catch {
+            this.setState({fixing: false, fixed: false, error: true});
+        }
     }
 
     render() {
@@ -58,6 +78,76 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                     defaultMessage={invitation.reason.message}
                     values={invitation.reason.values}
                 />
+            );
+        }
+
+        if (invitation.fixable && invitation.belongsToTeam) {
+            reason = (
+                <div className='reason-with-fix'>
+                    {reason}
+                    {this.state.fixed &&
+                        <b>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-not-in-team.fixed'
+                                defaultMessage='Added member to channels'
+                            />
+                        </b>}
+                    {this.state.error &&
+                        <b className='fix-error'>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-not-in-team.error'
+                                defaultMessage='Unable to add member to channels'
+                            />
+                        </b>}
+                    {this.state.fixing &&
+                        <a className='fixing'>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-not-in-team.fixing'
+                                defaultMessage='Adding member to channels'
+                            />
+                        </a>}
+                    {!this.state.fixing && !this.state.fixed && !this.state.error &&
+                        <a onClick={this.addUserToChannels}>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-not-in-team.add-to-channels'
+                                defaultMessage='Add this member to the channels'
+                            />
+                        </a>}
+                </div>
+            );
+        } else if (invitation.fixable && !invitation.belongsToTeam) {
+            reason = (
+                <div className='reason-with-fix'>
+                    {reason}
+                    {this.state.fixed &&
+                        <span className='fixed'>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-in-team.fixed'
+                                defaultMessage='Added member to team and channels'
+                            />
+                        </span>}
+                    {this.state.error &&
+                        <span className='fix-error'>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-in-team.error'
+                                defaultMessage='Unable to add member to team or channels'
+                            />
+                        </span>}
+                    {this.state.fixing &&
+                        <a className='fixing'>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-in-team.fixing'
+                                defaultMessage='Adding member to team and channels'
+                            />
+                        </a>}
+                    {!this.state.fixing && !this.state.fixed && !this.state.error &&
+                        <a onClick={this.addUserToChannels}>
+                            <FormattedMessage
+                                id='invite.members.is-already-user-in-team.add-to-channels'
+                                defaultMessage='Add this member to the team and channels'
+                            />
+                        </a>}
+                </div>
             );
         }
 
