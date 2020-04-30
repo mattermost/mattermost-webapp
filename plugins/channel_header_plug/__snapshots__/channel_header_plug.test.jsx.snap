@@ -37,6 +37,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
         className="fa fa-anchor"
       />
     }
+    key="channelHeaderButtonsomeid"
     onClick={[Function]}
     tooltipKey="plugin"
     tooltipText="some tooltip text"
@@ -107,7 +108,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
 </ChannelHeaderPlug>
 `;
 
-exports[`plugins/ChannelHeaderPlug should match snapshot with two extended components 1`] = `
+exports[`plugins/ChannelHeaderPlug should match snapshot with six extended components 1`] = `
 <ChannelHeaderPlug
   channel={Object {}}
   channelMember={Object {}}
@@ -130,6 +131,46 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with two extended compo
           className="fa fa-anchor"
         />,
         "id": "someid2",
+        "pluginId": "pluginid",
+        "tooltipText": "some tooltip text",
+      },
+      Object {
+        "action": [Function],
+        "dropdownText": "some dropdown text",
+        "icon": <i
+          className="fa fa-anchor"
+        />,
+        "id": "someid3",
+        "pluginId": "pluginid",
+        "tooltipText": "some tooltip text",
+      },
+      Object {
+        "action": [Function],
+        "dropdownText": "some dropdown text",
+        "icon": <i
+          className="fa fa-anchor"
+        />,
+        "id": "someid4",
+        "pluginId": "pluginid",
+        "tooltipText": "some tooltip text",
+      },
+      Object {
+        "action": [Function],
+        "dropdownText": "some dropdown text",
+        "icon": <i
+          className="fa fa-anchor"
+        />,
+        "id": "someid5",
+        "pluginId": "pluginid",
+        "tooltipText": "some tooltip text",
+      },
+      Object {
+        "action": [Function],
+        "dropdownText": "some dropdown text",
+        "icon": <i
+          className="fa fa-anchor"
+        />,
+        "id": "someid6",
         "pluginId": "pluginid",
         "tooltipText": "some tooltip text",
       },
@@ -299,7 +340,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with two extended compo
                       className="icon__text"
                       id="pluginCount"
                     >
-                      2
+                      6
                     </span>
                   </OverlayTrigger>
                 </OverlayTrigger>
@@ -345,6 +386,86 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with two extended compo
                   </li>
                   <li
                     key="channelHeaderPlugsomeid2"
+                  >
+                    <a
+                      className="d-flex align-items-center"
+                      href="#"
+                      onClick={[Function]}
+                    >
+                      <span
+                        className="d-flex align-items-center overflow--ellipsis"
+                      >
+                        <i
+                          className="fa fa-anchor"
+                        />
+                      </span>
+                      <span>
+                        some dropdown text
+                      </span>
+                    </a>
+                  </li>
+                  <li
+                    key="channelHeaderPlugsomeid3"
+                  >
+                    <a
+                      className="d-flex align-items-center"
+                      href="#"
+                      onClick={[Function]}
+                    >
+                      <span
+                        className="d-flex align-items-center overflow--ellipsis"
+                      >
+                        <i
+                          className="fa fa-anchor"
+                        />
+                      </span>
+                      <span>
+                        some dropdown text
+                      </span>
+                    </a>
+                  </li>
+                  <li
+                    key="channelHeaderPlugsomeid4"
+                  >
+                    <a
+                      className="d-flex align-items-center"
+                      href="#"
+                      onClick={[Function]}
+                    >
+                      <span
+                        className="d-flex align-items-center overflow--ellipsis"
+                      >
+                        <i
+                          className="fa fa-anchor"
+                        />
+                      </span>
+                      <span>
+                        some dropdown text
+                      </span>
+                    </a>
+                  </li>
+                  <li
+                    key="channelHeaderPlugsomeid5"
+                  >
+                    <a
+                      className="d-flex align-items-center"
+                      href="#"
+                      onClick={[Function]}
+                    >
+                      <span
+                        className="d-flex align-items-center overflow--ellipsis"
+                      >
+                        <i
+                          className="fa fa-anchor"
+                        />
+                      </span>
+                      <span>
+                        some dropdown text
+                      </span>
+                    </a>
+                  </li>
+                  <li
+                    key="channelHeaderPlugsomeid6"
                   >
                     <a
                       className="d-flex align-items-center"
