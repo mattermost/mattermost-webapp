@@ -687,6 +687,7 @@
   "admin.group_settings.filters.isUnconfigured": "Is Not Configured",
   "admin.group_settings.filters.isUnlinked": "Is Not Linked",
   "admin.group_settings.group_detail.duplicateMentionNameError": "Group mention is already taken.",
+  "admin.group_settings.group_detail.invalidOrReservedMentionNameError": "Group mention contains invalid characters, matches a user name or a reserved keyword.",
   "admin.group_settings.group_detail.group_configuration": "Group Configuration",
   "admin.group_settings.group_detail.groupProfileDescription": "The name for this group.",
   "admin.group_settings.group_detail.groupProfileTitle": "Group Profile",

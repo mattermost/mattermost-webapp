@@ -35,3 +35,15 @@ export const DuplicateGroupNameError = () => (
             />)}
     />
 );
+
+export const InvalidOrReservedGroupNameError = () => (
+    <FormError
+        iconClassName={'fa-exclamation-triangle'}
+        textClassName={'has-error'}
+        error={(
+            <FormattedMessage
+                id='admin.group_settings.group_detail.invalidOrReservedMentionNameError'
+                defaultMessage='Group mention contains invalid characters, matches a user name or a reserved keyword.'
+            />)}
+    />
+);

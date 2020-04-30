@@ -23,7 +23,7 @@ import ChannelSelectorModal from 'components/channel_selector_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import {DuplicateGroupNameError, NeedGroupNameError} from 'components/admin_console/group_settings/group_details/group_details_errors';
+import {DuplicateGroupNameError, InvalidOrReservedGroupNameError, NeedGroupNameError} from 'components/admin_console/group_settings/group_details/group_details_errors';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -136,12 +136,14 @@ export default class GroupDetails extends React.PureComponent {
     onMentionToggle = async (allowReference) => {
         const {group} = this.props;
         const originalAllowReference = group.allow_reference;
+        const saveNeeded = true;
 
         this.setState({
-            saveNeeded: true,
+            saveNeeded,
             allowReference,
             hasAllowReferenceChanged: allowReference !== originalAllowReference}
         );
+        this.props.actions.setNavigationBlocked(saveNeeded);
     }
 
     onMentionChange = async (e) => {
@@ -169,18 +171,28 @@ export default class GroupDetails extends React.PureComponent {
             saveNeeded = true;
             serverError = <NeedGroupNameError/>;
             this.setState({allowReference, serverError, saving: false, saveNeeded});
+        } else if (!allowReference) {
+            this.setState({serverError: null, saving: false});
         } else if (hasAllowReferenceChanged || hasGroupMentionNameChanged) {
             saveNeeded = false;
-            const result = await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference, name: groupMentionName});
+            const lcGroupMentionName = groupMentionName.toLowerCase();
+
+            const result = await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference, name: lcGroupMentionName});
             if (result.error) {
                 saveNeeded = true;
                 if (result.error.server_error_id === 'store.sql_group.unique_constraint') {
                     serverError = <DuplicateGroupNameError/>;
+                } else if (result.error.server_error_id === 'model.group.name.invalid_chars.app_error') {
+                    serverError = <InvalidOrReservedGroupNameError/>;
+                } else if (result.error.server_error_id === 'api.ldap_groups.existing_reserved_name_error' ||
+                    result.error.server_error_id === 'api.ldap_groups.existing_user_name_error' ||
+                    result.error.server_error_id === 'api.ldap_groups.existing_group_name_error') {
+                    serverError = <InvalidOrReservedGroupNameError/>;
                 } else {
                     serverError = <FormError error={result.error.message}/>;
                 }
             }
-            this.setState({allowReference, groupMentionName, serverError, saving: false, saveNeeded});
+            this.setState({allowReference, groupMentionName: lcGroupMentionName, serverError, saving: false, saveNeeded});
         }
         this.props.actions.setNavigationBlocked(saveNeeded);
     }
