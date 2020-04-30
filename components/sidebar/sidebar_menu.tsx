@@ -17,7 +17,7 @@ type Props = {
     buttonAriaLabel: string;
     ariaLabel: string;
     refCallback?: (ref: SidebarMenu) => void;
-    onToggle: (open: boolean) => void;
+    onToggle?: (open: boolean) => void;
 };
 
 type State = {

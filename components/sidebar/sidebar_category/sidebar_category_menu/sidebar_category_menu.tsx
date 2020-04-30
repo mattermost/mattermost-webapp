@@ -15,15 +15,10 @@ type Props = {
     canCreatePublicChannel: boolean;
     canCreatePrivateChannel: boolean;
     onToggle: (open: boolean) => void;
-
-    //currentUserId: string;
     intl: IntlShape;
-    actions: {
-
-    };
 };
 
-class SidebarCategoryMenu extends React.PureComponent<Props> {
+export class SidebarCategoryMenu extends React.PureComponent<Props> {
     deleteCategory = () => {
 
     }

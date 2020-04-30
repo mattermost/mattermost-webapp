@@ -12,11 +12,12 @@ import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import Constants, {NotificationLevels, ModalIdentifiers} from 'utils/constants';
+import {copyToClipboard} from 'utils/utils';
 
 type Props = {
     channel: Channel;
     channelLink: string;
-    categories: ChannelCategory[];
+    categories?: ChannelCategory[];
     currentUserId: string;
     isUnread: boolean;
     isFavorite: boolean;
@@ -88,20 +89,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     copyLink = () => {
-        const channelUrl = this.props.channelLink;
-
-        const clipboard = navigator.clipboard;
-        if (clipboard) {
-            clipboard.writeText(channelUrl);
-        } else {
-            const hiddenInput = document.createElement('textarea');
-            hiddenInput.value = channelUrl;
-            document.body.appendChild(hiddenInput);
-            hiddenInput.focus();
-            hiddenInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(hiddenInput);
-        }
+        copyToClipboard(this.props.channelLink);
     }
 
     handleLeaveChannel = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -130,6 +118,10 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
     renderDropdownItems = () => {
         const {intl, isUnread, isFavorite, isMuted, channel, categories} = this.props;
+
+        if (!categories) {
+            return null;
+        }
 
         let markAsRead;
         if (isUnread) {
@@ -286,7 +278,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         subMenu={categoryMenuItems}
                         text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to'})}
                         icon={<i className='icon-folder-move-outline'/>}
-                        direction='right'
+                        direction={'right' as any}
                         openUp={this.state.openUp}
                         xOffset={this.state.width}
                     />

@@ -13,6 +13,7 @@ describe('components/sidebar/sidebar_menu', () => {
         buttonAriaLabel: 'some aria label',
         ariaLabel: 'some other aria label',
         refCallback: jest.fn(),
+        onToggle: jest.fn(),
     };
 
     test('should match snapshot', () => {
@@ -37,6 +38,18 @@ describe('components/sidebar/sidebar_menu', () => {
         wrapper.instance().handleMenuToggle(false);
         expect(wrapper.instance().state.isMenuOpen).toEqual(false);
         expect(wrapper.instance().setMenuPosition).toHaveBeenCalled();
+    });
+
+    test('should call external onToggle when menu is toggled', () => {
+        const wrapper = shallow<SidebarMenu>(
+            <SidebarMenu {...baseProps}/>
+        );
+
+        wrapper.instance().handleMenuToggle(true);
+        expect(baseProps.onToggle).toHaveBeenCalledWith(true);
+
+        wrapper.instance().handleMenuToggle(false);
+        expect(baseProps.onToggle).toHaveBeenCalledWith(false);
     });
 
     test('should set the openUp and width properties correctly based on window and ref information', () => {

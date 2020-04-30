@@ -7,7 +7,9 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import SidebarCategoryMenu from './sidebar_category_menu';
+import SidebarCategoryMenu, {SidebarCategoryMenu as SidebarCategoryMenuType} from './sidebar_category_menu';
+
+import { ShallowWrapper } from 'enzyme';
 
 describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
     const baseProps = {
@@ -20,6 +22,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
         isMuted: false,
+        onToggle: jest.fn(),
         actions: {},
     };
 

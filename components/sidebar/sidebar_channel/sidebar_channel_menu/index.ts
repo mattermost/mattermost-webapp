@@ -37,15 +37,17 @@ function makeMapStateToProps() {
 
         let managePublicChannelMembers = false;
         let managePrivateChannelMembers = false;
+        let categories;
 
         if (currentTeam) {
             managePublicChannelMembers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
             managePrivateChannelMembers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
+            categories = getCategoriesForTeam(state, currentTeam.id);
         }
 
         return {
             currentUserId: getCurrentUserId(state),
-            categories: getCategoriesForTeam(state, currentTeam.id),
+            categories,
             isFavorite: isFavoriteChannel(preferences, ownProps.channel.id),
             isMuted: isChannelMuted(member),
             channelLink: `${getSiteURL()}/${ownProps.channelLink}`,

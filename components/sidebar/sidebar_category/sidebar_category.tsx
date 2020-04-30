@@ -18,7 +18,6 @@ import {isKeyPressed} from 'utils/utils';
 import SidebarChannel from '../sidebar_channel';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
-import {SidebarCategoryMenu as SidebarCategoryMenuType} from './sidebar_category_menu/sidebar_category_menu';
 
 type Props = {
     category: ChannelCategory;
@@ -38,13 +37,11 @@ type State = {
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
-    categoryMenuRef: React.RefObject<SidebarCategoryMenuType>;
 
     constructor(props: Props) {
         super(props);
 
         this.categoryTitleRef = React.createRef();
-        this.categoryMenuRef = React.createRef();
 
         this.state = {
             isMenuOpen: false,
@@ -210,12 +207,12 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             displayName = localizeMessage(`sidebar.types.${category.type}`, category.display_name);
         }
 
-        console.log(this.categoryMenuRef?.current?.menuRef?.current?.state.isMenuOpen);
-
         return (
-            <div className={classNames('SidebarChannelGroup a11y__section', {
-                menuIsOpen: this.state.isMenuOpen,
-            })}>
+            <div
+                className={classNames('SidebarChannelGroup a11y__section', {
+                    menuIsOpen: this.state.isMenuOpen,
+                })}
+            >
                 <div className='SidebarChannelGroupHeader'>
                     <button
                         ref={this.categoryTitleRef}
