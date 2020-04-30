@@ -43,7 +43,6 @@ const baseProps = {
     isFirstLoad: true,
     atLatestPost: false,
     formattedPostIds: [],
-    prevChannelId: 'prevChannelId',
 };
 
 describe('components/post_view/post_list', () => {
@@ -254,7 +253,7 @@ describe('components/post_view/post_list', () => {
             const emptyPostList = [];
             const focusedPostId = 'new';
             shallow(
-                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId', focusedPostId}}/>
+                <PostList {...{...baseProps, postListIds: emptyPostList, focusedPostId}}/>
             );
 
             await actionsProp.loadPostsAround();

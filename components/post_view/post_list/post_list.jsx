@@ -71,7 +71,6 @@ export default class PostList extends React.PureComponent {
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
-        prevChannelId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
 
             /*
