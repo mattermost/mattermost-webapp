@@ -22,6 +22,7 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {FakePost} from 'types/store/rhs';
 
 export function renderView(props: Record<string, any>) {
     return (
@@ -46,7 +47,7 @@ export function renderThumbVertical(props: Record<string, any>) {
 type Props = {
     posts: Post[];
     channel: Channel | null;
-    selected: Post;
+    selected: Post | FakePost;
     previousRhsState?: string;
     currentUserId: string;
     previewCollapsed: string;
@@ -188,7 +189,7 @@ export default class RhsThread extends React.Component<Props, State> {
         this.setState({isBusy});
     }
 
-    private filterPosts = (posts: Post[], selected: Post, openTime: number): Post[] => {
+    private filterPosts = (posts: Post[], selected: Post | FakePost, openTime: number): Post[] => {
         const postsArray: Post[] = [];
 
         posts.forEach((cpost) => {
@@ -277,7 +278,7 @@ export default class RhsThread extends React.Component<Props, State> {
             lastRhsCommentPost = postsArray[postsLength - 1];
         }
 
-        let createAt = selected.create_at;
+        let createAt = (selected as Post).create_at;
         if (!createAt && this.props.posts.length > 0) {
             createAt = this.props.posts[this.props.posts.length - 1].create_at;
         }
@@ -340,7 +341,7 @@ export default class RhsThread extends React.Component<Props, State> {
                         <CreateComment
                             channelId={selected.channel_id}
                             rootId={selected.id}
-                            rootDeleted={selected.state === Posts.POST_DELETED}
+                            rootDeleted={(selected as Post).state === Posts.POST_DELETED}
                             latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
                         />
                     </div>

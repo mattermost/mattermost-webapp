@@ -7,7 +7,6 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/src/types/users';
@@ -17,6 +16,7 @@ import {getDirectTeammate} from 'utils/utils.jsx';
 import {getSelectedPost} from 'selectors/rhs';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
+import {GlobalState} from 'types/store';
 
 import RhsThread from './rhs_thread';
 
