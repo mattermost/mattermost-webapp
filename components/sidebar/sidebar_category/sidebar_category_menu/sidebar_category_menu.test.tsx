@@ -7,9 +7,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import SidebarCategoryMenu, {SidebarCategoryMenu as SidebarCategoryMenuType} from './sidebar_category_menu';
-
-import { ShallowWrapper } from 'enzyme';
+import SidebarCategoryMenu from './sidebar_category_menu';
 
 describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
     const baseProps = {

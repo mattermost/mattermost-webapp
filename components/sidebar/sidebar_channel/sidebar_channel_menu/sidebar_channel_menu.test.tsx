@@ -50,7 +50,8 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             markChannelAsRead: jest.fn(),
             favoriteChannel: jest.fn(),
             unfavoriteChannel: jest.fn(),
-            updateChannelNotifyProps: jest.fn(),
+            muteChannel: jest.fn(),
+            unmuteChannel: jest.fn(),
             openModal: jest.fn(),
         },
     };

@@ -5,13 +5,13 @@ import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {Channel, ChannelNotifyProps} from 'mattermost-redux/types/channels';
+import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
-import Constants, {NotificationLevels, ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
 
 type Props = {
@@ -30,7 +30,8 @@ type Props = {
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
-        updateChannelNotifyProps: (userId: string, channelId: string, props: ChannelNotifyProps) => void;
+        muteChannel: (userId: string, channelId: string) => void;
+        unmuteChannel: (userId: string, channelId: string) => void;
         openModal: (modalData: any) => void;
     };
 };
@@ -67,15 +68,11 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     unmuteChannel = () => {
-        this.props.actions.updateChannelNotifyProps(this.props.currentUserId, this.props.channel.id, {
-            mark_unread: NotificationLevels.ALL,
-        } as any);
+        this.props.actions.unmuteChannel(this.props.currentUserId, this.props.channel.id);
     }
 
     muteChannel = () => {
-        this.props.actions.updateChannelNotifyProps(this.props.currentUserId, this.props.channel.id, {
-            mark_unread: NotificationLevels.MENTION,
-        } as any);
+        this.props.actions.muteChannel(this.props.currentUserId, this.props.channel.id);
     }
 
     moveToCategory = (categoryId: string) => {

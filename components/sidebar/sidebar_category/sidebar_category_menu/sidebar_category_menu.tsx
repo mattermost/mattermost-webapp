@@ -18,7 +18,7 @@ type Props = {
     intl: IntlShape;
 };
 
-export class SidebarCategoryMenu extends React.PureComponent<Props> {
+class SidebarCategoryMenu extends React.PureComponent<Props> {
     deleteCategory = () => {
 
     }
