@@ -103,28 +103,12 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -232,28 +216,12 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
         values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -396,28 +364,12 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -548,28 +500,12 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -712,28 +648,12 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;
@@ -901,28 +821,12 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         values={Object {}}
       />
     }
-    message={
-      <FormattedMessage
-        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
-        id="notify_all.question"
-        values={
-          Object {
-            "totalMembers": 2,
-          }
-        }
-      />
-    }
+    message=""
     modalClass=""
     onCancel={[Function]}
     onConfirm={[Function]}
     show={false}
-    title={
-      <FormattedMessage
-        defaultMessage="Confirm sending notifications to entire channel"
-        id="notify_all.title.confirm"
-        values={Object {}}
-      />
-    }
+    title=""
   />
 </form>
 `;

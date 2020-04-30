@@ -64,6 +64,11 @@ class ProfilePopover extends React.PureComponent {
          */
         isRHS: PropTypes.bool,
 
+        /**
+         * Returns state of modals in redux for determing which need to be closed
+         */
+        modals: PropTypes.object,
+
         currentTeamId: PropTypes.string.isRequired,
 
         /**
@@ -108,6 +113,7 @@ class ProfilePopover extends React.PureComponent {
             getMembershipForCurrentEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
+            closeModal: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -164,6 +170,7 @@ class ProfilePopover extends React.PureComponent {
                 browserHistory.push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         });
+        this.handleCloseModals();
     }
 
     handleMentionKeyClick = (e) => {
@@ -176,6 +183,7 @@ class ProfilePopover extends React.PureComponent {
             this.props.hide();
         }
         EventEmitter.emit('mention_key_click', this.props.user.username, this.props.isRHS);
+        this.handleCloseModals();
     }
 
     handleEditAccountSettings = (e) => {
@@ -188,7 +196,28 @@ class ProfilePopover extends React.PureComponent {
             this.props.hide();
         }
         this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
+        this.handleCloseModals();
     }
+
+    handleAddToChannel = (e) => {
+        e.preventDefault();
+
+        this.handleCloseModals();
+    }
+
+    handleCloseModals = () => {
+        const {modals} = this.props;
+
+        for (const modal in modals) {
+            if (!Object.prototype.hasOwnProperty.call(modals, modal)) {
+                continue;
+            }
+
+            if (modals[modal].open) {
+                this.props.actions.closeModal(modal);
+            }
+        }
+    };
 
     render() {
         if (!this.props.user) {
@@ -394,6 +423,7 @@ class ProfilePopover extends React.PureComponent {
                         <a
                             href='#'
                             className='text-nowrap'
+                            onClick={this.handleAddToChannel}
                         >
                             <ToggleModalButtonRedux
                                 accessibilityLabel={addToChannelMessage}
