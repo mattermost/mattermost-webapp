@@ -33,6 +33,10 @@ export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
 
+export function isLinux() {
+    return navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
+}
+
 export function createSafeId(prop) {
     if (prop === null) {
         return null;
@@ -1308,6 +1312,34 @@ export function displayEntireNameForUser(user) {
                 {' - '}
                 <span className='light'>{'(' + user.nickname + ')'}</span>
             </span>
+        );
+    }
+
+    return displayName;
+}
+
+/**
+ * Gets the full name and nickname of the specified user
+ */
+export function displayFullAndNicknameForUser(user) {
+    if (!user) {
+        return '';
+    }
+
+    let displayName;
+    const fullName = getFullName(user);
+
+    if (fullName && user.nickname) {
+        displayName = (
+            <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
+        );
+    } else if (fullName) {
+        displayName = (
+            <span className='light'>{fullName}</span>
+        );
+    } else if (user.nickname) {
+        displayName = (
+            <span className='light'>{'(' + user.nickname + ')'}</span>
         );
     }
 
