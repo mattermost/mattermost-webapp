@@ -410,7 +410,7 @@ class ProfilePopover extends React.PureComponent {
                 >
                     <FormattedMessage
                         id='user_profile.account.post_was_created'
-                        defaultMessage='this post was created by an integration from'
+                        defaultMessage='This post was created by an integration from'
                     />
                     <a onClick={this.handleMentionKeyClick}>{` @${this.props.user.username}`}</a>
                 </div>,
