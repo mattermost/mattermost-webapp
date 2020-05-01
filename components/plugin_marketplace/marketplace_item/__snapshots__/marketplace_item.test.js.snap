@@ -857,10 +857,9 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         />
       </p>,
       <p>
-        <FormattedHTMLMessage
-          defaultMessage="You currently have 0.0.1 installed. View the <a href=\\"http://example.com/release\\" target='_blank' rel='noopener noreferrer'>release notes</a> to learn about the changes included in this update."
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="You currently have {installedVersion} installed. View the [release notes](!{releaseNotesUrl}) to learn about the changes included in this update."
           id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
-          tagName="span"
           values={
             Object {
               "installedVersion": "0.0.1",
@@ -872,10 +871,9 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
       <p
         className="alert alert-warning"
       >
-        <FormattedHTMLMessage
-          defaultMessage="This update may contain breaking changes. Consult the <a href=\\"http://example.com/release\\" target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading."
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="This update may contain breaking changes. Consult the [release notes](!{releaseNotesUrl}) before upgrading."
           id="marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes"
-          tagName="span"
           values={
             Object {
               "releaseNotesUrl": "http://example.com/release",

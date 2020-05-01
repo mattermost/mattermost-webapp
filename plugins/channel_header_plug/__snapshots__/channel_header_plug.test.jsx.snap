@@ -260,7 +260,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                             "defaultLocale": "en",
                             "formatDate": [Function],
                             "formatDateToParts": [Function],
-                            "formatHTMLMessage": [Function],
+                            "formatDisplayName": [Function],
                             "formatList": [Function],
                             "formatMessage": [Function],
                             "formatNumber": [Function],
@@ -272,6 +272,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                             "formats": Object {},
                             "formatters": Object {
                               "getDateTimeFormat": [Function],
+                              "getDisplayNames": [Function],
                               "getListFormat": [Function],
                               "getMessageFormat": [Function],
                               "getNumberFormat": [Function],
@@ -283,6 +284,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
                             "onError": [Function],
                             "textComponent": "span",
                             "timeZone": "Etc/UTC",
+                            "wrapRichTextChunksInFragment": undefined,
                           }
                         }
                         placement="right"

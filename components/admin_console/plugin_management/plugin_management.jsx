@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -889,7 +889,7 @@ export default class PluginManagement extends AdminSettings {
                     </label>
                     <div className='col-sm-8'>
                         <p className='help-text'>
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id='admin.plugin.installedDesc'
                                 defaultMessage='Installed plugins on your Mattermost server.'
                             />

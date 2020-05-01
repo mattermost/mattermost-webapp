@@ -18,7 +18,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
       "defaultLocale": "en",
       "formatDate": [Function],
       "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
+      "formatDisplayName": [Function],
       "formatList": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
@@ -30,6 +30,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
         "getListFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
@@ -62,7 +63,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
         "defaultLocale": "en",
         "formatDate": [Function],
         "formatDateToParts": [Function],
-        "formatHTMLMessage": [Function],
+        "formatDisplayName": [Function],
         "formatList": [Function],
         "formatMessage": [Function],
         "formatNumber": [Function],
@@ -74,6 +75,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
         "formats": Object {},
         "formatters": Object {
           "getDateTimeFormat": [Function],
+          "getDisplayNames": [Function],
           "getListFormat": [Function],
           "getMessageFormat": [Function],
           "getNumberFormat": [Function],

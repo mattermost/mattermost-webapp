@@ -25,14 +25,12 @@ class RecentDate extends React.PureComponent<Props> {
             return (
                 <FormattedMessage
                     id='date_separator.today'
-                    defaultMessage='Today'
                 />
             );
         } else if (isYesterday(date)) {
             return (
                 <FormattedMessage
                     id='date_separator.yesterday'
-                    defaultMessage='Yesterday'
                 />
             );
         }

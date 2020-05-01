@@ -33,7 +33,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
                 "defaultLocale": "en",
                 "formatDate": [Function],
                 "formatDateToParts": [Function],
-                "formatHTMLMessage": [Function],
+                "formatDisplayName": [Function],
                 "formatList": [Function],
                 "formatMessage": [Function],
                 "formatNumber": [Function],
@@ -45,6 +45,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
                 "formats": Object {},
                 "formatters": Object {
                   "getDateTimeFormat": [Function],
+                  "getDisplayNames": [Function],
                   "getListFormat": [Function],
                   "getMessageFormat": [Function],
                   "getNumberFormat": [Function],
@@ -56,6 +57,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
                 "onError": [Function],
                 "textComponent": "span",
                 "timeZone": "Etc/UTC",
+                "wrapRichTextChunksInFragment": undefined,
               }
             }
             month="short"
@@ -103,7 +105,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "defaultLocale": "en",
                 "formatDate": [Function],
                 "formatDateToParts": [Function],
-                "formatHTMLMessage": [Function],
+                "formatDisplayName": [Function],
                 "formatList": [Function],
                 "formatMessage": [Function],
                 "formatNumber": [Function],
@@ -115,6 +117,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "formats": Object {},
                 "formatters": Object {
                   "getDateTimeFormat": [Function],
+                  "getDisplayNames": [Function],
                   "getListFormat": [Function],
                   "getMessageFormat": [Function],
                   "getNumberFormat": [Function],
@@ -126,6 +129,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "onError": [Function],
                 "textComponent": "span",
                 "timeZone": "Etc/UTC",
+                "wrapRichTextChunksInFragment": undefined,
               }
             }
             month="short"
@@ -174,7 +178,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "defaultLocale": "en",
                 "formatDate": [Function],
                 "formatDateToParts": [Function],
-                "formatHTMLMessage": [Function],
+                "formatDisplayName": [Function],
                 "formatList": [Function],
                 "formatMessage": [Function],
                 "formatNumber": [Function],
@@ -186,6 +190,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "formats": Object {},
                 "formatters": Object {
                   "getDateTimeFormat": [Function],
+                  "getDisplayNames": [Function],
                   "getListFormat": [Function],
                   "getMessageFormat": [Function],
                   "getNumberFormat": [Function],
@@ -197,6 +202,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
                 "onError": [Function],
                 "textComponent": "span",
                 "timeZone": "Etc/UTC",
+                "wrapRichTextChunksInFragment": undefined,
               }
             }
             month="short"

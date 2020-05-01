@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 import moment from 'moment-timezone';
 
 // Feature test the browser for support of hourCycle.
@@ -32,7 +32,7 @@ type Props = {
      */
     enableTimezone?: boolean;
 
-    intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
+    intl: IntlShape;
 }
 
 class LocalDateTime extends React.PureComponent<Props> {
@@ -55,12 +55,8 @@ class LocalDateTime extends React.PureComponent<Props> {
 
         // Ideally, we'd use Intl.DateTimeFormatOptions, but hourCycle is not yet supported.
         // See https://github.com/microsoft/TypeScript/issues/34399
-        const options: {
-            hour?: string;
-            minute?: string;
-            timeZone?: string;
+        const options: Intl.DateTimeFormatOptions & {
             hourCycle?: string;
-            hour12?: boolean;
         } = {
             hour: 'numeric',
             minute: 'numeric',

@@ -36,7 +36,7 @@ exports[`components/FormattedMarkdownMessage should allow to disable links 1`] =
           "defaultLocale": "en",
           "formatDate": [Function],
           "formatDateToParts": [Function],
-          "formatHTMLMessage": [Function],
+          "formatDisplayName": [Function],
           "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
@@ -48,6 +48,7 @@ exports[`components/FormattedMarkdownMessage should allow to disable links 1`] =
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getDisplayNames": [Function],
             "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
@@ -63,6 +64,7 @@ exports[`components/FormattedMarkdownMessage should allow to disable links 1`] =
           "onError": [Function],
           "textComponent": Symbol(react.fragment),
           "timeZone": undefined,
+          "wrapRichTextChunksInFragment": undefined,
         }
       }
       values={
@@ -113,7 +115,7 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
           "defaultLocale": "en",
           "formatDate": [Function],
           "formatDateToParts": [Function],
-          "formatHTMLMessage": [Function],
+          "formatDisplayName": [Function],
           "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
@@ -125,6 +127,7 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getDisplayNames": [Function],
             "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
@@ -140,6 +143,7 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
           "onError": [Function],
           "textComponent": Symbol(react.fragment),
           "timeZone": undefined,
+          "wrapRichTextChunksInFragment": undefined,
         }
       }
     >
@@ -174,6 +178,12 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
   <injectIntl(FormattedMarkdownMessage)
     defaultMessage=""
     id="test.bar"
+    values={
+      Object {
+        "b": [Function],
+        "script": [Function],
+      }
+    }
   >
     <FormattedMarkdownMessage
       defaultMessage=""
@@ -185,7 +195,7 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
           "defaultLocale": "en",
           "formatDate": [Function],
           "formatDateToParts": [Function],
-          "formatHTMLMessage": [Function],
+          "formatDisplayName": [Function],
           "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
@@ -197,6 +207,7 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getDisplayNames": [Function],
             "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
@@ -212,6 +223,13 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
           "onError": [Function],
           "textComponent": Symbol(react.fragment),
           "timeZone": undefined,
+          "wrapRichTextChunksInFragment": undefined,
+        }
+      }
+      values={
+        Object {
+          "b": [Function],
+          "script": [Function],
         }
       }
     >
@@ -257,7 +275,7 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
           "defaultLocale": "en",
           "formatDate": [Function],
           "formatDateToParts": [Function],
-          "formatHTMLMessage": [Function],
+          "formatDisplayName": [Function],
           "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
@@ -269,6 +287,7 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getDisplayNames": [Function],
             "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
@@ -284,13 +303,14 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
           "onError": [Function],
           "textComponent": Symbol(react.fragment),
           "timeZone": undefined,
+          "wrapRichTextChunksInFragment": undefined,
         }
       }
     >
       <span
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<strong>bold</strong> <em>italic</em> <a href=\\"https://mattermost.com/\\">link</a> &lt;br/&gt; <a href=\\"https://mattermost.com/\\" rel=\\"noreferrer\\" target=\\"_blank\\">link target blank</a>",
+            "__html": "<strong>bold</strong> <em>italic</em> <a href=\\"https://mattermost.com/\\">link</a> &lt;br/&gt; <a href=\\"https://mattermost.com/\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">link target blank</a>",
           }
         }
       />
@@ -334,7 +354,7 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
           "defaultLocale": "en",
           "formatDate": [Function],
           "formatDateToParts": [Function],
-          "formatHTMLMessage": [Function],
+          "formatDisplayName": [Function],
           "formatList": [Function],
           "formatMessage": [Function],
           "formatNumber": [Function],
@@ -346,6 +366,7 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
           "formats": Object {},
           "formatters": Object {
             "getDateTimeFormat": [Function],
+            "getDisplayNames": [Function],
             "getListFormat": [Function],
             "getMessageFormat": [Function],
             "getNumberFormat": [Function],
@@ -361,6 +382,7 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
           "onError": [Function],
           "textComponent": Symbol(react.fragment),
           "timeZone": undefined,
+          "wrapRichTextChunksInFragment": undefined,
         }
       }
       values={
