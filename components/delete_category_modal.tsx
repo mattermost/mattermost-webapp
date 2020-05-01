@@ -30,7 +30,6 @@ export default class DeleteCategoryModal extends React.PureComponent<Props> {
         return (
             <Modal
                 dialogClassName='a11y__modal edit-category'
-                ref='modal'
                 show={true}
                 onHide={this.props.onHide}
                 onExited={this.props.onHide}
@@ -75,6 +74,7 @@ export default class DeleteCategoryModal extends React.PureComponent<Props> {
                         />
                     </button>
                     <button
+                        autoFocus={true}
                         type='button'
                         className={'edit_category__button delete'}
                         onClick={this.handleConfirm}
