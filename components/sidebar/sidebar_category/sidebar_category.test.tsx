@@ -55,6 +55,19 @@ describe('components/sidebar/sidebar_category', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when isNewCategory', () => {
+        const props = {
+            ...baseProps,
+            isNewCategory: true,
+        };
+
+        const wrapper = shallow(
+            <SidebarCategory {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot when collapsed', () => {
         const props = {
             ...baseProps,

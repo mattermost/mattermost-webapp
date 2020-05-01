@@ -37,11 +37,10 @@ type State = {
     showMoreChannelsModal: boolean;
     showNewChannelModal: boolean;
     showCreateCategoryModal: boolean;
+    newCategoryIds: string[];
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
-    newCategoryIds: string[];
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -49,9 +48,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showMoreChannelsModal: false,
             showNewChannelModal: false,
             showCreateCategoryModal: false,
+            newCategoryIds: [],
         };
-
-        this.newCategoryIds = [];
     }
 
     showMoreDirectChannelsModal = () => {
@@ -73,7 +71,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     handleCreateCategory = (categoryName: string) => {
         const result = this.props.actions.createCategory(this.props.teamId, categoryName);
-        this.newCategoryIds.push(result.data);
+        this.state.newCategoryIds.push(result.data);
     }
 
     showMoreChannelsModal = () => {
@@ -186,7 +184,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
-                    newCategoryIds={this.newCategoryIds}
+                    newCategoryIds={this.state.newCategoryIds}
                 />
                 {this.renderModals()}
             </div>

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -151,7 +152,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         if (isNewCategory) {
             newLabel = (
                 <div className='SidebarCategory_newLabel'>
-                    {localizeMessage('sidebar_left.sidebar_category.newLabel', 'new')}
+                    <FormattedMessage
+                        id='sidebar_left.sidebar_category.newLabel'
+                        defaultMessage='new'
+                    />
                 </div>
             );
 
@@ -165,7 +169,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 >
                     <i className='icon-hand-right'/>
                     <span className='SidebarCategory_newDropBox-label'>
-                        {localizeMessage('sidebar_left.sidebar_category.newDropBoxLabel', 'Drag channels here...')}
+                        <FormattedMessage
+                            id='sidebar_left.sidebar_category.newDropBoxLabel'
+                            defaultMessage='Drag channels here...'
+                        />
                     </span>
                 </div>
             );

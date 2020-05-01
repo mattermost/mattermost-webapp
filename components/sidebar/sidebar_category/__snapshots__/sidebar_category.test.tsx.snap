@@ -78,6 +78,71 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
 </div>
 `;
 
+exports[`components/sidebar/sidebar_category should match snapshot when isNewCategory 1`] = `
+<div
+  className="SidebarChannelGroup a11y__section"
+>
+  <div
+    className="SidebarChannelGroupHeader"
+  >
+    <button
+      aria-label="custom_category_1"
+      className="SidebarChannelGroupHeader_groupButton"
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-chevron-down"
+      />
+      <div>
+        custom_category_1
+      </div>
+      <div
+        className="SidebarCategory_newLabel"
+      >
+        <FormattedMessage
+          defaultMessage="new"
+          id="sidebar_left.sidebar_category.newLabel"
+          values={Object {}}
+        />
+      </div>
+    </button>
+  </div>
+  <div
+    className="SidebarChannelGroup_content"
+  >
+    <ul
+      className="NavGroupContent"
+      role="list"
+    >
+      <div
+        className="SidebarCategory_newDropBox"
+        onTransitionEnd={[Function]}
+      >
+        <i
+          className="icon-hand-right"
+        />
+        <span
+          className="SidebarCategory_newDropBox-label"
+        >
+          <FormattedMessage
+            defaultMessage="Drag channels here..."
+            id="sidebar_left.sidebar_category.newDropBoxLabel"
+            values={Object {}}
+          />
+        </span>
+      </div>
+      <Connect(SidebarChannel)
+        channelId="channel_id"
+        getChannelRef={[MockFunction]}
+        isCategoryCollapsed={false}
+        key="channel_id"
+        setChannelRef={[MockFunction]}
+      />
+    </ul>
+  </div>
+</div>
+`;
+
 exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
 <div
   className="SidebarChannelGroup a11y__section"

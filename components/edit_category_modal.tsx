@@ -9,6 +9,8 @@ import {FormattedMessage} from 'react-intl';
 import QuickInput from 'components/quick_input';
 import {localizeMessage} from 'utils/utils';
 
+import './category_modal.scss';
+
 type Props = {
     modalHeaderText: string;
     editButtonText: string;
