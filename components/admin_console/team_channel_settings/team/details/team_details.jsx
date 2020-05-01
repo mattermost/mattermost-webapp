@@ -145,7 +145,7 @@ export default class TeamDetails extends React.Component {
             const removeUsersFromTeam = [];
             const {removeUserFromTeam} = this.props.actions;
             usersToRemove.forEach((user) => {
-                removeUsersFromTeam.push(removeUserFromTeam(teamID, user.id))
+                removeUsersFromTeam.push(removeUserFromTeam(teamID, user.id));
             });
 
             const result = await Promise.all(removeUsersFromTeam);
@@ -207,7 +207,7 @@ export default class TeamDetails extends React.Component {
         } else {
             usersToRemove = [user];
         }
-        this.setState({usersToRemove, usersToRemoveCount, saveNeeded: true})
+        this.setState({usersToRemove, usersToRemoveCount, saveNeeded: true});
     }
 
     handleGroupRemoved = (gid) => {
@@ -287,7 +287,7 @@ export default class TeamDetails extends React.Component {
                         />
 
                         <TeamMembers
-                            addUsersToRemove={this.addUsersToRemove}
+                            removeUser={this.addUsersToRemove}
                             teamId={this.props.teamID}
                         />
                     </div>
