@@ -144,24 +144,26 @@
 
     .sidebar--right__back {
         @include single-transition(all, .2s, ease-in);
-        @include opacity(.5);
-        color: inherit;
-        display: inline-block;
-        font-size: 26px;
-        margin-left: -14px;
-        text-align: center;
-        vertical-align: top;
-        width: 30px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: v(center-channel-color-56);
+        font-size: 12px;
+        width: 2.4rem;
+        height: 2.4rem;
+        margin-right: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
 
-        &:hover,
-        &:active {
-            color: inherit;
-            opacity: .8;
+        &:hover {
+            background-color: v(center-channel-color-08);
+            color: v(center-channel-color-72);
         }
 
-        i {
-            position: relative;
-            top: -2px;
+        &:active {
+            background-color: v(button-bg-08);
+            color: v(button-bg);
         }
     }
 

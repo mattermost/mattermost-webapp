@@ -147,7 +147,7 @@ export default class RhsHeaderPost extends React.Component {
                         >
                             {(ariaLabel) => (
                                 <i
-                                    className='fa fa-angle-left'
+                                    className='icon icon-arrow-back-ios'
                                     aria-label={ariaLabel}
                                 />
                             )}
