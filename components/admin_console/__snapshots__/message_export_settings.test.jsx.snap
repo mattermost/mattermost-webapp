@@ -57,10 +57,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       <AdminTextSetting
         disabled={true}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -241,10 +240,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       <AdminTextSetting
         disabled={true}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -388,10 +386,9 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         <AdminTextSetting
           disabled={true}
           helpText={
-            <FormattedHTMLMessage
+            <FormattedMessage
               defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
               id="admin.complianceExport.globalRelayEmailAddress.description"
-              tagName="span"
               values={Object {}}
             />
           }
@@ -531,10 +528,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       <AdminTextSetting
         disabled={false}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -715,10 +711,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <AdminTextSetting
         disabled={false}
         helpText={
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -862,10 +857,9 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         <AdminTextSetting
           disabled={false}
           helpText={
-            <FormattedHTMLMessage
+            <FormattedMessage
               defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
               id="admin.complianceExport.globalRelayEmailAddress.description"
-              tagName="span"
               values={Object {}}
             />
           }

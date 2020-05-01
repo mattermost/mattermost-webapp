@@ -36,10 +36,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         <div
           className="mt-5"
         >
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
             id="user.settings.notifications.autoResponderHint"
-            tagName="span"
             values={Object {}}
           />
         </div>,
@@ -113,20 +112,15 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               className="mt-5"
               key="autoResponderHint"
             >
-              <FormattedHTMLMessage
+              <FormattedMessage
                 defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
                 id="user.settings.notifications.autoResponderHint"
-                tagName="span"
                 values={Object {}}
               >
-                <span
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.",
-                    }
-                  }
-                />
-              </FormattedHTMLMessage>
+                <span>
+                  Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
           <div
@@ -266,10 +260,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
         <div
           className="mt-5"
         >
-          <FormattedHTMLMessage
+          <FormattedMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
             id="user.settings.notifications.autoResponderHint"
-            tagName="span"
             values={Object {}}
           />
         </div>,
@@ -410,20 +403,15 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               className="mt-5"
               key="autoResponderHint"
             >
-              <FormattedHTMLMessage
+              <FormattedMessage
                 defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
                 id="user.settings.notifications.autoResponderHint"
-                tagName="span"
                 values={Object {}}
               >
-                <span
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.",
-                    }
-                  }
-                />
-              </FormattedHTMLMessage>
+                <span>
+                  Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
           <div

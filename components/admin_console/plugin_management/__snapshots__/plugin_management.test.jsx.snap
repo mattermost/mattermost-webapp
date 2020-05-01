@@ -298,10 +298,9 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -654,10 +653,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -976,10 +974,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -1332,10 +1329,9 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -1688,10 +1684,9 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -2044,10 +2039,9 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -2405,10 +2399,9 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -3089,10 +3082,9 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -3445,10 +3437,9 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -3801,10 +3792,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -4218,10 +4208,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -4604,10 +4593,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -4990,10 +4978,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -5376,10 +5363,9 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   defaultMessage="Installed plugins on your Mattermost server."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
