@@ -3,35 +3,30 @@
 
 import React from 'react';
 
-import {t} from 'utils/i18n';
-import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import DataGrid from 'components/widgets/admin_console/data_grid/data_grid';
+import {Client4} from 'mattermost-redux/client';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import DataGrid, {Column} from 'components/widgets/admin_console/data_grid/data_grid';
+import ProfilePicture from 'components/profile_picture';
+
+import './user_grid.scss';
 
 type Props = {
-    titleId: string,
-    titleDefault: string,
-    subtitleId: string,
-    subtitleDefault:  string,
+    users: UserProfile[];
 
-    users: any[];
-    total?: number,
+    loadPage: (page: number) => void;
+    removeUser: (user: UserProfile) => void;
 
-    teamId?: string;
-
-    actions: {
-        getTotalUsersStats: () => Promise<{
-            data: boolean;
-        }>;
-        getProfilesInTeam: (teamId: string, page: number, perPage: number) => Promise<{
-            data: boolean;
-        }>;
-    },
+    totalCount: number;
 }
-
 
 type State = {
     loading: boolean;
     page: number;
+    totalCount: number;
+    visibleCount: number;
+    usersToRemove: { [userId: string]: UserProfile };
+    usersToAdd: { [userId: string]: UserProfile };
 }
 
 const USERS_PER_PAGE = 10;
@@ -43,87 +38,155 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.state = {
             loading: false,
             page: 0,
+            visibleCount: 0,
+            totalCount: 0,
+            usersToRemove: {},
+            usersToAdd: {},
         };
     }
 
-    private loadPage = async (page: number) => {
-        this.setState({loading: true});
-
-        const {getProfilesInTeam} = this.props.actions;
-        const {teamId} = this.props;
-
-        // Filter users by team
-        if (getProfilesInTeam && teamId) {
-            await getProfilesInTeam(teamId, page, USERS_PER_PAGE);
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+        if (prevState.totalCount !== nextProps.totalCount) {
+            return {
+                ...prevState,
+                totalCount: nextProps.totalCount,
+                visibleCount: nextProps.totalCount,
+            };
         }
-
-        this.setState({loading: false, page});
+        return prevState;
     }
 
-    private nextPage = () => {
-        this.setState({loading: true});
+    loadPage = (page: number) => {
+        this.props.loadPage(page);
+        this.setState({page, loading: false});
+    }
+
+    nextPage = () => {
         this.loadPage(this.state.page + 1);
     }
 
-    private previousPage = () => {
-        this.setState({page: this.state.page - 1});
+    previousPage = () => {
+        this.loadPage(this.state.page - 1);
     }
 
-    componentDidMount() {
-        this.props.actions.getTotalUsersStats();
-        this.loadPage(0);
-    }
+    getPaginationProps = () => {
+        const total = this.state.visibleCount;
 
-    getPaginationProps() {
-        let {total} = this.props;
-        total += 1; // correct for 0 indexed total
-
-        const startCount = 1 + this.state.page * USERS_PER_PAGE;
+        const startCount = (this.state.page * USERS_PER_PAGE) + 1;
         let endCount = (this.state.page + 1) * USERS_PER_PAGE;
         if (endCount > total) {
             endCount = total;
         }
 
-        return { startCount, endCount, total };
+        return {startCount, endCount, total};
     }
 
-    getRows() {
-        const {startCount, endCount} = this.getPaginationProps()
-        const usersToDisplay = this.props.users.slice(startCount - 1, endCount);
+    getRows = () => {
+        const {startCount, endCount} = this.getPaginationProps();
+        const {usersToRemove, page} = this.state;
+
+        let usersToDisplay = this.props.users;
+        usersToDisplay = usersToDisplay.filter((user) => !usersToRemove[user.id]);
+        usersToDisplay = usersToDisplay.slice(startCount - 1, endCount);
+
+        if (usersToDisplay.length < 10 && this.props.users.length < (this.state.totalCount || 0)) {
+            const numberOfUsersRemoved = Object.keys(usersToRemove).length;
+            const pagesOfUsersRemoved = Math.floor(numberOfUsersRemoved / USERS_PER_PAGE);
+            const pageToLoad = page + pagesOfUsersRemoved + 1;
+
+            // Directly call action to load more users from parent component to load more users into the state
+            this.props.loadPage(pageToLoad);
+        }
 
         return usersToDisplay.map((user) => {
             return {
                 ...user,
-                name: `${user.first_name} ${user.last_name}`,
+                name: this.renderCell('name', user),
+                role: 'Member',
+                remove: this.renderCell('remove', user),
             };
         });
     }
 
-    render() {
-        const columns = [
-            {name: 'Name', field: 'name', width: 2},
-            {name: 'Position', field: 'position'},
-            {name: 'Email', field: 'email'},
+    removeUser = (user: UserProfile) => {
+        const {usersToRemove} = this.state;
+        if (usersToRemove[user.id] === user) {
+            return;
+        }
+
+        let {visibleCount, page} = this.state;
+        const {endCount} = this.getPaginationProps();
+
+        this.props.removeUser(user);
+        usersToRemove[user.id] = user;
+        visibleCount--;
+
+        if (endCount > visibleCount && (endCount % USERS_PER_PAGE) === 1 && page > 0) {
+            page--;
+        }
+
+        this.setState({usersToRemove, visibleCount, page});
+    }
+
+    renderCell = (rowName: string, user: UserProfile) => {
+        let cell: JSX.Element;
+        switch (rowName) {
+        case 'name':
+            cell = (
+                <div className='ug-name-row'>
+                    <ProfilePicture
+                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                        status={status}
+                        size='md'
+                    />
+
+                    <div className='ug-name'>
+                        {`${user.username} - ${user.first_name} ${user.last_name}`}
+                        <br/>
+                        <span className='ug-email'>
+                            {user.email}
+                        </span>
+                    </div>
+                </div>
+            );
+            break;
+        case 'remove':
+            cell = (
+                <div className='ug-remove-row'>
+                    <a
+                        onClick={() => this.removeUser(user)}
+                        href='#'
+                    >
+                        <span>{'Remove'}</span>
+                    </a>
+                </div>
+            );
+            break;
+        }
+        return cell;
+    }
+
+    render = () => {
+        const columns: Column[] = [
+            {name: 'Name', field: 'name', width: 3, fixed: true},
+            {name: 'Role', field: 'role'},
+            {name: '', field: 'remove', textAlign: 'right', fixed: true},
         ];
+        const rows = this.getRows();
+        const {startCount, endCount, total} = this.getPaginationProps();
 
         return (
-            <AdminPanel
-                id='user_grid'
-                titleId={t(this.props.titleId)}
-                titleDefault={this.props.titleDefault}
-                subtitleId={t(this.props.subtitleId)}
-                subtitleDefault={this.props.subtitleDefault}
-            >
-                <DataGrid
-                    columns={columns}
-                    rows={this.getRows()}
-                    loading={this.state.loading}
-                    page={this.state.page}
-                    nextPage={this.nextPage}
-                    previousPage={this.previousPage}
-                    {...this.getPaginationProps()}
-                />
-            </AdminPanel>
+            <DataGrid
+                columns={columns}
+                rows={rows}
+                loading={this.state.loading}
+                page={this.state.page}
+                nextPage={this.nextPage}
+                previousPage={this.previousPage}
+                startCount={startCount}
+                endCount={endCount}
+                total={total}
+            />
         );
     }
 }

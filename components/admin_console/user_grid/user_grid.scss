@@ -1,0 +1,17 @@
+.ug-name-row {
+    display: flex;
+    height: 80px;
+
+    .ug-name {
+        align-self: center;
+        flex-grow: 1;
+        flex-shrink: 1;
+        overflow: hidden;
+        padding-left: 10px;
+        text-overflow: ellipsis;
+    }
+}
+
+.ug-remove-row {
+    padding-right: 20px;
+}
