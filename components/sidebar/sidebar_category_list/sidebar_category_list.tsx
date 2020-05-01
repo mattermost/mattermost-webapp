@@ -357,7 +357,6 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         // // Ensure no channels are animating
         this.channelRefs.forEach((ref) => ref.classList.remove('animating'));
 
-        // TODO: Refactor into better code
         // Turn off scrolling temporarily so that dimensions can be captured
         const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
         droppable[0].style.height = `${droppable[0].scrollHeight}px`;
