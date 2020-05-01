@@ -45,8 +45,6 @@ class RhsRootPost extends React.PureComponent {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
-        channelType: PropTypes.string,
-        channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
 
         /**
@@ -229,24 +227,12 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
-
-        let channelName;
-        if (channelType === 'D') {
-            channelName = (
-                <FormattedMessage
-                    id='rhs_root.direct'
-                    defaultMessage='Direct Message'
-                />
-            );
-        } else {
-            channelName = channelDisplayName;
-        }
 
         let postReaction;
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
@@ -421,7 +407,6 @@ class RhsRootPost extends React.PureComponent {
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
             >
-                <div className='post-right-channel__name'>{channelName}</div>
                 <div
                     role='application'
                     className='post__content'
