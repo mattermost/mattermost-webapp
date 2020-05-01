@@ -1,34 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 import PropTypes from 'prop-types';
 import configureStore from 'redux-mock-store';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {SidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import UserSettingsSidebar from 'components/user_settings/sidebar/user_settings_sidebar.jsx';
+import UserSettingsSidebar from 'components/user_settings/sidebar/user_settings_sidebar';
+
+import {UserSettingsSidebarProps} from './user_settings_sidebar';
 
 describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
-    const defaultProps = {
+    const defaultProps: UserSettingsSidebarProps = {
         closeUnusedDirectMessages: 'after_seven_days',
-        displayUnreadSection: 'true',
         showUnusedOption: false,
         channelSwitcherOption: 'true',
         channelSidebarOrganizationOption: 'false',
-        showGroupSortOptions: true,
         showChannelOrganization: true,
         showChannelSidebarOrganization: true,
         sidebarPreference: {
             grouping: 'by_type',
             sorting: 'alpha',
-        },
+        } as SidebarPreferences,
         unreadsAtTop: 'true',
         favoriteAtTop: 'true',
         user: {
             id: 'someuserid',
-        },
+        } as UserProfile,
         closeModal: () => () => true,
         collapseModal: () => () => true,
         updateSection: () => () => true,
@@ -64,8 +68,8 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
     test('should match state when updateSection is called', () => {
         const newUpdateSection = jest.fn();
         const updateArg = 'unreadChannels';
-        const props = {...defaultProps, updateSection: newUpdateSection};
-        const wrapper = shallow(<UserSettingsSidebar {...props}/>);
+        const props: UserSettingsSidebarProps = {...defaultProps, updateSection: newUpdateSection};
+        const wrapper: ShallowWrapper<{}, {}, UserSettingsSidebar> = shallow(<UserSettingsSidebar {...props}/>);
 
         wrapper.setState({isSaving: true,
             settings: {
@@ -172,7 +176,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
     });
 
     test('should pass handleChange for channel grouping', () => {
-        const props = {
+        const props: UserSettingsSidebarProps = {
             ...defaultProps,
             activeSection: 'groupChannels',
             sidebarPreference: {
