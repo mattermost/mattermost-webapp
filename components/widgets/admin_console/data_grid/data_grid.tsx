@@ -2,46 +2,50 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import DataGridHeader from './data_grid_header';
-import DataGridRow from './data_grid_row';
+import {FormattedMessage} from 'react-intl';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 
-import {FormattedMessage} from 'react-intl';
+import DataGridHeader from './data_grid_header';
+import DataGridRow from './data_grid_row';
 
 import './data_grid.scss';
 
 export type Column = {
-    name: string,
-    field: string,
-    width?: number,
-    fixed?: boolean,
+    name: string;
+    field: string;
+    width?: number;
+    fixed?: boolean;
 
-    textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined,
+    textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined;
 }
 
 type Props = {
-    rows: any[],
-    rowComponent?: React.ComponentClass,
-    columns: Column[],
+    rows: any[];
+    rowComponent?: React.ComponentClass;
+    columns: Column[];
 
-    page: number,
-    startCount: number,
-    endCount: number,
-    total?: number,
-    loading: boolean,
+    minimumColumnWidth?: number;
+
+    page: number;
+    startCount: number;
+    endCount: number;
+    total?: number;
+    loading: boolean;
 
     nextPage: () => void;
     previousPage: () => void;
 };
 
 type State = {
-    visibleColumns: Column[],
-    fixedColumns: Column[],
-    hiddenColumns: Column[],
+    visibleColumns: Column[];
+    fixedColumns: Column[];
+    hiddenColumns: Column[];
+    minimumColumnWidth: number;
 };
+
+const MINIMUM_COLUMN_WIDTH = 150;
 
 class DataGrid extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
@@ -49,10 +53,16 @@ class DataGrid extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        let minimumColumnWidth = MINIMUM_COLUMN_WIDTH;
+        if (props.minimumColumnWidth) {
+            minimumColumnWidth = props.minimumColumnWidth;
+        }
+
         this.state = {
             visibleColumns: this.props.columns,
             hiddenColumns: [],
             fixedColumns: this.props.columns.filter((col) => col.fixed),
+            minimumColumnWidth,
         };
 
         this.ref = React.createRef();
@@ -68,19 +78,19 @@ class DataGrid extends React.PureComponent<Props, State> {
             return;
         }
 
+        const {minimumColumnWidth, fixedColumns} = this.state;
+        const fixedColumnWidth = (fixedColumns.length * minimumColumnWidth);
+
         let visibleColumns: Column[] = this.props.columns;
-        const numVisibleColumns = (this.ref.current.clientWidth - 50) / 125 - this.state.fixedColumns.length;
-        let columnCount = 0;
+        let availableWidth = this.ref.current.clientWidth - fixedColumnWidth - 50;
 
         visibleColumns = visibleColumns.filter((column) => {
-            if (column.fixed) {
+            if (availableWidth > minimumColumnWidth) {
+                availableWidth -= minimumColumnWidth;
                 return true;
-            } else if (numVisibleColumns > columnCount) {
-                columnCount += column.width || 1;
-                return true
             }
 
-            return false;
+            return Boolean(column.fixed);
         });
 
         this.setState({visibleColumns});
@@ -124,51 +134,63 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     renderFooter() {
-        const { startCount, endCount, total } = this.props;
+        const {startCount, endCount, total} = this.props;
+        let footer;
 
-        if (!total) {
-            return;
+        if (total) {
+            const firstPage = startCount <= 1;
+            const lastPage = endCount >= total;
+
+            let prevPageFn: () => void;
+            if (!firstPage) {
+                prevPageFn = this.previousPage;
+            }
+
+            let nextPageFn: () => void;
+            if (!lastPage) {
+                nextPageFn = this.nextPage;
+            }
+
+            footer = (
+                <div className='dg-row'>
+                    <div className='dg-cell dg-footer'>
+                        <FormattedMessage
+                            id='admin.data_grid.paginatorCount'
+                            defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
+                            values={{
+                                startCount,
+                                endCount,
+                                total,
+                            }}
+                        />
+
+                        <button
+                            className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                            onClick={() => prevPageFn}
+                            disabled={firstPage}
+                        >
+                            <PreviousIcon/>
+                        </button>
+                        <button
+                            className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                            onClick={() => nextPageFn}
+                            disabled={lastPage}
+                        >
+                            <NextIcon/>
+                        </button>
+                    </div>
+                </div>
+            );
         }
 
-        const firstPage = startCount <= 1;
-        const lastPage = endCount >= total;
-
-        return (
-            <div className="dg-row">
-                <div className="dg-cell dg-footer">
-                    <FormattedMessage
-                        id='admin.data_grid.paginatorCount'
-                        defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
-                        values={{
-                            startCount,
-                            endCount,
-                            total,
-                        }}
-                    />
-
-                    <button
-                        className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                        onClick={firstPage ? undefined : this.previousPage}
-                        disabled={firstPage}
-                    >
-                        <PreviousIcon/>
-                    </button>
-                    <button
-                        className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                        onClick={lastPage ? undefined : this.nextPage}
-                        disabled={lastPage}
-                    >
-                        <NextIcon/>
-                    </button>
-                </div>
-            </div>
-        );
+        return footer;
     }
-
 
     public render() {
         const styleOverrides = {
+
             // TODO: Add generated styles here based on props
+
         };
 
         return (

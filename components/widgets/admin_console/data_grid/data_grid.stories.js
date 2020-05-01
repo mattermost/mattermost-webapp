@@ -14,9 +14,9 @@ const baseProps = {
     total: 50,
     loading: false,
 
-    nextPage: () => {},
-    previousPage: () => {},
-}
+    nextPage: null,
+    previousPage: null,
+};
 
 const twoColumnGrid = {
     rows: [
@@ -31,7 +31,6 @@ const twoColumnGrid = {
     ],
 };
 
-
 const fourColumnGrid = {
     rows: [
         {name: 'Joe Schmoe', team: 'Admin Team', role: 'Member', group: 'Developers'},
@@ -40,23 +39,32 @@ const fourColumnGrid = {
     ],
 
     columns: [
-        {name: 'Name', field: 'name'},
+        {name: 'Name', field: 'name', width: 2, fixed: true},
         {name: 'Team', field: 'team'},
         {name: 'Role', field: 'role'},
-        {name: 'Group', field: 'group'},
+        {name: 'Group', field: 'group', fixed: true},
     ],
 };
-
 
 storiesOf('Data Grid', module).
     add(
         '2 column grid',
         () => {
-            return (<DataGrid {...baseProps} {...twoColumnGrid}></DataGrid>);
+            return (
+                <DataGrid
+                    {...baseProps}
+                    {...twoColumnGrid}
+                />
+            );
         }
     ).add(
         '4 column grid',
         () => {
-            return (<DataGrid {...baseProps} {...fourColumnGrid}></DataGrid>);
+            return (
+                <DataGrid
+                    {...baseProps}
+                    {...fourColumnGrid}
+                />
+            );
         }
     );
