@@ -85,7 +85,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         if (this.state.isMenuOpen && this.menuButtonRef.current && this.menuRef) {
             const menuRef = this.menuRef.node.current?.parentElement as HTMLDivElement;
             const openUpOffset = this.state.openUp ? -this.menuButtonRef.current.getBoundingClientRect().height : 0;
-            menuRef.style.top = `${this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight + openUpOffset}px`;
+            menuRef.style.top = `${window.scrollY + this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight + openUpOffset}px`;
         }
     }
 
