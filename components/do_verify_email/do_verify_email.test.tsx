@@ -4,15 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import DoVerifyEmail from 'components/do_verify_email/do_verify_email.jsx';
+import DoVerifyEmail from 'components/do_verify_email/do_verify_email';
 
 describe('components/DoVerifyEmail', () => {
     const requiredProps = {
         location: {
-            query: {
-                token: '9f392f193973g11ggh398h39hg0ghH',
-                email: 'test@example.com',
-            },
+            search: '?token=9f392f193973g11ggh398h39hg0ghH&email=test@example.com'
         },
         siteName: 'Mattermost',
         actions: {
@@ -45,6 +42,7 @@ describe('components/DoVerifyEmail', () => {
             <DoVerifyEmail {...requiredProps}/>
         );
 
-        expect(wrapper.state('serverError')).not.toBeNull();
+        expect(wrapper.state('serverError')).toBeDefined();
+        expect(wrapper.state('serverError')).toBeNull();
     });
 });
