@@ -199,6 +199,10 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+
+    SIDEBAR_DRAGGING_SET_STATE: null,
+    SIDEBAR_DRAGGING_STOP: null,
+
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
 });
@@ -280,6 +284,7 @@ export const A11yAttributeNames = {
     ORDER_REVERSE: 'data-a11y-order-reversed',
     FOCUS_CHILD: 'data-a11y-focus-child',
     LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+    DISABLE_NAVIGATION: 'data-a11y-disable-nav',
 };
 
 export const A11yCustomEventTypes = {
@@ -577,6 +582,18 @@ export const GroupUnreadChannels = {
 export const SidebarChannelGroups = {
     UNREADS: 'unreads',
     FAVORITE: 'favorite',
+};
+
+export const DraggingStates = {
+    CAPTURE: 'capture',
+    BEFORE: 'before',
+    DURING: 'during',
+};
+
+export const DraggingStateTypes = {
+    CATEGORY: 'category',
+    CHANNEL: 'channel',
+    DM: 'DM',
 };
 
 export const AboutLinks = {

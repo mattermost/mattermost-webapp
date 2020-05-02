@@ -28,6 +28,7 @@ describe('components/sidebar/sidebar_channel', () => {
             scheme_id: '',
             group_constrained: false,
         },
+        channelIndex: 0,
         currentTeamName: 'team_name',
         unreadMentions: 0,
         unreadMsgs: 0,
@@ -36,6 +37,10 @@ describe('components/sidebar/sidebar_channel', () => {
         setChannelRef: jest.fn(),
         isCategoryCollapsed: false,
         isCurrentChannel: false,
+        isDMCategory: false,
+        isCategoryDragged: false,
+        isDropDisabled: false,
+        draggingState: {},
     };
 
     test('should match snapshot', () => {
