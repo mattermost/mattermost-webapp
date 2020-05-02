@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {ZoomSettings} from 'utils/constants';
 
 export default class PopoverBar extends React.PureComponent {
     static propTypes = {
@@ -17,6 +20,11 @@ export default class PopoverBar extends React.PureComponent {
         canDownloadFiles: PropTypes.bool.isRequired,
         isExternalFile: PropTypes.bool.isRequired,
         onGetPublicLink: PropTypes.func,
+        scale: PropTypes.number,
+        showZoomBtn: PropTypes.bool,
+        handleZoomIn: PropTypes.func,
+        handleZoomOut: PropTypes.func,
+        handleZoomReset: PropTypes.func,
     };
 
     static defaultProps = {
@@ -31,7 +39,7 @@ export default class PopoverBar extends React.PureComponent {
         var publicLink = '';
         if (this.props.enablePublicLink && this.props.showPublicLink) {
             publicLink = (
-                <div>
+                <span>
                     <a
                         href='#'
                         className='public-link text'
@@ -44,7 +52,7 @@ export default class PopoverBar extends React.PureComponent {
                         />
                     </a>
                     <span className='text'>{' | '}</span>
-                </div>
+                </span>
             );
         }
 
@@ -86,6 +94,45 @@ export default class PopoverBar extends React.PureComponent {
             );
         }
 
+        let zoomInButton;
+        if (this.props.showZoomBtn) {
+            if (this.props.scale < ZoomSettings.MAX_SCALE) {
+                zoomInButton = (
+                    <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>{' + '}</a>
+                );
+            } else {
+                zoomInButton = (
+                    <span className='btn-inactive'>{' + '}</span>
+                );
+            }
+        }
+
+        let zoomOutButton;
+        if (this.props.showZoomBtn) {
+            if (this.props.scale > ZoomSettings.MIN_SCALE) {
+                zoomOutButton = (
+                    <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>{' - '}</a>
+                );
+            } else {
+                zoomOutButton = (
+                    <span className='btn-inactive'>{' - '}</span>
+                );
+            }
+        }
+
+        let zoomResetButton;
+        if (this.props.showZoomBtn) {
+            if (this.props.scale > ZoomSettings.DEFAULT_SCALE || this.props.scale < ZoomSettings.DEFAULT_SCALE) {
+                zoomResetButton = (
+                    <a onClick={this.props.handleZoomReset}>{' Reset '}</a>
+                );
+            } else {
+                zoomResetButton = (
+                    <span className='btn-inactive'>{' Reset '}</span>
+                );
+            }
+        }
+
         return (
             <div
                 data-testid='fileCountFooter'
@@ -102,7 +149,14 @@ export default class PopoverBar extends React.PureComponent {
                         }}
                     />
                 </span>
-                {downloadLinks}
+                <span className='modal-zoom'>
+                    {zoomOutButton}
+                    {zoomResetButton}
+                    {zoomInButton}
+                </span>
+                <span className='pull-right text'>
+                    {downloadLinks}
+                </span>
             </div>
         );
     }
