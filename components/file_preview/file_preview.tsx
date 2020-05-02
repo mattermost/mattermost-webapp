@@ -118,14 +118,16 @@ export default class FilePreview extends React.PureComponent<Props> {
             const uploadsProgressPercent = this.props.uploadsProgressPercent;
             this.props.uploadsInProgress.forEach((clientId) => {
                 const fileInfo = uploadsProgressPercent[clientId];
-                previews.push(
-                    <FileProgressPreview
-                        key={clientId}
-                        clientId={clientId}
-                        fileInfo={fileInfo}
-                        handleRemove={this.handleRemove}
-                    />
-                );
+                if (fileInfo) {
+                    previews.push(
+                        <FileProgressPreview
+                            key={clientId}
+                            clientId={clientId}
+                            fileInfo={fileInfo}
+                            handleRemove={this.handleRemove}
+                        />
+                    );
+                }
             });
         }
 
