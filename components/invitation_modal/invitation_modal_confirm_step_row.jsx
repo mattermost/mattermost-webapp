@@ -25,7 +25,6 @@ export default class InvitationModalConfirmStepRow extends React.Component {
         super();
         this.state = {
             fixing: false,
-            fixed: false,
             error: false,
         };
     }
@@ -34,9 +33,9 @@ export default class InvitationModalConfirmStepRow extends React.Component {
         this.setState({fixing: true});
         try {
             const fixed = await this.props.fixInviteRow(this.props.invitation.user);
-            this.setState({fixing: false, fixed, error: !fixed});
+            this.setState({fixing: false, error: !fixed});
         } catch {
-            this.setState({fixing: false, fixed: false, error: true});
+            this.setState({fixing: false, error: true});
         }
     }
 
@@ -85,13 +84,6 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             reason = (
                 <div className='reason-with-fix'>
                     {reason}
-                    {this.state.fixed &&
-                        <b>
-                            <FormattedMessage
-                                id='invite.members.is-already-user-not-in-team.fixed'
-                                defaultMessage='Added member to channels'
-                            />
-                        </b>}
                     {this.state.error &&
                         <b className='fix-error'>
                             <FormattedMessage
@@ -106,7 +98,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                                 defaultMessage='Adding member to channels'
                             />
                         </a>}
-                    {!this.state.fixing && !this.state.fixed && !this.state.error &&
+                    {!this.state.fixing && !this.state.error &&
                         <a onClick={this.addUserToChannels}>
                             <FormattedMessage
                                 id='invite.members.is-already-user-not-in-team.add-to-channels'
@@ -119,13 +111,6 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             reason = (
                 <div className='reason-with-fix'>
                     {reason}
-                    {this.state.fixed &&
-                        <span className='fixed'>
-                            <FormattedMessage
-                                id='invite.members.is-already-user-in-team.fixed'
-                                defaultMessage='Added member to team and channels'
-                            />
-                        </span>}
                     {this.state.error &&
                         <span className='fix-error'>
                             <FormattedMessage
@@ -140,7 +125,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                                 defaultMessage='Adding member to team and channels'
                             />
                         </a>}
-                    {!this.state.fixing && !this.state.fixed && !this.state.error &&
+                    {!this.state.fixing && !this.state.error &&
                         <a onClick={this.addUserToChannels}>
                             <FormattedMessage
                                 id='invite.members.is-already-user-in-team.add-to-channels'

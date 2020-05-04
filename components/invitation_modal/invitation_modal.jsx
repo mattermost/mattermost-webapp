@@ -94,7 +94,8 @@ export default class InvitationModal extends React.Component {
             return false;
         }
 
-        this.state.invitesSent.push({user, reason: localizeMessage('invite.members.added-to-channel', 'This member has been added to the channels.')});
+        this.setState({invitesSent: [...this.state.invitesSent, {user, reason: localizeMessage('invite.members.added-to-channel', 'This member has been added to the channels.')}]});
+        this.setState({invitesNotSent: this.state.invitesNotSent.filter((invite) => invite.user.id !== user.id)});
 
         return true;
     }
