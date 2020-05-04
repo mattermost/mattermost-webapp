@@ -308,9 +308,14 @@ async function runTests() {
     const summary = generateShortSummary(jsonReport);
     writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
 
+    const result = await saveArtifacts(`../${mochawesomeReportDir}`, bucketFolder);
+    if (result && result.success) {
+        console.log('Successfully uploaded artifacts.');
+    }
+
     // Send test report to "QA: UI Test Automation" channel via webhook
     if (WEBHOOK_URL) {
-        const data = generateTestReport(summary);
+        const data = generateTestReport(summary, result && result.success, bucketFolder);
         await sendReport('summary report', WEBHOOK_URL, data);
     }
 
@@ -331,11 +336,6 @@ async function runTests() {
         await sendReport('dashboard data', TEST_DASHBOARD_URL, data);
     }
 
-    const result = await saveArtifacts(`../${mochawesomeReportDir}`, bucketFolder);
-    if (result && result.success) {
-        console.log('Successfully uploaded artifacts.');
-    }
-
     // exit with the number of failed tests
     process.exit(failedTests);
 }
@@ -347,7 +347,7 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateTestReport(summary) {
+function generateTestReport(summary, isUploadedToS3, bucketFolder) {
     const {BRANCH, BROWSER, BUILD_ID} = process.env;
     const {statsFieldValue, stats} = summary;
 
@@ -359,20 +359,10 @@ function generateTestReport(summary) {
         }
     }
 
-    return {
-        username: 'Cypress UI Test',
-        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-        attachments: [{
-            color: testResult.color,
-            author_name: 'Cypress UI Test',
-            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-            author_link: 'https://www.mattermost.com',
-            title: `Cypress UI Test Automation #${BUILD_ID} ${testResult.status}!`,
-            fields: [{
-                short: false,
-                title: 'Environment',
-                value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
-            }, {
+    let jenkinsFields = [];
+    if (BUILD_ID) {
+        jenkinsFields = [
+            {
                 short: false,
                 title: 'Test Report',
                 value: `[Link to the report](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/artifact/mattermost-webapp/e2e/results/mochawesome-report/mochawesome.html)`,
@@ -384,11 +374,44 @@ function generateTestReport(summary) {
                 short: false,
                 title: 'New Commits',
                 value: `[Link to the new commits](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/changes)`,
-            }, {
+            }
+        ];
+    }
+
+    let awsS3Fields;
+    if (isUploadedToS3) {
+        awsS3Fields = [
+            {
                 short: false,
-                title: `Key metrics (required support: ${testResult.priority})`,
-                value: statsFieldValue,
-            }],
+                title: 'Test Report',
+                value: `[Link to the report](https://${process.env.AWS_S3_BUCKET}.s3.amazonaws.com/${bucketFolder}/mochawesome.html)`,
+            },
+        ];
+    }
+
+    return {
+        username: 'Cypress UI Test',
+        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+        attachments: [{
+            color: testResult.color,
+            author_name: 'Cypress UI Test',
+            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            author_link: 'https://www.mattermost.com',
+            title: `Cypress UI Test Automation ${testResult.status}!`,
+            fields: [
+                {
+                    short: false,
+                    title: 'Environment',
+                    value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
+                },
+                ...jenkinsFields,
+                ...awsS3Fields,
+                {
+                    short: false,
+                    title: `Key metrics (required support: ${testResult.priority})`,
+                    value: statsFieldValue,
+                }
+            ],
             image_url: 'https://pbs.twimg.com/profile_images/1044345247440896001/pXI1GDHW_bigger.jpg'
         }],
     };
