@@ -3,19 +3,25 @@
 
 import React from 'react';
 
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import {UserProfile} from 'mattermost-redux/types/users';
+import {TeamMembership} from 'mattermost-redux/types/teams';
 
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
+import {Role} from 'components/admin_console/user_grid/user_grid_role_dropdown';
 
 type Props = {
     teamId: string;
 
-    users: any[];
+    users: UserProfile[];
+    teamMembers: Dictionary<TeamMembership>;
 
-    removeUser: (user: any) => void;
+    removeUser: (user: UserProfile) => void;
+    updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
 
     stats: {
         active_member_count: number;
@@ -60,6 +66,10 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         this.props.removeUser(user);
     }
 
+    updateMemberRolesForUser = (userId: string, role: Role) => {
+        this.props.updateRole(userId, true, role.includes('admin'));
+    }
+
     render = () => {
         return (
             <AdminPanel
@@ -74,6 +84,8 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}
                     totalCount={this.props.stats.total_member_count}
+                    memberships={this.props.teamMembers}
+                    updateMemberRolesForUser={this.updateMemberRolesForUser}
                 />
             </AdminPanel>
         );

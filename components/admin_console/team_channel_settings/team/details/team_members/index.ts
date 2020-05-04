@@ -9,7 +9,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
 
-import {getTeamStats} from 'mattermost-redux/selectors/entities/teams';
+import {getMembersInTeams, getTeamStats, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndTeamMembers} from 'actions/user_actions.jsx';
@@ -32,6 +32,8 @@ type Actions = {
 function mapStateToProps(state: GlobalState, props: Props) {
     const {teamId} = props;
     const users = getProfilesInTeam(state, teamId);
+    const teamMembers = getMembersInTeams(state)[teamId] || {};
+
     let stats = getTeamStats(state)[teamId];
     if (!stats) {
         stats = {
@@ -44,6 +46,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
     return {
         stats,
         users,
+        teamMembers,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
