@@ -7,7 +7,7 @@
         border: 1px solid v(center-channel-color-24);
         height: 100%;
         line-height: 20px;
-        min-height: 36px;
+        min-height: 46px;
         overflow: hidden;
         resize: none;
         white-space: pre-wrap;
@@ -1862,15 +1862,18 @@
     width: 100%;
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {
+        background: linear-gradient(transparent, v(center-channel-bg));
         position: relative;
     }
 
     .post-collapse__show-more, .post-attachment-collapse__show-more {
+        background: v(center-channel-bg);
         pointer-events: auto;
     }
 }
 
 .post-collapse__show-more {
+    background: v(center-channel-bg);
     padding-bottom: 10px;
 }
 

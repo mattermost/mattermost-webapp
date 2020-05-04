@@ -284,6 +284,10 @@ export function handleEvent(msg) {
         handleUpdateTeamEvent(msg);
         break;
 
+    case SocketEvents.UPDATE_TEAM_SCHEME:
+        handleUpdateTeamSchemeEvent(msg);
+        break;
+
     case SocketEvents.DELETE_TEAM:
         handleDeleteTeamEvent(msg);
         break;
@@ -646,6 +650,10 @@ function handleUpdateTeamEvent(msg) {
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
 }
 
+function handleUpdateTeamSchemeEvent() {
+    dispatch(TeamActions.getMyTeamMembers());
+}
+
 function handleDeleteTeamEvent(msg) {
     const deletedTeam = JSON.parse(msg.data.team);
     const state = store.getState();
@@ -836,15 +844,24 @@ export async function handleUserUpdatedEvent(msg) {
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
 
-    if (isGuest(user)) {
+    const config = getConfig(state);
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const userIsGuest = isGuest(user);
+    if (userIsGuest || isTimezoneEnabled) {
         let members = getMembersInCurrentChannel(state);
         const currentChannelId = getCurrentChannelId(state);
-        if (members && members[user.id]) {
-            dispatch(getChannelStats(currentChannelId));
-        } else {
+        let memberExists = members && members[user.id];
+        if (!memberExists) {
             await dispatch(getChannelMember(currentChannelId, user.id));
             members = getMembersInCurrentChannel(getState());
-            if (members && members[user.id]) {
+            memberExists = members && members[user.id];
+        }
+
+        if (memberExists) {
+            if (isTimezoneEnabled) {
+                dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
+            }
+            if (isGuest(user)) {
                 dispatch(getChannelStats(currentChannelId));
             }
         }
