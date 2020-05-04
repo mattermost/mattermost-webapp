@@ -78,6 +78,7 @@ describe('components/sidebar/sidebar_category_list', () => {
         ],
         unreadChannelIds: ['channel_id_2'],
         displayedChannels: [currentChannel, unreadChannel],
+        newCategoryIds: [],
         isUnreadFilterEnabled: false,
         draggingState: {},
         categoryCollapsedState: {},

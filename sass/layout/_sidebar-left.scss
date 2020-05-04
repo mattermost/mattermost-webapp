@@ -448,6 +448,61 @@
         }
     }
 
+    .SidebarCategory_newLabel {
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        color: var(--mention-color);
+        border-radius: 4px;
+        background: var(--mention-bg);
+        width: 32px;
+        height: 16px;
+        padding: 0 4px;
+        margin-left: 4px;
+        margin-right: 16px;
+    }
+
+    .SidebarCategory_newDropBox {
+        border: 1px dashed var(--sidebar-text-30);
+        border-radius: 4px;
+        margin: 0 16px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+
+        > i {
+            font-size: 18px;
+            line-height: 16px;
+            color: var(--sidebar-text-60);
+        }
+
+        .SidebarCategory_newDropBox-label {
+            font-size: 12px;
+            line-height: 16px;
+            color: var(--sidebar-text-72);
+            margin-left: 8px;
+        }
+
+        &.animating {
+            transition-property: height, padding, color;
+            transition-duration: 0.15s; /* collapse animation speed */
+            transition-timing-function: ease-out;
+        }
+
+        &.collapsed {
+            height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            border-top: none;
+            border-bottom: none;
+            overflow-y: hidden;
+        }
+    }
+
     .SidebarChannelGroup .SidebarChannelGroupHeader {
         height: 32px;
         font-family: 'Open Sans', sans-serif;
@@ -485,6 +540,14 @@
         width: 100%;
         align-items: center;
 
+        > div:not(.SidebarCategory_newLabel):not(.SidebarMenu) {
+            flex: 0 1 auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            cursor: pointer;
+        }
+
         &.dragging {
             border-radius: 4px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
@@ -495,11 +558,6 @@
             //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
             box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
             border-radius: 4px;
-        }
-
-        > div:not(.SidebarMenu) {
-            flex: 1 1 auto;
-            cursor: pointer;
         }
 
         i.icon-chevron-down {

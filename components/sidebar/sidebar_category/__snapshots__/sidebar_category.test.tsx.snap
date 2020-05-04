@@ -20,6 +20,16 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
 </PublicDraggable>
 `;
 
+exports[`components/sidebar/sidebar_category should match snapshot when isNewCategory 1`] = `
+<PublicDraggable
+  disableInteractiveElementBlocking={true}
+  draggableId="category1"
+  index={0}
+>
+  <Component />
+</PublicDraggable>
+`;
+
 exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
 <PublicDraggable
   disableInteractiveElementBlocking={true}

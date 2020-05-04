@@ -53,6 +53,7 @@ type Props = {
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     displayedChannels: Channel[];
+    newCategoryIds: string[];
     draggingState: DraggingState;
     categoryCollapsedState: Record<string, boolean>;
 
@@ -341,6 +342,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
                 getChannelRef={this.getChannelRef}
+                isNewCategory={this.props.newCategoryIds.includes(category.id)}
             />
         );
     }
