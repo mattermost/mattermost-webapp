@@ -38,6 +38,7 @@ type State = {
     showNewChannelModal: boolean;
     showCreateCategoryModal: boolean;
     newCategoryIds: string[];
+    isDragging: boolean;
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
@@ -49,6 +50,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showNewChannelModal: false,
             showCreateCategoryModal: false,
             newCategoryIds: [],
+            isDragging: false,
         };
     }
 
@@ -104,6 +106,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     handleNewChannelForMoreChannelsModal = () => {
         this.hideMoreChannelsModal();
         this.showNewChannelModal();
+    }
+
+    onDragStart = () => {
+        this.setState({isDragging: true});
+    }
+
+    onDragEnd = () => {
+        this.setState({isDragging: false});
     }
 
     renderModals = () => {
@@ -162,6 +172,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 id='SidebarContainer'
                 className={classNames({
                     'move--right': this.props.isOpen && Utils.isMobile(),
+                    dragging: this.state.isDragging,
                 })}
             >
                 <SidebarHeader/>
@@ -185,6 +196,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <SidebarCategoryList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     newCategoryIds={this.state.newCategoryIds}
+                    onDragStart={this.onDragStart}
+                    onDragEnd={this.onDragEnd}
                 />
                 {this.renderModals()}
             </div>
