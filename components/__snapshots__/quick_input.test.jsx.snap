@@ -59,7 +59,9 @@ exports[`components/QuickInput should render clear button with customized toolti
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        ×
+        <i
+          className="icon icon-close-circle"
+        />
       </span>
     </OverlayTrigger>
   </OverlayTrigger>
@@ -121,7 +123,9 @@ exports[`components/QuickInput should render clear button with customized toolti
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        ×
+        <i
+          className="icon icon-close-circle"
+        />
       </span>
     </OverlayTrigger>
   </OverlayTrigger>
@@ -191,7 +195,9 @@ exports[`components/QuickInput should render clear button with default tooltip t
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        ×
+        <i
+          className="icon icon-close-circle"
+        />
       </span>
     </OverlayTrigger>
   </OverlayTrigger>

@@ -7,14 +7,12 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
-import TeamMembersModal from 'components/team_members_modal';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
 
@@ -41,9 +39,6 @@ export default class PopoverListMembers extends React.Component {
 
         this.state = {
             showPopover: false,
-            showTeamMembersModal: false,
-            showChannelMembersModal: false,
-            showChannelInviteModal: false,
             users: props.users,
             statuses: props.statuses,
         };
@@ -80,26 +75,15 @@ export default class PopoverListMembers extends React.Component {
     showMembersModal = (e) => {
         e.preventDefault();
 
-        this.setState({
-            showPopover: false,
-            showChannelMembersModal: true,
-        });
-    };
+        this.closePopover();
 
-    hideChannelMembersModal = () => {
-        this.setState({showChannelMembersModal: false});
-    };
+        const modalData = {
+            modalId: ModalIdentifiers.CHANNEL_MEMBERS,
+            dialogProps: this.props,
+            dialogType: ChannelMembersModal
+        };
 
-    showChannelInviteModal = () => {
-        this.setState({showChannelInviteModal: true});
-    };
-
-    hideChannelInviteModal = () => {
-        this.setState({showChannelInviteModal: false});
-    };
-
-    hideTeamMembersModal = () => {
-        this.setState({showTeamMembersModal: false});
+        this.props.actions.openModal(modalData);
     };
 
     handleGetProfilesInChannel = (e) => {
@@ -174,36 +158,6 @@ export default class PopoverListMembers extends React.Component {
                 defaultMessage='Channel Members'
             />
         );
-
-        let channelMembersModal;
-        if (this.state.showChannelMembersModal) {
-            channelMembersModal = (
-                <ChannelMembersModal
-                    onHide={this.hideChannelMembersModal}
-                    showInviteModal={this.showChannelInviteModal}
-                    channel={this.props.channel}
-                />
-            );
-        }
-
-        let teamMembersModal;
-        if (this.state.showTeamMembersModal) {
-            teamMembersModal = (
-                <TeamMembersModal
-                    onHide={this.hideTeamMembersModal}
-                />
-            );
-        }
-
-        let channelInviteModal;
-        if (this.state.showChannelInviteModal) {
-            channelInviteModal = (
-                <ChannelInviteModal
-                    onHide={this.hideChannelInviteModal}
-                    channel={this.props.channel}
-                />
-            );
-        }
 
         const channelMembersTooltip = (
             <Tooltip id='channelMembersTooltip'>
@@ -280,9 +234,6 @@ export default class PopoverListMembers extends React.Component {
                         {popoverButton}
                     </Popover>
                 </Overlay>
-                {channelMembersModal}
-                {teamMembersModal}
-                {channelInviteModal}
             </div>
         );
     }
