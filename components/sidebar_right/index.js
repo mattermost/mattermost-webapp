@@ -4,7 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getCurrentChannel,
+} from 'mattermost-redux/selectors/entities/channels';
 
 import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious} from 'actions/views/rhs';
 import {
@@ -22,12 +25,12 @@ import SidebarRight from './sidebar_right.jsx';
 
 function mapStateToProps(state) {
     const rhsState = getRhsState(state);
-
+    const channel = getCurrentChannel(state);
     const channelId = getSelectedChannelId(state);
 
-    let channel = null;
+    let rhsChannel = null;
     if (channelId) {
-        channel = getChannel(state, channelId);
+        rhsChannel = getChannel(state, channelId);
     }
 
     const selectedPostId = getSelectedPostId(state);
@@ -46,6 +49,7 @@ function mapStateToProps(state) {
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isPluginView: rhsState === RHSStates.PLUGIN,
+        rhsChannel,
         selectedPostId,
         selectedPostCardId,
     };

@@ -2,13 +2,16 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {canDownloadFiles} from 'utils/file_utils.jsx';
+import {GlobalState} from 'types/store';
 
-import FileAttachment from './file_attachment.jsx';
+import {canDownloadFiles} from 'utils/file_utils';
 
-function mapStateToProps(state) {
+import FileAttachment from './file_attachment';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     return {
