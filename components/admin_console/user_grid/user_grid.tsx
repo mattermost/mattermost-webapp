@@ -3,16 +3,22 @@
 
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import {UserProfile} from 'mattermost-redux/types/users';
+import {TeamMembership} from 'mattermost-redux/types/teams';
 
 import DataGrid, {Column} from 'components/widgets/admin_console/data_grid/data_grid';
-import ProfilePicture from 'components/profile_picture';
+
+import UserGridName from './user_grid_name';
+import UserGridRemove from './user_grid_remove';
+import UserGridRole from './user_grid_role';
 
 import './user_grid.scss';
 
 type Props = {
     users: UserProfile[];
+    memberships: Dictionary<TeamMembership>;
 
     loadPage: (page: number) => void;
     removeUser: (user: UserProfile) => void;
@@ -81,33 +87,6 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
-    getRows = () => {
-        const {startCount, endCount} = this.getPaginationProps();
-        const {usersToRemove, page} = this.state;
-
-        let usersToDisplay = this.props.users;
-        usersToDisplay = usersToDisplay.filter((user) => !usersToRemove[user.id]);
-        usersToDisplay = usersToDisplay.slice(startCount - 1, endCount);
-
-        if (usersToDisplay.length < 10 && this.props.users.length < (this.state.totalCount || 0)) {
-            const numberOfUsersRemoved = Object.keys(usersToRemove).length;
-            const pagesOfUsersRemoved = Math.floor(numberOfUsersRemoved / USERS_PER_PAGE);
-            const pageToLoad = page + pagesOfUsersRemoved + 1;
-
-            // Directly call action to load more users from parent component to load more users into the state
-            this.props.loadPage(pageToLoad);
-        }
-
-        return usersToDisplay.map((user) => {
-            return {
-                ...user,
-                name: this.renderCell('name', user),
-                role: 'Member',
-                remove: this.renderCell('remove', user),
-            };
-        });
-    }
-
     removeUser = (user: UserProfile) => {
         const {usersToRemove} = this.state;
         if (usersToRemove[user.id] === user) {
@@ -128,42 +107,41 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.setState({usersToRemove, visibleCount, page});
     }
 
-    renderCell = (rowName: string, user: UserProfile) => {
-        let cell: JSX.Element;
-        switch (rowName) {
-        case 'name':
-            cell = (
-                <div className='ug-name-row'>
-                    <ProfilePicture
-                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
-                        status={status}
-                        size='md'
-                    />
+    getRows = () => {
+        const {startCount, endCount} = this.getPaginationProps();
+        const {usersToRemove, page, totalCount} = this.state;
+        const {memberships, users} = this.props;
 
-                    <div className='ug-name'>
-                        {`${user.username} - ${user.first_name} ${user.last_name}`}
-                        <br/>
-                        <span className='ug-email'>
-                            {user.email}
-                        </span>
-                    </div>
-                </div>
-            );
-            break;
-        case 'remove':
-            cell = (
-                <div className='ug-remove-row'>
-                    <a
-                        onClick={() => this.removeUser(user)}
-                        href='#'
-                    >
-                        <span>{'Remove'}</span>
-                    </a>
-                </div>
-            );
-            break;
+        let usersToDisplay = users;
+        usersToDisplay = usersToDisplay.filter((user) => !usersToRemove[user.id]);
+        usersToDisplay = usersToDisplay.slice(startCount - 1, endCount);
+
+        if (usersToDisplay.length < 10 && users.length < (totalCount || 0)) {
+            const numberOfUsersRemoved = Object.keys(usersToRemove).length;
+            const pagesOfUsersRemoved = Math.floor(numberOfUsersRemoved / USERS_PER_PAGE);
+            const pageToLoad = page + pagesOfUsersRemoved + 1;
+
+            // Directly call action to load more users from parent component to load more users into the state
+            this.props.loadPage(pageToLoad);
         }
-        return cell;
+
+        if (!users || !users.length || !memberships[users[0].id]) {
+            return [];
+        }
+
+        return usersToDisplay.map((user) => {
+            return {
+                name: <UserGridName user={user}/>,
+                role: <UserGridRole
+                    user={user}
+                    membership={memberships[user.id]}
+                />,
+                remove: <UserGridRemove
+                    user={user}
+                    removeUser={() => this.removeUser(user)}
+                />,
+            };
+        });
     }
 
     render = () => {
