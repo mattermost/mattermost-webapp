@@ -23,7 +23,7 @@ type Props = {
     location: {
         search: string;
     };
-    siteName: string | undefined;
+    siteName?: string;
     actions: {
         verifyUserEmail: (token: string) => ActionFunc | ActionResult;
         getMe: () => ActionFunc | ActionResult;
@@ -45,8 +45,7 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
 
         this.state = {
             verifyStatus: 'pending',
-            serverError: null
-            ,
+            serverError: null,
         };
     }
 
