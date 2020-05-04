@@ -59,6 +59,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           "use_channel_mentions",
           "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -140,6 +141,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           "use_channel_mentions",
           "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -221,6 +223,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           "use_channel_mentions",
           "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={true}
@@ -302,6 +305,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           "use_channel_mentions",
           "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -383,6 +387,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           "use_channel_mentions",
           "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -468,6 +473,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           "use_channel_mentions",
           "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}

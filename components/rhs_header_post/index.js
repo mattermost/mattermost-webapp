@@ -3,8 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {
+    setRhsExpanded,
     showMentions,
     showSearchResults,
     showFlaggedPosts,
@@ -15,9 +17,16 @@ import {
 
 import RhsHeaderPost from './rhs_header_post.jsx';
 
+function mapStateToProps(state) {
+    return {
+        relativeTeamUrl: getCurrentRelativeTeamUrl(state),
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            setRhsExpanded,
             showSearchResults,
             showMentions,
             showFlaggedPosts,
@@ -28,4 +37,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(RhsHeaderPost);
+export default connect(mapStateToProps, mapDispatchToProps)(RhsHeaderPost);

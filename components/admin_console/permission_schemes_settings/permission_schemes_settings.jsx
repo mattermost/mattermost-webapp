@@ -257,6 +257,8 @@ t('admin.permissions.permission.create_direct_channel.description');
 t('admin.permissions.permission.create_direct_channel.name');
 t('admin.permissions.permission.create_group_channel.description');
 t('admin.permissions.permission.create_group_channel.name');
+t('admin.permissions.permission.create_post.description');
+t('admin.permissions.permission.create_post.name');
 t('admin.permissions.permission.create_private_channel.description');
 t('admin.permissions.permission.create_private_channel.name');
 t('admin.permissions.permission.create_public_channel.description');
