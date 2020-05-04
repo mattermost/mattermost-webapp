@@ -7,21 +7,23 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
+import {ChannelMembership} from 'mattermost-redux/types/channels';
 
 import DataGrid, {Column} from 'components/widgets/admin_console/data_grid/data_grid';
 
 import UserGridName from './user_grid_name';
 import UserGridRemove from './user_grid_remove';
-import UserGridRole from './user_grid_role';
+import UserGridRoleDropdown, {Role} from './user_grid_role_dropdown';
 
 import './user_grid.scss';
 
 type Props = {
     users: UserProfile[];
-    memberships: Dictionary<TeamMembership>;
+    memberships: Dictionary<TeamMembership> | Dictionary<ChannelMembership>;
 
     loadPage: (page: number) => void;
     removeUser: (user: UserProfile) => void;
+    updateMemberRolesForUser: (userId: string, role: Role) => void;
 
     totalCount: number;
 }
@@ -33,6 +35,7 @@ type State = {
     visibleCount: number;
     usersToRemove: { [userId: string]: UserProfile };
     usersToAdd: { [userId: string]: UserProfile };
+    membershipsToUpdate: { [userId: string]: TeamMembership | ChannelMembership };
 }
 
 const USERS_PER_PAGE = 10;
@@ -48,6 +51,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             totalCount: 0,
             usersToRemove: {},
             usersToAdd: {},
+            membershipsToUpdate: {},
         };
     }
 
@@ -107,9 +111,22 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.setState({usersToRemove, visibleCount, page});
     }
 
+    updateMembership = (userId: string, role: Role) => {
+        const {membershipsToUpdate} = this.state;
+        const {memberships} = this.props;
+
+        membershipsToUpdate[userId] = {
+            ...memberships[userId],
+            roles: role,
+        };
+
+        this.props.updateMemberRolesForUser(userId, role);
+        this.setState({membershipsToUpdate}, this.forceUpdate);
+    }
+
     getRows = () => {
         const {startCount, endCount} = this.getPaginationProps();
-        const {usersToRemove, page, totalCount} = this.state;
+        const {usersToRemove, page, totalCount, membershipsToUpdate} = this.state;
         const {memberships, users} = this.props;
 
         let usersToDisplay = users;
@@ -131,26 +148,58 @@ export default class UserGrid extends React.PureComponent<Props, State> {
 
         return usersToDisplay.map((user) => {
             return {
-                name: <UserGridName user={user}/>,
-                role: <UserGridRole
-                    user={user}
-                    membership={memberships[user.id]}
-                />,
-                remove: <UserGridRemove
-                    user={user}
-                    removeUser={() => this.removeUser(user)}
-                />,
+                id: user.id,
+                name: (
+                    <UserGridName
+                        user={user}
+                    />
+                ),
+                role: (
+                    <UserGridRoleDropdown
+                        user={user}
+                        membership={membershipsToUpdate[user.id] || memberships[user.id]}
+                        handleUpdateMembership={(role: Role) => this.updateMembership(user.id, role)}
+                    />
+                ),
+                remove: (
+                    <UserGridRemove
+                        user={user}
+                        removeUser={() => this.removeUser(user)}
+                    />
+                ),
             };
         });
     }
 
-    render = () => {
+    getColumns = (): Column[] => {
         const columns: Column[] = [
-            {name: 'Name', field: 'name', width: 3, fixed: true},
-            {name: 'Role', field: 'role'},
-            {name: '', field: 'remove', textAlign: 'right', fixed: true},
+            {
+                name: 'Name',
+                field: 'name',
+                width: 3,
+                fixed: true,
+            },
+            {
+                name: 'Role',
+                field: 'role',
+
+                // Requires overflow visible in order to render dropdown
+                overflow: 'visible',
+            },
+            {
+                name: '',
+                field: 'remove',
+                textAlign: 'right',
+                fixed: true,
+            },
         ];
+
+        return columns;
+    }
+
+    render = () => {
         const rows = this.getRows();
+        const columns = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
 
         return (
