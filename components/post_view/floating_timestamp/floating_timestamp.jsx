@@ -29,10 +29,6 @@ export default class FloatingTimestamp extends React.PureComponent {
         const dateString = (
             <RecentDate
                 value={createAt}
-                weekday='short'
-                day='2-digit'
-                month='short'
-                year='numeric'
             />
         );
 

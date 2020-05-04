@@ -26,28 +26,34 @@ class RecentDate extends React.PureComponent<Props> {
             timeZone,
             useTitleCase = true,
             dateTimeFormat,
-            intl
+            intl,
         } = this.props;
+
         const date = new Date(value);
 
-        const {is} = fromNow(date);
+        const {
+            today,
+            yesterday,
+            withinPastSixDays,
+            sameYear,
+        } = fromNow(date);
 
         if (dateTimeFormat == null) {
-            if (useTitleCase && is.today) {
+            if (useTitleCase && today) {
                 return (
                     <FormattedMessage
                         id='date_separator.today'
                         defaultMessage='Today'
                     />
                 );
-            } else if (useTitleCase && is.yesterday) {
+            } else if (useTitleCase && yesterday) {
                 return (
                     <FormattedMessage
                         id='date_separator.yesterday'
                         defaultMessage='Yesterday'
                     />
                 );
-            } else if (!useTitleCase && is.today) {
+            } else if (!useTitleCase && today) {
                 return (
                     <FormattedRelativeTime
                         value={0}
@@ -55,7 +61,7 @@ class RecentDate extends React.PureComponent<Props> {
                         numeric='auto'
                     />
                 );
-            } else if (!useTitleCase && is.yesterday) {
+            } else if (!useTitleCase && yesterday) {
                 return (
                     <FormattedRelativeTime
                         value={-1}
@@ -66,21 +72,18 @@ class RecentDate extends React.PureComponent<Props> {
             }
         }
 
-        const options: Intl.DateTimeFormatOptions = dateTimeFormat ?? (
-            is.withinPastSixDays ? {
-                weekday: 'long'
-            } : {
-                day: '2-digit',
-                month: 'long',
-                ...is.sameYear ? {
+        const defaultFormat: Intl.DateTimeFormatOptions = withinPastSixDays ? {
+            weekday: 'long'
+        } : {
+            day: '2-digit',
+            month: 'long',
+        };
 
-                } : {
-                    year: 'numeric'
-                }
-            }
-        );
+        if (!sameYear) {
+            defaultFormat.year = 'numeric';
+        }
 
-        const formattedDate = intl.formatDate(value, {timeZone, ...options});
+        const formattedDate = intl.formatDate(value, {timeZone, ...(dateTimeFormat ?? defaultFormat)});
 
         // On error, `formatDate` returns unformatted date or value string like in the case of (react-intl) unsupported timezone.
         // Therefore, use react-intl by default or moment-timezone for unsupported timezone.
@@ -103,13 +106,11 @@ function fromNow(a: Date) {
     const today = isSameDay(a, now);
 
     return {
-        is: {
-            today,
-            yesterday: isYesterday(a),
-            withinPastSixDays: moment(a).startOf('day').isAfter(moment(now).startOf('day').subtract(7, 'd')),
-            sameMonth: today || isSameMonth(a, now),
-            sameYear: today || isSameYear(a, now),
-        }
+        today,
+        yesterday: isYesterday(a),
+        withinPastSixDays: moment(a).startOf('day').isAfter(moment(now).startOf('day').subtract(7, 'd')), // most recent same-day is out-of-bounds
+        sameMonth: today || isSameMonth(a, now),
+        sameYear: today || isSameYear(a, now),
     };
 }
 
