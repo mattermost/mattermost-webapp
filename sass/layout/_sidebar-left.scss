@@ -32,6 +32,30 @@
     z-index: 12;
     border-right: 1px solid var(--center-channel-color-20);
 
+    &.dragging {
+        z-index: 14;
+        & + div {
+            cursor: no-drop !important;
+        }
+
+        > :not(.SidebarNavContainer) {
+            cursor: no-drop !important;
+        }
+
+        .dropDisabled {
+            cursor: no-drop !important;
+
+            .SidebarChannelGroupHeader_groupButton, .SidebarLink {
+                opacity: 0.4;
+            }
+        }
+
+        .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
+            color: inherit;
+            cursor: inherit;
+        }
+    }
+
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
     }
@@ -57,6 +81,10 @@
 
     .a11y--focused {
         box-shadow: inset 0 0 1px 3px var(--sidebar-text-50), inset 0 0 0 1px var(--sidebar-text) !important;
+
+        .SidebarChannelGroupHeader_groupButton {
+            background-color: inherit !important;
+        }
     }
 
     .SidebarContainer_filterAddChannel {
@@ -457,8 +485,21 @@
         width: 100%;
         align-items: center;
 
+        &.dragging {
+            border-radius: 4px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            color: var(--sidebar-text);
+        }
+
+        &.draggingOver:hover {
+            //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
+            border-radius: 4px;
+        }
+
         > div:not(.SidebarMenu) {
             flex: 1 1 auto;
+            cursor: pointer;
         }
 
         i.icon-chevron-down {
@@ -526,6 +567,16 @@
         animation-name: menuAnimation;
         animation-duration: 0.25s;
         animation-timing-function: linear;
+    }
+
+    .SidebarChannelGroup .draggingOverDMCategory {
+        box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
+        border-radius: 4px;
+
+        .SidebarChannelGroupHeader_groupButton {
+            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 0 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
+            border-radius: 4px 4px 0 0;
+        }
     }
 
     .SidebarChannelGroupHeader_addButton {
@@ -596,6 +647,25 @@
             }
         }
 
+        &.dragging {
+            background-color: var(--sidebar-bg);
+            border-radius: 4px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+
+            .SidebarLink {
+                background: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        &.fadeDMs {
+            opacity: 0;
+            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+        }
+
+        &.noFloat {
+            transform: none !important;
+        }
+
         .btn-close {
             @include opacity(0);
             visibility: hidden;
@@ -631,6 +701,10 @@
         transition-property: height, padding, color;
         transition-duration: 0.15s; /* collapse animation speed */
         transition-timing-function: ease-out;
+    }
+
+    .SidebarChannel.invisible {
+        opacity: 0;
     }
 
     .SidebarChannel.collapsed {
@@ -715,9 +789,6 @@
     .SidebarChannel .SidebarLink > i {
         font-size: 12px;
         margin-right: 5px;
-    }
-    .SidebarChannel.dragging {
-        opacity: 0;
     }
 
     .SidebarChannel span.SidebarChannelLinkLabel {

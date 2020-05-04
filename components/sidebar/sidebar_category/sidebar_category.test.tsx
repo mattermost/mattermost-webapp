@@ -37,6 +37,8 @@ describe('components/sidebar/sidebar_category', () => {
                 group_constrained: false,
             },
         ],
+        categoryIndex: 0,
+        draggingState: {},
         setChannelRef: jest.fn(),
         getChannelRef: jest.fn(),
         handleOpenMoreDirectChannelsModal: jest.fn(),

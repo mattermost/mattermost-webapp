@@ -871,7 +871,9 @@ export function applyTheme(theme) {
         variables: {
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
+            'sidebar-text-08': changeOpacity(theme.sidebarText, 0.08),
             'sidebar-text-30': changeOpacity(theme.sidebarText, 0.3),
+            'sidebar-text-40': changeOpacity(theme.sidebarText, 0.4),
             'sidebar-text-50': changeOpacity(theme.sidebarText, 0.5),
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
             'sidebar-text-72': changeOpacity(theme.sidebarText, 0.72),

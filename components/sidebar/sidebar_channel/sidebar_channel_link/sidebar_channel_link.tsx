@@ -15,7 +15,6 @@ import {mark, trackEvent} from 'actions/diagnostics_actions';
 import {localizeMessage} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
@@ -113,11 +112,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         trackEvent('ui', 'ui_channel_selected_v2');
     }
 
-    handleClick = () => {
-        this.trackChannelSelectedEvent();
-        browserHistory.push(this.props.link);
-    }
-
     /**
      * Show as unread if you have unread mentions
      * OR if you have unread messages and the channel can be marked unread by preferences
@@ -153,36 +147,28 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             </React.Fragment>
         );
 
-        let element;
-
         // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
         const oldUnreadClass = this.showChannelAsUnread() ? 'unread-title' : '';
+        let element = (
+            <Link
+                className={classNames(['SidebarLink', {muted: isMuted}, oldUnreadClass])}
+                id={`sidebarItem_${channel.name}`}
+                aria-label={this.getAriaLabel()}
+                to={link}
+                onClick={this.trackChannelSelectedEvent}
+            >
+                {content}
+            </Link>
+        );
+
         if (isDesktopApp()) {
             element = (
                 <CopyUrlContextMenu
                     link={this.props.link}
                     menuId={channel.id}
                 >
-                    <button
-                        className={classNames(['btn btn-link SidebarLink', {muted: isMuted}, oldUnreadClass])}
-                        aria-label={this.getAriaLabel()}
-                        onClick={this.handleClick}
-                    >
-                        {content}
-                    </button>
+                    {element}
                 </CopyUrlContextMenu>
-            );
-        } else {
-            element = (
-                <Link
-                    className={classNames(['SidebarLink', {muted: isMuted}, oldUnreadClass])}
-                    id={`sidebarItem_${channel.name}`}
-                    aria-label={this.getAriaLabel()}
-                    to={link}
-                    onClick={this.trackChannelSelectedEvent}
-                >
-                    {content}
-                </Link>
             );
         }
 
