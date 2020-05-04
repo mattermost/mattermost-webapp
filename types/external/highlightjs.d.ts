@@ -54,6 +54,7 @@ declare module 'highlight.js/lib/languages/sql.js';
 declare module 'highlight.js/lib/languages/stylus.js';
 declare module 'highlight.js/lib/languages/swift.js';
 declare module 'highlight.js/lib/languages/tex.js';
+declare module 'highlight.js/lib/languages/typescript.js';
 declare module 'highlight.js/lib/languages/vbnet.js';
 declare module 'highlight.js/lib/languages/vbscript.js';
 declare module 'highlight.js/lib/languages/verilog.js';
