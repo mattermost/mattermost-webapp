@@ -6,12 +6,17 @@
     justify-content: center;
 }
 
+.icon--no-spacing:before {
+    margin: 0;
+}
+
 .icon--small {
     height: 16px;
     width: 16px;
 }
 
 .icon--standard {
+    font-size: 1.6rem;
     height: 20px;
     width: 20px;
 }
