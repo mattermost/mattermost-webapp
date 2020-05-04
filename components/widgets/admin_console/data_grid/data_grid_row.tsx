@@ -3,27 +3,17 @@
 
 import React, {CSSProperties} from 'react';
 
-import {Column} from './data_grid';
+import {Row, Column} from './data_grid';
 
 import './data_grid.scss';
 
 type Props = {
     columns: Column[];
-    row: any;
-    index: number;
+    row: Row;
 }
 
 class DataGridRow extends React.Component<Props> {
-    shouldComponentUpdate(nextProps: Props) {
-        return this.props.columns.length !== nextProps.columns.length;
-    }
-
-    renderCell(row: any, column: Column) {
-        let cell = row;
-        if (column.field in row) {
-            cell = row[column.field];
-        }
-
+    renderCell(row: Row, column: Column) {
         const style: CSSProperties = {};
         if (column.width) {
             style.flexGrow = column.width;
@@ -33,21 +23,26 @@ class DataGridRow extends React.Component<Props> {
             style.textAlign = column.textAlign;
         }
 
+        if (column.overflow) {
+            style.overflow = column.overflow;
+        }
+
         return (
             <div
                 key={column.field}
                 className='dg-cell'
                 style={style}
             >
-                {cell}
+                {row[column.field]}
             </div>
         );
     }
 
     render() {
+        const cells = this.props.columns.map((col) => this.renderCell(this.props.row, col));
         return (
             <div className='dg-row'>
-                {this.props.columns.map((col) => this.renderCell(this.props.row, col))}
+                {cells}
             </div>
         );
     }

@@ -15,15 +15,20 @@ import './data_grid.scss';
 export type Column = {
     name: string;
     field: string;
-    width?: number;
     fixed?: boolean;
 
+    // Optional styling overrides
+    width?: number;
     textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined;
+    overflow?: string;
+}
+
+export type Row = {
+    [key: string]: JSX.Element | string;
 }
 
 type Props = {
-    rows: any[];
-    rowComponent?: React.ComponentClass;
+    rows: Row[];
     columns: Column[];
 
     minimumColumnWidth?: number;
@@ -97,15 +102,13 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     renderRows() {
-        const RowComponent = this.props.rowComponent || DataGridRow;
         const {rows} = this.props;
         const {visibleColumns} = this.state;
 
         return rows.map((row, index) => {
             return (
-                <RowComponent
-                    key={row.id}
-                    index={index}
+                <DataGridRow
+                    key={index}
                     row={row}
                     columns={visibleColumns}
                 />
@@ -166,14 +169,14 @@ class DataGrid extends React.PureComponent<Props, State> {
 
                         <button
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                            onClick={() => prevPageFn}
+                            onClick={() => prevPageFn()}
                             disabled={firstPage}
                         >
                             <PreviousIcon/>
                         </button>
                         <button
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                            onClick={() => nextPageFn}
+                            onClick={() => nextPageFn()}
                             disabled={lastPage}
                         >
                             <NextIcon/>
