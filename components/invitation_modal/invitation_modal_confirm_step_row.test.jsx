@@ -10,6 +10,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
     test('should match the snapshot for email invitation', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepRow
+                fixInviteRow={jest.fn()}
                 invitation={{email: 'test-email@test.com', reason: 'Test reason email'}}
             />
         );
@@ -19,6 +20,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
     test('should match the snapshot for user invitation', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepRow
+                fixInviteRow={jest.fn()}
                 invitation={{
                     user: {
                         id: 'test-id',
@@ -37,6 +39,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
     test('should match the snapshot for guest addition to channel', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepRow
+                fixInviteRow={jest.fn()}
                 invitation={{
                     user: {
                         id: 'test-id',
@@ -59,6 +62,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
     test('should match the snapshot for text failure', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepRow
+                fixInviteRow={jest.fn()}
                 invitation={{
                     text: 'test',
                     reason: 'Test reason for text',

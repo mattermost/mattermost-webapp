@@ -10,6 +10,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepTable', () => {
     test('should match the snapshot', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepTable
+                fixInviteRow={jest.fn()}
                 invites={[{email: 'test-email@test.com'}, {user: {id: 'test-id', username: 'test'}}]}
             />
         );
