@@ -1024,6 +1024,8 @@
   "admin.permissions.permission.create_emojis.name": "Create Custom Emoji",
   "admin.permissions.permission.create_group_channel.description": "Create group channel",
   "admin.permissions.permission.create_group_channel.name": "Create group channel",
+  "admin.permissions.permission.create_post.description": "Allow users to create posts.",
+  "admin.permissions.permission.create_post.name": "Create Posts",
   "admin.permissions.permission.create_private_channel.description": "Create new private channels.",
   "admin.permissions.permission.create_private_channel.name": "Create Channels",
   "admin.permissions.permission.create_public_channel.description": "Create new public channels.",
