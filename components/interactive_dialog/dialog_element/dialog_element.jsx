@@ -177,6 +177,7 @@ export default class DialogElement extends React.PureComponent {
         } else if (type === 'bool') {
             return (
                 <BoolSetting
+                    autoFocus={this.props.autoFocus}
                     id={name}
                     label={displayNameContent}
                     value={value || false}
