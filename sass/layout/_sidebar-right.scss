@@ -2,35 +2,44 @@
 
 .sidebar--right {
     @include translateX(100%);
-    background: $white;
     height: 100%;
     padding: 0;
     position: fixed;
     right: 0;
     width: 400px;
-    z-index: 8;
+    z-index: 11;
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
     }
 
+    &.move--left {
+        @include single-transition(width, 0.25s, ease-in);
+    }
+
     &.sidebar--right--expanded {
-        z-index: 15;
+        @include box-shadow(0px 8px 24px alpha-color($black, .24));
+
+        .sidebar-right__body {
+            overflow: hidden;
+        }
     }
 
     .sidebar--right__bg {
-        @include single-transition(background-color, .5s, ease);
-        background-color: alpha-color($black, 0);
+        background-color: transparent;
         height: 110%;
         position: absolute;
         top: -70px;
         visibility: hidden;
-        width: 300%;
+        z-index: 5;
+        // Since the element (sidebar--right__bg) is tied to the sidebar, we need to expand beyond it, we're given an arbitrary large width and left positioning so that it may take the width completely
+        width: 1000%;
+        left: -500%;
     }
 
-    &.move--left {
+    &.sidebar--right--expanded {
         .sidebar--right__bg {
-            left: -100%;
+            visibility: visible;
         }
     }
 
@@ -135,24 +144,26 @@
 
     .sidebar--right__back {
         @include single-transition(all, .2s, ease-in);
-        @include opacity(.5);
-        color: inherit;
-        display: inline-block;
-        font-size: 26px;
-        margin-left: -14px;
-        text-align: center;
-        vertical-align: top;
-        width: 30px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: v(center-channel-color-56);
+        font-size: 12px;
+        width: 2.4rem;
+        height: 2.4rem;
+        margin-right: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
 
-        &:hover,
-        &:active {
-            color: inherit;
-            opacity: .8;
+        &:hover {
+            background-color: v(center-channel-color-08);
+            color: v(center-channel-color-72);
         }
 
-        i {
-            position: relative;
-            top: -2px;
+        &:active {
+            background-color: v(button-bg-08);
+            color: v(button-bg);
         }
     }
 
@@ -160,7 +171,8 @@
         @include display-flex;
         @include flex(1 1 auto);
         @include flex-direction(column);
-        border-left: $border-gray;
+        background: v(center-channel-bg);
+        border-left: 1px solid v(center-channel-color-16);
         height: calc(100% - 56px);
 
         .loading-screen {
@@ -202,63 +214,66 @@
         float: right;
     }
 
-    .sidebar--right__close {
-        @include single-transition(all, .2s, ease-in);
-        background: none;
-        border: none;
-        font-size: 20px;
-        height: 30px;
-        line-height: 0;
-        margin: 6px 0 0;
-        outline: none;
-        padding: 0;
-        width: 30px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        &:hover,
-        &:active {
-            i {
-                opacity: .8;
-            }
-        }
-
-        i {
-            opacity: .5;
-            position: relative;
-            top: 1px;
-        }
-    }
-
     .sidebar--right__expand {
-        @extend .sidebar--right__close;
-        font-size: 17px;
+        margin: 0 4px 0 0;
 
         i {
             top: 0;
         }
 
-        .fa-compress {
+        .icon-arrow-collapse {
             display: none;
         }
     }
 
     .sidebar--right__title {
+        height: 2.4rem;
         @include clearfix;
-        padding-left: 15px;
+        display: flex;
+        flex: 1 1 auto;
+        font-size: 1.6rem;
+        font-weight: 600;
+        padding: 0 1.6rem;
+    }
+
+    .sidebar--right__title__channel {
+        border-left: 1px solid v(center-channel-color-16);
+        color: v(center-channel-color-56);
+        cursor: pointer;
+        margin: 0 0 0 8px;
+        font-size: 12px;
+        font-weight: normal;
+        height: 2.4rem;
+        line-height: 2.4rem;
+        padding: 0 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+            border-radius: 4px;
+            border-color: transparent;
+            background: v(center-channel-color-08);
+            color: v(center-channel-color-72);
+        }
+
+        &:active {
+            color: v(button-bg);
+            background: v(button-bg-08);
+        }
     }
 
     .sidebar--right__header {
-        @include flex(0 0 44px);
-        border-bottom: 1px solid;
+        @include flex(0 0 56px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: v(center-channel-color-04);
+        border-bottom: 1px solid v(center-channel-color-08);
         color: inherit;
-        font-size: 1em;
-        height: 44px;
-        line-height: 44px;
         overflow: hidden;
-        padding: 0 5px 0 0;
-        text-transform: uppercase;
+        padding: 0 16px 0 0;
+        white-space: nowrap;
     }
 
     .sidebar--right__loading {

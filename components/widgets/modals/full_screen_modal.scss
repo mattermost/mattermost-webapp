@@ -20,12 +20,19 @@
         z-index: 9;
 
         svg {
-            fill: var(--center-channel-color-90);
+            fill: var(--center-channel-color-56);
             padding: 4px;
             width: 40px;
             height: 40px;
             border-radius: 4px;
+
             &:hover {
+                fill: var(--center-channel-color-72);
+                background: var(--center-channel-color-08);
+            }
+
+            &:active {
+                fill: var(--button-bg);
                 background: var(--button-bg-08);
             }
         }
