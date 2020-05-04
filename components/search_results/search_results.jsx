@@ -272,6 +272,8 @@ class SearchResults extends React.Component {
             defaultMessage: 'Search Results',
         });
 
+        const channelName = this.props.channelDisplayName;
+
         if (!searchTerms && noResults) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_bar.search',

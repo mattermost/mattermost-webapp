@@ -93,7 +93,7 @@ export default class SearchBar extends React.Component {
         }
 
         if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
-            const newIndex = index === searchHintOptions.length - 1 ? 0 : index + 1;
+            const newIndex = index === searchHintOptions.length ? 0 : index + 1;
             this.setState({index: newIndex});
         }
 
@@ -102,8 +102,9 @@ export default class SearchBar extends React.Component {
             this.setState({index: newIndex});
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && index > 0) {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && index >= 0) {
             this.handleUpdateSearchTerm(searchHintOptions[index].searchTerm);
+            this.setState({keepInputFocused: true});
         }
     }
 
@@ -121,7 +122,7 @@ export default class SearchBar extends React.Component {
             } else {
                 this.setState({focused: false});
             }
-        }, 300);
+        }, 0);
 
         this.setState({iindex: -1});
     }
@@ -131,7 +132,7 @@ export default class SearchBar extends React.Component {
         if (this.props.isMentionSearch) {
             this.setState({keepInputFocused: false});
         }
-        this.setState({keepInputFocused: true, termsUsed: 0});
+        this.setState({termsUsed: 0});
     }
 
     handleUserFocus = () => {
@@ -188,11 +189,11 @@ export default class SearchBar extends React.Component {
 
     handleUpdateSearchTerm = (term) => {
         if (this.state.termsUsed === 0) {
-            this.props.actions.updateSearchTerms(term);
+            this.props.actions.updateSearchTerms(term.toLowerCase());
         } else {
             const pretextArray = this.props.searchTerms.split(' ');
             pretextArray.pop();
-            pretextArray.push(term);
+            pretextArray.push(term.toLowerCase());
             this.props.actions.updateSearchTerms(pretextArray.join(' '));
         }
 
@@ -209,8 +210,9 @@ export default class SearchBar extends React.Component {
         }, 0);
 
         if (this.search.value === '""') {
-            this.search.selectionStart = this.search.length / 2;
-            this.search.selectionEnd = this.search.length / 2;
+            // we need to move the cursor between the quotes since the user will need to type a matching phrase
+            this.search.selectionStart = this.search.length - 1;
+            this.search.selectionEnd = this.search.length - 1;
         } else {
             this.search.selectionStart = this.search.length;
         }
@@ -241,6 +243,7 @@ export default class SearchBar extends React.Component {
         if (filteredOptions.length > 0 && !this.props.isMentionSearch) {
             let helpClass = 'search-help-popover';
             if (this.state.focused && this.state.termsUsed <= 1) {
+                console.log(this.state);
                 helpClass += ' visible';
             }
 
