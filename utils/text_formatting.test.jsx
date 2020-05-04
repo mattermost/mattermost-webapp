@@ -36,7 +36,14 @@ describe('autolinkAtMentions', () => {
             const tokens = new Map();
 
             const output = autolinkAtMentions(text, tokens);
-            expect(output).toBe(`${leadingText}$MM_ATMENTION0$${trailingText}`);
+            let expected = `${leadingText}$MM_ATMENTION0$${trailingText}`;
+
+            // Deliberately remove all leading underscores since regex replaces underscore by treating it as non word boundary
+            while (expected[0] === '_') {
+                expected = expected.substring(1);
+            }
+
+            expect(output).toBe(expected);
             expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}">${mention}</span>`);
         });
     }
@@ -100,11 +107,11 @@ describe('autolinkAtMentions', () => {
     test('@channel, @all, @here should highlight properly within a typical sentance', () => {
         runSuccessfulAtMentionTests('This is a typical sentance, ', ' check out this sentance!');
     });
+    test('@channel, @all, @here should highlight with a leading underscore', () => {
+        runSuccessfulAtMentionTests('_');
+    });
 
     // cases where highlights should be unsuccessful
-    test('@channel, @all, @here should not highlight with a leading underscore', () => {
-        runUnsuccessfulAtMentionTests('_');
-    });
     test('@channel, @all, @here should not highlight when the last part of a word', () => {
         runUnsuccessfulAtMentionTests('testing');
     });
