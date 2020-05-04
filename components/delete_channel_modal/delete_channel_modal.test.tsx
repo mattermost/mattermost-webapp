@@ -4,29 +4,31 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
 
-import DeleteChannelModal from 'components/delete_channel_modal/delete_channel_modal.jsx';
+import DeleteChannelModal from 'components/delete_channel_modal/delete_channel_modal';
 
 describe('components/delete_channel_modal', () => {
-    function emptyFunction() {} //eslint-disable-line no-empty-function
-
     const channel = {
-        create_at: 1508265709607,
-        creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
-        delete_at: 0,
-        display_name: 'testing',
-        extra_update_at: 1508265709628,
-        header: 'test',
         id: 'owsyt8n43jfxjpzh9np93mx1wa',
-        last_post_at: 1508265709635,
-        name: 'testing',
-        purpose: 'test',
-        team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
-        total_msg_count: 0,
-        type: 'O',
+        create_at: 1508265709607,
         update_at: 1508265709607,
+        delete_at: 0,
+        team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
+        type: 'O' as ChannelType,
+        display_name: 'testing',
+        name: 'testing',
+        header: 'test',
+        purpose: 'test',
+        last_post_at: 1508265709635,
+        total_msg_count: 0,
+        extra_update_at: 1508265709628,
+        creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
+        scheme_id: '',
+        props: null,
+        group_constrained: false
     };
 
     const currentTeamDetails = {
@@ -37,9 +39,11 @@ describe('components/delete_channel_modal', () => {
         channel,
         currentTeamDetails,
         actions: {
-            deleteChannel: emptyFunction,
+            deleteChannel: jest.fn(() => {
+                return {data: true};
+            })
         },
-        onHide: emptyFunction,
+        onHide: jest.fn(),
         penultimateViewedChannelName: 'my-prev-channel',
     };
 
@@ -51,7 +55,7 @@ describe('components/delete_channel_modal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<DeleteChannelModal>(
             <DeleteChannelModal {...baseProps}/>
         );
 
@@ -64,7 +68,7 @@ describe('components/delete_channel_modal', () => {
         browserHistory.push = jest.fn();
         const actions = {deleteChannel: jest.fn()};
         const props = {...baseProps, actions};
-        const wrapper = shallow(
+        const wrapper = shallow<DeleteChannelModal>(
             <DeleteChannelModal {...props}/>
         );
 
@@ -78,13 +82,12 @@ describe('components/delete_channel_modal', () => {
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
+        const props = {...baseProps};
         const wrapper = shallow(
             <DeleteChannelModal {...props}/>
         );
 
-        wrapper.find(Modal).props().onExited();
-        expect(onHide).toHaveBeenCalledTimes(1);
+        wrapper.find(Modal).props().onExited!(document.createElement('div'));
+        expect(props.onHide).toHaveBeenCalledTimes(1);
     });
 });

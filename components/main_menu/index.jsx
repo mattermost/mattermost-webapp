@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getMyTeams, getJoinableTeamIds, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {haveITeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
@@ -48,7 +48,7 @@ function mapStateToProps(state) {
         }
     }
 
-    const canManageTeamIntegrations = (haveITeamPermission(state, {permission: Permissions.MANAGE_SLASH_COMMANDS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OAUTH}) || haveITeamPermission(state, {permission: Permissions.MANAGE_INCOMING_WEBHOOKS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OUTGOING_WEBHOOKS}));
+    const canManageTeamIntegrations = (haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_SLASH_COMMANDS}) || haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_OAUTH}) || haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_INCOMING_WEBHOOKS}) || haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_OUTGOING_WEBHOOKS}));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
 

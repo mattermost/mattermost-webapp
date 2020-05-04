@@ -289,10 +289,8 @@ class SearchResults extends React.Component {
             });
         } else if (this.props.isPinnedPosts) {
             formattedTitle = this.props.intl.formatMessage({
-                id: 'search_header.title4',
-                defaultMessage: 'Pinned Posts in {channelDisplayName}',
-            }, {
-                channelDisplayName: this.props.channelDisplayName,
+                id: 'channel_header.pinnedPosts',
+                defaultMessage: 'Pinned Posts',
             });
         } else if (this.props.isCard) {
             formattedTitle = this.props.intl.formatMessage({
@@ -308,6 +306,7 @@ class SearchResults extends React.Component {
             >
                 <SearchResultsHeader>
                     {formattedTitle}
+                    {channelName && <div className='sidebar--right__title__channel'>{channelName}</div>}
                 </SearchResultsHeader>
                 <Scrollbars
                     ref='scrollbars'
