@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {trackEvent} from 'actions/diagnostics_actions';
+import EditCategoryModal from 'components/edit_category_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
@@ -21,16 +22,22 @@ import ChannelFilter from './channel_filter';
 import SidebarCategoryList from './sidebar_category_list';
 
 type Props = {
+    teamId: string;
     canCreatePublicChannel: boolean;
     canCreatePrivateChannel: boolean;
     canJoinPublicChannel: boolean;
     isOpen: boolean;
+    actions: {
+        createCategory: (teamId: string, categoryName: string) => {data: string};
+    };
 };
 
 type State = {
     showDirectChannelsModal: boolean;
     showMoreChannelsModal: boolean;
     showNewChannelModal: boolean;
+    showCreateCategoryModal: boolean;
+    newCategoryIds: string[];
     isDragging: boolean;
 };
 
@@ -41,6 +48,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showNewChannelModal: false,
+            showCreateCategoryModal: false,
+            newCategoryIds: [],
             isDragging: false,
         };
     }
@@ -52,6 +61,19 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     hideMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: false});
+    }
+
+    showCreateCategoryModal = () => {
+        this.setState({showCreateCategoryModal: true});
+    }
+
+    hideCreateCategoryModal = () => {
+        this.setState({showCreateCategoryModal: false});
+    }
+
+    handleCreateCategory = (categoryName: string) => {
+        const result = this.props.actions.createCategory(this.props.teamId, categoryName);
+        this.state.newCategoryIds.push(result.data);
     }
 
     showMoreChannelsModal = () => {
@@ -116,6 +138,18 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             );
         }
 
+        let createCategoryModal;
+        if (this.state.showCreateCategoryModal) {
+            createCategoryModal = (
+                <EditCategoryModal
+                    onHide={this.hideCreateCategoryModal}
+                    editCategory={this.handleCreateCategory}
+                    modalHeaderText={Utils.localizeMessage('create_category_modal.createCategory', 'Create Category')}
+                    editButtonText={Utils.localizeMessage('create_category_modal.create', 'Create')}
+                />
+            );
+        }
+
         return (
             <React.Fragment>
                 <NewChannelFlow
@@ -127,6 +161,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 />
                 {moreDirectChannelsModal}
                 {moreChannelsModal}
+                {createCategoryModal}
             </React.Fragment>
         );
     }
@@ -151,6 +186,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         <AddChannelDropdown
                             showNewChannelModal={this.showNewChannelModal}
                             showMoreChannelsModal={this.showMoreChannelsModal}
+                            showCreateCategoryModal={this.showCreateCategoryModal}
                             canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                             canJoinPublicChannel={this.props.canJoinPublicChannel}
                         />
@@ -159,6 +195,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
+                    newCategoryIds={this.state.newCategoryIds}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />

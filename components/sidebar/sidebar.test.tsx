@@ -12,6 +12,10 @@ describe('components/sidebar', () => {
         canCreatePrivateChannel: true,
         canJoinPublicChannel: true,
         isOpen: false,
+        teamId: 'fake_team_id',
+        actions: {
+            createCategory: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

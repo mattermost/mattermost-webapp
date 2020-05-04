@@ -42,6 +42,7 @@ describe('components/sidebar/sidebar_category', () => {
         setChannelRef: jest.fn(),
         getChannelRef: jest.fn(),
         handleOpenMoreDirectChannelsModal: jest.fn(),
+        isNewCategory: false,
         isCollapsed: false,
         actions: {
             setCategoryCollapsed: jest.fn(),
@@ -51,6 +52,19 @@ describe('components/sidebar/sidebar_category', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <SidebarCategory {...baseProps}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when isNewCategory', () => {
+        const props = {
+            ...baseProps,
+            isNewCategory: true,
+        };
+
+        const wrapper = shallow(
+            <SidebarCategory {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
