@@ -34,6 +34,21 @@
     margin: 0 0 0.8rem;
 }
 
+.input__help {
+    @include opacity(.8);
+    color: inherit;
+    margin: 10px 0 0 0;
+    word-break: break-word;
+
+    &.dark {
+        @include opacity(1);
+    }
+
+    &.error {
+        color: darken($red, 20%);
+    }
+}
+
 .form-horizontal {
     .modal-intro {
         margin: -10px 0 30px;
@@ -51,21 +66,6 @@
             font-style: italic;
             font-weight: normal;
             padding-top: 2px;
-        }
-    }
-
-    .input__help {
-        @include opacity(.8);
-        color: inherit;
-        margin: 10px 0 0 0;
-        word-break: break-word;
-
-        &.dark {
-            @include opacity(1);
-        }
-
-        &.error {
-            color: darken($red, 20%);
         }
     }
 
