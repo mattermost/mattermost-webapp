@@ -31,6 +31,7 @@ export default class SidebarRight extends React.PureComponent {
         isPinnedPosts: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
+        rhsChannel: PropTypes.object,
         selectedPostId: PropTypes.string,
         selectedPostCardId: PropTypes.string,
         actions: PropTypes.shape({
@@ -100,9 +101,13 @@ export default class SidebarRight extends React.PureComponent {
             trackEvent('ui', 'ui_rhs_opened');
         }
 
-        const {actions, isPinnedPosts, channel} = this.props;
-        if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && channel.id !== prevProps.channel.id) {
-            actions.showPinnedPosts(channel.id);
+        const {actions, isPinnedPosts, rhsChannel, channel} = this.props;
+        if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && rhsChannel.id !== prevProps.rhsChannel.id) {
+            actions.showPinnedPosts(rhsChannel.id);
+        }
+
+        if (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) {
+            this.props.actions.setRhsExpanded(false);
         }
 
         this.setPrevious();
@@ -135,7 +140,7 @@ export default class SidebarRight extends React.PureComponent {
 
     render() {
         const {
-            channel,
+            rhsChannel,
             currentUserId,
             isFlaggedPosts,
             isMentionSearch,
@@ -165,12 +170,8 @@ export default class SidebarRight extends React.PureComponent {
         }
 
         let channelDisplayName = '';
-        if (channel) {
-            if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
-                channelDisplayName = Utils.localizeMessage('rhs_root.direct', 'Direct Message');
-            } else {
-                channelDisplayName = channel.display_name;
-            }
+        if (rhsChannel) {
+            channelDisplayName = rhsChannel.display_name;
         }
 
         if (searchVisible) {
