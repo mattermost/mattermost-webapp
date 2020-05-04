@@ -13,11 +13,18 @@ exports[`FileAttachment should match snapshot, after change from file to image 1
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "png",
+          "has_preview_image": true,
           "height": 400,
-          "id": 2,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.png",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 600,
         }
       }
@@ -54,11 +61,18 @@ exports[`FileAttachment should match snapshot, after change from file to image 1
       canDownload={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "png",
+          "has_preview_image": true,
           "height": 400,
-          "id": 2,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.png",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 600,
         }
       }
@@ -86,10 +100,19 @@ exports[`FileAttachment should match snapshot, file with long name 1`] = `
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "pdf",
-          "id": 1,
+          "has_preview_image": true,
+          "height": 80,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "a-quite-long-filename-to-test-the-filename-shortener.pdf",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
+          "width": 100,
         }
       }
     />
@@ -125,10 +148,19 @@ exports[`FileAttachment should match snapshot, file with long name 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "pdf",
-          "id": 1,
+          "has_preview_image": true,
+          "height": 80,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "a-quite-long-filename-to-test-the-filename-shortener.pdf",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
+          "width": 100,
         }
       }
       handleImageClick={[Function]}
@@ -155,10 +187,19 @@ exports[`FileAttachment should match snapshot, regular file 1`] = `
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "pdf",
-          "id": 1,
+          "has_preview_image": true,
+          "height": 80,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.pdf",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
+          "width": 100,
         }
       }
     />
@@ -194,10 +235,19 @@ exports[`FileAttachment should match snapshot, regular file 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "pdf",
-          "id": 1,
+          "has_preview_image": true,
+          "height": 80,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.pdf",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
+          "width": 100,
         }
       }
       handleImageClick={[Function]}
@@ -224,11 +274,18 @@ exports[`FileAttachment should match snapshot, regular image 1`] = `
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "png",
+          "has_preview_image": true,
           "height": 400,
-          "id": 1,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.png",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 600,
         }
       }
@@ -265,11 +322,18 @@ exports[`FileAttachment should match snapshot, regular image 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "png",
+          "has_preview_image": true,
           "height": 400,
-          "id": 1,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.png",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 600,
         }
       }
@@ -297,11 +361,18 @@ exports[`FileAttachment should match snapshot, small image 1`] = `
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "png",
+          "has_preview_image": true,
           "height": 16,
-          "id": 1,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.png",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 16,
         }
       }
@@ -338,11 +409,18 @@ exports[`FileAttachment should match snapshot, small image 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "png",
+          "has_preview_image": true,
           "height": 16,
-          "id": 1,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.png",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 16,
         }
       }
@@ -370,11 +448,18 @@ exports[`FileAttachment should match snapshot, svg image 1`] = `
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "svg",
+          "has_preview_image": true,
           "height": 400,
-          "id": 1,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.svg",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 600,
         }
       }
@@ -411,11 +496,18 @@ exports[`FileAttachment should match snapshot, svg image 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "svg",
+          "has_preview_image": true,
           "height": 400,
-          "id": 1,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.svg",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
           "width": 600,
         }
       }
@@ -475,10 +567,19 @@ exports[`FileAttachment should match snapshot, when file is not loaded 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "pdf",
-          "id": 1,
+          "has_preview_image": true,
+          "height": 80,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.pdf",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
+          "width": 100,
         }
       }
       handleImageClick={[Function]}
@@ -504,10 +605,19 @@ exports[`FileAttachment should match snapshot, with compact display 1`] = `
       compactDisplay={true}
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "pdf",
-          "id": 1,
+          "has_preview_image": true,
+          "height": 80,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.pdf",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
+          "width": 100,
         }
       }
       handleImageClick={[Function]}
@@ -534,10 +644,19 @@ exports[`FileAttachment should match snapshot, without compact display and witho
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "clientId": "",
+          "create_at": 0,
+          "delete_at": 0,
           "extension": "pdf",
-          "id": 1,
+          "has_preview_image": true,
+          "height": 80,
+          "id": "thumbnail_id",
+          "mime_type": "",
           "name": "test.pdf",
           "size": 100,
+          "update_at": 0,
+          "user_id": "",
+          "width": 100,
         }
       }
     />
