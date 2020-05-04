@@ -42,9 +42,7 @@ export default class PostMarkdown extends React.PureComponent {
         hasPluginTooltips: PropTypes.bool,
 
         isUserCanManageMembers: PropTypes.bool,
-        allMentionKeys: PropTypes.array.isRequired,
-        mentionKeysWithoutGroups: PropTypes.array.isRequired,
-        mentionKeysWithoutChannelMentions: PropTypes.array.isRequired,
+        mentionKeys: PropTypes.array.isRequired,
     };
 
     static defaultProps = {
@@ -66,26 +64,13 @@ export default class PostMarkdown extends React.PureComponent {
         const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
         let {message} = this.props;
-        const {post, allMentionKeys, mentionKeysWithoutGroups, options, mentionKeysWithoutChannelMentions} = this.props;
+        const {post, options, mentionKeys} = this.props;
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {
                 message = o.hook(post, message);
             }
         });
-
-        let mentionKeys = [];
-        if (post && post.props) {
-            mentionKeys = allMentionKeys;
-
-            if (post.props.disable_group_highlight) {
-                mentionKeys = mentionKeysWithoutGroups;
-            }
-
-            if (post.props.mentionHighlightDisabled) {
-                mentionKeys = mentionKeysWithoutChannelMentions;
-            }
-        }
 
         return (
             <Markdown
