@@ -88,21 +88,24 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                         <b className='fix-error'>
                             <FormattedMessage
                                 id='invite.members.is-already-user-not-in-team.error'
-                                defaultMessage='Unable to add member to channels'
+                                defaultMessage='Unable to add member to channels.'
                             />
                         </b>}
                     {this.state.fixing &&
                         <a className='fixing'>
                             <FormattedMessage
                                 id='invite.members.is-already-user-not-in-team.fixing'
-                                defaultMessage='Adding member to channels'
+                                defaultMessage='Adding member to channels.'
                             />
                         </a>}
                     {!this.state.fixing && !this.state.error &&
-                        <a onClick={this.addUserToChannels}>
+                        <a
+                            className='fix-link'
+                            onClick={this.addUserToChannels}
+                        >
                             <FormattedMessage
                                 id='invite.members.is-already-user-not-in-team.add-to-channels'
-                                defaultMessage='Add this member to the channels'
+                                defaultMessage='Add this member to the channels.'
                             />
                         </a>}
                 </div>
@@ -115,21 +118,24 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                         <span className='fix-error'>
                             <FormattedMessage
                                 id='invite.members.is-already-user-in-team.error'
-                                defaultMessage='Unable to add member to team or channels'
+                                defaultMessage='Unable to add member to team or channels.'
                             />
                         </span>}
                     {this.state.fixing &&
                         <a className='fixing'>
                             <FormattedMessage
                                 id='invite.members.is-already-user-in-team.fixing'
-                                defaultMessage='Adding member to team and channels'
+                                defaultMessage='Adding member to team and channels.'
                             />
                         </a>}
                     {!this.state.fixing && !this.state.error &&
-                        <a onClick={this.addUserToChannels}>
+                        <a
+                            className='fix-link'
+                            onClick={this.addUserToChannels}
+                        >
                             <FormattedMessage
                                 id='invite.members.is-already-user-in-team.add-to-channels'
-                                defaultMessage='Add this member to the team and channels'
+                                defaultMessage='Add this member to the team and channels.'
                             />
                         </a>}
                 </div>
