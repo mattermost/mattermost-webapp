@@ -155,6 +155,10 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
         deleteExistingTeamOverrideSchemes();
     });
 
+    after(() => {
+        resetPermissionsToDefault();
+    });
+
     it('MM-23018 - Enable and Disable Channel Mentions', () => {
         checkChannelPermission('use_channel_mentions', () => {
             channelMentionsPermissionCheck(true);

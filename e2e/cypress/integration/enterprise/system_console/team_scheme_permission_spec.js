@@ -155,6 +155,10 @@ describe('Team Scheme Channel Mentions Permissions Test', () => {
         cy.visit('/admin_console/user_management/permissions');
     });
 
+    after(() => {
+        resetPermissionsToDefault();
+    });
+
     it('MM-23018 - Create a team override scheme', () => {
         // # Visit the permissions page
         cy.visit('/admin_console/user_management/permissions/team_override_scheme');
