@@ -81,7 +81,7 @@ jobs:
                 persist_to_workspace: false
       - run:
           name: Post results to Mattermost
-          command: ../security-automation-config/dependency-check/post-results.sh
+          command: go run ../security-automation-config/dependency-check/post_results.go
 
   lint:
     executor:
