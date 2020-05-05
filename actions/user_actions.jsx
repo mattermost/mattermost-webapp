@@ -259,7 +259,7 @@ export async function loadProfilesForGM() {
             });
         }
 
-        const getProfilesAction = UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM); //eslint-disable-line no-await-in-loop
+        const getProfilesAction = UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM);
         queue.add(() => dispatch(getProfilesAction));
     }
 
