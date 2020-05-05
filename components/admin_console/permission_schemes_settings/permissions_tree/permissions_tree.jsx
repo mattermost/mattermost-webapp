@@ -104,6 +104,7 @@ export default class PermissionsTree extends React.Component {
                         ],
                     },
                     Permissions.USE_CHANNEL_MENTIONS,
+                    Permissions.CREATE_POST,
                 ],
             },
             {

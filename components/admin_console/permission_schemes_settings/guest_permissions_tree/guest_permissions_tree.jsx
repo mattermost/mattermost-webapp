@@ -56,6 +56,7 @@ export default class GuestPermissionsTree extends React.Component {
                 ],
             },
             Permissions.USE_CHANNEL_MENTIONS,
+            Permissions.CREATE_POST,
         ];
 
         if (props.license && props.license.IsLicensed === 'true' && props.license.LDAPGroups === 'true') {
