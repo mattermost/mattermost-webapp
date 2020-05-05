@@ -6,10 +6,10 @@ exports[`components/RhsThread should match snapshot 1`] = `
   id="rhsContainer"
 >
   <Connect(FloatingTimestamp)
-    createAt={2017-08-14T12:56:05.009Z}
     isMobile={false}
     isRhsPost={true}
     isScrolling={false}
+    postId=""
   />
   <Connect(RhsHeaderPost) />
   <Scrollbars

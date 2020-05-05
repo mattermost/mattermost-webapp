@@ -10,10 +10,6 @@ import {Post} from 'mattermost-redux/src/types/posts';
 
 import RhsThread from './rhs_thread';
 
-beforeAll(() => {
-    global.Date.now = jest.fn(() => 1502715365009);
-});
-
 describe('components/RhsThread', () => {
     const post: Post = {
         edit_at: 0,

@@ -66,7 +66,7 @@ type State = {
     windowWidth?: number;
     windowHeight?: number;
     isScrolling: boolean;
-    topRhsPostId: number | string;
+    topRhsPostId: string;
     openTime: number;
     postsArray?: Record<string, any>[];
     isBusy?: boolean;
@@ -94,7 +94,7 @@ export default class RhsThread extends React.Component<Props, State> {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
-            topRhsPostId: 0,
+            topRhsPostId: '',
             openTime,
         };
     }
@@ -373,7 +373,7 @@ export default class RhsThread extends React.Component<Props, State> {
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
-                    createAt={new Date(Date.now())}
+                    postId={this.state.topRhsPostId}
                     isRhsPost={true}
                 />
                 <RhsHeaderPost
