@@ -284,9 +284,9 @@ export default class DatabaseSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedMessage
+                        <FormattedMarkdownMessage
                             id='admin.sql.disableDatabaseSearchDescription'
-                            defaultMessage='Disables the use of the database to perform searches. Should only be used when other search engines are configured.'
+                            defaultMessage='Disables the use of the database to perform searches. Should only be used when other [search engines](!https://mattermost.com/pl/default-search-engine) are configured.'
                         />
                     }
                     value={this.state.disableDatabaseSearch}
