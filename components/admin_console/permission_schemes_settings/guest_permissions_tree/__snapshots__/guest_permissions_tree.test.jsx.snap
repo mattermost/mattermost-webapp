@@ -222,6 +222,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           "use_channel_mentions",
+          "create_post",
         ]
       }
       readOnly={false}

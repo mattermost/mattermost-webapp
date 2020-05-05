@@ -104,7 +104,6 @@ export default class PermissionsTree extends React.Component {
                         ],
                     },
                     Permissions.USE_CHANNEL_MENTIONS,
-                    Permissions.CREATE_POST,
                 ],
             },
             {
@@ -151,6 +150,7 @@ export default class PermissionsTree extends React.Component {
         if (license && license.isLicensed && license.LDAPGroups === 'true' && !postsGroup.permissions.includes(Permissions.USE_GROUP_MENTIONS)) {
             postsGroup.permissions.push(Permissions.USE_GROUP_MENTIONS);
         }
+        postsGroup.permissions.push(Permissions.CREATE_POST);
     }
 
     openPostTimeLimitModal = () => {
