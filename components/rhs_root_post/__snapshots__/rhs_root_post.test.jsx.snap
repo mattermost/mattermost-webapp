@@ -12,11 +12,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
   tabIndex="-1"
 >
   <div
-    className="post-right-channel__name"
-  >
-    Test
-  </div>
-  <div
     className="post__content"
     role="application"
   >
@@ -194,11 +189,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
   tabIndex="-1"
 >
   <div
-    className="post-right-channel__name"
-  >
-    Test
-  </div>
-  <div
     className="post__content"
     role="application"
   >
@@ -331,11 +321,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
   role="listitem"
   tabIndex="-1"
 >
-  <div
-    className="post-right-channel__name"
-  >
-    Test
-  </div>
   <div
     className="post__content"
     role="application"
@@ -472,11 +457,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
   role="listitem"
   tabIndex="-1"
 >
-  <div
-    className="post-right-channel__name"
-  >
-    Test
-  </div>
   <div
     className="post__content"
     role="application"
