@@ -35,6 +35,7 @@ const LazyPasswordResetForm = React.lazy(() => import('components/password_reset
 const LazySignupController = React.lazy(() => import('components/signup/signup_controller'));
 const LazySignupEmail = React.lazy(() => import('components/signup/signup_email'));
 const LazyTermsOfService = React.lazy(() => import('components/terms_of_service'));
+const LazyJanusCall = React.lazy(() => import('components/janus_call'));
 const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email'));
 const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email'));
 const LazyClaimController = React.lazy(() => import('components/claim'));
@@ -69,6 +70,7 @@ const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
 const SelectTeam = makeAsyncComponent(LazySelectTeam);
 const Authorize = makeAsyncComponent(LazyAuthorize);
 const Mfa = makeAsyncComponent(LazyMfa);
+const JanusCall = makeAsyncComponent(LazyJanusCall);
 
 const LoggedInRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -416,6 +418,7 @@ export default class Root extends React.Component {
                     <HFTRoute path={'/claim'} component={ClaimController} />
                     <HFTRoute path={'/help'} component={HelpController} />
                     <LoggedInRoute path={'/terms_of_service'} component={TermsOfService} />
+                    <LoggedInRoute path={'/call'} component={JanusCall}/>
                     <Route path={'/landing'} component={LinkingLandingPage} />
                     <LoggedInRoute path={'/admin_console'} component={AdminConsole} />
                     <LoggedInHFTRoute path={'/select_team'} component={SelectTeam} />

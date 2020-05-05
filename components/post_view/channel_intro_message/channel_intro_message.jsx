@@ -279,7 +279,6 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
     return (
         <div id="channelIntro" className={'channel-intro ' + centeredIntro}>
             <h2 className="channel-intro__title">
-                s
                 <FormattedMessage
                     id="intro_messages.beginning"
                     defaultMessage="Beginning of {name}"
