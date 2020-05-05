@@ -86,7 +86,7 @@ const actionsProp = {
         return {data: {message, args}};
     },
     scrollPostListToBottom: jest.fn(),
-    selectChannelMemberCountsByGroup: jest.fn(),
+    loadChannelMemberCountsByGroup: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -109,6 +109,7 @@ function createPost({
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
+    useGroupMentions = true,
 } = {}) {
     return (
         <CreatePost
@@ -141,7 +142,7 @@ function createPost({
             isTimezoneEnabled={isTimezoneEnabled}
             canPost={true}
             useChannelMentions={true}
-            useGroupMentions={true}
+            useGroupMentions={useGroupMentions}
         />
     );
 }
@@ -182,8 +183,8 @@ describe('components/create_post', () => {
         expect(clearDraftUploads).toHaveBeenCalled();
     });
 
-    it('Check for state change on channelId change', () => {
-        const wrapper = shallowWithIntl(createPost());
+    it('Check for state change on channelId change with useGroupMentions = true', () => {
+        const wrapper = shallowWithIntl(createPost({}));
         const draft = {
             ...draftProp,
             message: 'test',
@@ -201,6 +202,41 @@ describe('components/create_post', () => {
             },
         });
         expect(wrapper.state('message')).toBe('test');
+    });
+
+    it('Check for loadChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
+        const loadChannelMemberCountsByGroup = jest.fn();
+        const actions = {
+            ...actionsProp,
+            loadChannelMemberCountsByGroup,
+        };
+        const wrapper = shallowWithIntl(createPost({actions}));
+        expect(loadChannelMemberCountsByGroup).toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(loadChannelMemberCountsByGroup).toHaveBeenCalled();
+    });
+
+    it('Check for loadChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
+        const loadChannelMemberCountsByGroup = jest.fn();
+        const useGroupMentions = false;
+        const actions = {
+            ...actionsProp,
+            loadChannelMemberCountsByGroup,
+        };
+        const wrapper = shallowWithIntl(createPost({actions, useGroupMentions}));
+        expect(loadChannelMemberCountsByGroup).not.toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(loadChannelMemberCountsByGroup).not.toHaveBeenCalled();
     });
 
     it('click toggleEmojiPicker', () => {

@@ -54,7 +54,7 @@ describe('components/CreateComment', () => {
         isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
-        selectChannelMemberCountsByGroup: jest.fn(),
+        loadChannelMemberCountsByGroup: jest.fn(),
         useGroupMentions: true,
     };
 
@@ -78,13 +78,14 @@ describe('components/CreateComment', () => {
     test('should match snapshot, comment with message', () => {
         const clearCommentDraftUploads = jest.fn();
         const onResetHistoryIndex = jest.fn();
+        const loadChannelMemberCountsByGroup = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
             fileInfos: [],
         };
         const ctrlSend = true;
-        const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex};
+        const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex, loadChannelMemberCountsByGroup};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
@@ -96,7 +97,21 @@ describe('components/CreateComment', () => {
         // should reset message history index on mount
         expect(onResetHistoryIndex).toHaveBeenCalled();
 
+        // should load channel member counts on mount
+        expect(loadChannelMemberCountsByGroup).toHaveBeenCalled();
+
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not call loadChannelMemberCountsByGroup, without group mentions permission or license', () => {
+        const useGroupMentions = false;
+        const loadChannelMemberCountsByGroup = jest.fn();
+        const props = {...baseProps, useGroupMentions, loadChannelMemberCountsByGroup};
+
+        shallowWithIntl(<CreateComment {...props}/>);
+
+        // should not load channel member counts on mount without useGroupmentions
+        expect(loadChannelMemberCountsByGroup).not.toHaveBeenCalled();
     });
 
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {
