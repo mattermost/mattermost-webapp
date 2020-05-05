@@ -27,20 +27,23 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
             subtitleDefault='Summary of the channel, including the channel name.'
         >
             <div className='group-teams-and-channels'>
-                <div className='group-teams-and-channels--body'>
-                    <FormattedMarkdownMessage
-                        id='admin.channel_settings.channel_detail.channelName'
-                        defaultMessage='**Name**'
-                    />
-                    <br/>
-                    {channel.display_name}
-                    <br/>
-                    <FormattedMarkdownMessage
-                        id='admin.channel_settings.channel_detail.channelTeam'
-                        defaultMessage='**Team**'
-                    />
-                    <br/>
-                    {team.display_name}
+                <div className='group-teams-and-channels--body channel-desc-col'>
+                    <div className='channel-name'>
+                        <FormattedMarkdownMessage
+                            id='admin.channel_settings.channel_detail.channelName'
+                            defaultMessage='**Name**'
+                        />
+                        <br/>
+                        {channel.display_name}
+                    </div>
+                    <div className='channel-team'>
+                        <FormattedMarkdownMessage
+                            id='admin.channel_settings.channel_detail.channelTeam'
+                            defaultMessage='**Team**'
+                        />
+                        <br/>
+                        {team.display_name}
+                    </div>
                 </div>
             </div>
         </AdminPanel>
