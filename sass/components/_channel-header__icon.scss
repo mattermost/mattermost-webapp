@@ -22,6 +22,15 @@
         color: v(center-channel-color-72);
     }
 
+    .icon {
+        font-size: 16px;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
     &:active,
     &--active,
     &--active:hover {

@@ -16,17 +16,9 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 const holders = defineMessages({
-    required: {
-        id: t('rename_channel.required'),
-        defaultMessage: 'This field is required',
-    },
     maxLength: {
         id: t('rename_channel.maxLength'),
         defaultMessage: 'This field must be less than {maxLength, number} characters',
-    },
-    lowercase: {
-        id: t('rename_channel.lowercase'),
-        defaultMessage: 'Must be lowercase alphanumeric characters',
     },
     url: {
         id: t('rename_channel.url'),
@@ -39,10 +31,6 @@ const holders = defineMessages({
     displayNameHolder: {
         id: t('rename_channel.displayNameHolder'),
         defaultMessage: 'Enter display name',
-    },
-    handleHolder: {
-        id: t('rename_channel.handleHolder'),
-        defaultMessage: 'lowercase alphanumeric characters',
     },
 });
 
@@ -139,22 +127,19 @@ export class RenameChannelModal extends React.PureComponent {
         const {actions: {patchChannel}} = this.props;
 
         channel.display_name = this.state.displayName.trim();
-        if (!channel.display_name) {
-            state.displayNameError = formatMessage(holders.required);
-            state.invalid = true;
-        } else if (channel.display_name.length > Constants.MAX_CHANNELNAME_LENGTH) {
-            state.displayNameError = formatMessage(holders.maxLength, {maxLength: Constants.MAX_CHANNELNAME_LENGTH});
-            state.invalid = true;
-        } else if (channel.display_name.length < Constants.MIN_CHANNELNAME_LENGTH) {
+        if (!channel.display_name || channel.display_name.length < Constants.MIN_CHANNELNAME_LENGTH) {
             state.displayNameError = (
                 <FormattedMessage
                     id='rename_channel.minLength'
-                    defaultMessage='Channel name must be {minLength, number} or more characters'
+                    defaultMessage='Display name must have at least {minLength, number} characters.'
                     values={{
                         minLength: Constants.MIN_CHANNELNAME_LENGTH,
                     }}
                 />
             );
+            state.invalid = true;
+        } else if (channel.display_name.length > Constants.MAX_CHANNELNAME_LENGTH) {
+            state.displayNameError = formatMessage(holders.maxLength, {maxLength: Constants.MAX_CHANNELNAME_LENGTH});
             state.invalid = true;
         } else {
             state.displayNameError = '';
@@ -216,17 +201,25 @@ export class RenameChannelModal extends React.PureComponent {
 
     render() {
         let displayNameError = null;
-        let displayNameClass = 'form-group';
         if (this.state.displayNameError) {
-            displayNameError = <label className='control-label'>{this.state.displayNameError}</label>;
-            displayNameClass += ' has-error';
+            displayNameError = <p className='input__help error'>{this.state.displayNameError}</p>;
         }
 
         let urlErrors = null;
-        let urlClass = 'form-group';
+        let urlHelpText = null;
+        let urlInputClass = 'input-group input-group--limit';
         if (this.state.urlErrors.length > 0) {
-            urlErrors = <label className='control-label'>{this.state.urlErrors}</label>;
-            urlClass += ' has-error';
+            urlErrors = <p className='input__help error'>{this.state.urlErrors}</p>;
+            urlInputClass += ' has-error';
+        } else {
+            urlHelpText = (
+                <p className='input__help'>
+                    <FormattedMessage
+                        id='change_url.helpText'
+                        defaultMessage='You can use lowercase letters, numbers, dashes, and underscores.'
+                    />
+                </p>
+            );
         }
 
         let serverError = null;
@@ -237,7 +230,6 @@ export class RenameChannelModal extends React.PureComponent {
         const {formatMessage} = this.props.intl;
 
         let urlInputLabel = formatMessage(holders.url);
-        const handleInputClass = 'form-control';
         let readOnlyHandleInput = false;
         if (this.props.channel.name === Constants.DEFAULT_CHANNEL) {
             urlInputLabel += formatMessage(holders.defaultError);
@@ -273,7 +265,7 @@ export class RenameChannelModal extends React.PureComponent {
                 </Modal.Header>
                 <form role='form'>
                     <Modal.Body>
-                        <div className={displayNameClass}>
+                        <div className='form-group'>
                             <label className='control-label'>
                                 <FormattedMessage
                                     id='rename_channel.displayName'
@@ -293,10 +285,10 @@ export class RenameChannelModal extends React.PureComponent {
                             />
                             {displayNameError}
                         </div>
-                        <div className={urlClass}>
+                        <div className='form-group'>
                             <label className='control-label'>{urlInputLabel}</label>
 
-                            <div className='input-group input-group--limit'>
+                            <div className={urlInputClass}>
                                 <OverlayTrigger
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='top'
@@ -304,18 +296,18 @@ export class RenameChannelModal extends React.PureComponent {
                                 >
                                     <span className='input-group-addon'>{shortUrl}</span>
                                 </OverlayTrigger>
-                                <LocalizedInput
+                                <input
                                     onChange={this.onNameChange}
                                     type='text'
-                                    className={handleInputClass}
+                                    className='form-control'
                                     id='channel_name'
-                                    placeholder={holders.handleHolder}
                                     value={this.state.channelName}
                                     maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                     readOnly={readOnlyHandleInput}
                                     aria-label={formatMessage({id: 'rename_channel.title', defaultMessage: 'Rename Channel'}).toLowerCase()}
                                 />
                             </div>
+                            {urlHelpText}
                             {urlErrors}
                         </div>
                         {serverError}

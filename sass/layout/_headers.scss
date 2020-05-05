@@ -2,12 +2,13 @@
 
 .channel-header {
     @include flex(0 0 63px);
+    z-index: 15;
+    background: v(center-channel-bg);
     max-height: 63px;
     border-bottom: 1px solid;
     font-size: 14px;
     position: relative;
     width: 100%;
-    z-index: 9;
 
     .Badge {
         display: inline-block;
@@ -101,11 +102,20 @@
         max-width: 300px;
         padding: 0;
 
-        svg,
-        .fa {
+        .icon {
             text-align: center;
             width: 20px;
-            margin-right: 4px;
+            height: 20px;
+            margin-right: 8px;
+            font-size: 1.6rem;
+            fill: v(center-channel-color-56);
+            color: v(center-channel-color-56);
+
+            svg,
+            img {
+                width: 16px;
+                height: 16px;
+            }
         }
 
         a {
@@ -272,6 +282,15 @@
                 font-size: 15px;
                 left: 2px;
                 top: 0;
+            }
+        }
+
+        .header-placeholder {
+            display: flex;
+            overflow: hidden;
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
 

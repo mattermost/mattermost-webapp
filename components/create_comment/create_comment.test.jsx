@@ -54,6 +54,8 @@ describe('components/CreateComment', () => {
         isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
+        selectChannelMemberCountsByGroup: jest.fn(),
+        useGroupMentions: true,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -713,6 +715,161 @@ describe('components/CreateComment', () => {
             });
         });
 
+        it('should show Confirm Modal for @group mention when needed and no timezone notification', async () => {
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: 'Test message @developers',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers'
+                    }]
+                ]),
+                channelMemberCountsByGroup: {
+                    developers: {
+                        channel_member_count: 10,
+                        channel_member_timezones_count: 0,
+                    }
+                },
+                isTimezoneEnabled: false,
+                channelMembersCount: 8,
+                useChannelMentions: true,
+                enableConfirmNotificationsToChannel: true,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).not.toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.state('memberNotifyCount')).toBe(10);
+            expect(wrapper.state('channelTimezoneCount')).toBe(0);
+            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
+            expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
+            expect(wrapper.state('showConfirmModal')).toBe(true);
+        });
+
+        it('should show Confirm Modal for @group mentions when needed and no timezone notification', async () => {
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: 'Test message @developers @boss @love @you @software-developers',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers',
+                    }],
+                    ['@boss', {
+                        id: 'boss',
+                        name: 'boss',
+                    }],
+                    ['@love', {
+                        id: 'love',
+                        name: 'love',
+                    }],
+                    ['@you', {
+                        id: 'you',
+                        name: 'you',
+                    }],
+                    ['@software-developers', {
+                        id: 'softwareDevelopers',
+                        name: 'software-developers',
+                    }],
+                ]),
+                channelMemberCountsByGroup: {
+                    developers: {
+                        channel_member_count: 10,
+                        channel_member_timezones_count: 0,
+                    },
+                    boss: {
+                        channel_member_count: 20,
+                        channel_member_timezones_count: 0,
+                    },
+                    love: {
+                        channel_member_count: 30,
+                        channel_member_timezones_count: 0,
+                    },
+                    you: {
+                        channel_member_count: 40,
+                        channel_member_timezones_count: 0,
+                    },
+                    softwareDevelopers: {
+                        channel_member_count: 5,
+                        channel_member_timezones_count: 0,
+                    },
+                },
+                isTimezoneEnabled: false,
+                channelMembersCount: 8,
+                useChannelMentions: true,
+                enableConfirmNotificationsToChannel: true,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).not.toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.state('memberNotifyCount')).toBe(40);
+            expect(wrapper.state('channelTimezoneCount')).toBe(0);
+            expect(wrapper.state('mentions')).toMatchObject(['@developers', '@boss', '@love', '@you', '@software-developers']);
+            expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
+            expect(wrapper.state('showConfirmModal')).toBe(true);
+        });
+
+        it('should show Confirm Modal for @group mention with timezone enabled', async () => {
+            const props = {
+                ...baseProps,
+                draft: {
+                    message: 'Test message @developers',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}],
+                },
+                groupsWithAllowReference: new Map([
+                    ['@developers', {
+                        id: 'developers',
+                        name: 'developers'
+                    }]
+                ]),
+                channelMemberCountsByGroup: {
+                    developers: {
+                        channel_member_count: 10,
+                        channel_member_timezones_count: 5,
+                    }
+                },
+                isTimezoneEnabled: true,
+                channelMembersCount: 8,
+                useChannelMentions: true,
+                enableConfirmNotificationsToChannel: true,
+            };
+
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            await wrapper.instance().handleSubmit({preventDefault});
+
+            expect(onSubmit).not.toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
+            expect(wrapper.state('memberNotifyCount')).toBe(10);
+            expect(wrapper.state('channelTimezoneCount')).toBe(5);
+            expect(wrapper.state('mentions')).toMatchObject(['@developers']);
+            expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
+            expect(wrapper.state('showConfirmModal')).toBe(true);
+        });
+
         it('should allow to force send invalid slash command as a message', async () => {
             const error = new Error('No command found');
             error.server_error_id = 'api.command.execute_command.not_found.app_error';
@@ -777,6 +934,7 @@ describe('components/CreateComment', () => {
                 const props = {
                     ...baseProps,
                     useChannelMentions: false,
+                    enableConfirmNotificationsToChannel: false,
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
@@ -798,6 +956,7 @@ describe('components/CreateComment', () => {
                 const props = {
                     ...baseProps,
                     useChannelMentions: true,
+                    enableConfirmNotificationsToChannel: false,
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
@@ -1123,6 +1282,20 @@ describe('components/CreateComment', () => {
             />
         );
 
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+
         const event = {
             target: {
                 id: 'reply_textbox',
@@ -1141,6 +1314,64 @@ describe('components/CreateComment', () => {
         };
 
         const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
+    });
+
+    it('should be able to format a github codeblock (pasted as a table) with with existing draft post', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallowWithIntl(
+            <CreateComment
+                {...baseProps}
+                draft={draft}
+            />
+        );
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()})}};
+        wrapper.setState({
+            draft: {
+                ...draft,
+                message: 'test',
+            },
+            caretPosition: 'test'.length, // cursor is at the end
+        });
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/plain', 'text/html'],
+                getData: (type) => {
+                    if (type === 'text/plain') {
+                        return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
+                    }
+                    return '<table class="highlight tab-size js-file-line-container" data-tab-size="8"><tbody><tr><td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> a javascript codeblock example</span></td></tr><tr><td id="L2" class="blob-num js-line-number" data-line-number="2">&nbsp;</td><td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> (<span class="pl-c1">1</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {</td></tr><tr><td id="L3" class="blob-num js-line-number" data-line-number="3">&nbsp;</td><td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">\'</span>condition is true<span class="pl-pds">\'</span></span>);</td></tr><tr><td id="L4" class="blob-num js-line-number" data-line-number="4">&nbsp;</td><td id="LC4" class="blob-code blob-code-inner js-file-line">}</td></tr></tbody></table>';
+                },
+            },
+        };
+
+        const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
