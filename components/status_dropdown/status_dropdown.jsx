@@ -116,7 +116,6 @@ export default class StatusDropdown extends React.Component {
             <MenuWrapper
                 onToggle={this.onToggle}
                 style={this.props.style}
-                // className='status'
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
