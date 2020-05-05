@@ -309,6 +309,7 @@ export const SocketEvents = {
     LEAVE_TEAM: 'leave_team',
     UPDATE_TEAM: 'update_team',
     DELETE_TEAM: 'delete_team',
+    UPDATE_TEAM_SCHEME: 'update_team_scheme',
     USER_ADDED: 'user_added',
     USER_REMOVED: 'user_removed',
     USER_UPDATED: 'user_updated',
@@ -787,7 +788,9 @@ export const Constants = {
     },
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
+    ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
