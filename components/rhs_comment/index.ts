@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {Posts} from 'mattermost-redux/constants';
 import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
@@ -22,9 +22,19 @@ import {Preferences} from 'utils/constants';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
 
-import RhsComment from './rhs_comment.jsx';
+import RhsComment from './rhs_comment.js';
 
-function isConsecutivePost(state, ownProps) {
+import {GlobalState} from 'types/store';
+import {Post} from 'mattermost-redux/src/types/posts';
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+type Props = {
+    post: Post;
+    previousPostId: string;
+    teamId: string;
+    
+};
+function isConsecutivePost(state: GlobalState, ownProps: Props) {
     const post = ownProps.post;
     const previousPost = ownProps.previousPostId && getPost(state, ownProps.previousPostId);
 
@@ -45,7 +55,7 @@ function isConsecutivePost(state, ownProps) {
     return consecutivePost;
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const getReactionsForPost = makeGetReactionsForPost();
     const getDisplayName = makeGetDisplayName();
     const emojiMap = getEmojiMap(state);
@@ -58,7 +68,7 @@ function mapStateToProps(state, ownProps) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     return {
-        author: getDisplayName(state, ownProps.post.user_id),
+        author: getDisplayName(state, ownProps.post.user_id, false),
         reactions: getReactionsForPost(state, ownProps.post.id),
         enableEmojiPicker,
         enablePostUsernameOverride,
@@ -75,7 +85,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             markPostAsUnread,

@@ -29,54 +29,85 @@ import MessageWithAdditionalContent from 'components/message_with_additional_con
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
-
+import {isNil} from 'lodash';
 import UserProfile from 'components/user_profile';
+import {Post} from 'mattermost-redux/src/types/posts';
 
-class RhsComment extends React.PureComponent {
-    static propTypes = {
-        post: PropTypes.object,
-        teamId: PropTypes.string.isRequired,
-        currentUserId: PropTypes.string.isRequired,
-        compactDisplay: PropTypes.bool,
-        author: PropTypes.string,
-        reactions: PropTypes.object,
-        isFlagged: PropTypes.bool,
-        isBusy: PropTypes.bool,
-        removePost: PropTypes.func.isRequired,
-        previewCollapsed: PropTypes.string.isRequired,
-        previewEnabled: PropTypes.bool.isRequired,
-        isEmbedVisible: PropTypes.bool,
-        enableEmojiPicker: PropTypes.bool.isRequired,
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
-        isReadOnly: PropTypes.bool.isRequired,
-        pluginPostTypes: PropTypes.object,
-        channelIsArchived: PropTypes.bool.isRequired,
-        isConsecutivePost: PropTypes.bool,
-        handleCardClick: PropTypes.func,
-        a11yIndex: PropTypes.number,
+export interface intlShape {
+    locale: string;
+    timeZone: string;
+    formats: any;
+    messages: any;
+    textComponent: any,
+    defaultLocale: string;
+    defaultFormats: any;
+    onError: () => any,
+    formatDate: () => any;
+    formatTime: () => any;
+    formatRelativeTime: () => any;
+    formatNumber: () => any;
+    formatPlural: () => any;
+    formatMessage: () => any;
+    formatHTMLMessage: () => any;
+}
 
-        /**
-         * To Check if the current post is last in the list of RHS
-         */
-        isLastPost: PropTypes.bool,
+interface Actions {
+    markPostAsUnread: (post: Post) => any;
+    emitShortcutReactToLastPostFrom: (str: string) => any;
+}
 
-        /**
-         * To check if the state of emoji for last message and from where it was emitted
-         */
-        shortcutReactToLastPostEmittedFrom: PropTypes.string,
-        intl: intlShape.isRequired,
-        actions: PropTypes.shape({
-            markPostAsUnread: PropTypes.func.isRequired,
+interface RhsCommentProps {
+    post: Post;
+    teamId: string;
+    currentUserId: string;
+    compactDisplay: boolean;
+    author: string;
+    reactions: any;
+    isFlagged: boolean;
+    isBusy: boolean;
+    removePost: () => any,
+    previewCollapsed: string;
+    previewEnabled: boolean;
+    isEmbedVisible: boolean;
+    enableEmojiPicker: boolean;
+    enablePostUsernameOverride: boolean;
+    isReadOnly: boolean;
+    pluginPostTypes: any,
+    channelIsArchived: boolean;
+    isConsecutivePost: boolean;
+    handleCardClick: () => any,
+    a11yIndex: number;
 
-            /**
-             * Function to set or unset emoji picker for last message
-             */
-            emitShortcutReactToLastPostFrom: PropTypes.func
-        }),
-        emojiMap: PropTypes.object.isRequired,
-    };
+    /**
+     * To Check if the current post is last in the list of RHS
+     */
+    isLastPost: boolean;
 
-    constructor(props) {
+    /**
+     * To check if the state of emoji for last message and from where it was emitted
+     */
+    shortcutReactToLastPostEmittedFrom: string;
+    intl: intlShape;
+    actions: Actions;
+    emojiMap: any;
+};
+
+type RhsCommentState = {
+    showEmojiPicker: boolean;
+    dropdownOpened: boolean;
+    alt: boolean;
+    hover: boolean;
+    a11yActive: boolean;
+    currentAriaLabel: string;
+}
+
+export class RhsComment extends React.PureComponent<RhsCommentProps, RhsCommentState> {
+    
+
+    postRef: React.RefObject<HTMLDivElement>;
+    postHeaderRef: React.RefObject<HTMLDivElement>;
+
+    constructor(props: RhsCommentProps) {
         super(props);
 
         this.postRef = React.createRef();
@@ -113,11 +144,11 @@ class RhsComment extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: RhsCommentProps) {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         if (this.state.a11yActive) {
-            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+            this.postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
@@ -128,7 +159,7 @@ class RhsComment extends React.PureComponent {
         }
     }
 
-    handleShortcutReactToLastPost = (isLastPost) => {
+    handleShortcutReactToLastPost = (isLastPost: boolean | null | undefined) => {
         if (isLastPost) {
             const {isReadOnly, channelIsArchived, enableEmojiPicker, post,
                 actions: {emitShortcutReactToLastPostFrom}} = this.props;
@@ -144,7 +175,7 @@ class RhsComment extends React.PureComponent {
             const isFailedPost = post && post.failed;
 
             // Checking if rhs comment is in scroll view of the user
-            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
+            const boundingRectOfPostInfo = this.postHeaderRef.current?.getBoundingClientRect();
             const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
                 boundingRectOfPostInfo.bottom < (window.innerHeight);
 
@@ -196,7 +227,7 @@ class RhsComment extends React.PureComponent {
         });
     };
 
-    getClassName = (post, isSystemMessage, isMeMessage) => {
+    getClassName = (post: Post, isSystemMessage: boolean, isMeMessage: boolean) => {
         let className = 'post post--thread same--root post--comment';
 
         if (this.props.currentUserId === post.user_id) {
@@ -230,13 +261,13 @@ class RhsComment extends React.PureComponent {
         return className;
     };
 
-    handleAlt = (e) => {
+    handleAlt = (e: KeyboardEvent) => {
         if (this.state.alt !== e.altKey) {
             this.setState({alt: e.altKey});
         }
     }
 
-    handleDropdownOpened = (isOpened) => {
+    handleDropdownOpened = (isOpened: boolean) => {
         this.setState({
             dropdownOpened: isOpened,
         });
@@ -262,13 +293,13 @@ class RhsComment extends React.PureComponent {
         this.setState({a11yActive: false});
     }
 
-    handlePostClick = (e) => {
+    handlePostClick = (e: React.MouseEvent) => {
         if (this.props.channelIsArchived) {
             return;
         }
 
         if (e.altKey) {
-            this.props.actions.markPostAsUnread(this.props.post);
+            this.props.actions?.markPostAsUnread(this.props.post);
         }
     }
 
@@ -314,7 +345,7 @@ class RhsComment extends React.PureComponent {
 
             profilePicture = (
                 <PostProfilePicture
-                    compactDisplay={this.props.compactDisplay}
+                    compactDisplay={this.props.compactDisplay || false}
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     post={post}
@@ -520,7 +551,7 @@ class RhsComment extends React.PureComponent {
                 role='listitem'
                 ref={this.postRef}
                 id={'rhsPost_' + post.id}
-                tabIndex='-1'
+                tabIndex={-1}
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
@@ -577,5 +608,3 @@ class RhsComment extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(RhsComment);
