@@ -121,6 +121,7 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
     render() {
         let urlClass = 'input-group input-group--limit';
         let error = null;
+        let helpText = null;
 
         if (this.state.urlErrors) {
             urlClass += ' has-error';
@@ -133,6 +134,15 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
                         {this.state.urlErrors || this.props.serverError}
                     </p>
                 </div>
+            );
+        } else {
+            helpText = (
+                <p className='input__help'>
+                    <FormattedMessage
+                        id='change_url.helpText'
+                        defaultMessage='You can use lowercase letters, numbers, dashes, and underscores.'
+                    />
+                </p>
             );
         }
 
@@ -164,12 +174,6 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
                     className='form-horizontal'
                 >
                     <Modal.Body>
-                        <div className='modal-intro'>
-                            <FormattedMessage
-                                id='channel_flow.changeUrlDescription'
-                                defaultMessage='Some characters are now allowed in URLs and may be removed.'
-                            />
-                        </div>
                         <div className='form-group'>
                             <label className='col-sm-3 form__label control-label'>
                                 <FormattedMessage
@@ -197,6 +201,7 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
                                     />
                                 </div>
                                 {error}
+                                {helpText}
                             </div>
                         </div>
                     </Modal.Body>

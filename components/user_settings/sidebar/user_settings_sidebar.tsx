@@ -1,9 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {UserProfile} from 'mattermost-redux/src/types/users';
+
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
+import {SidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
@@ -18,91 +23,121 @@ import SettingItemMin from 'components/setting_item_min';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class UserSettingsSidebar extends React.Component {
-    static propTypes = {
-        actions: PropTypes.shape({
-
-            /*
-             * Function to save the user's preferences
-             */
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
+export interface UserSettingsSidebarProps {
+    actions: {
 
         /**
-         * Current user object
-         */
-        user: PropTypes.object,
-
-        /**
-         * The preferences for closing the unused direct messages channels
-         */
-        closeUnusedDirectMessages: PropTypes.string.isRequired,
-
-        /**
-         * Display the close unused direct messages channels options
-         */
-        showUnusedOption: PropTypes.bool.isRequired,
-
-        /**
-         * Display the channel grouping and sorting sections options
-         */
-        showChannelOrganization: PropTypes.bool.isRequired,
-
-        /**
-         * Display the setting to toggle the new sidebar
-         */
-        showChannelSidebarOrganization: PropTypes.bool.isRequired,
-
-        /**
-         * The preferences to show the channel switcher in the sidebar
-         */
-        channelSwitcherOption: PropTypes.string.isRequired,
-
-        /**
-         * The preferences to show the channel sidebar organization setting
-         */
-        channelSidebarOrganizationOption: PropTypes.string.isRequired,
-
-        /**
-         * Display the unread channels sections options
-         * The preferences to display channels in sidebar
-         */
-        sidebarPreference: PropTypes.shape({
-
-            /**
-             * Group channels by type or none
-             */
-            grouping: PropTypes.string.isRequired,
-
-            /**
-             * Sort channels by recency or alphabetical order
-             */
-            sorting: PropTypes.string.isRequired,
-        }).isRequired,
-
-        /**
-         * Option for including unread channels at top
-         */
-        unreadsAtTop: PropTypes.string.isRequired,
-
-        /**
-         * Option for including favorite channels at top
-         */
-        favoriteAtTop: PropTypes.string.isRequired,
-
-        updateSection: PropTypes.func,
-        activeSection: PropTypes.string,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
+     * Function to save the user's preferences
+     */
+        savePreferences: (userId: string, preferences: PreferenceType[]) => any;
     };
 
-    constructor(props) {
+    /**
+   * Current user object
+   */
+    user: UserProfile;
+
+    /**
+   * The preferences for closing the unused direct messages channels
+   */
+    closeUnusedDirectMessages: string;
+
+    /**
+   * Display the close unused direct messages channels options
+   */
+    showUnusedOption: boolean;
+
+    /**
+   * Display the channel grouping and sorting sections options
+   */
+    showChannelOrganization: boolean;
+
+    /**
+   * Display the setting to toggle the new sidebar
+   */
+    showChannelSidebarOrganization: boolean;
+
+    /**
+   * The preferences to show the channel switcher in the sidebar
+   */
+    channelSwitcherOption: string;
+
+    /**
+   * The preferences to show the channel sidebar organization setting
+   */
+    channelSidebarOrganizationOption: string;
+
+    /**
+   * Display the unread channels sections options
+   * The preferences to display channels in sidebar
+   */
+    sidebarPreference: SidebarPreferences;
+
+    /**
+   * Option for including unread channels at top
+   */
+    unreadsAtTop: string;
+
+    /**
+   * Option for including favorite channels at top
+   */
+    favoriteAtTop: string;
+
+    updateSection?: (section: string) => void;
+    activeSection?: string;
+    closeModal: () => void;
+    collapseModal: () => void;
+}
+
+enum Settings {
+    CloseUnusedDirectMessages = 'close_unused_direct_messages',
+    ChannelSwitcherSection = 'channel_switcher_section',
+    ChannelSidebarOrganization = 'channel_sidebar_organization',
+    Grouping = 'grouping',
+    UnreadsAtTop = 'unreadsAtTop',
+    FavoriteAtTop = 'favoriteAtTop',
+    Sorting = 'sorting',
+    NewSidebar = 'newSidebar',
+    ChannelGrouping= 'channel_grouping',
+    ChannelSorting= 'channel_sorting',
+}
+
+interface GroupingSorting {
+
+    /**
+   * Group channels by type or none
+   */
+    [Settings.Grouping]: string;
+
+    /**
+   * Sort channels by recency or alphabetical order
+   */
+    [Settings.Sorting]: string;
+}
+
+interface SettingType extends GroupingSorting {
+    [Settings.CloseUnusedDirectMessages]: string;
+    [Settings.ChannelSwitcherSection]: string;
+    [Settings.ChannelSidebarOrganization]: string;
+    [Settings.UnreadsAtTop]: string;
+    [Settings.FavoriteAtTop]: string;
+    [Settings.NewSidebar]?: string;
+}
+
+interface UserSettingsSidebarState {
+    settings: SettingType;
+    isSaving: boolean;
+    serverError?: string;
+}
+
+export default class UserSettingsSidebar extends React.Component<UserSettingsSidebarProps, UserSettingsSidebarState> {
+    constructor(props: UserSettingsSidebarProps) {
         super(props);
 
         this.state = this.getStateFromProps();
     }
 
-    getStateFromProps = () => {
+    getStateFromProps = (): UserSettingsSidebarState => {
         const {
             closeUnusedDirectMessages,
             channelSwitcherOption,
@@ -112,7 +147,7 @@ export default class UserSettingsSidebar extends React.Component {
                 sorting,
             },
             unreadsAtTop,
-            favoriteAtTop,
+            favoriteAtTop
         } = this.props;
 
         return {
@@ -129,24 +164,27 @@ export default class UserSettingsSidebar extends React.Component {
         };
     };
 
-    trackSettingChangeIfNecessary = (setting) => {
-        if (this.state.settings[setting] !== this.props.sidebarPreference[setting]) {
+    trackSettingChangeIfNecessary(setting: keyof SettingType) {
+        if (this.state.settings[setting] !== this.props.sidebarPreference[setting as keyof GroupingSorting]) {
             trackEvent('settings', 'user_settings_update', {field: 'sidebar.' + setting, value: this.state.settings[setting]});
         }
     }
 
-    updateSetting = (setting, value) => {
-        const settings = this.state.settings;
+    updateSetting<T extends keyof SettingType>(setting: T, value: SettingType[T]): void {
+        const settings: SettingType = this.state.settings;
         settings[setting] = value;
 
-        this.setState(settings);
-    };
+        this.setState({
+            ...this.state,
+            settings
+        });
+    }
 
-    handleSubmit = (setting) => {
+    handleSubmit = (setting: Settings | keyof SettingType): void => {
         const {actions, user} = this.props;
-        const preferences = [];
+        const preferences: PreferenceType[] = [];
 
-        if (setting === 'channel_grouping' || setting === 'channel_sorting') {
+        if (setting === Settings.ChannelGrouping || setting === Settings.ChannelSorting) {
             const updatedSidebarSettings = {
                 grouping: this.state.settings.grouping,
                 unreads_at_top: this.state.settings.unreadsAtTop,
@@ -161,11 +199,11 @@ export default class UserSettingsSidebar extends React.Component {
                 value: JSON.stringify(updatedSidebarSettings),
             });
 
-            this.trackSettingChangeIfNecessary('grouping');
-            this.trackSettingChangeIfNecessary('sorting');
-            this.trackSettingChangeIfNecessary('unreadsAtTop');
-            this.trackSettingChangeIfNecessary('favoriteAtTop');
-            this.trackSettingChangeIfNecessary('newSidebar');
+            this.trackSettingChangeIfNecessary(Settings.Grouping);
+            this.trackSettingChangeIfNecessary(Settings.Sorting);
+            this.trackSettingChangeIfNecessary(Settings.UnreadsAtTop);
+            this.trackSettingChangeIfNecessary(Settings.FavoriteAtTop);
+            this.trackSettingChangeIfNecessary(Settings.NewSidebar);
         } else {
             preferences.push({
                 user_id: user.id,
@@ -184,7 +222,7 @@ export default class UserSettingsSidebar extends React.Component {
         });
     };
 
-    getPreviousSection = (sectionName) => {
+    getPreviousSection = (sectionName: string): string | null => {
         const {showChannelOrganization, channelSidebarOrganizationOption} = this.props;
         switch (sectionName) {
         case 'autoCloseDM':
@@ -198,15 +236,17 @@ export default class UserSettingsSidebar extends React.Component {
         default:
             return null;
         }
-    }
-
-    updateSection = (section) => {
-        this.setState(this.getStateFromProps());
-        this.setState({isSaving: false});
-        this.props.updateSection(section);
     };
 
-    renderAutoCloseDMLabel = (value) => {
+    updateSection = (section: string): void => {
+        if (this.props.updateSection) {
+            this.setState(this.getStateFromProps());
+            this.setState({isSaving: false});
+            this.props.updateSection(section);
+        }
+    };
+
+    renderAutoCloseDMLabel = (value: string): JSX.Element => {
         if (value === 'after_seven_days') {
             return (
                 <FormattedMessage
@@ -224,7 +264,7 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
-    renderAutoCloseDMSection = () => {
+    renderAutoCloseDMSection = (): JSX.Element => {
         let contents;
 
         if (this.props.activeSection === 'autoCloseDM') {
@@ -245,7 +285,7 @@ export default class UserSettingsSidebar extends React.Component {
                                         type='radio'
                                         name='autoCloseDM'
                                         checked={this.state.settings.close_unused_direct_messages === 'after_seven_days'}
-                                        onChange={this.updateSetting.bind(this, 'close_unused_direct_messages', 'after_seven_days')}
+                                        onChange={this.updateSetting.bind(this, Settings.CloseUnusedDirectMessages, 'after_seven_days')}
                                     />
                                     <FormattedMessage
                                         id='user.settings.sidebar.after_seven_days'
@@ -260,7 +300,7 @@ export default class UserSettingsSidebar extends React.Component {
                                         type='radio'
                                         name='autoCloseDM'
                                         checked={this.state.settings.close_unused_direct_messages === 'never'}
-                                        onChange={this.updateSetting.bind(this, 'close_unused_direct_messages', 'never')}
+                                        onChange={this.updateSetting.bind(this, Settings.CloseUnusedDirectMessages, 'never')}
                                     />
                                     <FormattedMessage
                                         id='user.settings.sidebar.never'
@@ -307,7 +347,7 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
-    renderOrganizationLabel = () => {
+    renderOrganizationLabel = (): JSX.Element[] => {
         const {
             sidebarPreference: {
                 sorting,
@@ -317,7 +357,7 @@ export default class UserSettingsSidebar extends React.Component {
             favoriteAtTop,
         } = this.props;
 
-        const messages = [];
+        const messages: JSX.Element[] = [];
 
         if (grouping === 'by_type') {
             messages.push(
@@ -359,8 +399,8 @@ export default class UserSettingsSidebar extends React.Component {
             />
         );
 
-        let atTopId = null;
-        let atTopDefaultMessage = null;
+        let atTopId: string | null = null;
+        let atTopDefaultMessage: string | null = null;
         if (unreadsAtTop === 'true' && favoriteAtTop === 'false') {
             atTopId = t('user.settings.sidebar.unreadsShort');
             atTopDefaultMessage = 'Unreads grouped separately';
@@ -381,7 +421,7 @@ export default class UserSettingsSidebar extends React.Component {
                 <FormattedMessage
                     key='atTop'
                     id={atTopId}
-                    defaultMessage={atTopDefaultMessage}
+                    defaultMessage={atTopDefaultMessage as any}
                 />
             );
         }
@@ -389,7 +429,7 @@ export default class UserSettingsSidebar extends React.Component {
         return messages;
     };
 
-    renderChannelSwitcherLabel = (value) => {
+    renderChannelSwitcherLabel = (value: string): JSX.Element => {
         if (value === 'true') {
             return (
                 <FormattedMessage
@@ -407,7 +447,7 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
-    renderChannelSidebarOrganizationSection = () => {
+    renderChannelSidebarOrganizationSection = (): JSX.Element => {
         const helpChannelSidebarOrganizationText = (
             <FormattedMarkdownMessage
                 id={t('user.settings.sidebar.channelSidebarOrganizationSection.desc')}
@@ -456,7 +496,7 @@ export default class UserSettingsSidebar extends React.Component {
                                         type='radio'
                                         name='channelSidebarOrganization'
                                         checked={this.state.settings.channel_sidebar_organization === 'true'}
-                                        onChange={this.updateSetting.bind(this, 'channel_sidebar_organization', 'true')}
+                                        onChange={this.updateSetting.bind(this, Settings.ChannelSidebarOrganization, 'true')}
                                     />
                                     <FormattedMessage
                                         id='user.settings.sidebar.on'
@@ -475,7 +515,7 @@ export default class UserSettingsSidebar extends React.Component {
                                         type='radio'
                                         name='channelSidebarOrganization'
                                         checked={this.state.settings.channel_sidebar_organization === 'false'}
-                                        onChange={this.updateSetting.bind(this, 'channel_sidebar_organization', 'false')}
+                                        onChange={this.updateSetting.bind(this, Settings.ChannelSidebarOrganization, 'false')}
                                     />
                                     <FormattedMessage
                                         id='user.settings.sidebar.off'
@@ -505,18 +545,18 @@ export default class UserSettingsSidebar extends React.Component {
                 <div className='divider-light'/>
             </React.Fragment>
         );
-    }
+    };
 
-    renderChannelOrganizationSection = () => {
+    renderChannelOrganizationSection = (): JSX.Element => {
         const {
             grouping,
             sorting,
         } = this.state.settings;
 
-        let contents;
+        let contents: JSX.Element;
 
         if (this.props.activeSection === 'groupChannels') {
-            const inputs = [];
+            const inputs: JSX.Element[] = [];
 
             inputs.push(
                 <fieldset key='groupingSectionSetting'>
@@ -533,7 +573,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 type='radio'
                                 name='groupChannels'
                                 checked={grouping === 'by_type'}
-                                onChange={this.updateSetting.bind(this, 'grouping', 'by_type')}
+                                onChange={this.updateSetting.bind(this, Settings.Grouping, 'by_type')}
                             />
                             <FormattedMessage
                                 id='user.settings.sidebar.groupByType'
@@ -548,7 +588,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 type='radio'
                                 name='groupChannels'
                                 checked={grouping === 'none'}
-                                onChange={this.updateSetting.bind(this, 'grouping', 'none')}
+                                onChange={this.updateSetting.bind(this, Settings.Grouping, 'none')}
                             />
                             <FormattedMessage
                                 id='user.settings.sidebar.groupByNone'
@@ -582,7 +622,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 type='radio'
                                 name='sortChannels'
                                 checked={sorting === 'recent'}
-                                onChange={this.updateSetting.bind(this, 'sorting', 'recent')}
+                                onChange={this.updateSetting.bind(this, Settings.Sorting, 'recent')}
                             />
                             <FormattedMessage
                                 id='user.settings.sidebar.sortRecent'
@@ -597,7 +637,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 type='radio'
                                 name='sortChannels'
                                 checked={sorting === 'alpha'}
-                                onChange={this.updateSetting.bind(this, 'sorting', 'alpha')}
+                                onChange={this.updateSetting.bind(this, Settings.Sorting, 'alpha')}
                             />
                             <FormattedMessage
                                 id='user.settings.sidebar.sortAlpha'
@@ -624,7 +664,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 id='unreadAtTopOption'
                                 type='checkbox'
                                 checked={this.state.settings.unreadsAtTop === 'true'}
-                                onChange={(e) => this.updateSetting('unreadsAtTop', (e.target.checked).toString())}
+                                onChange={(e) => this.updateSetting(Settings.UnreadsAtTop, (e.target.checked).toString())}
                             />
                             <FormattedMessage
                                 id='user.settings.sidebar.unreads'
@@ -651,7 +691,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 id='favoriteAtTopOption'
                                 type='checkbox'
                                 checked={this.state.settings.favoriteAtTop === 'true'}
-                                onChange={(e) => this.updateSetting('favoriteAtTop', (e.target.checked).toString())}
+                                onChange={(e) => this.updateSetting(Settings.FavoriteAtTop, (e.target.checked).toString())}
                             />
                             <FormattedMessage
                                 id='user.settings.sidebar.favorites'
@@ -694,7 +734,9 @@ export default class UserSettingsSidebar extends React.Component {
                             defaultMessage='Channel Grouping and Sorting'
                         />
                     }
-                    describe={this.renderOrganizationLabel()}
+
+                    // todo: describe is expecting JSX. Element | string, but we're passing an array. Should the type be changed to JSX.Element[] or just pass only one value here?
+                    describe={this.renderOrganizationLabel() as any}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
                 />
@@ -709,7 +751,7 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
-    renderChannelSwitcherSection = () => {
+    renderChannelSwitcherSection = (): JSX.Element => {
         let channelSwitcherSectionDescId = t('user.settings.sidebar.channelSwitcherSectionDesc.windows');
         let channelSwitcherSectionDescDefault = 'The channel switcher is shown at the bottom of the sidebar and is used to jump between channels quickly. It can also be accessed using CTRL + K.';
         if (isMac()) {
@@ -751,7 +793,7 @@ export default class UserSettingsSidebar extends React.Component {
                                         type='radio'
                                         name='channelSwitcher'
                                         checked={this.state.settings.channel_switcher_section === 'true'}
-                                        onChange={this.updateSetting.bind(this, 'channel_switcher_section', 'true')}
+                                        onChange={this.updateSetting.bind(this, Settings.ChannelSwitcherSection, 'true')}
                                     />
                                     <FormattedMessage
                                         id='user.settings.sidebar.on'
@@ -770,7 +812,7 @@ export default class UserSettingsSidebar extends React.Component {
                                         type='radio'
                                         name='channelSwitcher'
                                         checked={this.state.settings.channel_switcher_section === 'false'}
-                                        onChange={this.updateSetting.bind(this, 'channel_switcher_section', 'false')}
+                                        onChange={this.updateSetting.bind(this, Settings.ChannelSwitcherSection, 'false')}
                                     />
                                     <FormattedMessage
                                         id='user.settings.sidebar.off'
@@ -809,7 +851,7 @@ export default class UserSettingsSidebar extends React.Component {
         );
     };
 
-    render() {
+    render(): JSX.Element {
         const {showUnusedOption, showChannelOrganization, showChannelSidebarOrganization, channelSidebarOrganizationOption} = this.props;
 
         const channelSidebarOrganizationDisabled = channelSidebarOrganizationOption === 'false';

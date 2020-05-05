@@ -56,6 +56,7 @@ export default class GuestPermissionsTree extends React.Component {
             },
             Permissions.USE_CHANNEL_MENTIONS,
             Permissions.USE_GROUP_MENTIONS,
+            Permissions.CREATE_POST,
         ];
     }
 

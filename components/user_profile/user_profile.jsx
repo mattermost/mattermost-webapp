@@ -15,6 +15,7 @@ export default class UserProfile extends PureComponent {
     static propTypes = {
         disablePopover: PropTypes.bool,
         displayName: PropTypes.string,
+        displayUsername: PropTypes.bool,
         hasMention: PropTypes.bool,
         hideStatus: PropTypes.bool,
         isBusy: PropTypes.bool,
@@ -26,6 +27,7 @@ export default class UserProfile extends PureComponent {
 
     static defaultProps = {
         disablePopover: false,
+        displayUsername: false,
         hasMention: false,
         hideStatus: false,
         isRHS: false,
@@ -47,6 +49,7 @@ export default class UserProfile extends PureComponent {
         const {
             disablePopover,
             displayName,
+            displayUsername,
             isBusy,
             isRHS,
             hasMention,
@@ -56,7 +59,13 @@ export default class UserProfile extends PureComponent {
             userId,
         } = this.props;
 
-        const name = overwriteName || displayName || '...';
+        let name;
+        if (displayUsername) {
+            name = `@${(user.username)}`;
+        } else {
+            name = overwriteName || displayName || '...';
+        }
+
         if (disablePopover) {
             return <div className='user-popover'>{name}</div>;
         }

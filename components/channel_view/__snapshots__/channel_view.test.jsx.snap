@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_view Should match snapshot if channel is archived with roles loading 1`] = `
+<div
+  className="app__content"
+  id="app-content"
+>
+  <FileUploadOverlay
+    overlayType="center"
+  />
+  <withRouter(Connect(injectIntl(ChannelHeader)))
+    channelId="channelId"
+  />
+  <DeferredRenderWrapper
+    channelId="channelId"
+    prevChannelId=""
+  />
+  <div
+    className="post-create__container"
+    id="post-create"
+  >
+    <div
+      className="channel-archived__message"
+      id="channelArchivedMessage"
+    >
+      <injectIntl(FormattedMarkdownMessage)
+        defaultMessage="You are viewing an **archived channel**. New messages cannot be posted."
+        id="archivedChannelMessage"
+      />
+      <button
+        className="btn btn-primary channel-archived__close-btn"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Close Channel"
+          id="center_panel.archived.closeChannel"
+          values={Object {}}
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/channel_view Should match snapshot if channel roles loading 1`] = `
+<div
+  className="app__content"
+  id="app-content"
+>
+  <FileUploadOverlay
+    overlayType="center"
+  />
+  <withRouter(Connect(injectIntl(ChannelHeader)))
+    channelId="channelId"
+  />
+  <DeferredRenderWrapper
+    channelId="channelId"
+    prevChannelId=""
+  />
+</div>
+`;
+
+exports[`components/channel_view Should match snapshot with base props 1`] = `
+<div
+  className="app__content"
+  id="app-content"
+>
+  <FileUploadOverlay
+    overlayType="center"
+  />
+  <withRouter(Connect(injectIntl(ChannelHeader)))
+    channelId="channelId"
+  />
+  <DeferredRenderWrapper
+    channelId="channelId"
+    prevChannelId=""
+  />
+  <div
+    className="post-create__container"
+    id="post-create"
+  >
+    <Connect(injectIntl(CreatePost))
+      getChannelView={[Function]}
+    />
+  </div>
+</div>
+`;
