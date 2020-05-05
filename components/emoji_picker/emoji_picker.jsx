@@ -141,6 +141,8 @@ export default class EmojiPicker extends React.PureComponent {
             searchCustomEmojis: PropTypes.func.isRequired,
             incrementEmojiPickerPage: PropTypes.func.isRequired,
         }).isRequired,
+        filter: PropTypes.string.isRequired,
+        handleFilterChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -216,7 +218,6 @@ export default class EmojiPicker extends React.PureComponent {
         this.state = {
             allEmojis: {},
             categories,
-            filter: '',
             cursor: [-1, -1], // categoryIndex, emojiIndex
             divTopOffset: 0,
             emojisToShow: SYSTEM_EMOJIS_COUNT,
@@ -355,8 +356,9 @@ export default class EmojiPicker extends React.PureComponent {
             this.props.actions.searchCustomEmojis(filter);
         }
 
+        this.props.handleFilterChange(filter);
+
         this.setState(() => ({
-            filter,
             cursor: [-1, -1],
         }));
     }
@@ -399,7 +401,7 @@ export default class EmojiPicker extends React.PureComponent {
     handleKeyDown = (e) => {
         switch (e.key) {
         case 'ArrowRight':
-            if ((this.state.cursor[0] !== -1 || this.state.cursor[1] !== -1) || e.target.selectionStart + 1 > this.state.filter.length) {
+            if ((this.state.cursor[0] !== -1 || this.state.cursor[1] !== -1) || e.target.selectionStart + 1 > this.props.filter.length) {
                 e.preventDefault();
                 this.selectNextEmoji();
             }
@@ -412,35 +414,50 @@ export default class EmojiPicker extends React.PureComponent {
                 this.setState({
                     cursor: [-1, -1],
                 });
-                e.target.selectionStart = this.state.filter.length;
-                e.target.selectionEnd = this.state.filter.length;
+                e.target.selectionStart = this.props.filter.length;
+                e.target.selectionEnd = this.props.filter.length;
                 e.preventDefault();
                 this.searchInput.focus();
             }
             break;
         case 'ArrowUp':
+            e.preventDefault();
             if (e.shiftKey) {
+                // If Shift + Ctrl/Cmd + Up is pressed at any time,
+                // select/highlight the string to the left of the cursor.
                 e.target.selectionStart = 0;
-            } else if (this.state.cursor[1] < EMOJI_PER_ROW) {
+            } else if (this.state.cursor[0] === -1) {
+                // If cursor is on the textbox,
+                // set the cursor to the beginning of the string.
+                e.target.selectionStart = 0;
+                e.target.selectionEnd = 0;
+            } else if (this.state.cursor[0] === 0 && this.state.cursor[1] < EMOJI_PER_ROW) {
+                // If the cursor is highlighting an emoji in the top row,
+                // move the cursor back into the text box to the end of the string.
                 this.setState({
                     cursor: [-1, -1],
                 });
-                e.target.selectionStart = this.state.filter.length;
-                e.target.selectionEnd = this.state.filter.length;
+                e.target.selectionStart = this.props.filter.length;
+                e.target.selectionEnd = this.props.filter.length;
                 this.searchInput.focus();
             } else {
-                e.preventDefault();
+                // Otherwise, move the emoji selector up a row.
                 this.selectPrevEmoji(EMOJI_PER_ROW);
             }
             break;
         case 'ArrowDown':
+            e.preventDefault();
             if (e.shiftKey) {
-                e.target.selectionEnd = this.state.filter.length;
-            } else if (e.target.selectionStart === 0) {
-                e.target.selectionStart = this.state.filter.length;
-                e.target.selectionEnd = this.state.filter.length;
+                // If Shift + Ctrl/Cmd + Down is pressed at any time,
+                // select/highlight the string to the right of the cursor.
+                e.target.selectionEnd = this.props.filter.length;
+            } else if (this.props.filter && e.target.selectionStart === 0) {
+                // If the cursor is at the beginning of the string,
+                // move the cursor to the end of the string.
+                e.target.selectionStart = this.props.filter.length;
+                e.target.selectionEnd = this.props.filter.length;
             } else {
-                e.preventDefault();
+                // Otherwise, move the selection down in the emoji picker.
                 this.selectNextEmoji(EMOJI_PER_ROW);
             }
             break;
@@ -498,7 +515,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCategoryByIndex(index) {
-        if (this.state.filter && index !== 0) {
+        if (this.props.filter && index !== 0) {
             return null;
         }
         return this.getCategoriesByKey(Object.keys(this.state.categories)[index]);
@@ -513,7 +530,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCategoriesByKey(key) {
-        return this.state.filter ? {
+        return this.props.filter ? {
             id: CATEGORY_SEARCH_RESULTS,
             name: CATEGORY_SEARCH_RESULTS,
         } : this.state.categories[key];
@@ -536,7 +553,7 @@ export default class EmojiPicker extends React.PureComponent {
         });
 
         const sortEmojisHelper = (a, b) => {
-            return compareEmojis(a, b, this.state.filter);
+            return compareEmojis(a, b, this.props.filter);
         };
 
         recentEmojis.sort(sortEmojisHelper);
@@ -550,10 +567,10 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getEmojisByCategory(category) {
-        if (this.state.filter) {
+        if (this.props.filter) {
             const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
                 for (let i = 0; i < emoji.aliases.length; i++) {
-                    if (emoji.aliases[i].toLowerCase().includes(this.state.filter)) {
+                    if (emoji.aliases[i].toLowerCase().includes(this.props.filter)) {
                         return true;
                     }
                 }
@@ -594,7 +611,7 @@ export default class EmojiPicker extends React.PureComponent {
     emojiCategories() {
         const categories = this.props.recentEmojis.length ? {...recentEmojiCategory, ...CATEGORIES} : CATEGORIES;
         const categoryKeys = Object.keys(categories);
-        const currentCategoryName = this.state.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
+        const currentCategoryName = this.props.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
         const emojiPickerCategories = categoryKeys.map((categoryName) => {
             const category = categories[categoryName];
 
@@ -617,7 +634,7 @@ export default class EmojiPicker extends React.PureComponent {
                     }
                     onCategoryClick={this.handleCategoryClick}
                     selected={currentCategoryName === category.name}
-                    enable={!this.state.filter}
+                    enable={!this.props.filter}
                 />
             );
         });
@@ -652,6 +669,7 @@ export default class EmojiPicker extends React.PureComponent {
                             onKeyDown={this.handleKeyDown}
                             autocomplete='off'
                             placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
+                            value={this.props.filter}
                         />
                     )}
                 </FormattedMessage>
@@ -660,7 +678,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     emojiCurrentResults() {
-        const {filter} = this.state;
+        const {filter} = this.props;
         const categories = filter ? [CATEGORY_SEARCH_RESULTS] : Object.keys(this.state.categories);
         let numEmojisLoaded = 0;
 

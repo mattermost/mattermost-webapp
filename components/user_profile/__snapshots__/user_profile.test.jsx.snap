@@ -12,7 +12,8 @@ exports[`components/UserProfile should match snapshot 1`] = `
         hideStatus={false}
         isBusy={false}
         isRHS={false}
-        src=""
+        overwriteName=""
+        src="/api/v4/users/undefined/image?_=0"
         userId="user_id"
       />
     }
@@ -25,6 +26,45 @@ exports[`components/UserProfile should match snapshot 1`] = `
       className="user-popover style--none"
     >
       nickname
+    </button>
+  </OverlayTrigger>
+  <BotBadge
+    className="badge-popoverlist"
+    show={false}
+  />
+  <GuestBadge
+    className="badge-popoverlist"
+    show={false}
+  />
+</Fragment>
+`;
+
+exports[`components/UserProfile should match snapshot, when displayUsername is enabled 1`] = `
+<Fragment>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Connect(injectIntl(ProfilePopover))
+        className="user-profile-popover"
+        hasMention={false}
+        hide={[Function]}
+        hideStatus={false}
+        isBusy={false}
+        isRHS={false}
+        overwriteName=""
+        src="/api/v4/users/undefined/image?_=0"
+        userId="user_id"
+      />
+    }
+    placement="right"
+    rootClose={true}
+    trigger="click"
+  >
+    <button
+      aria-label="@username"
+      className="user-popover style--none"
+    >
+      @username
     </button>
   </OverlayTrigger>
   <BotBadge

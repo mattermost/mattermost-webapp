@@ -272,6 +272,22 @@ describe('Interactive Dialog', () => {
 
         closeInteractiveDialog();
     });
+
+    it('ID21032 - Password element check', () => {
+        // # Post a slash command
+        cy.postMessage(`/${createdCommand.trigger}`);
+
+        // * Verify that the interactive dialog modal open up
+        cy.get('#interactiveDialogModal').should('be.visible');
+
+        // * Verify that the password text area is visible
+        cy.get('#somepassword').should('be.visible');
+
+        // * Verify that the password is masked on enter of text
+        cy.get('#somepassword').should('have.attr', 'type', 'password');
+
+        closeInteractiveDialog();
+    });
 });
 
 function closeInteractiveDialog() {
