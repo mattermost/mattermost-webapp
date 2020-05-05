@@ -14,9 +14,26 @@ exports[`components/RhsThread should match snapshot 1`] = `
   <Connect(RhsHeaderPost)
     channel={
       Object {
+        "create_at": 0,
+        "creator_id": "",
         "delete_at": 0,
+        "display_name": "",
+        "extra_update_at": 0,
+        "fake": false,
+        "group_constrained": false,
+        "header": "",
         "id": "channel_id",
+        "isCurrent": false,
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "status": "",
         "team_id": "team_id",
+        "teammate_id": "",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
       }
     }
     rootPostId="id"
