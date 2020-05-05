@@ -55,11 +55,14 @@ type State = {
 
 export default class SidebarChannelLink extends React.PureComponent<Props, State> {
     labelRef: React.RefObject<HTMLSpanElement>;
+    gmItemRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
         super(props);
 
         this.labelRef = React.createRef();
+        this.gmItemRef = React.createRef();
+
         this.state = {
             showTooltip: false,
         };
@@ -105,6 +108,13 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
 
         return ariaLabel.toLowerCase();
+    }
+
+    removeTooltipLink = () => {
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+        if (this.gmItemRef.current) {
+            this.gmItemRef.current.removeAttribute('aria-describedby');
+        }
     }
 
     trackChannelSelectedEvent = () => {
@@ -182,8 +192,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={displayNameToolTip}
+                    onEntering={this.removeTooltipLink}
                 >
-                    {element}
+                    <div ref={this.gmItemRef}>
+                        {element}
+                    </div>
                 </OverlayTrigger>
             );
         }
