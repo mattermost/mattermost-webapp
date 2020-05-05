@@ -116,6 +116,7 @@ export default class StatusDropdown extends React.Component {
             <MenuWrapper
                 onToggle={this.onToggle}
                 style={this.props.style}
+                // className='status'
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
@@ -135,7 +136,6 @@ export default class StatusDropdown extends React.Component {
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id='statusDropdownMenu'
-                    customStyles={{marginLeft: '6px'}}
                 >
                     <Menu.Group>
                         <Menu.ItemAction
