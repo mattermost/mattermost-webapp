@@ -9,6 +9,7 @@ exports[`messageHtmlToComponent At mention 1`] = `
       data-mention="joram"
     >
       <Connect(AtMention)
+        disableGroupHighlight={false}
         disableHighlight={false}
         hasMention={true}
         isRHS={false}
@@ -27,6 +28,7 @@ exports[`messageHtmlToComponent At mention 2`] = `
     data-mention="joram"
   >
     <Connect(AtMention)
+      disableGroupHighlight={false}
       disableHighlight={true}
       hasMention={true}
       isRHS={false}
