@@ -21,9 +21,15 @@ export class CommandSuggestion extends Suggestion {
         if (isSelection) {
             className += ' suggestion--selected';
         }
-        let icon = <span>{'/'}</span>;
+        let icon = <div className='slash-command__icon'><span>{'/'}</span></div>;
         if (item.iconData !== '') {
-            icon = <img src={item.iconData}/>;
+            icon = (
+                <div
+                    className='slash-command__icon'
+                    style={{backgroundColor: 'transparent'}}
+                >
+                    <img src={item.iconData}/>
+                </div>);
         }
 
         return (
@@ -33,9 +39,7 @@ export class CommandSuggestion extends Suggestion {
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <div className='slash-command__icon'>
-                    {icon}
-                </div>
+                {icon}
                 <div className='slash-command__info'>
                     <div className='slash-command__title'>
                         {item.suggestion.substring(1) + ' ' + item.hint}
