@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense, numberOfActiveUsersMetricStatus as getNumberOfActiveUsersMetricStatus} from 'mattermost-redux/selectors/entities/general';
 import {getDisplayableErrors} from 'mattermost-redux/selectors/errors';
 import {dismissError} from 'mattermost-redux/actions/errors';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
@@ -21,6 +21,8 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const user = getCurrentUser(state);
     const errors = getDisplayableErrors(state);
+    const numberOfActiveUsersMetricStatus = getNumberOfActiveUsersMetricStatus(state);
+
     const totalUsers = state.entities.admin.analytics.TOTAL_USERS;
     let latestError = null;
     if (errors && errors.length >= 1) {
@@ -34,6 +36,7 @@ function mapStateToProps(state) {
         canViewSystemErrors,
         latestError,
         totalUsers,
+        numberOfActiveUsersMetricStatus,
     };
 }
 

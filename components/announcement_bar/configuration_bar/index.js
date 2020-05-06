@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     return {
         siteURL: getSiteURL(state),
         dismissedExpiringLicense: Boolean(state.views.notice.hasBeenDismissed[AnnouncementBarMessages.LICENSE_EXPIRING]),
+        dismissNumberOfActiveUsersMetricStatus: Boolean(state.views.notice.hasBeenDismissed[AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_METRIC_STATUS]),
     };
 }
 

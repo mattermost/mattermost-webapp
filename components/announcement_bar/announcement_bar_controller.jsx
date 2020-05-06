@@ -20,6 +20,7 @@ export default class AnnouncementBarController extends React.PureComponent {
         canViewSystemErrors: PropTypes.bool.isRequired,
         latestError: PropTypes.object,
         totalUsers: PropTypes.number,
+        numberOfActiveUsersMetricStatus: PropTypes.bool,
         actions: PropTypes.shape({
             dismissError: PropTypes.func.isRequired,
         }).isRequired,
@@ -61,6 +62,7 @@ export default class AnnouncementBarController extends React.PureComponent {
                     canViewSystemErrors={this.props.canViewSystemErrors}
                     totalUsers={this.props.totalUsers}
                     user={this.props.user}
+                    numberOfActiveUsersMetricStatus={this.props.numberOfActiveUsersMetricStatus}
                 />
             </React.Fragment>
         );

@@ -2,12 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
+import {FormattedMessage} from 'react-intl';
+
 import PropTypes from 'prop-types';
 import {Tooltip} from 'react-bootstrap';
 
-import {Constants, AnnouncementBarTypes} from 'utils/constants';
+import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
+import AdminAckModal from 'components/admin_ack_modal';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
@@ -18,6 +26,9 @@ export default class AnnouncementBar extends React.PureComponent {
         message: PropTypes.node.isRequired,
         handleClose: PropTypes.func,
         announcementBarCount: PropTypes.number.isRequired,
+        showModal: PropTypes.bool,
+        modalId: PropTypes.string,
+        modalDefaultText: PropTypes.string,
         actions: PropTypes.shape({
             incrementAnnouncementBarCount: PropTypes.func.isRequired,
             decrementAnnouncementBarCount: PropTypes.func.isRequired,
@@ -93,7 +104,6 @@ export default class AnnouncementBar extends React.PureComponent {
                 <FormattedMarkdownMessage id={this.props.message}/>
             );
         }
-
         const announcementTooltip = (
             <Tooltip id='announcement-bar__tooltip'>
                 {message}
@@ -112,6 +122,27 @@ export default class AnnouncementBar extends React.PureComponent {
                 >
                     <span>
                         {message}
+                        {this.props.showModal &&
+                            <FormattedMessage
+                                id={this.props.modalId}
+                                defaultMessage={this.props.modalDefaultText}
+                            >
+                                {(linkmessage) => (
+                                    <ToggleModalButtonRedux
+                                        modalId={ModalIdentifiers.ADMIN_ACK}
+                                        accessibilityLabel={linkmessage}
+                                        className={'color--link--adminack'}
+                                        dialogType={AdminAckModal}
+                                        onClick={() => trackEvent('admin', 'click_admin_ack_button')}
+                                        dialogProps={{
+                                            closeParentComponent: this.props.handleClose
+                                        }}
+                                    >
+                                        {linkmessage}
+                                    </ToggleModalButtonRedux>
+                                )}
+                            </FormattedMessage>
+                        }
                     </span>
                 </OverlayTrigger>
                 {closeButton}

@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AdminAckModal error display 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="adminAckHeaderModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={false}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={false}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="adminAckHeaderModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Warning!"
+        id="admin_ack_modal.header.title"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="alert alert-danger"
+    >
+      <FormattedMessage
+        defaultMessage="The number of active users is greater than the supported limit. Let us know that you acknowledge the issue by clicking the Submit button!"
+        id="admin_ack_modal.description"
+        values={Object {}}
+      />
+      <br />
+      <div
+        className="form-group has-error"
+      >
+        <br />
+        <label
+          className="control-label"
+        >
+          <FormattedMessage
+            defaultMessage="Click {link} to acknowledge the warning!"
+            id="admin_ack_modal.mailto.message"
+            values={
+              Object {
+                "link": <AdminAckErrorLink
+                  defaultMessage="MailTo"
+                  messageId="admin_ack_modal.mailto.message.link"
+                  onClickHandler={[Function]}
+                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Warning: Number of active users exceeded the limit&body=Number of active users exceeded the limit SiteURL: http://localhost:8065 Contact Email: a@test.com"
+                />,
+              }
+            }
+          />
+        </label>
+      </div>
+    </div>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link cancel-button"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Cancel"
+        id="admin_ack_modal.cancel"
+        values={Object {}}
+      />
+    </button>
+    <button
+      autoFocus={true}
+      className="btn btn-danger save-button"
+      data-dismiss="modal"
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Acknowledge"
+        id="admin_ack_modal.submit"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
+</Modal>
+`;
+
+exports[`components/AdminAckModal should match snapshot, init 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="adminAckHeaderModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={false}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={false}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="adminAckHeaderModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Warning!"
+        id="admin_ack_modal.header.title"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="alert alert-danger"
+    >
+      <FormattedMessage
+        defaultMessage="The number of active users is greater than the supported limit. Let us know that you acknowledge the issue by clicking the Submit button!"
+        id="admin_ack_modal.description"
+        values={Object {}}
+      />
+      <br />
+    </div>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link cancel-button"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Cancel"
+        id="admin_ack_modal.cancel"
+        values={Object {}}
+      />
+    </button>
+    <button
+      autoFocus={true}
+      className="btn btn-danger save-button"
+      data-dismiss="modal"
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Acknowledge"
+        id="admin_ack_modal.submit"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
+</Modal>
+`;

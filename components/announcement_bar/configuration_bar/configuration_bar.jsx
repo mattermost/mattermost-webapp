@@ -28,7 +28,9 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
+        dismissNumberOfActiveUsersMetricStatus: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
+        numberOfActiveUsersMetricStatus: PropTypes.bool,
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
         }).isRequired,
@@ -36,6 +38,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
 
     dismissExpiringLicense = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
+    }
+
+    dismissNumberOfActiveUsersMetricStatus = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_METRIC_STATUS);
     }
 
     render() {
@@ -90,6 +96,24 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                     date: new Date(parseInt(this.props.license.ExpiresAt, 10)),
                                     link: renewalLink,
                                 }}
+                            />
+                        }
+                    />
+                );
+            }
+            if (this.props.numberOfActiveUsersMetricStatus && !this.props.dismissNumberOfActiveUsersMetricStatus) {
+                return (
+                    <AnnouncementBar
+                        showCloseButton={true}
+                        handleClose={this.dismissNumberOfActiveUsersMetricStatus}
+                        type={AnnouncementBarTypes.LICENSE_EXPIRED}
+                        showModal={true}
+                        modalId={'admin_ack_modal.link'}
+                        modelDefaultText={'Acknowledge!'}
+                        message={
+                            <FormattedMarkdownMessage
+                                id={AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_METRIC_STATUS}
+                                defaultMessage='The number of active users is greater than the supported limit. Please acknowledge and upgrade.'
                             />
                         }
                     />

@@ -241,6 +241,7 @@ export const ModalIdentifiers = {
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
+    ADMIN_ACK: 'admin_acknowledgement',
 };
 
 export const UserStatuses = {
@@ -334,6 +335,7 @@ export const SocketEvents = {
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
+    NUMBER_OF_ACTIVE_USERS_METRIC_STATUS: 'number_of_active_users_metric_status'
 };
 
 export const TutorialSteps = {
@@ -505,6 +507,7 @@ export const AnnouncementBarMessages = {
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
+    NUMBER_OF_ACTIVE_USERS_METRIC_STATUS: t('announcement_bar.error.number_active_users_metric_status'),
 };
 
 export const VerifyEmailErrors = {

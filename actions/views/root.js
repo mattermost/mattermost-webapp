@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
+import {getClientConfig, getLicenseConfig, getNumberOfActiveUsersMetricStatus} from 'mattermost-redux/actions/general';
 import * as UserActions from 'mattermost-redux/actions/users';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionTypes} from 'utils/constants';
@@ -77,6 +78,12 @@ export function loadTranslations(locale, url) {
                 translations,
             },
         });
+    };
+}
+
+export function loadNumberOfActiveUsersMetricStatus() {
+    return async (dispatch) => {
+        dispatch(getNumberOfActiveUsersMetricStatus());
     };
 }
 

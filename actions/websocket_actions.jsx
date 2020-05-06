@@ -424,6 +424,9 @@ export function handleEvent(msg) {
         handleOpenDialogEvent(msg);
         break;
 
+    case SocketEvents.NUMBER_OF_ACTIVE_USERS_METRIC_STATUS:
+        handleNumberOfActiveUsersMetricStatus(msg);
+        break;
     default:
     }
 
@@ -1094,6 +1097,10 @@ function handleConfigChanged(msg) {
 
 function handleLicenseChanged(msg) {
     store.dispatch({type: GeneralTypes.CLIENT_LICENSE_RECEIVED, data: msg.data.license});
+}
+
+function handleNumberOfActiveUsersMetricStatus(msg) {
+    store.dispatch({type: GeneralTypes.RECEIVED_NUMBER_OF_ACTIVE_USERS_METRIC_STATUS, data: JSON.parse(msg.data.numberOfActiveUsersMetricStatus)});
 }
 
 function handlePluginStatusesChangedEvent(msg) {

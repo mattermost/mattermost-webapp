@@ -33,6 +33,7 @@ describe('components/Root', () => {
         noAccounts: false,
         showTermsOfService: false,
         actions: {
+            loadNumberOfActiveUsersMetricStatus: async () => {},
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
         },
         location: {
