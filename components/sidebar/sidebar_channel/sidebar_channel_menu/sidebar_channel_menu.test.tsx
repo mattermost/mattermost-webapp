@@ -40,6 +40,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             display_name: 'custom_category_1',
         }],
         currentUserId: 'user_id',
+        currentTeamId: 'team1',
         isUnread: false,
         isFavorite: false,
         isMuted: false,
@@ -56,10 +57,16 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         },
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot and contain correct buttons', () => {
         const wrapper = shallowWithIntl(
             <SidebarChannelMenu {...baseProps}/>
         );
+
+        expect(wrapper.find('#favorite-channel_id')).toHaveLength(1);
+        expect(wrapper.find('#mute-channel_id')).toHaveLength(1);
+        expect(wrapper.find('#copyLink-channel_id')).toHaveLength(1);
+        expect(wrapper.find('#addMembers-channel_id')).toHaveLength(1);
+        expect(wrapper.find('#leave-channel_id')).toHaveLength(1);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -74,6 +81,8 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             <SidebarChannelMenu {...props}/>
         );
 
+        expect(wrapper.find('#markAsRead-channel_id')).toHaveLength(1);
+
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -87,6 +96,9 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             <SidebarChannelMenu {...props}/>
         );
 
+        expect(wrapper.find('#favorite-channel_id')).toHaveLength(0);
+        expect(wrapper.find('#unfavorite-channel_id')).toHaveLength(1);
+
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -99,6 +111,9 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         const wrapper = shallowWithIntl(
             <SidebarChannelMenu {...props}/>
         );
+
+        expect(wrapper.find('#mute-channel_id')).toHaveLength(0);
+        expect(wrapper.find('#unmute-channel_id')).toHaveLength(1);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -116,6 +131,8 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             <SidebarChannelMenu {...props}/>
         );
 
+        expect(wrapper.find('#copyLink-channel_id')).toHaveLength(0);
+
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -132,6 +149,9 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             <SidebarChannelMenu {...props}/>
         );
 
+        expect(wrapper.find('#copyLink-channel_id')).toHaveLength(0);
+        expect(wrapper.find('#addMembers-channel_id')).toHaveLength(0);
+
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -147,6 +167,8 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         const wrapper = shallowWithIntl(
             <SidebarChannelMenu {...props}/>
         );
+
+        expect(wrapper.find('#leave-channel_id')).toHaveLength(0);
 
         expect(wrapper).toMatchSnapshot();
     });

@@ -24,10 +24,15 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         actions: {},
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot and contain correct buttons', () => {
         const wrapper = shallowWithIntl(
             <SidebarCategoryMenu {...baseProps}/>
         );
+
+        expect(wrapper.find('#rename-category1')).toHaveLength(1);
+        expect(wrapper.find('#createChannel-category1')).toHaveLength(1);
+        expect(wrapper.find('#create-category1')).toHaveLength(1);
+        expect(wrapper.find('#delete-category1')).toHaveLength(1);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -45,6 +50,9 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             <SidebarCategoryMenu {...props}/>
         );
 
+        expect(wrapper.find('#rename-category1')).toHaveLength(0);
+        expect(wrapper.find('#delete-category1')).toHaveLength(0);
+
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -58,6 +66,8 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         const wrapper = shallowWithIntl(
             <SidebarCategoryMenu {...props}/>
         );
+
+        expect(wrapper.find('#createChannel-category1')).toHaveLength(0);
 
         expect(wrapper).toMatchSnapshot();
     });
