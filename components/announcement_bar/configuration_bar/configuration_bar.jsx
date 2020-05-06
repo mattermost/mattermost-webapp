@@ -108,7 +108,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                         handleClose={this.dismissNumberOfActiveUsersMetricStatus}
                         type={AnnouncementBarTypes.LICENSE_EXPIRED}
                         showModal={true}
-                        modalId={'admin_ack_modal.link'}
+                        modalId={t('admin_ack_modal.link')}
                         modelDefaultText={'Acknowledge!'}
                         message={
                             <FormattedMarkdownMessage
