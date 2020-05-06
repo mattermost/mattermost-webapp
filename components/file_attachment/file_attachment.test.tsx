@@ -16,115 +16,125 @@ jest.mock('utils/utils.jsx', () => {
     };
 });
 
-function createComponent({fileInfo, handleImageClick, index, compactDisplay, canDownloadFiles = true, enableSVGs = false} = {}) { //eslint-disable-line react/prop-types
-    const fileInfoProp = fileInfo || {
-        id: 1,
+describe('FileAttachment', () => {
+    const baseFileInfo = {
+        id: 'thumbnail_id',
         extension: 'pdf',
         name: 'test.pdf',
         size: 100,
+        width: 100,
+        height: 80,
+        has_preview_image: true,
+        user_id: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        mime_type: '',
+        clientId: '',
     };
-    const indexProp = index || 3;
-    const handleImageClickProp = handleImageClick || jest.fn();
-    return (
-        <FileAttachment
-            fileInfo={fileInfoProp}
-            handleImageClick={handleImageClickProp}
-            index={indexProp}
-            compactDisplay={compactDisplay}
-            canDownloadFiles={canDownloadFiles}
-            enableSVGs={enableSVGs}
-        />
-    );
-}
 
-describe('FileAttachment', () => {
+    const baseProps = {
+        fileInfo: baseFileInfo,
+        handleImageClick: jest.fn(),
+        index: 3,
+        canDownloadFiles: true,
+        enableSVGs: false,
+    };
+
     test('should match snapshot, regular file', () => {
-        const wrapper = shallow(createComponent());
+        const wrapper = shallow(<FileAttachment {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, regular image', () => {
         const fileInfo = {
-            id: 1,
+            ...baseFileInfo,
             extension: 'png',
             name: 'test.png',
             width: 600,
             height: 400,
             size: 100,
         };
-        const wrapper = shallow(createComponent({fileInfo}));
+        const props = {...baseProps, fileInfo};
+        const wrapper = shallow(<FileAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, small image', () => {
         const fileInfo = {
-            id: 1,
+            ...baseFileInfo,
             extension: 'png',
             name: 'test.png',
             width: 16,
             height: 16,
             size: 100,
         };
-        const wrapper = shallow(createComponent({fileInfo}));
+        const props = {...baseProps, fileInfo};
+        const wrapper = shallow(<FileAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, svg image', () => {
         const fileInfo = {
-            id: 1,
+            ...baseFileInfo,
             extension: 'svg',
             name: 'test.svg',
             width: 600,
             height: 400,
             size: 100,
         };
-        const wrapper = shallow(createComponent({fileInfo}));
+        const props = {...baseProps, fileInfo};
+        const wrapper = shallow(<FileAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, after change from file to image', () => {
         const fileInfo = {
-            id: 2,
+            ...baseFileInfo,
             extension: 'png',
             name: 'test.png',
             width: 600,
             height: 400,
             size: 100,
         };
-        const wrapper = shallow(createComponent());
-        wrapper.setProps({fileInfo});
+        const wrapper = shallow(<FileAttachment {...baseProps}/>);
+        wrapper.setProps({...baseProps, fileInfo});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, with compact display', () => {
-        const wrapper = shallow(createComponent({compactDisplay: true}));
+        const props = {...baseProps, compactDisplay: true};
+        const wrapper = shallow(<FileAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, without compact display and without can download', () => {
-        const wrapper = shallow(createComponent({canDownloadFiles: false}));
+        const props = {...baseProps, canDownloadFiles: false};
+        const wrapper = shallow(<FileAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, file with long name', () => {
         const fileInfo = {
-            id: 1,
+            ...baseFileInfo,
             extension: 'pdf',
             name: 'a-quite-long-filename-to-test-the-filename-shortener.pdf',
-            size: 100,
+
         };
-        const wrapper = shallow(createComponent({fileInfo}));
+        const props = {...baseProps, fileInfo};
+        const wrapper = shallow(<FileAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, when file is not loaded', () => {
-        const wrapper = shallow(createComponent());
+        const wrapper = shallow(<FileAttachment {...baseProps}/>);
         wrapper.setState({loaded: false});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should blur file attachment link after click', () => {
-        const wrapper = mountWithIntl(createComponent({compactDisplay: true}));
+        const props = {...baseProps, compactDisplay: true};
+        const wrapper = mountWithIntl(<FileAttachment {...props}/>);
         const e = {
             preventDefault: jest.fn(),
             target: {blur: jest.fn()},
