@@ -69,7 +69,7 @@ export default class AdminAckModal extends React.PureComponent<Props, State> {
         const mailRecipient = 'support@mattermost.com';
         const mailSubject = 'Warning: Number of active users exceeded the limit';
         let mailBody = 'Number of active users exceeded the limit for SiteURL: ' + getSiteURL() + ' Contact Email: ' + this.props.user.email;
-        if (this.props.license && this.props.license.IsLicensed === "true") {
+        if (this.props.license && this.props.license.IsLicensed === 'true') {
             mailBody += ' License Id: ' + this.props.license.Id;
         }
         const mailToLinkText = 'mailto:' + mailRecipient + '?cc=' + this.props.user.email + '&subject=' + mailSubject + '&body=' + mailBody;
