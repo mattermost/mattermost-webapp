@@ -12,11 +12,13 @@ import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences'
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
+import {setCategoryOrder, removeFromCategory, mockCreateCategory, moveToCategory} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
+import {makeGetCategoryForChannel} from 'selectors/views/channel_sidebar';
+import {GlobalState} from 'types/store';
 import {getSiteURL} from 'utils/url';
 
 import SidebarChannelMenu from './sidebar_channel_menu';
@@ -29,6 +31,7 @@ type OwnProps = {
 
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
+    const getCategoryForChannel = makeGetCategoryForChannel();
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const preferences = getMyPreferences(state);
@@ -38,16 +41,20 @@ function makeMapStateToProps() {
         let managePublicChannelMembers = false;
         let managePrivateChannelMembers = false;
         let categories;
+        let currentCategory;
 
         if (currentTeam) {
             managePublicChannelMembers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
             managePrivateChannelMembers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
             categories = getCategoriesForTeam(state, currentTeam.id);
+            currentCategory = getCategoryForChannel(state, currentTeam.id, ownProps.channel.id);
         }
 
         return {
+            currentTeamId: currentTeam.id,
             currentUserId: getCurrentUserId(state),
             categories,
+            currentCategory,
             isFavorite: isFavoriteChannel(preferences, ownProps.channel.id),
             isMuted: isChannelMuted(member),
             channelLink: `${getSiteURL()}/${ownProps.channelLink}`,
@@ -60,12 +67,14 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
+            createCategory: mockCreateCategory as any,
             markChannelAsRead,
             favoriteChannel,
             unfavoriteChannel,
             muteChannel,
             unmuteChannel,
             openModal,
+            moveToCategory,
         }, dispatch),
     };
 }

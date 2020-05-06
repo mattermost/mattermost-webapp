@@ -103,6 +103,13 @@ describe('components/sidebar/sidebar_category_list', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+
+        const draggable = wrapper.find('Connect(Droppable)').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {})
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should match snapshot when unread filter is enabled', () => {
@@ -116,6 +123,13 @@ describe('components/sidebar/sidebar_category_list', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+
+        const draggable = wrapper.find('Connect(Droppable)').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {})
+        );
+        expect(inner).toMatchSnapshot();
     });
 
     test('should close sidebar on mobile when channel is selected (ie. changed)', () => {

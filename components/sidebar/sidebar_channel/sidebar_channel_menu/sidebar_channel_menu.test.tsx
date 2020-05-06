@@ -40,6 +40,12 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             display_name: 'custom_category_1',
         }],
         currentUserId: 'user_id',
+        currentCategory: {
+            id: 'category1',
+            team_id: 'team1',
+            type: CategoryTypes.CUSTOM,
+            display_name: 'custom_category_1',
+        },
         currentTeamId: 'team1',
         isUnread: false,
         isFavorite: false,
@@ -54,6 +60,8 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             muteChannel: jest.fn(),
             unmuteChannel: jest.fn(),
             openModal: jest.fn(),
+            createCategory: jest.fn(),
+            moveToCategory: jest.fn(),
         },
     };
 

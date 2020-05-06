@@ -38,7 +38,19 @@ export function draggingState(state: DraggingState = {}, action: GenericAction):
     }
 }
 
+export function newCategoryIds(state: string[] = [], action: GenericAction): string[] {
+    switch (action.type) {
+    case ActionTypes.ADD_NEW_CATEGORY_ID:
+        return [...state, action.data];
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     unreadFilterEnabled,
     draggingState,
+    newCategoryIds,
 });

@@ -37,7 +37,6 @@ type State = {
     showMoreChannelsModal: boolean;
     showNewChannelModal: boolean;
     showCreateCategoryModal: boolean;
-    newCategoryIds: string[];
     isDragging: boolean;
 };
 
@@ -49,7 +48,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showMoreChannelsModal: false,
             showNewChannelModal: false,
             showCreateCategoryModal: false,
-            newCategoryIds: [],
             isDragging: false,
         };
     }
@@ -73,7 +71,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     handleCreateCategory = (categoryName: string) => {
         const result = this.props.actions.createCategory(this.props.teamId, categoryName);
-        this.state.newCategoryIds.push(result.data);
     }
 
     showMoreChannelsModal = () => {
@@ -195,7 +192,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
-                    newCategoryIds={this.state.newCategoryIds}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />

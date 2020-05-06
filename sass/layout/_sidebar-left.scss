@@ -487,6 +487,13 @@
             margin-left: 8px;
         }
 
+        &.isDraggingOver {
+            transition-property: opacity;
+            transition-duration: 0.15s; /* collapse animation speed */
+            transition-timing-function: ease-out;
+            opacity: 0;
+        }
+
         &.animating {
             transition-property: height, padding, color;
             transition-duration: 0.15s; /* collapse animation speed */
@@ -516,6 +523,18 @@
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
+        display: flex;
+
+        .SidebarMenu_menuButton {
+            height: 32px;
+            width: 32px;
+            margin-right: 14px;
+        }
+
+        .SidebarMenu:not(.menuOpen) {
+            display: none;
+        }
+
     }
     .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         height: 32px;
@@ -540,7 +559,7 @@
         width: 100%;
         align-items: center;
 
-        > div:not(.SidebarCategory_newLabel):not(.SidebarMenu) {
+        > div:not(.SidebarCategory_newLabel) {
             flex: 0 1 auto;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -567,19 +586,9 @@
                 visibility: hidden;
             }
         }
-
-        .SidebarMenu_menuButton {
-            height: 28px;
-            width: 28px;
-            margin-right: 16px;
-        }
-
-        .SidebarMenu:not(.menuOpen) {
-            display: none;
-        }
     }
 
-    .SidebarChannelGroup.menuIsOpen + .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+    .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         background-color: inherit !important;
     }
 
@@ -595,18 +604,19 @@
         /* box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out; */
     }
+
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader:hover .SidebarMenu {
+        display: block;
+    }
+
     .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
         cursor: pointer;
-
-        .SidebarMenu {
-            display: block;
-        }
 
         .SidebarChannelGroupHeader_sortButton {
             display: block;
         }
 
-        > div, > i {
+        > div:not(.SidebarCategory_newLabel), > i {
             color: var(--sidebar-text);
         }
     }
@@ -722,6 +732,10 @@
 
         &.noFloat {
             transform: none !important;
+        }
+
+        &.fakeChannel {
+            height: 0;
         }
 
         .btn-close {

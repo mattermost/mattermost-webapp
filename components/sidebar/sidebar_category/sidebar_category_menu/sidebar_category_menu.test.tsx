@@ -17,11 +17,17 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
         },
+        currentTeamId: 'team1',
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
         isMuted: false,
         onToggle: jest.fn(),
-        actions: {},
+        actions: {
+            createCategory: jest.fn(),
+            deleteCategory: jest.fn(),
+            renameCategory: jest.fn(),
+            moveToCategory: jest.fn(),
+        },
     };
 
     test('should match snapshot and contain correct buttons', () => {

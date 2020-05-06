@@ -39,12 +39,14 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         this.setState({categoryName: e.target.value});
     }
 
-    handleCancel = () => {
+    handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         this.handleClear();
         this.props.onHide();
     }
 
-    handleConfirm = () => {
+    handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         this.props.editCategory(this.state.categoryName);
         this.props.onHide();
     }
@@ -81,7 +83,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                                 clearable={true}
                                 onClear={this.handleClear}
                                 onChange={this.handleChange}
-                                maxlength={22}
+                                maxLength={22}
                             />
                             <span className='edit-category__helpText'>
                                 <FormattedMessage

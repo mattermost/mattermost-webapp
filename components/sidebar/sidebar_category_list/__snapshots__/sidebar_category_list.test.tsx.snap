@@ -81,6 +81,27 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 1`] = `
 </div>
 `;
 
+exports[`components/sidebar/sidebar_category_list should match snapshot 2`] = `
+<div>
+  <Connect(SidebarCategory)
+    category={
+      Object {
+        "display_name": "custom_category_1",
+        "id": "category1",
+        "team_id": "team1",
+        "type": "custom",
+      }
+    }
+    categoryIndex={0}
+    getChannelRef={[Function]}
+    handleOpenMoreDirectChannelsModal={[MockFunction]}
+    isNewCategory={false}
+    key="category1"
+    setChannelRef={[Function]}
+  />
+</div>
+`;
+
 exports[`components/sidebar/sidebar_category_list should match snapshot when unread filter is enabled 1`] = `
 <div
   className="SidebarNavContainer a11y__region disabled"
@@ -159,5 +180,26 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
       </Connect(Droppable)>
     </DragDropContext>
   </Scrollbars>
+</div>
+`;
+
+exports[`components/sidebar/sidebar_category_list should match snapshot when unread filter is enabled 2`] = `
+<div>
+  <Connect(SidebarCategory)
+    category={
+      Object {
+        "display_name": "custom_category_1",
+        "id": "category1",
+        "team_id": "team1",
+        "type": "custom",
+      }
+    }
+    categoryIndex={0}
+    getChannelRef={[Function]}
+    handleOpenMoreDirectChannelsModal={[MockFunction]}
+    isNewCategory={false}
+    key="category1"
+    setChannelRef={[Function]}
+  />
 </div>
 `;

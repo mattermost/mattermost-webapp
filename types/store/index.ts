@@ -122,6 +122,7 @@ export type GlobalState = BaseGlobalState & {
         channelSidebar: {
             unreadFilterEnabled: boolean;
             draggingState: DraggingState;
+            newCategoryIds: string[];
         };
     };
 };

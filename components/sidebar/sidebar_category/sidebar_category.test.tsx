@@ -54,7 +54,19 @@ describe('components/sidebar/sidebar_category', () => {
             <SidebarCategory {...baseProps}/>
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {})
+        );
+        expect(inner).toMatchSnapshot();
+
+        const droppable = inner.find('Connect(Droppable)').first();
+        const droppableChildren: any = droppable.prop('children')!;
+        const droppableInner = shallow(
+            droppableChildren({}, {})
+        );
+        expect(droppableInner).toMatchSnapshot();
     });
 
     test('should match snapshot when isNewCategory', () => {
@@ -67,7 +79,19 @@ describe('components/sidebar/sidebar_category', () => {
             <SidebarCategory {...props}/>
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {})
+        );
+        expect(inner).toMatchSnapshot();
+
+        const droppable = inner.find('Connect(Droppable)').first();
+        const droppableChildren: any = droppable.prop('children')!;
+        const droppableInner = shallow(
+            droppableChildren({}, {})
+        );
+        expect(droppableInner).toMatchSnapshot();
     });
 
     test('should match snapshot when collapsed', () => {
@@ -80,7 +104,19 @@ describe('components/sidebar/sidebar_category', () => {
             <SidebarCategory {...props}/>
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {})
+        );
+        expect(inner).toMatchSnapshot();
+
+        const droppable = inner.find('Connect(Droppable)').first();
+        const droppableChildren: any = droppable.prop('children')!;
+        const droppableInner = shallow(
+            droppableChildren({}, {})
+        );
+        expect(droppableInner).toMatchSnapshot();
     });
 
     test('should match snapshot when the category is DM and there are no DMs to display', () => {
@@ -97,7 +133,19 @@ describe('components/sidebar/sidebar_category', () => {
             <SidebarCategory {...props}/>
         );
 
-        expect(wrapper).toMatchSnapshot();
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {})
+        );
+        expect(inner).toMatchSnapshot();
+
+        const droppable = inner.find('Connect(Droppable)').first();
+        const droppableChildren: any = droppable.prop('children')!;
+        const droppableInner = shallow(
+            droppableChildren({}, {})
+        );
+        expect(droppableInner).toMatchSnapshot();
     });
 
     test('should match snapshot when there are no channels to display', () => {

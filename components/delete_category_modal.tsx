@@ -18,11 +18,13 @@ type Props = {
 };
 
 export default class DeleteCategoryModal extends React.PureComponent<Props> {
-    handleCancel = () => {
+    handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         this.props.onHide();
     }
 
-    handleConfirm = () => {
+    handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         this.props.deleteCategory(this.props.category);
         this.props.onHide();
     }
