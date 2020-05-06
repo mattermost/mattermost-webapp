@@ -61,7 +61,7 @@ export default class EmojiPickerPreview extends React.Component {
                             id='emojiPickerAliasesPreview'
                             className='emoji-picker__preview-aliases'
                         >
-                            {':' + aliases.join(':, :') + ':'}
+                            {':' + aliases.join(': :') + ':'}
                         </span>
                     </div>
                 </div>
