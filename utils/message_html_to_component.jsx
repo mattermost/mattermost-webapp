@@ -67,6 +67,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     }
     if (!('mentions' in options) || options.mentions) {
         const mentionHighlight = 'mentionHighlight' in options ? options.mentionHighlight : true;
+        const disableGroupHighlight = 'disableGroupHighlight' in options ? options.disableGroupHighlight : false;
         const mentionAttrib = 'data-mention';
         processingInstructions.push({
             replaceChildren: true,
@@ -79,7 +80,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                         isRHS={isRHS}
                         hasMention={true}
                         disableHighlight={!mentionHighlight}
-                        disableGroupHighlight={options.disableGroupHighlight}
+                        disableGroupHighlight={disableGroupHighlight}
                     >
                         {children}
                     </AtMention>
