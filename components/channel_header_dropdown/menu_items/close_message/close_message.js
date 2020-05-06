@@ -46,6 +46,11 @@ export default class CloseMessage extends React.PureComponent {
              * Action creator to update user preferences
              */
             savePreferences: PropTypes.func.isRequired,
+
+            /**
+             * Action creator to leave DM/GM
+             */
+            leaveDirectChannel: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -59,6 +64,7 @@ export default class CloseMessage extends React.PureComponent {
             redirectChannel,
             actions: {
                 savePreferences,
+                leaveDirectChannel,
             },
         } = this.props;
 
@@ -72,6 +78,7 @@ export default class CloseMessage extends React.PureComponent {
             name = channel.id;
         }
 
+        leaveDirectChannel(channel.name);
         savePreferences(currentUser.id, [{user_id: currentUser.id, category, name, value: 'false'}]);
 
         browserHistory.push(`/${currentTeam.name}/channels/${redirectChannel}`);

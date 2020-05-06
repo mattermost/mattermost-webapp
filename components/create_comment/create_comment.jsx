@@ -491,19 +491,6 @@ class CreateComment extends React.PureComponent {
             useGroupMentions
         } = this.props;
         const {draft} = this.state;
-        if (!useChannelMentions && containsAtChannel(draft.message, {checkAllMentions: true})) {
-            const updatedDraft = {
-                ...draft,
-                props: {
-                    ...draft.props,
-                    mentionHighlightDisabled: true,
-                },
-            };
-
-            this.props.onUpdateCommentDraft(updatedDraft);
-            this.setState({draft: updatedDraft});
-        }
-
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
@@ -522,7 +509,21 @@ class CreateComment extends React.PureComponent {
                         }
                         return `@${group.name}`;
                     });
+                mentions = [...new Set(mentions)];
             }
+        }
+
+        if (!useGroupMentions && mentions.length > 0) {
+            const updatedDraft = {
+                ...draft,
+                props: {
+                    ...draft.props,
+                    disable_group_highlight: true,
+                },
+            };
+
+            this.props.onUpdateCommentDraft(updatedDraft);
+            this.setState({draft: updatedDraft});
         }
 
         if (notificationsToChannel &&
@@ -534,6 +535,19 @@ class CreateComment extends React.PureComponent {
                 const {data} = await this.props.getChannelTimezones(this.props.channelId);
                 channelTimezoneCount = data ? data.length : 0;
             }
+        }
+
+        if (!useChannelMentions && containsAtChannel(draft.message, {checkAllMentions: true})) {
+            const updatedDraft = {
+                ...draft,
+                props: {
+                    ...draft.props,
+                    mentionHighlightDisabled: true,
+                },
+            };
+
+            this.props.onUpdateCommentDraft(updatedDraft);
+            this.setState({draft: updatedDraft});
         }
 
         if (memberNotifyCount > 0) {
