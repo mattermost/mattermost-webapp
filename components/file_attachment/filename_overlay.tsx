@@ -1,50 +1,50 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import {trimFilename} from 'utils/file_utils';
 import {localizeMessage} from 'utils/utils.jsx';
 
-export default class FilenameOverlay extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
-         * File detailed information
-         */
-        fileInfo: PropTypes.object.isRequired,
+    /*
+     * File detailed information
+     */
+    fileInfo: FileInfo;
 
-        /*
-         * Handler for when the thumbnail is clicked passed the index above
-         */
-        handleImageClick: PropTypes.func,
+    /*
+     * Handler for when the thumbnail is clicked passed the index above
+     */
+    handleImageClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 
-        /*
-         * Display in compact format
-         */
-        compactDisplay: PropTypes.bool,
+    /*
+     * Display in compact format
+     */
+    compactDisplay?: boolean;
 
-        /*
-         * If it should display link to download on file name
-         */
-        canDownload: PropTypes.bool,
+    /*
+     * If it should display link to download on file name
+     */
+    canDownload?: boolean;
 
-        /**
-         * Optional children like download icon
-         */
-        children: PropTypes.element,
+    /*
+     * Optional children like download icon
+     */
+    children?: React.ReactNode;
 
-        /**
-         * Optional class like for icon
-         */
-        iconClass: PropTypes.string,
-    };
+    /*
+     * Optional class like for icon
+     */
+    iconClass?: string;
+}
 
+export default class FilenameOverlay extends React.PureComponent<Props> {
     render() {
         const {
             canDownload,
