@@ -65,9 +65,7 @@ export default class PostMarkdown extends React.PureComponent {
 
         let {message} = this.props;
         const {post, options, mentionKeys} = this.props;
-        if (post?.props?.disable_group_highlight) { // eslint-disable-line camelcase
-            options.disableGroupHighlight = true;
-        }
+        options.disableGroupHighlight = post?.props?.disable_group_highlight === true; // eslint-disable-line camelcase
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {

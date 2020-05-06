@@ -173,6 +173,7 @@ export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
 
 const DEFAULT_OPTIONS: TextFormattingOptions = {
     mentionHighlight: true,
+    disableGroupHighlight: false,
     singleline: false,
     emoticons: true,
     markdown: true,

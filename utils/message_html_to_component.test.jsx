@@ -88,7 +88,6 @@ That was some latex!`;
         expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(true);
     });
 
-
     test('At mention with group highlight disabled', () => {
         const options = {mentionHighlight: true, atMentions: true, mentionKeys: [{key: '@joram'}]};
         let html = TextFormatting.formatText('@developers', options);
