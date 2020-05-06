@@ -16,6 +16,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
 
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
@@ -50,6 +51,8 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.state = {
             text: '',
             mode: CHANNEL_MODE,
+            hasSuggestions: true,
+            pretext: '',
         };
     }
 
@@ -155,6 +158,10 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.enableChannelProvider();
         this.setState({mode});
         this.focusTextbox();
+    }
+
+    handleSuggestionsReceived = (suggestions) => {
+        this.setState({hasSuggestions: !suggestions.matchedPretext || suggestions.items.length > 0, pretext: suggestions.matchedPretext});
     }
 
     render() {
@@ -305,7 +312,15 @@ export default class QuickSwitchModal extends React.PureComponent {
                             renderDividers={renderDividers}
                             delayInputUpdate={true}
                             openWhenEmpty={true}
+                            onSuggestionsReceived={this.handleSuggestionsReceived}
                         />
+                        {!this.state.hasSuggestions &&
+                        <NoResultsIndicator
+                            variant='Search'
+                            value={{channelName: `"${this.state.pretext}"`}}
+                        />
+                        }
+
                     </div>
                 </Modal.Body>
             </Modal>
