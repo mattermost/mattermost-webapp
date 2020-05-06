@@ -16,10 +16,7 @@ jest.mock('react-dom', () => ({
 }));
 
 describe('components/AdminAckModal', () => {
-    const serverError = {
-        server_error_id: 'fake-server-error',
-        message: 'some error',
-    };
+    const serverError = 'some error';
 
     const baseProps = {
         user: {

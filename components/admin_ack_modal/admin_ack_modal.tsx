@@ -6,6 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/src/types/users';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -19,13 +20,13 @@ type Props = {
     show: boolean;
     closeParentComponent: () => Promise<void>;
     actions: {
-        sendAdminAck: () => Promise<{error?: {message: string}}>;
+        sendAdminAck: () => ActionFunc & Partial<{error: Error}>;
         closeModal: (arg0: string) => void;
     };
 }
 
 type State = {
-    serverError: {message: string} | null;
+    serverError: string | null;
     saving: boolean;
 }
 
@@ -44,7 +45,7 @@ export default class AdminAckModal extends React.PureComponent<Props, State> {
         this.setState({saving: true});
         const {error} = await this.props.actions.sendAdminAck();
         if (error) {
-            this.setState({serverError: error, saving: false});
+            this.setState({serverError: error.message, saving: false});
         } else {
             this.onHideWithParent();
         }
@@ -80,7 +81,7 @@ export default class AdminAckModal extends React.PureComponent<Props, State> {
                 <label className='control-label'>
                     <FormattedMessage
                         id='admin_ack_modal.mailto.message'
-                        defaultMessage='Click {link} to acknowledge the warning!'
+                        defaultMessage='Failed to send confirmation email, please click {link} to acknowledge the warning!'
                         values={{
                             link: (
                                 <AdminAckErrorLink
@@ -107,7 +108,7 @@ export default class AdminAckModal extends React.PureComponent<Props, State> {
         const descriptionText = (
             <FormattedMessage
                 id='admin_ack_modal.description'
-                defaultMessage='The number of active users is greater than the supported limit. Let us know that you acknowledge the issue by clicking the Submit button!'
+                defaultMessage='The number of active users is greater than the supported limit. Please acknowledge the issue by clicking the Acknowledge button!'
             />
         );
         const buttonText = (

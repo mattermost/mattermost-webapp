@@ -30,7 +30,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 }
 
 type Actions = {
-    sendAdminAck: () => Promise<{error?: {message: string}}>;
+    sendAdminAck: () => ActionFunc & Partial<{error: Error}>;
     closeModal: (arg0: string) => void;
 };
 

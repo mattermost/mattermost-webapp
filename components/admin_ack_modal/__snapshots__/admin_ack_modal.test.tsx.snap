@@ -55,7 +55,7 @@ exports[`components/AdminAckModal error display 1`] = `
       className="alert alert-danger"
     >
       <FormattedMessage
-        defaultMessage="The number of active users is greater than the supported limit. Let us know that you acknowledge the issue by clicking the Submit button!"
+        defaultMessage="The number of active users is greater than the supported limit. Please acknowledge the issue by clicking the Acknowledge button!"
         id="admin_ack_modal.description"
         values={Object {}}
       />
@@ -68,7 +68,7 @@ exports[`components/AdminAckModal error display 1`] = `
           className="control-label"
         >
           <FormattedMessage
-            defaultMessage="Click {link} to acknowledge the warning!"
+            defaultMessage="Failed to send confirmation email, please click {link} to acknowledge the warning!"
             id="admin_ack_modal.mailto.message"
             values={
               Object {
@@ -76,7 +76,7 @@ exports[`components/AdminAckModal error display 1`] = `
                   defaultMessage="MailTo"
                   messageId="admin_ack_modal.mailto.message.link"
                   onClickHandler={[Function]}
-                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Warning: Number of active users exceeded the limit&body=Number of active users exceeded the limit SiteURL: http://localhost:8065 Contact Email: a@test.com"
+                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Warning: Number of active users exceeded the limit&body=Number of active users exceeded the limit for SiteURL: http://localhost:8065 Contact Email: a@test.com"
                 />,
               }
             }
@@ -173,7 +173,7 @@ exports[`components/AdminAckModal should match snapshot, init 1`] = `
       className="alert alert-danger"
     >
       <FormattedMessage
-        defaultMessage="The number of active users is greater than the supported limit. Let us know that you acknowledge the issue by clicking the Submit button!"
+        defaultMessage="The number of active users is greater than the supported limit. Please acknowledge the issue by clicking the Acknowledge button!"
         id="admin_ack_modal.description"
         values={Object {}}
       />
