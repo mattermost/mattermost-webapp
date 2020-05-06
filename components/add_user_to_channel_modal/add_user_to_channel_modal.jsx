@@ -236,6 +236,7 @@ export default class AddUserToChannelModal extends React.Component {
 
         const content = (
             <SuggestionBox
+                containerClass='add-user-to-channel-modal__suggestion-box'
                 ref={this.setSearchBoxRef}
                 className='form-control focused'
                 onChange={this.onInputChange}
