@@ -15,7 +15,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {
     isFromWebhook,
     isSystemMessage,
-    isSystemMessageAddToChannel,
     shouldIgnorePost,
 } from 'mattermost-redux/utils/post_utils';
 
