@@ -18,6 +18,7 @@ export default class AtMention extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         hasMention: PropTypes.bool,
         disableHighlight: PropTypes.bool,
+        disableGroupHighlight: PropTypes.bool,
         isRHS: PropTypes.bool,
         mentionName: PropTypes.string.isRequired,
         teammateNameDisplay: PropTypes.string.isRequired,
@@ -29,6 +30,7 @@ export default class AtMention extends React.PureComponent {
         isRHS: false,
         hasMention: false,
         disableHighlight: false,
+        disableGroupHighlight: false,
     }
 
     constructor(props) {
@@ -95,7 +97,7 @@ export default class AtMention extends React.PureComponent {
     render() {
         const user = this.getUserFromMentionName(this.props);
 
-        if (!user) {
+        if (!this.props.disableGroupHighlight && !user) {
             const group = this.getGroupFromMentionName(this.props);
             if (group.allow_reference) {
                 return <span className='group-mention-link'>{'@' + group.name}</span>;

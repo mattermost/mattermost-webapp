@@ -160,6 +160,27 @@ exports[`components/PostMarkdown should render properly with an empty post 1`] =
 />
 `;
 
+exports[`components/PostMarkdown should render properly without group highlight on a post 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
+  }
+  message="No @group highlight"
+  options={
+    Object {
+      "disableGroupHighlight": true,
+    }
+  }
+  proxyImages={true}
+/>
+`;
+
 exports[`components/PostMarkdown should render properly without highlight a post 1`] = `
 <Connect(Markdown)
   imageProps={Object {}}

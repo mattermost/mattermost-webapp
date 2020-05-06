@@ -183,6 +183,20 @@ describe('components/AtMention', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when mentioning a group that is allowed reference with group highlight disabled', () => {
+        const wrapper = shallow(
+            <AtMention
+                {...baseProps}
+                mentionName='developers'
+                disableGroupHighlight={true}
+            >
+                {'(at)-developers'}
+            </AtMention>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot when mentioning a group that is not allowed reference', () => {
         const wrapper = shallow(
             <AtMention
