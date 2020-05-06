@@ -64,6 +64,11 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
             );
         }
 
+        let disableButton = true;
+        if (this.props.link !== '') {
+            disableButton = false;
+        }
+
         let copyLink = null;
 
         if (document.queryCommandSupported('copy')) {
@@ -73,6 +78,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     data-copy-btn='true'
                     type='button'
                     className='btn btn-primary pull-left'
+                    disabled={disableButton}
                     onClick={this.copyLink}
                 >
                     <FormattedMessage

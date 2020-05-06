@@ -72,6 +72,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
     <button
       className="btn btn-primary pull-left"
       data-copy-btn="true"
+      disabled={false}
       id="linkModalCopyLink"
       onClick={[Function]}
       type="button"
@@ -168,6 +169,7 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
     <button
       className="btn btn-primary pull-left"
       data-copy-btn="true"
+      disabled={false}
       id="linkModalCopyLink"
       onClick={[Function]}
       type="button"
@@ -259,6 +261,7 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
     <button
       className="btn btn-primary pull-left"
       data-copy-btn="true"
+      disabled={false}
       id="linkModalCopyLink"
       onClick={[Function]}
       type="button"
@@ -345,6 +348,7 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
     <button
       className="btn btn-primary pull-left"
       data-copy-btn="true"
+      disabled={false}
       id="linkModalCopyLink"
       onClick={[Function]}
       type="button"
