@@ -83,7 +83,7 @@ export function setChannelReadAndViewed(post, websocketMessageProps) {
         const currentUserId = getCurrentUserId(state);
 
         // ignore system message posts, except when added to a team
-        if (shouldIgnorePost(post) && !isSystemMessageAddToChannel(post, currentUserId)) {
+        if (shouldIgnorePost(post, currentUserId)) {
             return;
         }
 
