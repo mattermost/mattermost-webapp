@@ -2,12 +2,13 @@
 
 .channel-header {
     @include flex(0 0 63px);
+    z-index: 15;
+    background: v(center-channel-bg);
     max-height: 63px;
     border-bottom: 1px solid;
     font-size: 14px;
     position: relative;
     width: 100%;
-    z-index: 9;
 
     .Badge {
         display: inline-block;

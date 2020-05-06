@@ -21,6 +21,7 @@ import Markdown from './markdown';
 
 type Props = {
     channelNamesMap?: ChannelNamesMap;
+    mentionKeys?: [];
 }
 
 function makeGetChannelNamesMap() {
@@ -47,7 +48,7 @@ function makeMapStateToProps() {
             autolinkedUrlSchemes: getAutolinkedUrlSchemes(state),
             channelNamesMap: getChannelNamesMap(state, ownProps),
             enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
-            mentionKeys: getAllUserMentionKeys(state),
+            mentionKeys: ownProps.mentionKeys || getAllUserMentionKeys(state),
             siteURL: getSiteURL(),
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',

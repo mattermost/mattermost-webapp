@@ -14,6 +14,7 @@ describe('components/PostMarkdown', () => {
         isRHS: false,
         message: 'message',
         post: {},
+        mentionKeys: ['a', 'b', 'c'],
     };
 
     test('should not error when rendering without a post', () => {
