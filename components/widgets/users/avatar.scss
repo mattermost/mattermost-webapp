@@ -1,5 +1,6 @@
 .Avatar {
     border-radius: 50%;
+    user-select: none;
     &.Avatar-xs {
         width: 16px;
         min-width: 16px;

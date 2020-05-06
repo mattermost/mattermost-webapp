@@ -1047,6 +1047,7 @@
     .post-edited__indicator {
         @include opacity(.6);
         font-size: .87em;
+        user-select: none;
     }
 
     .emoticon {
@@ -1556,6 +1557,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        user-select: none;
 
         a {
             font-weight: bold;

@@ -50,6 +50,7 @@
 .post-menu__comment-count {
     margin: 0 0 0 2px;
     font-weight: 600;
+    user-select: none;
 }
 
 @media (min-width: 768px) {
