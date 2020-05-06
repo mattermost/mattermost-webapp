@@ -17,8 +17,8 @@ import {isDesktopApp} from 'utils/user_agent';
 import Constants from 'utils/constants';
 
 import ChannelMentionBadge from '../channel_mention_badge';
-import SidebarChannelClose from '../sidebar_channel_close';
 import SidebarChannelIcon from '../sidebar_channel_icon';
+import SidebarChannelMenu from '../sidebar_channel_menu';
 
 type Props = {
     channel: Channel;
@@ -148,10 +148,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channelId={channel.id}
                     unreadMentions={unreadMentions}
                 />
-                <SidebarChannelClose
+                <SidebarChannelMenu
                     channel={channel}
-                    show={!this.showChannelAsUnread()}
+                    isUnread={this.showChannelAsUnread()}
                     closeHandler={this.props.closeHandler}
+                    channelLink={link}
                 />
             </React.Fragment>
         );

@@ -20,6 +20,8 @@ import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
 
+import SidebarCategoryMenu from './sidebar_category_menu';
+
 type Props = {
     category: ChannelCategory;
     categoryIndex: number;
@@ -36,6 +38,7 @@ type Props = {
 };
 
 type State = {
+    isMenuOpen: boolean;
     isNewCategory: boolean;
 }
 
@@ -50,6 +53,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.newDropBoxRef = React.createRef();
 
         this.state = {
+            isMenuOpen: false,
             isNewCategory: props.isNewCategory,
         };
     }
@@ -128,6 +132,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.props.actions.setCategoryCollapsed(category.id, !isCollapsed);
     }
 
+    handleSortDirectMessages = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.stopPropagation();
+
+        // TODO
+    }
     removeAnimation = () => {
         if (this.newDropBoxRef.current) {
             this.newDropBoxRef.current.classList.remove('animating');
@@ -137,6 +146,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
+    }
+
+    handleMenuToggle = (open: boolean) => {
+        this.setState({isMenuOpen: open});
     }
 
     isDropDisabled = () => {
@@ -165,6 +178,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         const renderedChannels = channels.map(this.renderChannel);
 
+        let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;
         let newDropBox: JSX.Element;
         let directMessagesModalButton: JSX.Element;
@@ -197,36 +211,69 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </div>
             );
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
-            const helpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
+            const addHelpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
 
-            const tooltip = (
+            const addTooltip = (
                 <Tooltip
                     id='new-group-tooltip'
                     className='hidden-xs'
                 >
-                    {helpLabel}
+                    {addHelpLabel}
                 </Tooltip>
             );
 
-            directMessagesModalButton = (
-                <button
-                    className='SidebarChannelGroupHeader_addButton'
-                    onClick={this.handleOpenDirectMessagesModal}
-                    aria-label={helpLabel}
+            const sortHelpLabel = localizeMessage('sidebar.sortByRecency', 'Sort by recency');
+
+            const sortTooltip = (
+                <Tooltip
+                    id='new-group-tooltip'
+                    className='hidden-xs'
                 >
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={tooltip}
+                    {sortHelpLabel}
+                </Tooltip>
+            );
+
+            categoryMenu = (
+                <React.Fragment>
+                    <button
+                        className='SidebarChannelGroupHeader_sortButton'
+                        onClick={this.handleSortDirectMessages}
+                        aria-label={sortHelpLabel}
                     >
-                        <i className='icon-plus'/>
-                    </OverlayTrigger>
-                </button>
+                        <OverlayTrigger
+                            delayShow={500}
+                            placement='top'
+                            overlay={sortTooltip}
+                        >
+                            <i className='icon-clock-outline'/>
+                        </OverlayTrigger>
+                    </button>
+                    <button
+                        className='SidebarChannelGroupHeader_addButton'
+                        onClick={this.handleOpenDirectMessagesModal}
+                        aria-label={addHelpLabel}
+                    >
+                        <OverlayTrigger
+                            delayShow={500}
+                            placement='top'
+                            overlay={addTooltip}
+                        >
+                            <i className='icon-plus'/>
+                        </OverlayTrigger>
+                    </button>
+                </React.Fragment>
             );
 
             if (!channels || !channels.length) {
                 hideArrow = true;
             }
+        } else {
+            categoryMenu = (
+                <SidebarCategoryMenu
+                    category={category}
+                    onToggle={this.handleMenuToggle}
+                />
+            );
         }
 
         let displayName = category.display_name;
@@ -245,6 +292,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
                                 dropDisabled: this.isDropDisabled(),
+                                menuIsOpen: this.state.isMenuOpen,
                             })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
@@ -284,6 +332,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                     </div>
                                                     {newLabel}
                                                     {directMessagesModalButton}
+                                                    {categoryMenu}
                                                 </button>
                                             </div>
                                             <div className='SidebarChannelGroup_content'>
