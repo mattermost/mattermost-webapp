@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -24,8 +25,15 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import DotMenu from 'components/dot_menu';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state:any, ownProps:any) {
+type Props = {
+    post: {
+        channel_id: string;
+    };
+};
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
     const license = getLicense(state);
@@ -49,7 +57,7 @@ function mapStateToProps(state:any, ownProps:any) {
     };
 }
 
-function mapDispatchToProps(dispatch:any) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             flagPost,

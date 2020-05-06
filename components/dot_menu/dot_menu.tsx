@@ -32,7 +32,9 @@ const MENU_BOTTOM_MARGIN = 80;
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 
 interface DotMenuProps {
-    post: any;
+    post: {
+        create_at: number;
+    };
     isLicensed: boolean;
     postEditTimeLimit: string;
     isFlagged: boolean;
@@ -136,7 +138,7 @@ export default class DotMenu extends React.PureComponent<DotMenuProps, DotMenuSt
     editDisableAction: DelayedAction;
     buttonRef: React.RefObject<HTMLButtonElement>
 
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
