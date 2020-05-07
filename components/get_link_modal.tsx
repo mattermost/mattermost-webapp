@@ -5,6 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 
 type State = {
     copiedLink: boolean;
+    linkAvailable: boolean;
 }
 
 export default class GetLinkModal extends React.PureComponent<Props, State> {
@@ -29,6 +31,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
         super(props);
         this.state = {
             copiedLink: false,
+            linkAvailable: false,
         };
     }
 
@@ -40,7 +43,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
     public copyLink = (): void => {
         const textarea = this.textAreaRef.current;
 
-        if (textarea) {
+        if (textarea && this.state.linkAvailable) {
             textarea.focus();
             textarea.setSelectionRange(0, this.props.link.length);
 
@@ -64,9 +67,8 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
             );
         }
 
-        let disableButton = true;
         if (this.props.link !== '') {
-            disableButton = false;
+            this.setState({linkAvailable: true});
         }
 
         let copyLink = null;
@@ -78,13 +80,15 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     data-copy-btn='true'
                     type='button'
                     className='btn btn-primary pull-left'
-                    disabled={disableButton}
+                    disabled={!this.state.linkAvailable}
                     onClick={this.copyLink}
                 >
-                    <FormattedMessage
-                        id='get_link.copy'
-                        defaultMessage='Copy Link'
-                    />
+                    <LoadingWrapper
+                        loading={!this.state.linkAvailable}
+                        text={''}
+                    >
+                        <span>{'Copy Link'}</span>
+                    </LoadingWrapper>
                 </button>
             );
         }
