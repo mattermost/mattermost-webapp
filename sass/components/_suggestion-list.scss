@@ -80,6 +80,7 @@
     overflow-y: auto;
     padding-bottom: 12px;
     max-width: 100%;
+    width: 496px;
 
     &::-webkit-scrollbar-track {
         width: 0;
@@ -205,11 +206,5 @@
         padding: 0 10px 0 5px;
         position: relative;
         z-index: 5;
-    }
-}
-
-.add-user-to-channel-modal__suggestion-box {
-    .suggestion-list {
-        width: calc(100% - 30px);
     }
 }
