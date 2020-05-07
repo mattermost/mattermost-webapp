@@ -114,6 +114,10 @@
     }
 }
 
+.group-mention-link {
+    color: var(--link-color);
+}
+
 .mention__purpose {
     @include opacity(.5);
     line-height: normal;

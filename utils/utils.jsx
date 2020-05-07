@@ -817,6 +817,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-attachment-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
+        changeCss('.app__body .post-message .group-mention-link', `color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {
