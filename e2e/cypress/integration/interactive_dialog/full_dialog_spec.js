@@ -42,15 +42,8 @@ describe('Interactive Dialog', () => {
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
 
-        // Set required ServiceSettings
-        const newSettings = {
-            ServiceSettings: {
-                AllowedUntrustedInternalConnections: 'localhost',
-                EnablePostUsernameOverride: true,
-                EnablePostIconOverride: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings).then((res) => {
+        // # Get config
+        cy.apiGetConfig().then((res) => {
             config = res.body;
         });
 
