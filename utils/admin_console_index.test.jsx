@@ -13,17 +13,17 @@ const enMessages = require('../i18n/en');
 const esMessages = require('../i18n/es');
 
 describe('AdminConsoleIndex.generateIndex', () => {
-    it('should generate a index where I can search', () => {
+    it('should generate an index where I can search', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
 
         const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
+            'environment/session_lengths',
             'authentication/mfa',
             'authentication/ldap',
             'authentication/saml',
             'experimental/features',
             'authentication/email',
-            'environment/session_lengths',
             'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
