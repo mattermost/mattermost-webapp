@@ -13,21 +13,28 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
     className="group-teams-and-channels"
   >
     <div
-      className="group-teams-and-channels--body"
+      className="group-teams-and-channels--body channel-desc-col"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="**Name**"
-        id="admin.channel_settings.channel_detail.channelName"
-      />
-      <br />
-      test
-      <br />
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="**Team**"
-        id="admin.channel_settings.channel_detail.channelTeam"
-      />
-      <br />
-      test
+      <div
+        className="channel-name"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Name**"
+          id="admin.channel_settings.channel_detail.channelName"
+        />
+        <br />
+        test
+      </div>
+      <div
+        className="channel-team"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="**Team**"
+          id="admin.channel_settings.channel_detail.channelTeam"
+        />
+        <br />
+        test
+      </div>
     </div>
   </div>
 </AdminPanel>

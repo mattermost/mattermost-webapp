@@ -4,12 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
+import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import DownloadIcon from 'components/widgets/icons/download_icon';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 
 describe('components/file_attachment/FilenameOverlay', () => {
-    function emptyFunction() {} //eslint-disable-line no-empty-function
+    function emptyFunction(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {} //eslint-disable-line no-empty-function
     const fileInfo = {
         id: 'thumbnail_id',
         name: 'test_filename',
@@ -17,6 +17,13 @@ describe('components/file_attachment/FilenameOverlay', () => {
         width: 100,
         height: 80,
         has_preview_image: true,
+        user_id: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        size: 100,
+        mime_type: '',
+        clientId: '',
     };
 
     const baseProps = {
