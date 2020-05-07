@@ -137,6 +137,26 @@ export default class Root extends React.Component {
             e.stopPropagation();
         });
 
+        document.addEventListener('copy', (event) => {
+            const selectionArray = document.getSelection().toString().split('\n');
+            const formattedSelection = selectionArray.reduce((result, line, index) => {
+                if (line.match(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/g) && index > 0) {
+                    const userName = selectionArray[index - 1];
+                    const timeStamp = line;
+
+                    return `${result}\n${userName} [${timeStamp}]`;
+                }
+
+                const nextLine = selectionArray[index + 1];
+                if (nextLine && nextLine.match(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/g)) {
+                    return result;
+                }
+                return `${result}\n${line}`;
+            }, '');
+            event.clipboardData.setData('text/plain', formattedSelection.trim());
+            event.preventDefault();
+        });
+
         // Fastclick
         FastClick.attach(document.body);
 
