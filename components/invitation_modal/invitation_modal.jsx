@@ -93,21 +93,21 @@ export default class InvitationModal extends React.Component {
             this.setState({step: STEPS_INITIAL, hasChanges: false, lastInviteChannels: [], lastInviteMesssage: '', prevStep: this.state.step});
         }
         if (this.modal && this.modal.current) {
-            this.modal.current.resetFocus();
+            this.modal.current.enforceFocus();
         }
     }
 
     goToMembers = () => {
         this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
         if (this.modal && this.modal.current) {
-            this.modal.current.resetFocus();
+            this.modal.current.enforceFocus();
         }
     }
 
     goToGuests = () => {
         this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
         if (this.modal && this.modal.current) {
-            this.modal.current.resetFocus();
+            this.modal.current.enforceFocus();
         }
     }
 
@@ -118,7 +118,7 @@ export default class InvitationModal extends React.Component {
             this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
         }
         if (this.modal && this.modal.current) {
-            this.modal.current.resetFocus();
+            this.modal.current.enforceFocus();
         }
     }
 
@@ -261,6 +261,7 @@ export default class InvitationModal extends React.Component {
                         {this.state.step === STEPS_INVITE_MEMBERS &&
                             <InvitationModalMembersStep
                                 teamName={this.props.currentTeam.display_name}
+                                currentTeamId={this.props.currentTeam.id}
                                 inviteId={this.props.currentTeam.invite_id}
                                 searchProfiles={this.props.actions.searchProfiles}
                                 emailInvitationsEnabled={this.props.emailInvitationsEnabled}

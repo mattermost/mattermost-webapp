@@ -1458,7 +1458,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               className="input__help error"
             >
               <FormattedMessage
-                defaultMessage="Channel name must be 2 or more characters"
+                defaultMessage="Display name must have at least 2 characters."
                 id="channel_modal.displayNameError"
                 values={Object {}}
               />

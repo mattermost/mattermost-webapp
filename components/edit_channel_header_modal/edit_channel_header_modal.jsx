@@ -11,7 +11,7 @@ import TextboxLinks from 'components/textbox/textbox_links';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/user_agent';
-import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
+import {insertLineBreakFromKeyEvent, isKeyPressed, isUnhandledLineBreakKeyCombo, localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 const KeyCodes = Constants.KeyCodes;
@@ -136,7 +136,11 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
-        if (ctrlSend && isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
+
+        // listen for line break key combo and insert new line character
+        if (isUnhandledLineBreakKeyCombo(e)) {
+            this.setState({header: insertLineBreakFromKeyEvent(e)});
+        } else if (ctrlSend && isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
     }
