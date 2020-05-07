@@ -18,7 +18,6 @@ type Props = {
 
 type State = {
     copiedLink: boolean;
-    linkAvailable: boolean;
 }
 
 export default class GetLinkModal extends React.PureComponent<Props, State> {
@@ -31,7 +30,6 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
         super(props);
         this.state = {
             copiedLink: false,
-            linkAvailable: false,
         };
     }
 
@@ -43,7 +41,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
     public copyLink = (): void => {
         const textarea = this.textAreaRef.current;
 
-        if (textarea && this.state.linkAvailable) {
+        if (textarea && this.props.link) {
             textarea.focus();
             textarea.setSelectionRange(0, this.props.link.length);
 
@@ -67,11 +65,8 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
             );
         }
 
-        if (this.props.link !== '') {
-            this.setState({linkAvailable: true});
-        }
-
         let copyLink = null;
+        const linkAvailable = this.props.link;
 
         if (document.queryCommandSupported('copy')) {
             copyLink = (
@@ -80,11 +75,11 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     data-copy-btn='true'
                     type='button'
                     className='btn btn-primary pull-left'
-                    disabled={!this.state.linkAvailable}
+                    disabled={!linkAvailable}
                     onClick={this.copyLink}
                 >
                     <LoadingWrapper
-                        loading={!this.state.linkAvailable}
+                        loading={!linkAvailable}
                         text={''}
                     >
                         <span>{'Copy Link'}</span>

@@ -77,11 +77,14 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Copy Link"
-        id="get_link.copy"
-        values={Object {}}
-      />
+      <LoadingWrapper
+        loading={false}
+        text=""
+      >
+        <span>
+          Copy Link
+        </span>
+      </LoadingWrapper>
     </button>
     <p
       className="alert alert-success alert--confirm"
@@ -174,11 +177,14 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Copy Link"
-        id="get_link.copy"
-        values={Object {}}
-      />
+      <LoadingWrapper
+        loading={false}
+        text=""
+      >
+        <span>
+          Copy Link
+        </span>
+      </LoadingWrapper>
     </button>
   </ModalFooter>
 </Modal>
@@ -266,11 +272,14 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Copy Link"
-        id="get_link.copy"
-        values={Object {}}
-      />
+      <LoadingWrapper
+        loading={false}
+        text=""
+      >
+        <span>
+          Copy Link
+        </span>
+      </LoadingWrapper>
     </button>
   </ModalFooter>
 </Modal>
@@ -353,11 +362,14 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
-        defaultMessage="Copy Link"
-        id="get_link.copy"
-        values={Object {}}
-      />
+      <LoadingWrapper
+        loading={false}
+        text=""
+      >
+        <span>
+          Copy Link
+        </span>
+      </LoadingWrapper>
     </button>
   </ModalFooter>
 </Modal>
