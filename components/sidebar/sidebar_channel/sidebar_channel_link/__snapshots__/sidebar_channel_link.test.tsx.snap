@@ -6,6 +6,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   className="SidebarLink"
   id="sidebarItem_"
   onClick={[Function]}
+  tabIndex={0}
   to="http://a.fake.link"
 >
   <Connect(SidebarChannelIcon)
@@ -73,6 +74,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   className="SidebarLink"
   id="sidebarItem_"
   onClick={[Function]}
+  tabIndex={0}
   to="http://a.fake.link"
 >
   <Connect(SidebarChannelIcon)
@@ -162,6 +164,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       className="SidebarLink"
       id="sidebarItem_"
       onClick={[Function]}
+      tabIndex={0}
       to="http://a.fake.link"
     >
       <Connect(SidebarChannelIcon)
@@ -231,6 +234,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   className="SidebarLink unread-title"
   id="sidebarItem_"
   onClick={[Function]}
+  tabIndex={0}
   to="http://a.fake.link"
 >
   <Connect(SidebarChannelIcon)

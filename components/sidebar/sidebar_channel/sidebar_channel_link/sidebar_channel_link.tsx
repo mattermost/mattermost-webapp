@@ -47,6 +47,11 @@ type Props = {
      * Checks if the current channel is muted
      */
     isMuted: boolean;
+
+    /**
+     * Checks if channel is collapsed
+     */
+    isCollapsed: boolean;
 };
 
 type State = {
@@ -166,6 +171,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 aria-label={this.getAriaLabel()}
                 to={link}
                 onClick={this.trackChannelSelectedEvent}
+                tabIndex={this.props.isCollapsed ? -1 : 0}
             >
                 {content}
             </Link>

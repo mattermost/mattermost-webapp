@@ -75,7 +75,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         this.setState({show: false});
     }
 
-    private onClick = (event: React.MouseEvent<HTMLElement>) => {
+    private onClick = (event: React.SyntheticEvent<HTMLElement>) => {
         event.preventDefault();
         const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
@@ -106,7 +106,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
 
     handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (Utils.isKeyPressed(event, Constants.KeyCodes.ENTER)) {
-            this.show();
+            if (this.props.action) {
+                this.onClick(event);
+            } else {
+                this.show();
+            }
         }
 
         if (Utils.isKeyPressed(event, Constants.KeyCodes.RIGHT)) {

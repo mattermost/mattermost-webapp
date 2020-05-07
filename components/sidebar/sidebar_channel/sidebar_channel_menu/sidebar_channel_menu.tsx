@@ -10,6 +10,7 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
+import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
@@ -311,7 +312,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         );
     }
 
-    refCallback = (ref: SidebarMenu) => {
+    refCallback = (ref: SidebarMenuType) => {
         if (ref) {
             this.setState({
                 openUp: ref.state.openUp,

@@ -2,7 +2,7 @@
 
 exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot and contain correct buttons 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Category Menu"
     buttonAriaLabel="Category Menu"
     id="SidebarCategoryMenu-category1"
@@ -60,7 +60,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         text="Delete Category"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -73,7 +73,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
 
 exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot when category is favorites 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Category Menu"
     buttonAriaLabel="Category Menu"
     id="SidebarCategoryMenu-category1"
@@ -94,7 +94,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         text="Create Category"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -107,7 +107,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
 
 exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot when user does not have permissions 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Category Menu"
     buttonAriaLabel="Category Menu"
     id="SidebarCategoryMenu-category1"
@@ -154,7 +154,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         text="Delete Category"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={false}
     canCreatePublicChannel={false}

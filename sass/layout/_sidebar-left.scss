@@ -510,6 +510,47 @@
         }
     }
 
+    .SidebarChannelGroup.a11y--active {
+        .SidebarMenu {
+            display: block !important;
+
+            .SidebarMenu_menuButton {
+                opacity: 0;
+            }
+        }
+
+        .SidebarChannelGroupHeader_sortButton {
+            display: block !important;
+            opacity: 0;
+        }
+
+        .SidebarChannelGroupHeader_groupButton.a11y--focused {
+            & + .SidebarMenu .SidebarMenu_menuButton {
+                opacity: 1;
+            }
+
+            & + .SidebarChannelGroupHeader_sortButton {
+                opacity: 1;
+            }
+        }
+
+        .SidebarLink.a11y--focused .SidebarMenu .SidebarMenu_menuButton {
+            opacity: 1;
+        }
+
+        .SidebarMenu_menuButton.a11y--focused {
+            opacity: 1;
+        }
+
+        .SidebarChannelGroupHeader_sortButton.a11y--focused {
+            opacity: 1;
+        }
+
+        .SidebarMenu.menuOpen .SidebarMenu_menuButton {
+            opacity: 1;
+        }
+    }
+
     .SidebarChannelGroup .SidebarChannelGroupHeader {
         height: 32px;
         font-family: 'Open Sans', sans-serif;
@@ -533,6 +574,16 @@
 
         .SidebarMenu:not(.menuOpen) {
             display: none;
+        }
+
+        &.draggingOver:hover {
+            //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
+            border-radius: 4px;
+
+            .SidebarChannelGroupHeader_groupButton {
+                background-color: inherit;
+            }
         }
 
     }
@@ -573,12 +624,6 @@
             color: var(--sidebar-text);
         }
 
-        &.draggingOver:hover {
-            //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
-            border-radius: 4px;
-        }
-
         i.icon-chevron-down {
             max-width: 16px;
 
@@ -605,16 +650,18 @@
         transition: box-shadow 0.25s ease-in-out; */
     }
 
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader:hover .SidebarMenu {
-        display: block;
-    }
-
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
-        cursor: pointer;
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader:hover {
+        .SidebarMenu {
+            display: block;
+        }
 
         .SidebarChannelGroupHeader_sortButton {
             display: block;
         }
+    }
+
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
+        cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
             color: var(--sidebar-text);
@@ -642,8 +689,7 @@
         border-radius: 4px;
 
         .SidebarChannelGroupHeader_groupButton {
-            box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 0 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
-            border-radius: 4px 4px 0 0;
+            background-color: inherit;
         }
     }
 
@@ -655,10 +701,10 @@
         color: var(--sidebar-text-64);
         font-size: 18px;
         line-height: 16px;
-        height: 28px;
-        width: 28px;
+        height: 32px;
+        width: 32px;
         border-radius: 4px;
-        margin-right: 16px;
+        margin-right: 18px;
     }
     .SidebarChannelGroupHeader_addButton:hover {
         cursor: pointer;
@@ -676,8 +722,8 @@
         color: var(--sidebar-text-64);
         font-size: 18px;
         line-height: 16px;
-        height: 28px;
-        width: 28px;
+        height: 32px;
+        width: 32px;
         border-radius: 4px;
         margin-left: auto;
         display: none;
@@ -692,7 +738,7 @@
 
     /* Content */
     .SidebarChannelGroup_content {
-        padding-bottom: 14px;
+        margin-bottom: 14px;
     }
 
     .SidebarChannelGroup_content ul {

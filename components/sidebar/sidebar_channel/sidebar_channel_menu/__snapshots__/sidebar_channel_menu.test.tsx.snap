@@ -2,7 +2,7 @@
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot and contain correct buttons 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
@@ -104,13 +104,13 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         text="Leave Channel"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
 </Fragment>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is DM 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
@@ -189,13 +189,13 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         text="Close Conversation"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
 </Fragment>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is Town Square 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
@@ -284,13 +284,13 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         text="Add Members"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
 </Fragment>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is favorite 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
@@ -392,13 +392,13 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         text="Leave Channel"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
 </Fragment>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is muted 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
@@ -500,13 +500,13 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         text="Leave Channel"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
 </Fragment>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is private 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
@@ -597,13 +597,13 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         text="Leave Channel"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
 </Fragment>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is unread 1`] = `
 <Fragment>
-  <SidebarMenu
+  <Connect(SidebarMenu)
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
@@ -716,6 +716,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         text="Leave Channel"
       />
     </MenuGroup>
-  </SidebarMenu>
+  </Connect(SidebarMenu)>
 </Fragment>
 `;

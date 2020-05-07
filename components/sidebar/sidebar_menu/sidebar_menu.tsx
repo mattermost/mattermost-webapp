@@ -8,16 +8,20 @@ import classNames from 'classnames';
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
+import {DraggingState} from 'types/store';
+import {DraggingStates} from 'utils/constants';
 
 const MENU_BOTTOM_MARGIN = 80;
 
 type Props = {
     id: string;
+    children: JSX.Element | null;
     tooltipText: string;
     buttonAriaLabel: string;
     ariaLabel: string;
     refCallback?: (ref: SidebarMenu) => void;
     onToggle?: (open: boolean) => void;
+    draggingState: DraggingState;
 };
 
 type State = {
@@ -27,6 +31,7 @@ type State = {
 };
 
 export default class SidebarMenu extends React.PureComponent<Props, State> {
+    menuWrapperRef: React.RefObject<MenuWrapper>;
     menuRef?: Menu;
     menuButtonRef: React.RefObject<HTMLButtonElement>;
 
@@ -39,21 +44,44 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             width: 0,
         };
 
+        this.menuWrapperRef = React.createRef();
         this.menuButtonRef = React.createRef();
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.draggingState.state !== this.props.draggingState.state && this.props.draggingState.state === DraggingStates.CAPTURE) {
+            this.closeMenu();
+        }
+    }
+
     // TODO: Temporary code to keep the menu in place while scrolling
+    // This shouldn't be necessary once the menus are fixed up
     componentDidMount() {
         const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
         if (scrollbars && scrollbars[0]) {
-            scrollbars[0].addEventListener('scroll', this.setMenuPosition);
+            scrollbars[0].addEventListener('scroll', this.closeMenu);
         }
     }
 
     componentWillUnmount() {
         const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
         if (scrollbars && scrollbars[0]) {
-            scrollbars[0].removeEventListener('scroll', this.setMenuPosition);
+            scrollbars[0].removeEventListener('scroll', this.closeMenu);
+        }
+    }
+
+    closeMenu = () => {
+        if (this.menuWrapperRef.current) {
+            this.menuWrapperRef.current.setState({open: false});
+        }
+        this.handleMenuToggle(false);
+    }
+
+    // Set the z-index on the sidebar scrollbar while a menu is open so that it doesn't float on top of menus
+    disableScrollbar = () => {
+        const scrollbars: NodeListOf<HTMLElement> = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
+        if (scrollbars && scrollbars[0]) {
+            scrollbars[0].style.zIndex = this.state.isMenuOpen ? '3' : 'unset';
         }
     }
 
@@ -95,6 +123,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                 this.props.onToggle(isMenuOpen);
             }
             this.setMenuPosition();
+            this.disableScrollbar();
         });
     }
 
@@ -128,6 +157,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
 
         return (
             <MenuWrapper
+                ref={this.menuWrapperRef}
                 className={classNames('SidebarMenu', {
                     menuOpen: this.state.isMenuOpen,
                 })}
