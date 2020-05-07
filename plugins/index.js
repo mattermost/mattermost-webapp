@@ -75,7 +75,7 @@ const describePlugin = (manifest) => (
 export function loadPlugin(manifest) {
     return new Promise((resolve, reject) => {
         // Don't load it again if previously loaded
-        const oldManifest = store.getState().plugins.plugins[manifest.id];
+        const oldManifest = store.getState().plugins.manifests[manifest.id];
         if (oldManifest && oldManifest.webapp.bundle_path === manifest.webapp.bundle_path) {
             resolve();
             return;
@@ -131,7 +131,7 @@ function initializePlugin(manifest) {
 // event handlers, and removes the plugin script from the DOM entirely. The plugin is responsible
 // for removing any of its registered components.
 export function removePlugin(manifest) {
-    if (!(store.getState().plugins.plugins[manifest.id])) {
+    if (!(store.getState().plugins.manifests[manifest.id])) {
         return;
     }
     console.log('Removing ' + describePlugin(manifest)); //eslint-disable-line no-console
@@ -165,7 +165,7 @@ export async function loadPluginsIfNecessary() {
         return;
     }
 
-    const oldManifests = store.getState().plugins.plugins;
+    const oldManifests = store.getState().plugins.manifests;
 
     const {data: newManifests, error} = await getPlugins();
     if (error) {

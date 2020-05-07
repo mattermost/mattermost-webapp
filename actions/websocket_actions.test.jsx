@@ -155,7 +155,7 @@ const mockState = {
     },
     websocket: {},
     plugins: {
-        plugins: {}
+        manifests: {}
     }
 };
 
@@ -782,7 +782,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(mockScript.onload).toBeUndefined();
             handlePluginEnabled({data: {manifest}});
-            mockState.plugins.plugins = {[manifest.id]: manifest};
+            mockState.plugins.manifests = {[manifest.id]: manifest};
 
             const dispatchArg = store.dispatch.mock.calls[0][0];
             expect(dispatchArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
@@ -813,7 +813,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(store.dispatch).toHaveBeenCalledTimes(2);
             expect(console.error).toHaveBeenCalledTimes(0);
-            mockState.plugins.plugins = {};
+            mockState.plugins.manifests = {};
         });
 
         test('when a plugin is upgraded', () => {
@@ -840,7 +840,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(mockScript.onload).toBeUndefined();
             handlePluginEnabled({data: {manifest}});
-            mockState.plugins.plugins = {[manifest.id]: manifest};
+            mockState.plugins.manifests = {[manifest.id]: manifest};
 
             const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
             expect(dispatchReceivedArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
@@ -867,7 +867,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             // Upgrade plugin
             mockScript.onload = undefined;
             handlePluginEnabled({data: {manifest: manifestv2}});
-            mockState.plugins.plugins = {[manifestv2.id]: manifestv2};
+            mockState.plugins.manifests = {[manifestv2.id]: manifestv2};
 
             // Assert upgrade is idempotent
             handlePluginEnabled({data: {manifest: manifestv2}});
@@ -898,7 +898,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             expect(dispatchReceivedArg4.data.pluginId).toBe(manifest.id);
 
             expect(console.error).toHaveBeenCalledTimes(0);
-            mockState.plugins.plugins = {};
+            mockState.plugins.manifests = {};
         });
     });
 
@@ -950,7 +950,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             // Enable plugin
             handlePluginEnabled({data: {manifest}});
-            mockState.plugins.plugins = {[manifest.id]: manifest};
+            mockState.plugins.manifests = {[manifest.id]: manifest};
 
             const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
             expect(dispatchReceivedArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
@@ -961,7 +961,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             // Disable plugin
             handlePluginDisabled({data: {manifest}});
-            mockState.plugins.plugins = {};
+            mockState.plugins.manifests = {};
 
             const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
             expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);

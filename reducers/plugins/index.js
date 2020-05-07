@@ -129,7 +129,7 @@ function removePluginComponent(state, action) {
     return state;
 }
 
-function plugins(state = {}, action) {
+function manifests(state = {}, action) {
     switch (action.type) {
     case ActionTypes.ADD_WEBAPP_PLUGIN: {
         if (action.data) {
@@ -312,7 +312,7 @@ function adminConsoleCustomComponents(state = {}, action) {
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
-    plugins,
+    manifests,
 
     // object where every key is a component name and the values are arrays of
     // components wrapped in an object that contains an id and plugin id
