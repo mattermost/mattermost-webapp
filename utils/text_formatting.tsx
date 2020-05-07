@@ -13,11 +13,13 @@ import {formatWithRenderer} from 'utils/markdown';
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
 
+import Constants from './constants';
+
 import EmojiMap from './emoji_map.js';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
-const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]+)/gi;
+const AT_MENTION_PATTERN = /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
 const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
 
@@ -77,6 +79,13 @@ interface TextFormattingOptionsBase {
    * Defaults to `true`.
    */
     mentionHighlight: boolean;
+
+    /**
+   * Specifies whether or not to display group mentions as blue links.
+   *
+   * Defaults to `false`.
+   */
+    disableGroupHighlight: boolean;
 
     /**
    * A list of mention keys for the current user to highlight.
@@ -164,6 +173,7 @@ export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
 
 const DEFAULT_OPTIONS: TextFormattingOptions = {
     mentionHighlight: true,
+    disableGroupHighlight: false,
     singleline: false,
     emoticons: true,
     markdown: true,
@@ -335,12 +345,19 @@ function autolinkEmails(text: string, tokens: Tokens) {
 
 export function autolinkAtMentions(text: string, tokens: Tokens) {
     function replaceAtMentionWithToken(fullMatch: string, username: string) {
+        let originalText = fullMatch;
+
+        // Deliberately remove all leading underscores since regex matches leading underscore by treating it as non word boundary
+        while (originalText[0] === '_') {
+            originalText = originalText.substring(1);
+        }
+
         const index = tokens.size;
         const alias = `$MM_ATMENTION${index}$`;
 
         tokens.set(alias, {
             value: `<span data-mention="${username}">@${username}</span>`,
-            originalText: fullMatch,
+            originalText,
         });
 
         return alias;
@@ -348,9 +365,9 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
 
     let output = text;
 
-    // handle @channel, @all, @here mentions first (purposely excludes trailing punctuation)
+    // handle @channel, @all, @here mentions first (supports trailing punctuation)
     output = output.replace(
-        /\B@(channel|all|here)\b/gi,
+        Constants.SPECIAL_MENTIONS_REGEX,
         replaceAtMentionWithToken
     );
 
@@ -362,6 +379,10 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
     }
 
     return output;
+}
+
+export function allAtMentions(text: string) {
+    return text.match(Constants.SPECIAL_MENTIONS_REGEX && AT_MENTION_PATTERN) || [];
 }
 
 function autolinkChannelMentions(

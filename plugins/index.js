@@ -65,6 +65,11 @@ export async function getPlugins() {
     return {data: plugins};
 }
 
+// describePlugin takes a manifest and spits out a string suitable for console.log messages.
+const describePlugin = (manifest) => (
+    'plugin ' + manifest.id + ', version ' + manifest.version
+);
+
 // loadPlugin fetches the web app bundle described by the given manifest, waits for the bundle to
 // load, and then ensures the plugin has been initialized.
 export function loadPlugin(manifest) {
@@ -83,12 +88,12 @@ export function loadPlugin(manifest) {
 
         function onLoad() {
             initializePlugin(manifest);
-            console.log('Loaded ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+            console.log('Loaded ' + describePlugin(manifest)); //eslint-disable-line no-console
             resolve();
         }
 
         function onError() {
-            reject(new Error('Unable to load bundle for plugin ' + manifest.id));
+            reject(new Error('Unable to load bundle for ' + describePlugin(manifest)));
         }
 
         // Backwards compatibility for old plugins
@@ -97,7 +102,7 @@ export function loadPlugin(manifest) {
             bundlePath = bundlePath.replace('/static/', '/static/plugins/');
         }
 
-        console.log('Loading ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+        console.log('Loading ' + describePlugin(manifest)); //eslint-disable-line no-console
 
         const script = document.createElement('script');
         script.id = 'plugin_' + manifest.id;
@@ -129,7 +134,7 @@ export function removePlugin(manifest) {
     if (!(store.getState().plugins.plugins[manifest.id])) {
         return;
     }
-    console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+    console.log('Removing ' + describePlugin(manifest)); //eslint-disable-line no-console
 
     store.dispatch({type: ActionTypes.REMOVE_WEBAPP_PLUGIN, data: manifest});
 
@@ -150,7 +155,7 @@ export function removePlugin(manifest) {
         return;
     }
     script.parentNode.removeChild(script);
-    console.log('Removed ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+    console.log('Removed ' + describePlugin(manifest)); //eslint-disable-line no-console
 }
 
 // loadPluginsIfNecessary synchronizes the current state of loaded plugins with that of the server,

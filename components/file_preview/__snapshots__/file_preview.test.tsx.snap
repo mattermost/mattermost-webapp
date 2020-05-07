@@ -35,25 +35,32 @@ exports[`FilePreview should match snapshot 1`] = `
             compactDisplay={false}
             fileInfo={
               Object {
-                "create_at": "1",
-                "extension": "jpg",
+                "clientId": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "extension": "png",
+                "has_preview_image": true,
                 "height": 100,
                 "id": "file_id_1",
+                "mime_type": "",
+                "name": "test_filename",
+                "size": 100,
+                "type": "image/png",
+                "update_at": 0,
+                "user_id": "",
                 "width": 100,
               }
             }
-            handleImageClick={null}
-            index={0}
           />
           <span
             className="post-image__type"
           >
-            JPG
+            PNG
           </span>
           <span
             className="post-image__size"
           >
-            undefinedB
+            100B
           </span>
         </div>
       </div>
@@ -62,7 +69,9 @@ exports[`FilePreview should match snapshot 1`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>
@@ -71,10 +80,20 @@ exports[`FilePreview should match snapshot 1`] = `
     clientId="clientID_1"
     fileInfo={
       Object {
+        "clientId": "",
+        "create_at": 0,
+        "delete_at": 0,
         "extension": "image/png",
+        "has_preview_image": true,
+        "height": 100,
         "id": "file_id_1",
+        "mime_type": "",
         "name": "file",
         "percent": 50,
+        "size": 100,
+        "update_at": 0,
+        "user_id": "",
+        "width": 100,
       }
     }
     handleRemove={[Function]}
@@ -118,25 +137,32 @@ exports[`FilePreview should match snapshot when props are changed 1`] = `
             compactDisplay={false}
             fileInfo={
               Object {
-                "create_at": "1",
-                "extension": "jpg",
+                "clientId": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "extension": "png",
+                "has_preview_image": true,
                 "height": 100,
                 "id": "file_id_1",
+                "mime_type": "",
+                "name": "test_filename",
+                "size": 100,
+                "type": "image/png",
+                "update_at": 0,
+                "user_id": "",
                 "width": 100,
               }
             }
-            handleImageClick={null}
-            index={0}
           />
           <span
             className="post-image__type"
           >
-            JPG
+            PNG
           </span>
           <span
             className="post-image__size"
           >
-            undefinedB
+            100B
           </span>
         </div>
       </div>
@@ -145,7 +171,9 @@ exports[`FilePreview should match snapshot when props are changed 1`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>
@@ -154,10 +182,20 @@ exports[`FilePreview should match snapshot when props are changed 1`] = `
     clientId="clientID_1"
     fileInfo={
       Object {
+        "clientId": "",
+        "create_at": 0,
+        "delete_at": 0,
         "extension": "image/png",
+        "has_preview_image": true,
+        "height": 100,
         "id": "file_id_1",
+        "mime_type": "",
         "name": "file",
         "percent": 50,
+        "size": 100,
+        "update_at": 0,
+        "user_id": "",
+        "width": 100,
       }
     }
     handleRemove={[Function]}
@@ -201,25 +239,32 @@ exports[`FilePreview should match snapshot when props are changed 2`] = `
             compactDisplay={false}
             fileInfo={
               Object {
-                "create_at": "1",
-                "extension": "jpg",
+                "clientId": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "extension": "png",
+                "has_preview_image": true,
                 "height": 100,
                 "id": "file_id_1",
+                "mime_type": "",
+                "name": "test_filename",
+                "size": 100,
+                "type": "image/png",
+                "update_at": 0,
+                "user_id": "",
                 "width": 100,
               }
             }
-            handleImageClick={null}
-            index={0}
           />
           <span
             className="post-image__type"
           >
-            JPG
+            PNG
           </span>
           <span
             className="post-image__size"
           >
-            undefinedB
+            100B
           </span>
         </div>
       </div>
@@ -228,7 +273,9 @@ exports[`FilePreview should match snapshot when props are changed 2`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>
@@ -271,8 +318,6 @@ exports[`FilePreview should match snapshot when props are changed 2`] = `
                 "width": 100,
               }
             }
-            handleImageClick={null}
-            index={1}
           />
           <span
             className="post-image__type"
@@ -291,7 +336,9 @@ exports[`FilePreview should match snapshot when props are changed 2`] = `
           className="file-preview__remove"
           onClick={[Function]}
         >
-          <RemoveIcon />
+          <i
+            className="icon icon-close"
+          />
         </a>
       </div>
     </div>

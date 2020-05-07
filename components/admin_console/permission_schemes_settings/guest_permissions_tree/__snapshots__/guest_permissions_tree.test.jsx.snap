@@ -58,6 +58,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           "use_channel_mentions",
+          "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -138,6 +140,89 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           "use_channel_mentions",
+          "use_group_mentions",
+          "create_post",
+        ]
+      }
+      readOnly={false}
+      role={
+        Object {
+          "name": "test",
+          "permissions": Array [],
+        }
+      }
+      root={true}
+      scope="channel_scope"
+      selectRow={[MockFunction]}
+      uniqId="test"
+    />
+  </div>
+  <Connect(EditPostTimeLimitModal)
+    onClose={[Function]}
+    show={false}
+  />
+</div>
+`;
+
+exports[`components/admin_console/permission_schemes_settings/permission_tree should match snapshot on license without LDAPGroups 1`] = `
+<div
+  className="permissions-tree guest"
+>
+  <div
+    className="permissions-tree--header"
+  >
+    <div
+      className="permission-name"
+    >
+      <FormattedMessage
+        defaultMessage="Permission"
+        id="admin.permissions.permissionsTree.permission"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="permission-description"
+    >
+      <FormattedMessage
+        defaultMessage="Description"
+        id="admin.permissions.permissionsTree.description"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="permissions-tree--body"
+  >
+    <PermissionGroup
+      additionalValues={
+        Object {
+          "edit_post": Object {
+            "editTimeLimitButton": <Connect(EditPostTimeLimitButton)
+              onClick={[Function]}
+            />,
+          },
+        }
+      }
+      combined={false}
+      id="all"
+      key="all"
+      onChange={[Function]}
+      parentRole={null}
+      permissions={
+        Array [
+          "create_private_channel",
+          "edit_post",
+          "delete_post",
+          Object {
+            "combined": true,
+            "id": "reactions",
+            "permissions": Array [
+              "add_reaction",
+              "remove_reaction",
+            ],
+          },
+          "use_channel_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -218,6 +303,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           "use_channel_mentions",
+          "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={true}
@@ -298,6 +385,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           "use_channel_mentions",
+          "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -378,6 +467,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           "use_channel_mentions",
+          "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}
@@ -462,6 +553,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           "use_channel_mentions",
+          "use_group_mentions",
+          "create_post",
         ]
       }
       readOnly={false}

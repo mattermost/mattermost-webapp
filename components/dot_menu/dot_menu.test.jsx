@@ -129,7 +129,7 @@ describe('components/dot_menu/DotMenu', () => {
 
         wrapper.setProps({
             components: {
-                [PLUGGABLE_COMPONENT]: {},
+                [PLUGGABLE_COMPONENT]: [{}],
             },
         });
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);

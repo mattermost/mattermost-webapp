@@ -11,7 +11,16 @@ exports[`components/RhsThread should match snapshot 1`] = `
     isScrolling={false}
     postId={0}
   />
-  <Connect(RhsHeaderPost) />
+  <Connect(RhsHeaderPost)
+    channel={
+      Object {
+        "delete_at": 0,
+        "id": "channel_id",
+        "team_id": "team_id",
+      }
+    }
+    rootPostId="id"
+  />
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
