@@ -42,6 +42,7 @@ export default class PostMarkdown extends React.PureComponent {
         hasPluginTooltips: PropTypes.bool,
 
         isUserCanManageMembers: PropTypes.bool,
+        mentionKeys: PropTypes.array.isRequired,
     };
 
     static defaultProps = {
@@ -63,8 +64,7 @@ export default class PostMarkdown extends React.PureComponent {
         const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
 
         let {message} = this.props;
-        const {post} = this.props;
-        const options = {...this.props.options};
+        const {post, options, mentionKeys} = this.props;
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {
@@ -72,16 +72,13 @@ export default class PostMarkdown extends React.PureComponent {
             }
         });
 
-        if (post && post.props) {
-            options.mentionHighlight = !post.props.mentionHighlightDisabled;
-        }
-
         return (
             <Markdown
                 imageProps={this.props.imageProps}
                 isRHS={this.props.isRHS}
                 message={message}
                 proxyImages={proxyImages}
+                mentionKeys={mentionKeys}
                 options={options}
                 channelNamesMap={channelNamesMap}
                 hasPluginTooltips={this.props.hasPluginTooltips}

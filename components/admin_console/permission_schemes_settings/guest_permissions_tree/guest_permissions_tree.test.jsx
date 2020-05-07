@@ -26,6 +26,10 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
         selectRow: jest.fn(),
         parentRole: null,
         readOnly: false,
+        license: {
+            LDAPGroups: 'true',
+            IsLicensed: 'true',
+        },
     };
 
     test('should match snapshot on default data', () => {
@@ -99,6 +103,16 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
                     EnableCommands: 'false',
                     EnableCustomEmoji: 'false',
                 }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot on license without LDAPGroups', () => {
+        const wrapper = shallow(
+            <GuestPermissionsTree
+                {...defaultProps}
+                license={{}}
             />
         );
         expect(wrapper).toMatchSnapshot();

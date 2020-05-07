@@ -11,12 +11,15 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
   }
   imageProps={Object {}}
   isRHS={false}
-  message="hello world!"
-  options={
-    Object {
-      "mentionHighlight": true,
-    }
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
   }
+  message="hello world!"
+  options={Object {}}
   proxyImages={true}
 />
 `;
@@ -32,12 +35,15 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
   }
   imageProps={Object {}}
   isRHS={false}
-  message="world!"
-  options={
-    Object {
-      "mentionHighlight": true,
-    }
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
   }
+  message="world!"
+  options={Object {}}
   proxyImages={true}
 />
 `;
@@ -46,6 +52,13 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
 <Connect(Markdown)
   imageProps={Object {}}
   isRHS={false}
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
+  }
   message="message"
   options={Object {}}
   postId="post_id"
@@ -117,12 +130,15 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
   }
   imageProps={Object {}}
   isRHS={false}
-  message="See ~test"
-  options={
-    Object {
-      "mentionHighlight": true,
-    }
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
   }
+  message="See ~test"
+  options={Object {}}
   proxyImages={true}
 />
 `;
@@ -131,6 +147,13 @@ exports[`components/PostMarkdown should render properly with an empty post 1`] =
 <Connect(Markdown)
   imageProps={Object {}}
   isRHS={false}
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
+  }
   message="message"
   options={Object {}}
   proxyImages={true}
@@ -141,6 +164,13 @@ exports[`components/PostMarkdown should render properly without highlight a post
 <Connect(Markdown)
   imageProps={Object {}}
   isRHS={false}
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
+  }
   message="No highlight"
   options={
     Object {
