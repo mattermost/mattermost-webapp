@@ -81,9 +81,11 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
         loading={false}
         text=""
       >
-        <span>
-          Copy Link
-        </span>
+        <FormattedMessage
+          defaultMessage="Copy Link"
+          id="get_link.copy"
+          values={Object {}}
+        />
       </LoadingWrapper>
     </button>
     <p
@@ -181,9 +183,11 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
         loading={false}
         text=""
       >
-        <span>
-          Copy Link
-        </span>
+        <FormattedMessage
+          defaultMessage="Copy Link"
+          id="get_link.copy"
+          values={Object {}}
+        />
       </LoadingWrapper>
     </button>
   </ModalFooter>
@@ -276,9 +280,11 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
         loading={false}
         text=""
       >
-        <span>
-          Copy Link
-        </span>
+        <FormattedMessage
+          defaultMessage="Copy Link"
+          id="get_link.copy"
+          values={Object {}}
+        />
       </LoadingWrapper>
     </button>
   </ModalFooter>
@@ -366,9 +372,11 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
         loading={false}
         text=""
       >
-        <span>
-          Copy Link
-        </span>
+        <FormattedMessage
+          defaultMessage="Copy Link"
+          id="get_link.copy"
+          values={Object {}}
+        />
       </LoadingWrapper>
     </button>
   </ModalFooter>

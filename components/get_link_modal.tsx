@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import {localizeMessage} from 'utils/utils';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
 type Props = {
@@ -83,7 +82,10 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                         loading={!linkAvailable}
                         text={''}
                     >
-                        {localizeMessage('get_link.copy', 'Copy Link')}
+                        <FormattedMessage
+                            id='get_link.copy'
+                            defaultMessage='Copy Link'
+                        />
                     </LoadingWrapper>
                 </button>
             );
