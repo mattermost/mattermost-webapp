@@ -18,12 +18,12 @@ describe('AdminConsoleIndex.generateIndex', () => {
 
         const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
-            'environment/session_lengths',
             'authentication/mfa',
             'authentication/ldap',
             'authentication/saml',
             'experimental/features',
             'authentication/email',
+            'environment/session_lengths',
             'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
@@ -48,12 +48,12 @@ describe('AdminConsoleIndex.generateIndex', () => {
 
         const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
-            'environment/session_lengths',
             'authentication/mfa',
             'authentication/ldap',
             'authentication/saml',
             'experimental/features',
             'authentication/email',
+            'environment/session_lengths',
             'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
