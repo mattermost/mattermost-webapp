@@ -71,7 +71,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
       <SuggestionBox
         className="form-control focused"
         completeOnTab={false}
-        containerClass=""
+        containerClass="add-user-to-channel-modal__suggestion-box"
         delayInputUpdate={true}
         isRHS={false}
         listComponent={[Function]}
