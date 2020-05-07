@@ -36,7 +36,7 @@ export async function initializePlugins() {
         return;
     }
 
-    const {data, error} = await getPlugins()(store.dispatch);
+    const {data, error} = await getPlugins();
     if (error) {
         console.error(error); //eslint-disable-line no-console
         return;
@@ -54,19 +54,15 @@ export async function initializePlugins() {
 }
 
 // getPlugins queries the server for all enabled plugins
-export function getPlugins() {
-    return async (dispatch) => {
-        let plugins;
-        try {
-            plugins = await Client4.getWebappPlugins();
-        } catch (error) {
-            return {error};
-        }
+export async function getPlugins() {
+    let plugins;
+    try {
+        plugins = await Client4.getWebappPlugins();
+    } catch (error) {
+        return {error};
+    }
 
-        dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGINS, data: plugins});
-
-        return {data: plugins};
-    };
+    return {data: plugins};
 }
 
 // loadPlugin fetches the web app bundle described by the given manifest, waits for the bundle to
@@ -74,7 +70,7 @@ export function getPlugins() {
 export function loadPlugin(manifest) {
     return new Promise((resolve, reject) => {
         // Don't load it again if previously loaded
-        const oldManifest = store.getState().plugins.loadedPlugins[manifest.id];
+        const oldManifest = store.getState().plugins.plugins[manifest.id];
         if (oldManifest && oldManifest.webapp.bundle_path === manifest.webapp.bundle_path) {
             resolve();
             return;
@@ -82,7 +78,7 @@ export function loadPlugin(manifest) {
 
         if (oldManifest) {
             // upgrading, perform cleanup
-            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
+            store.dispatch({type: ActionTypes.REMOVE_WEBAPP_PLUGIN, data: manifest});
         }
 
         function onLoad() {
@@ -111,7 +107,7 @@ export function loadPlugin(manifest) {
         script.onerror = onError;
 
         document.getElementsByTagName('head')[0].appendChild(script);
-        store.dispatch({type: ActionTypes.LOADED_PLUGIN, data: manifest});
+        store.dispatch({type: ActionTypes.ADD_WEBAPP_PLUGIN, data: manifest});
     });
 }
 
@@ -130,14 +126,12 @@ function initializePlugin(manifest) {
 // event handlers, and removes the plugin script from the DOM entirely. The plugin is responsible
 // for removing any of its registered components.
 export function removePlugin(manifest) {
-    if (!(store.getState().plugins.loadedPlugins[manifest.id])) {
+    if (!(store.getState().plugins.plugins[manifest.id])) {
         return;
     }
     console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 
-    store.dispatch({type: ActionTypes.UNLOADED_PLUGIN, data: manifest});
-
-    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
+    store.dispatch({type: ActionTypes.REMOVE_WEBAPP_PLUGIN, data: manifest});
 
     const plugin = window.plugins[manifest.id];
     if (plugin && plugin.uninitialize) {
@@ -168,16 +162,14 @@ export async function loadPluginsIfNecessary() {
 
     const oldManifests = store.getState().plugins.plugins;
 
-    const {error} = await getPlugins()(store.dispatch);
+    const {data: newManifests, error} = await getPlugins();
     if (error) {
         console.error(error); //eslint-disable-line no-console
         return;
     }
 
-    const newManifests = store.getState().plugins.plugins;
-
     // Get new plugins and update existing plugins if version changed
-    Object.values(newManifests).forEach((newManifest) => {
+    newManifests.forEach((newManifest) => {
         const oldManifest = oldManifests[newManifest.id];
         if (!oldManifest || oldManifest.version !== newManifest.version) {
             loadPlugin(newManifest).catch((loadErr) => {
@@ -190,7 +182,7 @@ export async function loadPluginsIfNecessary() {
     Object.keys(oldManifests).forEach((id) => {
         if (!newManifests.hasOwnProperty(id)) {
             const oldManifest = oldManifests[id];
-            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: oldManifest});
+            store.dispatch({type: ActionTypes.REMOVE_WEBAPP_PLUGIN, data: oldManifest});
             removePlugin(oldManifest);
         }
     });
