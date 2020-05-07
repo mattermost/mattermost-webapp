@@ -78,7 +78,7 @@ export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState,
     );
 }
 
-// TODO Devin: Move this to mattermost-redux
+// TODO Devin: Replaced by 'getCategoryInTeamWithChannel'
 export function makeGetCategoryForChannel(): (state: GlobalState, teamId: string, channelId: string) => ChannelCategory | undefined {
     const getChannelsByCategory = makeGetChannelsByCategory();
     const getCategoriesForTeam = makeGetCategoriesForTeam();

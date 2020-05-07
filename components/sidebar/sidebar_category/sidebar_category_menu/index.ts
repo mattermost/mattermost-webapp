@@ -16,6 +16,7 @@ import {mockCreateCategory, moveToCategory} from 'actions/views/channel_sidebar'
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
+// TODO Devin: Replace with `renameCategory`
 function mockRenameCategory(category: ChannelCategory, newName: string) {
     return (dispatch: DispatchFunc) => {
         const renamedCategory = {

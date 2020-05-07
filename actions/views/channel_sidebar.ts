@@ -36,6 +36,7 @@ export function setUnreadFilterEnabled(enabled: boolean) {
     };
 }
 
+// TODO Devin: Replace with `moveChannelToCategory`
 export function setCategoryOrder(teamId: string, categoryId: string, channelId: string, newIndex: number) {
     const getChannelsForCategory = makeGetChannelsForCategory();
     const getCategoriesForTeam = makeGetCategoriesForTeam();
@@ -63,6 +64,7 @@ export function setCategoryOrder(teamId: string, categoryId: string, channelId: 
     };
 }
 
+// TODO Devin: Replace with `moveCategory`
 export function setCategoriesOrder(teamId: string, categoryId: string, newIndex: number) {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
@@ -82,6 +84,7 @@ export function setCategoriesOrder(teamId: string, categoryId: string, newIndex:
     };
 }
 
+// TODO Devin: Remove, should not be needed
 export function removeFromCategory(teamId: string, categoryId: string, channelId: string) {
     const getChannelsForCategory = makeGetChannelsForCategory();
     const getCategoriesForTeam = makeGetCategoriesForTeam();
@@ -120,6 +123,7 @@ export function stopDragging() {
     return {type: ActionTypes.SIDEBAR_DRAGGING_STOP};
 }
 
+// TODO Devin: Replace with `addChannelToCategory`
 export function moveToCategory(teamId: string, channelId: string, newCategoryId: string) {
     const getCategoryForChannel = makeGetCategoryForChannel();
 
@@ -134,6 +138,7 @@ export function moveToCategory(teamId: string, channelId: string, newCategoryId:
     };
 }
 
+// TODO Devin: Replace with `createCategory`
 export function mockCreateCategory(teamId: string, categoryName: string) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({
