@@ -24,9 +24,9 @@ type Props = {
     intl: IntlShape;
     actions: {
         createCategory: (teamId: string, categoryName: string) => {data: string};
-        deleteCategory: (category: ChannelCategory) => void;
-        renameCategory: (category: ChannelCategory, newName: string) => void;
-        moveToCategory: (teamId: string, channelId: string, newCategoryId: string) => void;
+        deleteCategory: (categoryId: string) => void;
+        renameCategory: (categoryId: string, newName: string) => void;
+        addChannelToCategory: (categoryId: string, channelId: string) => void;
     };
 };
 
@@ -62,7 +62,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
     }
 
     handleCreatedNewChannel = (channel: Channel) => {
-        this.props.actions.moveToCategory(this.props.currentTeamId, channel.id, this.props.category.id);
+        this.props.actions.addChannelToCategory(this.props.category.id, channel.id);
         this.setState({showNewChannelModal: false});
     }
 
@@ -83,11 +83,11 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
     }
 
     handleDeleteCategory = (category: ChannelCategory) => {
-        this.props.actions.deleteCategory(category);
+        this.props.actions.deleteCategory(category.id);
     }
 
     handleRenameCategory = (categoryName: string) => {
-        this.props.actions.renameCategory(this.props.category, categoryName);
+        this.props.actions.renameCategory(this.props.category.id, categoryName);
     }
 
     createChannel = () => {
@@ -136,9 +136,9 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             <React.Fragment>
                 <NewChannelFlow
                     show={this.state.showNewChannelModal}
-                    canCreatePublicChannel={this.props.canCreatePublicChannel && category.type !== CategoryTypes.PRIVATE}
-                    canCreatePrivateChannel={this.props.canCreatePrivateChannel && category.type !== CategoryTypes.PUBLIC}
-                    channelType={category.type === CategoryTypes.PRIVATE ? Constants.PRIVATE_CHANNEL as ChannelType : Constants.OPEN_CHANNEL as ChannelType}
+                    canCreatePublicChannel={this.props.canCreatePublicChannel}
+                    canCreatePrivateChannel={this.props.canCreatePrivateChannel}
+                    channelType={this.props.canCreatePublicChannel ? Constants.OPEN_CHANNEL as ChannelType : Constants.PRIVATE_CHANNEL as ChannelType}
                     onModalDismissed={this.handleCreatedNewChannel}
                 />
                 {createCategoryModal}

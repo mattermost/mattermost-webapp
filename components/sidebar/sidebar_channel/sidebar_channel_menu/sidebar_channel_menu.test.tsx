@@ -61,7 +61,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             unmuteChannel: jest.fn(),
             openModal: jest.fn(),
             createCategory: jest.fn(),
-            moveToCategory: jest.fn(),
+            addChannelToCategory: jest.fn(),
         },
     };
 

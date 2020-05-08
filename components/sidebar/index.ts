@@ -5,12 +5,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
+import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {mockCreateCategory} from 'actions/views/channel_sidebar';
+import {createCategory} from 'actions/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 
@@ -39,13 +40,15 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
+    fetchMyCategories: (teamId:string) => {data: boolean};
     createCategory: (teamId: string, categoryName: string) => {data: string};
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            createCategory: mockCreateCategory,
+            createCategory,
+            fetchMyCategories,
         }, dispatch),
     };
 }

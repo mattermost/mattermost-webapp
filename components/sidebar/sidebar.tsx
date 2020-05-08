@@ -28,6 +28,7 @@ type Props = {
     canJoinPublicChannel: boolean;
     isOpen: boolean;
     actions: {
+        fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
     };
 };
@@ -50,6 +51,18 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showCreateCategoryModal: false,
             isDragging: false,
         };
+    }
+
+    componentDidMount() {
+        if (this.props.teamId) {
+            this.props.actions.fetchMyCategories(this.props.teamId);
+        }
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.teamId && prevProps.teamId !== this.props.teamId) {
+            this.props.actions.fetchMyCategories(this.props.teamId);
+        }
     }
 
     showMoreDirectChannelsModal = () => {

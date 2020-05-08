@@ -2,50 +2,25 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
+import {Dispatch, bindActionCreators} from 'redux';
 
-import {ChannelCategoryTypes} from 'mattermost-redux/action_types';
+import {addChannelToCategory, renameCategory, deleteCategory} from 'mattermost-redux/actions/channel_categories';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {GenericAction, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import {mockCreateCategory, moveToCategory} from 'actions/views/channel_sidebar';
-
+import {createCategory} from 'actions/views/channel_sidebar';
 import SidebarCategoryMenu from './sidebar_category_menu';
-
-// TODO Devin: Replace with `renameCategory`
-function mockRenameCategory(category: ChannelCategory, newName: string) {
-    return (dispatch: DispatchFunc) => {
-        const renamedCategory = {
-            ...category,
-            display_name: newName,
-        };
-
-        return dispatch({
-            type: ChannelCategoryTypes.RECEIVED_CATEGORY,
-            data: renamedCategory,
-        });
-    };
-}
-
-function mockDeleteCategory(category: ChannelCategory) {
-    return (dispatch: DispatchFunc) => {
-        return dispatch({
-            type: ChannelCategoryTypes.CATEGORY_DELETED,
-            data: category,
-        });
-    };
-}
 
 type OwnProps = {
     category: ChannelCategory;
 }
 
 function makeMapStateToProps() {
-    return (state: GlobalState, ownProps: OwnProps) => {
+    return (state: GlobalState) => {
         const currentTeam = getCurrentTeam(state);
 
         let canCreatePublicChannel = false;
@@ -64,20 +39,13 @@ function makeMapStateToProps() {
     };
 }
 
-type Actions = {
-    createCategory: (teamId: string, categoryName: string) => {data: string};
-    deleteCategory: (category: ChannelCategory) => void;
-    renameCategory: (category: ChannelCategory, newName: string) => void;
-    moveToCategory: (teamId: string, channelId: string, newCategoryId: string) => void;
-}
-
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            createCategory: mockCreateCategory,
-            deleteCategory: mockDeleteCategory,
-            renameCategory: mockRenameCategory,
-            moveToCategory: moveToCategory as any,
+        actions: bindActionCreators({
+            createCategory,
+            deleteCategory,
+            renameCategory,
+            addChannelToCategory,
         }, dispatch),
     };
 }

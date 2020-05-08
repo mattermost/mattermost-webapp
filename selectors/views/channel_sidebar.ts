@@ -78,30 +78,6 @@ export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState,
     );
 }
 
-// TODO Devin: Replaced by 'getCategoryInTeamWithChannel'
-export function makeGetCategoryForChannel(): (state: GlobalState, teamId: string, channelId: string) => ChannelCategory | undefined {
-    const getChannelsByCategory = makeGetChannelsByCategory();
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
-
-    return createSelector(
-        (state: GlobalState, teamId: string, channelId: string) => channelId,
-        getChannelsByCategory,
-        getCategoriesForTeam,
-        (channelId: string, channelsByCategory: RelationOneToOne<ChannelCategory, Channel[]>, categories: ChannelCategory[]) => {
-            const channelToCategoryMappingsCallback = (allChannels: {id: string; categoryId: string}[], categoryId: string) => {
-                const channels = channelsByCategory[categoryId];
-                return allChannels.concat(channels.map((channel) => {
-                    return {id: channel.id, categoryId};
-                }));
-            };
-            const channelToCategoryMappings = Object.keys(channelsByCategory).reduce(channelToCategoryMappingsCallback, []);
-
-            const selectedChannelMapping = channelToCategoryMappings.find((mapping) => mapping.id === channelId);
-            return categories.find((category) => category.id === selectedChannelMapping?.categoryId);
-        }
-    );
-}
-
 export function getDraggingState(state: GlobalState) {
     return state.views.channelSidebar.draggingState;
 }

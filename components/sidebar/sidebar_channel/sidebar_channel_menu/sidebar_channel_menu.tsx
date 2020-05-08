@@ -31,14 +31,14 @@ type Props = {
     managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
     actions: {
-        createCategory: (teamId: string, categoryName: string) => {data: string};
+        createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: string};
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
         muteChannel: (userId: string, channelId: string) => void;
         unmuteChannel: (userId: string, channelId: string) => void;
         openModal: (modalData: any) => void;
-        moveToCategory: (teamId: string, channelId: string, newCategoryId: string) => void;
+        addChannelToCategory: (categoryId: string, channelId: string) => void;
     };
 };
 
@@ -84,7 +84,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     moveToCategory = (categoryId: string) => {
-        return () => this.props.actions.moveToCategory(this.props.currentTeamId, this.props.channel.id, categoryId);
+        return () => this.props.actions.addChannelToCategory(categoryId, this.props.channel.id);
     }
 
     showCreateCategoryModal = () => {
@@ -101,8 +101,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     handleCreateCategory = (categoryName: string) => {
-        const result = this.props.actions.createCategory(this.props.currentTeamId, categoryName);
-        this.props.actions.moveToCategory(this.props.currentTeamId, this.props.channel.id, result.data);
+        this.props.actions.createCategory(this.props.currentTeamId, categoryName, [this.props.channel.id]);
     }
 
     copyLink = () => {
@@ -209,12 +208,11 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
             switch (channel.type) {
             case Constants.OPEN_CHANNEL:
-                return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PRIVATE;
             case Constants.PRIVATE_CHANNEL:
-                return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PUBLIC;
+                return category.type !== CategoryTypes.DIRECT_MESSAGES;
             case Constants.DM_CHANNEL:
             case Constants.GM_CHANNEL:
-                return category.type !== CategoryTypes.PRIVATE && category.type !== CategoryTypes.PUBLIC;
+                return category.type !== CategoryTypes.CHANNELS;
             default:
                 return true;
             }

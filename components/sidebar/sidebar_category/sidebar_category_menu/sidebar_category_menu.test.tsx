@@ -26,7 +26,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             createCategory: jest.fn(),
             deleteCategory: jest.fn(),
             renameCategory: jest.fn(),
-            moveToCategory: jest.fn(),
+            addChannelToCategory: jest.fn(),
         },
     };
 

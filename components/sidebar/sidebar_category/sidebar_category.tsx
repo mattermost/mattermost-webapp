@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions';
@@ -34,6 +34,7 @@ type Props = {
     draggingState: DraggingState;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
+        setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
     };
 };
 
@@ -133,9 +134,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     handleSortDirectMessages = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const {category} = this.props;
         e.stopPropagation();
 
-        // TODO
+        const newSorting = category.sorting === Sorting.RECENCY ? Sorting.ALPHABETICAL : Sorting.RECENCY;
+        this.props.actions.setCategorySorting(category.id, newSorting);
     }
     removeAnimation = () => {
         if (this.newDropBoxRef.current) {
@@ -157,7 +160,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             return draggingState.type === DraggingStateTypes.CHANNEL;
-        } else if (category.type === CategoryTypes.PUBLIC || category.type === CategoryTypes.PRIVATE) {
+        } else if (category.type === CategoryTypes.CHANNELS) {
             return draggingState.type === DraggingStateTypes.DM;
         }
 
@@ -249,7 +252,15 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </Tooltip>
             );
 
-            const sortHelpLabel = localizeMessage('sidebar.sortByRecency', 'Sort by recency');
+            let sortingIcon: JSX.Element;
+            let sortHelpLabel;
+            if (category.sorting === Sorting.ALPHABETICAL) {
+                sortingIcon = (<i className='icon-sort-alphabetical-ascending'/>);
+                sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted by alphabetical');
+            } else {
+                sortingIcon = (<i className='icon-clock-outline'/>);
+                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by recency');
+            }
 
             const sortTooltip = (
                 <Tooltip
@@ -272,7 +283,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                             placement='top'
                             overlay={sortTooltip}
                         >
-                            <i className='icon-clock-outline'/>
+                            {sortingIcon}
                         </OverlayTrigger>
                     </button>
                     <button

@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {setCategorySorting} from 'mattermost-redux/actions/channel_categories';
 import {makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
@@ -34,6 +35,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             setCategoryCollapsed,
+            setCategorySorting,
         }, dispatch),
     };
 }
