@@ -69,7 +69,7 @@ function makeMapStateToProps() {
             team: channel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
-        const isLDAPEnabled = license && license.IsLicensed === 'true' && license.LDAPGroups === 'true';
+        const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
         const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, {
             channel: channel.id,
             team: channel.team_id,

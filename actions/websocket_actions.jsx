@@ -738,7 +738,7 @@ function handleUserAddedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (license && license.IsLicensed === 'true' && license.LDAPGroups === 'true') {
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
             dispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
         }
     }
@@ -796,7 +796,7 @@ export async function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (license && license.IsLicensed === 'true' && license.LDAPGroups === 'true') {
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
             dispatch(getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled));
         }
     }
@@ -847,7 +847,7 @@ export async function handleUserUpdatedEvent(msg) {
 
     const userIsGuest = isGuest(user);
     const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-    const isLDAPEnabled = license && license.IsLicensed === 'true' && license.LDAPGroups === 'true';
+    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
 
     if (userIsGuest || (isTimezoneEnabled && isLDAPEnabled)) {
         let members = getMembersInCurrentChannel(state);
