@@ -15,7 +15,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannel} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName} from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -66,7 +66,7 @@ export function executeCommand(message, args) {
                 let name;
                 let category;
                 if (channel.type === Constants.DM_CHANNEL) {
-                    name = getUserIdFromChannel(channel);
+                    name = getUserIdFromChannelName(channel);
                     category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
                 } else {
                     name = channel.id;
