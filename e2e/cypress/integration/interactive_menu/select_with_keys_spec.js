@@ -36,16 +36,6 @@ describe('Interactive Menu', () => {
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference('clean');
 
-        // Set required ServiceSettings
-        const newSettings = {
-            ServiceSettings: {
-                AllowedUntrustedInternalConnections: 'localhost',
-                EnablePostUsernameOverride: true,
-                EnablePostIconOverride: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         // # Create and visit new channel and create incoming webhook
         cy.createAndVisitNewChannel().then((channel) => {
             channelId = channel.id;
