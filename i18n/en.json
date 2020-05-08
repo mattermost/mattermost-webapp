@@ -3088,6 +3088,8 @@
   "removed_channel.okay": "Okay",
   "removed_channel.remover": "{remover} removed you from {channel}",
   "removed_channel.someone": "Someone",
+  "rename_category_modal.rename": "Rename",
+  "rename_category_modal.renameCategory": "Rename Category",
   "rename_channel.cancel": "Cancel",
   "rename_channel.defaultError": " - Cannot be changed for the default channel",
   "rename_channel.displayName": "Display Name",

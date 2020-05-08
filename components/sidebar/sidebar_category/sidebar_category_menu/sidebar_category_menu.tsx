@@ -160,7 +160,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                         isDangerous={true}
                         id={`delete-${category.id}`}
                         onClick={this.deleteCategory}
-                        icon={<i className='icon-bell-outline'/>}
+                        icon={<i className='icon-trash-can-outline'/>}
                         text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.deleteCategory', defaultMessage: 'Delete Category'})}
                     />
                 </Menu.Group>
