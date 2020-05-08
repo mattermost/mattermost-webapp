@@ -649,9 +649,14 @@ export default class GeneralTab extends React.Component {
 
         let teamIconSection;
         if (this.props.activeSection === 'team_icon') {
+            const helpText = (
+                <FormattedMarkdownMessage
+                    id={'setting_picture.help.team'}
+                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.\nSquare images with a solid background color are recommended.'
+                />
+            );
             teamIconSection = (
                 <SettingPicture
-                    imageContext='team'
                     title={Utils.localizeMessage('general_tab.teamIcon', 'Team Icon')}
                     src={Utils.imageURLForTeam(team)}
                     file={this.state.teamIconFile}
@@ -666,6 +671,7 @@ export default class GeneralTab extends React.Component {
                     onFileChange={this.updateTeamIcon}
                     onSubmit={this.handleTeamIconSubmit}
                     onRemove={this.handleTeamIconRemove}
+                    helpText={helpText}
                 />
             );
         } else {
