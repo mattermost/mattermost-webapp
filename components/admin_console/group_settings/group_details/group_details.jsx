@@ -23,7 +23,7 @@ import ChannelSelectorModal from 'components/channel_selector_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import {DuplicateGroupNameError, InvalidOrReservedGroupNameError, NeedGroupNameError} from 'components/admin_console/group_settings/group_details/group_details_errors';
+import {GroupNameIsTakenError, InvalidOrReservedGroupNameError, NeedGroupNameError} from 'components/admin_console/group_settings/group_details/group_details_errors';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -171,23 +171,26 @@ export default class GroupDetails extends React.PureComponent {
             saveNeeded = true;
             serverError = <NeedGroupNameError/>;
             this.setState({allowReference, serverError, saving: false, saveNeeded});
-        } else if (!allowReference) {
-            this.setState({serverError: null, saving: false});
         } else if (hasAllowReferenceChanged || hasGroupMentionNameChanged) {
             saveNeeded = false;
-            const lcGroupMentionName = groupMentionName.toLowerCase();
+            serverError = null;
+
+            let lcGroupMentionName;
+            if (allowReference) {
+                lcGroupMentionName = groupMentionName.toLowerCase();
+            }
 
             const result = await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference, name: lcGroupMentionName});
             if (result.error) {
                 saveNeeded = true;
                 if (result.error.server_error_id === 'store.sql_group.unique_constraint') {
-                    serverError = <DuplicateGroupNameError/>;
+                    serverError = <GroupNameIsTakenError/>;
                 } else if (result.error.server_error_id === 'model.group.name.invalid_chars.app_error') {
                     serverError = <InvalidOrReservedGroupNameError/>;
                 } else if (result.error.server_error_id === 'api.ldap_groups.existing_reserved_name_error' ||
                     result.error.server_error_id === 'api.ldap_groups.existing_user_name_error' ||
                     result.error.server_error_id === 'api.ldap_groups.existing_group_name_error') {
-                    serverError = <InvalidOrReservedGroupNameError/>;
+                    serverError = <GroupNameIsTakenError/>;
                 } else {
                     serverError = <FormError error={result.error.message}/>;
                 }

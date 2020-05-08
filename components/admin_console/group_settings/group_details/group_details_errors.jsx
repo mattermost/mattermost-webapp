@@ -2,29 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
 
 import FormError from 'components/form_error';
 
-export const NeedGroupNameError = ({warning}) => (
+export const NeedGroupNameError = () => (
     <FormError
-        iconClassName={`fa-exclamation-${warning ? 'circle' : 'triangle'}`}
-        textClassName={`has-${warning ? 'warning' : 'error'}`}
+        iconClassName={'fa-exclamation-triangle'}
+        textClassName={'has-error'}
         error={(
             <FormattedMessage
                 id='admin.group_settings.need_groupname'
-                defaultMessage='You must specify the group name for mentioning.'
+                defaultMessage='You must specify a group mention.'
             />)}
     />
 );
 
-NeedGroupNameError.propTypes = {
-    warning: PropTypes.bool,
-};
-
-export const DuplicateGroupNameError = () => (
+export const GroupNameIsTakenError = () => (
     <FormError
         iconClassName={'fa-exclamation-triangle'}
         textClassName={'has-error'}
@@ -43,7 +38,7 @@ export const InvalidOrReservedGroupNameError = () => (
         error={(
             <FormattedMessage
                 id='admin.group_settings.group_detail.invalidOrReservedMentionNameError'
-                defaultMessage='Group mention contains invalid characters, matches a user name or a reserved keyword.'
+                defaultMessage='Only letters (a-z), numbers(0-9), periods, dashes and underscores are allowed.'
             />)}
     />
 );
