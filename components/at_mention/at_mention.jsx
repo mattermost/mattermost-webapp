@@ -18,16 +18,19 @@ export default class AtMention extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         hasMention: PropTypes.bool,
         disableHighlight: PropTypes.bool,
+        disableGroupHighlight: PropTypes.bool,
         isRHS: PropTypes.bool,
         mentionName: PropTypes.string.isRequired,
         teammateNameDisplay: PropTypes.string.isRequired,
         usersByUsername: PropTypes.object.isRequired,
+        groupsByName: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         isRHS: false,
         hasMention: false,
         disableHighlight: false,
+        disableGroupHighlight: false,
     }
 
     constructor(props) {
@@ -71,8 +74,36 @@ export default class AtMention extends React.PureComponent {
         return '';
     }
 
+    getGroupFromMentionName(props) {
+        const groupsByName = props.groupsByName;
+        let mentionName = props.mentionName.toLowerCase();
+
+        while (mentionName.length > 0) {
+            if (groupsByName.hasOwnProperty(mentionName)) {
+                return groupsByName[mentionName];
+            }
+
+            // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
+            if ((/[._-]$/).test(mentionName)) {
+                mentionName = mentionName.substring(0, mentionName.length - 1);
+            } else {
+                break;
+            }
+        }
+
+        return {};
+    }
+
     render() {
         const user = this.getUserFromMentionName(this.props);
+
+        if (!this.props.disableGroupHighlight && !user) {
+            const group = this.getGroupFromMentionName(this.props);
+            if (group.allow_reference) {
+                return <span className='group-mention-link'>{'@' + group.name}</span>;
+            }
+        }
+
         if (!user) {
             return <React.Fragment>{this.props.children}</React.Fragment>;
         }
