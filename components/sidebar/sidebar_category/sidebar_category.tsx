@@ -40,7 +40,6 @@ type Props = {
 
 type State = {
     isMenuOpen: boolean;
-    isNewCategory: boolean;
 }
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
@@ -55,16 +54,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         this.state = {
             isMenuOpen: false,
-            isNewCategory: props.isNewCategory,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (prevProps.channels.length !== this.props.channels.length && this.state.isNewCategory) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({isNewCategory: false});
-        }
-
         if (this.props.isCollapsed !== prevProps.isCollapsed && this.newDropBoxRef.current) {
             this.newDropBoxRef.current.classList.add('animating');
         }
@@ -168,8 +161,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category, categoryIndex, isCollapsed, draggingState, channels} = this.props;
-        const {isNewCategory} = this.state;
+        const {category, categoryIndex, isCollapsed, draggingState, channels, isNewCategory} = this.props;
 
         if (!category) {
             return null;

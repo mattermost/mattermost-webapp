@@ -16,6 +16,7 @@ type Props = {
     editButtonText: string;
     onHide: () => void;
     editCategory: (categoryName: string) => void;
+    initialCategoryName?: string;
 };
 
 type State = {
@@ -27,7 +28,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         super(props);
 
         this.state = {
-            categoryName: '',
+            categoryName: props.initialCategoryName || '',
         };
     }
 

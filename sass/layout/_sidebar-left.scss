@@ -806,6 +806,7 @@
 
             .SidebarLink {
                 background: rgba(255, 255, 255, 0.08);
+                border-radius: 4px;
             }
         }
 
@@ -895,7 +896,7 @@
 
 
         &.muted {
-            > span, > i, .status.status--group {
+            span.SidebarChannelLinkLabel, > i, .status.status--group {
                 opacity: 0.4;
                 font-weight: 300;
             }

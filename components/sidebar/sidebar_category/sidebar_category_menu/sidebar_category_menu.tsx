@@ -117,6 +117,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                     editCategory={this.handleRenameCategory}
                     modalHeaderText={intl.formatMessage({id: 'rename_category_modal.renameCategory', defaultMessage: 'Rename Category'})}
                     editButtonText={intl.formatMessage({id: 'rename_category_modal.rename', defaultMessage: 'Rename'})}
+                    initialCategoryName={category.display_name}
                 />
             );
         }
