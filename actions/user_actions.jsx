@@ -143,8 +143,8 @@ export function loadNewDMIfNeeded(channelId) {
         const state = doGetState();
         const currentUserId = Selectors.getCurrentUserId(state);
 
-        function checkPreference() {
-            const userId = Utils.getUserIdFromChannelName(currentUserId);
+        function checkPreference(channel) {
+            const userId = Utils.getUserIdFromChannelName(channel);
 
             if (!userId) {
                 return;
