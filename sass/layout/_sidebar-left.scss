@@ -278,7 +278,7 @@
     }
     .AddChannelDropdown_dropdownButton:hover, .AddChannelDropdown_dropdownButton:active, .AddChannelDropdown_dropdownButton:focus {
         cursor: pointer;
-        background: rgba(255, 255, 255, 0.24);
+        background: rgba(255, 255, 255, 0.08);
         color: var(--sidebar-text);
     }
     .AddChannelDropdown_dropdownButton:focus {
@@ -288,6 +288,7 @@
     .SidebarMenu {
         height: 30px;
         opacity: 1;
+        margin-left: auto;
 
         .dropdown-menu {
             line-height: 20px;
@@ -326,6 +327,10 @@
                 position: absolute;
                 margin-top: -8px;
                 margin-left: -1px;
+
+                .MenuItem {
+                    text-transform: capitalize;
+                }
             }
 
             .SubMenuItem > div {
@@ -367,6 +372,7 @@
         cursor: pointer;
         color: var(--sidebar-text);
     }
+
     .SidebarMenu_menuButton:focus {
         outline-style: none;
     }
@@ -511,6 +517,10 @@
     }
 
     .SidebarChannelGroup.a11y--active {
+        .SidebarCategory_newLabel {
+            opacity: 0;
+        }
+
         .SidebarMenu {
             display: block !important;
 
@@ -567,9 +577,13 @@
         display: flex;
 
         .SidebarMenu_menuButton {
-            height: 32px;
-            width: 32px;
-            margin-right: 14px;
+            height: 28px;
+            width: 28px;
+            margin: 2px 16px 2px 2px;
+
+            &:hover, &:focus {
+                background-color: rgba(255, 255, 255, 0.08);
+            }
         }
 
         .SidebarMenu:not(.menuOpen) {
@@ -635,6 +649,14 @@
 
     .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         background-color: inherit !important;
+
+        .SidebarCategory_newLabel {
+            display: none;
+        }
+    }
+
+    .SidebarChannelGroup.menuIsOpen .SidebarCategory_newLabel {
+        display: none;
     }
 
     .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
@@ -655,12 +677,16 @@
             display: block;
         }
 
+        .SidebarCategory_newLabel {
+            display: none;
+        }
+
         .SidebarChannelGroupHeader_sortButton {
             display: block;
         }
     }
 
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader_groupButton:hover {
         cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
@@ -701,14 +727,16 @@
         color: var(--sidebar-text-64);
         font-size: 18px;
         line-height: 16px;
-        height: 32px;
-        width: 32px;
+        height: 28px;
+        width: 28px;
+        min-width: 28px;
         border-radius: 4px;
-        margin-right: 18px;
+        margin: 2px 16px 2px 2px;
     }
     .SidebarChannelGroupHeader_addButton:hover {
         cursor: pointer;
         color: var(--sidebar-text);
+        background-color: rgba(255, 255, 255, 0.08);
     }
     .SidebarChannelGroupHeader_addButton:focus {
         outline-style: none;
@@ -720,13 +748,18 @@
         background: transparent;
         border: none;
         color: var(--sidebar-text-64);
-        font-size: 18px;
+        font-size: 16px;
         line-height: 16px;
-        height: 32px;
-        width: 32px;
+        height: 28px;
+        width: 28px;
+        min-width: 28px;
         border-radius: 4px;
-        margin-left: auto;
+        margin: 2px 2px 2px auto;
         display: none;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        };
     }
     .SidebarChannelGroupHeader_sortButton:hover {
         cursor: pointer;
@@ -739,6 +772,11 @@
     /* Content */
     .SidebarChannelGroup_content {
         margin-bottom: 14px;
+    }
+
+    .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
+        margin-bottom: 0;
+        padding-bottom: 14px;
     }
 
     .SidebarChannelGroup_content ul {
@@ -910,14 +948,22 @@
     }
 
     .SidebarChannel span.SidebarChannelLinkLabel {
-        text-overflow: ellipsis;
-        overflow: hidden;
         width: 100%;
         white-space: nowrap;
         padding-right: 10px;
         line-height: 18px;
         text-align: justify;
         height: 18px;
+    }
+
+    .SidebarChannel div.SidebarChannelLinkLabel_wrapper {
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        > div {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
     }
 
     /* .SidebarChannel__absolute {
@@ -966,7 +1012,7 @@
     }
 
     .status.status--group {
-        background: var(--sidebar-text-30);
+        background: var(--sidebar-text-16);
         margin: 1px 8px 0 0;
         min-width: 14px;
         height: 14px;

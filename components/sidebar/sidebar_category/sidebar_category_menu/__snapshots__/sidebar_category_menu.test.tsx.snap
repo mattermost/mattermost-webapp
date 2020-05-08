@@ -32,6 +32,18 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         show={true}
         text="Create Channel"
       />
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-trash-can-outline"
+          />
+        }
+        id="delete-category1"
+        isDangerous={true}
+        onClick={[Function]}
+        show={true}
+        text="Delete Category"
+      />
     </MenuGroup>
     <MenuGroup>
       <MenuItemAction
@@ -44,20 +56,6 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         onClick={[Function]}
         show={true}
         text="Create Category"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-bell-outline"
-          />
-        }
-        id="delete-category1"
-        isDangerous={true}
-        onClick={[Function]}
-        show={true}
-        text="Delete Category"
       />
     </MenuGroup>
   </Connect(SidebarMenu)>
@@ -126,6 +124,18 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         show={true}
         text="Rename Category"
       />
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-trash-can-outline"
+          />
+        }
+        id="delete-category1"
+        isDangerous={true}
+        onClick={[Function]}
+        show={true}
+        text="Delete Category"
+      />
     </MenuGroup>
     <MenuGroup>
       <MenuItemAction
@@ -138,20 +148,6 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         onClick={[Function]}
         show={true}
         text="Create Category"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-bell-outline"
-          />
-        }
-        id="delete-category1"
-        isDangerous={true}
-        onClick={[Function]}
-        show={true}
-        text="Delete Category"
       />
     </MenuGroup>
   </Connect(SidebarMenu)>

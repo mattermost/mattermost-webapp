@@ -230,6 +230,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     </div>
                 </React.Fragment>
             );
+
+            categoryMenu = (
+                <SidebarCategoryMenu
+                    category={category}
+                    onToggle={this.handleMenuToggle}
+                />
+            );
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             const addHelpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
 

@@ -59,7 +59,7 @@ type State = {
 };
 
 export default class SidebarChannelLink extends React.PureComponent<Props, State> {
-    labelRef: React.RefObject<HTMLSpanElement>;
+    labelRef: React.RefObject<HTMLDivElement>;
     gmItemRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
@@ -85,7 +85,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     // TODO: Is there a better way to do this?
     enableToolTipIfNeeded = () => {
-        const element = this.labelRef.current;
+        const element = this.gmItemRef.current || this.labelRef.current;
         if (element && element.offsetWidth < element.scrollWidth) {
             this.setState({showTooltip: true});
         } else {
@@ -137,18 +137,46 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     render() {
         const {link, label, channel, unreadMentions, icon, isMuted} = this.props;
+
+        let hoverLabel: JSX.Element = (
+            <span
+                className={'SidebarChannelLinkLabel'}
+            >
+                {label}
+            </span>
+        );
+        if (this.state.showTooltip) {
+            const displayNameToolTip = (
+                <Tooltip id='channel-displayname__tooltip'>
+                    {label}
+                </Tooltip>
+            );
+            hoverLabel = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={displayNameToolTip}
+                    onEntering={this.removeTooltipLink}
+                >
+                    <div ref={this.gmItemRef}>
+                        {hoverLabel}
+                    </div>
+                </OverlayTrigger>
+            );
+        }
+
         const content = (
             <React.Fragment>
                 <SidebarChannelIcon
                     channel={channel}
                     icon={icon}
                 />
-                <span
-                    className={'SidebarChannelLinkLabel'}
+                <div
+                    className={'SidebarChannelLinkLabel_wrapper'}
                     ref={this.labelRef}
                 >
-                    {label}
-                </span>
+                    {hoverLabel}
+                </div>
                 <ChannelMentionBadge
                     channelId={channel.id}
                     unreadMentions={unreadMentions}
@@ -185,26 +213,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 >
                     {element}
                 </CopyUrlContextMenu>
-            );
-        }
-
-        if (this.state.showTooltip) {
-            const displayNameToolTip = (
-                <Tooltip id='channel-displayname__tooltip'>
-                    {label}
-                </Tooltip>
-            );
-            element = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={displayNameToolTip}
-                    onEntering={this.removeTooltipLink}
-                >
-                    <div ref={this.gmItemRef}>
-                        {element}
-                    </div>
-                </OverlayTrigger>
             );
         }
 
