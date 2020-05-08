@@ -154,7 +154,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={false}
     canCreatePublicChannel={false}
-    channelType="O"
+    channelType="P"
     onModalDismissed={[Function]}
     show={false}
   />

@@ -86,8 +86,13 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 2`] = `
   <Connect(SidebarCategory)
     category={
       Object {
+        "channel_ids": Array [
+          "channel_id",
+          "channel_id_2",
+        ],
         "display_name": "custom_category_1",
         "id": "category1",
+        "sorting": "alphabetical",
         "team_id": "team1",
         "type": "custom",
       }
@@ -188,8 +193,13 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
   <Connect(SidebarCategory)
     category={
       Object {
+        "channel_ids": Array [
+          "channel_id",
+          "channel_id_2",
+        ],
         "display_name": "custom_category_1",
         "id": "category1",
+        "sorting": "alphabetical",
         "team_id": "team1",
         "type": "custom",
       }

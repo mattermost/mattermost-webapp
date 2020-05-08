@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -16,6 +16,8 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             team_id: 'team1',
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
+            channel_ids: ['channel_id'],
+            sorting: Sorting.ALPHABETICAL,
         },
         currentTeamId: 'team1',
         canCreatePublicChannel: true,

@@ -51,5 +51,5 @@ export function createCategory(teamId: string, displayName: string, channelIds?:
             type: ActionTypes.ADD_NEW_CATEGORY_ID,
             data: result.data.id,
         });
-    }
+    };
 }

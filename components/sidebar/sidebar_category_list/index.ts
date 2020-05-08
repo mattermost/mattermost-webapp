@@ -11,7 +11,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
-import {removeFromCategory, setDraggingState, stopDragging, expandCategory} from 'actions/views/channel_sidebar';
+import {setDraggingState, stopDragging, expandCategory} from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
 import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam, getDraggingState, makeGetCollapsedStateForAllCategoriesByTeam} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
@@ -48,7 +48,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             switchToChannelById,
             moveChannelToCategory,
             moveCategory,
-            removeFromCategory,
             setDraggingState,
             stopDragging,
             expandCategory,

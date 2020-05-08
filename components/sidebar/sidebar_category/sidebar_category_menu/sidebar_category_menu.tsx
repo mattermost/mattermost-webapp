@@ -23,7 +23,7 @@ type Props = {
     onToggle: (open: boolean) => void;
     intl: IntlShape;
     actions: {
-        createCategory: (teamId: string, categoryName: string) => {data: string};
+        createCategory: (teamId: string, categoryName: string) => {data: ChannelCategory};
         deleteCategory: (categoryId: string) => void;
         renameCategory: (categoryId: string, newName: string) => void;
         addChannelToCategory: (categoryId: string, channelId: string) => void;

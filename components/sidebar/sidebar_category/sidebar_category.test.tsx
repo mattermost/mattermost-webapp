@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import SidebarCategory from 'components/sidebar/sidebar_category/sidebar_category';
@@ -16,6 +16,8 @@ describe('components/sidebar/sidebar_category', () => {
             team_id: 'team1',
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
+            channel_ids: ['channel_id'],
+            sorting: Sorting.ALPHABETICAL,
         },
         channels: [
             {
@@ -46,6 +48,7 @@ describe('components/sidebar/sidebar_category', () => {
         isCollapsed: false,
         actions: {
             setCategoryCollapsed: jest.fn(),
+            setCategorySorting: jest.fn(),
         },
     };
 

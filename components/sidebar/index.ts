@@ -40,7 +40,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    fetchMyCategories: (teamId:string) => {data: boolean};
+    fetchMyCategories: (teamId: string) => {data: boolean};
     createCategory: (teamId: string, categoryName: string) => {data: string};
 }
 

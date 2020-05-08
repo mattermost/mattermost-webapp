@@ -42,8 +42,12 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
     <Connect(injectIntl(SidebarCategoryMenu))
       category={
         Object {
+          "channel_ids": Array [
+            "channel_id",
+          ],
           "display_name": "custom_category_1",
           "id": "category1",
+          "sorting": "alphabetical",
           "team_id": "team1",
           "type": "custom",
         }
@@ -116,8 +120,12 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
     <Connect(injectIntl(SidebarCategoryMenu))
       category={
         Object {
+          "channel_ids": Array [
+            "channel_id",
+          ],
           "display_name": "custom_category_1",
           "id": "category1",
+          "sorting": "alphabetical",
           "team_id": "team1",
           "type": "custom",
         }
@@ -190,8 +198,12 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
     <Connect(injectIntl(SidebarCategoryMenu))
       category={
         Object {
+          "channel_ids": Array [
+            "channel_id",
+          ],
           "display_name": "custom_category_1",
           "id": "category1",
+          "sorting": "alphabetical",
           "team_id": "team1",
           "type": "custom",
         }
@@ -262,7 +274,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
       </div>
     </button>
     <button
-      aria-label="Sort by recency"
+      aria-label="Sorted by alphabetical"
       className="SidebarChannelGroupHeader_sortButton"
       onClick={[Function]}
     >
@@ -276,7 +288,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
             id="new-group-tooltip"
             placement="right"
           >
-            Sort by recency
+            Sorted by alphabetical
           </Tooltip>
         }
         placement="top"
@@ -288,7 +300,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
         }
       >
         <i
-          className="icon-clock-outline"
+          className="icon-sort-alphabetical-ascending"
         />
       </OverlayTrigger>
     </button>

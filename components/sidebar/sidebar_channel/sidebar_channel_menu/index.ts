@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {Dispatch, bindActionCreators} from 'redux';
+import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
 import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
 import {addChannelToCategory} from 'mattermost-redux/actions/channel_categories';
@@ -12,6 +12,8 @@ import {makeGetCategoriesForTeam, getCategoryInTeamWithChannel} from 'mattermost
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
 import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
@@ -63,9 +65,20 @@ function makeMapStateToProps() {
     };
 }
 
+type Actions = {
+    createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: ChannelCategory};
+    markChannelAsRead: (channelId: string) => void;
+    favoriteChannel: (channelId: string) => void;
+    unfavoriteChannel: (channelId: string) => void;
+    muteChannel: (userId: string, channelId: string) => void;
+    unmuteChannel: (userId: string, channelId: string) => void;
+    openModal: (modalData: any) => void;
+    addChannelToCategory: (categoryId: string, channelId: string) => void;
+};
+
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             createCategory,
             markChannelAsRead,
             favoriteChannel,

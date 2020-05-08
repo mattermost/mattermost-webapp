@@ -2,22 +2,19 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {Dispatch, bindActionCreators} from 'redux';
+import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
 import {addChannelToCategory, renameCategory, deleteCategory} from 'mattermost-redux/actions/channel_categories';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {createCategory} from 'actions/views/channel_sidebar';
-import SidebarCategoryMenu from './sidebar_category_menu';
 
-type OwnProps = {
-    category: ChannelCategory;
-}
+import SidebarCategoryMenu from './sidebar_category_menu';
 
 function makeMapStateToProps() {
     return (state: GlobalState) => {
@@ -39,9 +36,16 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+type Actions = {
+    createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
+    deleteCategory: (categoryId: string) => void;
+    renameCategory: (categoryId: string, displayName: string) => void;
+    addChannelToCategory: (categoryId: string, channelId: string) => void;
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             createCategory,
             deleteCategory,
             renameCategory,

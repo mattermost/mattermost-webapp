@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {ShallowWrapper} from 'enzyme';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -38,12 +38,16 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             team_id: 'team1',
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
+            sorting: Sorting.ALPHABETICAL,
+            channel_ids: ['channel_id'],
         }],
         currentUserId: 'user_id',
         currentCategory: {
             id: 'category1',
             team_id: 'team1',
             type: CategoryTypes.CUSTOM,
+            sorting: Sorting.ALPHABETICAL,
+            channel_ids: ['channel_id'],
             display_name: 'custom_category_1',
         },
         currentTeamId: 'team1',

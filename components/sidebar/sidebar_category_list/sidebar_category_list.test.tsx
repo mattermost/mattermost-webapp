@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 import {TeamType} from 'mattermost-redux/types/teams';
 
@@ -74,6 +74,8 @@ describe('components/sidebar/sidebar_category_list', () => {
                 team_id: 'team1',
                 type: CategoryTypes.CUSTOM,
                 display_name: 'custom_category_1',
+                sorting: Sorting.ALPHABETICAL,
+                channel_ids: ['channel_id', 'channel_id_2'],
             },
         ],
         unreadChannelIds: ['channel_id_2'],

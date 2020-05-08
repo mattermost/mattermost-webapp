@@ -31,7 +31,7 @@ type Props = {
     managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
     actions: {
-        createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: string};
+        createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: ChannelCategory};
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
