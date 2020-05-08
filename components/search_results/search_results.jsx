@@ -184,7 +184,7 @@ class SearchResults extends React.Component {
             this.props.isSearchingTerm ||
             this.props.isSearchingFlaggedPost ||
             this.props.isSearchingPinnedPost ||
-            !this.props.isOpened
+            (!this.props.isOpened && !Utils.isMobile())
         ) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
