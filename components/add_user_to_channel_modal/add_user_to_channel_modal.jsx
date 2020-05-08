@@ -291,7 +291,9 @@ export default class AddUserToChannelModal extends React.Component {
                         <div className='modal__hint'>
                             {help}
                         </div>
-                        {content}
+                        <div className='pos-relative'>
+                            {content}
+                        </div>
                         <div>
                             {errorMsg}
                             <br/>
