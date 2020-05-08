@@ -173,7 +173,7 @@ export function loadNewDMIfNeeded(channelId) {
     };
 }
 
-export async function loadNewGMIfNeeded(channelId) {
+export function loadNewGMIfNeeded(channelId) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const currentUserId = Selectors.getCurrentUserId(state);
