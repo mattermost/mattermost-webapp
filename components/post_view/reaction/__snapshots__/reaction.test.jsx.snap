@@ -3,7 +3,7 @@
 exports[`components/post_view/Reaction should disable add reaction when you do not have permissions 1`] = `
 <button
   aria-label="react with smile"
-  className="style--none post-reaction post-reaction--read-only"
+  className="Reaction Reaction--read-only"
   id="postReaction-post_id_1-smile"
 >
   <OverlayTrigger
@@ -60,7 +60,7 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
       className="d-flex align-items-center"
     >
       <span
-        className="post-reaction__emoji emoticon"
+        className="Reaction__emoji emoticon"
         style={
           Object {
             "backgroundImage": "url(emoji_image_url)",
@@ -68,9 +68,22 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
         }
       />
       <span
-        className="post-reaction__count"
+        className="Reaction__count"
       >
-        2
+        <span
+          className="Reaction__count-numeral"
+        >
+          <span
+            className="Reaction__count-numeral--reacted"
+          >
+            3
+          </span>
+          <span
+            className="Reaction__count-numeral--unreacted"
+          >
+            2
+          </span>
+        </span>
       </span>
     </span>
   </OverlayTrigger>
@@ -80,7 +93,7 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
 exports[`components/post_view/Reaction should disable remove reaction when you do not have permissions 1`] = `
 <button
   aria-label="react with smile"
-  className="style--none post-reaction post-reaction--read-only post-reaction--current-user"
+  className="Reaction Reaction--read-only Reaction--current-user"
   id="postReaction-post_id_1-smile"
 >
   <OverlayTrigger
@@ -137,7 +150,7 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
       className="d-flex align-items-center"
     >
       <span
-        className="post-reaction__emoji emoticon"
+        className="Reaction__emoji emoticon"
         style={
           Object {
             "backgroundImage": "url(emoji_image_url)",
@@ -145,9 +158,22 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
         }
       />
       <span
-        className="post-reaction__count"
+        className="Reaction__count"
       >
-        2
+        <span
+          className="Reaction__count-numeral"
+        >
+          <span
+            className="Reaction__count-numeral--reacted"
+          >
+            2
+          </span>
+          <span
+            className="Reaction__count-numeral--unreacted"
+          >
+            1
+          </span>
+        </span>
       </span>
     </span>
   </OverlayTrigger>
@@ -157,7 +183,7 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
 exports[`components/post_view/Reaction should match snapshot 1`] = `
 <button
   aria-label="react with smile"
-  className="style--none post-reaction"
+  className="Reaction"
   id="postReaction-post_id_1-smile"
   onClick={[Function]}
 >
@@ -220,7 +246,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
       className="d-flex align-items-center"
     >
       <span
-        className="post-reaction__emoji emoticon"
+        className="Reaction__emoji emoticon"
         style={
           Object {
             "backgroundImage": "url(emoji_image_url)",
@@ -228,9 +254,22 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
         }
       />
       <span
-        className="post-reaction__count"
+        className="Reaction__count"
       >
-        2
+        <span
+          className="Reaction__count-numeral"
+        >
+          <span
+            className="Reaction__count-numeral--reacted"
+          >
+            3
+          </span>
+          <span
+            className="Reaction__count-numeral--unreacted"
+          >
+            2
+          </span>
+        </span>
       </span>
     </span>
   </OverlayTrigger>
@@ -240,7 +279,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
 exports[`components/post_view/Reaction should match snapshot when a current user reacted to a post 1`] = `
 <button
   aria-label="remove reaction smile"
-  className="style--none post-reaction post-reaction--current-user"
+  className="Reaction Reaction--current-user"
   id="postReaction-post_id_1-smile"
   onClick={[Function]}
 >
@@ -303,7 +342,7 @@ exports[`components/post_view/Reaction should match snapshot when a current user
       className="d-flex align-items-center"
     >
       <span
-        className="post-reaction__emoji emoticon"
+        className="Reaction__emoji emoticon"
         style={
           Object {
             "backgroundImage": "url(emoji_image_url)",
@@ -311,9 +350,22 @@ exports[`components/post_view/Reaction should match snapshot when a current user
         }
       />
       <span
-        className="post-reaction__count"
+        className="Reaction__count"
       >
-        2
+        <span
+          className="Reaction__count-numeral"
+        >
+          <span
+            className="Reaction__count-numeral--reacted"
+          >
+            2
+          </span>
+          <span
+            className="Reaction__count-numeral--unreacted"
+          >
+            1
+          </span>
+        </span>
       </span>
     </span>
   </OverlayTrigger>

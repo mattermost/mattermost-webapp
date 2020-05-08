@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 
 import Reaction from 'components/post_view/reaction/reaction.jsx';
 import {getSortedUsers} from 'utils/utils';
@@ -96,7 +96,7 @@ describe('components/post_view/Reaction', () => {
         const newActions = {...actions, addReaction: jest.fn()};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper = mount(<Reaction {...props}/>);
         wrapper.instance().handleAddReaction({preventDefault: jest.fn()});
 
         expect(newActions.addReaction).toHaveBeenCalledTimes(1);
@@ -107,7 +107,7 @@ describe('components/post_view/Reaction', () => {
         const newActions = {...actions, removeReaction: jest.fn()};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper = mount(<Reaction {...props}/>);
         wrapper.instance().handleRemoveReaction({preventDefault: jest.fn()});
 
         expect(newActions.removeReaction).toHaveBeenCalledTimes(1);

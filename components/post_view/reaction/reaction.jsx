@@ -10,88 +10,152 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class Reaction extends React.PureComponent {
+import './reaction.scss';
+
+export default class Reaction extends React.Component {
     static propTypes = {
-
-        /*
-         * The post to render the reaction for
-         */
         post: PropTypes.object.isRequired,
-
-        /*
-         * The user id of the logged in user
-         */
         currentUserId: PropTypes.string.isRequired,
-
-        /*
-         * The name of the emoji for the reaction
-         */
         emojiName: PropTypes.string.isRequired,
-
-        /*
-         * The number of reactions to this post for this emoji
-         */
         reactionCount: PropTypes.number.isRequired,
-
-        /*
-         * Array of users who reacted to this post
-         */
         profiles: PropTypes.array.isRequired,
-
-        /*
-         * The number of users not in the profile list who have reacted with this emoji
-         */
         otherUsersCount: PropTypes.number.isRequired,
-
-        /*
-         * Array of reactions by user
-         */
         reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-
-        /*
-         * True if the user has the permission to add a reaction in this channel
-         */
         canAddReaction: PropTypes.bool.isRequired,
-
-        /*
-         * True if user has the permission to remove his own reactions in this channel
-         */
         canRemoveReaction: PropTypes.bool.isRequired,
-
-        /*
-         * The URL of the emoji image
-         */
         emojiImageUrl: PropTypes.string.isRequired,
-
         actions: PropTypes.shape({
-
-            /*
-             * Function to add a reaction to a post
-             */
             addReaction: PropTypes.func.isRequired,
-
-            /*
-             * Function to get non-loaded profiles by id
-             */
             getMissingProfilesByIds: PropTypes.func.isRequired,
-
-            /*
-             * Function to remove a reaction from a post
-             */
             removeReaction: PropTypes.func.isRequired,
         }),
         sortedUsers: PropTypes.object.isRequired,
     }
 
-    handleAddReaction = (e) => {
-        e.preventDefault();
-        const {actions, post, emojiName} = this.props;
-        actions.addReaction(post.id, emojiName);
+    constructor(props) {
+        super(props);
+
+        const {reactionCount, canRemoveReaction, canAddReaction} = this.props;
+        const {currentUserReacted} = this.props.sortedUsers;
+
+        if (currentUserReacted) {
+            this.state = {
+                userReacted: currentUserReacted,
+                reactedClass: 'Reaction reacted',
+                displayNumber: reactionCount,
+                reactedNumber: reactionCount,
+                unreactedNumber: reactionCount - 1,
+            };
+        } else {
+            this.state = {
+                userReacted: currentUserReacted,
+                reactedClass: 'Reaction unreacted',
+                displayNumber: reactionCount,
+                reactedNumber: reactionCount + 1,
+                unreactedNumber: reactionCount,
+            };
+        }
+
+        if (currentUserReacted && !canRemoveReaction) {
+            this.state = {
+                ...this.state,
+                reactedClass: 'Reaction read-only',
+            };
+        } else if (!currentUserReacted && !canAddReaction) {
+            this.state = {
+                ...this.state,
+                reactedClass: 'Reaction read-only',
+            };
+        }
+
+        this.reactionButtonRef = React.createRef();
+        this.reactionCountRef = React.createRef();
+        this.reactedNumeralRef = React.createRef();
     }
 
-    handleRemoveReaction = (e) => {
-        e.preventDefault();
-        this.props.actions.removeReaction(this.props.post.id, this.props.emojiName);
+    shouldComponentUpdate(nextProps) {
+        // reaction count is changing
+        if (nextProps.reactionCount !== this.props.reactionCount) {
+            // if current user is reacting
+            if (!this.props.sortedUsers.currentUserReacted && nextProps.sortedUsers.currentUserReacted) {
+                this.setState({
+                    displayNumber: nextProps.reactionCount,
+                    reactedNumber: nextProps.reactionCount,
+                    unreactedNumber: nextProps.reactionCount - 1,
+                });
+                return true;
+            }
+
+            // if current user is unreacting
+            if (this.props.sortedUsers.currentUserReacted && !nextProps.sortedUsers.currentUserReacted) {
+                this.setState({
+                    displayNumber: nextProps.reactionCount,
+                    reactedNumber: nextProps.reactionCount + 1,
+                    unreactedNumber: nextProps.reactionCount,
+                });
+                return true;
+            }
+
+            // if another user is reacting/unreacting
+            if (this.props.sortedUsers.currentUserReacted === nextProps.sortedUsers.currentUserReacted) {
+                if (this.props.sortedUsers.currentUserReacted) {
+                    this.setState({
+                        displayNumber: nextProps.reactionCount,
+                        reactedNumber: nextProps.reactionCount,
+                        unreactedNumber: nextProps.reactionCount - 1,
+                    });
+                    return true;
+                }
+                this.setState({
+                    displayNumber: nextProps.reactionCount,
+                    reactedNumber: nextProps.reactionCount + 1,
+                    unreactedNumber: nextProps.reactionCount,
+                });
+                return true;
+            }
+        }
+        return true;
+    }
+
+    handleClick = () => {
+        // only proceed if user has permission to react
+        if (!this.props.canAddReaction || !this.props.canRemoveReaction) {
+            return;
+        }
+        this.setState((state) => {
+            if (state.userReacted) {
+                return {
+                    userReacted: false,
+                    reactedClass: 'Reaction unreacting',
+                };
+            }
+            return {
+                userReacted: true,
+                reactedClass: 'Reaction reacting',
+            };
+        });
+    }
+
+    handleAnimationEnded = () => {
+        const {reactedNumber, unreactedNumber} = this.state;
+        const {actions, post, emojiName} = this.props;
+        this.setState((state) => {
+            if (state.userReacted) {
+                return {
+                    reactedClass: 'Reaction reacted',
+                    displayNumber: reactedNumber,
+                };
+            }
+            return {
+                reactedClass: 'Reaction unreacted',
+                displayNumber: unreactedNumber,
+            };
+        });
+        if (this.state.userReacted) {
+            actions.addReaction(post.id, emojiName);
+        } else {
+            actions.removeReaction(post.id, emojiName);
+        }
     }
 
     loadMissingProfiles = async () => {
@@ -103,10 +167,13 @@ export default class Reaction extends React.PureComponent {
         if (!this.props.emojiImageUrl) {
             return null;
         }
-
         const {currentUserReacted, users} = this.props.sortedUsers;
+        const {otherUsersCount, canAddReaction, canRemoveReaction} = this.props;
+        const {unreactedNumber, reactedNumber, displayNumber} = this.state;
+        const unreacted = (unreactedNumber > 0) ? unreactedNumber : '';
+        const reacted = (reactedNumber > 0) ? reactedNumber : '';
+        const display = (displayNumber > 0) ? displayNumber : '';
 
-        const otherUsersCount = this.props.otherUsersCount;
         let names;
         if (otherUsersCount > 0) {
             if (users.length > 0) {
@@ -191,14 +258,11 @@ export default class Reaction extends React.PureComponent {
             />
         );
 
-        let handleClick;
         let clickTooltip;
-        let className = 'post-reaction';
         const emojiNameWithSpaces = this.props.emojiName.replace(/_/g, ' ');
         let ariaLabelEmoji = `${Utils.localizeMessage('reaction.reactWidth.ariaLabel', 'react with')} ${emojiNameWithSpaces}`;
         if (currentUserReacted) {
-            if (this.props.canRemoveReaction) {
-                handleClick = this.handleRemoveReaction;
+            if (canRemoveReaction) {
                 ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
                 clickTooltip = (
                     <FormattedMessage
@@ -207,12 +271,9 @@ export default class Reaction extends React.PureComponent {
                     />
                 );
             } else {
-                className += ' post-reaction--read-only';
+                //className += ' Reaction--read-only';
             }
-
-            className += ' post-reaction--current-user';
-        } else if (!currentUserReacted && this.props.canAddReaction) {
-            handleClick = this.handleAddReaction;
+        } else if (!currentUserReacted && canAddReaction) {
             clickTooltip = (
                 <FormattedMessage
                     id='reaction.clickToAdd'
@@ -220,15 +281,16 @@ export default class Reaction extends React.PureComponent {
                 />
             );
         } else {
-            className += ' post-reaction--read-only';
+            //className += ' Reaction--read-only';
         }
 
         return (
             <button
                 id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
                 aria-label={ariaLabelEmoji}
-                className={`style--none ${className}`}
-                onClick={handleClick}
+                className={this.state.reactedClass}
+                onClick={this.handleClick}
+                ref={this.reactionButtonRef}
             >
                 <OverlayTrigger
                     delayShow={500}
@@ -245,13 +307,23 @@ export default class Reaction extends React.PureComponent {
                 >
                     <span className='d-flex align-items-center'>
                         <span
-                            className='post-reaction__emoji emoticon'
+                            className='Reaction__emoji emoticon'
                             style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
                         />
                         <span
-                            className='post-reaction__count'
+                            ref={this.reactionCountRef}
+                            className='Reaction__count'
                         >
-                            {this.props.reactionCount}
+                            <span className='Reaction__number'>
+                                <span className='Reaction__number--display'>{display}</span>
+                                <span
+                                    className='Reaction__number--unreacted'
+                                    onAnimationEnd={this.handleAnimationEnded}
+                                >
+                                    {unreacted}
+                                </span>
+                                <span className='Reaction__number--reacted'>{reacted}</span>
+                            </span>
                         </span>
                     </span>
                 </OverlayTrigger>
