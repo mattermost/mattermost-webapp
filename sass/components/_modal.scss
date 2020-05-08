@@ -390,40 +390,34 @@
                 max-height: 100%;
             }
 
-            %modal-buttons {
+            .modal-close {
                 @include single-transition(opacity, .6s);
                 @include background-size(100% 100%);
+                @include opacity(1);
+                background-image: url('../images/close.png');
                 cursor: pointer;
                 height: 37px;
                 position: absolute;
-                transition: opacity .6s;
-                width: 37px;
-                z-index: 9999;
-            }
-
-            .modal-close {
-                @extend %modal-buttons;
-                @include opacity(1);
-                background-image: url('../images/close.png');
                 right: -13px;
                 top: -13px;
+                transition: opacity .6s;
+                width: 37px;
+                z-index: 9999;  
             }
 
-            .modal-zoom {
-                font-size: 24px;
-                font-weight: bold;
+            .modal-zoom-controls {
                 position: absolute;
-                bottom: -17px;
+                bottom: -23px;
                 left: 50%;
                 margin-right: -50%;
                 transform: translate(-50%, -50%);
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
+            }
 
+            .modal-zoom-btn {
+                color: white;
+                font-size: 22px;
+                margin-left: 6px;
+                margin-right: 6px;
             }
 
             a {
@@ -432,6 +426,9 @@
 
                 .btn-inactive {
                     color: gray;
+                    font-size: 22px;
+                    margin-left: 6px;
+                    margin-right: 6px;
                 }
 
             >div {
