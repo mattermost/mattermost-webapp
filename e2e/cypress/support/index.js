@@ -111,6 +111,7 @@ Cypress.on('test:after:run', (test, runnable) => {
 before(() => {
     cy.apiLogin('sysadmin');
     cy.apiUpdateConfig();
+    cy.apiInvalidateCache();
 });
 
 // Add login cookies to whitelist to preserve it
