@@ -278,7 +278,7 @@ class CreatePost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
 
-            loadChannelMemberCountsByGroup: PropTypes.func,
+            getChannelMemberCountsByGroup: PropTypes.func,
         }).isRequired,
 
         groupsWithAllowReference: PropTypes.object,
@@ -342,7 +342,7 @@ class CreatePost extends React.PureComponent {
         this.setOrientationListeners();
 
         if (useGroupMentions) {
-            actions.loadChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+            actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
     }
 
@@ -352,7 +352,7 @@ class CreatePost extends React.PureComponent {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             if (useGroupMentions) {
-                actions.loadChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+                actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }
 

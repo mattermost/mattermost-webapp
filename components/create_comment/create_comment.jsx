@@ -227,7 +227,7 @@ class CreateComment extends React.PureComponent {
         /*
             Group member mention
         */
-        loadChannelMemberCountsByGroup: PropTypes.func.isRequired,
+        getChannelMemberCountsByGroup: PropTypes.func.isRequired,
         groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
     }
@@ -273,7 +273,7 @@ class CreateComment extends React.PureComponent {
     }
 
     componentDidMount() {
-        const {useGroupMentions, loadChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
+        const {useGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
         clearCommentDraftUploads();
         onResetHistoryIndex();
         setShowPreview(false);
@@ -282,7 +282,7 @@ class CreateComment extends React.PureComponent {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         if (useGroupMentions) {
-            loadChannelMemberCountsByGroup(channelId);
+            getChannelMemberCountsByGroup(channelId);
         }
 
         // When draft.message is not empty, set doInitialScrollToBottom to true so that
@@ -316,7 +316,7 @@ class CreateComment extends React.PureComponent {
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
             if (this.props.useGroupMentions) {
-                this.props.loadChannelMemberCountsByGroup(this.props.channelId);
+                this.props.getChannelMemberCountsByGroup(this.props.channelId);
             }
             this.focusTextbox();
         }

@@ -7,10 +7,10 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getAllChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
+import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
-import {getChannelTimezones, getChannelMemberCountsByGroup as loadChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {
     getAssociatedGroupsForReference,
@@ -75,7 +75,7 @@ function makeMapStateToProps() {
             team: channel.team_id,
             permission: Permissions.USE_GROUP_MENTIONS,
         });
-        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, ownProps.channelId);
+        const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
 
         return {
             draft,
@@ -156,7 +156,7 @@ function makeMapDispatchToProps() {
             getChannelTimezones,
             emitShortcutReactToLastPostFrom,
             setShowPreview: setShowPreviewOnCreateComment,
-            loadChannelMemberCountsByGroup
+            getChannelMemberCountsByGroup
         }, dispatch);
     };
 }

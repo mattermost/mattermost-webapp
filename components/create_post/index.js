@@ -6,10 +6,10 @@ import {bindActionCreators} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getChannelTimezones, getChannelMemberCountsByGroup as loadChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -91,7 +91,7 @@ function makeMapStateToProps() {
             team: currentChannel.team_id,
             permission: Permissions.USE_GROUP_MENTIONS,
         });
-        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, currentChannel.id);
+        const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
 
         return {
@@ -159,7 +159,7 @@ function mapDispatchToProps(dispatch) {
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
             setShowPreview: setShowPreviewOnCreatePost,
-            loadChannelMemberCountsByGroup,
+            getChannelMemberCountsByGroup,
         }, dispatch),
     };
 }

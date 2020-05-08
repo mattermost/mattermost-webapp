@@ -54,7 +54,7 @@ describe('components/CreateComment', () => {
         isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
-        loadChannelMemberCountsByGroup: jest.fn(),
+        getChannelMemberCountsByGroup: jest.fn(),
         useGroupMentions: true,
     };
 
@@ -78,14 +78,14 @@ describe('components/CreateComment', () => {
     test('should match snapshot, comment with message', () => {
         const clearCommentDraftUploads = jest.fn();
         const onResetHistoryIndex = jest.fn();
-        const loadChannelMemberCountsByGroup = jest.fn();
+        const getChannelMemberCountsByGroup = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
             fileInfos: [],
         };
         const ctrlSend = true;
-        const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex, loadChannelMemberCountsByGroup};
+        const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex, getChannelMemberCountsByGroup};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
@@ -98,20 +98,20 @@ describe('components/CreateComment', () => {
         expect(onResetHistoryIndex).toHaveBeenCalled();
 
         // should load channel member counts on mount
-        expect(loadChannelMemberCountsByGroup).toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not call loadChannelMemberCountsByGroup, without group mentions permission or license', () => {
+    test('should not call getChannelMemberCountsByGroup, without group mentions permission or license', () => {
         const useGroupMentions = false;
-        const loadChannelMemberCountsByGroup = jest.fn();
-        const props = {...baseProps, useGroupMentions, loadChannelMemberCountsByGroup};
+        const getChannelMemberCountsByGroup = jest.fn();
+        const props = {...baseProps, useGroupMentions, getChannelMemberCountsByGroup};
 
         shallowWithIntl(<CreateComment {...props}/>);
 
         // should not load channel member counts on mount without useGroupmentions
-        expect(loadChannelMemberCountsByGroup).not.toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
     });
 
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {

@@ -86,7 +86,7 @@ const actionsProp = {
         return {data: {message, args}};
     },
     scrollPostListToBottom: jest.fn(),
-    loadChannelMemberCountsByGroup: jest.fn(),
+    getChannelMemberCountsByGroup: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -204,39 +204,39 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe('test');
     });
 
-    it('Check for loadChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
-        const loadChannelMemberCountsByGroup = jest.fn();
+    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
+        const getChannelMemberCountsByGroup = jest.fn();
         const actions = {
             ...actionsProp,
-            loadChannelMemberCountsByGroup,
+            getChannelMemberCountsByGroup,
         };
         const wrapper = shallowWithIntl(createPost({actions}));
-        expect(loadChannelMemberCountsByGroup).toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {
                 ...currentChannelProp,
                 id: 'owsyt8n43jfxjpzh9np93mx1wb',
             },
         });
-        expect(loadChannelMemberCountsByGroup).toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
-    it('Check for loadChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
-        const loadChannelMemberCountsByGroup = jest.fn();
+    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
+        const getChannelMemberCountsByGroup = jest.fn();
         const useGroupMentions = false;
         const actions = {
             ...actionsProp,
-            loadChannelMemberCountsByGroup,
+            getChannelMemberCountsByGroup,
         };
         const wrapper = shallowWithIntl(createPost({actions, useGroupMentions}));
-        expect(loadChannelMemberCountsByGroup).not.toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {
                 ...currentChannelProp,
                 id: 'owsyt8n43jfxjpzh9np93mx1wb',
             },
         });
-        expect(loadChannelMemberCountsByGroup).not.toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
     });
 
     it('click toggleEmojiPicker', () => {
