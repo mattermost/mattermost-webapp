@@ -52,6 +52,7 @@ type State = {
 
 // not every page in the system console will need the license and config, but the vast majority will
 type ExtraProps = {
+    enterpriseReady: boolean;
     license?: Record<string, any>;
     config?: Record<string, any>;
     environmentConfig?: Record<string, any>;
@@ -181,6 +182,7 @@ export default class AdminConsole extends React.Component<Props, State> {
         );
 
         const extraProps: ExtraProps = {
+            enterpriseReady: this.props.buildEnterpriseReady,
             license,
             config,
             environmentConfig,

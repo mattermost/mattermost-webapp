@@ -370,3 +370,22 @@ export async function setSamlIdpCertificateFromMetadata(success, error, certData
         error({id: err.server_error_id, ...err});
     }
 }
+
+export function upgradeToE0() {
+    return async () => {
+        await Client4.doFetch(`${Client4.getBaseRoute()}/upgrade_to_enterprise`, {method: 'POST'});
+    };
+}
+
+export function upgradeToE0Status() {
+    return async () => {
+        const data = await Client4.doFetch(`${Client4.getBaseRoute()}/upgrade_to_enterprise/status`, {method: 'GET'});
+        return data;
+    };
+}
+
+export function restartServer() {
+    return async () => {
+        await Client4.doFetch(`${Client4.getBaseRoute()}/restart`, {method: 'POST'});
+    };
+}

@@ -761,6 +761,33 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            icon="fa-info-circle"
+            key="0"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="3"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
             parentLink="/admin_console"
@@ -1366,6 +1393,33 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            icon="fa-info-circle"
+            key="0"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="3"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
             parentLink="/admin_console"
@@ -1963,6 +2017,33 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
         <ul
           className="nav nav-pills nav-stacked"
         >
+          <AdminSidebarCategory
+            icon="fa-info-circle"
+            key="0"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+                values={Object {}}
+              />
+            }
+          >
+            <AdminSidebarSection
+              key="3"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                  values={Object {}}
+                />
+              }
+            />
+          </AdminSidebarCategory>
           <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"

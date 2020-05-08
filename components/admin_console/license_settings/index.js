@@ -6,6 +6,8 @@ import {bindActionCreators} from 'redux';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {uploadLicense, removeLicense} from 'mattermost-redux/actions/admin';
 
+import {upgradeToE0Status, upgradeToE0, restartServer} from 'actions/admin_actions';
+
 import LicenseSettings from './license_settings.jsx';
 
 function mapDispatchToProps(dispatch) {
@@ -14,6 +16,9 @@ function mapDispatchToProps(dispatch) {
             getLicenseConfig,
             uploadLicense,
             removeLicense,
+            upgradeToE0,
+            upgradeToE0Status,
+            restartServer,
         }, dispatch),
     };
 }

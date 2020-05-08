@@ -9,32 +9,63 @@ import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-export default class LicenseSettings extends React.Component {
+export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
         license: PropTypes.object.isRequired,
-        config: PropTypes.object,
+        enterpriseReady: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             getLicenseConfig: PropTypes.func.isRequired,
             uploadLicense: PropTypes.func.isRequired,
             removeLicense: PropTypes.func.isRequired,
+            upgradeToE0: PropTypes.func.isRequired,
+            restartServer: PropTypes.func.isRequired,
+            upgradeToE0Status: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
+        this.interval = null;
         this.state = {
             fileSelected: false,
             fileName: null,
             serverError: null,
             removing: false,
             uploading: false,
+            upgradingPercentage: 0,
+            upgradeError: null,
+            restarting: false,
+            restartError: null,
         };
     }
 
     componentDidMount() {
+        if (!this.props.enterpriseReady) {
+            this.reloadPercentage();
+        }
         this.props.actions.getLicenseConfig();
+    }
+
+    componentWillUnmount() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+    }
+
+    reloadPercentage = async () => {
+        const {percentage, error} = await this.props.actions.upgradeToE0Status();
+        if (percentage === 100 || error) {
+            if (this.interval) {
+                clearInterval(this.interval);
+                this.interval = null;
+            }
+        } else if (percentage > 0 && !this.interval) {
+            this.interval = setInterval(this.reloadPercentage, 2000);
+        }
+        this.setState({upgradingPercentage: percentage || 0, upgradeError: error});
     }
 
     handleChange = () => {
@@ -81,23 +112,34 @@ export default class LicenseSettings extends React.Component {
         this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
     }
 
+    handleUpgrade = async (e) => {
+        e.preventDefault();
+        if (this.state.upgradingPercentage > 0) {
+            return;
+        }
+        this.setState({upgradingPercetage: 1});
+        await this.props.actions.upgradeToE0();
+        await this.reloadPercentage();
+    }
+
+    handleRestart = async (e) => {
+        e.preventDefault();
+        this.setState({restarting: true});
+        try {
+            await this.props.actions.restartServer();
+        } catch (err) {
+            this.setState({restarting: false, restartError: err});
+        }
+        setTimeout(() => window.location.reload(), 3000);
+    }
+
     render() {
-        let serverError = '';
-        if (this.state.serverError) {
-            serverError = <div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div></div>;
-        }
-
-        var btnClass = 'btn';
-        if (this.state.fileSelected) {
-            btnClass = 'btn btn-primary';
-        }
-
         const {license} = this.props;
         const {uploading} = this.state;
 
         let edition;
         let licenseType;
-        let licenseKey;
+        let licenseContent;
 
         const issued = (
             <React.Fragment>
@@ -109,7 +151,17 @@ export default class LicenseSettings extends React.Component {
         const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
         const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
-        if (license.IsLicensed === 'true' && !uploading) {
+        if (!this.props.enterpriseReady) { // Team Edition
+            // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
+            edition = (
+                <p>
+                    {'Mattermost Team Edition.'}
+                </p>
+            );
+
+            licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
+            licenseContent = this.renderTEContent();
+        } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${license.SkuShortName}`}<br/></React.Fragment> : null;
             edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
@@ -139,38 +191,7 @@ export default class LicenseSettings extends React.Component {
                     >{'Privacy Policy.'}</a>
                 </div>
             );
-
-            let removeButtonText = (
-                <FormattedMessage
-                    id='admin.license.keyRemove'
-                    defaultMessage='Remove Enterprise License and Downgrade Server'
-                />
-            );
-            if (this.state.removing) {
-                removeButtonText = (
-                    <FormattedMessage
-                        id='admin.license.removing'
-                        defaultMessage='Removing License...'
-                    />
-                );
-            }
-
-            licenseKey = (
-                <div className='col-sm-8'>
-                    <button
-                        className='btn btn-danger'
-                        onClick={this.handleRemove}
-                        id='remove-button'
-                    >
-                        {removeButtonText}
-                    </button>
-                    <br/>
-                    <br/>
-                    <p className='help-text'>
-                        {'If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.'}
-                    </p>
-                </div>
-            );
+            licenseContent = this.renderE10E20Content();
         } else {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
@@ -188,70 +209,7 @@ export default class LicenseSettings extends React.Component {
 
             licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
 
-            let fileName;
-            if (this.state.fileName) {
-                fileName = this.state.fileName;
-            } else {
-                fileName = (
-                    <FormattedMessage
-                        id='admin.license.noFile'
-                        defaultMessage='No file uploaded'
-                    />
-                );
-            }
-
-            let uploadButtonText = (
-                <FormattedMessage
-                    id='admin.license.upload'
-                    defaultMessage='Upload'
-                />
-            );
-            if (uploading) {
-                uploadButtonText = (
-                    <FormattedMessage
-                        id='admin.license.uploading'
-                        defaultMessage='Uploading License...'
-                    />
-                );
-            }
-
-            licenseKey = (
-                <div className='col-sm-8'>
-                    <div className='file__upload'>
-                        <button className='btn btn-primary'>
-                            <FormattedMessage
-                                id='admin.license.choose'
-                                defaultMessage='Choose File'
-                            />
-                        </button>
-                        <input
-                            ref='fileInput'
-                            type='file'
-                            accept='.mattermost-license'
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <button
-                        className={btnClass}
-                        disabled={!this.state.fileSelected}
-                        onClick={this.handleSubmit}
-                        id='upload-button'
-                    >
-                        {uploadButtonText}
-                    </button>
-                    <div className='help-text m-0'>
-                        {fileName}
-                    </div>
-                    <br/>
-                    {serverError}
-                    <p className='help-text m-0'>
-                        <FormattedMarkdownMessage
-                            id='admin.license.uploadDesc'
-                            defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key.'
-                        />
-                    </p>
-                </div>
-            );
+            licenseContent = this.renderE0Content();
         }
 
         return (
@@ -294,20 +252,221 @@ export default class LicenseSettings extends React.Component {
                                 </div>
                             </div>
                             <div className='form-group'>
-                                <label
-                                    className='control-label col-sm-4'
-                                >
-                                    <FormattedMessage
-                                        id='admin.license.key'
-                                        defaultMessage='License Key: '
-                                    />
-                                </label>
-                                {licenseKey}
+                                {licenseContent}
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+        );
+    }
+
+    renderE10E20Content = () => {
+        let removeButtonText = (
+            <FormattedMessage
+                id='admin.license.keyRemove'
+                defaultMessage='Remove Enterprise License and Downgrade Server'
+            />
+        );
+        if (this.state.removing) {
+            removeButtonText = (
+                <FormattedMessage
+                    id='admin.license.removing'
+                    defaultMessage='Removing License...'
+                />
+            );
+        }
+
+        return (
+            <>
+                <label
+                    className='control-label col-sm-4'
+                >
+                    <FormattedMessage
+                        id='admin.license.key'
+                        defaultMessage='License Key: '
+                    />
+                </label>
+                <div className='col-sm-8'>
+                    <button
+                        className='btn btn-danger'
+                        onClick={this.handleRemove}
+                        id='remove-button'
+                    >
+                        {removeButtonText}
+                    </button>
+                    <br/>
+                    <br/>
+                    <p className='help-text'>
+                        {'If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.'}
+                    </p>
+                </div>
+            </>
+        );
+    }
+
+    renderE0Content = () => {
+        let serverError = '';
+        if (this.state.serverError) {
+            serverError = <div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div></div>;
+        }
+
+        var btnClass = 'btn';
+        if (this.state.fileSelected) {
+            btnClass = 'btn btn-primary';
+        }
+
+        let fileName;
+        if (this.state.fileName) {
+            fileName = this.state.fileName;
+        } else {
+            fileName = (
+                <FormattedMessage
+                    id='admin.license.noFile'
+                    defaultMessage='No file uploaded'
+                />
+            );
+        }
+
+        let uploadButtonText = (
+            <FormattedMessage
+                id='admin.license.upload'
+                defaultMessage='Upload'
+            />
+        );
+        if (this.state.uploading) {
+            uploadButtonText = (
+                <FormattedMessage
+                    id='admin.license.uploading'
+                    defaultMessage='Uploading License...'
+                />
+            );
+        }
+        return (
+            <>
+                <label
+                    className='control-label col-sm-4'
+                >
+                    <FormattedMessage
+                        id='admin.license.key'
+                        defaultMessage='License Key: '
+                    />
+                </label>
+                <div className='col-sm-8'>
+                    <div className='file__upload'>
+                        <button className='btn btn-primary'>
+                            <FormattedMessage
+                                id='admin.license.choose'
+                                defaultMessage='Choose File'
+                            />
+                        </button>
+                        <input
+                            ref='fileInput'
+                            type='file'
+                            accept='.mattermost-license'
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <button
+                        className={btnClass}
+                        disabled={!this.state.fileSelected}
+                        onClick={this.handleSubmit}
+                        id='upload-button'
+                    >
+                        {uploadButtonText}
+                    </button>
+                    <div className='help-text m-0'>
+                        {fileName}
+                    </div>
+                    <br/>
+                    {serverError}
+                    <p className='help-text m-0'>
+                        <FormattedMarkdownMessage
+                            id='admin.license.uploadDesc'
+                            defaultMessage='Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key.'
+                        />
+                    </p>
+                </div>
+            </>
+        );
+    }
+
+    renderTEContent = () => {
+        return (
+            <>
+                <label
+                    className='control-label col-sm-4'
+                >
+                    <FormattedMessage
+                        id='admin.license.enterprise'
+                        defaultMessage='Upgrade to Enterprise:'
+                    />
+                </label>
+                <div className='col-sm-8'>
+                    {this.state.upgradingPercentage !== 100 &&
+                        <div>
+                            <p>
+                                <button
+                                    onClick={this.handleUpgrade}
+                                    className='btn btn-primary'
+                                >
+                                    <LoadingWrapper
+                                        loading={this.state.upgradingPercentage > 0}
+                                        text={
+                                            <FormattedMessage
+                                                id='admin.license.enterprise.upgrading'
+                                                defaultMessage='Upgrading {percentage}%'
+                                                values={{percentage: this.state.upgradingPercentage}}
+                                            />
+                                        }
+                                    >
+                                        <FormattedMessage
+                                            id='admin.license.enterprise.upgrade'
+                                            defaultMessage='Upgrade'
+                                        />
+                                    </LoadingWrapper>
+                                </button>
+                            </p>
+                            {this.state.upgradeError &&
+                                <div className='col-sm-12'>
+                                    <div className='form-group has-error'>
+                                        <label className='control-label'>{this.state.upgradeError}</label>
+                                    </div>
+                                </div>}
+                        </div>}
+                    {this.state.upgradingPercentage === 100 &&
+                        <div>
+                            <p>
+                                <FormattedMarkdownMessage
+                                    id='admin.license.upgraded-restart'
+                                    defaultMessage='You have upgraded your binary to mattermost enterprise, please restart the server to start using the new binary. You can do it right here:'
+                                />
+                            </p>
+                            <p>
+                                <button
+                                    onClick={this.handleRestart}
+                                    className='btn btn-primary'
+                                >
+                                    <LoadingWrapper
+                                        loading={this.state.restarting}
+                                        text={Utils.localizeMessage('admin.license.enterprise.restart', 'Restarting')}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.license.enterprise.restart'
+                                            defaultMessage='Restart Server'
+                                        />
+                                    </LoadingWrapper>
+                                    {this.state.restartError &&
+                                        <div className='col-sm-12'>
+                                            <div className='form-group has-error'>
+                                                <label className='control-label'>{this.state.restartError}</label>
+                                            </div>
+                                        </div>}
+                                </button>
+                            </p>
+                        </div>}
+                </div>
+            </>
         );
     }
 }

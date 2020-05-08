@@ -1,0 +1,730 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/group_settings/GroupSettings load screen after upgrading 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p>
+              Mattermost Team Edition.
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upgrade to Enterprise:"
+              id="admin.license.enterprise"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                >
+                  <LoadingWrapper
+                    loading={false}
+                    text={
+                      <FormattedMessage
+                        defaultMessage="Upgrading {percentage}%"
+                        id="admin.license.enterprise.upgrading"
+                        values={
+                          Object {
+                            "percentage": 0,
+                          }
+                        }
+                      />
+                    }
+                  >
+                    <FormattedMessage
+                      defaultMessage="Upgrade"
+                      id="admin.license.enterprise.upgrade"
+                      values={Object {}}
+                    />
+                  </LoadingWrapper>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupSettings load screen while upgrading 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p>
+              Mattermost Team Edition.
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upgrade to Enterprise:"
+              id="admin.license.enterprise"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                >
+                  <LoadingWrapper
+                    loading={false}
+                    text={
+                      <FormattedMessage
+                        defaultMessage="Upgrading {percentage}%"
+                        id="admin.license.enterprise.upgrading"
+                        values={
+                          Object {
+                            "percentage": 0,
+                          }
+                        }
+                      />
+                    }
+                  >
+                    <FormattedMessage
+                      defaultMessage="Upgrade"
+                      id="admin.license.enterprise.upgrade"
+                      values={Object {}}
+                    />
+                  </LoadingWrapper>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupSettings should match snapshot enterprise build with license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+
+Your subscription details are as follows:
+              </p>
+              Name: LicenseName
+              <br />
+              Company or organization name: Mattermost Inc.
+              <br />
+              Edition: Mattermost Enterprise Edition SkuName
+              <br />
+              Number of users: 100
+              <br />
+              License issued: 
+              <FormattedDate
+                value={1970-01-01T00:02:03.456Z}
+              />
+               
+              <FormattedTime
+                value={1970-01-01T00:02:03.456Z}
+              />
+              <br />
+              Start date of license: 
+              <FormattedDate
+                value={1970-01-01T00:10:54.321Z}
+              />
+              <br />
+              Expiry date of license: 
+              <FormattedDate
+                value={1970-01-01T00:10:54.321Z}
+              />
+              <br />
+              <br />
+              See also 
+              <a
+                href="https://about.mattermost.com/enterprise-edition-terms/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Enterprise Edition Terms of Service
+              </a>
+               and 
+              <a
+                href="https://about.mattermost.com/default-privacy-policy/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Privacy Policy.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <button
+              className="btn btn-danger"
+              id="remove-button"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove Enterprise License and Downgrade Server"
+                id="admin.license.keyRemove"
+                values={Object {}}
+              />
+            </button>
+            <br />
+            <br />
+            <p
+              className="help-text"
+            >
+              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupSettings should match snapshot enterprise build without license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p>
+              Mattermost Enterprise Edition. A license is required to unlock enterprise features. Start a trial subscription at 
+              <a
+                href="https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                https://mattermost.com/trial/
+              </a>
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+              >
+                <FormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.license.choose"
+                  values={Object {}}
+                />
+              </button>
+              <input
+                accept=".mattermost-license"
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              id="upload-button"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Upload"
+                id="admin.license.upload"
+                values={Object {}}
+              />
+            </button>
+            <div
+              className="help-text m-0"
+            >
+              <FormattedMessage
+                defaultMessage="No file uploaded"
+                id="admin.license.noFile"
+                values={Object {}}
+              />
+            </div>
+            <br />
+            <p
+              className="help-text m-0"
+            >
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
+                id="admin.license.uploadDesc"
+              />
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupSettings should match snapshot team edition build with license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p>
+              Mattermost Team Edition.
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upgrade to Enterprise:"
+              id="admin.license.enterprise"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                >
+                  <LoadingWrapper
+                    loading={false}
+                    text={
+                      <FormattedMessage
+                        defaultMessage="Upgrading {percentage}%"
+                        id="admin.license.enterprise.upgrading"
+                        values={
+                          Object {
+                            "percentage": 0,
+                          }
+                        }
+                      />
+                    }
+                  >
+                    <FormattedMessage
+                      defaultMessage="Upgrade"
+                      id="admin.license.enterprise.upgrade"
+                      values={Object {}}
+                    />
+                  </LoadingWrapper>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/group_settings/GroupSettings should match snapshot team edition build without license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <p>
+              Mattermost Team Edition.
+            </p>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <FormattedMessage
+              defaultMessage="Upgrade to Enterprise:"
+              id="admin.license.enterprise"
+              values={Object {}}
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                <button
+                  className="btn btn-primary"
+                  onClick={[Function]}
+                >
+                  <LoadingWrapper
+                    loading={false}
+                    text={
+                      <FormattedMessage
+                        defaultMessage="Upgrading {percentage}%"
+                        id="admin.license.enterprise.upgrading"
+                        values={
+                          Object {
+                            "percentage": 0,
+                          }
+                        }
+                      />
+                    }
+                  >
+                    <FormattedMessage
+                      defaultMessage="Upgrade"
+                      id="admin.license.enterprise.upgrade"
+                      values={Object {}}
+                    />
+                  </LoadingWrapper>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
