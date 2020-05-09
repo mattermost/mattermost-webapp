@@ -21,7 +21,7 @@ export default class PopoverBar extends React.PureComponent {
         isExternalFile: PropTypes.bool.isRequired,
         onGetPublicLink: PropTypes.func,
         scale: PropTypes.number,
-        showZoomBtn: PropTypes.bool,
+        showZoomControls: PropTypes.bool,
         handleZoomIn: PropTypes.func,
         handleZoomOut: PropTypes.func,
         handleZoomReset: PropTypes.func,
@@ -95,7 +95,7 @@ export default class PopoverBar extends React.PureComponent {
         }
 
         let zoomInButton;
-        if (this.props.showZoomBtn) {
+        if (this.props.showZoomControls) {
             if (this.props.scale < ZoomSettings.MAX_SCALE) {
                 zoomInButton = (
                     <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
@@ -114,7 +114,7 @@ export default class PopoverBar extends React.PureComponent {
         }
 
         let zoomOutButton;
-        if (this.props.showZoomBtn) {
+        if (this.props.showZoomControls) {
             if (this.props.scale > ZoomSettings.MIN_SCALE) {
                 zoomOutButton = (
                     <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
@@ -133,7 +133,7 @@ export default class PopoverBar extends React.PureComponent {
         }
 
         let zoomResetButton;
-        if (this.props.showZoomBtn) {
+        if (this.props.showZoomControls) {
             if (this.props.scale > ZoomSettings.DEFAULT_SCALE || this.props.scale < ZoomSettings.DEFAULT_SCALE) {
                 zoomResetButton = (
                     <a onClick={this.props.handleZoomReset}>

@@ -71,7 +71,7 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -151,7 +151,7 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -235,7 +235,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={3}
         />
       </div>
@@ -339,7 +339,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={3}
         />
       </div>
@@ -444,7 +444,7 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -528,7 +528,7 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -612,7 +612,7 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -696,7 +696,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -780,7 +780,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -864,7 +864,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -948,7 +948,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={3}
         />
       </div>
@@ -1052,7 +1052,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -1136,7 +1136,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={3}
         />
       </div>
@@ -1240,7 +1240,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={3}
         />
       </div>
@@ -1344,7 +1344,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={3}
         />
       </div>
@@ -1448,7 +1448,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -1528,7 +1528,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>
@@ -1608,7 +1608,7 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           onGetPublicLink={[Function]}
           scale={1}
           showPublicLink={true}
-          showZoomBtn={false}
+          showZoomControls={false}
           totalFiles={1}
         />
       </div>

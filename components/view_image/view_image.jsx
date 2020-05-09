@@ -71,7 +71,7 @@ export default class ViewImageModal extends React.PureComponent {
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
             progress: Utils.fillArray(0, this.props.fileInfos.length),
             showCloseBtn: false,
-            showZoomBtn: false,
+            showZoomControls: false,
             scale: ZoomSettings.DEFAULT_SCALE,
         };
     }
@@ -269,7 +269,7 @@ export default class ViewImageModal extends React.PureComponent {
                     />
                 );
             } else if (fileInfo && fileInfo.extension && fileInfo.extension === FileTypes.PDF) {
-                this.setState({showZoomBtn: true});
+                this.setState({showZoomControls: true});
                 content = (
                     <React.Suspense fallback={null}>
                         <PDFPreview
@@ -400,7 +400,7 @@ export default class ViewImageModal extends React.PureComponent {
                                 isExternalFile={isExternalFile}
                                 onGetPublicLink={this.handleGetPublicLink}
                                 scale={this.state.scale}
-                                showZoomBtn={this.state.showZoomBtn}
+                                showZoomControls={this.state.showZoomControls}
                                 handleZoomIn={this.handleZoomIn}
                                 handleZoomOut={this.handleZoomOut}
                                 handleZoomReset={this.handleZoomReset}
