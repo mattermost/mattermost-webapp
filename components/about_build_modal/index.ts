@@ -3,13 +3,14 @@
 
 import {connect} from 'react-redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 
-import AboutBuildModal from './about_build_modal.jsx';
+import AboutBuildModal from './about_build_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const modalId = ModalIdentifiers.ABOUT;
     return {
         config: getConfig(state),
