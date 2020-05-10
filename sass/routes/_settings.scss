@@ -42,6 +42,10 @@
             margin: 5px 0;
         }
     }
+
+    textarea {
+        resize: vertical;
+    }
 }
 
 .modal {
