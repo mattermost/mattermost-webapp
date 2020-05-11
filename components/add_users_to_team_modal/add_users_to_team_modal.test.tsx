@@ -102,4 +102,39 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match state when onHide is called', () => {
+        const wrapper = shallow(
+            <AddUsersToTeamModal {...baseProps}/>
+        );
+
+        wrapper.setState({show: true});
+        (wrapper.instance() as AddUsersToTeamModal).handleHide();
+        expect(wrapper.state('show')).toEqual(false);
+    });
+
+    test('should search', () => {
+        const getProfilesNotInTeam = jest.fn();
+        const searchProfiles = jest.fn();
+        const wrapper = shallow(
+            <AddUsersToTeamModal
+                {...baseProps}
+                actions={{
+                    searchProfiles,
+                    getProfilesNotInTeam,
+                }}
+            />
+        );
+        const addUsers = wrapper.instance() as AddUsersToTeamModal;
+
+        // search profiles when search term given
+        addUsers.search('foo');
+        expect(searchProfiles).toHaveBeenCalledTimes(1);
+        expect(getProfilesNotInTeam).toHaveBeenCalledTimes(1);
+
+        // get profiles when no search term
+        addUsers.search('');
+        expect(searchProfiles).toHaveBeenCalledTimes(1);
+        expect(getProfilesNotInTeam).toHaveBeenCalledTimes(2);
+    });
 });
