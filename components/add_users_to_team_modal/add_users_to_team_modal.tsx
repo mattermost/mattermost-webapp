@@ -170,10 +170,10 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
 
     render() {
         const numRemainingText = (
-            <div id='numMembersRemaining'>
+            <div id='numPeopleRemaining'>
                 <FormattedMessage
-                    id='multiselect.numMembersRemaining'
-                    defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {member} other {members}}. '
+                    id='multiselect.numPeopleRemaining'
+                    defaultMessage='Use ↑↓ to browse, ↵ to select. You can add up to {num, number} more {num, plural, one {person} {people}} at a time. '
                     values={{
                         num: MAX_SELECTABLE_VALUES - this.state.values.length,
                     }}
