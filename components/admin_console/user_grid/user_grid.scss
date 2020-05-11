@@ -13,6 +13,8 @@
         text-overflow: ellipsis;
     }
     .Badge {
+        flex-grow: 1;
+        display: flex;
         font-size: 1em;
         margin: auto 10px;
     }
