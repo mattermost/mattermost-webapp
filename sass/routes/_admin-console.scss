@@ -13,10 +13,10 @@
     .wrapper--fixed {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 96vh;
 
         .announcement-bar--fixed & {
-            height: calc(100vh - 32px);
+            height: calc(96vh - 32px);
         }
     }
 
