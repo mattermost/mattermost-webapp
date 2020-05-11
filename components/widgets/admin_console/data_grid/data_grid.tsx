@@ -1,14 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import DataGridHeader from './data_grid_header';
 import DataGridRow from './data_grid_row';
+import DataGridSearch from './data_grid_search';
 
 import './data_grid.scss';
 
@@ -30,6 +32,10 @@ export type Row = {
 type Props = {
     rows: Row[];
     columns: Column[];
+    placeholderEmpty?: JSX.Element;
+    loadingIndicator?: JSX.Element;
+
+    customRowsCss?: CSSProperties;
 
     minimumColumnWidth?: number;
 
@@ -41,6 +47,9 @@ type Props = {
 
     nextPage: () => void;
     previousPage: () => void;
+
+    search: (term: string) => void;
+    searchPlaceholder?: string;
 };
 
 type State = {
@@ -48,6 +57,7 @@ type State = {
     fixedColumns: Column[];
     hiddenColumns: Column[];
     minimumColumnWidth: number;
+    term: string;
 };
 
 const MINIMUM_COLUMN_WIDTH = 150;
@@ -55,7 +65,7 @@ const MINIMUM_COLUMN_WIDTH = 150;
 class DataGrid extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
 
-    constructor(props: Props) {
+    public constructor(props: Props) {
         super(props);
 
         let minimumColumnWidth = MINIMUM_COLUMN_WIDTH;
@@ -68,6 +78,7 @@ class DataGrid extends React.PureComponent<Props, State> {
             hiddenColumns: [],
             fixedColumns: this.props.columns.filter((col) => col.fixed),
             minimumColumnWidth,
+            term: '',
         };
 
         this.ref = React.createRef();
@@ -101,25 +112,73 @@ class DataGrid extends React.PureComponent<Props, State> {
         this.setState({visibleColumns});
     }
 
-    renderRows() {
-        const {rows} = this.props;
+    private renderRows(): JSX.Element {
+        const {rows, customRowsCss} = this.props;
         const {visibleColumns} = this.state;
+        let rowsToRender: JSX.Element | JSX.Element[] | null = null;
 
-        return rows.map((row, index) => {
-            return (
-                <DataGridRow
-                    key={index}
-                    row={row}
-                    columns={visibleColumns}
-                />
-            );
-        });
+        if (this.props.loading) {
+            if (this.props.loadingIndicator) {
+                rowsToRender = this.props.loadingIndicator;
+            } else {
+                rowsToRender = (
+                    <div className='dg-loading'>
+                        <LoadingSpinner/>
+                        <FormattedMessage
+                            id='data_grid.loading'
+                            defaultMessage='Loading'
+                        />
+                    </div>
+                );
+            }
+        } else if (rows.length === 0) {
+            if (this.props.placeholderEmpty) {
+                rowsToRender = this.props.placeholderEmpty;
+            } else {
+                rowsToRender = (
+                    <div className='dg-empty'>
+                        <FormattedMessage
+                            id='data_grid.empty'
+                            defaultMessage='No items found'
+                        />
+                    </div>
+                );
+            }
+        } else {
+            rowsToRender = rows.map((row, index) => {
+                return (
+                    <DataGridRow
+                        key={index}
+                        row={row}
+                        columns={visibleColumns}
+                    />
+                );
+            });
+        }
+
+        return (
+            <div
+                className='dg-rows'
+                style={customRowsCss || {}}
+            >
+                {rowsToRender}
+            </div>
+        );
     }
 
-    renderHeader() {
+    private renderHeader(): JSX.Element {
         return (
             <DataGridHeader
                 columns={this.state.visibleColumns}
+            />
+        );
+    }
+
+    private renderSearch(): JSX.Element {
+        return (
+            <DataGridSearch
+                onSearch={(term) => this.search(term)}
+                placeholder={this.props.searchPlaceholder || ''}
             />
         );
     }
@@ -136,9 +195,14 @@ class DataGrid extends React.PureComponent<Props, State> {
         }
     }
 
-    renderFooter() {
+    private search = (term: string) => {
+        this.setState({term});
+        this.props.search(term);
+    }
+
+    private renderFooter(): JSX.Element | null {
         const {startCount, endCount, total} = this.props;
-        let footer;
+        let footer: JSX.Element | null = null;
 
         if (total) {
             const firstPage = startCount <= 1;
@@ -190,18 +254,12 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const styleOverrides = {
-
-            // TODO: Add generated styles here based on props
-
-        };
-
         return (
             <div
                 className='DataGrid'
-                style={styleOverrides}
                 ref={this.ref}
             >
+                {this.renderSearch()}
                 {this.renderHeader()}
                 {this.renderRows()}
                 {this.renderFooter()}

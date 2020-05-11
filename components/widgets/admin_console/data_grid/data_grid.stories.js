@@ -10,8 +10,8 @@ import DataGrid from './data_grid';
 const baseProps = {
     page: 1,
     startCount: 1,
-    endCount: 10,
-    total: 50,
+    endCount: 3,
+    total: 3,
     loading: false,
 
     nextPage: null,
@@ -64,6 +64,28 @@ storiesOf('Data Grid', module).
                 <DataGrid
                     {...baseProps}
                     {...fourColumnGrid}
+                />
+            );
+        }
+    ).add(
+        'Loading grid',
+        () => {
+            return (
+                <DataGrid
+                    {...baseProps}
+                    {...fourColumnGrid}
+                    loading={true}
+                />
+            );
+        }
+    ).add(
+        'Empty grid',
+        () => {
+            return (
+                <DataGrid
+                    {...baseProps}
+                    {...fourColumnGrid}
+                    rows={[]}
                 />
             );
         }

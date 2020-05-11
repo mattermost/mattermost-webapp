@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/admin_console/data_grid/DataGrid should match snapshot while loading 1`] = `
+<div
+  className="DataGrid"
+>
+  <DataGridSearch
+    onSearch={[Function]}
+    placeholder=""
+  />
+  <DataGridHeader
+    columns={Array []}
+  />
+  <div
+    className="dg-rows"
+    style={Object {}}
+  >
+    <div
+      className="dg-loading"
+    >
+      <LoadingSpinner
+        text={null}
+      />
+      <FormattedMessage
+        defaultMessage="Loading"
+        id="data_grid.loading"
+        values={Object {}}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/widgets/admin_console/data_grid/DataGrid should match snapshot with content and custom styling on rows 1`] = `
+<div
+  className="DataGrid"
+>
+  <DataGridSearch
+    onSearch={[Function]}
+    placeholder=""
+  />
+  <DataGridHeader
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "name": "Name",
+          "overflow": "hidden",
+          "width": 3,
+        },
+        Object {
+          "field": "team",
+          "name": "Team",
+          "textAlign": "center",
+        },
+      ]
+    }
+  />
+  <div
+    className="dg-rows"
+    style={Object {}}
+  >
+    <DataGridRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+            "overflow": "hidden",
+            "width": 3,
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+            "textAlign": "center",
+          },
+        ]
+      }
+      key="0"
+      row={
+        Object {
+          "name": "Joe Schmoe",
+          "team": "Admin Team",
+        }
+      }
+    />
+    <DataGridRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+            "overflow": "hidden",
+            "width": 3,
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+            "textAlign": "center",
+          },
+        ]
+      }
+      key="1"
+      row={
+        Object {
+          "name": "Foo Bar",
+          "team": "Admin Team",
+        }
+      }
+    />
+    <DataGridRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+            "overflow": "hidden",
+            "width": 3,
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+            "textAlign": "center",
+          },
+        ]
+      }
+      key="2"
+      row={
+        Object {
+          "name": "Some Guy",
+          "team": "Admin Team",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`components/widgets/admin_console/data_grid/DataGrid should match snapshot with no items found 1`] = `
+<div
+  className="DataGrid"
+>
+  <DataGridSearch
+    onSearch={[Function]}
+    placeholder=""
+  />
+  <DataGridHeader
+    columns={Array []}
+  />
+  <div
+    className="dg-rows"
+    style={Object {}}
+  >
+    <div
+      className="dg-empty"
+    >
+      <FormattedMessage
+        defaultMessage="No items found"
+        id="data_grid.empty"
+        values={Object {}}
+      />
+    </div>
+  </div>
+</div>
+`;
