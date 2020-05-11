@@ -10,7 +10,7 @@ import {TeamMembership} from 'mattermost-redux/types/teams';
 import UserGrid from './user_grid';
 
 describe('components/admin_console/user_grid/UserGrid', () => {
-    function createUser (id: string, username: string, bot: boolean): UserProfile {
+    function createUser(id: string, username: string, bot: boolean): UserProfile {
         return {
             id,
             create_at: 1589222794545,
@@ -43,10 +43,10 @@ describe('components/admin_console/user_grid/UserGrid', () => {
             terms_of_service_create_at: 0,
             is_bot: bot,
             last_picture_update: 0,
-        }
+        };
     }
 
-    function createMembership (userId: string, admin: boolean): TeamMembership {
+    function createMembership(userId: string, admin: boolean): TeamMembership {
         return {
             mention_count: 0,
             msg_count: 0,
@@ -56,13 +56,13 @@ describe('components/admin_console/user_grid/UserGrid', () => {
             delete_at: 0,
             scheme_user: true,
             scheme_admin: admin,
-        }
-    };
+        };
+    }
 
     const user1 = createUser('userid1', 'user-1', false);
-    const membership1 =  createMembership('userId1', false);
+    const membership1 = createMembership('userId1', false);
     const user2 = createUser('userid2', 'user-2', false);
-    const membership2 =  createMembership('userId2', false);
+    const membership2 = createMembership('userId2', false);
     const notSavedUser = createUser('userid-not-saved', 'user-not-saved', false);
 
     const baseProps = {
@@ -79,7 +79,7 @@ describe('components/admin_console/user_grid/UserGrid', () => {
 
         totalCount: 2,
         loading: false,
-    }
+    };
 
     test('should match snapshot with 2 users', () => {
         const wrapper = shallow(
