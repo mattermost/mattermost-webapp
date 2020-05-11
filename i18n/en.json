@@ -3239,7 +3239,6 @@
   "sidebar_left.channel_navigator.goForwardLabel": "Forward",
   "sidebar_left.channel_navigator.jumpTo": "Jump to...",
   "sidebar_left.sidebar_category_menu.createCategory": "Create Category",
-  "sidebar_left.sidebar_category_menu.createChannel": "Create Channel",
   "sidebar_left.sidebar_category_menu.deleteCategory": "Delete Category",
   "sidebar_left.sidebar_category_menu.dropdownAriaLabel": "Edit category menu",
   "sidebar_left.sidebar_category_menu.editCategory": "Category options",
