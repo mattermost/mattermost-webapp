@@ -35,6 +35,7 @@ declare global {
 }
 
 type Props = {
+    license: Record<string, any>;
     currentUser?: {
         id: string;
     };
@@ -228,11 +229,15 @@ export default class NeedsTeam extends React.Component<Props, State> {
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
-        this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-        if (team.group_constrained) {
-            this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
-        } else {
-            this.props.actions.getGroups(true);
+        if (this.props.license &&
+            this.props.license.IsLicensed === 'true' &&
+            this.props.license.LDAPGroups === 'true') {
+            this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+            if (team.group_constrained) {
+                this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
+            } else {
+                this.props.actions.getGroups(true);
+            }
         }
 
         return team;

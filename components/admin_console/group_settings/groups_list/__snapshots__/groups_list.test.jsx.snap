@@ -48,35 +48,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
     </div>
   </div>
   <div
-    className="groups-list--header"
-  >
-    <div
-      className="group-name"
-    >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.group_settings.groups_list.nameHeader"
-        values={Object {}}
-      />
-    </div>
-    <div
-      className="group-content"
-    >
-      <div
-        className="group-description"
-      >
-        <FormattedMessage
-          defaultMessage="Mattermost Linking"
-          id="admin.group_settings.groups_list.mappingHeader"
-          values={Object {}}
-        />
-      </div>
-      <div
-        className="group-actions"
-      />
-    </div>
-  </div>
-  <div
     className="groups-list--body"
     id="groups-list--body"
   >
@@ -216,35 +187,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
           values={Object {}}
         />
       </button>
-    </div>
-  </div>
-  <div
-    className="groups-list--header"
-  >
-    <div
-      className="group-name"
-    >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.group_settings.groups_list.nameHeader"
-        values={Object {}}
-      />
-    </div>
-    <div
-      className="group-content"
-    >
-      <div
-        className="group-description"
-      >
-        <FormattedMessage
-          defaultMessage="Mattermost Linking"
-          id="admin.group_settings.groups_list.mappingHeader"
-          values={Object {}}
-        />
-      </div>
-      <div
-        className="group-actions"
-      />
     </div>
   </div>
   <div
@@ -1568,35 +1510,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
           values={Object {}}
         />
       </button>
-    </div>
-  </div>
-  <div
-    className="groups-list--header"
-  >
-    <div
-      className="group-name"
-    >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.group_settings.groups_list.nameHeader"
-        values={Object {}}
-      />
-    </div>
-    <div
-      className="group-content"
-    >
-      <div
-        className="group-description"
-      >
-        <FormattedMessage
-          defaultMessage="Mattermost Linking"
-          id="admin.group_settings.groups_list.mappingHeader"
-          values={Object {}}
-        />
-      </div>
-      <div
-        className="group-actions"
-      />
     </div>
   </div>
   <div

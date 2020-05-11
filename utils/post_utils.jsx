@@ -116,12 +116,15 @@ export function containsAtChannel(text, options = {}) {
         return false;
     }
 
-    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    let mentionsRegex;
     if (options.checkAllMentions === true) {
-        return (/\B@(all|channel|here)\b/i).test(mentionableText);
+        mentionsRegex = new RegExp(Constants.SPECIAL_MENTIONS_REGEX);
+    } else {
+        mentionsRegex = new RegExp(Constants.ALL_MEMBERS_MENTIONS_REGEX);
     }
 
-    return (/\B@(all|channel)\b/i).test(mentionableText);
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    return mentionsRegex.test(mentionableText);
 }
 
 export const groupsMentionedInText = (text, groups) => {

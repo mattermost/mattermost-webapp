@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-await-in-loop, no-console */
+/* eslint-disable no-await-in-loop, no-console, no-process-exit */
 
 /*
  * This command, which normally use in CI, runs Cypress test in full or partial depending on test metadata
@@ -25,6 +25,7 @@
  *   HEADLESS=[boolean]     : Headless by default (true) or false to run on headed mode.
  *   BRANCH=[branch]        : Branch identifier from CI
  *   BUILD_ID=[build_id]    : Build identifier from CI
+ *   TYPE=[type]            : Test type, e.g. "Daily", "PR"
  *   WEBHOOK_URL=[url]      : Webhook URL where to send test report
  *
  * Example:
@@ -52,6 +53,7 @@ const shell = require('shelljs');
 const superagent = require('superagent');
 const argv = require('yargs').argv;
 
+const {saveArtifacts} = require('./utils/save_artifacts');
 const users = require('./cypress/fixtures/users.json');
 
 const MAX_FAILED_TITLES = 5;
@@ -119,7 +121,7 @@ function generateShortSummary(report) {
 
 function writeJsonToFile(jsonObject, filename, dir) {
     fse.writeJson(`${dir}/${filename}`, jsonObject).
-        then(() => console.log('Success!')).
+        then(() => console.log('Successfully written:', filename)).
         catch((err) => console.error(err));
 }
 
@@ -215,17 +217,32 @@ function getSkippedFiles(initialTestFiles, platform, browser, headless) {
 }
 
 async function runTests() {
+    const {
+        BRANCH,
+        BROWSER,
+        BUILD_ID,
+        CYPRESS_baseUrl, // eslint-disable-line camelcase
+        DIAGNOSTIC_WEBHOOK_URL,
+        HEADLESS,
+        TEST_DASHBOARD_URL,
+        TYPE,
+        WEBHOOK_URL,
+    } = process.env;
+
+    const bucketFolder = Date.now();
+
     await fse.remove('results');
     await fse.remove('screenshots');
 
-    const BROWSER = process.env.BROWSER || 'chrome';
-    const HEADLESS = typeof process.env.HEADLESS === 'undefined' ? true : process.env.HEADLESS === 'true';
-
+    const browser = BROWSER || 'chrome';
+    const headless = typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
+    const platform = os.platform();
     const initialTestFiles = getTestFiles().sort((a, b) => a.localeCompare(b));
-    const {finalTestFiles} = getSkippedFiles(initialTestFiles, os.platform(), BROWSER, HEADLESS);
+    const {finalTestFiles} = getSkippedFiles(initialTestFiles, platform, browser, headless);
 
     if (!finalTestFiles.length) {
         console.log(chalk.red('Nothing to test!'));
+        return;
     }
 
     const mochawesomeReportDir = 'results/mochawesome-report';
@@ -242,8 +259,8 @@ async function runTests() {
         console.log(chalk.magenta(`(Testing ${i + 1} of ${finalTestFiles.length})  - `, testFile));
 
         const {totalFailed} = await cypress.run({
-            browser: BROWSER,
-            headless: HEADLESS,
+            browser,
+            headless,
             spec: testFile,
             config: {
                 screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
@@ -264,6 +281,15 @@ async function runTests() {
                         overwrite: false,
                         html: false,
                         json: true,
+                        testMeta: {
+                            testType: TYPE,
+                            platform,
+                            browser,
+                            headless,
+                            branch: BRANCH,
+                            buildId: BUILD_ID,
+                            bucketFolder,
+                        },
                     },
                 },
         });
@@ -273,6 +299,7 @@ async function runTests() {
 
     // Merge all json reports into one single json report
     const jsonReport = await merge({files: [`${mochawesomeReportDir}/**/*.json`]});
+    writeJsonToFile(jsonReport, 'all.json', mochawesomeReportDir);
 
     // Generate the html report file
     await generator.create(jsonReport, {reportDir: mochawesomeReportDir});
@@ -281,18 +308,14 @@ async function runTests() {
     const summary = generateShortSummary(jsonReport);
     writeJsonToFile(summary, 'summary.json', mochawesomeReportDir);
 
-    const {
-        BRANCH,
-        BUILD_ID,
-        CYPRESS_baseUrl, // eslint-disable-line camelcase
-        DIAGNOSTIC_WEBHOOK_URL,
-        TEST_DASHBOARD_URL,
-        WEBHOOK_URL,
-    } = process.env;
+    const result = await saveArtifacts(`../${mochawesomeReportDir}`, bucketFolder);
+    if (result && result.success) {
+        console.log('Successfully uploaded artifacts.');
+    }
 
     // Send test report to "QA: UI Test Automation" channel via webhook
     if (WEBHOOK_URL) {
-        const data = generateTestReport(summary);
+        const data = generateTestReport(summary, result && result.success, bucketFolder);
         await sendReport('summary report', WEBHOOK_URL, data);
     }
 
@@ -313,8 +336,8 @@ async function runTests() {
         await sendReport('dashboard data', TEST_DASHBOARD_URL, data);
     }
 
-    // eslint-disable-next-line
-    process.exit(failedTests); // exit with the number of failed tests
+    // exit with the number of failed tests
+    process.exit(failedTests);
 }
 
 const result = [
@@ -324,7 +347,7 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateTestReport(summary) {
+function generateTestReport(summary, isUploadedToS3, bucketFolder) {
     const {BRANCH, BROWSER, BUILD_ID} = process.env;
     const {statsFieldValue, stats} = summary;
 
@@ -336,20 +359,10 @@ function generateTestReport(summary) {
         }
     }
 
-    return {
-        username: 'Cypress UI Test',
-        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-        attachments: [{
-            color: testResult.color,
-            author_name: 'Cypress UI Test',
-            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-            author_link: 'https://www.mattermost.com',
-            title: `Cypress UI Test Automation #${BUILD_ID} ${testResult.status}!`,
-            fields: [{
-                short: false,
-                title: 'Environment',
-                value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
-            }, {
+    let jenkinsFields = [];
+    if (BUILD_ID) {
+        jenkinsFields = [
+            {
                 short: false,
                 title: 'Test Report',
                 value: `[Link to the report](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/artifact/mattermost-webapp/e2e/results/mochawesome-report/mochawesome.html)`,
@@ -361,11 +374,44 @@ function generateTestReport(summary) {
                 short: false,
                 title: 'New Commits',
                 value: `[Link to the new commits](https://build-push.internal.mattermost.com/job/mattermost-ui-testing/job/mattermost-cypress/${BUILD_ID}/changes)`,
-            }, {
+            }
+        ];
+    }
+
+    let awsS3Fields;
+    if (isUploadedToS3) {
+        awsS3Fields = [
+            {
                 short: false,
-                title: `Key metrics (required support: ${testResult.priority})`,
-                value: statsFieldValue,
-            }],
+                title: 'Test Report',
+                value: `[Link to the report](https://${process.env.AWS_S3_BUCKET}.s3.amazonaws.com/${bucketFolder}/mochawesome.html)`,
+            },
+        ];
+    }
+
+    return {
+        username: 'Cypress UI Test',
+        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+        attachments: [{
+            color: testResult.color,
+            author_name: 'Cypress UI Test',
+            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            author_link: 'https://www.mattermost.com',
+            title: `Cypress UI Test Automation ${testResult.status}!`,
+            fields: [
+                {
+                    short: false,
+                    title: 'Environment',
+                    value: `Branch: **${BRANCH}**, Browser: **${BROWSER}**`,
+                },
+                ...jenkinsFields,
+                ...awsS3Fields,
+                {
+                    short: false,
+                    title: `Key metrics (required support: ${testResult.priority})`,
+                    value: statsFieldValue,
+                }
+            ],
             image_url: 'https://pbs.twimg.com/profile_images/1044345247440896001/pXI1GDHW_bigger.jpg'
         }],
     };
