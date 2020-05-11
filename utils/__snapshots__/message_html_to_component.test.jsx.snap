@@ -9,6 +9,7 @@ exports[`messageHtmlToComponent At mention 1`] = `
       data-mention="joram"
     >
       <Connect(AtMention)
+        disableGroupHighlight={false}
         disableHighlight={false}
         hasMention={true}
         isRHS={false}
@@ -27,12 +28,49 @@ exports[`messageHtmlToComponent At mention 2`] = `
     data-mention="joram"
   >
     <Connect(AtMention)
+      disableGroupHighlight={false}
       disableHighlight={true}
       hasMention={true}
       isRHS={false}
       mentionName="joram"
     >
       @joram
+    </Connect(AtMention)>
+  </span>
+</p>
+`;
+
+exports[`messageHtmlToComponent At mention with group highlight disabled 1`] = `
+<p>
+  <span
+    data-mention="developers"
+  >
+    <Connect(AtMention)
+      disableGroupHighlight={false}
+      disableHighlight={false}
+      hasMention={true}
+      isRHS={false}
+      mentionName="developers"
+    >
+      @developers
+    </Connect(AtMention)>
+  </span>
+</p>
+`;
+
+exports[`messageHtmlToComponent At mention with group highlight disabled 2`] = `
+<p>
+  <span
+    data-mention="developers"
+  >
+    <Connect(AtMention)
+      disableGroupHighlight={true}
+      disableHighlight={false}
+      hasMention={true}
+      isRHS={false}
+      mentionName="developers"
+    >
+      @developers
     </Connect(AtMention)>
   </span>
 </p>

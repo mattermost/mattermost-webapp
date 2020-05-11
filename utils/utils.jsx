@@ -817,6 +817,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-attachment-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
+        changeCss('.app__body .post-message .group-mention-link', `color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {
@@ -1199,6 +1200,10 @@ export function getLongDisplayName(user) {
         displayName = displayName + ' (' + user.nickname + ')';
     }
 
+    if (user.position && user.position.trim().length > 0) {
+        displayName = displayName + ' -' + user.position;
+    }
+
     return displayName;
 }
 
@@ -1207,6 +1212,7 @@ export function getLongDisplayNameParts(user) {
         displayName: '@' + user.username,
         fullName: getFullName(user),
         nickname: user.nickname && user.nickname.trim() ? user.nickname : null,
+        position: user.position && user.position.trim() ? user.position : null,
     };
 }
 
@@ -1267,34 +1273,27 @@ export function displayEntireNameForUser(user) {
         return '';
     }
 
-    let displayName = '@' + user.username;
+    let displayName = '';
     const fullName = getFullName(user);
 
-    if (fullName && user.nickname) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
-            </span>
-        );
-    } else if (fullName) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{fullName}</span>
-            </span>
-        );
-    } else if (user.nickname) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{'(' + user.nickname + ')'}</span>
-            </span>
-        );
+    if (fullName) {
+        displayName = ' - ' + fullName;
     }
+
+    if (user.nickname) {
+        displayName = displayName + ' (' + user.nickname + ')';
+    }
+
+    if (user.position) {
+        displayName = displayName + ' - ' + user.position;
+    }
+
+    displayName = (
+        <span>
+            {'@' + user.username}
+            <span className='light'>{displayName}</span>
+        </span>
+    );
 
     return displayName;
 }
