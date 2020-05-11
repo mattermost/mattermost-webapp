@@ -108,10 +108,10 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                         <button
                             type='submit'
                             className={classNames('edit_category__button create', {
-                                disabled: !this.state.categoryName,
+                                disabled: !this.state.categoryName || (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName),
                             })}
                             onClick={this.handleConfirm}
-                            disabled={!this.state.categoryName}
+                            disabled={!this.state.categoryName || (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName)}
                         >
                             {this.props.editButtonText}
                         </button>

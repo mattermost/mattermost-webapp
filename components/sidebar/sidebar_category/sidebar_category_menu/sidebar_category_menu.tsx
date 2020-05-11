@@ -5,33 +5,26 @@ import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {ChannelType, Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import EditCategoryModal from 'components/edit_category_modal';
 import DeleteCategoryModal from 'components/delete_category_modal';
-import NewChannelFlow from 'components/new_channel_flow';
-import Constants from 'utils/constants';
 
 type Props = {
     currentTeamId: string;
     category: ChannelCategory;
-    canCreatePublicChannel: boolean;
-    canCreatePrivateChannel: boolean;
     onToggle: (open: boolean) => void;
     intl: IntlShape;
     actions: {
         createCategory: (teamId: string, categoryName: string) => {data: ChannelCategory};
         deleteCategory: (categoryId: string) => void;
         renameCategory: (categoryId: string, newName: string) => void;
-        addChannelToCategory: (categoryId: string, channelId: string) => void;
     };
 };
 
 type State = {
-    showNewChannelModal: boolean;
     showCreateCategoryModal: boolean;
     showDeleteCategoryModal: boolean;
     showRenameCategoryModal: boolean;
@@ -42,7 +35,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            showNewChannelModal: false,
             showCreateCategoryModal: false,
             showDeleteCategoryModal: false,
             showRenameCategoryModal: false,
@@ -59,11 +51,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
 
     createCategory = () => {
         this.setState({showCreateCategoryModal: true});
-    }
-
-    handleCreatedNewChannel = (channel: Channel) => {
-        this.props.actions.addChannelToCategory(this.props.category.id, channel.id);
-        this.setState({showNewChannelModal: false});
     }
 
     hideCreateCategoryModal = () => {
@@ -88,10 +75,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
 
     handleRenameCategory = (categoryName: string) => {
         this.props.actions.renameCategory(this.props.category.id, categoryName);
-    }
-
-    createChannel = () => {
-        this.setState({showNewChannelModal: true});
     }
 
     renderModals = () => {
@@ -135,13 +118,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
 
         return (
             <React.Fragment>
-                <NewChannelFlow
-                    show={this.state.showNewChannelModal}
-                    canCreatePublicChannel={this.props.canCreatePublicChannel}
-                    canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                    channelType={this.props.canCreatePublicChannel ? Constants.OPEN_CHANNEL as ChannelType : Constants.PRIVATE_CHANNEL as ChannelType}
-                    onModalDismissed={this.handleCreatedNewChannel}
-                />
                 {createCategoryModal}
                 {renameCategoryModal}
                 {deleteCategoryModal}
@@ -175,23 +151,10 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             );
         }
 
-        let createChannel;
-        if (category.type !== CategoryTypes.FAVORITES && (this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel)) {
-            createChannel = (
-                <Menu.ItemAction
-                    id={`createChannel-${category.id}`}
-                    onClick={this.createChannel}
-                    icon={<i className='icon-plus'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.createChannel', defaultMessage: 'Create Channel'})}
-                />
-            );
-        }
-
         return (
             <React.Fragment>
                 <Menu.Group>
                     {renameCategory}
-                    {createChannel}
                     {deleteCategory}
                 </Menu.Group>
                 <Menu.Group>

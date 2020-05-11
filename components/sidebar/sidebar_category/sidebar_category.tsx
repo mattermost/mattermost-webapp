@@ -248,7 +248,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             let sortHelpLabel;
             if (category.sorting === Sorting.ALPHABETICAL) {
                 sortingIcon = (<i className='icon-sort-alphabetical-ascending'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted by alphabetical');
+                sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted alphabetically');
             } else {
                 sortingIcon = (<i className='icon-clock-outline'/>);
                 sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by recency');
@@ -343,7 +343,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                         >
                                             <div
                                                 className={classNames('SidebarChannelGroupHeader', {
-                                                    draggingOver: droppableSnapshot.isDraggingOver && category.type !== CategoryTypes.DIRECT_MESSAGES && !isNewCategory,
+                                                    draggingOver: droppableSnapshot.isDraggingOver && category.type !== CategoryTypes.DIRECT_MESSAGES && !(isNewCategory && (!channels || !channels.length)),
                                                 })}
                                             >
                                                 <button
@@ -375,7 +375,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 >
                                                     {newDropBox ? newDropBox(droppableSnapshot.isDraggingOver) : null}
                                                     {renderedChannels}
-                                                    {(category.type === CategoryTypes.DIRECT_MESSAGES || isNewCategory) ? null : droppableProvided.placeholder}
+                                                    {(category.type === CategoryTypes.DIRECT_MESSAGES || (isNewCategory && (!channels || !channels.length))) ? null : droppableProvided.placeholder}
                                                 </ul>
                                             </div>
                                         </div>

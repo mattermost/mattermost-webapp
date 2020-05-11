@@ -20,15 +20,12 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             sorting: Sorting.ALPHABETICAL,
         },
         currentTeamId: 'team1',
-        canCreatePublicChannel: true,
-        canCreatePrivateChannel: true,
         isMuted: false,
         onToggle: jest.fn(),
         actions: {
             createCategory: jest.fn(),
             deleteCategory: jest.fn(),
             renameCategory: jest.fn(),
-            addChannelToCategory: jest.fn(),
         },
     };
 
@@ -38,7 +35,6 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         );
 
         expect(wrapper.find('#rename-category1')).toHaveLength(1);
-        expect(wrapper.find('#createChannel-category1')).toHaveLength(1);
         expect(wrapper.find('#create-category1')).toHaveLength(1);
         expect(wrapper.find('#delete-category1')).toHaveLength(1);
 
@@ -60,22 +56,6 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
 
         expect(wrapper.find('#rename-category1')).toHaveLength(0);
         expect(wrapper.find('#delete-category1')).toHaveLength(0);
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot when user does not have permissions', () => {
-        const props = {
-            ...baseProps,
-            canCreatePrivateChannel: false,
-            canCreatePublicChannel: false,
-        };
-
-        const wrapper = shallowWithIntl(
-            <SidebarCategoryMenu {...props}/>
-        );
-
-        expect(wrapper.find('#createChannel-category1')).toHaveLength(0);
 
         expect(wrapper).toMatchSnapshot();
     });

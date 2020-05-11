@@ -93,13 +93,6 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
       />
     </MenuGroup>
   </Connect(SidebarMenu)>
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -151,12 +144,5 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
       />
     </MenuGroup>
   </Connect(SidebarMenu)>
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={false}
-    canCreatePublicChannel={false}
-    channelType="P"
-    onModalDismissed={[Function]}
-    show={false}
-  />
 </Fragment>
 `;

@@ -274,7 +274,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
       </div>
     </button>
     <button
-      aria-label="Sorted by alphabetical"
+      aria-label="Sorted alphabetically"
       className="SidebarChannelGroupHeader_sortButton"
       onClick={[Function]}
     >
@@ -288,7 +288,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
             id="new-group-tooltip"
             placement="right"
           >
-            Sorted by alphabetical
+            Sorted alphabetically
           </Tooltip>
         }
         placement="top"

@@ -4,10 +4,8 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import {addChannelToCategory, renameCategory, deleteCategory} from 'mattermost-redux/actions/channel_categories';
-import Permissions from 'mattermost-redux/constants/permissions';
+import {renameCategory, deleteCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -20,18 +18,8 @@ function makeMapStateToProps() {
     return (state: GlobalState) => {
         const currentTeam = getCurrentTeam(state);
 
-        let canCreatePublicChannel = false;
-        let canCreatePrivateChannel = false;
-
-        if (currentTeam) {
-            canCreatePublicChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PUBLIC_CHANNEL});
-            canCreatePrivateChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PRIVATE_CHANNEL});
-        }
-
         return {
             currentTeamId: currentTeam.id,
-            canCreatePrivateChannel,
-            canCreatePublicChannel,
         };
     };
 }
@@ -40,7 +28,6 @@ type Actions = {
     createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
     deleteCategory: (categoryId: string) => void;
     renameCategory: (categoryId: string, displayName: string) => void;
-    addChannelToCategory: (categoryId: string, channelId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -49,7 +36,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             createCategory,
             deleteCategory,
             renameCategory,
-            addChannelToCategory,
         }, dispatch),
     };
 }

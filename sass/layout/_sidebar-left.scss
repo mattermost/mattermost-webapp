@@ -896,7 +896,7 @@
 
 
         &.muted {
-            span.SidebarChannelLinkLabel, > i, .status.status--group {
+            div.SidebarChannelLinkLabel_wrapper, > i, .status.status--group {
                 opacity: 0.4;
                 font-weight: 300;
             }
@@ -960,6 +960,7 @@
     .SidebarChannel div.SidebarChannelLinkLabel_wrapper {
         text-overflow: ellipsis;
         overflow: hidden;
+        display: flex;
 
         > div {
             text-overflow: ellipsis;
