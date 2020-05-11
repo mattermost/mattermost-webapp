@@ -6,13 +6,13 @@ import {FormattedMessage, MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-import searchImage from 'images/search.png';
+import searchImage from 'images/search.svg';
 
 import {NoResultsVariant} from './types';
 
 interface Props {
     variant: NoResultsVariant;
-    value?: {[key: string]: string};
+    formattedMessageValues?: {[key: string]: string};
 }
 
 const iconMap: {[key in NoResultsVariant]: string } = {
@@ -61,7 +61,7 @@ const NoResultsIndicator = (props: Props) => {
                 <FormattedMessage
                     {...{
                         ...titleMap[props.variant],
-                        values: props.value
+                        values: props.formattedMessageValues
                     }}
                 />
             </div>

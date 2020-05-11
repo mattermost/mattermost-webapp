@@ -137,6 +137,11 @@ export default class SuggestionBox extends React.Component {
          * Allows parent to access received suggestions
          */
         onSuggestionsReceived: PropTypes.func,
+
+        /**
+         * Supress loading spinner when necessary
+         */
+        supressLoadingSpinner: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -722,6 +727,7 @@ export default class SuggestionBox extends React.Component {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
+                            supressLoadingSpinner={this.props.supressLoadingSpinner}
                         />
                     </div>
                 }

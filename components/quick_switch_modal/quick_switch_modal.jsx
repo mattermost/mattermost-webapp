@@ -18,6 +18,8 @@ import SwitchChannelProvider from 'components/suggestion/switch_channel_provider
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
 
+import {NoResultsVariant} from '../no_results_indicator/types';
+
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
 
@@ -161,12 +163,14 @@ export default class QuickSwitchModal extends React.PureComponent {
     }
 
     handleSuggestionsReceived = (suggestions) => {
-        this.setState({hasSuggestions: !suggestions.matchedPretext || suggestions.items.length > 0, pretext: suggestions.matchedPretext});
+        const noLoadingProp = suggestions.items.some((item) => !item.loading);
+        this.setState({hasSuggestions: !suggestions.matchedPretext || (suggestions.items.length > 0 && noLoadingProp), pretext: suggestions.matchedPretext});
     }
 
     render() {
         let providers = this.channelProviders;
         let renderDividers = true;
+
         let header = (
             <h1>
                 <FormattedMessage
@@ -313,11 +317,12 @@ export default class QuickSwitchModal extends React.PureComponent {
                             delayInputUpdate={true}
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
+                            supressLoadingSpinner={!this.state.hasSuggestions}
                         />
                         {!this.state.hasSuggestions &&
                         <NoResultsIndicator
-                            variant='Search'
-                            value={{channelName: `"${this.state.pretext}"`}}
+                            variant={NoResultsVariant.Search}
+                            formattedMessageValues={{channelName: `"${this.state.pretext}"`}}
                         />
                         }
 
