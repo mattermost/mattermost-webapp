@@ -223,12 +223,10 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         const {startCount, endCount, total} = this.getPaginationProps();
 
         const placeholderEmpty: JSX.Element = (
-            <div className='ug-empty'>
-                <FormattedMessage
-                    id='user_grid.notFound'
-                    defaultMessage='No users found'
-                />
-            </div>
+            <FormattedMessage
+                id='user_grid.notFound'
+                defaultMessage='No users found'
+            />
         );
 
         return (

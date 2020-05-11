@@ -119,7 +119,11 @@ class DataGrid extends React.PureComponent<Props, State> {
 
         if (this.props.loading) {
             if (this.props.loadingIndicator) {
-                rowsToRender = this.props.loadingIndicator;
+                rowsToRender = (
+                    <div className='dg-loading'>
+                        {this.props.loadingIndicator}
+                    </div>
+                );
             } else {
                 rowsToRender = (
                     <div className='dg-loading'>
@@ -132,18 +136,17 @@ class DataGrid extends React.PureComponent<Props, State> {
                 );
             }
         } else if (rows.length === 0) {
-            if (this.props.placeholderEmpty) {
-                rowsToRender = this.props.placeholderEmpty;
-            } else {
-                rowsToRender = (
-                    <div className='dg-empty'>
-                        <FormattedMessage
-                            id='data_grid.empty'
-                            defaultMessage='No items found'
-                        />
-                    </div>
-                );
-            }
+            let placeholder = this.props.placeholderEmpty || (
+                <FormattedMessage
+                    id='data_grid.empty'
+                    defaultMessage='No items found'
+                />
+            );
+            rowsToRender = (
+                <div className='dg-empty'>
+                    {placeholder}
+                </div>
+            );
         } else {
             rowsToRender = rows.map((row, index) => {
                 return (

@@ -21,24 +21,3 @@
 .ug-remove-row {
     padding-right: 20px;
 }
-
-.ug-loading, .ug-empty {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-
-    font-size: 1.6rem;
-    background: rgba(255, 255, 255, 0.5);
-    color: rgba(0, 0, 0, 0.3);
-}
-
-.ug-empty {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.ug-loading {
-    padding-top: 100px;
-    padding-bottom: 100px;
-}
