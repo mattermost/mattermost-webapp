@@ -14,6 +14,7 @@ type Props = {
     value: boolean;
     inputClassName: string;
     onChange(name: string, value: any): void; // value is any since onChange is a common func for inputs and checkboxes
+    autoFocus?: boolean;
 }
 
 export default class BoolSetting extends React.Component<Props> {
@@ -39,6 +40,7 @@ export default class BoolSetting extends React.Component<Props> {
                     <label>
                         <input
                             id={this.props.id}
+                            autoFocus={this.props.autoFocus}
                             type='checkbox'
                             checked={this.props.value}
                             onChange={this.handleChange}
