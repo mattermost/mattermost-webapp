@@ -2,19 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import ProfilePicture from 'components/profile_picture';
+import Badge from 'components/widgets/badges/badge';
 
 type Props = {
     user: UserProfile;
+    isSaved: boolean;
 }
 
 export default class UserGridName extends React.Component<Props> {
     render() {
-        const {user} = this.props;
+        const {user, isSaved} = this.props;
 
         return (
             <div className='ug-name-row'>
@@ -31,6 +34,14 @@ export default class UserGridName extends React.Component<Props> {
                         {user.email}
                     </span>
                 </div>
+                <Badge
+                    show={!isSaved}
+                >
+                    <FormattedMessage
+                        id='user_grid.new'
+                        defaultMessage='New'
+                    />
+                </Badge>
             </div>
         );
     }

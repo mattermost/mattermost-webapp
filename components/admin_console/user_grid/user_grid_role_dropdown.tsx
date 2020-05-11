@@ -16,7 +16,7 @@ import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
 type Props = {
     user: UserProfile;
-    membership: TeamMembership | ChannelMembership;
+    membership?: TeamMembership | ChannelMembership;
     handleUpdateMembership: (role: Role) => void;
 }
 
@@ -24,6 +24,9 @@ export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin'
 
 export default class UserGridRoleDropdown extends React.Component<Props> {
     getScope(): 'team' | 'channel' {
+        if (!this.props.membership) {
+            return 'team';
+        }
         return 'team_id' in this.props.membership ? 'team' : 'channel';
     }
 
@@ -90,6 +93,10 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
     }
 
     render() {
+        if (!this.props.membership) {
+            return ('');
+        }
+
         const {user} = this.props;
 
         const {makeAdmin, makeMember} = this.getDropDownOptions();
