@@ -405,9 +405,9 @@ export default class RhsThread extends React.Component {
                                 {commentsLists}
                             </div>
                         </div>
-                        {createComment}
                     </div>
                 </Scrollbars>
+                {createComment}
             </div>
         );
     }
