@@ -152,7 +152,7 @@ export default class QuickInput extends React.PureComponent {
                             className='input-clear-x'
                             aria-hidden='true'
                         >
-                            {'×'}
+                            <i className='icon icon-close-circle'/>
                         </span>
                     </OverlayTrigger>
                 </div>

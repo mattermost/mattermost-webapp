@@ -870,6 +870,20 @@ Cypress.Commands.add('apiGetAnalytics', () => {
     });
 });
 
+/**
+ * Invalidate all the caches
+ */
+Cypress.Commands.add('apiInvalidateCache', () => {
+    return cy.request({
+        url: '/api/v4/caches/invalidate',
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Webhooks
 // https://api.mattermost.com/#tag/webhooks

@@ -54,22 +54,6 @@ const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = fals
     });
 };
 
-const saveConfig = () => {
-    cy.get('#saveSetting').click();
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};
-
-const deleteExistingTeamOverrideSchemes = () => {
-    cy.apiLogin('sysadmin');
-    cy.apiGetSchemes('team').then((res) => {
-        res.body.forEach((scheme) => {
-            cy.apiDeleteScheme(scheme.id);
-        });
-    });
-};
-
 const enablePermission = (permissionCheckBoxTestId) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (!el.hasClass('checked')) {
@@ -83,6 +67,15 @@ const removePermission = (permissionCheckBoxTestId) => {
         if (el.hasClass('checked')) {
             el.click();
         }
+    });
+};
+
+const deleteExistingTeamOverrideSchemes = () => {
+    cy.apiLogin('sysadmin');
+    cy.apiGetSchemes('team').then((res) => {
+        res.body.forEach((scheme) => {
+            cy.apiDeleteScheme(scheme.id);
+        });
     });
 };
 
@@ -107,6 +100,30 @@ const channelMentionsPermissionCheck = (enabled) => {
     });
 };
 
+// # Checks to see if the post input is enabled or disalbed and that the API
+// accepts or rejects the create post request.
+const createPostPermissionCheck = (enabled) => {
+    if (enabled) {
+        // # Try post it to the channel
+        cy.get('#post_textbox').should('not.be.disabled');
+        cy.get('#post_textbox').clear().type('test{enter}');
+    } else {
+        // # Ensure the input is disabled
+        cy.get('#post_textbox').should('be.disabled');
+    }
+
+    // # Wait for system message to appear
+    cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
+
+    // # Get last post message text
+    cy.getLastPostId().then((postId) => {
+        if (enabled) {
+            // * Assert that the last message posted is not a system message informing us we are not allowed to use channel mentions
+            cy.get(`#postMessageText_${postId}`).should('include.text', 'test');
+        }
+    });
+};
+
 const resetPermissionsToDefault = () => {
     // # Login as sysadmin and navigate to system scheme page
     cy.apiLogin('sysadmin');
@@ -117,10 +134,13 @@ const resetPermissionsToDefault = () => {
     cy.get('#confirmModalButton').click();
 
     // # Save
-    saveConfig();
+    cy.get('#saveSetting').click();
+    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+        return el[0].innerText === 'Save';
+    }));
 };
 
-describe('System Scheme Channel Mentions Permissions Test', () => {
+describe('Team Scheme Channel Mentions Permissions Test', () => {
     before(() => {
         // * Check if server has license
         cy.requireLicense();
@@ -128,51 +148,105 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
         // Reset permissions in system scheme to defaults.
         resetPermissionsToDefault();
 
+        // Delete any existing team override schemes
         deleteExistingTeamOverrideSchemes();
+
+        // # Visit the permissions page
+        cy.visit('/admin_console/user_management/permissions');
     });
 
-    it('MM-23018 - Enable and Disable Channel Mentions', () => {
-        const permissionName = 'use_channel_mentions';
-        const guestsTestId = `guests-${permissionName}-checkbox`;
+    after(() => {
+        resetPermissionsToDefault();
+    });
+
+    it('MM-23018 - Create a team override scheme', () => {
+        // # Visit the permissions page
+        cy.visit('/admin_console/user_management/permissions/team_override_scheme');
+
+        // # Give the new team scheme a name
+        cy.get('#scheme-name').type('Test Team Scheme');
+
+        // # Assign the new team scheme to the eligendi team using the add teams modal
+        cy.findByTestId('add-teams').click();
+
+        cy.get('#selectItems').type('eligendi');
+
+        cy.get('.team-info-block').then((el) => {
+            el.click();
+        });
+
+        cy.get('#saveItems').click();
+
+        // # Save config
+        cy.get('#saveSetting').click();
+
+        // * Ensure that the team scheme was created and assigned to the team
+        cy.findByTestId('permissions-scheme-summary').within(() => {
+            cy.get('.permissions-scheme-summary--header').should('include.text', 'Test Team Scheme');
+            cy.get('.permissions-scheme-summary--teams').should('include.text', 'eligendi');
+        });
+    });
+
+    it('MM-23018 - Enable and Disable Channel Mentions for team scheme', () => {
+        checkChannelPermission('use_channel_mentions', () => {
+            channelMentionsPermissionCheck(true);
+        }, () => {
+            channelMentionsPermissionCheck(false);
+        });
+    });
+
+    it('MM-24379 - Enable and Disable Create Post for team scheme', () => {
+        checkChannelPermission('create_post', () => {
+            createPostPermissionCheck(true);
+        }, () => {
+            createPostPermissionCheck(false);
+        });
+    });
+});
+
+const checkChannelPermission = (permissionName, hasChannelPermisisonCheckFunc, notHasChannelPermissionCheckFunc) => {
+    // # Setup user as a regular channel member
+    setUserTeamAndChannelMemberships();
+
+    // * Ensure user can use channel mentions by default
+    hasChannelPermisisonCheckFunc();
+
+    // # Login as sysadmin again
+    cy.apiLogin('sysadmin');
+
+    // # Get team scheme URL
+    cy.apiGetSchemes('team').then((res) => {
+        const teamScheme = res.body[0];
+        const url = `admin_console/user_management/permissions/team_override_scheme/${teamScheme.id}`;
+
+        // todo: add checks for guests once mattermost-webapp/pull/5061 is merged
         const usersTestId = `all_users-posts-${permissionName}-checkbox`;
-        const channelTestId = `channel_admin-posts-${permissionName}-checkbox`;
-        const teamTestId = `team_admin-posts-${permissionName}-checkbox`;
-        const testIds = [guestsTestId, usersTestId, channelTestId, teamTestId];
+        const channelTestId = `${teamScheme.default_channel_admin_role}-posts-${permissionName}-checkbox`;
+        const teamTestId = `${teamScheme.default_team_admin_role}-posts-${permissionName}-checkbox`;
+        const testIds = [usersTestId, channelTestId, teamTestId];
 
-        // # Setup user as a regular channel member and team member
-        setUserTeamAndChannelMemberships();
-
-        // * Ensure user can use channel mentions by default
-        channelMentionsPermissionCheck(true);
-
-        // # Go to system permissions scheme page as sysadmin
-        cy.apiLogin('sysadmin');
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        // # Visit the scheme page
+        cy.visit(url);
 
         // * Ensure permission is enabled at each scope by default
         testIds.forEach((testId) => {
             cy.findByTestId(testId).should('have.class', 'checked');
         });
 
-        // # Remove permission from guests and save
-        removePermission(guestsTestId);
-        saveConfig();
-
-        // * Ensure that the permission removed is now removed
-        cy.findByTestId(guestsTestId).should('not.have.class', 'checked');
-
         // # Remove permission from all users and save
         removePermission(usersTestId);
-        saveConfig();
+        cy.get('#saveSetting').click();
+        cy.visit(url);
 
-        // * Ensure that the permission is not removed from all roles except All Members
+        // * Ensure that the permission is not removed for channel admins and team admins
         cy.findByTestId(usersTestId).should('not.have.class', 'checked');
         cy.findByTestId(channelTestId).should('have.class', 'checked');
         cy.findByTestId(teamTestId).should('have.class', 'checked');
 
         // # Remove permission for channel admins and save
         removePermission(channelTestId);
-        saveConfig();
+        cy.get('#saveSetting').click();
+        cy.visit(url);
 
         // * Ensure that the permission is removed from all roles except team admins
         cy.findByTestId(teamTestId).should('have.class', 'checked');
@@ -181,9 +255,10 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
 
         // # Enable permission for channel admins and save
         enablePermission(channelTestId);
-        saveConfig();
+        cy.get('#saveSetting').click();
+        cy.visit(url);
 
-        // * Ensure that the permission is only removed from regular users
+        // * Ensure that the permission is only removed from all users
         cy.findByTestId(teamTestId).should('have.class', 'checked');
         cy.findByTestId(channelTestId).should('have.class', 'checked');
         cy.findByTestId(usersTestId).should('not.have.class', 'checked');
@@ -192,47 +267,50 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
         setUserTeamAndChannelMemberships();
 
         // * Ensure user cannot use channel mentions
-        channelMentionsPermissionCheck(false);
+        notHasChannelPermissionCheckFunc();
 
         // # Setup user as a channel admin
         setUserTeamAndChannelMemberships(true, false);
 
         // * Ensure user can use channel mentions as channel admin
-        channelMentionsPermissionCheck(true);
+        hasChannelPermisisonCheckFunc();
 
-        // # Navigate back to system scheme as sysadmin and remove permission from channel admins
+        // # Navigate back to team scheme as sysadmin
         cy.apiLogin('sysadmin');
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.visit(url);
+
+        // # Remove permission from channel admins and save
         removePermission(channelTestId);
-        saveConfig();
+        cy.get('#saveSetting').click();
+        cy.visit(url);
 
         // # Log back in as regular user
         cy.apiLogin('user-1');
         cy.visit(channelUrl);
 
         // * Ensure user cannot use channel mentions as channel admin
-        channelMentionsPermissionCheck(false);
+        notHasChannelPermissionCheckFunc();
 
         // # Setup user as a team admin
         setUserTeamAndChannelMemberships(true, true);
 
         // * Ensure user can use channel mentions as team admin
-        channelMentionsPermissionCheck(true);
+        hasChannelPermisisonCheckFunc();
 
-        // # Navigate back to system scheme as sysadmin and remove permission from team admins
+        // # Navigate back to system scheme as sysadmin
         cy.apiLogin('sysadmin');
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.visit(url);
+
+        // # Remove permission from team admins and save
         removePermission(teamTestId);
-        saveConfig();
+        cy.get('#saveSetting').click();
+        cy.visit(url);
 
         // # Log back in as regular user
         cy.apiLogin('user-1');
         cy.visit(channelUrl);
 
         // * Ensure user cannot use channel mentions as team admin
-        channelMentionsPermissionCheck(false);
-
-        // # Reset permissions back to defaults
-        resetPermissionsToDefault();
+        notHasChannelPermissionCheckFunc();
     });
-});
+};

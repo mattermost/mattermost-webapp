@@ -21,6 +21,7 @@ export type WidgetTextSettingProps = {
     onChange(name: string, value: any): void;
     disabled?: boolean;
     type: InputTypes;
+    autoFocus?: boolean;
 }
 
 // Since handle change is read from input and textarea element
@@ -58,6 +59,7 @@ export default class TextSetting extends React.Component<WidgetTextSettingProps>
 
             input = (
                 <textarea
+                    autoFocus={this.props.autoFocus}
                     data-testid={this.props.id + 'input'}
                     id={this.props.id}
                     style={style}
@@ -75,6 +77,7 @@ export default class TextSetting extends React.Component<WidgetTextSettingProps>
 
             input = (
                 <input
+                    autoFocus={this.props.autoFocus}
                     data-testid={this.props.id + type}
                     id={this.props.id}
                     className='form-control'

@@ -12,20 +12,39 @@ describe('FilePreview', () => {
     const onRemove = jest.fn();
     const fileInfos = [
         {
-            id: 'file_id_1',
-            create_at: '1',
             width: 100,
             height: 100,
-            extension: 'jpg',
+            name: 'test_filename',
+            id: 'file_id_1',
+            type: 'image/png',
+            extension: 'png',
+            has_preview_image: true,
+            user_id: '',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            size: 100,
+            mime_type: '',
+            clientId: '',
         },
     ];
     const uploadsInProgress = ['clientID_1'];
     const uploadsProgressPercent = {
         clientID_1: {
+            width: 100,
+            height: 100,
             name: 'file',
             percent: 50,
             extension: 'image/png',
             id: 'file_id_1',
+            has_preview_image: true,
+            user_id: '',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            size: 100,
+            mime_type: '',
+            clientId: '',
         },
     };
 
@@ -79,7 +98,13 @@ describe('FilePreview', () => {
         const fileId = 'file_id_1';
         const props = {
             ...baseProps,
-            fileInfos: [{id: fileId, extension: 'svg'}],
+            fileInfos: [
+                {
+                    ...baseProps.fileInfos[0],
+                    type: 'image/svg',
+                    extension: 'svg',
+                }
+            ],
         };
 
         const wrapper = shallow(
@@ -95,7 +120,13 @@ describe('FilePreview', () => {
         const props = {
             ...baseProps,
             enableSVGs: true,
-            fileInfos: [{id: fileId, extension: 'svg'}],
+            fileInfos: [
+                {
+                    ...baseProps.fileInfos[0],
+                    type: 'image/svg',
+                    extension: 'svg',
+                }
+            ],
         };
 
         const wrapper = shallow(
