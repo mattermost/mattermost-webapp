@@ -11,7 +11,7 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getProfilesNotInTeam, searchProfiles} from 'mattermost-redux/actions/users';
 
-import {getUserIdsNotInTeams} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesNotInTeam as selectProfilesNotInTeam} from 'mattermost-redux/selectors/entities/users';
 
 import AddUsersToTeamModal from './add_users_to_team_modal';
 
@@ -26,10 +26,7 @@ type Actions = {
 
 function mapStateToProps(state: GlobalState, props: Props) {
     const {id: teamId} = props.team;
-    const userIds = getUserIdsNotInTeams(state)[teamId];
-    const profiles = state.entities.users.profiles;
-    const users: UserProfile[] = [];
-    userIds.forEach((userId: string) => users.push(profiles[userId]));
+    const users: UserProfile[] = selectProfilesNotInTeam(state, teamId);
 
     return {
         users,
