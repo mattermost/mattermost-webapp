@@ -11,7 +11,7 @@ type Props = {
     removeUser: (user: UserProfile) => void;
 }
 
-export default class UserGridName extends React.Component<Props> {
+export default class UserGridRemove extends React.Component<Props> {
     render() {
         const {user} = this.props;
         return (
