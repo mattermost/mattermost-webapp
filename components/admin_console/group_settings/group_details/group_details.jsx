@@ -196,6 +196,8 @@ export default class GroupDetails extends React.PureComponent {
                 }
             }
             this.setState({allowReference, groupMentionName: lcGroupMentionName, serverError, saving: false, saveNeeded});
+        } else {
+            this.setState({saving: false, saveNeeded});
         }
         this.props.actions.setNavigationBlocked(saveNeeded);
     }
