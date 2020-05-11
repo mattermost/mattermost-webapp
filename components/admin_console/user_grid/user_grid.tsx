@@ -10,7 +10,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 
-import DataGrid, {Row, Column} from 'components/widgets/admin_console/data_grid/data_grid';
+import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
 import UserGridName from './user_grid_name';
 import UserGridRemove from './user_grid_remove';

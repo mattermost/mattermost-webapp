@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import DataGrid from './data_grid';
 
-describe('components/widgets/admin_console/data_grid/DataGrid', () => {
+describe('components/admin_console/data_grid/DataGrid', () => {
     const baseProps = {
         page: 1,
         startCount: 0,
