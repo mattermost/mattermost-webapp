@@ -97,7 +97,8 @@ export function loadTeamMembersForProfilesList(profiles, teamId, reloadAllMember
         const membersToLoad = {};
         for (let i = 0; i < profiles.length; i++) {
             const pid = profiles[i].id;
-            if (reloadAllMembers || !getTeamMember(state, teamIdParam, pid)) {
+
+            if (reloadAllMembers === true || !getTeamMember(state, teamIdParam, pid)) {
                 membersToLoad[pid] = true;
             }
         }
