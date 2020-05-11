@@ -194,15 +194,28 @@ export default class UserGrid extends React.PureComponent<Props, State> {
     }
 
     getColumns = (): Column[] => {
+        const name: JSX.Element = (
+            <FormattedMessage
+                id='admin.user_grid.name'
+                defaultMessage='Name'
+            />
+        );
+        const role: JSX.Element = (
+            <FormattedMessage
+                id='admin.user_grid.role'
+                defaultMessage='Role'
+            />
+        );
+
         return [
             {
-                name: 'Name',
+                name,
                 field: 'name',
                 width: 3,
                 fixed: true,
             },
             {
-                name: 'Role',
+                name: role,
                 field: 'role',
 
                 // Requires overflow visible in order to render dropdown
@@ -224,7 +237,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
 
         const placeholderEmpty: JSX.Element = (
             <FormattedMessage
-                id='user_grid.notFound'
+                id='admin.user_grid.notFound'
                 defaultMessage='No users found'
             />
         );

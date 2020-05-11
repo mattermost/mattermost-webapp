@@ -23,7 +23,7 @@ exports[`components/widgets/admin_console/data_grid/DataGrid should match snapsh
       />
       <FormattedMessage
         defaultMessage="Loading"
-        id="data_grid.loading"
+        id="admin.data_grid.loading"
         values={Object {}}
       />
     </div>
@@ -156,7 +156,7 @@ exports[`components/widgets/admin_console/data_grid/DataGrid should match snapsh
     >
       <FormattedMessage
         defaultMessage="No items found"
-        id="data_grid.empty"
+        id="admin.data_grid.empty"
         values={Object {}}
       />
     </div>

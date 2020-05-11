@@ -38,7 +38,7 @@ export default class UserGridName extends React.Component<Props> {
                     show={!isSaved}
                 >
                     <FormattedMessage
-                        id='user_grid.new'
+                        id='admin.user_grid.new'
                         defaultMessage='New'
                     />
                 </Badge>

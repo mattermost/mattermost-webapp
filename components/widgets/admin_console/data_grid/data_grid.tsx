@@ -15,7 +15,7 @@ import DataGridSearch from './data_grid_search';
 import './data_grid.scss';
 
 export type Column = {
-    name: string;
+    name: string | JSX.Element;
     field: string;
     fixed?: boolean;
 
@@ -129,16 +129,16 @@ class DataGrid extends React.PureComponent<Props, State> {
                     <div className='dg-loading'>
                         <LoadingSpinner/>
                         <FormattedMessage
-                            id='data_grid.loading'
+                            id='admin.data_grid.loading'
                             defaultMessage='Loading'
                         />
                     </div>
                 );
             }
         } else if (rows.length === 0) {
-            let placeholder = this.props.placeholderEmpty || (
+            const placeholder = this.props.placeholderEmpty || (
                 <FormattedMessage
-                    id='data_grid.empty'
+                    id='admin.data_grid.empty'
                     defaultMessage='No items found'
                 />
             );

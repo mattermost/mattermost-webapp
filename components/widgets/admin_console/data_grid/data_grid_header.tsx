@@ -20,7 +20,7 @@ class DataGridHeader extends React.Component<Props> {
 
         return (
             <div
-                key={col.name}
+                key={col.field}
                 className='dg-cell'
                 style={style}
             >

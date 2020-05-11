@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
+import {FormattedMessage} from 'react-intl';
 
 type Props = {
     user: UserProfile;
@@ -18,8 +19,12 @@ export default class UserGridName extends React.Component<Props> {
                 <a
                     onClick={() => this.props.removeUser(user)}
                     href='#'
+                    role='button'
                 >
-                    <span>{'Remove'}</span>
+                    <FormattedMessage
+                        id='admin.user_grid.remove'
+                        defaultMessage='Remove'
+                    />
                 </a>
             </div>
         );
