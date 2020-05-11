@@ -164,6 +164,35 @@ describe('components/sidebar/sidebar_category', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when sorting is set to by recency', () => {
+        const props = {
+            ...baseProps,
+            category: {
+                ...baseProps.category,
+                type: CategoryTypes.DIRECT_MESSAGES,
+                sorting: Sorting.RECENCY,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarCategory {...props}/>
+        );
+
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {})
+        );
+        expect(inner).toMatchSnapshot();
+
+        const droppable = inner.find('Connect(Droppable)').first();
+        const droppableChildren: any = droppable.prop('children')!;
+        const droppableInner = shallow(
+            droppableChildren({}, {})
+        );
+        expect(droppableInner).toMatchSnapshot();
+    });
+
     test('should collapse the channel on toggle when it is not collapsed', () => {
         const wrapper = shallow<SidebarCategory>(
             <SidebarCategory {...baseProps}/>
