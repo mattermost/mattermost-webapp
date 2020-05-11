@@ -19,7 +19,11 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
     ]
   }
   message="hello world!"
-  options={Object {}}
+  options={
+    Object {
+      "disableGroupHighlight": false,
+    }
+  }
   proxyImages={true}
 />
 `;
@@ -43,7 +47,11 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
     ]
   }
   message="world!"
-  options={Object {}}
+  options={
+    Object {
+      "disableGroupHighlight": false,
+    }
+  }
   proxyImages={true}
 />
 `;
@@ -60,7 +68,11 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
     ]
   }
   message="message"
-  options={Object {}}
+  options={
+    Object {
+      "disableGroupHighlight": false,
+    }
+  }
   postId="post_id"
   proxyImages={true}
 />
@@ -138,7 +150,11 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
     ]
   }
   message="See ~test"
-  options={Object {}}
+  options={
+    Object {
+      "disableGroupHighlight": false,
+    }
+  }
   proxyImages={true}
 />
 `;
@@ -155,7 +171,32 @@ exports[`components/PostMarkdown should render properly with an empty post 1`] =
     ]
   }
   message="message"
-  options={Object {}}
+  options={
+    Object {
+      "disableGroupHighlight": false,
+    }
+  }
+  proxyImages={true}
+/>
+`;
+
+exports[`components/PostMarkdown should render properly without group highlight on a post 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  mentionKeys={
+    Array [
+      "a",
+      "b",
+      "c",
+    ]
+  }
+  message="No @group highlight"
+  options={
+    Object {
+      "disableGroupHighlight": true,
+    }
+  }
   proxyImages={true}
 />
 `;
@@ -174,6 +215,7 @@ exports[`components/PostMarkdown should render properly without highlight a post
   message="No highlight"
   options={
     Object {
+      "disableGroupHighlight": false,
       "mentionHighlight": false,
     }
   }

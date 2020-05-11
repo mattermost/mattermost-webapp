@@ -19,6 +19,11 @@ describe('components/AtMention', () => {
             user1: {id: 'abc2', username: 'user1', first_name: 'Other', last_name: 'User', nickname: 'Nick'},
             'userdot.': {id: 'abc3', username: 'userdot.', first_name: 'Dot', last_name: 'Matrix'},
         },
+        groupsByName: {
+            developers: {id: 'qwerty1', name: 'developers', allow_reference: true},
+            marketing: {id: 'qwerty2', name: 'marketing', allow_reference: false},
+            accounting: {id: 'qwerty3', name: 'accounting', allow_reference: true},
+        }
     };
 
     test('should match snapshot when mentioning user', () => {
@@ -159,6 +164,46 @@ describe('components/AtMention', () => {
                 mentionName='NOTAuser'
             >
                 {'(at)-NOTAuser'}
+            </AtMention>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when mentioning a group that is allowed reference', () => {
+        const wrapper = shallow(
+            <AtMention
+                {...baseProps}
+                mentionName='developers'
+            >
+                {'(at)-developers'}
+            </AtMention>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when mentioning a group that is allowed reference with group highlight disabled', () => {
+        const wrapper = shallow(
+            <AtMention
+                {...baseProps}
+                mentionName='developers'
+                disableGroupHighlight={true}
+            >
+                {'(at)-developers'}
+            </AtMention>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when mentioning a group that is not allowed reference', () => {
+        const wrapper = shallow(
+            <AtMention
+                {...baseProps}
+                mentionName='marketing'
+            >
+                {'(at)-marketing'}
             </AtMention>
         );
 

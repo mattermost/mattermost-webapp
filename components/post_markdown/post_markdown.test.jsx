@@ -66,6 +66,23 @@ describe('components/PostMarkdown', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should render properly without group highlight on a post', () => {
+        const props = {
+            ...baseProps,
+            message: 'No @group highlight',
+            options: {},
+            post: {
+                props: {
+                    disable_group_highlight: true,
+                },
+            },
+        };
+        const wrapper = shallow(
+            <PostMarkdown {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should correctly pass postId down', () => {
         const props = {
             ...baseProps,
