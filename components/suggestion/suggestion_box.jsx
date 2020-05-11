@@ -623,7 +623,7 @@ export default class SuggestionBox extends React.Component {
 
     focus = () => {
         const input = this.inputRef.current.input;
-        if (input.value === '""') {
+        if (input.value === '""' || input.value.endsWith('""')) {
             input.selectionStart = input.value.length - 1;
             input.selectionEnd = input.value.length - 1;
         } else {
