@@ -2,68 +2,97 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership, Team} from 'mattermost-redux/types/teams';
 
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
 import {Role} from 'components/admin_console/user_grid/user_grid_role_dropdown';
+import AddUsersToTeamModal from 'components/add_users_to_team_modal';
+import ToggleModalButton from 'components/toggle_modal_button';
 
 type Props = {
     teamId: string;
-
+    team: Team;
     users: UserProfile[];
+    usersToRemove: Dictionary<UserProfile>;
+    usersToAdd: Dictionary<UserProfile>;
     teamMembers: Dictionary<TeamMembership>;
+    totalCount: number;
 
-    removeUser: (user: UserProfile) => void;
+    onAddCallback: (users: UserProfile[]) => void;
+    onRemoveCallback: (user: UserProfile) => void;
     updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
-
-    stats: {
-        active_member_count: number;
-        team_id: string;
-        total_member_count: number;
-    };
 
     actions: {
         getTeamStats: (teamId: string) => Promise<{
             data: boolean;
         }>;
-        loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
+        loadProfilesAndReloadTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
+            data: boolean;
+        }>;
+        searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
             data: boolean;
         }>;
     };
 }
 
 type State = {
-
+    loading: boolean;
 }
 
 const PROFILE_CHUNK_SIZE = 10;
 
 export default class TeamMembers extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+        };
+    }
+
     componentDidMount() {
         const {teamId} = this.props;
-        const {loadProfilesAndTeamMembers, getTeamStats} = this.props.actions;
+        const {loadProfilesAndReloadTeamMembers, getTeamStats} = this.props.actions;
         Promise.all([
             getTeamStats(teamId),
-            loadProfilesAndTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId),
-        ]);
+            loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId),
+        ]).then(() => this.setStateLoading(false));
+    }
+
+    setStateLoading = (loading: boolean) => {
+        this.setState({loading});
     }
 
     loadPage = async (page: number) => {
-        const {loadProfilesAndTeamMembers} = this.props.actions;
+        const {loadProfilesAndReloadTeamMembers} = this.props.actions;
         const {teamId} = this.props;
-
-        await loadProfilesAndTeamMembers(page + 1, PROFILE_CHUNK_SIZE, teamId);
+        await loadProfilesAndReloadTeamMembers(page + 1, PROFILE_CHUNK_SIZE, teamId);
     }
 
     removeUser = (user: UserProfile) => {
-        this.props.removeUser(user);
+        this.props.onRemoveCallback(user);
+    }
+
+    onAddCallback = (users: UserProfile[]) => {
+        this.props.onAddCallback(users);
+    }
+
+    search = async (term: string) => {
+        const {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} = this.props.actions;
+        const {teamId} = this.props;
+        if (term === '') {
+            await loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId);
+        } else {
+            await searchProfilesAndTeamMembers(term, {team_id: teamId, replace: true});
+        }
     }
 
     updateMemberRolesForUser = (userId: string, role: Role) => {
@@ -71,6 +100,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     render = () => {
+        const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount} = this.props;
         return (
             <AdminPanel
                 id='team_members'
@@ -78,14 +108,36 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 titleDefault='Members'
                 subtitleId={t('admin.team_settings.team_detail.membersDescription')}
                 subtitleDefault='The users in this list are members of this team'
+                button={
+                    <ToggleModalButton
+                        className='btn btn-primary'
+                        dialogType={AddUsersToTeamModal}
+                        dialogProps={{
+                            team,
+                            onAddCallback: this.onAddCallback,
+                            skipCommit: true,
+                            excludeUsers: usersToAdd,
+                            includeUsers: usersToRemove,
+                        }}
+                    >
+                        <FormattedMessage
+                            id='admin.team_settings.team_details.add_members'
+                            defaultMessage='Add Members'
+                        />
+                    </ToggleModalButton>
+                }
             >
                 <UserGrid
-                    users={this.props.users}
+                    loading={this.state.loading}
+                    users={users}
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}
-                    totalCount={this.props.stats.total_member_count}
-                    memberships={this.props.teamMembers}
+                    totalCount={totalCount}
+                    memberships={teamMembers}
                     updateMemberRolesForUser={this.updateMemberRolesForUser}
+                    search={this.search}
+                    includeUsers={usersToAdd}
+                    excludeUsers={usersToRemove}
                 />
             </AdminPanel>
         );
