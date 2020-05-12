@@ -2966,6 +2966,8 @@
   "navbar.toggle2": "Toggle sidebar",
   "navbar.viewInfo": "View Info",
   "navbar.viewPinnedPosts": "View Pinned Posts",
+  "no_results.channel_search.subtitle": "Check the spelling or try another search.",
+  "no_results.channel_search.title": "No results for {channelName}",
   "notification.dm": "Direct Message",
   "notify_all.confirm": "Confirm",
   "notify_all.question": "By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?",
