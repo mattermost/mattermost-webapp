@@ -206,6 +206,8 @@
   "admin.channel_settings.channel_detail.groupsTitle": "Groups",
   "admin.channel_settings.channel_detail.manageDescription": "Choose between inviting members manually or syncing members automatically from groups.",
   "admin.channel_settings.channel_detail.manageTitle": "Channel Management",
+  "admin.channel_settings.channel_detail.membersDescription": "A list of users who are currently in the channel right now",
+  "admin.channel_settings.channel_detail.membersTitle": "Members",
   "admin.channel_settings.channel_detail.profileDescription": "Summary of the channel, including the channel name.",
   "admin.channel_settings.channel_detail.profileTitle": "Channel Profile",
   "admin.channel_settings.channel_detail.syncedGroupsDescription": "Add and remove channel members based on their group membership.",
