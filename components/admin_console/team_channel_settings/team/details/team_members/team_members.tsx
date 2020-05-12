@@ -138,7 +138,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 titleId={t('admin.team_settings.team_detail.membersTitle')}
                 titleDefault='Members'
                 subtitleId={t('admin.team_settings.team_detail.membersDescription')}
-                subtitleDefault='The users in this list are members of this team'
+                subtitleDefault='A list of users who are currently in the team right now'
                 button={
                     <ToggleModalButton
                         className='btn btn-primary'

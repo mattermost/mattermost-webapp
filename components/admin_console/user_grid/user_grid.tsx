@@ -10,6 +10,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 
+import Badge from 'components/widgets/badges/badge';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
 import UserGridName from './user_grid_name';
@@ -52,10 +53,6 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             page: 0,
             membershipsToUpdate: {},
         };
-    }
-
-    private isSearching = (): boolean => {
-        return this.props.term !== '';
     }
 
     private loadPage = (page: number) => {
@@ -173,6 +170,14 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                         isSaved={!includeUsers[user.id]}
                     />
                 ),
+                new: (
+                    <Badge show={Boolean(includeUsers[user.id])}>
+                        <FormattedMessage
+                            id='admin.user_grid.new'
+                            defaultMessage='New'
+                        />
+                    </Badge>
+                ),
                 role: (
                     <UserGridRoleDropdown
                         user={user}
@@ -209,6 +214,11 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 name,
                 field: 'name',
                 width: 3,
+                fixed: true,
+            },
+            {
+                name: '',
+                field: 'new',
                 fixed: true,
             },
             {

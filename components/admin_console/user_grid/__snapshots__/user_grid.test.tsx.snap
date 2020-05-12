@@ -15,6 +15,11 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "width": 3,
       },
       Object {
+        "field": "new",
+        "fixed": true,
+        "name": "",
+      },
+      Object {
         "field": "role",
         "name": <FormattedMessage
           defaultMessage="Role"
@@ -85,6 +90,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             }
           }
         />,
+        "new": <Badge
+          className=""
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
         "remove": <UserGridRemove
           removeUser={[Function]}
           user={
@@ -214,6 +229,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             }
           }
         />,
+        "new": <Badge
+          className=""
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
         "remove": <UserGridRemove
           removeUser={[Function]}
           user={
@@ -327,6 +352,11 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "width": 3,
       },
       Object {
+        "field": "new",
+        "fixed": true,
+        "name": "",
+      },
+      Object {
         "field": "role",
         "name": <FormattedMessage
           defaultMessage="Role"
@@ -397,6 +427,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             }
           }
         />,
+        "new": <Badge
+          className=""
+          show={true}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
         "remove": <UserGridRemove
           removeUser={[Function]}
           user={
@@ -514,6 +554,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             }
           }
         />,
+        "new": <Badge
+          className=""
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
         "remove": <UserGridRemove
           removeUser={[Function]}
           user={
@@ -643,6 +693,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             }
           }
         />,
+        "new": <Badge
+          className=""
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
         "remove": <UserGridRemove
           removeUser={[Function]}
           user={
@@ -756,6 +816,11 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "width": 3,
       },
       Object {
+        "field": "new",
+        "fixed": true,
+        "name": "",
+      },
+      Object {
         "field": "role",
         "name": <FormattedMessage
           defaultMessage="Role"
@@ -826,6 +891,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
             }
           }
         />,
+        "new": <Badge
+          className=""
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
         "remove": <UserGridRemove
           removeUser={[Function]}
           user={

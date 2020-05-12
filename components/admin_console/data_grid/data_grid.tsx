@@ -60,7 +60,7 @@ type State = {
     minimumColumnWidth: number;
 };
 
-const MINIMUM_COLUMN_WIDTH = 150;
+const MINIMUM_COLUMN_WIDTH = 100;
 
 class DataGrid extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;

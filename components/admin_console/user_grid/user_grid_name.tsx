@@ -2,13 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import ProfilePicture from 'components/profile_picture';
-import Badge from 'components/widgets/badges/badge';
 
 type Props = {
     user: UserProfile;
@@ -17,7 +15,7 @@ type Props = {
 
 export default class UserGridName extends React.Component<Props> {
     public render = (): JSX.Element => {
-        const {user, isSaved} = this.props;
+        const {user} = this.props;
 
         return (
             <div className='ug-name-row'>
@@ -28,20 +26,13 @@ export default class UserGridName extends React.Component<Props> {
                 />
 
                 <div className='ug-name'>
-                    {`${user.username} - ${user.first_name} ${user.last_name}`}
-                    <br/>
+                    <span>
+                        {`${user.username} - ${user.first_name} ${user.last_name}`}
+                    </span>
                     <span className='ug-email'>
                         {user.email}
                     </span>
                 </div>
-                <Badge
-                    show={!isSaved}
-                >
-                    <FormattedMessage
-                        id='admin.user_grid.new'
-                        defaultMessage='New'
-                    />
-                </Badge>
             </div>
         );
     }

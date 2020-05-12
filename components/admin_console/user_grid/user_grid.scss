@@ -1,3 +1,17 @@
+.Badge {
+    font-size: 1em;
+    margin: auto 2rem;
+    padding-right: 2rem;
+
+    .Badge__box {
+        background: #1156b2;
+        color: #FFF;
+        text-transform: uppercase;
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+}
+
 .ug-name-row {
     display: flex;
     height: 80px;
@@ -8,13 +22,15 @@
         flex-shrink: 1;
         flex-direction: column;
         align-self: center;
-        overflow: hidden;
         padding-left: 10px;
+
+        overflow: hidden;
         text-overflow: ellipsis;
-    }
-    .Badge {
-        font-size: 1em;
-        margin: auto 2rem;
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 }
 
