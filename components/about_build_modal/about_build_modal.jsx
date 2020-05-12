@@ -168,15 +168,6 @@ export default class AboutBuildModal extends React.PureComponent {
             </a>
         );
 
-        let tosPrivacyHyphen;
-        if (config.TermsOfServiceLink && config.PrivacyPolicyLink) {
-            tosPrivacyHyphen = (
-                <span>
-                    {' - '}
-                </span>
-            );
-        }
-
         // Only show build number if it's a number (so only builds from Jenkins)
         let buildnumber = (
             <div>
@@ -266,7 +257,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             </div>
                             <div className='about-modal__links'>
                                 {termsOfService}
-                                {tosPrivacyHyphen}
+                                {' - '}
                                 {privacyPolicy}
                             </div>
                         </div>
