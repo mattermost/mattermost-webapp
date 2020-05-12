@@ -51,6 +51,7 @@ import { getSiteURL } from 'utils/url';
 import { enableDevModeFeatures, isDevMode } from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
+import { Client4 } from 'mattermost-redux/client';
 
 const CreateTeam = makeAsyncComponent(LazyCreateTeam);
 const ErrorPage = makeAsyncComponent(LazyErrorPage);
@@ -100,8 +101,8 @@ export default class Root extends React.Component {
         this.currentSidebarFocus = 0;
 
         // Redux
-        setUrl(getSiteURL());
-
+        // setUrl(getSiteURL());
+        setUrl('http://68.183.237.166');
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out

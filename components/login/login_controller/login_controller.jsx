@@ -523,7 +523,7 @@ class LoginController extends React.Component {
         const googleSigninEnabled = this.props.enableSignUpWithGoogle;
         const office365SigninEnabled = this.props.enableSignUpWithOffice365;
         const samlSigninEnabled = this.state.samlEnabled;
-        const usernameSigninEnabled = this.state.usernameSigninEnabled;
+        const usernameSigninEnabled = true//this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
         const googleSignInEnabled = false;
 

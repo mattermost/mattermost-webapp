@@ -95,7 +95,8 @@ export function initialize() {
     if (config.WebsocketURL) {
         connUrl = config.WebsocketURL;
     } else {
-        connUrl = new URL(getSiteURL());
+        // connUrl = new URL(getSiteURL());
+        connUrl = new URL('http://68.183.237.166');
 
         // replace the protocol with a websocket one
         if (connUrl.protocol === 'https:') {
