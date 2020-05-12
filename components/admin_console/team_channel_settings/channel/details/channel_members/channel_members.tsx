@@ -155,7 +155,6 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             skipCommit: true,
                             excludeUsers: usersToAdd,
                             includeUsers: usersToRemove,
-                            useChannelId: true,
                         }}
                     >
                         <FormattedMessage
