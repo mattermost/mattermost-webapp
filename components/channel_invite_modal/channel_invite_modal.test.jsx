@@ -71,7 +71,7 @@ describe('components/channel_invite_modal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with exclude and include users' , () => {
+    test('should match snapshot with exclude and include users', () => {
         const wrapper = shallow(
             <ChannelInviteModal
                 {...baseProps}
@@ -79,7 +79,7 @@ describe('components/channel_invite_modal', () => {
                 profilesNotInCurrentTeam={[]}
                 includeUsers={
                     {
-                        ['user-3']: {
+                        'user-3': {
                             id: 'user-3',
                             label: 'user-3',
                             value: 'user-3',
@@ -89,7 +89,7 @@ describe('components/channel_invite_modal', () => {
                 }
                 excludeUsers={
                     {
-                        ['user-1']: {
+                        'user-1': {
                             id: 'user-1',
                             label: 'user-1',
                             value: 'user-1',
@@ -98,7 +98,7 @@ describe('components/channel_invite_modal', () => {
                     }
                 }
             />
-        )
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -185,7 +185,7 @@ describe('components/channel_invite_modal', () => {
 
         wrapper.setState({values: users, show: true});
         wrapper.instance().handleSubmit(event);
-        expect(onAddCallback).toHaveBeenCalled()
+        expect(onAddCallback).toHaveBeenCalled();
         expect(wrapper.instance().props.actions.addUsersToChannel).toHaveBeenCalledTimes(0);
     });
 

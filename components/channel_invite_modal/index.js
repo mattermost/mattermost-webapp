@@ -27,7 +27,7 @@ function mapStateToProps(state, props) {
         profilesNotInCurrentChannel,
         profilesNotInCurrentTeam,
     };
-};
+}
 
 function mapDispatchToProps(dispatch) {
     return {

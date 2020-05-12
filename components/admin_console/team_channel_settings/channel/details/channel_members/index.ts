@@ -13,7 +13,7 @@ import {ChannelStats} from 'mattermost-redux/types/channels';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 
 import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {searchProfilesInChannel, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {searchProfilesInChannel, getProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
@@ -41,42 +41,38 @@ type Actions = {
         data: boolean;
     }>;
 };
-function makeMapStateToProps() {
-    const getProfilesInChannel = makeGetProfilesInChannel();
 
-    return function mapStateToProps(state: GlobalState, props: Props) {
-        const {channelId, usersToAdd, usersToRemove} = props;
-        const channelMembers = getChannelMembersInChannels(state)[channelId] || {};
+function mapStateToProps(state: GlobalState, props: Props) {
+    const {channelId, usersToAdd, usersToRemove} = props;
+    const channelMembers = getChannelMembersInChannels(state)[channelId] || {};
 
-        const channel = getChannel(state, channelId) || {channel_id: channelId};
+    const channel = getChannel(state, channelId) || {channel_id: channelId};
 
-        const stats: ChannelStats = getAllChannelStats(state)[channelId] || {
-            member_count: 0,
-            channel_id: channelId,
-            pinnedpost_count: 0,
-        };
+    const stats: ChannelStats = getAllChannelStats(state)[channelId] || {
+        member_count: 0,
+        channel_id: channelId,
+        pinnedpost_count: 0,
+    };
 
-        const searchTerm = state.views.search.modalSearch;
-        let users = [];
-        if (searchTerm) {
-            users = searchProfilesInChannel(state, channelId, searchTerm);
-        } else {
-            users = getProfilesInChannel(state, channelId, false);
-        }
-
-        return {
-            channelId,
-            channel,
-            users,
-            channelMembers,
-            usersToAdd,
-            usersToRemove,
-            totalCount: stats.member_count,
-            searchTerm,
-        };
+    const searchTerm = state.views.search.modalSearch;
+    let users = [];
+    if (searchTerm) {
+        users = searchProfilesInChannel(state, channelId, searchTerm);
+    } else {
+        users = getProfilesInChannel(state, channelId, false);
     }
-}
 
+    return {
+        channelId,
+        channel,
+        users,
+        channelMembers,
+        usersToAdd,
+        usersToRemove,
+        totalCount: stats.member_count,
+        searchTerm,
+    };
+}
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
@@ -89,4 +85,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(ChannelMembers);
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelMembers);

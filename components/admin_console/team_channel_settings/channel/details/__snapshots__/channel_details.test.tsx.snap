@@ -138,6 +138,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <Connect(ChannelMembers)
         channelId="123"
         key="0"
+        loading={false}
         onAddCallback={[Function]}
         onRemoveCallback={[Function]}
         updateRole={[Function]}
@@ -290,6 +291,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <Connect(ChannelMembers)
         channelId="123"
         key="0"
+        loading={false}
         onAddCallback={[Function]}
         onRemoveCallback={[Function]}
         updateRole={[Function]}
