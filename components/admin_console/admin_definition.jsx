@@ -2596,7 +2596,8 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.pictureAttrEx'),
                         placeholder_default: 'E.g.: "thumbnailPhoto" or "jpegPhoto"',
                         help_text: t('admin.ldap.pictureAttrDesc'),
-                        help_text_default: 'The attribute is used to populate the profile picture in Mattermost.',
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
+                    
                         isDisabled: it.both(
                             it.stateIsFalse('LdapSettings.Enable'),
                             it.stateIsFalse('LdapSettings.EnableSync'),
