@@ -89,7 +89,7 @@ export default class Root extends React.Component {
         showTermsOfService: PropTypes.bool,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
-            loadNumberOfActiveUsersMetricStatus: PropTypes.func.isRequired,
+            loadWarnMetricsStatus: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -304,7 +304,7 @@ export default class Root extends React.Component {
             this.onConfigLoaded();
         });
 
-        this.props.actions.loadNumberOfActiveUsersMetricStatus();
+        this.props.actions.loadWarnMetricsStatus();
         trackLoadTime();
     }
 

@@ -12,7 +12,7 @@ import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
-import AdminAckModal from 'components/admin_ack_modal';
+import WarnMetricAckModal from 'components/warn_metric_ack_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -27,8 +27,9 @@ export default class AnnouncementBar extends React.PureComponent {
         handleClose: PropTypes.func,
         announcementBarCount: PropTypes.number.isRequired,
         showModal: PropTypes.bool,
-        modalId: PropTypes.string,
-        modalDefaultText: PropTypes.string,
+        modalButtonText: PropTypes.string,
+        modalButtonDefaultText: PropTypes.string,
+        warnMetricId: PropTypes.string,
         actions: PropTypes.shape({
             incrementAnnouncementBarCount: PropTypes.func.isRequired,
             decrementAnnouncementBarCount: PropTypes.func.isRequired,
@@ -124,17 +125,18 @@ export default class AnnouncementBar extends React.PureComponent {
                         {message}
                         {this.props.showModal &&
                             <FormattedMessage
-                                id={this.props.modalId}
-                                defaultMessage={this.props.modalDefaultText}
+                                id={this.props.modalButtonText}
+                                defaultMessage={this.props.modalButtonDefaultText}
                             >
                                 {(linkmessage) => (
                                     <ToggleModalButtonRedux
-                                        modalId={ModalIdentifiers.ADMIN_ACK}
                                         accessibilityLabel={linkmessage}
                                         className={'color--link--adminack'}
-                                        dialogType={AdminAckModal}
-                                        onClick={() => trackEvent('admin', 'click_admin_ack_button')}
+                                        dialogType={WarnMetricAckModal}
+                                        onClick={() => trackEvent('admin', 'click_warn_metric_ack_button')}
+                                        modalId={ModalIdentifiers.WARN_METRIC_ACK}
                                         dialogProps={{
+                                            warnMetricId: this.props.warnMetricId,
                                             closeParentComponent: this.props.handleClose
                                         }}
                                     >

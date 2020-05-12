@@ -234,7 +234,6 @@ export default class GroupDetails extends React.PureComponent {
                         </AdminPanel>
                     </div>
                 </div>
-
             </div>
         );
     };

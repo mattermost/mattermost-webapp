@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
-import {loadMeAndConfig, loadNumberOfActiveUsersMetricStatus} from 'actions/views/root';
+import {loadMeAndConfig, loadWarnMetricsStatus} from 'actions/views/root';
 
 import Root from './root.jsx';
 
@@ -27,7 +27,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
-            loadNumberOfActiveUsersMetricStatus,
+            loadWarnMetricsStatus,
         }, dispatch),
     };
 }

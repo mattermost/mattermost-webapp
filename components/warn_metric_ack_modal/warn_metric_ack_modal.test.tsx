@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 import {UserProfile} from 'mattermost-redux/src/types/users';
 
-import AdminAckModal from 'components/admin_ack_modal/admin_ack_modal';
+import WarnMetricAckModal from 'components/warn_metric_ack_modal/warn_metric_ack_modal';
 
 jest.mock('react-dom', () => ({
     findDOMNode: () => ({
@@ -15,10 +15,13 @@ jest.mock('react-dom', () => ({
     }),
 }));
 
-describe('components/AdminAckModal', () => {
+describe('components/WarnMetricAckModal', () => {
     const serverError = 'some error';
 
     const baseProps = {
+        stats: {
+            registered_users: 200,
+        },
         user: {
             id: 'someUserId',
             first_name: 'Fake',
@@ -27,22 +30,24 @@ describe('components/AdminAckModal', () => {
         } as UserProfile,
         show: false,
         closeParentComponent: jest.fn(),
+        warnMetricId: 'metric1',
         actions: {
+            getStandardAnalytics: jest.fn(),
             closeModal: jest.fn(),
-            sendAdminAck: jest.fn(),
+            sendWarnMetricAck: jest.fn(),
         },
     };
 
     test('should match snapshot, init', () => {
-        const wrapper = shallow<AdminAckModal>(
-            <AdminAckModal {...baseProps}/>
+        const wrapper = shallow<WarnMetricAckModal>(
+            <WarnMetricAckModal {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('error display', () => {
-        const wrapper = shallow<AdminAckModal>(
-            <AdminAckModal {...baseProps}/>
+        const wrapper = shallow<WarnMetricAckModal>(
+            <WarnMetricAckModal {...baseProps}/>
         );
 
         wrapper.setState({serverError});
@@ -50,8 +55,8 @@ describe('components/AdminAckModal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow<AdminAckModal>(
-            <AdminAckModal {...baseProps}/>
+        const wrapper = shallow<WarnMetricAckModal>(
+            <WarnMetricAckModal {...baseProps}/>
         );
 
         wrapper.setState({saving: true});
@@ -60,8 +65,8 @@ describe('components/AdminAckModal', () => {
     });
 
     test('should match state when onHideWithParent is called', () => {
-        const wrapper = shallow<AdminAckModal>(
-            <AdminAckModal {...baseProps}/>
+        const wrapper = shallow<WarnMetricAckModal>(
+            <WarnMetricAckModal {...baseProps}/>
         );
 
         wrapper.setState({saving: true});
@@ -71,23 +76,20 @@ describe('components/AdminAckModal', () => {
         expect(wrapper.state('saving')).toEqual(false);
     });
 
-    test('send ack on submit button click', () => {
-        const wrapper = shallow<AdminAckModal>(
-            <AdminAckModal {...baseProps}/>
+    test('send ack on acknowledge button click', () => {
+        const wrapper = shallow<WarnMetricAckModal>(
+            <WarnMetricAckModal {...baseProps}/>
         );
 
         wrapper.setState({saving: true});
         wrapper.find('.save-button').simulate('click');
-        expect(baseProps.actions.sendAdminAck).toHaveBeenCalledTimes(1);
-
-        expect(baseProps.closeParentComponent).toHaveBeenCalledTimes(1);
-        expect(wrapper.state('saving')).toEqual(false);
+        expect(baseProps.actions.sendWarnMetricAck).toHaveBeenCalledTimes(1);
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
         const props = {...baseProps};
         const wrapper = shallow(
-            <AdminAckModal {...props}/>
+            <WarnMetricAckModal {...props}/>
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));

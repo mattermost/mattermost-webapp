@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {sendAdminAck} from 'mattermost-redux/actions/admin';
+import {getStandardAnalytics, sendWarnMetricAck} from 'mattermost-redux/actions/admin';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
@@ -14,7 +14,7 @@ import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from '../../selectors/views/modals';
 import {ModalIdentifiers} from '../../utils/constants';
 
-import AdminAckModal from './admin_ack_modal';
+import WarnMetricAckModal from './warn_metric_ack_modal';
 
 type Props = {
     closeParentComponent: () => Promise<void>;
@@ -22,23 +22,26 @@ type Props = {
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     return {
+        stats: state.entities.admin.analytics,
         user: getCurrentUser(state),
         license: getLicense(state),
-        show: isModalOpen(state, ModalIdentifiers.ADMIN_ACK),
+        show: isModalOpen(state, ModalIdentifiers.WARN_METRIC_ACK),
         closeParentComponent: ownProps.closeParentComponent,
     };
 }
 
 type Actions = {
-    sendAdminAck: () => ActionFunc & Partial<{error: Error}>;
-    closeModal: (arg0: string) => void;
+    closeModal: (arg: string) => void;
+    getStandardAnalytics: () => any;
+    sendWarnMetricAck: (arg: string) => ActionFunc & Partial<{error: Error}>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
             {
-                sendAdminAck,
+                getStandardAnalytics,
+                sendWarnMetricAck,
                 closeModal,
             },
             dispatch
@@ -46,4 +49,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminAckModal);
+export default connect(mapStateToProps, mapDispatchToProps)(WarnMetricAckModal);

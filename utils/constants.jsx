@@ -208,6 +208,10 @@ export const PostRequestTypes = keyMirror({
     AFTER_ID: null,
 });
 
+export const WarnMetricTypes = {
+    SYSTEM_NUMBER_OF_ACTIVE_USERS_WARN_METRIC: 'NumberOfActiveUsersWarnMetric',
+};
+
 export const ModalIdentifiers = {
     ABOUT: 'about',
     TEAM_SETTINGS: 'team_settings',
@@ -241,7 +245,7 @@ export const ModalIdentifiers = {
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
-    ADMIN_ACK: 'admin_acknowledgement',
+    WARN_METRIC_ACK: 'warn_metric_acknowledgement',
 };
 
 export const UserStatuses = {
@@ -368,6 +372,7 @@ export const PostTypes = {
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
     ME: 'me',
+    EPHEMERAL_WARN_METRIC_STATUS: 'system_ephemeral_warn_metric_status',
 };
 
 export const StatTypes = keyMirror({
@@ -392,6 +397,7 @@ export const StatTypes = keyMirror({
     TOTAL_READ_DB_CONNECTIONS: null,
     DAILY_ACTIVE_USERS: null,
     MONTHLY_ACTIVE_USERS: null,
+    REGISTERED_USERS: null,
 });
 
 export const SearchUserTeamFilter = {
@@ -508,7 +514,7 @@ export const AnnouncementBarMessages = {
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
-    NUMBER_OF_ACTIVE_USERS_METRIC_STATUS: t('announcement_bar.error.number_active_users_metric_status'),
+    NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS: t('announcement_bar.error.number_active_users_warn_metric_status.text'),
 };
 
 export const VerifyEmailErrors = {
@@ -793,6 +799,7 @@ export const Constants = {
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    SPECIAL_CONTACT_LINK_REGEX: /&lt;([^&;]*)&gt;/gi,
     NOTIFY_ALL_MEMBERS: 5,
     ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,

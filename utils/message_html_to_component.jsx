@@ -5,6 +5,11 @@ import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import AtMention from 'components/at_mention';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import WarnMetricAckModal from 'components/warn_metric_ack_modal';
+import {ModalIdentifiers} from 'utils/constants';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import LatexBlock from 'components/latex_block';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
@@ -27,7 +32,6 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     if (!html) {
         return null;
     }
-
     const parser = new Parser();
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
 
@@ -86,6 +90,35 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     </AtMention>
                 );
                 return callAtMention;
+            },
+        });
+    }
+
+    if (options.warnMetricStatus) {
+        const attrib = 'data-warn-metric-status';
+
+        processingInstructions.push({
+            replaceChildren: true,
+            shouldProcessNode: (node) => {
+                return node.attribs && node.attribs[attrib];
+            },
+            processNode: (node) => {
+                const contactUsString = '<' + node.attribs[attrib] + '>';
+                const callWarnMetricStatus = (
+                    <ToggleModalButtonRedux
+                        accessibilityLabel={contactUsString}
+                        className={'intro-links color--link'}
+                        dialogType={WarnMetricAckModal}
+                        modalId={ModalIdentifiers.WARN_METRIC_ACK}
+                        onClick={() => trackEvent('admin', 'click_warn_metric_ack_button')}
+                        dialogProps={{
+                            warnMetricId: options.warnMetricId,
+                        }}
+                    >
+                        {contactUsString}
+                    </ToggleModalButtonRedux>
+                );
+                return callWarnMetricStatus;
             },
         });
     }

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
-import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 
 import {t} from 'utils/i18n';
@@ -28,9 +28,11 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
-        dismissNumberOfActiveUsersMetricStatus: PropTypes.bool,
+        dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
+        dismissedNumberOfActiveUsersWarnMetricStatus2: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
-        numberOfActiveUsersMetricStatus: PropTypes.bool,
+        dismissWarnMetricStatus: PropTypes.bool,
+        warnMetricsStatus: PropTypes.object,
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
         }).isRequired,
@@ -40,8 +42,22 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         this.props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
     }
 
-    dismissNumberOfActiveUsersMetricStatus = () => {
-        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_METRIC_STATUS);
+    dismissNumberOfActiveUsersWarnMetric = () => {
+        this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS);
+    }
+
+    getNoticeForWarnMetricId = (warnMetricId) => {
+        switch (warnMetricId) {
+        case WarnMetricTypes.SYSTEM_NUMBER_OF_ACTIVE_USERS_WARN_METRIC:
+            return {
+                Id: AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS,
+                DefaultText: 'The number of active users is greater than the supported limit. Please acknowledge and upgrade.',
+                DismissFunc: this.dismissNumberOfActiveUsersWarnMetric,
+                IsDismissed: this.props.dismissedNumberOfActiveUsersWarnMetricStatus,
+            };
+        default:
+            return null;
+        }
     }
 
     render() {
@@ -101,23 +117,31 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     />
                 );
             }
-            if (this.props.numberOfActiveUsersMetricStatus && !this.props.dismissNumberOfActiveUsersMetricStatus) {
-                return (
-                    <AnnouncementBar
-                        showCloseButton={true}
-                        handleClose={this.dismissNumberOfActiveUsersMetricStatus}
-                        type={AnnouncementBarTypes.LICENSE_EXPIRED}
-                        showModal={true}
-                        modalId={t('admin_ack_modal.link')}
-                        modelDefaultText={'Acknowledge!'}
-                        message={
-                            <FormattedMarkdownMessage
-                                id={AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_METRIC_STATUS}
-                                defaultMessage='The number of active users is greater than the supported limit. Please acknowledge and upgrade.'
-                            />
+            if (this.props.warnMetricsStatus) {
+                for (const [id, flag] of Object.entries(this.props.warnMetricsStatus)) {
+                    if (flag) {
+                        var notice = this.getNoticeForWarnMetricId(id);
+                        if (!notice.IsDismissed) {
+                            return (
+                                <AnnouncementBar
+                                    showCloseButton={true}
+                                    handleClose={notice.DismissFunc}
+                                    type={AnnouncementBarTypes.LICENSE_EXPIRED}
+                                    showModal={true}
+                                    modalButtonText={t('announcement_bar.error.number_active_users_warn_metric_status.link')}
+                                    modalButtonDefaultText={'Acknowledge'}
+                                    warnMetricId={id}
+                                    message={
+                                        <FormattedMarkdownMessage
+                                            id={notice.Id}
+                                            defaultMessage={notice.DefaultText}
+                                        />
+                                    }
+                                />
+                            );
                         }
-                    />
-                );
+                    }
+                }
             }
         } else {
             // Regular users
