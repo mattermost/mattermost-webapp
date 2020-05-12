@@ -9,9 +9,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import JanusCall from './janus_call';
 
 function mapStateToProps(state) {
-    const config = getConfig(state);
     return {
-        termsEnabled: config.EnableCustomTermsOfService === 'true',
+        state: state
     };
 }
 

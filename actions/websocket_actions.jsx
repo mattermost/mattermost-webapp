@@ -91,6 +91,7 @@ export function initialize() {
     }
 
     const config = getConfig(getState());
+    console.log("xxxxxxxxxxx", config)
     let connUrl = '';
     if (config.WebsocketURL) {
         connUrl = config.WebsocketURL;
