@@ -26,6 +26,9 @@
     "LdapSettings": {
         "Enable": false
     },
+    "LogSettings": {
+        "EnableDiagnostics": true
+    },
     "NativeAppSettings": {
         "AppDownloadLink": "https://about.mattermost.com/downloads/"
     },
