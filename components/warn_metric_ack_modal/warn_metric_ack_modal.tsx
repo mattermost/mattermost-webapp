@@ -86,17 +86,17 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 
         let mailBody = 'This is a receipt of acknowledgement for the number of active users exceeding the limit for the following site.';
         mailBody += '\r\n';
-        mailBody += 'Contact Email' + ' ' + this.props.user.email;
+        mailBody += 'Contact Email ' + this.props.user.email;
         mailBody += '\r\n';
-        mailBody += 'Site URL' + ' ' + getSiteURL();
+        mailBody += 'Site URL ' + getSiteURL();
         mailBody += '\r\n';
 
         if (this.props.license && this.props.license.IsLicensed === 'true') {
-            mailBody += 'License ID' + ' ' + this.props.license.Id;
+            mailBody += 'License ID ' + this.props.license.Id;
             mailBody += '\r\n';
         }
-        if(this.props.stats[StatTypes.REGISTERED_USERS]) {
-            mailBody += 'Registered Users' + ' ' + this.props.stats[StatTypes.REGISTERED_USERS];
+        if (this.props.stats[StatTypes.REGISTERED_USERS]) {
+            mailBody += 'Registered Users ' + this.props.stats[StatTypes.REGISTERED_USERS];
             mailBody += '\r\n';
         }
         mailBody += 'If you have any additional inquiries, please contact support@mattermost.com';

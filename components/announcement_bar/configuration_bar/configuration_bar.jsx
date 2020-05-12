@@ -29,7 +29,6 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
         dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
-        dismissedNumberOfActiveUsersWarnMetricStatus2: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
         dismissWarnMetricStatus: PropTypes.bool,
         warnMetricsStatus: PropTypes.object,
