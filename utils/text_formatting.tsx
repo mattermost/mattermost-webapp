@@ -81,6 +81,13 @@ interface TextFormattingOptionsBase {
     mentionHighlight: boolean;
 
     /**
+   * Specifies whether or not to display group mentions as blue links.
+   *
+   * Defaults to `false`.
+   */
+    disableGroupHighlight: boolean;
+
+    /**
    * A list of mention keys for the current user to highlight.
    */
     mentionKeys: MentionKey[];
@@ -166,6 +173,7 @@ export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
 
 const DEFAULT_OPTIONS: TextFormattingOptions = {
     mentionHighlight: true,
+    disableGroupHighlight: false,
     singleline: false,
     emoticons: true,
     markdown: true,
