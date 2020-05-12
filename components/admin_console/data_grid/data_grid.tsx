@@ -202,7 +202,7 @@ class DataGrid extends React.PureComponent<Props, State> {
         this.props.search(term);
     }
 
-    private renderFooter(): JSX.Element | null {
+    private renderFooter = (): JSX.Element | null => {
         const {startCount, endCount, total} = this.props;
         let footer: JSX.Element | null = null;
 

@@ -54,36 +54,36 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         };
     }
 
-    isSearching() {
+    private isSearching = (): boolean => {
         return this.props.term !== '';
     }
 
-    loadPage = (page: number) => {
+    private loadPage = (page: number) => {
         this.setState({loading: true});
         this.props.loadPage(page);
         this.setState({page, loading: false});
     }
 
-    nextPage = () => {
+    private nextPage = () => {
         this.loadPage(this.state.page + 1);
     }
 
-    previousPage = () => {
+    private previousPage = () => {
         this.loadPage(this.state.page - 1);
     }
 
-    search = async (term: string) => {
+    private search = async (term: string) => {
         this.props.search(term);
     }
 
-    getVisibleTotalCount = () => {
+    private getVisibleTotalCount = (): number => {
         const {includeUsers, excludeUsers, totalCount} = this.props;
         const includeUsersCount = Object.keys(includeUsers).length;
         const excludeUsersCount = Object.keys(excludeUsers).length;
         return totalCount + (includeUsersCount - excludeUsersCount);
     }
 
-    getPaginationProps = () => {
+    private getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
         const {includeUsers, excludeUsers, term} = this.props;
         const {page} = this.state;
 
@@ -108,7 +108,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
-    removeUser = (user: UserProfile) => {
+    private removeUser = (user: UserProfile) => {
         const {excludeUsers} = this.props;
         if (excludeUsers[user.id] === user) {
             return;
@@ -125,7 +125,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.setState({page});
     }
 
-    updateMembership = (userId: string, role: Role) => {
+    private updateMembership = (userId: string, role: Role) => {
         const {membershipsToUpdate} = this.state;
         const {memberships} = this.props;
 
@@ -138,7 +138,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.setState({membershipsToUpdate}, this.forceUpdate);
     }
 
-    getRows = () => {
+    private getRows = (): Row[] => {
         const {page, membershipsToUpdate} = this.state;
         const {memberships, users, excludeUsers, includeUsers, totalCount, term} = this.props;
 
@@ -190,7 +190,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         });
     }
 
-    getColumns = (): Column[] => {
+    private getColumns = (): Column[] => {
         const name: JSX.Element = (
             <FormattedMessage
                 id='admin.user_grid.name'
@@ -227,7 +227,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         ];
     }
 
-    render = () => {
+    public render = (): JSX.Element => {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();

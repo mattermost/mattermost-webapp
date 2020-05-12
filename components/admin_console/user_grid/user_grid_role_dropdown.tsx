@@ -23,14 +23,14 @@ type Props = {
 export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'guest';
 
 export default class UserGridRoleDropdown extends React.Component<Props> {
-    getScope(): 'team' | 'channel' {
+    private getScope = (): 'team' | 'channel' => {
         if (!this.props.membership) {
             return 'team';
         }
         return 'team_id' in this.props.membership ? 'team' : 'channel';
     }
 
-    getDropDownOptions() {
+    private getDropDownOptions = () => {
         if (this.getScope() === 'team') {
             return {
                 makeAdmin: Utils.localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin'),
@@ -44,7 +44,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         };
     }
 
-    getCurrentRole(): Role {
+    private getCurrentRole = (): Role => {
         const {user, membership} = this.props;
 
         if (user.roles.includes('system_admin')) {
@@ -64,7 +64,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         return 'guest';
     }
 
-    getLocalizedRole(role: Role) {
+    private getLocalizedRole = (role: Role) => {
         switch (role) {
         case 'system_admin':
             return Utils.localizeMessage('admin.user_grid.system_admin', 'System Admin');
@@ -81,7 +81,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         }
     }
 
-    handleUpdateMembership(role: 'admin' | 'user') {
+    private handleUpdateMembership = (role: 'admin' | 'user') => {
         const scope = this.getScope();
         let updateRole: Role;
         if (role === 'admin') {
@@ -92,9 +92,9 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         this.props.handleUpdateMembership(updateRole);
     }
 
-    render() {
+    public render = (): JSX.Element | null => {
         if (!this.props.membership) {
-            return ('');
+            return null;
         }
 
         const {user} = this.props;

@@ -47,7 +47,7 @@ type State = {
 }
 
 export default class AddUsersToTeamModal extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -60,16 +60,16 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
             loading: true,
         };
     }
-    async componentDidMount() {
+    public componentDidMount = async () => {
         await this.props.actions.getProfilesNotInTeam(this.props.team.id, false, 0, USERS_PER_PAGE * 2);
         this.setUsersLoadingState(false);
     }
 
-    setUsersLoadingState = (loading: boolean) => {
+    private setUsersLoadingState = (loading: boolean) => {
         this.setState({loading});
     }
 
-    search = async (term: string) => {
+    private search = async (term: string) => {
         this.setState({loading: true});
         let searchResults: UserProfile[] = [];
         const search = term !== '';
@@ -82,17 +82,17 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         this.setState({loading: false, searchResults, search});
     }
 
-    handleHide = () => {
+    private handleHide = () => {
         this.setState({show: false});
     }
 
-    handleExit = () => {
+    private handleExit = () => {
         if (this.props.onHide) {
             this.props.onHide();
         }
     }
 
-    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
+    private renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -132,18 +132,18 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         );
     }
 
-    renderValue = (value: { data: UserProfileValue }) => {
+    private renderValue = (value: { data: UserProfileValue }): string => {
         return value.data.username;
     }
 
-    renderAriaLabel = (option: UserProfileValue) => {
+    private renderAriaLabel = (option: UserProfileValue): string | null => {
         if (!option) {
             return null;
         }
         return option.username;
     }
 
-    handleAdd = (value: UserProfileValue) => {
+    private handleAdd = (value: UserProfileValue) => {
         const values: UserProfileValue[] = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
@@ -151,11 +151,11 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         this.setState({values});
     }
 
-    handleDelete = (values: UserProfileValue[]) => {
+    private handleDelete = (values: UserProfileValue[]) => {
         this.setState({values});
     }
 
-    handlePageChange = (page: number, prevPage: number) => {
+    private handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             const needMoreUsers = (this.props.users.length / USERS_PER_PAGE) <= page + 1;
             this.setState({loading: needMoreUsers});
@@ -163,12 +163,12 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         }
     };
 
-    handleSubmit = () => {
+    private handleSubmit = () => {
         this.props.onAddCallback(this.state.values);
         this.handleHide();
     }
 
-    render() {
+    public render = (): JSX.Element => {
         const numRemainingText = (
             <div id='numPeopleRemaining'>
                 <FormattedMessage

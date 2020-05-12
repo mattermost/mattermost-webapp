@@ -16,7 +16,7 @@ type Props = {
 }
 
 export default class UserGridName extends React.Component<Props> {
-    render() {
+    public render = (): JSX.Element => {
         const {user, isSaved} = this.props;
 
         return (

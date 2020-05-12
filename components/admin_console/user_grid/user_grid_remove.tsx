@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default class UserGridRemove extends React.Component<Props> {
-    render() {
+    public render = (): JSX.Element => {
         const {user} = this.props;
         return (
             <div className='ug-remove-row'>

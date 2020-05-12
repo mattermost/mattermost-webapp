@@ -67,7 +67,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         const {teamId} = this.props;
         const {loadProfilesAndReloadTeamMembers, getTeamStats} = this.props.actions;
         Promise.all([
@@ -76,7 +76,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         ]).then(() => this.setStateLoading(false));
     }
 
-    componentDidUpdate(prevProps: Props) {
+    public componentDidUpdate(prevProps: Props) {
         if (prevProps.searchTerm !== this.props.searchTerm) {
             this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
@@ -104,33 +104,33 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         }
     }
 
-    setStateLoading = (loading: boolean) => {
+    private setStateLoading = (loading: boolean) => {
         this.setState({loading});
     }
 
-    loadPage = async (page: number) => {
+    private loadPage = async (page: number) => {
         const {loadProfilesAndReloadTeamMembers} = this.props.actions;
         const {teamId} = this.props;
         await loadProfilesAndReloadTeamMembers(page + 1, PROFILE_CHUNK_SIZE, teamId);
     }
 
-    removeUser = (user: UserProfile) => {
+    private removeUser = (user: UserProfile) => {
         this.props.onRemoveCallback(user);
     }
 
-    onAddCallback = (users: UserProfile[]) => {
+    private onAddCallback = (users: UserProfile[]) => {
         this.props.onAddCallback(users);
     }
 
-    search = async (term: string) => {
+    private search = async (term: string) => {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    updateMemberRolesForUser = (userId: string, role: Role) => {
+    private updateMemberRolesForUser = (userId: string, role: Role) => {
         this.props.updateRole(userId, true, role.includes('admin'));
     }
 
-    render = () => {
+    public render = () => {
         const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
         return (
             <AdminPanel
