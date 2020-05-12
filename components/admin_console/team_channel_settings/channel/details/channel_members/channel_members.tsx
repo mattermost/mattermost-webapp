@@ -28,6 +28,8 @@ type Props = {
     channelMembers: Dictionary<ChannelMembership>;
     totalCount: number;
 
+    loading?: boolean;
+
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
     updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
@@ -153,6 +155,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             skipCommit: true,
                             excludeUsers: usersToAdd,
                             includeUsers: usersToRemove,
+                            useChannelId: true,
                         }}
                     >
                         <FormattedMessage
@@ -163,7 +166,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 }
             >
                 <UserGrid
-                    loading={this.state.loading}
+                    loading={this.state.loading || Boolean(this.props.loading)}
                     users={users}
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}

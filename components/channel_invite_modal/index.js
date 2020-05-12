@@ -6,35 +6,28 @@ import {bindActionCreators} from 'redux';
 
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/users';
-import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getProfilesNotInChannel as selectProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {addUsersToChannel} from 'actions/channel_actions';
 
 import ChannelInviteModal from './channel_invite_modal.jsx';
 
-function makeMapStateToProps(state, props) {
-    let selectProfilesNotInChannel;
-    if (props.channelId && props.teamId) {
-        selectProfilesNotInChannel = makeGetProfilesNotInChannel();
+function mapStateToProps(state, props) {
+    let profilesNotInCurrentChannel;
+    let profilesNotInCurrentTeam;
+    if (props.useChannelId === true) {
+        profilesNotInCurrentChannel = selectProfilesNotInChannel(state, props.channelId);
+        profilesNotInCurrentTeam = getProfilesNotInTeam(state, props.teamId);
+    } else {
+        profilesNotInCurrentChannel = getProfilesNotInCurrentChannel(state);
+        profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state);
     }
 
-    return function mapStateToProps() {
-        let profilesNotInCurrentChannel;
-        let profilesNotInCurrentTeam;
-        if (selectProfilesNotInChannel) {
-            profilesNotInCurrentChannel = selectProfilesNotInChannel(state, props.channelId);
-            profilesNotInCurrentTeam = getProfilesNotInTeam(state, props.teamId);
-        } else {
-            profilesNotInCurrentChannel = getProfilesNotInCurrentChannel(state);
-            profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state);
-        }
-
-        return {
-            profilesNotInCurrentChannel,
-            profilesNotInCurrentTeam,
-        };
+    return {
+        profilesNotInCurrentChannel,
+        profilesNotInCurrentTeam,
     };
-}
+};
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -47,4 +40,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(ChannelInviteModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelInviteModal);

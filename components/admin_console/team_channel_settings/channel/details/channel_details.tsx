@@ -606,6 +606,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                                 usersToAdd={usersToAdd}
                                 updateRole={this.addRolesToUpdate}
                                 channelId={this.props.channelID}
+                                loading={this.state.saving}
                             />
                         }
                     </div>
