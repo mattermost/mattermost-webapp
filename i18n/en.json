@@ -1728,7 +1728,6 @@
   "admin.user_grid.channel_member": "Channel Member",
   "admin.user_grid.guest": "Guest",
   "admin.user_grid.name": "Name",
-  "admin.user_grid.new": "New",
   "admin.user_grid.notFound": "No users found",
   "admin.user_grid.remove": "Remove",
   "admin.user_grid.role": "Role",
