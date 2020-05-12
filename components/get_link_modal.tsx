@@ -66,7 +66,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
         }
 
         let copyLink = null;
-        const linkAvailable = this.props.link;
+        const linkAvailable = Boolean(this.props.link);
 
         if (document.queryCommandSupported('copy')) {
             copyLink = (
