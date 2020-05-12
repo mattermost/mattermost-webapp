@@ -20,6 +20,7 @@ describe('components/admin_console/data_grid/DataGrid', () => {
 
         rows: [],
         columns: [],
+        term: '',
     };
 
     test('should match snapshot with no items found', () => {

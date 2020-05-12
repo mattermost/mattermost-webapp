@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -32,13 +32,13 @@ type Props = {
 
     totalCount: number;
     loading: boolean;
+    term: string;
 }
 
 type State = {
     loading: boolean;
     page: number;
     membershipsToUpdate: { [userId: string]: TeamMembership | ChannelMembership };
-    term: string;
 }
 
 const USERS_PER_PAGE = 10;
@@ -51,12 +51,11 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             loading: false,
             page: 0,
             membershipsToUpdate: {},
-            term: '',
         };
     }
 
     isSearching() {
-        return this.state.term !== '';
+        return this.props.term !== '';
     }
 
     loadPage = (page: number) => {
@@ -74,9 +73,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
     }
 
     search = async (term: string) => {
-        this.setState({page: 0, term, loading: true});
-        await this.props.search(term);
-        this.setState({loading: false});
+        this.props.search(term);
     }
 
     getVisibleTotalCount = () => {
@@ -87,8 +84,8 @@ export default class UserGrid extends React.PureComponent<Props, State> {
     }
 
     getPaginationProps = () => {
-        const {includeUsers, excludeUsers} = this.props;
-        const {page, term} = this.state;
+        const {includeUsers, excludeUsers, term} = this.props;
+        const {page} = this.state;
 
         let total: number;
         let startCount = 0;
@@ -143,7 +140,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
 
     getRows = () => {
         const {page, membershipsToUpdate} = this.state;
-        const {memberships, users, excludeUsers, includeUsers, totalCount} = this.props;
+        const {memberships, users, excludeUsers, includeUsers, totalCount, term} = this.props;
 
         let usersToDisplay = users;
         const includeUsersList = Object.values(includeUsers);
@@ -153,7 +150,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         usersToDisplay = [...includeUsersList, ...usersToDisplay];
 
         // Dont load more elements if searching
-        if (this.state.term === '') {
+        if (term === '') {
             const {startCount, endCount} = this.getPaginationProps();
             usersToDisplay = usersToDisplay.slice(startCount - 1, endCount);
 
@@ -254,6 +251,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 endCount={endCount}
                 total={total}
                 search={this.search}
+                term={this.props.term || ''}
                 placeholderEmpty={placeholderEmpty}
             />
         );

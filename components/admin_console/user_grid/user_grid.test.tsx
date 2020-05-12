@@ -79,6 +79,7 @@ describe('components/admin_console/user_grid/UserGrid', () => {
 
         totalCount: 2,
         loading: false,
+        term: '',
     };
 
     test('should match snapshot with 2 users', () => {

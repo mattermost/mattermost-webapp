@@ -307,6 +307,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   }
   search={[Function]}
   startCount={1}
+  term=""
   total={2}
 />
 `;
@@ -735,6 +736,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   }
   search={[Function]}
   startCount={1}
+  term=""
   total={3}
 />
 `;
@@ -917,6 +919,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   }
   search={[Function]}
   startCount={1}
+  term=""
   total={1}
 />
 `;

@@ -72,7 +72,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
           id="numPeopleRemaining"
         >
           <FormattedMessage
-            defaultMessage="Use ↑↓ to browse, ↵ to select. You can add up to {num, number} more {num, plural, one {person} {people}} at a time. "
+            defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
             id="multiselect.numPeopleRemaining"
             values={
               Object {
@@ -239,7 +239,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
           id="numPeopleRemaining"
         >
           <FormattedMessage
-            defaultMessage="Use ↑↓ to browse, ↵ to select. You can add up to {num, number} more {num, plural, one {person} {people}} at a time. "
+            defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
             id="multiselect.numPeopleRemaining"
             values={
               Object {

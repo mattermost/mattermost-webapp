@@ -6,15 +6,16 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
 
 import {getMembersInTeams, getTeamStats, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInTeam, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 
+import {GlobalState} from 'types/store';
 import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions.jsx';
+import {setModalSearchTerm} from 'actions/views/search';
 
 import TeamMembers from './team_members';
 
@@ -34,22 +35,24 @@ type Actions = {
     searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
         data: boolean;
     }>;
+    setModalSearchTerm: (term: string) => Promise<{
+        data: boolean;
+    }>;
 };
 
 function mapStateToProps(state: GlobalState, props: Props) {
     const {teamId, usersToAdd, usersToRemove} = props;
-    const users = getProfilesInTeam(state, teamId);
+
     const teamMembers = getMembersInTeams(state)[teamId] || {};
+    const team = getTeam(state, teamId) || {};
+    const stats = getTeamStats(state)[teamId] || {total_member_count: 0};
 
-    const team = getTeam(state, teamId);
-
-    let stats = getTeamStats(state)[teamId];
-    if (!stats) {
-        stats = {
-            total_member_count: 0,
-            active_member_count: 0,
-            team_id: '',
-        };
+    const searchTerm = state.views.search.modalSearch;
+    let users = [];
+    if (searchTerm) {
+        users = searchProfilesInTeam(state, teamId, searchTerm);
+    } else {
+        users = getProfilesInTeam(state, teamId);
     }
 
     return {
@@ -60,6 +63,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
         usersToAdd,
         usersToRemove,
         totalCount: stats.total_member_count,
+        searchTerm,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -68,6 +72,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getTeamStats: loadTeamStats,
             loadProfilesAndReloadTeamMembers,
             searchProfilesAndTeamMembers,
+            setModalSearchTerm,
         }, dispatch),
     };
 }

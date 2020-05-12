@@ -5,11 +5,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership, Team} from 'mattermost-redux/types/teams';
 
 import {t} from 'utils/i18n';
+import Constants from 'utils/constants';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
@@ -26,6 +26,8 @@ type Props = {
     teamMembers: Dictionary<TeamMembership>;
     totalCount: number;
 
+    searchTerm: string;
+
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
     updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
@@ -40,6 +42,9 @@ type Props = {
         searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
             data: boolean;
         }>;
+        setModalSearchTerm: (term: string) => Promise<{
+            data: boolean;
+        }>;
     };
 }
 
@@ -50,8 +55,12 @@ type State = {
 const PROFILE_CHUNK_SIZE = 10;
 
 export default class TeamMembers extends React.PureComponent<Props, State> {
+    private searchTimeoutId: number;
+
     constructor(props: Props) {
         super(props);
+
+        this.searchTimeoutId = 0;
 
         this.state = {
             loading: true,
@@ -65,6 +74,34 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
             getTeamStats(teamId),
             loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId),
         ]).then(() => this.setStateLoading(false));
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.searchTerm !== this.props.searchTerm) {
+            this.setStateLoading(true);
+            clearTimeout(this.searchTimeoutId);
+            const searchTerm = this.props.searchTerm;
+
+            if (searchTerm === '') {
+                this.searchTimeoutId = 0;
+                this.setStateLoading(false);
+                return;
+            }
+
+            const searchTimeoutId = window.setTimeout(
+                async () => {
+                    await prevProps.actions.searchProfilesAndTeamMembers(searchTerm, {team_id: this.props.teamId});
+
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
+                    this.setStateLoading(false);
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS
+            );
+
+            this.searchTimeoutId = searchTimeoutId;
+        }
     }
 
     setStateLoading = (loading: boolean) => {
@@ -86,13 +123,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     search = async (term: string) => {
-        const {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} = this.props.actions;
-        const {teamId} = this.props;
-        if (term === '') {
-            await loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId);
-        } else {
-            await searchProfilesAndTeamMembers(term, {team_id: teamId, replace: true});
-        }
+        this.props.actions.setModalSearchTerm(term);
     }
 
     updateMemberRolesForUser = (userId: string, role: Role) => {
@@ -100,7 +131,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     render = () => {
-        const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount} = this.props;
+        const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
         return (
             <AdminPanel
                 id='team_members'
@@ -136,6 +167,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     memberships={teamMembers}
                     updateMemberRolesForUser={this.updateMemberRolesForUser}
                     search={this.search}
+                    term={searchTerm}
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                 />

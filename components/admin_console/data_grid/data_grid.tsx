@@ -49,6 +49,7 @@ type Props = {
     previousPage: () => void;
 
     search: (term: string) => void;
+    term: string;
     searchPlaceholder?: string;
 };
 
@@ -57,7 +58,6 @@ type State = {
     fixedColumns: Column[];
     hiddenColumns: Column[];
     minimumColumnWidth: number;
-    term: string;
 };
 
 const MINIMUM_COLUMN_WIDTH = 150;
@@ -78,7 +78,6 @@ class DataGrid extends React.PureComponent<Props, State> {
             hiddenColumns: [],
             fixedColumns: this.props.columns.filter((col) => col.fixed),
             minimumColumnWidth,
-            term: '',
         };
 
         this.ref = React.createRef();
@@ -182,6 +181,7 @@ class DataGrid extends React.PureComponent<Props, State> {
             <DataGridSearch
                 onSearch={(term) => this.search(term)}
                 placeholder={this.props.searchPlaceholder || ''}
+                term={this.props.term}
             />
         );
     }
@@ -199,7 +199,6 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private search = (term: string) => {
-        this.setState({term});
         this.props.search(term);
     }
 

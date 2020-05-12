@@ -11,29 +11,13 @@ import './data_grid.scss';
 type Props = {
     onSearch: (term: string) => void;
     placeholder: string;
-}
-
-type State = {
     term: string;
-    searchTimeout?: NodeJS.Timeout;
 }
 
-class DataGridSearch extends React.Component<Props, State> {
-    public constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            term: '',
-        };
-    }
-
+class DataGridSearch extends React.Component<Props> {
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
-        if (this.state.searchTimeout) {
-            clearTimeout(this.state.searchTimeout);
-        }
-        const searchTimeout = setTimeout(() => this.props.onSearch(this.state.term), 250);
-        this.setState({term, searchTimeout});
+        this.props.onSearch(term);
     }
 
     render() {
@@ -52,7 +36,7 @@ class DataGridSearch extends React.Component<Props, State> {
                         type='text'
                         placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                         onChange={this.handleSearch}
-                        value={this.state.term}
+                        value={this.props.term}
                     />
                 </div>
             </div>
