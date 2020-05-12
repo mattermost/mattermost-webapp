@@ -408,7 +408,7 @@ export function renderSystemMessage(post, channel, isUserCanManageMembers) {
         return systemMessageRenderers[post.type](post);
     } else if (post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL) {
         return renderAddToChannelMessage(post);
-    } else if (post.type === Posts.POST_TYPES.EPHEMERAL_WARN_METRIC_STATUS) {
+    } else if (post.type === Posts.POST_TYPES.SYSTEM_WARN_METRIC_STATUS) {
         return renderWarnMetricStatusMessage(post);
     } else if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
         const {allUserIds, allUsernames, messageData} = post.props.user_activity;
