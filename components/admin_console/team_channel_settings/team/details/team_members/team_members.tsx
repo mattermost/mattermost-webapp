@@ -161,7 +161,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 }
             >
                 <UserGrid
-                    loading={this.state.loading || this.props.loading}
+                    loading={this.state.loading || Boolean(this.props.loading)}
                     users={users}
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}
