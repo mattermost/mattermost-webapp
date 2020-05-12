@@ -83,7 +83,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         return totalCount + (includeUsersCount - excludeUsersCount);
     }
 
-    private getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
+    public getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
         const {includeUsers, excludeUsers, term} = this.props;
         const {page} = this.state;
 

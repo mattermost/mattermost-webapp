@@ -69,7 +69,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         this.setState({loading});
     }
 
-    private search = async (term: string) => {
+    public search = async (term: string) => {
         this.setState({loading: true});
         let searchResults: UserProfile[] = [];
         const search = term !== '';
@@ -82,7 +82,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         this.setState({loading: false, searchResults, search});
     }
 
-    private handleHide = () => {
+    public handleHide = () => {
         this.setState({show: false});
     }
 
