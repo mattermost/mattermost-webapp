@@ -140,7 +140,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 titleId={t('admin.channel_settings.channel_detail.membersTitle')}
                 titleDefault='Members'
                 subtitleId={t('admin.channel_settings.channel_detail.membersDescription')}
-                subtitleDefault='The users in this list are members of this channel'
+                subtitleDefault='A list of users who are currently in the channel right now'
                 button={
                     <ToggleModalButton
                         className='btn btn-primary'

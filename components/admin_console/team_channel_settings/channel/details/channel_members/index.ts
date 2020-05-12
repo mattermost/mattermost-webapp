@@ -13,7 +13,7 @@ import {ChannelStats} from 'mattermost-redux/types/channels';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 
 import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetProfilesInChannel, searchProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInChannel, searchProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
@@ -43,7 +43,6 @@ type Actions = {
 };
 
 function mapStateToProps(state: GlobalState, props: Props) {
-    const doGetProfilesInChannel = makeGetProfilesInChannel();
     const {channelId, usersToAdd, usersToRemove} = props;
     const channelMembers = getChannelMembersInChannels(state)[channelId] || {};
 
@@ -60,7 +59,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
     if (searchTerm) {
         users = searchProfilesInChannel(state, channelId, searchTerm);
     } else {
-        users = doGetProfilesInChannel(state, channelId, false);
+        users = getProfilesInChannel(state, channelId, false);
     }
 
     return {
