@@ -317,15 +317,14 @@ export default class QuickSwitchModal extends React.PureComponent {
                             delayInputUpdate={true}
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
-                            supressLoadingSpinner={!this.state.hasSuggestions}
+                            suppressLoadingSpinner={!this.state.hasSuggestions}
                         />
                         {!this.state.hasSuggestions &&
                         <NoResultsIndicator
-                            variant={NoResultsVariant.Search}
+                            variant={NoResultsVariant.ChannelSearch}
                             formattedMessageValues={{channelName: `"${this.state.pretext}"`}}
                         />
                         }
-
                     </div>
                 </Modal.Body>
             </Modal>

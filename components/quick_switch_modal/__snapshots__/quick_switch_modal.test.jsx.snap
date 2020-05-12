@@ -97,7 +97,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
         spellCheck="false"
-        supressLoadingSpinner={false}
+        suppressLoadingSpinner={false}
         value=""
       />
     </div>

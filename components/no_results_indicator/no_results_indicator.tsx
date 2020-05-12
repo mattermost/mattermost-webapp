@@ -16,7 +16,7 @@ interface Props {
 }
 
 const iconMap: {[key in NoResultsVariant]: string } = {
-    [NoResultsVariant.Search]: searchImage,
+    [NoResultsVariant.ChannelSearch]: searchImage,
 
     // this will be changed soon in the PRs following the other no results indicators
     [NoResultsVariant.Mentions]: '',
@@ -25,8 +25,8 @@ const iconMap: {[key in NoResultsVariant]: string } = {
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
-    [NoResultsVariant.Search]: {
-        id: t('no_results.channels.title')
+    [NoResultsVariant.ChannelSearch]: {
+        id: t('no_results.channel_search.title')
     },
 
     // this will be changed soon in the PRs following the other no results indicators
@@ -36,8 +36,8 @@ const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
 };
 
 const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
-    [NoResultsVariant.Search]: {
-        id: t('no_results.channels.subtitle')
+    [NoResultsVariant.ChannelSearch]: {
+        id: t('no_results.channel_search.subtitle')
     },
 
     // this will be changed soon in the PRs following the other no results indicators
