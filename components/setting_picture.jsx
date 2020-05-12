@@ -15,6 +15,9 @@ import OverlayTrigger from 'components/overlay_trigger';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 export default class SettingPicture extends Component {
+    static defaultProps = {
+        imageContext: 'profile',
+    };
     static propTypes = {
         clientError: PropTypes.string,
         serverError: PropTypes.string,
@@ -29,6 +32,7 @@ export default class SettingPicture extends Component {
         title: PropTypes.string,
         onFileChange: PropTypes.func,
         updateSection: PropTypes.func,
+        imageContext: PropTypes.string,
         maxFileSize: PropTypes.number,
         helpText: PropTypes.object,
     };

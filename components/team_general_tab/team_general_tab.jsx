@@ -657,6 +657,7 @@ export default class GeneralTab extends React.Component {
             );
             teamIconSection = (
                 <SettingPicture
+                    imageContext='team'
                     title={Utils.localizeMessage('general_tab.teamIcon', 'Team Icon')}
                     src={Utils.imageURLForTeam(team)}
                     file={this.state.teamIconFile}
