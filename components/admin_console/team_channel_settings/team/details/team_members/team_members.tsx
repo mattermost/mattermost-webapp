@@ -28,6 +28,8 @@ type Props = {
 
     searchTerm: string;
 
+    loading?: boolean;
+
     onAddCallback: (users: UserProfile[]) => void;
     onRemoveCallback: (user: UserProfile) => void;
     updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
@@ -159,7 +161,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                 }
             >
                 <UserGrid
-                    loading={this.state.loading}
+                    loading={this.state.loading || this.props.loading}
                     users={users}
                     loadPage={this.loadPage}
                     removeUser={this.removeUser}

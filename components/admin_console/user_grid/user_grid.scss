@@ -1,15 +1,9 @@
-.Badge {
-    font-size: 1em;
-    margin: auto 2rem;
-    padding-right: 2rem;
-
-    .Badge__box {
-        background: #1156b2;
-        color: #FFF;
-        text-transform: uppercase;
-        padding: 2px 4px;
-        border-radius: 3px;
-    }
+.NewUserBadge {
+    background: #1156b2;
+    color: #FFF;
+    text-transform: uppercase;
+    padding: 2px 4px;
+    border-radius: 3px;
 }
 
 .ug-name-row {

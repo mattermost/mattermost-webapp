@@ -335,6 +335,7 @@ export default class TeamDetails extends React.Component {
                                 usersToAdd={this.state.usersToAdd}
                                 updateRole={this.addRolesToUpdate}
                                 teamId={this.props.teamID}
+                                loading={this.state.saving}
                             />
                         }
                     </div>

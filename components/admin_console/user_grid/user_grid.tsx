@@ -171,7 +171,10 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                     />
                 ),
                 new: (
-                    <Badge show={Boolean(includeUsers[user.id])}>
+                    <Badge
+                        className='NewUserBadge'
+                        show={Boolean(includeUsers[user.id])}
+                    >
                         <FormattedMessage
                             id='admin.user_grid.new'
                             defaultMessage='New'
