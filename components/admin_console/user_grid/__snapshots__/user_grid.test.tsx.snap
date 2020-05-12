@@ -91,7 +91,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
           }
         />,
         "new": <Badge
-          className=""
+          className="NewUserBadge"
           show={false}
         >
           <FormattedMessage
@@ -230,7 +230,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
           }
         />,
         "new": <Badge
-          className=""
+          className="NewUserBadge"
           show={false}
         >
           <FormattedMessage
@@ -428,7 +428,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
           }
         />,
         "new": <Badge
-          className=""
+          className="NewUserBadge"
           show={true}
         >
           <FormattedMessage
@@ -555,7 +555,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
           }
         />,
         "new": <Badge
-          className=""
+          className="NewUserBadge"
           show={false}
         >
           <FormattedMessage
@@ -694,7 +694,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
           }
         />,
         "new": <Badge
-          className=""
+          className="NewUserBadge"
           show={false}
         >
           <FormattedMessage
@@ -892,7 +892,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
           }
         />,
         "new": <Badge
-          className=""
+          className="NewUserBadge"
           show={false}
         >
           <FormattedMessage
