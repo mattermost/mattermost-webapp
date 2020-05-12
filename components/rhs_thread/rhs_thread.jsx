@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -190,9 +189,7 @@ export default class RhsThread extends React.Component {
     }
 
     scrollToBottom = () => {
-        if ($('.post-right__scroll')[0]) {
-            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
-        }
+        this.refs.scrollbars.scrollToBottom();
     }
 
     updateFloatingTimestamp = () => {
@@ -372,6 +369,9 @@ export default class RhsThread extends React.Component {
                     renderThumbVertical={renderThumbVertical}
                     renderView={renderView}
                     onScroll={this.handleScroll}
+                    autoHeight={true}
+                    autoHeightMax={'100%'}
+                    ref={'scrollbars'}
                 >
                     <div className='post-right__scroll'>
                         <div
