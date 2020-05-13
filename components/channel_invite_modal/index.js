@@ -18,7 +18,7 @@ function makeMapStateToProps(initialState, initialProps) {
         doGetProfilesNotInChannel = makeGetProfilesNotInChannel();
     }
 
-    return function mapStateToProps(state, props) {
+    return (state, props) => {
         let profilesNotInCurrentChannel = [];
         let profilesNotInCurrentTeam = [];
 
