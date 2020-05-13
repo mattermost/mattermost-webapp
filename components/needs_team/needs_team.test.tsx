@@ -105,6 +105,7 @@ describe('components/needs_team', () => {
         teamsList,
         history,
         useLegacyLHS: true,
+        previousTeamId: '',
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

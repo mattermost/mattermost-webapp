@@ -66,6 +66,7 @@ type Props = {
             team: string;
         };
     };
+    previousTeamId?: string;
     history: {
         push(path: string): void;
     };
@@ -212,12 +213,15 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     initTeam = (team: Team) => {
+        if (team.id !== this.props.previousTeamId) {
+            GlobalActions.emitCloseRightHandSide();
+        }
+
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
         this.props.actions.getMyTeamUnreads();
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
-        GlobalActions.emitCloseRightHandSide();
 
         if (Utils.isGuest(this.props.currentUser)) {
             this.setState({finishedFetchingChannels: false});
