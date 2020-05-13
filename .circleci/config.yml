@@ -27,8 +27,6 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          node --version
-          npm version
           npm ci
           cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
@@ -81,7 +79,10 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - run: make package-ci
+      - run: |
+          node --version
+          npm version
+          make package-ci
       - store_artifacts:
           path: ~/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
