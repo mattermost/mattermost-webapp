@@ -359,7 +359,7 @@ export default class EmojiPicker extends React.PureComponent {
         if (this.props.customEmojisEnabled && filter && filter.trim() !== '') {
             this.props.actions.searchCustomEmojis(filter);
         }
-        console.log(filter);
+
         this.props.handleFilterChange(filter);
 
         this.setState(() => ({
