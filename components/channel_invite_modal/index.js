@@ -12,18 +12,19 @@ import {addUsersToChannel} from 'actions/channel_actions';
 
 import ChannelInviteModal from './channel_invite_modal.jsx';
 
-function makeMapStateToProps() {
-    const doGetProfilesNotInChannel = makeGetProfilesNotInChannel();
+function makeMapStateToProps(initialState, initialProps) {
+    let doGetProfilesNotInChannel;
+    if (initialProps.channelId && initialProps.teamId) {
+        doGetProfilesNotInChannel = makeGetProfilesNotInChannel();
+    }
 
     return function mapStateToProps(state, props) {
         let profilesNotInCurrentChannel = [];
         let profilesNotInCurrentTeam = [];
 
-        const channelId = props.channelId;
-        const teamId = props.teamId;
-        if (channelId && teamId) {
-            profilesNotInCurrentChannel = doGetProfilesNotInChannel(state, channelId);
-            profilesNotInCurrentTeam = getProfilesNotInTeam(state, teamId);
+        if (doGetProfilesNotInChannel) {
+            profilesNotInCurrentChannel = doGetProfilesNotInChannel(state, props.channelId);
+            profilesNotInCurrentTeam = getProfilesNotInTeam(state, props.teamId);
         } else {
             profilesNotInCurrentChannel = getProfilesNotInCurrentChannel(state);
             profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state);
