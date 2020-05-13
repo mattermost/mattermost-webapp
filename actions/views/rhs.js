@@ -111,11 +111,15 @@ export function performSearch(terms, isMentionSearch) {
     };
 }
 
-export function showSearchResults() {
+export function showSearchResults(isMentionSearch = false) {
     return (dispatch, getState) => {
         const searchTerms = getSearchTerms(getState());
 
-        dispatch(updateRhsState(RHSStates.SEARCH));
+        if (isMentionSearch) {
+            dispatch(updateRhsState(RHSStates.MENTION));
+        } else {
+            dispatch(updateRhsState(RHSStates.SEARCH));
+        }
         dispatch(updateSearchResultsTerms(searchTerms));
 
         return dispatch(performSearch(searchTerms));

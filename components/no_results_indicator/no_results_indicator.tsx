@@ -2,48 +2,58 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, MessageDescriptor} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage, MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
 import searchImage from 'images/search.svg';
+import pinnedPostsImage from 'images/pinned_posts.svg';
+import mentionsImage from 'images/mentions.svg';
+import flaggedPostsImage from 'images/flagged_posts.svg';
 
 import {NoResultsVariant} from './types';
 
 interface Props {
     variant: NoResultsVariant;
     formattedMessageValues?: {[key: string]: string};
+    formattedHTMLMessageValues?: {[key: string]: string};
 }
 
 const iconMap: {[key in NoResultsVariant]: string } = {
     [NoResultsVariant.ChannelSearch]: searchImage,
-
-    // this will be changed soon in the PRs following the other no results indicators
-    [NoResultsVariant.Mentions]: '',
-    [NoResultsVariant.FlaggedPosts]: '',
-    [NoResultsVariant.PinnedPosts]: '',
+    [NoResultsVariant.Mentions]: mentionsImage,
+    [NoResultsVariant.FlaggedPosts]: flaggedPostsImage,
+    [NoResultsVariant.PinnedPosts]: pinnedPostsImage,
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     [NoResultsVariant.ChannelSearch]: {
         id: t('no_results.channel_search.title')
     },
-
-    // this will be changed soon in the PRs following the other no results indicators
-    [NoResultsVariant.Mentions]: {},
-    [NoResultsVariant.FlaggedPosts]: {},
-    [NoResultsVariant.PinnedPosts]: {},
+    [NoResultsVariant.Mentions]: {
+        id: t('no_results.mentions.title')
+    },
+    [NoResultsVariant.FlaggedPosts]: {
+        id: t('no_results.flagged_posts.title')
+    },
+    [NoResultsVariant.PinnedPosts]: {
+        id: t('no_results.pinned_posts.title')
+    },
 };
 
 const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     [NoResultsVariant.ChannelSearch]: {
         id: t('no_results.channel_search.subtitle')
     },
-
-    // this will be changed soon in the PRs following the other no results indicators
-    [NoResultsVariant.Mentions]: {},
-    [NoResultsVariant.FlaggedPosts]: {},
-    [NoResultsVariant.PinnedPosts]: {},
+    [NoResultsVariant.Mentions]: {
+        id: t('no_results.mentions.subtitle')
+    },
+    [NoResultsVariant.FlaggedPosts]: {
+        id: t('no_results.flagged_posts.subtitle')
+    },
+    [NoResultsVariant.PinnedPosts]: {
+        id: t('no_results.pinned_posts.subtitle')
+    },
 };
 
 const NoResultsIndicator = (props: Props) => {
@@ -66,7 +76,10 @@ const NoResultsIndicator = (props: Props) => {
                 />
             </div>
             <FormattedMessage
-                {...subtitleMap[props.variant]}
+                {...{
+                    ...subtitleMap[props.variant],
+                    values: props.formattedHTMLMessageValues
+                }}
             />
         </div>
     );

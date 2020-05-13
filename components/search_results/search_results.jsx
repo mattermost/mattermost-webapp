@@ -16,10 +16,11 @@ import {searchHintOptions} from 'utils/constants';
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
 import SearchHint from 'components/search_hint/search_hint';
-import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
-import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
-import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+
+import {NoResultsVariant} from '../no_results_indicator/types';
 
 const GET_MORE_BUFFER = 30;
 
@@ -198,18 +199,19 @@ class SearchResults extends React.Component {
         } else if (this.props.isFlaggedPosts && noResults) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
-                    <FlagPostSearchHint
-                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
-                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.FlaggedPosts}
+                        formattedHTMLMessageValues={{icon: <FlagIcon className='icon  no-results__icon'/>
+                        }}
                     />
                 </div>
             );
         } else if (this.props.isPinnedPosts && noResults) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
-                    <PinPostSearchHint
-                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
-                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.PinnedPosts}
+                        formattedHTMLMessageValues={{boldText: <strong>{'Pin to Channel'}</strong>}}
                     />
                 </div>
             );
@@ -222,12 +224,20 @@ class SearchResults extends React.Component {
                     />
                 </div>
             );
+        } else if (this.props.isMentionSearch && noResults) {
+            ctls = (
+                <div className='sidebar--right__subheader a11y__section'>
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.Mentions}
+                    />
+                </div>
+            );
         } else if (noResults) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
-                    <NoResultSearchHint
-                        dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
-                        dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.ChannelSearch}
+                        formattedMessageValues={{channelName: `"${this.props.searchTerms}"`}}
                     />
                 </div>
             );

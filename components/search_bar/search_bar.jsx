@@ -141,7 +141,7 @@ export default class SearchBar extends React.Component {
 
     handleSearch = async (terms) => {
         if (terms.length) {
-            const {error} = await this.props.actions.showSearchResults();
+            const {error} = await this.props.actions.showSearchResults(this.props.isMentionSearch);
 
             if (!error) {
                 this.handleSearchOnSuccess();

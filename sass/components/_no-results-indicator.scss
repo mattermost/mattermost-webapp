@@ -6,7 +6,7 @@
     align-items: center;
     padding: 30px;
     text-align: center;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .no-results__variant-wrapper {
@@ -25,4 +25,10 @@
     font-size: 20px;
     color: var(--center-channel-color);
     margin-bottom: 15px;
+}
+
+.no-results__icon {
+    width: 11px;
+    margin: 2px;
+    vertical-align: middle;
 }
