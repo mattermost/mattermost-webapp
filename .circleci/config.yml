@@ -27,6 +27,8 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
+          node version
+          npm version
           npm ci
           cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
@@ -75,6 +77,7 @@ jobs:
   build:
     executor:
       name: default
+    resource_class: xlarge
     steps:
       - checkout
       - *restore_cache
