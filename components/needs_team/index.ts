@@ -39,6 +39,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const plugins = state.plugins.components.NeedsTeamComponent;
 
     return {
+        license,
         theme: getTheme(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         currentUser,

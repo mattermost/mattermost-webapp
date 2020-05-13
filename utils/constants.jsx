@@ -144,9 +144,8 @@ export const ActionTypes = keyMirror({
     RECEIVED_PLUGIN_POST_CARD_COMPONENT: null,
     REMOVED_PLUGIN_POST_COMPONENT: null,
     REMOVED_PLUGIN_POST_CARD_COMPONENT: null,
-    RECEIVED_WEBAPP_PLUGINS: null,
-    RECEIVED_WEBAPP_PLUGIN: null,
-    REMOVED_WEBAPP_PLUGIN: null,
+    ADD_WEBAPP_PLUGIN: null,
+    REMOVE_WEBAPP_PLUGIN: null,
     RECEIVED_ADMIN_CONSOLE_REDUCER: null,
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
     RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
@@ -488,6 +487,7 @@ export const JobStatuses = {
     ERROR: 'error',
     CANCEL_REQUESTED: 'cancel_requested',
     CANCELED: 'canceled',
+    WARNING: 'warning',
 };
 
 export const AnnouncementBarTypes = {
@@ -1432,6 +1432,15 @@ export const Constants = {
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
+
+export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_list_option.from'), defaultMessage: 'Messages from a user'}},
+    {searchTerm: 'In:', message: {id: t('search_list_option.in'), defaultMessage: 'Messages in a channel'}},
+    {searchTerm: 'On:', message: {id: t('search_list_option.on'), defaultMessage: 'Messages on a date'}},
+    {searchTerm: 'Before:', message: {id: t('search_list_option.before'), defaultMessage: 'Messages before a date'}},
+    {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
+    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}},
+    {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
+];
 
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
