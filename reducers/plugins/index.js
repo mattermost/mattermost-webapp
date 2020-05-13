@@ -129,19 +129,9 @@ function removePluginComponent(state, action) {
     return state;
 }
 
-function plugins(state = {}, action) {
+function manifests(state = {}, action) {
     switch (action.type) {
-    case ActionTypes.RECEIVED_WEBAPP_PLUGINS: {
-        if (action.data) {
-            const nextState = {};
-            action.data.forEach((p) => {
-                nextState[p.id] = p;
-            });
-            return nextState;
-        }
-        return state;
-    }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN: {
+    case ActionTypes.ADD_WEBAPP_PLUGIN: {
         if (action.data) {
             const nextState = {...state};
             nextState[action.data.id] = action.data;
@@ -149,7 +139,7 @@ function plugins(state = {}, action) {
         }
         return state;
     }
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
+    case ActionTypes.REMOVE_WEBAPP_PLUGIN: {
         if (action.data && state[action.data.id]) {
             const nextState = {...state};
             Reflect.deleteProperty(nextState, action.data.id);
@@ -190,8 +180,8 @@ function components(state = {}, action) {
     }
     case ActionTypes.REMOVED_PLUGIN_COMPONENT:
         return removePluginComponent(state, action);
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+    case ActionTypes.ADD_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVE_WEBAPP_PLUGIN:
         return removePluginComponents(state, action);
     default:
         return state;
@@ -217,8 +207,8 @@ function postTypes(state = {}, action) {
     }
     case ActionTypes.REMOVED_PLUGIN_POST_COMPONENT:
         return removePostPluginComponent(state, action);
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+    case ActionTypes.ADD_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVE_WEBAPP_PLUGIN:
         return removePostPluginComponents(state, action);
     default:
         return state;
@@ -244,8 +234,8 @@ function postCardTypes(state = {}, action) {
     }
     case ActionTypes.REMOVED_PLUGIN_POST_CARD_COMPONENT:
         return removePostPluginComponent(state, action);
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+    case ActionTypes.ADD_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVE_WEBAPP_PLUGIN:
         return removePostPluginComponents(state, action);
     default:
         return state;
@@ -270,8 +260,8 @@ function adminConsoleReducers(state = {}, action) {
         }
         return state;
     }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+    case ActionTypes.ADD_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVE_WEBAPP_PLUGIN:
         if (action.data) {
             const nextState = {...state};
             delete nextState[action.data.id];
@@ -303,8 +293,8 @@ function adminConsoleCustomComponents(state = {}, action) {
 
         return nextState;
     }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
+    case ActionTypes.ADD_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVE_WEBAPP_PLUGIN: {
         if (!action.data || !state[action.data.id]) {
             return state;
         }
@@ -322,7 +312,7 @@ function adminConsoleCustomComponents(state = {}, action) {
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
-    plugins,
+    manifests,
 
     // object where every key is a component name and the values are arrays of
     // components wrapped in an object that contains an id and plugin id
