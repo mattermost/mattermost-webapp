@@ -100,7 +100,7 @@ export default class SignupSurvey extends React.PureComponent<Props, State> {
             currentUserRoles,
             location: {
                 state: {
-                    next,
+                    next = null,
                 } = {},
             } = {},
         } = this.props;
