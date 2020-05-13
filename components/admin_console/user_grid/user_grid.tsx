@@ -15,13 +15,14 @@ import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_gri
 
 import UserGridName from './user_grid_name';
 import UserGridRemove from './user_grid_remove';
-import UserGridRoleDropdown, {Role} from './user_grid_role_dropdown';
+import UserGridRoleDropdown, {BaseMembership, Role} from './user_grid_role_dropdown';
 
 import './user_grid.scss';
 
 type Props = {
     users: UserProfile[];
-    memberships: Dictionary<TeamMembership> | Dictionary<ChannelMembership>;
+    scope: 'team' | 'channel';
+    memberships: { [userId: string]: BaseMembership | TeamMembership | ChannelMembership };
 
     excludeUsers: { [userId: string]: UserProfile };
     includeUsers: { [userId: string]: UserProfile };
@@ -29,7 +30,7 @@ type Props = {
     loadPage: (page: number) => void;
     search: (term: string) => void;
     removeUser: (user: UserProfile) => void;
-    updateMemberRolesForUser: (userId: string, role: Role) => void;
+    updateMembership: (membership: BaseMembership) => void;
 
     totalCount: number;
     loading: boolean;
@@ -39,7 +40,7 @@ type Props = {
 type State = {
     loading: boolean;
     page: number;
-    membershipsToUpdate: { [userId: string]: TeamMembership | ChannelMembership };
+    membershipsToUpdate: { [userId: string]: BaseMembership | TeamMembership | ChannelMembership };
 }
 
 const USERS_PER_PAGE = 10;
@@ -122,22 +123,30 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.setState({page});
     }
 
-    private updateMembership = (userId: string, role: Role) => {
+    private updateMembership = (membership: BaseMembership) => {
         const {membershipsToUpdate} = this.state;
         const {memberships} = this.props;
-
+        const userId = membership.user_id;
         membershipsToUpdate[userId] = {
             ...memberships[userId],
-            roles: role,
+            ...membership,
         };
 
-        this.props.updateMemberRolesForUser(userId, role);
+        this.props.updateMembership(membership);
         this.setState({membershipsToUpdate}, this.forceUpdate);
+    }
+
+    private newMembership = (userId: string): BaseMembership => {
+        return {
+            user_id: userId,
+            scheme_admin: false,
+            scheme_user: true,
+        };
     }
 
     private getRows = (): Row[] => {
         const {page, membershipsToUpdate} = this.state;
-        const {memberships, users, excludeUsers, includeUsers, totalCount, term} = this.props;
+        const {memberships, users, excludeUsers, includeUsers, totalCount, term, scope} = this.props;
 
         let usersToDisplay = users;
         const includeUsersList = Object.values(includeUsers);
@@ -162,6 +171,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         }
 
         return usersToDisplay.map((user) => {
+            const membership = membershipsToUpdate[user.id] || memberships[user.id] || this.newMembership(user.id);
             return {
                 id: user.id,
                 name: (
@@ -184,8 +194,9 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 role: (
                     <UserGridRoleDropdown
                         user={user}
-                        membership={membershipsToUpdate[user.id] || memberships[user.id]}
-                        handleUpdateMembership={(role: Role) => this.updateMembership(user.id, role)}
+                        membership={membership}
+                        handleUpdateMembership={this.updateMembership}
+                        scope={scope}
                     />
                 ),
                 remove: (

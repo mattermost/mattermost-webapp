@@ -152,6 +152,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               "user_id": "userId1",
             }
           }
+          scope="team"
           user={
             Object {
               "auth_data": "",
@@ -291,6 +292,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               "user_id": "userId2",
             }
           }
+          scope="team"
           user={
             Object {
               "auth_data": "",
@@ -477,6 +479,14 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         />,
         "role": <UserGridRoleDropdown
           handleUpdateMembership={[Function]}
+          membership={
+            Object {
+              "scheme_admin": false,
+              "scheme_user": true,
+              "user_id": "userid-not-saved",
+            }
+          }
+          scope="team"
           user={
             Object {
               "auth_data": "",
@@ -616,6 +626,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               "user_id": "userId1",
             }
           }
+          scope="team"
           user={
             Object {
               "auth_data": "",
@@ -755,6 +766,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               "user_id": "userId2",
             }
           }
+          scope="team"
           user={
             Object {
               "auth_data": "",
@@ -953,6 +965,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               "user_id": "userId2",
             }
           }
+          scope="team"
           user={
             Object {
               "auth_data": "",
