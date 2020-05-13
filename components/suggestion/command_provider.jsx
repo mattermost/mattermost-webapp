@@ -55,6 +55,9 @@ export class CommandSuggestion extends Suggestion {
 
 export default class CommandProvider extends Provider {
     handlePretextChanged(pretext, resultCallback) {
+        if (!pretext.startsWith('/')) {
+            return false;
+        }
         if (UserAgent.isMobile()) {
             return this.handleMobile(pretext, resultCallback);
         }
@@ -66,85 +69,79 @@ export default class CommandProvider extends Provider {
     }
 
     handleMobile(pretext, resultCallback) {
-        if (pretext.startsWith('/')) {
-            const command = pretext.toLowerCase();
-            Client4.getCommandsList(getCurrentTeamId(store.getState())).then(
-                (data) => {
-                    let matches = [];
-                    data.forEach((cmd) => {
-                        if (!cmd.auto_complete) {
-                            return;
-                        }
+        const command = pretext.toLowerCase();
+        Client4.getCommandsList(getCurrentTeamId(store.getState())).then(
+            (data) => {
+                let matches = [];
+                data.forEach((cmd) => {
+                    if (!cmd.auto_complete) {
+                        return;
+                    }
 
-                        if (cmd.trigger !== 'shortcuts') {
-                            if (('/' + cmd.trigger).indexOf(command) === 0) {
-                                const s = '/' + cmd.trigger;
-                                let hint = '';
-                                if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
-                                    hint = cmd.auto_complete_hint;
-                                }
-                                matches.push({
-                                    suggestion: s,
-                                    hint,
-                                    description: cmd.auto_complete_desc,
-                                });
+                    if (cmd.trigger !== 'shortcuts') {
+                        if (('/' + cmd.trigger).indexOf(command) === 0) {
+                            const s = '/' + cmd.trigger;
+                            let hint = '';
+                            if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
+                                hint = cmd.auto_complete_hint;
                             }
+                            matches.push({
+                                suggestion: s,
+                                hint,
+                                description: cmd.auto_complete_desc,
+                            });
                         }
-                    });
+                    }
+                });
 
-                    matches = matches.sort((a, b) => a.suggestion.localeCompare(b.suggestion));
+                matches = matches.sort((a, b) => a.suggestion.localeCompare(b.suggestion));
 
-                    // pull out the suggested commands from the returned data
-                    const terms = matches.map((suggestion) => suggestion.suggestion);
+                // pull out the suggested commands from the returned data
+                const terms = matches.map((suggestion) => suggestion.suggestion);
 
-                    resultCallback({
-                        matchedPretext: command,
-                        terms,
-                        items: matches,
-                        component: CommandSuggestion,
-                    });
-                }
-            ).catch(
-                () => {} //eslint-disable-line no-empty-function
-            );
+                resultCallback({
+                    matchedPretext: command,
+                    terms,
+                    items: matches,
+                    component: CommandSuggestion,
+                });
+            }
+        ).catch(
+            () => {} //eslint-disable-line no-empty-function
+        );
 
-            return true;
-        }
-        return false;
+        return true;
     }
 
     handleWebapp(pretext, resultCallback) {
-        if (pretext.startsWith('/')) {
-            const command = pretext.toLowerCase();
-            Client4.getCommandAutocompleteSuggestionsList(command, getCurrentTeamId(store.getState())).then(
-                (data) => {
-                    const matches = [];
-                    data.forEach((sug) => {
-                        matches.push({
-                            complete: '/' + sug.Complete,
-                            suggestion: '/' + sug.Suggestion,
-                            hint: sug.Hint,
-                            description: sug.Description,
-                            iconData: sug.IconData,
-                        });
+        const command = pretext.toLowerCase();
+        Client4.getCommandAutocompleteSuggestionsList(command, getCurrentTeamId(store.getState())).then(
+            (data) => {
+                const matches = [];
+                data.forEach((sug) => {
+                    matches.push({
+                        complete: '/' + sug.Complete,
+                        suggestion: '/' + sug.Suggestion,
+                        hint: sug.Hint,
+                        description: sug.Description,
+                        iconData: sug.IconData,
                     });
+                });
 
-                    // pull out the suggested commands from the returned data
-                    const terms = matches.map((suggestion) => suggestion.complete);
+                // pull out the suggested commands from the returned data
+                const terms = matches.map((suggestion) => suggestion.complete);
 
-                    resultCallback({
-                        matchedPretext: command,
-                        terms,
-                        items: matches,
-                        component: CommandSuggestion,
-                    });
-                }
-            ).catch(
-                () => {} //eslint-disable-line no-empty-function
-            );
+                resultCallback({
+                    matchedPretext: command,
+                    terms,
+                    items: matches,
+                    component: CommandSuggestion,
+                });
+            }
+        ).catch(
+            () => {} //eslint-disable-line no-empty-function
+        );
 
-            return true;
-        }
-        return false;
+        return true;
     }
 }
