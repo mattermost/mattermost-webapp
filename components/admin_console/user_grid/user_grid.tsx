@@ -160,7 +160,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             const {startCount, endCount} = this.getPaginationProps();
             usersToDisplay = usersToDisplay.slice(startCount - 1, endCount);
 
-            if (usersToDisplay.length < 10 && users.length < (totalCount || 1)) {
+            if (usersToDisplay.length < 10 && users.length < totalCount) {
                 const numberOfUsersRemoved = Object.keys(excludeUsers).length;
                 const pagesOfUsersRemoved = Math.floor(numberOfUsersRemoved / USERS_PER_PAGE);
                 const pageToLoad = page + pagesOfUsersRemoved + 1;
