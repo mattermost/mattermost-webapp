@@ -79,6 +79,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         onChange={[Function]}
         onItemSelected={[Function]}
         onKeyDown={[Function]}
+        onSuggestionsReceived={[Function]}
         openOnFocus={false}
         openWhenEmpty={true}
         providers={
@@ -96,6 +97,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
         spellCheck="false"
+        suppressLoadingSpinner={false}
         value=""
       />
     </div>

@@ -149,8 +149,8 @@ describe('Image attachment', () => {
 
                 cy.get('@div').find('img').
                     and((img) => {
-                        expect(img.height()).to.be.closeTo(142, 0.9);
-                        expect(img.width()).to.be.closeTo(899, 0.9);
+                        expect(img.height()).to.be.closeTo(145, 2.0);
+                        expect(img.width()).to.be.closeTo(913, 2.0);
                     });
             });
         });
@@ -174,8 +174,8 @@ describe('Image attachment', () => {
 
                 cy.get('@div').find('img').
                     and((img) => {
-                        expect(img.height()).to.be.closeTo(142, 0.9);
-                        expect(img.width()).to.be.closeTo(899, 0.9);
+                        expect(img.height()).to.be.closeTo(145, 2.0);
+                        expect(img.width()).to.be.closeTo(913, 2.0);
                     }).
                     click();
             });
