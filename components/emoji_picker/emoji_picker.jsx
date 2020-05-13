@@ -13,6 +13,10 @@ import imgTrans from 'images/img_trans.gif';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+
+import {NoResultsVariant} from '../no_results_indicator/types';
+
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
@@ -355,7 +359,7 @@ export default class EmojiPicker extends React.PureComponent {
         if (this.props.customEmojisEnabled && filter && filter.trim() !== '') {
             this.props.actions.searchCustomEmojis(filter);
         }
-
+        console.log(filter);
         this.props.handleFilterChange(filter);
 
         this.setState(() => ({
@@ -698,6 +702,14 @@ export default class EmojiPicker extends React.PureComponent {
                     {items}
                 </EmojiPickerCategorySection>
             )];
+
+            if (items.length === 0) {
+                return (
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.ChannelSearch}
+                        formattedMessageValues={{channelName: `"${this.props.filter}"`}}
+                    />);
+            }
         }
 
         return (
