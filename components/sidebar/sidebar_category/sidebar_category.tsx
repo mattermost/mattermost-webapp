@@ -15,7 +15,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {trackEvent} from 'actions/diagnostics_actions';
 import OverlayTrigger from 'components/overlay_trigger';
 import {DraggingState} from 'types/store';
-import Constants, {A11yCustomEventTypes, DraggingStateTypes} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
@@ -323,6 +323,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                             className={classNames('SidebarChannelGroup a11y__section', {
                                 dropDisabled: this.isDropDisabled(),
                                 menuIsOpen: this.state.isMenuOpen,
+                                capture: this.props.draggingState.state === DraggingStates.CAPTURE,
                             })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}

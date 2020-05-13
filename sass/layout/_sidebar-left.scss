@@ -719,6 +719,10 @@
             background-color: inherit;
         }
     }
+    .SidebarChannelGroup.capture .SidebarChannelGroup_content {
+        margin-bottom: 0;
+        padding-bottom: 14px;
+    }
 
     .SidebarChannelGroupHeader_addButton {
         padding: 0;
