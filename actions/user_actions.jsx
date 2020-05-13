@@ -63,7 +63,7 @@ export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     };
 }
 
-export function searchProfilesAndTeamMembers(term, options) {
+export function searchProfilesAndTeamMembers(term = '', options = {}) {
     return async (doDispatch, doGetState) => {
         const newTeamId = options.team_id || getCurrentTeamId(doGetState());
         const {data} = await doDispatch(UserActions.searchProfiles(term, options));
