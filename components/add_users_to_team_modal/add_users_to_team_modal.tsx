@@ -70,7 +70,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
     }
 
     public search = async (term: string) => {
-        this.setState({loading: true});
+        this.setUsersLoadingState(true);
         let searchResults: UserProfile[] = [];
         const search = term !== '';
         if (search) {
@@ -133,19 +133,16 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
     }
 
     private renderValue = (value: { data: UserProfileValue }): string => {
-        return value.data.username;
+        return value.data?.username || '';
     }
 
-    private renderAriaLabel = (option: UserProfileValue): string | null => {
-        if (!option) {
-            return null;
-        }
-        return option.username;
+    private renderAriaLabel = (option: UserProfileValue): string => {
+        return option?.username || '';
     }
 
     private handleAdd = (value: UserProfileValue) => {
-        const values: UserProfileValue[] = Object.assign([], this.state.values);
-        if (values.indexOf(value) === -1) {
+        const values: UserProfileValue[] = [...this.state.values];
+        if (!values.includes(value)) {
             values.push(value);
         }
         this.setState({values});
@@ -158,8 +155,9 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
     private handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             const needMoreUsers = (this.props.users.length / USERS_PER_PAGE) <= page + 1;
-            this.setState({loading: needMoreUsers});
-            this.props.actions.getProfilesNotInTeam(this.props.team.id, false, page, USERS_PER_PAGE * 2).then(() => this.setState({loading: false}));
+            this.setUsersLoadingState(needMoreUsers);
+            this.props.actions.getProfilesNotInTeam(this.props.team.id, false, page, USERS_PER_PAGE * 2).
+                then(() => this.setUsersLoadingState(false));
         }
     };
 
@@ -231,6 +229,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
                         key='addUsersToTeamKey'
                         options={options}
                         optionRenderer={this.renderOption}
+                        ariaLabelRenderer={this.renderAriaLabel}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
                         perPage={USERS_PER_PAGE}

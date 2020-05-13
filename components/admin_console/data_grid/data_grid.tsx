@@ -68,10 +68,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        let minimumColumnWidth = MINIMUM_COLUMN_WIDTH;
-        if (props.minimumColumnWidth) {
-            minimumColumnWidth = props.minimumColumnWidth;
-        }
+        const minimumColumnWidth = props.minimumColumnWidth ? props.minimumColumnWidth : MINIMUM_COLUMN_WIDTH;
 
         this.state = {
             visibleColumns: this.props.columns,
@@ -89,7 +86,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private handleResize = () => {
-        if (!this.ref || !this.ref.current) {
+        if (!this.ref?.current) {
             return;
         }
 
@@ -179,7 +176,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     private renderSearch(): JSX.Element {
         return (
             <DataGridSearch
-                onSearch={(term) => this.search(term)}
+                onSearch={this.search}
                 placeholder={this.props.searchPlaceholder || ''}
                 term={this.props.term}
             />
@@ -210,14 +207,14 @@ class DataGrid extends React.PureComponent<Props, State> {
             const firstPage = startCount <= 1;
             const lastPage = endCount >= total;
 
-            let prevPageFn: () => void;
-            if (!firstPage) {
-                prevPageFn = this.previousPage;
+            let prevPageFn: () => void = this.previousPage;
+            if (firstPage) {
+                prevPageFn = () => {};
             }
 
-            let nextPageFn: () => void;
-            if (!lastPage) {
-                nextPageFn = this.nextPage;
+            let nextPageFn: () => void = this.nextPage;
+            if (lastPage) {
+                nextPageFn = () => {};
             }
 
             footer = (
@@ -235,14 +232,14 @@ class DataGrid extends React.PureComponent<Props, State> {
 
                         <button
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                            onClick={() => prevPageFn()}
+                            onClick={prevPageFn}
                             disabled={firstPage}
                         >
                             <PreviousIcon/>
                         </button>
                         <button
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                            onClick={() => nextPageFn()}
+                            onClick={nextPageFn}
                             disabled={lastPage}
                         >
                             <NextIcon/>
