@@ -79,6 +79,9 @@ export default class RhsThread extends React.Component {
             topRhsPostId: 0,
             openTime,
         };
+
+        this.scrollbarsRef = React.createRef();
+        this.rhspostlistRef = React.createRef();
     }
 
     componentDidMount() {
@@ -189,7 +192,7 @@ export default class RhsThread extends React.Component {
     }
 
     scrollToBottom = () => {
-        this.refs.scrollbars.scrollToBottom();
+        this.scrollbarsRef.current.scrollToBottom();
     }
 
     updateFloatingTimestamp = () => {
@@ -199,8 +202,8 @@ export default class RhsThread extends React.Component {
         }
 
         if (this.props.posts) {
-            const childNodes = this.refs.rhspostlist.childNodes;
-            const viewPort = this.refs.rhspostlist.getBoundingClientRect();
+            const childNodes = this.rhspostlistRef.childNodes;
+            const viewPort = this.rhspostlistRef.getBoundingClientRect();
             let topRhsPostId = '';
             const offset = 100;
 
@@ -371,7 +374,7 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                     autoHeight={true}
                     autoHeightMax={'100%'}
-                    ref={'scrollbars'}
+                    ref={this.scrollbarsRef}
                 >
                     <div className='post-right__scroll'>
                         <div
@@ -398,7 +401,7 @@ export default class RhsThread extends React.Component {
                             />
                             {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                             <div
-                                ref='rhspostlist'
+                                ref={this.rhspostlistRef}
                                 className='post-right-comments-container'
                                 id='rhsPostList'
                             >

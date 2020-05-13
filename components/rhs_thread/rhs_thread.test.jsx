@@ -48,18 +48,24 @@ describe('components/RhsThread', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
-
-        wrapper.setProps({socketConnectionStatus: false});
+        
+        const prevProps = {
+            ...baseProps,
+            socketConnectionStatus: false,
+        }
         wrapper.setProps({socketConnectionStatus: true});
+        wrapper.instance().componentDidUpdate(prevProps);
 
         expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
     });
@@ -67,7 +73,8 @@ describe('components/RhsThread', () => {
     test('should update openTime state when selected prop updated', async () => {
         jest.useRealTimers();
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
 
         const waitMilliseconds = 100;
@@ -83,9 +90,11 @@ describe('components/RhsThread', () => {
         const scrollToBottom = jest.fn();
 
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
         wrapper.instance().scrollToBottom = scrollToBottom;
+        wrapper.instance().componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
 
@@ -99,6 +108,7 @@ describe('components/RhsThread', () => {
                 post,
             ],
         });
+        wrapper.instance().componentDidUpdate(baseProps);
 
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -107,9 +117,11 @@ describe('components/RhsThread', () => {
         const scrollToBottom = jest.fn();
 
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
         wrapper.instance().scrollToBottom = scrollToBottom;
+        wrapper.instance().componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
 
@@ -123,6 +135,7 @@ describe('components/RhsThread', () => {
                 post,
             ],
         });
+        wrapper.instance().componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
     });
