@@ -59,11 +59,10 @@ describe('components/RhsThread', () => {
             <RhsThread {...baseProps}/>,
             {disableLifecycleMethods: true},
         );
-        
         const prevProps = {
             ...baseProps,
             socketConnectionStatus: false,
-        }
+        };
         wrapper.setProps({socketConnectionStatus: true});
         wrapper.instance().componentDidUpdate(prevProps);
 
