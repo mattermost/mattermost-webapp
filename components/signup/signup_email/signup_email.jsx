@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants';
+import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
@@ -141,6 +141,10 @@ export default class SignupEmail extends React.Component {
                 this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
             }
 
+            if (user.shouldBeSurveyed) {
+                sessionStorage.setItem(StoragePrefixes.SIGNUP_SURVEY, data.id);
+            }
+
             const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
             if (redirectTo) {
                 browserHistory.push(redirectTo);
@@ -248,6 +252,7 @@ export default class SignupEmail extends React.Component {
                 username: this.refs.name.value.trim().toLowerCase(),
                 password: this.refs.password.value,
                 allow_marketing: true,
+                shouldBeSurveyed: !this.props.hasAccounts,
             };
 
             this.props.actions.createUser(user, this.state.token, this.state.inviteId).then((result) => {

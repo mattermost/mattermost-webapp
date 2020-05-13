@@ -8,12 +8,13 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
 
 export default class TeamUrl extends React.PureComponent {
     static propTypes = {
@@ -22,6 +23,16 @@ export default class TeamUrl extends React.PureComponent {
          * Object containing team's display_name and name
          */
         state: PropTypes.object,
+
+        /*
+         * Logged in user id
+         */
+        currentUserId: PropTypes.string,
+
+        /*
+         * Logged in user roles
+         */
+        currentUserRoles: PropTypes.string,
 
         /*
          * Function that updates parent component with state props
@@ -142,7 +153,14 @@ export default class TeamUrl extends React.PureComponent {
         const {data, error} = await createTeam(teamSignup.team);
 
         if (data) {
-            this.props.history.push('/' + data.name + '/channels/' + Constants.DEFAULT_CHANNEL);
+            const next = `/${data.name}/channels/${Constants.DEFAULT_CHANNEL}`;
+
+            if (sessionStorage.getItem(StoragePrefixes.SIGNUP_SURVEY) === this.props.currentUserId) {
+                this.props.history.push('/signup_survey', {next});
+            } else {
+                this.props.history.push(next);
+            }
+
             trackEvent('signup', 'signup_team_03_complete');
         } else if (error) {
             this.setState({nameError: error.message});
@@ -174,6 +192,18 @@ export default class TeamUrl extends React.PureComponent {
                 defaultMessage='Finish'
             />
         );
+
+        if (sessionStorage.getItem(StoragePrefixes.SIGNUP_SURVEY) === this.props.currentUserId) {
+            finishMessage = (
+                <React.Fragment>
+                    <FormattedMessage
+                        id='create_team.team_url.next'
+                        defaultMessage='Next'
+                    />
+                    <NextIcon/>
+                </React.Fragment>
+            );
+        }
 
         if (this.state.isLoading) {
             finishMessage = (

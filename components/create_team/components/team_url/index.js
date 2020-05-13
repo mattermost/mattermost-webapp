@@ -6,7 +6,18 @@ import {connect} from 'react-redux';
 
 import {checkIfTeamExists, createTeam} from 'mattermost-redux/actions/teams';
 
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
 import TeamUrl from './team_url';
+
+function mapStateToProps(state) {
+    const currentUser = getCurrentUser(state);
+
+    return {
+        currentUserId: currentUser.id,
+        currentUserRoles: currentUser.roles || '',
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -17,4 +28,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(TeamUrl);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamUrl);

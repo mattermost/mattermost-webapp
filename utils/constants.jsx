@@ -456,6 +456,7 @@ export const StoragePrefixes = {
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
+    SIGNUP_SURVEY: '__signupSurvey__',
 };
 
 export const LandingPreferenceTypes = {

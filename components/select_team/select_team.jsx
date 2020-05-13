@@ -12,7 +12,7 @@ import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent';
-import Constants from 'utils/constants';
+import {Constants, StoragePrefixes} from 'utils/constants';
 
 import logoImage from 'images/logo.png';
 
@@ -107,7 +107,13 @@ export default class SelectTeam extends React.Component {
 
         const {data, error} = await this.props.actions.addUserToTeam(team.id, this.props.currentUserId);
         if (data) {
-            this.props.history.push(`/${team.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+            const next = `/${team.name}/channels/${Constants.DEFAULT_CHANNEL}`;
+
+            if (sessionStorage.getItem(StoragePrefixes.SIGNUP_SURVEY) === this.props.currentUserId) {
+                this.props.history.push('/signup_survey', {next});
+            } else {
+                this.props.history.push(next);
+            }
         } else if (error) {
             let errorMsg = error.message;
 
