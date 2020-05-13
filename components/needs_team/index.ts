@@ -18,6 +18,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Action} from 'mattermost-redux/types/actions';
 
 import {setPreviousTeamId} from 'actions/local_storage';
+import {getPreviousTeamId} from 'selectors/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
@@ -42,6 +43,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         currentUser,
         currentTeamId: getCurrentTeamId(state),
+        previousTeamId: getPreviousTeamId(state),
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
         useLegacyLHS: !getNewSidebarPreference(state),
