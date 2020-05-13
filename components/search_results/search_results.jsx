@@ -11,6 +11,7 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+import {searchHintOptions} from 'utils/constants';
 
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
@@ -107,6 +108,7 @@ class SearchResults extends React.Component {
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
         isOpened: PropTypes.bool,
+        updateSearchTerms: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
@@ -214,7 +216,10 @@ class SearchResults extends React.Component {
         } else if (!searchTerms && noResults) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
-                    <SearchHint/>
+                    <SearchHint
+                        onOptionSelected={this.props.updateSearchTerms}
+                        options={searchHintOptions}
+                    />
                 </div>
             );
         } else if (noResults) {
@@ -269,7 +274,12 @@ class SearchResults extends React.Component {
 
         const channelName = this.props.channelDisplayName;
 
-        if (this.props.isMentionSearch) {
+        if (!searchTerms && noResults) {
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_bar.search',
+                defaultMessage: 'Search',
+            });
+        } else if (this.props.isMentionSearch) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title2',
                 defaultMessage: 'Recent Mentions',
