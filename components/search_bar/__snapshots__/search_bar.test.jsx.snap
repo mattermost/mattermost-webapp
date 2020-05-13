@@ -207,6 +207,63 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         popoverStyle="info"
       >
         <SearchHint
+          highlightedIndex={-1}
+          onMouseDown={[Function]}
+          onOptionHover={[Function]}
+          onOptionSelected={[Function]}
+          options={
+            Array [
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages from a user",
+                  "id": "search_list_option.from",
+                },
+                "searchTerm": "From:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages in a channel",
+                  "id": "search_list_option.in",
+                },
+                "searchTerm": "In:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages on a date",
+                  "id": "search_list_option.on",
+                },
+                "searchTerm": "On:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages before a date",
+                  "id": "search_list_option.before",
+                },
+                "searchTerm": "Before:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages after a date",
+                  "id": "search_list_option.after",
+                },
+                "searchTerm": "After:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Exclude search terms",
+                  "id": "search_list_option.exclude",
+                },
+                "searchTerm": "-",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages with phrases",
+                  "id": "search_list_option.phrases",
+                },
+                "searchTerm": "\\"\\"",
+              },
+            ]
+          }
           withTitle={true}
         />
       </Popover>
@@ -320,6 +377,63 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         popoverStyle="info"
       >
         <SearchHint
+          highlightedIndex={-1}
+          onMouseDown={[Function]}
+          onOptionHover={[Function]}
+          onOptionSelected={[Function]}
+          options={
+            Array [
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages from a user",
+                  "id": "search_list_option.from",
+                },
+                "searchTerm": "From:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages in a channel",
+                  "id": "search_list_option.in",
+                },
+                "searchTerm": "In:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages on a date",
+                  "id": "search_list_option.on",
+                },
+                "searchTerm": "On:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages before a date",
+                  "id": "search_list_option.before",
+                },
+                "searchTerm": "Before:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages after a date",
+                  "id": "search_list_option.after",
+                },
+                "searchTerm": "After:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Exclude search terms",
+                  "id": "search_list_option.exclude",
+                },
+                "searchTerm": "-",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages with phrases",
+                  "id": "search_list_option.phrases",
+                },
+                "searchTerm": "\\"\\"",
+              },
+            ]
+          }
           withTitle={true}
         />
       </Popover>

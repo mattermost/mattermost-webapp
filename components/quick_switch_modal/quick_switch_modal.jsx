@@ -16,6 +16,9 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+
+import {NoResultsVariant} from '../no_results_indicator/types';
 
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
@@ -50,6 +53,8 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.state = {
             text: '',
             mode: CHANNEL_MODE,
+            hasSuggestions: true,
+            pretext: '',
         };
     }
 
@@ -157,9 +162,15 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.focusTextbox();
     }
 
+    handleSuggestionsReceived = (suggestions) => {
+        const noLoadingProp = suggestions.items.some((item) => !item.loading);
+        this.setState({hasSuggestions: !suggestions.matchedPretext || (suggestions.items.length > 0 && noLoadingProp), pretext: suggestions.matchedPretext});
+    }
+
     render() {
         let providers = this.channelProviders;
         let renderDividers = true;
+
         let header = (
             <h1>
                 <FormattedMessage
@@ -305,7 +316,15 @@ export default class QuickSwitchModal extends React.PureComponent {
                             renderDividers={renderDividers}
                             delayInputUpdate={true}
                             openWhenEmpty={true}
+                            onSuggestionsReceived={this.handleSuggestionsReceived}
+                            suppressLoadingSpinner={!this.state.hasSuggestions}
                         />
+                        {!this.state.hasSuggestions &&
+                        <NoResultsIndicator
+                            variant={NoResultsVariant.ChannelSearch}
+                            formattedMessageValues={{channelName: `"${this.state.pretext}"`}}
+                        />
+                        }
                     </div>
                 </Modal.Body>
             </Modal>

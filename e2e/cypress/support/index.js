@@ -101,7 +101,7 @@ Cypress.on('test:after:run', (test, runnable) => {
 
         // Add context to the mochawesome report which includes the screenshot
         addContext({test}, {
-            title: 'Failing Screenshot',
+            title: 'Failing Screenshot: >> screenshots/' + filename,
             value: 'screenshots/' + Cypress.spec.name + '/' + filename,
         });
     }
