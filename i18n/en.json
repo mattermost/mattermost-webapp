@@ -1704,7 +1704,7 @@
   "admin.team.restrictDirectMessageDesc": "'Any user on the Mattermost server' enables users to open a Direct Message channel with any user on the server, even if they are not on any teams together. 'Any member of the team' limits the ability in the Direct Messages 'More' menu to only open Direct Message channels with users who are in the same team.\n \nNote: This setting only affects the UI, not permissions on the server.",
   "admin.team.restrictExample": "E.g.: \"corp.mattermost.com, mattermost.org\"",
   "admin.team.restrictGuestDescription": "User accounts can only be created from a specific domain (e.g. \"mattermost.org\") or list of comma-separated domains (e.g. \"corp.mattermost.com, mattermost.org\"). This setting only affects email login for users. For Guest users, please add domains under Signup > Guest Access.",
-  "admin.team.restrictTitle": "Restrict domain and team creation and access to specified email domains:",
+  "admin.team.restrictTitle": "Restrict new system and team members to specified email domains:",
   "admin.team.showFullname": "Show first and last name",
   "admin.team.showNickname": "Show nickname if one exists, otherwise show first and last name",
   "admin.team.showUsername": "Show username (default)",
