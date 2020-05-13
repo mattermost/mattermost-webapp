@@ -53,7 +53,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "id": "userid1",
         "name": <UserGridName
-          isSaved={true}
           user={
             Object {
               "auth_data": "",
@@ -193,7 +192,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "id": "userid2",
         "name": <UserGridName
-          isSaved={true}
           user={
             Object {
               "auth_data": "",
@@ -392,7 +390,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "id": "userid-not-saved",
         "name": <UserGridName
-          isSaved={false}
           user={
             Object {
               "auth_data": "",
@@ -527,7 +524,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "id": "userid1",
         "name": <UserGridName
-          isSaved={true}
           user={
             Object {
               "auth_data": "",
@@ -667,7 +663,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "id": "userid2",
         "name": <UserGridName
-          isSaved={true}
           user={
             Object {
               "auth_data": "",
@@ -866,7 +861,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       Object {
         "id": "userid2",
         "name": <UserGridName
-          isSaved={true}
           user={
             Object {
               "auth_data": "",

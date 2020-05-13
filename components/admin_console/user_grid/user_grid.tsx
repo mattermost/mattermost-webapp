@@ -177,7 +177,6 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 name: (
                     <UserGridName
                         user={user}
-                        isSaved={!includeUsers[user.id]}
                     />
                 ),
                 new: (
