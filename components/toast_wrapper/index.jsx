@@ -2,12 +2,16 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
+import {withRouter} from 'react-router-dom';
 import {Posts} from 'mattermost-redux/constants';
 import {getAllPosts, getPostIdsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 import {countCurrentChannelUnreadMessages, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
+
+import {updateToastStatus} from 'actions/views/channel';
 
 import ToastWrapper from './toast_wrapper.jsx';
 
@@ -67,4 +71,12 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(ToastWrapper);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            updateToastStatus,
+        }, dispatch),
+    };
+}
+
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(ToastWrapper));

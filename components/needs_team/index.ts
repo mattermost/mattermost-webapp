@@ -8,6 +8,7 @@ import {withRouter} from 'react-router-dom';
 import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
+import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
 import {getTheme, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -36,6 +37,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUser = getCurrentUser(state);
 
     return {
+        license,
         theme: getTheme(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         currentUser,
@@ -59,6 +61,9 @@ function mapDispatchToProps(dispatch: Dispatch) {
             selectTeam,
             loadStatusesForChannelAndSidebar,
             loadProfilesForDirect,
+            getAllGroupsAssociatedToChannelsInTeam,
+            getAllGroupsAssociatedToTeam,
+            getGroups,
         }, dispatch),
     };
 }

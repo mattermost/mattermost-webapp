@@ -10,6 +10,8 @@
     "env": {
         "storybookUrl": "http://localhost:6006/",
         "webhookBaseUrl": "http://localhost:3000",
-        "setChromeWebSecurity": true
+        "setChromeWebSecurity": true,
+        "ldapServer": "localhost",
+        "ldapPort": 389
     }
 }

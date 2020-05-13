@@ -2,29 +2,40 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Messaging', () => {
-    before(() => {
-        // # Login as sysadmin and update preference
-        cy.apiLogin('sysadmin');
-        cy.apiSaveShowPreviewPreference();
-        cy.apiSavePreviewCollapsedPreference('false');
+// Stage: @prod
+// Group: @messaging
 
-        // # Set the configuration on Link Previews
+describe('Messaging', () => {
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
+        // # Enable Link Previews
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
             },
         });
 
-        // # Login as user-1, update preference and go to town-square
-        cy.apiLogin('user-1');
-        cy.apiSaveShowPreviewPreference();
+        // # Save Show Preview Preference to true
+        // # Save Preview Collapsed Preference to false
+        cy.apiSaveShowPreviewPreference('true');
         cy.apiSavePreviewCollapsedPreference('false');
+
+        // # Login as user-1
+        cy.apiLogin('user-1');
+
+        // # Save Show Preview Preference to true
+        // # Save Preview Collapsed Preference to false
+        cy.apiSaveShowPreviewPreference('true');
+        cy.apiSavePreviewCollapsedPreference('false');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

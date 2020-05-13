@@ -104,8 +104,13 @@ export default class LegacyTeamSidebar extends React.Component {
         ];
 
         for (const idx in digits) {
-            if (Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
+            if (Utils.isKeyPressed(e, digits[idx]) && idx < teams.length) {
                 e.preventDefault();
+
+                // prevents reloading the current team, while still capturing the keyboard shortcut
+                if (teams[idx].id === currentTeamId) {
+                    return false;
+                }
                 const team = teams[idx];
                 this.props.actions.switchTeam(`/${team.name}`);
                 return true;
@@ -228,7 +233,7 @@ export default class LegacyTeamSidebar extends React.Component {
                     tip={
                         <FormattedMessage
                             id='team_sidebar.join'
-                            defaultMessage='Other teams you can join.'
+                            defaultMessage='Other teams you can join'
                         />
                     }
                     content={'+'}

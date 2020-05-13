@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @messaging
+
 function createMessages(message, aliases) {
     cy.postMessage(message);
     cy.getLastPostId().then((postId) => {

@@ -239,7 +239,7 @@ export default class SearchableChannelList extends React.Component {
                         </a>
                         <Menu
                             openLeft={false}
-                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                         >
                             <Menu.ItemAction
                                 id='channelsMoreDropdownPublic'

@@ -32,6 +32,7 @@
       {"key": "languages", "label": "Language", "type": "dropdown"}
     ],
     "sidebar": [
+      {"key": "groupChannels", "label": "Channel Grouping and Sorting", "type": "multiple"},
       {"key": "channelSwitcher", "label": "Channel Switcher", "type": "radio"}
     ],
     "advanced": [

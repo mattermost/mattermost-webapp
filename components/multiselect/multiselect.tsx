@@ -439,7 +439,7 @@ const nullComponent = () => null;
 const paddedComponent = (WrappedComponent: any) => {
     return (props: {data: any}) => {
         return (
-            <div style={{paddingRight: '5px', paddingLeft: '5px', borderRight: '1px solid rgba(0, 126, 255, 0.24)'}}>
+            <div style={{paddingLeft: '10px'}}>
                 <WrappedComponent {...props}/>
             </div>
         );
