@@ -24,10 +24,9 @@ type Props = {
     usersToRemove: Dictionary<UserProfile>;
     usersToAdd: Dictionary<UserProfile>;
     teamMembers: Dictionary<TeamMembership>;
+
     totalCount: number;
-
     searchTerm: string;
-
     loading?: boolean;
 
     onAddCallback: (users: UserProfile[]) => void;

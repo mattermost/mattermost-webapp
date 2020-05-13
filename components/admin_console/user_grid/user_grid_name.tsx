@@ -10,7 +10,6 @@ import ProfilePicture from 'components/profile_picture';
 
 type Props = {
     user: UserProfile;
-    isSaved: boolean;
 }
 
 export default class UserGridName extends React.Component<Props> {
