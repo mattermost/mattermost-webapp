@@ -113,10 +113,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
       }
     }
     removeUser={[Function]}
+    scope="channel"
     search={[Function]}
     term=""
     totalCount={3}
-    updateMemberRolesForUser={[Function]}
+    updateMembership={[Function]}
     users={
       Array [
         Object {
@@ -280,10 +281,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     loading={true}
     memberships={Object {}}
     removeUser={[Function]}
+    scope="channel"
     search={[Function]}
     term=""
     totalCount={0}
-    updateMemberRolesForUser={[Function]}
+    updateMembership={[Function]}
     users={Array []}
   />
 </AdminPanel>

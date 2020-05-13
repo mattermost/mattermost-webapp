@@ -454,16 +454,24 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             usersToRemoveList.forEach((user) => {
                 userActions.push(removeChannelMember(channelID, user.id));
             });
-            userRolesToUpdate.forEach((userId) => {
-                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
-                userActions.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
-            });
 
-            const userResult = await Promise.all([...userActions]);
-            const userResultWithError = userResult.find((r) => 'error' in r);
+            let userResult = await Promise.all(userActions);
+            let userResultWithError = userResult.find((r) => 'error' in r);
             if (userResultWithError && 'error' in userResultWithError) {
                 serverError = <FormError error={userResultWithError.error.message}/>;
+            } else {
+                const roleActions: any[] = [];
+                userRolesToUpdate.forEach((userId) => {
+                    const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                    roleActions.push(updateChannelMemberSchemeRoles(channelID, userId, schemeUser, schemeAdmin));
+                });
+                userResult = await Promise.all(roleActions);
+                userResultWithError = userResult.find((r) => 'error' in r);
+                if (userResultWithError && 'error' in userResultWithError) {
+                    serverError = <FormError error={userResultWithError.error.message}/>;
+                }
             }
+
             channelMembersKey += 1;
         }
 

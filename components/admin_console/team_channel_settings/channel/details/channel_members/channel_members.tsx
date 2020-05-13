@@ -14,7 +14,7 @@ import Constants from 'utils/constants';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
-import {Role} from 'components/admin_console/user_grid/user_grid_role_dropdown';
+import {BaseMembership} from 'components/admin_console/user_grid/user_grid_role_dropdown';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
 
@@ -130,8 +130,8 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    private updateMemberRolesForUser = (userId: string, role: Role) => {
-        this.props.updateRole(userId, true, role.includes('admin'));
+    private updateMembership = (membership: BaseMembership) => {
+        this.props.updateRole(membership.user_id, membership.scheme_user, membership.scheme_admin);
     }
 
     render = () => {
@@ -171,11 +171,12 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     removeUser={this.removeUser}
                     totalCount={totalCount}
                     memberships={channelMembers}
-                    updateMemberRolesForUser={this.updateMemberRolesForUser}
+                    updateMembership={this.updateMembership}
                     search={this.search}
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                     term={searchTerm}
+                    scope={'channel'}
                 />
             </AdminPanel>
         );
