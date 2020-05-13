@@ -27,7 +27,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          node version
+          node --version
           npm version
           npm ci
           cd node_modules/mattermost-redux && npm i && npm run build
