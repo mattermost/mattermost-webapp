@@ -1540,6 +1540,8 @@
   "admin.sql.connMaxLifetimeTitle": "Maximum Connection Lifetime:",
   "admin.sql.dataSource": "Data Source:",
   "admin.sql.dataSourceDescription": "Set the database source in the config.json file.",
+  "admin.sql.disableDatabaseSearchDescription": "Disables the use of the database to perform searches. Should only be used when other [search engines](!https://mattermost.com/pl/default-search-engine) are configured.",
+  "admin.sql.disableDatabaseSearchTitle": "Disable database search: ",
   "admin.sql.driverName": "Driver Name:",
   "admin.sql.driverNameDescription": "Set the database driver in the config.json file.",
   "admin.sql.maxConnectionsDescription": "Maximum number of idle connections held open to the database.",
