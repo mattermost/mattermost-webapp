@@ -242,7 +242,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                     has_syncables={item.has_syncables}
                     failed={item.failed}
                     checked={Boolean(this.state.checked[item.primary_key])}
-                    onCheckToggle={this.onCheckToggle}
+                    onCheckToggle={(key: string) => this.onCheckToggle(key)}
                     actions={{
                         link: this.props.actions.link,
                         unlink: this.props.actions.unlink,
