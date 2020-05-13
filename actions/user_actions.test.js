@@ -149,10 +149,10 @@ describe('Actions.User', () => {
     });
 
     test('loadProfilesAndReloadChannelMembers', async () => {
-        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, '', {}]}];
+        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, 'sort', {}]}];
 
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndReloadChannelMembers(0, 60, 'current_channel_id', {}));
+        await testStore.dispatch(UserActions.loadProfilesAndReloadChannelMembers(0, 60, 'current_channel_id', 'sort', {}));
         const actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);

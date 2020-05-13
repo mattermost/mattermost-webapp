@@ -50,12 +50,15 @@ export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options 
     };
 }
 
-export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, options) {
+export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, sort = '', options = {}) {
     return async (doDispatch, doGetState) => {
         const newChannelId = channelId || getCurrentChannelId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInChannel(newChannelId, page, perPage, '', options));
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(newChannelId, page, perPage, sort, options));
         if (data) {
-            await Promise.all([doDispatch(loadChannelMembersForProfilesList(data, newChannelId, true)), doDispatch(loadStatusesForProfilesList(data))]);
+            await Promise.all([
+                doDispatch(loadChannelMembersForProfilesList(data, newChannelId, true)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
         }
 
         return {data: true};
@@ -90,12 +93,15 @@ export function searchProfilesAndTeamMembers(term = '', options = {}) {
     };
 }
 
-export function searchProfilesAndChannelMembers(term, options) {
+export function searchProfilesAndChannelMembers(term, options = {}) {
     return async (doDispatch, doGetState) => {
         const newChannelId = options.channel_id || getCurrentChannelId(doGetState());
         const {data} = await doDispatch(UserActions.searchProfiles(term, options));
         if (data) {
-            await Promise.all([doDispatch(loadChannelMembersForProfilesList(data, newChannelId)), doDispatch(loadStatusesForProfilesList(data))]);
+            await Promise.all([
+                doDispatch(loadChannelMembersForProfilesList(data, newChannelId)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
         }
 
         return {data: true};
