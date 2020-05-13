@@ -191,7 +191,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 remove: (
                     <UserGridRemove
                         user={user}
-                        removeUser={() => this.removeUser(user)}
+                        removeUser={this.removeUser}
                     />
                 ),
             };

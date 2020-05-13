@@ -35,12 +35,15 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
     };
 }
 
-export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options) {
+export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options = {}) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
         const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
         if (data) {
-            await Promise.all([doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)), doDispatch(loadStatusesForProfilesList(data))]);
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
         }
 
         return {data: true};
@@ -72,12 +75,15 @@ export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     };
 }
 
-export function searchProfilesAndTeamMembers(term, options) {
+export function searchProfilesAndTeamMembers(term = '', options = {}) {
     return async (doDispatch, doGetState) => {
         const newTeamId = options.team_id || getCurrentTeamId(doGetState());
         const {data} = await doDispatch(UserActions.searchProfiles(term, options));
         if (data) {
-            await Promise.all([doDispatch(loadTeamMembersForProfilesList(data, newTeamId)), doDispatch(loadStatusesForProfilesList(data))]);
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
         }
 
         return {data: true};
