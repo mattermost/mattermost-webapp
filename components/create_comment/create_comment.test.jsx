@@ -54,7 +54,7 @@ describe('components/CreateComment', () => {
         isMarkdownPreviewEnabled: true,
         canPost: true,
         useChannelMentions: true,
-        selectChannelMemberCountsByGroup: jest.fn(),
+        getChannelMemberCountsByGroup: jest.fn(),
         useGroupMentions: true,
     };
 
@@ -78,13 +78,14 @@ describe('components/CreateComment', () => {
     test('should match snapshot, comment with message', () => {
         const clearCommentDraftUploads = jest.fn();
         const onResetHistoryIndex = jest.fn();
+        const getChannelMemberCountsByGroup = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
             fileInfos: [],
         };
         const ctrlSend = true;
-        const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex};
+        const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex, getChannelMemberCountsByGroup};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>
@@ -96,7 +97,21 @@ describe('components/CreateComment', () => {
         // should reset message history index on mount
         expect(onResetHistoryIndex).toHaveBeenCalled();
 
+        // should load channel member counts on mount
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
+
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not call getChannelMemberCountsByGroup, without group mentions permission or license', () => {
+        const useGroupMentions = false;
+        const getChannelMemberCountsByGroup = jest.fn();
+        const props = {...baseProps, useGroupMentions, getChannelMemberCountsByGroup};
+
+        shallowWithIntl(<CreateComment {...props}/>);
+
+        // should not load channel member counts on mount without useGroupmentions
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
     });
 
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {

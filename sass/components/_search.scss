@@ -41,20 +41,25 @@
 
 .input-clear {
     cursor: pointer;
+    font-size: 14px;
     color: v(center-channel-color-56);
     position: absolute;
     right: 0;
-    top: 1px;
+    top: 0;
     visibility: hidden;
     width: 2.4rem;
+    height: 100%;
     margin: 0;
-    font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     &:hover {
-        @include opacity(1);
+        color: v(center-channel-color-72);
+    }
+
+    &:active {
+        color: v(center-channel-color);
     }
 
     &.visible {
@@ -84,8 +89,7 @@
         height: 32px;
 
         .input-clear {
-            top: 1px;
-            right: 3px;
+            right: 4px;
         }
 
         &:hover {
@@ -101,19 +105,13 @@
                 padding-left: 2.9rem;
             }
 
-            .input-clear {
-                top: 0;
-                right: 1px;
-            }
-
             .search__icon {
                 top: 6px;
                 left: 8px;
             }
 
             .input-clear {
-                top: 0;
-                right: 2px;
+                right: 3px;
             }
         }
     }
@@ -148,7 +146,7 @@
         @include opacity(0.5);
         font-size: 1em;
         position: absolute;
-        right: 24px;
+        right: 25px;
         top: 4px;
     }
 }
@@ -244,4 +242,66 @@
 
 .search-highlight {
     background-color: $yellow;
+}
+
+.search-hint__title {
+    padding: 22px 24px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--center-channel-color-16);
+    margin: 0;
+}
+
+.search-hint__suggestions-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 8px 0;
+}
+
+.search-hint__suggestions-list__option {
+    padding: 10px 24px;
+    display: flex;
+    justify-content: left;
+    text-align: left;
+    color: var(--center-channel-color);
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &.highlighted {
+        background: rgba(61, 60, 64, 0.06);
+    }
+}
+
+.search-hint__suggestion-list__flex-wrap {
+    width: 51px;
+}
+
+.search-hint__suggestion-list__label {
+    text-transform: uppercase;
+    background: var(--center-channel-color-16);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.01em;
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.search-hint__suggestion-list__value {
+    margin-left: 16px;
+}
+
+.sidebar--right__subheader {
+    // Fighting specificity with _sidebar-right.scss (sidebar--right .sidebar--right__subheader ul)
+    ul.search-hint__suggestions-list {
+        padding-left: 0;
+        // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
+        margin: -18px -14px 0;
+    }
+
+    .search-hint__suggestions-list__option:first-child {
+        padding-top: 10px;
+    }    
+
+    .search-hint__suggestions-list__option:hover {
+        background: rgba(61, 60, 64, 0.06);
+    }
 }
