@@ -64,18 +64,19 @@ describe('components/admin_console/user_grid/UserGrid', () => {
     const user2 = createUser('userid2', 'user-2', false);
     const membership2 = createMembership('userId2', false);
     const notSavedUser = createUser('userid-not-saved', 'user-not-saved', false);
-
+    const scope: 'team' | 'channel' = 'team';
     const baseProps = {
         users: [user1, user2],
         memberships: {[user1.id]: membership1, [user2.id]: membership2},
 
         excludeUsers: {},
         includeUsers: {},
+        scope,
 
         loadPage: jest.fn(),
         search: jest.fn(),
         removeUser: jest.fn(),
-        updateMemberRolesForUser: jest.fn(),
+        updateMembership: jest.fn(),
 
         totalCount: 2,
         loading: false,

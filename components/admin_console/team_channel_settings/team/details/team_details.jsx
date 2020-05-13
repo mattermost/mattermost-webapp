@@ -160,15 +160,22 @@ export default class TeamDetails extends React.Component {
             usersToRemoveList.forEach((user) => {
                 userActions.push(removeUserFromTeam(teamID, user.id));
             });
-            userRolesToUpdate.forEach((userId) => {
-                const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
-                userActions.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
-            });
 
-            const result = await Promise.all(userActions);
-            const resultWithError = result.find((r) => r.error);
+            let result = await Promise.all(userActions);
+            let resultWithError = result.find((r) => r.error);
             if (resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
+            } else {
+                const roleActions = [];
+                userRolesToUpdate.forEach((userId) => {
+                    const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
+                    roleActions.push(updateTeamMemberSchemeRoles(teamID, userId, schemeUser, schemeAdmin));
+                });
+                result = await Promise.all(roleActions);
+                resultWithError = result.find((r) => r.error);
+                if (resultWithError) {
+                    serverError = <FormError error={resultWithError.error.message}/>;
+                }
             }
             teamMembersKey += 1;
         }

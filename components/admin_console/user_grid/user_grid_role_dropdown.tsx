@@ -14,24 +14,24 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
+export type BaseMembership = {
+    user_id: string;
+    scheme_user: boolean;
+    scheme_admin: boolean;
+}
+
 type Props = {
     user: UserProfile;
-    membership?: TeamMembership | ChannelMembership;
-    handleUpdateMembership: (role: Role) => void;
+    membership?: BaseMembership | TeamMembership | ChannelMembership;
+    scope: 'team' | 'channel';
+    handleUpdateMembership: (membership: BaseMembership) => void;
 }
 
 export type Role = 'system_admin' | 'team_admin' | 'team_user' | 'channel_admin' | 'channel_user' | 'guest';
 
 export default class UserGridRoleDropdown extends React.Component<Props> {
-    private getScope = (): 'team' | 'channel' => {
-        if (!this.props.membership) {
-            return 'team';
-        }
-        return 'team_id' in this.props.membership ? 'team' : 'channel';
-    }
-
     private getDropDownOptions = () => {
-        if (this.getScope() === 'team') {
+        if (this.props.scope === 'team') {
             return {
                 makeAdmin: Utils.localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin'),
                 makeMember: Utils.localizeMessage('team_members_dropdown.makeMember', 'Make Team Member'),
@@ -45,19 +45,25 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
     }
 
     private getCurrentRole = (): Role => {
-        const {user, membership} = this.props;
+        const {user, membership, scope} = this.props;
 
         if (user.roles.includes('system_admin')) {
             return 'system_admin';
         } else if (membership) {
-            if (membership.roles.includes('team_admin')) {
-                return 'team_admin';
-            } else if (membership.roles.includes('team_user')) {
-                return 'team_user';
-            } else if (membership.roles.includes('channel_admin')) {
-                return 'channel_admin';
-            } else if (membership.roles.includes('channel_user')) {
-                return 'channel_user';
+            if (scope === 'team') {
+                if (membership.scheme_admin) {
+                    return 'team_admin';
+                } else if (membership.scheme_user) {
+                    return 'team_user';
+                }
+            }
+
+            if (scope === 'channel') {
+                if (membership.scheme_admin) {
+                    return 'channel_admin';
+                } else if (membership.scheme_user) {
+                    return 'channel_user';
+                }
             }
         }
 
@@ -81,15 +87,28 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         }
     }
 
-    private handleUpdateMembership = (role: 'admin' | 'user') => {
-        const scope = this.getScope();
-        let updateRole: Role;
-        if (role === 'admin') {
-            updateRole = scope === 'team' ? 'team_admin' : 'channel_admin';
-        } else {
-            updateRole = scope === 'team' ? 'team_user' : 'channel_user';
+    private handleMakeAdmin = () => {
+        this.props.handleUpdateMembership({
+            user_id: this.props.user.id,
+            scheme_admin: true,
+            scheme_user: true
+        });
+    }
+
+    private handleMakeUser = () => {
+        this.props.handleUpdateMembership({
+            user_id: this.props.user.id,
+            scheme_admin: false,
+            scheme_user: true
+        });
+    }
+
+    private getAriaLabel = () => {
+        const {scope} = this.props;
+        if (scope === 'team') {
+            return Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member');
         }
-        this.props.handleUpdateMembership(updateRole);
+        return Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member');
     }
 
     public render = (): JSX.Element | null => {
@@ -102,6 +121,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         const {makeAdmin, makeMember} = this.getDropDownOptions();
         const currentRole = this.getCurrentRole();
         const localizedRole = this.getLocalizedRole(currentRole);
+        const ariaLabel = this.getAriaLabel();
 
         const dropdownEnabled = !['system_admin', 'guest'].includes(currentRole);
         const showMakeAdmin = ['channel_user', 'team_user'].includes(currentRole);
@@ -122,15 +142,15 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
                     <span>{localizedRole} </span>
                     <DropdownIcon/>
                 </button>
-                <Menu ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}>
+                <Menu ariaLabel={ariaLabel}>
                     <Menu.ItemAction
                         show={showMakeAdmin}
-                        onClick={() => this.handleUpdateMembership('admin')}
+                        onClick={this.handleMakeAdmin}
                         text={makeAdmin}
                     />
                     <Menu.ItemAction
                         show={showMakeMember}
-                        onClick={() => this.handleUpdateMembership('user')}
+                        onClick={this.handleMakeUser}
                         text={makeMember}
                     />
                 </Menu>
