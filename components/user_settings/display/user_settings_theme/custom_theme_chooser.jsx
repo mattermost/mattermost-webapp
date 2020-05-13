@@ -411,7 +411,7 @@ export default class CustomThemeChooser extends React.Component {
                 />
                 <div className='mt-3'>
                     <button
-                        className='btn btn-link copy-theme-button'
+                        className='btn btn-primary'
                         onClick={this.copyTheme}
                     >
                         <FormattedMessage
