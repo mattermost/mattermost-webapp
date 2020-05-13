@@ -61,6 +61,11 @@ export default class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
+        /*
+         * Used for handling the read logic when unmounting the component
+         */
+        channelManuallyUnread: PropTypes.bool.isRequired,
+
         /**
          * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
          */
@@ -146,7 +151,10 @@ export default class PostList extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        this.markChannelAsReadAndViewed(this.props.channelId);
+        if (!this.props.channelManuallyUnread) {
+            this.markChannelAsReadAndViewed(this.props.channelId);
+        }
+
         this.mounted = false;
     }
 
