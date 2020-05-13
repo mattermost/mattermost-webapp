@@ -1,70 +1,55 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Error} from 'mattermost-redux/types/errors';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
+import {AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
-export default class DoVerifyEmail extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    location: {
+        search: string;
+    };
+    siteName?: string;
+    actions: {
+        verifyUserEmail: (token: string) => ActionFunc | ActionResult;
+        getMe: () => ActionFunc | ActionResult;
+        logError: (error: Error, displayable: boolean) => void;
+        clearErrors: () => void;
+    };
+    isLoggedIn: boolean;
 
-        /**
-         * Object with validation parameters given in link
-         */
-        location: PropTypes.object.isRequired,
+}
 
-        /**
-         * Title of the app or site.
-         */
-        siteName: PropTypes.string,
+type State = {
+    verifyStatus: string;
+    serverError: JSX.Element | null;
+}
 
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
-
-            /*
-             * Action creator to verify the user's email
-             */
-            verifyUserEmail: PropTypes.func.isRequired,
-
-            /*
-             * Action creator to update the user in the redux store
-             */
-            getMe: PropTypes.func.isRequired,
-            logError: PropTypes.func.isRequired,
-            clearErrors: PropTypes.func.isRequired,
-        }).isRequired,
-
-        /**
-         * Object reprenseting the current user
-         */
-        user: PropTypes.shape({
-            email_verified: PropTypes.bool,
-        }),
-
-        isLoggedIn: PropTypes.bool.isRequired,
-    }
-
-    constructor(props) {
+export default class DoVerifyEmail extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
             verifyStatus: 'pending',
-            serverError: '',
+            serverError: null,
         };
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.verifyEmail();
     }
 
@@ -72,33 +57,31 @@ export default class DoVerifyEmail extends React.PureComponent {
         if (this.props.isLoggedIn) {
             GlobalActions.redirectUserToDefaultTeam();
         } else {
-            browserHistory.push('/login?extra=verified&email=' + encodeURIComponent((new URLSearchParams(this.props.location.search)).get('email')));
+            browserHistory.push('/login?extra=verified&email=' + encodeURIComponent((new URLSearchParams(this.props.location.search)).get('email') || ''));
         }
     }
 
-    handleSuccess() {
+    async handleSuccess() {
         this.setState({verifyStatus: 'success'});
         this.props.actions.clearErrors();
         if (this.props.isLoggedIn) {
             this.props.actions.logError({
                 message: AnnouncementBarMessages.EMAIL_VERIFIED,
-                type: AnnouncementBarTypes.SUCCESS,
             }, true);
             trackEvent('settings', 'verify_email');
-            this.props.actions.getMe().then(({data, error: err}) => {
-                if (data) {
-                    this.handleRedirect();
-                } else if (err) {
-                    this.handleError(VerifyEmailErrors.FAILED_USER_STATE_GET);
-                }
-            });
+            const me = await this.props.actions.getMe();
+            if ('data' in me) {
+                this.handleRedirect();
+            } else if ('error' in me) {
+                this.handleError(VerifyEmailErrors.FAILED_USER_STATE_GET);
+            }
         } else {
             this.handleRedirect();
         }
     }
 
-    handleError(type) {
-        let serverError = '';
+    handleError(type: string) {
+        let serverError = null;
         if (type === VerifyEmailErrors.FAILED_EMAIL_VERIFICATION) {
             serverError = (
                 <FormattedMessage
@@ -122,11 +105,11 @@ export default class DoVerifyEmail extends React.PureComponent {
 
     verifyEmail = async () => {
         const {actions: {verifyUserEmail}} = this.props;
-        const verify = await verifyUserEmail((new URLSearchParams(this.props.location.search)).get('token'));
+        const verify = await verifyUserEmail((new URLSearchParams(this.props.location.search)).get('token') || '');
 
-        if (verify && verify.data) {
+        if ('data' in verify) {
             this.handleSuccess();
-        } else if (verify && verify.error) {
+        } else if ('error' in verify) {
             this.handleError(VerifyEmailErrors.FAILED_EMAIL_VERIFICATION);
         }
     }
@@ -171,7 +154,3 @@ export default class DoVerifyEmail extends React.PureComponent {
         );
     }
 }
-
-DoVerifyEmail.defaultProps = {
-    location: {},
-};
