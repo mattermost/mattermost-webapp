@@ -75,10 +75,14 @@ jobs:
   build:
     executor:
       name: default
+    resource_class: xlarge
     steps:
       - checkout
       - *restore_cache
-      - run: make package-ci
+      - run: |
+          node --version
+          npm version
+          make package-ci
       - store_artifacts:
           path: ~/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
