@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/PostPreHeader should not render anything if both skipFlagged and skipPinned are true 1`] = `<Fragment />`;
+
+exports[`components/PostPreHeader should not render anything if the post is neither flagged nor pinned 1`] = `<Fragment />`;
+
+exports[`components/PostPreHeader should properly handle flagged posts (and not pinned) 1`] = `
+<div
+  className="post-pre-header"
+>
+  <div
+    className="post-pre-header__icons-container"
+  >
+    <FlagIconFilled
+      className="icon icon--post-pre-header"
+    />
+  </div>
+  <div
+    className="post-pre-header__text-container"
+  >
+    <FormattedMessage
+      defaultMessage="Flagged"
+      id="post_pre_header.flagged"
+      values={Object {}}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/PostPreHeader should properly handle flagged posts (and not pinned) 2`] = `<Fragment />`;
+
+exports[`components/PostPreHeader should properly handle pinned posts (and not flagged) 1`] = `
+<div
+  className="post-pre-header"
+>
+  <div
+    className="post-pre-header__icons-container"
+  >
+    <span
+      className="icon-pin icon icon--post-pre-header"
+    />
+  </div>
+  <div
+    className="post-pre-header__text-container"
+  >
+    <FormattedMessage
+      defaultMessage="Pinned"
+      id="post_pre_header.pinned"
+      values={Object {}}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/PostPreHeader should properly handle pinned posts (and not flagged) 2`] = `<Fragment />`;
+
+exports[`components/PostPreHeader should properly handle posts that are flagged and pinned both skipFlagged and skipPinned are not true 1`] = `
+<div
+  className="post-pre-header"
+>
+  <div
+    className="post-pre-header__icons-container"
+  >
+    <span
+      className="icon-pin icon icon--post-pre-header"
+    />
+    <FlagIconFilled
+      className="icon icon--post-pre-header"
+    />
+  </div>
+  <div
+    className="post-pre-header__text-container"
+  >
+    <FormattedMessage
+      defaultMessage="Pinned and Flagged"
+      id="post_pre_header.pinnedAndFlagged"
+      values={Object {}}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/PostPreHeader should properly handle posts that are flagged and pinned skipFlagged is true 1`] = `
+<div
+  className="post-pre-header"
+>
+  <div
+    className="post-pre-header__icons-container"
+  >
+    <span
+      className="icon-pin icon icon--post-pre-header"
+    />
+  </div>
+  <div
+    className="post-pre-header__text-container"
+  >
+    <FormattedMessage
+      defaultMessage="Pinned"
+      id="post_pre_header.pinned"
+      values={Object {}}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/PostPreHeader should properly handle posts that are flagged and pinned skipPinned is true 1`] = `
+<div
+  className="post-pre-header"
+>
+  <div
+    className="post-pre-header__icons-container"
+  >
+    <FlagIconFilled
+      className="icon icon--post-pre-header"
+    />
+  </div>
+  <div
+    className="post-pre-header__text-container"
+  >
+    <FormattedMessage
+      defaultMessage="Flagged"
+      id="post_pre_header.flagged"
+      values={Object {}}
+    />
+  </div>
+</div>
+`;

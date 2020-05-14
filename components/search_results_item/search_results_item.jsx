@@ -23,6 +23,7 @@ import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PostPreHeader from 'components/post_pre_header';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -69,7 +70,7 @@ class SearchResultsItem extends React.PureComponent {
         /**
         *  Flag for determining result flag state
         */
-        isFlagged: PropTypes.bool,
+        isFlagged: PropTypes.bool.isRequired,
 
         /**
         *  Data used creating URl for jump to post
@@ -114,6 +115,16 @@ class SearchResultsItem extends React.PureComponent {
          * The number of replies in the same thread as this post
          */
         replyCount: PropTypes.number,
+
+        /**
+         * Is the search results item from the flagged posts list.
+         */
+        isFlaggedPosts: PropTypes.bool,
+
+        /**
+         * Is the search results item from the pinned posts list.
+         */
+        isPinnedPosts: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -183,6 +194,12 @@ class SearchResultsItem extends React.PureComponent {
 
         if (this.state.dropdownOpened) {
             className += ' post--hovered';
+        }
+
+        if (this.props.post.is_pinned && !this.props.isPinnedPosts) {
+            className += ' post--pinned-or-flagged';
+        } else if (this.props.isFlagged && !this.props.isFlaggedPosts) {
+            className += ' post--pinned-or-flagged';
         }
 
         return className;
@@ -310,6 +327,7 @@ class SearchResultsItem extends React.PureComponent {
                         isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
                     />
+                    {flagContent}
                     <CommentIcon
                         location={Locations.SEARCH}
                         handleCommentClick={this.handleFocusRHSClick}
@@ -352,18 +370,6 @@ class SearchResultsItem extends React.PureComponent {
             );
         }
 
-        let pinnedBadge;
-        if (post.is_pinned) {
-            pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
-                </span>
-            );
-        }
-
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
 
         return (
@@ -393,6 +399,12 @@ class SearchResultsItem extends React.PureComponent {
                             </span>
                         }
                     </div>
+                    <PostPreHeader
+                        isFlagged={this.props.isFlagged}
+                        isPinned={post.is_pinned || false}
+                        skipPinned={this.props.isPinnedPosts}
+                        skipFlagged={this.props.isFlaggedPosts}
+                    />
                     <div
                         role='application'
                         className='post__content'
@@ -411,9 +423,7 @@ class SearchResultsItem extends React.PureComponent {
                                 </div>
                                 <div className='col'>
                                     {this.renderPostTime()}
-                                    {pinnedBadge}
                                     {postInfoIcon}
-                                    {flagContent}
                                 </div>
                                 {rhsControls}
                             </div>

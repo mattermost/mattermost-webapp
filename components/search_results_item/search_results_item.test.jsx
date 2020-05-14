@@ -6,8 +6,11 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
+import {Locations} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 import SearchResultsItem from 'components/search_results_item/search_results_item';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
+import PostPreHeader from 'components/post_pre_header';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -213,5 +216,170 @@ describe('components/SearchResultsItem', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should pass props correctly to PostFlagIcon', () => {
+        const wrapper = shallowWithIntl(
+            <SearchResultsItem {...defaultProps}/>
+        );
+
+        const flagIcon = wrapper.find(PostFlagIcon);
+        expect(flagIcon).toHaveLength(1);
+        expect(flagIcon.prop('location')).toEqual(Locations.SEARCH);
+        expect(flagIcon.prop('postId')).toEqual(defaultProps.post.id);
+        expect(flagIcon.prop('isFlagged')).toEqual(defaultProps.isFlagged);
+    });
+
+    test('should pass props correctly to PostPreHeader', () => {
+        const props = {
+            ...defaultProps,
+            isPinnedPosts: false,
+            isFlaggedPosts: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <SearchResultsItem {...props}/>
+        );
+
+        const postPreHeader = wrapper.find(PostPreHeader);
+        expect(postPreHeader).toHaveLength(1);
+        expect(postPreHeader.prop('isFlagged')).toEqual(props.isFlagged);
+        expect(postPreHeader.prop('isPinned')).toEqual(props.post.is_pinned);
+        expect(postPreHeader.prop('skipPinned')).toEqual(props.isPinnedPosts);
+        expect(postPreHeader.prop('skipFlagged')).toEqual(props.isFlaggedPosts);
+    });
+
+    test('should not highlight the post of it is neither flagged nor pinned', () => {
+        const props = {
+            ...defaultProps,
+            isFlagged: false,
+            post: {...defaultProps.post, is_pinned: false},
+        };
+
+        const wrapper = shallowWithIntl(
+            <SearchResultsItem {...props}/>
+        );
+
+        expect(wrapper.find('div.a11y__section')).toHaveLength(1);
+        expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(false);
+    });
+
+    describe('should handle post highlighting correctly for general search', () => {
+        for (const testCase of [
+            {
+                name: 'flagged only',
+                isFlagged: true,
+                isPinned: false,
+                expected: true,
+            },
+            {
+                name: 'pinned only',
+                isFlagged: false,
+                isPinned: true,
+                expected: true,
+            },
+            {
+                name: 'pinned and flagged',
+                isFlagged: true,
+                isPinned: true,
+                expected: true,
+            }
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            test(testCase.name, () => {
+                const props = {
+                    ...defaultProps,
+                    isFlagged: testCase.isFlagged,
+                    post: {...defaultProps.post, is_pinned: testCase.isPinned},
+                };
+
+                const wrapper = shallowWithIntl(
+                    <SearchResultsItem {...props}/>
+                );
+
+                expect(wrapper.find('div.a11y__section')).toHaveLength(1);
+                expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(testCase.expected);
+            });
+        }
+    });
+
+    describe('should handle post highlighting correctly for pinned posts', () => {
+        for (const testCase of [
+            {
+                name: 'flagged only',
+                isFlagged: true,
+                isPinned: false,
+                expected: true,
+            },
+            {
+                name: 'pinned only',
+                isFlagged: false,
+                isPinned: true,
+                expected: false,
+            },
+            {
+                name: 'pinned and flagged',
+                isFlagged: true,
+                isPinned: true,
+                expected: true,
+            }
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            test(testCase.name, () => {
+                const props = {
+                    ...defaultProps,
+                    isFlagged: testCase.isFlagged,
+                    post: {...defaultProps.post, is_pinned: testCase.isPinned},
+                    isPinnedPosts: true,
+                };
+
+                const wrapper = shallowWithIntl(
+                    <SearchResultsItem {...props}/>
+                );
+
+                expect(wrapper.find('div.a11y__section')).toHaveLength(1);
+                expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(testCase.expected);
+            });
+        }
+    });
+
+    describe('should handle post highlighting correctly for flagged posts', () => {
+        for (const testCase of [
+            {
+                name: 'flagged only',
+                isFlagged: true,
+                isPinned: false,
+                expected: false,
+            },
+            {
+                name: 'pinned only',
+                isFlagged: false,
+                isPinned: true,
+                expected: true,
+            },
+            {
+                name: 'pinned and flagged',
+                isFlagged: true,
+                isPinned: true,
+                expected: true,
+            }
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            test(testCase.name, () => {
+                const props = {
+                    ...defaultProps,
+                    isFlagged: testCase.isFlagged,
+                    post: {...defaultProps.post, is_pinned: testCase.isPinned},
+                    isFlaggedPosts: true,
+                };
+
+                const wrapper = shallowWithIntl(
+                    <SearchResultsItem {...props}/>
+                );
+
+                expect(wrapper.find('div.a11y__section')).toHaveLength(1);
+                expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(testCase.expected);
+            });
+        }
     });
 });

@@ -226,6 +226,17 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
+        const showFlagIcon = !isSystemMessage && !isMobile && (hover || this.props.isFlagged);
+        let postFlagIcon;
+        if (showFlagIcon) {
+            postFlagIcon = (
+                <PostFlagIcon
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                />
+            );
+        }
+
         return (
             <div
                 ref='dotMenu'
@@ -234,6 +245,7 @@ export default class PostInfo extends React.PureComponent {
             >
                 {dotMenu}
                 {postReaction}
+                {postFlagIcon}
                 {commentIcon}
             </div>
         );
@@ -286,18 +298,6 @@ export default class PostInfo extends React.PureComponent {
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
-
-        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged);
-        let postFlagIcon;
-        if (showFlagIcon) {
-            postFlagIcon = (
-                <PostFlagIcon
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                    isEphemeral={isEphemeral}
-                />
-            );
-        }
 
         let postInfoIcon;
         if (post.props && post.props.card) {
@@ -353,18 +353,6 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        let pinnedBadge;
-        if (post.is_pinned) {
-            pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
-                </span>
-            );
-        }
-
         const showPostTime = this.props.hover || this.props.showTimeWithoutHover;
         let postTime;
         if (showPostTime) {
@@ -387,9 +375,7 @@ export default class PostInfo extends React.PureComponent {
             >
                 <div className='col'>
                     {postTime}
-                    {pinnedBadge}
                     {postInfoIcon}
-                    {postFlagIcon}
                     {visibleMessage}
                 </div>
                 {options}

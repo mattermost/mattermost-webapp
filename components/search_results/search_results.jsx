@@ -250,6 +250,8 @@ class SearchResults extends React.Component {
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
                         a11yIndex={index}
+                        isFlaggedPosts={this.props.isFlaggedPosts}
+                        isPinnedPosts={this.props.isPinnedPosts}
                     />
                 );
             }, this);

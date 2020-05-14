@@ -22,6 +22,10 @@ exports[`Post should not remove post--highlight class after timeout so the class
     role="listitem"
     tabIndex="0"
   >
+    <injectIntl(PostPreHeader)
+      isFlagged={false}
+      isPinned={false}
+    />
     <div
       aria-hidden={true}
       className="post__content "
@@ -36,6 +40,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />
@@ -51,6 +56,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
           replyCount={0}
@@ -64,6 +70,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />
@@ -95,6 +102,10 @@ exports[`Post should not remove post--highlight class after timeout so the class
     role="listitem"
     tabIndex="0"
   >
+    <injectIntl(PostPreHeader)
+      isFlagged={false}
+      isPinned={false}
+    />
     <div
       aria-hidden={true}
       className="post__content "
@@ -109,6 +120,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />
@@ -124,6 +136,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
           replyCount={0}
@@ -137,6 +150,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           post={
             Object {
               "id": "post1",
+              "is_pinned": false,
             }
           }
         />

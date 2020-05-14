@@ -9,6 +9,9 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
 import EmojiMap from 'utils/emoji_map';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
+import PostPreHeader from 'components/post_pre_header';
+import {Locations} from 'utils/constants';
 
 jest.mock('utils/post_utils.jsx', () => ({
     isEdited: jest.fn().mockReturnValue(true),
@@ -169,5 +172,80 @@ describe('components/RhsComment', () => {
         wrapper.simulate('click', {altKey: true});
 
         expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
+    });
+
+    test('should pass props correctly to PostFlagIcon', () => {
+        isMobile.mockImplementationOnce(() => false);
+
+        const wrapper = shallowWithIntl(
+            <RhsComment {...baseProps}/>
+        );
+
+        const flagIcon = wrapper.find(PostFlagIcon);
+        expect(flagIcon).toHaveLength(1);
+        expect(flagIcon.prop('location')).toEqual(Locations.RHS_COMMENT);
+        expect(flagIcon.prop('postId')).toEqual(baseProps.post.id);
+        expect(flagIcon.prop('isFlagged')).toEqual(baseProps.isFlagged);
+    });
+
+    test('should pass props correctly to PostPreHeader', () => {
+        const wrapper = shallowWithIntl(
+            <RhsComment {...baseProps}/>
+        );
+
+        const postPreHeader = wrapper.find(PostPreHeader);
+        expect(postPreHeader).toHaveLength(1);
+        expect(postPreHeader.prop('isFlagged')).toEqual(baseProps.isFlagged);
+        expect(postPreHeader.prop('isPinned')).toEqual(baseProps.post.is_pinned);
+    });
+
+    test('should not highlight the post of it is neither flagged nor pinned', () => {
+        const props = {
+            ...baseProps,
+            isFlagged: false,
+        };
+
+        const wrapper = shallowWithIntl(
+            <RhsComment {...props}/>
+        );
+
+        expect(wrapper.find('div.a11y__section')).toHaveLength(1);
+        expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(false);
+    });
+
+    describe('should handle post highlighting correctly', () => {
+        for (const testCase of [
+            {
+                name: 'flagged only',
+                isFlagged: true,
+                isPinned: false,
+            },
+            {
+                name: 'pinned only',
+                isFlagged: false,
+                isPinned: true,
+            },
+            {
+                name: 'pinned and flagged',
+                isFlagged: true,
+                isPinned: true,
+            }
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            test(testCase.name, () => {
+                const props = {
+                    ...baseProps,
+                    isFlagged: testCase.isFlagged,
+                    post: {...baseProps.post, is_pinned: testCase.isPinned},
+                };
+
+                const wrapper = shallowWithIntl(
+                    <RhsComment {...props}/>
+                );
+
+                expect(wrapper.find('div.a11y__section')).toHaveLength(1);
+                expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(true);
+            });
+        }
     });
 });
