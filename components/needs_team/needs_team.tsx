@@ -55,7 +55,9 @@ type Props = {
         loadProfilesForDirect: () => Promise<{}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
+        getGroupsByUserId: (userID: string) => Promise<{}>;
         getGroups: (filterAllowReference: boolean) => Promise<{}>;
+
     };
     mfaRequired: boolean;
     match: {
@@ -232,6 +234,10 @@ export default class NeedsTeam extends React.Component<Props, State> {
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
             this.props.license.LDAPGroups === 'true') {
+            if (this.props.currentUser) {
+                this.props.actions.getGroupsByUserId(this.props.currentUser.id);
+            }
+
             this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
             if (team.group_constrained) {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);

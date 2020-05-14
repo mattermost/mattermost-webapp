@@ -40,6 +40,7 @@ export default class SidebarRight extends React.PureComponent {
             openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             openAtPrevious: PropTypes.func.isRequired,
+            updateSearchTerms: PropTypes.func.isRequired,
         }),
     };
 
@@ -138,6 +139,15 @@ export default class SidebarRight extends React.PureComponent {
         this.props.actions.setRhsExpanded(false);
     };
 
+    handleUpdateSearchTerms = (term) => {
+        this.props.actions.updateSearchTerms(term);
+        this.focusSearchBar();
+    }
+
+    getSearchBarFocus = (focusSearchBar) => {
+        this.focusSearchBar = focusSearchBar;
+    }
+
     render() {
         const {
             rhsChannel,
@@ -165,6 +175,7 @@ export default class SidebarRight extends React.PureComponent {
                 <SearchBar
                     isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
                     isSideBarRight={true}
+                    getFocus={this.getSearchBarFocus}
                 />
             );
         }
@@ -186,6 +197,8 @@ export default class SidebarRight extends React.PureComponent {
                         shrink={this.onShrink}
                         channelDisplayName={channelDisplayName}
                         isOpened={this.state.isOpened}
+                        updateSearchTerms={this.handleUpdateSearchTerms}
+
                     />
                 </div>
             );
