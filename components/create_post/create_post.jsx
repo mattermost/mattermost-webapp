@@ -278,7 +278,7 @@ class CreatePost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
 
-            selectChannelMemberCountsByGroup: PropTypes.func,
+            getChannelMemberCountsByGroup: PropTypes.func,
         }).isRequired,
 
         groupsWithAllowReference: PropTypes.object,
@@ -327,9 +327,10 @@ class CreatePost extends React.PureComponent {
     }
 
     componentDidMount() {
+        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         this.onOrientationChange();
-        this.props.actions.setShowPreview(false);
-        this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
+        actions.setShowPreview(false);
+        actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
             }
@@ -339,17 +340,24 @@ class CreatePost extends React.PureComponent {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
         this.setOrientationListeners();
+
+        if (useGroupMentions) {
+            actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
+        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
-            this.props.actions.selectChannelMemberCountsByGroup(this.props.currentChannel.id, this.props.isTimezoneEnabled);
+            if (useGroupMentions) {
+                actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+            }
         }
 
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.props.actions.setShowPreview(false);
+        if (currentChannel.id !== prevProps.currentChannel.id) {
+            actions.setShowPreview(false);
         }
 
         // Focus on textbox when emoji picker is closed
@@ -665,6 +673,9 @@ class CreatePost extends React.PureComponent {
             currentChannel,
             currentUserId,
             draft,
+            useGroupMentions,
+            useChannelMentions,
+            groupsWithAllowReference
         } = this.props;
 
         let post = originalPost;
@@ -679,9 +690,13 @@ class CreatePost extends React.PureComponent {
         post.parent_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
-        if (!this.props.useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
+        if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
+        if (!useGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
+            post.props.disable_group_highlight = true;
+        }
+
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {

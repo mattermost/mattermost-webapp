@@ -488,6 +488,7 @@ export const JobStatuses = {
     ERROR: 'error',
     CANCEL_REQUESTED: 'cancel_requested',
     CANCELED: 'canceled',
+    WARNING: 'warning',
 };
 
 export const AnnouncementBarTypes = {
@@ -1432,6 +1433,15 @@ export const Constants = {
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
+
+export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_list_option.from'), defaultMessage: 'Messages from a user'}},
+    {searchTerm: 'In:', message: {id: t('search_list_option.in'), defaultMessage: 'Messages in a channel'}},
+    {searchTerm: 'On:', message: {id: t('search_list_option.on'), defaultMessage: 'Messages on a date'}},
+    {searchTerm: 'Before:', message: {id: t('search_list_option.before'), defaultMessage: 'Messages before a date'}},
+    {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
+    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}},
+    {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
+];
 
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
