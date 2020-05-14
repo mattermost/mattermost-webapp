@@ -1,14 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 import {FileTypes} from 'utils/constants';
-import {
-    trimFilename,
-} from 'utils/file_utils';
+import {trimFilename} from 'utils/file_utils';
 import {
     fileSizeToString,
     getFileType,
@@ -16,37 +14,43 @@ import {
     localizeMessage,
 } from 'utils/utils.jsx';
 
-import FilenameOverlay from './filename_overlay.jsx';
+import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';
 
-export default class FileAttachment extends React.PureComponent {
-    static propTypes = {
+interface Props {
 
-        /*
-         * File detailed information
-         */
-        fileInfo: PropTypes.object.isRequired,
+    /*
+    * File detailed information
+    */
+    fileInfo: FileInfo;
 
-        /*
-         * The index of this attachment preview in the parent FileAttachmentList
-         */
-        index: PropTypes.number.isRequired,
+    /*
+    * The index of this attachment preview in the parent FileAttachmentList
+    */
+    index: number;
 
-        /*
-         * Handler for when the thumbnail is clicked passed the index above
-         */
-        handleImageClick: PropTypes.func,
+    /*
+    * Handler for when the thumbnail is clicked passed the index above
+    */
+    handleImageClick?: (index: number) => void;
 
-        /*
-         * Display in compact format
-         */
-        compactDisplay: PropTypes.bool,
+    /*
+    * Display in compact format
+    */
+    compactDisplay?: boolean;
+    canDownloadFiles?: boolean;
+    enableSVGs: boolean;
+}
 
-        canDownloadFiles: PropTypes.bool,
-        enableSVGs: PropTypes.bool.isRequired,
-    };
+interface State {
+    loaded: boolean;
+    fileInfo: FileInfo;
+}
 
-    constructor(props) {
+export default class FileAttachment extends React.PureComponent<Props, State> {
+    mounted = false;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -60,7 +64,7 @@ export default class FileAttachment extends React.PureComponent {
         this.loadFiles();
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         if (nextProps.fileInfo.id !== prevState.fileInfo.id) {
             const extension = nextProps.fileInfo.extension;
 
@@ -73,7 +77,7 @@ export default class FileAttachment extends React.PureComponent {
         return null;
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (!this.state.loaded && this.props.fileInfo.id !== prevProps.fileInfo.id) {
             this.loadFiles();
         }
@@ -104,9 +108,13 @@ export default class FileAttachment extends React.PureComponent {
         }
     }
 
-    onAttachmentClick = (e) => {
+    onAttachmentClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
-        e.target.blur();
+
+        if ('blur' in e.target) {
+            (e.target as HTMLElement).blur();
+        }
+
         if (this.props.handleImageClick) {
             this.props.handleImageClick(this.props.index);
         }
