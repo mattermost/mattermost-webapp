@@ -1435,6 +1435,13 @@ export const Constants = {
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
+export const SurveyTelemetryEvents = {
+    SHORT_TERM: 'survey_short_term',
+    LONG_TERM: 'survey_long_term',
+    UNSURE: 'survey_unsure',
+    NO_RESPONSE: 'survey_no_response',
+};
+
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');

@@ -8,18 +8,14 @@ import {Button} from 'react-bootstrap';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
-import {StoragePrefixes} from 'utils/constants';
+import {StoragePrefixes, SurveyTelemetryEvents} from 'utils/constants';
 
 import logoImage from 'images/logo.png';
 
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 
-const SurveyTelemetryEvents = {
-    SHORT_TERM: 'survey_short_term',
-    LONG_TERM: 'survey_long_term',
-    UNSURE: 'survey_unsure',
-};
+type ValueOf<T> = T[keyof T]; // TODO delete here and use from constants.tsx after pull/5354 is merged
 
 const serverPurposeOptions = [
     {
@@ -54,28 +50,24 @@ const serverPurposeOptions = [
 type Props = {
     currentUserId: string;
     currentUserRoles: string;
-    currentUserIsGuest: boolean;
     siteName: string;
     customDescriptionText: string;
 } & RouteComponentProps<{}, {}, LocationState>;
 
 type State = {
-    serverPurpose: TelemetryEventName | '';
+    serverPurpose: ValueOf<typeof SurveyTelemetryEvents>;
 };
 
 type LocationState = {
     next: string;
 };
 
-// TODO use ValueOf<T> once available from mattermost/mattermost-webapp/pull/5354
-type TelemetryEventName = 'survey_short_term' | 'survey_long_term' | 'survey_unsure';
-
 export default class SignupSurvey extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            serverPurpose: '',
+            serverPurpose: SurveyTelemetryEvents.NO_RESPONSE,
         };
     }
 
@@ -87,9 +79,8 @@ export default class SignupSurvey extends React.PureComponent<Props, State> {
         e.preventDefault();
         sessionStorage.removeItem(StoragePrefixes.SIGNUP_SURVEY);
 
-        if (this.state.serverPurpose) {
-            trackEvent('signup', this.state.serverPurpose);
-        }
+        trackEvent('signup', this.state.serverPurpose);
+
         this.props.history.push(this.props.location?.state?.next);
     };
 
