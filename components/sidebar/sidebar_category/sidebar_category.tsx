@@ -160,6 +160,54 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         return false;
     }
 
+    renderNewDropBox = (isDraggingOver: boolean) => {
+        const {isCollapsed, draggingState, category, isNewCategory, channels} = this.props;
+
+        if (!isNewCategory || channels?.length) {
+            return null;
+        }
+
+        return (
+            <React.Fragment>
+                <Draggable
+                    draggableId={'FAKE_CHANNEL'}
+                    index={0}
+                >
+                    {(provided) => {
+                        // FAKE_CHANNEL here is used as a spacer to ensure react-beautiful-dnd will not try and place the first channel
+                        // on the header. This acts as a space filler for the header so that the first channel dragged in will float below it.
+                        return (
+                            <li
+                                ref={provided.innerRef}
+                                draggable='false'
+                                className={'SidebarChannel noFloat fakeChannel'}
+                                {...provided.draggableProps}
+                                role='listitem'
+                                tabIndex={-1}
+                            />
+                        );
+                    }}
+                </Draggable>
+                <div
+                    ref={this.newDropBoxRef}
+                    className={classNames('SidebarCategory_newDropBox', {
+                        collapsed: isCollapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
+                        isDraggingOver,
+                    })}
+                    onTransitionEnd={this.removeAnimation}
+                >
+                    <i className='icon-hand-right'/>
+                    <span className='SidebarCategory_newDropBox-label'>
+                        <FormattedMessage
+                            id='sidebar_left.sidebar_category.newDropBoxLabel'
+                            defaultMessage='Drag channels here...'
+                        />
+                    </span>
+                </div>
+            </React.Fragment>
+        );
+    }
+
     render() {
         const {category, categoryIndex, isCollapsed, draggingState, channels, isNewCategory} = this.props;
 
@@ -186,44 +234,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                         defaultMessage='new'
                     />
                 </div>
-            );
-
-            newDropBox = (isDraggingOver: boolean) => (
-                <React.Fragment>
-                    <Draggable
-                        draggableId={'FAKE_CHANNEL'}
-                        index={0}
-                    >
-                        {(provided) => {
-                            return (
-                                <li
-                                    ref={provided.innerRef}
-                                    draggable='false'
-                                    className={'SidebarChannel noFloat fakeChannel'}
-                                    {...provided.draggableProps}
-                                    role='listitem'
-                                    tabIndex={-1}
-                                />
-                            );
-                        }}
-                    </Draggable>
-                    <div
-                        ref={this.newDropBoxRef}
-                        className={classNames('SidebarCategory_newDropBox', {
-                            collapsed: isCollapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
-                            isDraggingOver,
-                        })}
-                        onTransitionEnd={this.removeAnimation}
-                    >
-                        <i className='icon-hand-right'/>
-                        <span className='SidebarCategory_newDropBox-label'>
-                            <FormattedMessage
-                                id='sidebar_left.sidebar_category.newDropBoxLabel'
-                                defaultMessage='Drag channels here...'
-                            />
-                        </span>
-                    </div>
-                </React.Fragment>
             );
 
             categoryMenu = (
@@ -374,7 +384,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                     role='list'
                                                     className='NavGroupContent'
                                                 >
-                                                    {newDropBox ? newDropBox(droppableSnapshot.isDraggingOver) : null}
+                                                    {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
                                                     {renderedChannels}
                                                     {(category.type === CategoryTypes.DIRECT_MESSAGES || (isNewCategory && (!channels || !channels.length))) ? null : droppableProvided.placeholder}
                                                 </ul>

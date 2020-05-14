@@ -92,7 +92,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     hideCreateCategoryModal = () => {
-        Reflect.deleteProperty(this.state, 'channelIdToMove');
         this.setState({showCreateCategoryModal: false});
     }
 

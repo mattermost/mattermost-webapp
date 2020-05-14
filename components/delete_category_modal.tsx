@@ -23,7 +23,7 @@ export default class DeleteCategoryModal extends React.PureComponent<Props> {
         this.props.onHide();
     }
 
-    handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    handleConfirm = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         this.props.deleteCategory(this.props.category);
         this.props.onHide();

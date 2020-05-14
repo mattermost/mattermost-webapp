@@ -688,7 +688,7 @@
     }
 
     .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader_groupButton:hover {
-        cursor: pointer;
+        //cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
             color: var(--sidebar-text);
@@ -966,7 +966,7 @@
         height: 18px;
     }
 
-    .SidebarChannel div.SidebarChannelLinkLabel_wrapper {
+    SidebarChannelLinkLabel_wrapper {
         text-overflow: ellipsis;
         overflow: hidden;
         display: flex;
