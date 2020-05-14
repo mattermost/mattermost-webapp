@@ -278,13 +278,15 @@ class SearchResultsItem extends React.PureComponent {
                 </p>
             );
         } else {
-            flagContent = (
-                <PostFlagIcon
-                    location={Locations.SEARCH}
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                />
-            );
+            if (!Utils.isMobile()) {
+                flagContent = (
+                    <PostFlagIcon
+                        location={Locations.SEARCH}
+                        postId={post.id}
+                        isFlagged={this.props.isFlagged}
+                    />
+                );
+            }
 
             if (post.props && post.props.card) {
                 postInfoIcon = (
