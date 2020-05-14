@@ -45,7 +45,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         currentUser,
         currentTeamId: getCurrentTeamId(state),
-        previousTeamId: getPreviousTeamId(state),
+        previousTeamId: getPreviousTeamId(state) as string,
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
         useLegacyLHS: !getNewSidebarPreference(state),
