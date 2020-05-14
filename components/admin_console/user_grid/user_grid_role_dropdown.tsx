@@ -39,7 +39,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         }
 
         return {
-            makeAdmin: Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Team Admin'),
+            makeAdmin: Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Channel Admin'),
             makeMember: Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member'),
         };
     }
