@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
@@ -136,11 +134,11 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.setState({membershipsToUpdate}, this.forceUpdate);
     }
 
-    private newMembership = (userId: string): BaseMembership => {
+    private newMembership = (user: UserProfile): BaseMembership => {
         return {
-            user_id: userId,
+            user_id: user.id,
             scheme_admin: false,
-            scheme_user: true,
+            scheme_user: !user.roles.includes('guest'),
         };
     }
 
@@ -171,7 +169,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         }
 
         return usersToDisplay.map((user) => {
-            const membership = membershipsToUpdate[user.id] || memberships[user.id] || this.newMembership(user.id);
+            const membership = membershipsToUpdate[user.id] || memberships[user.id] || this.newMembership(user);
             return {
                 id: user.id,
                 name: (
