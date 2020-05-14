@@ -30,6 +30,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       className="btn"
       data-testid="featureDiscovery_primaryCallToAction"
       href="https://test.mattermost.com/primary/"
+      rel="noopener noreferrer"
       target="_blank"
     >
       <FormattedMessage
@@ -42,6 +43,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       className="btn btn-secondary"
       data-testid="featureDiscovery_secondaryCallToAction"
       href="https://test.mattermost.com/secondary/"
+      rel="noopener noreferrer"
       target="_blank"
     >
       <FormattedMessage

@@ -43,7 +43,8 @@ const FeatureDiscovery: React.FC<Props> = (props: Props) => {
                     className='btn'
                     href={props.primaryURL}
                     data-testid='featureDiscovery_primaryCallToAction'
-                    target="_blank"
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
                     <FormattedMessage
                         id='admin.ldap_feature_discovery.call_to_action.primary'
@@ -54,7 +55,8 @@ const FeatureDiscovery: React.FC<Props> = (props: Props) => {
                     className='btn btn-secondary'
                     href={props.secondaryURL}
                     data-testid='featureDiscovery_secondaryCallToAction'
-                    target="_blank"
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
                     <FormattedMessage
                         id='admin.ldap_feature_discovery.call_to_action.secondary'
