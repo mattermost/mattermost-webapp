@@ -26,26 +26,30 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         values={Object {}}
       />
     </div>
-    <button
+    <a
       className="btn"
-      onClick={[Function]}
+      data-testid="featureDiscovery_primaryCallToAction"
+      href="https://test.mattermost.com/primary/"
+      target="_blank"
     >
       <FormattedMessage
         defaultMessage=""
         id="admin.ldap_feature_discovery.call_to_action.primary"
         values={Object {}}
       />
-    </button>
-    <button
+    </a>
+    <a
       className="btn btn-secondary"
-      onClick={[Function]}
+      data-testid="featureDiscovery_secondaryCallToAction"
+      href="https://test.mattermost.com/secondary/"
+      target="_blank"
     >
       <FormattedMessage
         defaultMessage=""
         id="admin.ldap_feature_discovery.call_to_action.secondary"
         values={Object {}}
       />
-    </button>
+    </a>
   </div>
   <div
     className="FeatureDiscovery_imageWrapper"

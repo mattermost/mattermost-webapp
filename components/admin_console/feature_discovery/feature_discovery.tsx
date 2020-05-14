@@ -20,16 +20,6 @@ type Props = {
 }
 
 const FeatureDiscovery: React.FC<Props> = (props: Props) => {
-    const redirectPrimary = (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        window.open(props.primaryURL);
-    };
-
-    const redirectSecondary = (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        window.open(props.secondaryURL);
-    };
-
     return (
         <div className='FeatureDiscovery'>
 
@@ -49,24 +39,28 @@ const FeatureDiscovery: React.FC<Props> = (props: Props) => {
                         defaultMessage={props.copyDefault}
                     />
                 </div>
-                <button
+                <a
                     className='btn'
-                    onClick={redirectPrimary}
+                    href={props.primaryURL}
+                    data-testid='featureDiscovery_primaryCallToAction'
+                    target="_blank"
                 >
                     <FormattedMessage
                         id='admin.ldap_feature_discovery.call_to_action.primary'
                         defaultMessage=''
                     />
-                </button>
-                <button
+                </a>
+                <a
                     className='btn btn-secondary'
-                    onClick={redirectSecondary}
+                    href={props.secondaryURL}
+                    data-testid='featureDiscovery_secondaryCallToAction'
+                    target="_blank"
                 >
                     <FormattedMessage
                         id='admin.ldap_feature_discovery.call_to_action.secondary'
                         defaultMessage=''
                     />
-                </button>
+                </a>
             </div>
 
             <div className='FeatureDiscovery_imageWrapper'>
