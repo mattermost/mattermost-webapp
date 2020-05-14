@@ -11,6 +11,8 @@ const AWS = require('aws-sdk');
 const mime = require('mime-types');
 const readdir = require('recursive-readdir');
 
+require('dotenv').config();
+
 const {
     AWS_S3_BUCKET,
     AWS_ACCESS_KEY_ID,

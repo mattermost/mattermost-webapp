@@ -41,7 +41,8 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <GroupProfileAndSettings
         allowReference={false}
         displayname="Group"
-        name="Group"
+        mentionname="Group"
+        onChange={[Function]}
         onToggle={[Function]}
       />
       <AdminPanel
@@ -167,6 +168,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;
 
@@ -211,7 +219,8 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <GroupProfileAndSettings
         allowReference={false}
         displayname="Group"
-        name="Group"
+        mentionname="Group"
+        onChange={[Function]}
         onToggle={[Function]}
       />
       <AdminPanel
@@ -336,6 +345,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;
 
@@ -380,7 +396,8 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <GroupProfileAndSettings
         allowReference={false}
         displayname="Group"
-        name="Group"
+        mentionname="Group"
+        onChange={[Function]}
         onToggle={[Function]}
       />
       <AdminPanel
@@ -494,6 +511,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;
 
@@ -538,7 +562,8 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       <GroupProfileAndSettings
         allowReference={false}
         displayname="Group"
-        name="Group"
+        mentionname="Group"
+        onChange={[Function]}
         onToggle={[Function]}
       />
       <AdminPanel
@@ -652,5 +677,12 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;
