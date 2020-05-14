@@ -8,17 +8,50 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @elasticsearch @autocomplete
+// Group: @autocomplete
 
-import {
-    createEmail,
-    enableElasticSearch,
-    searchAndVerifyChannel,
-    searchAndVerifyUser,
-    withTimestamp,
-} from './helpers';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Autocomplete with Elasticsearch - Renaming', () => {
+import {withTimestamp, createEmail} from '../enterprise/elasticsearch_autocomplete/helpers';
+
+function searchAndVerifyChannel(channel) {
+    // # Type cmd-K to open channel switcher
+    cy.typeCmdOrCtrl().type('k');
+
+    // # Search for channel's display name
+    cy.get('#quickSwitchInput').
+        should('be.visible').
+        as('input').
+        clear().
+        type(channel.display_name);
+
+    // * Suggestions should appear
+    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
+
+    // * Channel should appear
+    cy.findByTestId(channel.name).
+        should('be.visible');
+}
+
+function searchAndVerifyUser(user) {
+    // # Start @ mentions autocomplete with username
+    cy.get('#post_textbox').
+        as('input').
+        should('be.visible').
+        clear().
+        type(`@${user.username}`);
+
+    // * Suggestion list should appear
+    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
+
+    // # Verify user appears in results post-change
+    return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
+        cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
+        cy.wrap(name).find('.ml-2').should('have.text', `${user.firstName} ${user.lastName} (${user.nickname})`);
+    });
+}
+
+describe('Autocomplete without Elasticsearch - Renaming', () => {
     const timestamp = Date.now();
     let team;
 
@@ -27,16 +60,20 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
 
-        // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
-
-        // # Create new team for tests
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
-            team = response.body;
+        // # Disable elastic search via API
+        cy.apiUpdateConfig({
+            ElasticsearchSettings: {
+                EnableAutocomplete: false,
+                EnableIndexing: false,
+                EnableSearching: false,
+                Sniff: false,
+            },
         });
 
-        // # Enable elastic search
-        enableElasticSearch();
+        // # Create new team for tests
+        cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then((response) => {
+            team = response.body;
+        });
     });
 
     it('renamed user appears in message input box', () => {
