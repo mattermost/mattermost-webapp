@@ -15,8 +15,8 @@ const SAMLFeatureDiscovery: React.FC = () => {
             titleDefault='Integrate SAML 2.0 with Mattermost Enterprise E20'
             copyID='admin.saml_feature_discovery.copy'
             copyDefault={'When you connect Mattermost with your organization\'s single sign-on provider, users can access Mattermost without having to re-enter their credentials.'}
-            primaryURL='https://mattermost.com/trial/'
-            secondaryURL='https://docs.mattermost.com/deployment/sso-saml.html'
+            primaryURL=' https://www.mattermost.com/trial/?utm_medium=product&utm_source=product-feature-discovery&utm_content=saml'
+            secondaryURL='https://www.mattermost.com/docs-saml/?utm_medium=product&utm_source=product-feature-discovery&utm_content=saml'
             imgPath={saml}
         />
     );

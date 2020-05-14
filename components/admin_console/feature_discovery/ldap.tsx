@@ -15,8 +15,8 @@ const LDAPFeatureDiscovery: React.FC = () => {
             titleDefault='Integrate Active Directory / LDAP with Mattermost Enterprise E10'
             copyID='admin.ldap_feature_discovery.copy'
             copyDefault={'When you connect Mattermost with your organization\'s Active Directory / LDAP, users can log in without having to create new usernames and passwords.'}
-            primaryURL='https://mattermost.com/trial/'
-            secondaryURL='https://docs.mattermost.com/deployment/sso-ldap.html'
+            primaryURL='https://www.mattermost.com/trial/?utm_medium=product&utm_source=product-feature-discovery&utm_content=adldap'
+            secondaryURL='https://www.mattermost.com/docs-adldap/?utm_medium=product&utm_source=product-feature-discovery&utm_content=adldap'
             imgPath={ldap}
         />
     );
