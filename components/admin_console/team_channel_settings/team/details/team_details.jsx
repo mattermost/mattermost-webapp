@@ -8,6 +8,8 @@ import {cloneDeep} from 'lodash';
 
 import {Groups} from 'mattermost-redux/constants';
 
+import {browserHistory} from 'utils/browser_history';
+
 import BlockableLink from 'components/admin_console/blockable_link';
 
 import FormError from 'components/form_error';
@@ -62,7 +64,6 @@ export default class TeamDetails extends React.Component {
             usersToRemoveCount: 0,
             usersToRemove: {},
             usersToAdd: {},
-            teamMembersKey: 0,
             rolesToUpdate: {},
             totalGroups: props.totalGroups,
             saveNeeded: false,
@@ -104,7 +105,6 @@ export default class TeamDetails extends React.Component {
     handleSubmit = async () => {
         this.setState({showRemoveConfirmation: false, saving: true});
         const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
-        let {teamMembersKey} = this.state;
 
         let serverError = null;
         let saveNeeded = false;
@@ -177,11 +177,14 @@ export default class TeamDetails extends React.Component {
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
             }
-            teamMembersKey += 1;
         }
 
-        this.setState({usersToRemoveCount: 0, rolesToUpdate: {}, teamMembersKey, usersToAdd: {}, usersToRemove: {}, serverError, saving: false, saveNeeded});
-        actions.setNavigationBlocked(saveNeeded);
+        this.setState({usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}, serverError, saving: false, saveNeeded}, () => {
+            actions.setNavigationBlocked(saveNeeded);
+            if (!saveNeeded) {
+                browserHistory.push('/admin_console/user_management/teams');
+            }
+        });
     }
 
     setToggles = (syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains) => {
@@ -335,14 +338,12 @@ export default class TeamDetails extends React.Component {
 
                         {!syncChecked &&
                             <TeamMembers
-                                key={this.state.teamMembersKey}
                                 onRemoveCallback={this.addUserToRemove}
                                 onAddCallback={this.addUsersToAdd}
                                 usersToRemove={this.state.usersToRemove}
                                 usersToAdd={this.state.usersToAdd}
                                 updateRole={this.addRolesToUpdate}
                                 teamId={this.props.teamID}
-                                loading={this.state.saving}
                             />
                         }
                     </div>
