@@ -18,6 +18,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 import Constants from 'utils/constants';
+import {browserHistory} from 'utils/browser_history';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
 import ConvertConfirmModal from '../../convert_confirm_modal';
@@ -68,7 +69,6 @@ interface ChannelDetailsState {
     totalGroups: number;
     groups: Group[];
     usersToRemoveCount: number;
-    channelMembersKey: number;
     usersToRemove: Dictionary<UserProfile>;
     usersToAdd: Dictionary<UserProfile>;
     rolesToUpdate: {
@@ -102,7 +102,6 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             showRemoveConfirmModal: false,
             showConvertAndRemoveConfirmModal: false,
             usersToRemoveCount: 0,
-            channelMembersKey: 0,
             usersToRemove: {},
             usersToAdd: {},
             rolesToUpdate: {},
@@ -444,7 +443,6 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         const usersToRemoveList = Object.values(usersToRemove);
         const userRolesToUpdate = Object.keys(rolesToUpdate);
         const usersToUpdate = usersToAddList.length > 0 || usersToRemoveList.length > 0 || userRolesToUpdate.length > 0;
-        let {channelMembersKey} = this.state;
         if (usersToUpdate && !isSynced) {
             const userActions: any[] = [];
             const {addChannelMember, removeChannelMember, updateChannelMemberSchemeRoles} = this.props.actions;
@@ -471,12 +469,14 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                     serverError = <FormError error={userResultWithError.error.message}/>;
                 }
             }
-
-            channelMembersKey += 1;
         }
 
-        this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, channelMembersKey, usersToAdd: {}, usersToRemove: {}});
-        actions.setNavigationBlocked(saveNeeded);
+        this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
+            actions.setNavigationBlocked(saveNeeded);
+            if (!saveNeeded) {
+                browserHistory.push('/admin_console/user_management/teams');
+            }
+        });
     };
 
     private addRolesToUpdate = (userId: string, schemeUser: boolean, schemeAdmin: boolean) => {
@@ -526,7 +526,6 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             usersToRemoveCount,
             channelPermissions,
             teamScheme,
-            channelMembersKey,
             usersToRemove,
             usersToAdd,
         } = this.state;
@@ -607,14 +606,12 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
 
                         {!isSynced &&
                             <ChannelMembers
-                                key={channelMembersKey}
                                 onRemoveCallback={this.addUserToRemove}
                                 onAddCallback={this.addUsersToAdd}
                                 usersToRemove={usersToRemove}
                                 usersToAdd={usersToAdd}
                                 updateRole={this.addRolesToUpdate}
                                 channelId={this.props.channelID}
-                                loading={this.state.saving}
                             />
                         }
                     </div>
