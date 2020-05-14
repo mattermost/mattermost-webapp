@@ -329,6 +329,9 @@
     &.group-profile{
         padding-top: 0px;
     }
+    &.group_at_mention_input {
+        padding-left: 30px;
+    }
 }
 
 .group-profile {
@@ -719,4 +722,10 @@
 
 .group-users--header-padded {
     padding-left: 24px;
+}
+
+.icon-over-input {
+    padding-left: 4px;
+    padding-top: 8px;
+    position: absolute;
 }

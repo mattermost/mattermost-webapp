@@ -3,13 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getChannelTimezones} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -19,6 +19,9 @@ import {
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
+import {
+    getAssociatedGroupsForReference,
+} from 'mattermost-redux/selectors/entities/groups';
 import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
@@ -52,6 +55,7 @@ function makeMapStateToProps() {
 
     return (state, ownProps) => {
         const config = getConfig(state);
+        const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
         const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
@@ -81,9 +85,17 @@ function makeMapStateToProps() {
             team: currentChannel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
+        const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
+        const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, {
+            channel: currentChannel.id,
+            team: currentChannel.team_id,
+            permission: Permissions.USE_GROUP_MENTIONS,
+        });
+        const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
+        const currentTeamId = getCurrentTeamId(state);
 
         return {
-            currentTeamId: getCurrentTeamId(state),
+            currentTeamId,
             currentChannel,
             currentChannelMembersCount,
             currentUserId,
@@ -112,6 +124,10 @@ function makeMapStateToProps() {
             canPost,
             useChannelMentions,
             shouldShowPreview: showPreviewOnCreatePost(state),
+            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, currentTeamId, currentChannel.id).map((group) => [`@${group.name}`, group])),
+            useGroupMentions,
+            channelMemberCountsByGroup,
+            isLDAPEnabled,
         };
     };
 }
@@ -143,6 +159,7 @@ function mapDispatchToProps(dispatch) {
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
             setShowPreview: setShowPreviewOnCreatePost,
+            getChannelMemberCountsByGroup,
         }, dispatch),
     };
 }

@@ -307,6 +307,7 @@
             padding: 0 0 12px;
             position: relative;
             -webkit-overflow-scrolling: touch;
+            overflow: hidden;
 
             &::-webkit-scrollbar-track {
                 width: 0;
@@ -369,7 +370,7 @@
     .popover-content {
         max-height: 500px;
         overflow: auto;
-        padding: 15px;
+        padding: 0;
     }
 
     h4 {
@@ -378,8 +379,6 @@
     }
 
     ul {
-        padding-left: 17px;
-
         span {
             @include opacity(.8);
         }

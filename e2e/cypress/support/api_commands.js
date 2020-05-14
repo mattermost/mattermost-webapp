@@ -268,6 +268,24 @@ Cypress.Commands.add('apiCreateCommand', (command = {}) => {
 });
 
 // *****************************************************************************
+// Email
+// *****************************************************************************
+
+/**
+ * Test SMTP setup
+ */
+Cypress.Commands.add('apiEmailTest', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/email/test',
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status, 'SMTP not setup at sysadmin config').to.equal(200);
+        cy.wrap(response);
+    });
+});
+
+// *****************************************************************************
 // Teams
 // https://api.mattermost.com/#tag/teams
 // *****************************************************************************
@@ -865,6 +883,20 @@ Cypress.Commands.add('apiGetAnalytics', () => {
     cy.apiLogin('sysadmin');
 
     return cy.request('/api/v4/analytics/old').then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
+/**
+ * Invalidate all the caches
+ */
+Cypress.Commands.add('apiInvalidateCache', () => {
+    return cy.request({
+        url: '/api/v4/caches/invalidate',
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+    }).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
     });
