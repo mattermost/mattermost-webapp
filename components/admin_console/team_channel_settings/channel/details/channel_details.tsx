@@ -474,7 +474,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
             if (!saveNeeded) {
-                browserHistory.push('/admin_console/user_management/teams');
+                browserHistory.push('/admin_console/user_management/channels');
             }
         });
     };
