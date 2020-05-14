@@ -3,14 +3,14 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getAllChannelStats, getChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
+import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
-import {getChannelTimezones, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
+import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {
     getAssociatedGroupsForReference,
@@ -50,6 +50,7 @@ function makeMapStateToProps() {
         const channel = state.entities.channels.channels[ownProps.channelId] || {};
 
         const config = getConfig(state);
+        const license = getLicense(state);
         const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
         const enableGifPicker = config.EnableGifPicker === 'true';
@@ -68,12 +69,13 @@ function makeMapStateToProps() {
             team: channel.team_id,
             permission: Permissions.USE_CHANNEL_MENTIONS,
         });
-        const useGroupMentions = haveIChannelPermission(state, {
+        const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
+        const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, {
             channel: channel.id,
             team: channel.team_id,
             permission: Permissions.USE_GROUP_MENTIONS,
         });
-        const channelMemberCountsByGroup = getChannelMemberCountsByGroup(state, ownProps.channelId);
+        const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
 
         return {
             draft,
@@ -154,7 +156,7 @@ function makeMapDispatchToProps() {
             getChannelTimezones,
             emitShortcutReactToLastPostFrom,
             setShowPreview: setShowPreviewOnCreateComment,
-            selectChannelMemberCountsByGroup
+            getChannelMemberCountsByGroup
         }, dispatch);
     };
 }

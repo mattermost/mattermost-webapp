@@ -17,7 +17,7 @@ const Header = () => {
             <div className='group-name group-name-adjusted'>
                 <FormattedMessage
                     id='admin.team_channel_settings.group_list.nameHeader'
-                    defaultMessage='Name'
+                    defaultMessage='Group Name'
                 />
             </div>
             <div className='group-content'>
