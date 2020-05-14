@@ -13,13 +13,22 @@ describe('Feature discovery', () => {
         cy.visit('/admin_console');
     });
 
+    const testCallsToAction = async () => {
+        for (await selector in ["a[data-testid='featureDiscovery_primaryCallToAction']", "a[data-testid='featureDiscovery_secondaryCallToAction']"]) {
+            cy.get(selector).should('have.attr', 'href').and('not.have.text', '');
+            cy.get(selector).should('have.attr', 'target', '_blank');
+        }
+    };
+
     it('MM-25000 - LDAP', () => {
         cy.get('li').contains('AD/LDAP').click();
         cy.get("div[data-testid='featureDiscovery_title']").should('contain', 'LDAP');
+        testCallsToAction();
     });
 
     it('MM-25000 - SAML', () => {
         cy.get('li').contains('SAML 2.0').click();
         cy.get("div[data-testid='featureDiscovery_title']").should('contain', 'SAML');
+        testCallsToAction();
     });
 });
