@@ -14,10 +14,10 @@ describe('Feature discovery', () => {
     });
 
     const testCallsToAction = async () => {
-        for (await selector in ["a[data-testid='featureDiscovery_primaryCallToAction']", "a[data-testid='featureDiscovery_secondaryCallToAction']"]) {
-            cy.get(selector).should('have.attr', 'href').and('not.have.text', '');
-            cy.get(selector).should('have.attr', 'target', '_blank');
-        }
+        cy.get("a[data-testid$='CallToAction']").each(($el, index, $list) => {
+            cy.wrap($el).should('have.attr', 'href').and('not.eq', '');
+            cy.wrap($el).should('have.attr', 'target', '_blank');
+        })        
     };
 
     it('MM-25000 - LDAP', () => {
