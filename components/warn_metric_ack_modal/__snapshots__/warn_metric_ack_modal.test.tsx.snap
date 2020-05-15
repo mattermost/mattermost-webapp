@@ -66,7 +66,7 @@ exports[`components/WarnMetricAckModal error display 1`] = `
           className="control-label"
         >
           <FormattedMessage
-            defaultMessage="Failed to send confirmation email, please click {link} to acknowledge the warning!"
+            defaultMessage="We were unable to send acknowledgement. Please {link} to acknowledge the warning!"
             id="warn_metric_ack_modal.mailto.message"
             values={
               Object {

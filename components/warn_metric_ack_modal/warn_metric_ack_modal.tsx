@@ -110,7 +110,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 <label className='control-label'>
                     <FormattedMessage
                         id='warn_metric_ack_modal.mailto.message'
-                        defaultMessage='Failed to send confirmation email, please click {link} to acknowledge the warning!'
+                        defaultMessage='We were unable to send acknowledgement. Please {link} to acknowledge the warning!'
                         values={{
                             link: (
                                 <WarnMetricAckErrorLink
