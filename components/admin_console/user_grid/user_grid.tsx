@@ -84,7 +84,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         const {page} = this.state;
 
         let total: number;
-        let startCount = 0;
+        let startCount = 1;
         let endCount = 0;
 
         if (term === '') {

@@ -8,10 +8,12 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
+import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+
 import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
 
 import {getMembersInTeams, getTeamStats, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getProfilesInTeam, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInTeam, searchProfilesInTeam, filterProfiles} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions.jsx';
@@ -40,8 +42,16 @@ type Actions = {
     }>;
 };
 
+function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
+    const profiles = filterProfilesMatchingTerm(Object.keys(users).map((key) => users[key]), term);
+    const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
+
+    return filteredProfilesMap;
+}
+
 function mapStateToProps(state: GlobalState, props: Props) {
-    const {teamId, usersToAdd, usersToRemove} = props;
+    const {teamId, usersToRemove} = props;
+    let {usersToAdd} = props;
 
     const teamMembers = getMembersInTeams(state)[teamId] || {};
     const team = getTeam(state, teamId) || {};
@@ -51,6 +61,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
     let users = [];
     if (searchTerm) {
         users = searchProfilesInTeam(state, teamId, searchTerm);
+        usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
     } else {
         users = getProfilesInTeam(state, teamId);
     }
