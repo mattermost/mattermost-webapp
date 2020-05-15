@@ -7,13 +7,15 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {ChannelStats} from 'mattermost-redux/types/channels';
 
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 
 import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {searchProfilesInChannel, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {searchProfilesInChannel, makeGetProfilesInChannel, filterProfiles} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
@@ -41,11 +43,21 @@ type Actions = {
         data: boolean;
     }>;
 };
+
+function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
+    const profiles = filterProfilesMatchingTerm(Object.keys(users).map((key) => users[key]), term);
+    const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
+
+    return filteredProfilesMap;
+}
+
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
 
     return function mapStateToProps(state: GlobalState, props: Props) {
-        const {channelId, usersToAdd, usersToRemove} = props;
+        const {channelId, usersToRemove} = props;
+        let {usersToAdd} = props;
+
         const channelMembers = getChannelMembersInChannels(state)[channelId] || {};
 
         const channel = getChannel(state, channelId) || {channel_id: channelId};
@@ -60,6 +72,7 @@ function makeMapStateToProps() {
         let users = [];
         if (searchTerm) {
             users = searchProfilesInChannel(state, channelId, searchTerm);
+            usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
         } else {
             users = doGetProfilesInChannel(state, channelId, false);
         }
