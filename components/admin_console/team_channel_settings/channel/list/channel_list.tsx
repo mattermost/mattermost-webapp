@@ -111,32 +111,29 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     header() {
         return (
-            <>
-                {this.searchBar()}
-                <div className='groups-list--header'>
-                    <div className='group-name adjusted'>
+            <div className='groups-list--header'>
+                <div className='group-name adjusted'>
+                    <FormattedMessage
+                        id='admin.channel_settings.channel_list.nameHeader'
+                        defaultMessage='Name'
+                    />
+                </div>
+                <div className='group-content'>
+                    <div className='group-description'>
                         <FormattedMessage
-                            id='admin.channel_settings.channel_list.nameHeader'
-                            defaultMessage='Name'
+                            id='admin.channel_settings.channel_list.teamHeader'
+                            defaultMessage='Team'
                         />
                     </div>
-                    <div className='group-content'>
-                        <div className='group-description'>
-                            <FormattedMessage
-                                id='admin.channel_settings.channel_list.teamHeader'
-                                defaultMessage='Team'
-                            />
-                        </div>
-                        <div className='group-description adjusted'>
-                            <FormattedMessage
-                                id='admin.channel_settings.channel_list.managementHeader'
-                                defaultMessage='Management'
-                            />
-                        </div>
-                        <div className='group-actions'/>
+                    <div className='group-description adjusted'>
+                        <FormattedMessage
+                            id='admin.channel_settings.channel_list.managementHeader'
+                            defaultMessage='Management'
+                        />
                     </div>
+                    <div className='group-actions'/>
                 </div>
-            </>
+            </div>
         );
     }
 
@@ -152,15 +149,18 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             absProps.actions.getData = this.getDataBySearch;
         }
         return (
-            <AbstractList
-                header={this.header()}
-                renderRow={this.renderRow}
-                {...absProps}
-                key={this.state.pageResetKey}
-                onPageChangedCallback={this.onPageChangedCallback}
-                data={this.state.searchMode ? this.state.channels : this.props.data}
-                total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
-            />
+            <div className='groups-list groups-list-no-padding'>
+                {this.searchBar()}
+                <AbstractList
+                    header={this.header()}
+                    renderRow={this.renderRow}
+                    {...absProps}
+                    key={this.state.pageResetKey}
+                    onPageChangedCallback={this.onPageChangedCallback}
+                    data={this.state.searchMode ? this.state.channels : this.props.data}
+                    total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
+                />
+            </div>
         );
     }
 
