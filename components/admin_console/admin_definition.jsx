@@ -46,6 +46,8 @@ import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
+import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
+import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -2850,6 +2852,27 @@ const AdminDefinition = {
                 ],
             },
         },
+        ldap_feature_discovery: {
+            url: 'authentication/discover-ldap',
+            title: t('admin.sidebar.ldap'),
+            title_default: 'AD/LDAP',
+            isHidden: it.either(
+                it.licensedForFeature('LDAP'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'LdapSettings',
+                name: t('admin.authentication.ldap'),
+                name_default: 'AD/LDAP',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: LDAPFeatureDiscovery,
+                        key: 'LDAPFeatureDiscovery',
+                    }
+                ],
+            },
+        },
         saml: {
             url: 'authentication/saml',
             title: t('admin.sidebar.saml'),
@@ -3261,6 +3284,27 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "SAML".',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
+                ],
+            },
+        },
+        saml_feature_discovery: {
+            url: 'authentication/discover-saml',
+            title: t('admin.sidebar.saml'),
+            title_default: 'SAML 2.0',
+            isHidden: it.either(
+                it.licensedForFeature('SAML'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'SamlSettings',
+                name: t('admin.authentication.saml'),
+                name_default: 'SAML 2.0',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: SAMLFeatureDiscovery,
+                        key: 'SAMLFeatureDiscovery',
+                    }
                 ],
             },
         },
