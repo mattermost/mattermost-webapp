@@ -153,6 +153,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         }
         return (
             <AbstractList
+                hideHeader={false}
                 header={this.header()}
                 renderRow={this.renderRow}
                 {...absProps}
