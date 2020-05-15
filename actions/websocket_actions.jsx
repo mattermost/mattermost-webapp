@@ -49,7 +49,7 @@ import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -732,6 +732,7 @@ function handleDirectAddedEvent(msg) {
 function handleUserAddedEvent(msg) {
     const state = getState();
     const config = getConfig(state);
+    const license = getLicense(state);
     const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
     const currentChannelId = getCurrentChannelId(state);
     if (currentChannelId === msg.broadcast.channel_id) {
@@ -740,10 +741,8 @@ function handleUserAddedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (isTimezoneEnabled) {
-            dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
-        } else {
-            dispatch(getChannelMemberCountsByGroup(currentChannelId, false));
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+            dispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
         }
     }
 
@@ -759,6 +758,7 @@ export async function handleUserRemovedEvent(msg) {
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
     const config = getConfig(state);
+    const license = getLicense(state);
     const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
     if (msg.broadcast.user_id === currentUser.id) {
@@ -810,10 +810,8 @@ export async function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (isTimezoneEnabled) {
-            dispatch(getChannelMemberCountsByGroup(currentChannel.id, true));
-        } else {
-            dispatch(getChannelMemberCountsByGroup(currentChannel.id, false));
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+            dispatch(getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled));
         }
     }
 
@@ -859,9 +857,13 @@ export async function handleUserUpdatedEvent(msg) {
     const user = msg.data.user;
 
     const config = getConfig(state);
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const license = getLicense(state);
+
     const userIsGuest = isGuest(user);
-    if (userIsGuest || isTimezoneEnabled) {
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
+
+    if (userIsGuest || (isTimezoneEnabled && isLDAPEnabled)) {
         let members = getMembersInCurrentChannel(state);
         const currentChannelId = getCurrentChannelId(state);
         let memberExists = members && members[user.id];
@@ -872,7 +874,7 @@ export async function handleUserUpdatedEvent(msg) {
         }
 
         if (memberExists) {
-            if (isTimezoneEnabled) {
+            if (isLDAPEnabled && isTimezoneEnabled) {
                 dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
             }
             if (isGuest(user)) {
