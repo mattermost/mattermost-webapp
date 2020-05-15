@@ -16,6 +16,7 @@ describe('components/sidebar', () => {
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 

@@ -591,7 +591,7 @@
             display: none;
         }
 
-        &.draggingOver:hover {
+        &.draggingOverHeader:hover {
             //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
             box-shadow: inset -1px 0 0 var(--sidebar-text-60), inset 0 -1px 0 var(--sidebar-text-60), inset 1px 0 0 var(--sidebar-text-60), inset 0 1px 0 var(--sidebar-text-60);
             border-radius: 4px;
@@ -824,7 +824,7 @@
             transform: none !important;
         }
 
-        &.fakeChannel {
+        &.newChannelSpacer {
             height: 0;
         }
 
@@ -966,7 +966,7 @@
         height: 18px;
     }
 
-    SidebarChannelLinkLabel_wrapper {
+    .SidebarChannelLinkLabel_wrapper {
         text-overflow: ellipsis;
         overflow: hidden;
         display: flex;

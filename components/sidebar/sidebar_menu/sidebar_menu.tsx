@@ -72,7 +72,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
 
     closeMenu = () => {
         if (this.menuWrapperRef.current) {
-            this.menuWrapperRef.current.setState({open: false});
+            this.menuWrapperRef.current.close();
         }
         this.handleMenuToggle(false);
     }

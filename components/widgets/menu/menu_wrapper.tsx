@@ -69,7 +69,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         this.close();
     }
 
-    private close = () => {
+    public close = () => {
         if (this.state.open) {
             this.setState({open: false});
             if (this.props.onToggle) {

@@ -226,7 +226,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       role="list"
     >
       <PublicDraggable
-        draggableId="FAKE_CHANNEL"
+        draggableId="NEW_CHANNEL_SPACER__category1"
         index={0}
       >
         <Component />

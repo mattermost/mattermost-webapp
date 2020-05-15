@@ -4,13 +4,11 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import {renameCategory, deleteCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import {createCategory} from 'actions/views/channel_sidebar';
+import {openModal} from 'actions/views/modals';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
@@ -25,17 +23,15 @@ function makeMapStateToProps() {
 }
 
 type Actions = {
-    createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
-    deleteCategory: (categoryId: string) => void;
-    renameCategory: (categoryId: string, displayName: string) => void;
+    openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
+        data: boolean;
+    }>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            createCategory,
-            deleteCategory,
-            renameCategory,
+            openModal,
         }, dispatch),
     };
 }

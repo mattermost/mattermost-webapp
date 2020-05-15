@@ -170,17 +170,17 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <Draggable
-                    draggableId={'FAKE_CHANNEL'}
+                    draggableId={`NEW_CHANNEL_SPACER__${category.id}`}
                     index={0}
                 >
                     {(provided) => {
-                        // FAKE_CHANNEL here is used as a spacer to ensure react-beautiful-dnd will not try and place the first channel
+                        // NEW_CHANNEL_SPACER here is used as a spacer to ensure react-beautiful-dnd will not try and place the first channel
                         // on the header. This acts as a space filler for the header so that the first channel dragged in will float below it.
                         return (
                             <li
                                 ref={provided.innerRef}
                                 draggable='false'
-                                className={'SidebarChannel noFloat fakeChannel'}
+                                className={'SidebarChannel noFloat newChannelSpacer'}
                                 {...provided.draggableProps}
                                 role='listitem'
                                 tabIndex={-1}
@@ -209,13 +209,14 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category, categoryIndex, isCollapsed, draggingState, channels, isNewCategory} = this.props;
+        const {category, categoryIndex, isCollapsed, draggingState, channels} = this.props;
+        const isNewCategory = this.props.isNewCategory && !channels.length;
 
         if (!category) {
             return null;
         }
 
-        if (!isNewCategory && category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.CUSTOM && (!channels || !channels.length)) {
+        if (category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.CUSTOM && !channels?.length) {
             return null;
         }
 
@@ -226,7 +227,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         let newDropBox: (isDraggingOver: boolean) => JSX.Element;
         let directMessagesModalButton: JSX.Element;
         let hideArrow = false;
-        if (isNewCategory && (!channels || !channels.length)) {
+        if (isNewCategory) {
             newLabel = (
                 <div className='SidebarCategory_newLabel'>
                     <FormattedMessage
@@ -354,7 +355,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                         >
                                             <div
                                                 className={classNames('SidebarChannelGroupHeader', {
-                                                    draggingOver: droppableSnapshot.isDraggingOver && category.type !== CategoryTypes.DIRECT_MESSAGES && !(isNewCategory && (!channels || !channels.length)),
+                                                    draggingOverHeader: droppableSnapshot.isDraggingOver && category.type !== CategoryTypes.DIRECT_MESSAGES && !isNewCategory,
                                                 })}
                                             >
                                                 <button
@@ -386,7 +387,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 >
                                                     {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
                                                     {renderedChannels}
-                                                    {(category.type === CategoryTypes.DIRECT_MESSAGES || (isNewCategory && (!channels || !channels.length))) ? null : droppableProvided.placeholder}
+                                                    {(category.type === CategoryTypes.DIRECT_MESSAGES || isNewCategory) ? null : droppableProvided.placeholder}
                                                 </ul>
                                             </div>
                                         </div>

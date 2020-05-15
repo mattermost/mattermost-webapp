@@ -7,10 +7,11 @@ import {IntlShape, injectIntl} from 'react-intl';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
+import DeleteCategoryModal from 'components/delete_category_modal';
+import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
-import EditCategoryModal from 'components/edit_category_modal';
-import DeleteCategoryModal from 'components/delete_category_modal';
+import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     currentTeamId: string;
@@ -18,16 +19,14 @@ type Props = {
     onToggle: (open: boolean) => void;
     intl: IntlShape;
     actions: {
-        createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
-        deleteCategory: (categoryId: string) => void;
-        renameCategory: (categoryId: string, newName: string) => void;
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
+            data: boolean;
+        }>;
     };
 };
 
 type State = {
-    showCreateCategoryModal: boolean;
     showDeleteCategoryModal: boolean;
-    showRenameCategoryModal: boolean;
 }
 
 class SidebarCategoryMenu extends React.PureComponent<Props, State> {
@@ -35,94 +34,36 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            showCreateCategoryModal: false,
             showDeleteCategoryModal: false,
-            showRenameCategoryModal: false,
         };
     }
 
     deleteCategory = () => {
-        this.setState({showDeleteCategoryModal: true});
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.DELETE_CATEGORY,
+            dialogType: DeleteCategoryModal,
+            dialogProps: {
+                category: this.props.category,
+            },
+        });
     }
 
     renameCategory = () => {
-        this.setState({showRenameCategoryModal: true});
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+            dialogProps: {
+                categoryId: this.props.category.id,
+                initialCategoryName: this.props.category.display_name,
+            },
+        });
     }
 
     createCategory = () => {
-        this.setState({showCreateCategoryModal: true});
-    }
-
-    hideCreateCategoryModal = () => {
-        this.setState({showCreateCategoryModal: false});
-    }
-
-    hideDeleteCategoryModal = () => {
-        this.setState({showDeleteCategoryModal: false});
-    }
-
-    hideRenameCategoryModal = () => {
-        this.setState({showRenameCategoryModal: false});
-    }
-
-    handleCreateCategory = (categoryName: string) => {
-        this.props.actions.createCategory(this.props.currentTeamId, categoryName);
-    }
-
-    handleDeleteCategory = (category: ChannelCategory) => {
-        this.props.actions.deleteCategory(category.id);
-    }
-
-    handleRenameCategory = (categoryName: string) => {
-        this.props.actions.renameCategory(this.props.category.id, categoryName);
-    }
-
-    renderModals = () => {
-        const {intl, category} = this.props;
-
-        let createCategoryModal;
-        if (this.state.showCreateCategoryModal) {
-            createCategoryModal = (
-                <EditCategoryModal
-                    onHide={this.hideCreateCategoryModal}
-                    editCategory={this.handleCreateCategory}
-                    modalHeaderText={intl.formatMessage({id: 'create_category_modal.createCategory', defaultMessage: 'Create Category'})}
-                    editButtonText={intl.formatMessage({id: 'create_category_modal.create', defaultMessage: 'Create'})}
-                />
-            );
-        }
-
-        let renameCategoryModal;
-        if (this.state.showRenameCategoryModal) {
-            renameCategoryModal = (
-                <EditCategoryModal
-                    onHide={this.hideRenameCategoryModal}
-                    editCategory={this.handleRenameCategory}
-                    modalHeaderText={intl.formatMessage({id: 'rename_category_modal.renameCategory', defaultMessage: 'Rename Category'})}
-                    editButtonText={intl.formatMessage({id: 'rename_category_modal.rename', defaultMessage: 'Rename'})}
-                    initialCategoryName={category.display_name}
-                />
-            );
-        }
-
-        let deleteCategoryModal;
-        if (this.state.showDeleteCategoryModal) {
-            deleteCategoryModal = (
-                <DeleteCategoryModal
-                    category={category}
-                    deleteCategory={this.handleDeleteCategory}
-                    onHide={this.hideDeleteCategoryModal}
-                />
-            );
-        }
-
-        return (
-            <React.Fragment>
-                {createCategoryModal}
-                {renameCategoryModal}
-                {deleteCategoryModal}
-            </React.Fragment>
-        );
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+        });
     }
 
     renderDropdownItems = () => {
@@ -183,7 +124,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                 >
                     {this.renderDropdownItems()}
                 </SidebarMenu>
-                {this.renderModals()}
             </React.Fragment>
         );
     }

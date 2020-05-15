@@ -12,6 +12,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {createCategory} from 'actions/views/channel_sidebar';
+import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 
@@ -42,6 +43,9 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     fetchMyCategories: (teamId: string) => {data: boolean};
     createCategory: (teamId: string, categoryName: string) => {data: string};
+    openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
+        data: boolean;
+    }>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -49,6 +53,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             createCategory,
             fetchMyCategories,
+            openModal,
         }, dispatch),
     };
 }

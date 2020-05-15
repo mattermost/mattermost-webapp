@@ -14,7 +14,6 @@ import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
-import EditCategoryModal from 'components/edit_category_modal';
 
 type Props = {
     channel: Channel;
@@ -321,18 +320,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     render() {
         const {intl, channel} = this.props;
 
-        let createCategoryModal;
-        if (this.state.showCreateCategoryModal) {
-            createCategoryModal = (
-                <EditCategoryModal
-                    onHide={this.hideCreateCategoryModal}
-                    editCategory={this.handleCreateCategory}
-                    modalHeaderText={intl.formatMessage({id: 'create_category_modal.createCategory', defaultMessage: 'Create Category'})}
-                    editButtonText={intl.formatMessage({id: 'create_category_modal.create', defaultMessage: 'Create'})}
-                />
-            );
-        }
-
         return (
             <React.Fragment>
                 <SidebarMenu
@@ -344,7 +331,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 >
                     {this.renderDropdownItems()}
                 </SidebarMenu>
-                {createCategoryModal}
             </React.Fragment>
         );
     }

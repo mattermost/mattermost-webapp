@@ -23,9 +23,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         isMuted: false,
         onToggle: jest.fn(),
         actions: {
-            createCategory: jest.fn(),
-            deleteCategory: jest.fn(),
-            renameCategory: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 
