@@ -1160,27 +1160,27 @@ function handleGroupUpdatedEvent(msg) {
 function handleGroupAssociatedToTeamEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_TEAM,
-        data: {teamID: JSON.parse(JSON.stringify(msg.broadcast.team_id)), groups: [{id: msg.data.group_id}]}
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]}
     });
 }
 
 function handleGroupNotAssociatedToTeamEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM,
-        data: {teamID: JSON.parse(JSON.stringify(msg.broadcast.team_id)), groups: [{id: msg.data.group_id}]}
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]}
     });
 }
 
 function handleGroupAssociatedToChannelEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL,
-        data: {channelID: JSON.parse(JSON.stringify(msg.broadcast.channel_id)), groups: [{id: msg.data.group_id}]}
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]}
     });
 }
 
 function handleGroupNotAssociatedToChannelEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
-        data: {channelID: JSON.parse(JSON.stringify(msg.broadcast.channel_id)), groups: [{id: msg.data.group_id}]}
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]}
     });
 }
