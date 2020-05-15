@@ -9,15 +9,26 @@ import {
     toggleRhsExpanded,
 } from 'actions/views/rhs';
 
+import {getIsRhsExpanded} from 'selectors/rhs';
+
 import SearchResultsHeader from './search_results_header.jsx';
+
+function mapStateToProps() {
+    return (state) => {
+        return {
+            isExpanded: getIsRhsExpanded(state),
+        };
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             closeRightHandSide,
             toggleRhsExpanded,
+            dispatch: (action) => (action()), // Used to dispatch arbitrary action
         }, dispatch),
     };
 }
 
-export default connect(null, mapDispatchToProps)(SearchResultsHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsHeader);

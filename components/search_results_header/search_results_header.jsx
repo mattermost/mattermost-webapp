@@ -3,21 +3,38 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
+import {generateId} from 'utils/utils';
 
-export default class SearchResultsHeader extends React.Component {
+export default class SearchResultsHeader extends React.PureComponent {
     static propTypes = {
+        isExpanded: PropTypes.bool.isRequired,
         children: PropTypes.node,
+        icons: PropTypes.arrayOf(PropTypes.shape({
+            icon: PropTypes.node.isRequired,
+            tooltip: PropTypes.node.isRequired,
+            action: PropTypes.func.isRequired,
+        })),
         actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func,
+            closeRightHandSide: PropTypes.func.isRequired,
             toggleRhsExpanded: PropTypes.func.isRequired,
+            dispatch: PropTypes.func.isRequired,
         }),
     };
+
+    static defaultProps = {
+        icons: [],
+    }
+
+    handleIconClick = (action) => {
+        this.props.actions.dispatch(action);
+    }
 
     render() {
         const closeSidebarTooltip = (
@@ -51,16 +68,45 @@ export default class SearchResultsHeader extends React.Component {
             <div className='sidebar--right__header'>
                 <span className='sidebar--right__title'>{this.props.children}</span>
                 <div className='pull-right'>
-                    <button
-                        type='button'
-                        className='sidebar--right__expand btn-icon'
-                        aria-label='Expand'
-                        onClick={this.props.actions.toggleRhsExpanded}
+                    {
+                        this.props.icons.map(
+                            (icon) => {
+                                // Check if plugin icon component is empty
+                                // as we want to hide the wrapping button component in that case.
+                                const isEmpty = ReactDOMServer.renderToString(icon.icon) === '';
+                                if (isEmpty) {
+                                    return null;
+                                }
+
+                                const id = generateId();
+                                return (
+                                    <OverlayTrigger
+                                        key={id}
+                                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                                        placement='top'
+                                        overlay={<Tooltip>{icon.tooltip}</Tooltip>}
+                                    >
+                                        <button
+                                            id={id}
+                                            type='button'
+                                            className='sidebar--right__expand btn-icon'
+                                            onClick={() => this.handleIconClick(icon.action)}
+                                        >
+                                            {icon.icon}
+                                        </button>
+                                    </OverlayTrigger>
+                                );
+                            })
+                    }
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={expandSidebarTooltip}
+                        <button
+                            type='button'
+                            className='sidebar--right__expand btn-icon'
+                            onClick={this.props.actions.toggleRhsExpanded}
                         >
                             <FormattedMessage
                                 id='rhs_header.expandSidebarTooltip.icon'
@@ -73,12 +119,6 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={shrinkSidebarTooltip}
-                        >
                             <FormattedMessage
                                 id='rhs_header.expandTooltip.icon'
                                 defaultMessage='Shrink the sidebar icon'
@@ -90,19 +130,19 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
-                    <button
-                        id='searchResultsCloseButton'
-                        type='button'
-                        className='sidebar--right__close btn-icon'
-                        aria-label='Close'
-                        onClick={this.props.actions.closeRightHandSide}
+                        </button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={closeSidebarTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={closeSidebarTooltip}
+                        <button
+                            id='searchResultsCloseButton'
+                            type='button'
+                            className='sidebar--right__close btn-icon'
+                            aria-label='Close'
+                            onClick={this.props.actions.closeRightHandSide}
                         >
                             <FormattedMessage
                                 id='rhs_header.closeTooltip.icon'
@@ -115,8 +155,8 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </div>
             </div>
         );
