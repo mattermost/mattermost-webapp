@@ -561,9 +561,9 @@ export default class PluginRegistry {
 
     // Register a Right-Hand Sidebar component by providing a title for the right hand component.
     // Accepts the following:
-    // - title - A string or JSX element to display as a title for the RHS.
     // - component - A react component to display in the Right-Hand Sidebar.
-    // - icons - A array of icon objects defined as {icon: <Icon />, tooltip: 'This is an icon', action: actionFunc}. All fields are required.
+    // - title - A string or JSX element to display as a title for the RHS.
+    // - icons - An array of icon objects defined as {icon: <Icon />, tooltip: 'This is an icon', action: actionFunc}. All fields are required.
     // Returns:
     // - id: a unique identifier
     // - showRHSPlugin: the action to dispatch that will open the RHS.
