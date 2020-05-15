@@ -13,11 +13,9 @@ import {getIsRhsExpanded} from 'selectors/rhs';
 
 import SearchResultsHeader from './search_results_header.jsx';
 
-function mapStateToProps() {
-    return (state) => {
-        return {
-            isExpanded: getIsRhsExpanded(state),
-        };
+function mapStateToProps(state) {
+    return {
+        isExpanded: getIsRhsExpanded(state),
     };
 }
 
