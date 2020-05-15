@@ -388,6 +388,7 @@
                     .copy-theme-button {
                         background-color: #ffffff;
                         padding: 5px 8px;
+                        color: v(button-bg);
                         border: 1px solid $primary-color;
                         text-decoration: none;
                     }
