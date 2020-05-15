@@ -3,32 +3,9 @@ $white: #FFF;
 
 .DataGrid {
     width: 100%;
-    display: flex;
-    flex-direction: column;
 
     padding: 2rem 2rem 2rem 2rem;
     background: $grey;
-
-    .dg-loading, .dg-empty {
-        display: inline-block;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-
-        font-size: 1.6rem;
-        background: rgba(255, 255, 255, 0.5);
-        color: rgba(0, 0, 0, 0.3);
-    }
-
-    .dg-empty {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    .dg-loading {
-        padding-top: 100px;
-        padding-bottom: 100px;
-    }
 
     .dg-search {
         height: 48px;
@@ -79,6 +56,44 @@ $white: #FFF;
         padding: .5em 0;
     }
 
+    .dg-rows {
+        display: flex;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.5);
+
+        .dg-loading {
+            margin: auto;
+            font-size: 1.6rem;
+            color: rgba(0, 0, 0, 0.3);
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .dg-empty {
+            font-size: 1.6rem;
+            width: 100%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .dg-row {
+            min-height: 50px;
+
+            &:nth-child(odd) {
+                background: $grey;
+            }
+            .dg-cell {
+                margin: auto;
+                text-overflow: ellipsis;
+                padding-right: 10px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+    }
+
     .dg-row, .dg-header {
         display: flex;
         flex-direction: row;
@@ -88,21 +103,6 @@ $white: #FFF;
         .dg-cell {
             flex-basis: 100%;
             flex: 1 0;
-        }
-    }
-
-    .dg-row {
-        min-height: 50px;
-
-        &:nth-child(even) {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        .dg-cell {
-            margin: auto;
-            text-overflow: ellipsis;
-            padding-right: 10px;
-            overflow: hidden;
-            white-space: nowrap;
         }
     }
 

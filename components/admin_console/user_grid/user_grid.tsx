@@ -42,6 +42,7 @@ type State = {
 }
 
 const USERS_PER_PAGE = 10;
+const ROW_HEIGHT = 80;
 
 export default class UserGrid extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
@@ -84,14 +85,11 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         const {page} = this.state;
 
         let total: number;
-        let startCount = 1;
         let endCount = 0;
+        const startCount = (page * USERS_PER_PAGE) + 1;
 
         if (term === '') {
             total = this.getVisibleTotalCount();
-            startCount = (page * USERS_PER_PAGE) + 1;
-            endCount = (page + 1) * USERS_PER_PAGE;
-            endCount = endCount > total ? total : endCount;
         } else {
             total = this.props.users.length + Object.keys(includeUsers).length;
             this.props.users.forEach((u) => {
@@ -99,8 +97,11 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                     total -= 1;
                 }
             });
-            endCount = total;
         }
+
+        endCount = (page + 1) * USERS_PER_PAGE;
+        endCount = endCount > total ? total : endCount;
+
         return {startCount, endCount, total};
     }
 
@@ -145,6 +146,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
     private getRows = (): Row[] => {
         const {page, membershipsToUpdate} = this.state;
         const {memberships, users, excludeUsers, includeUsers, totalCount, term, scope} = this.props;
+        const {startCount, endCount} = this.getPaginationProps();
 
         let usersToDisplay = users;
         const includeUsersList = Object.values(includeUsers);
@@ -152,20 +154,16 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         // Remove users to remove and add users to add
         usersToDisplay = usersToDisplay.filter((user) => !excludeUsers[user.id]);
         usersToDisplay = [...includeUsersList, ...usersToDisplay];
+        usersToDisplay = usersToDisplay.slice(startCount - 1, endCount);
 
         // Dont load more elements if searching
-        if (term === '') {
-            const {startCount, endCount} = this.getPaginationProps();
-            usersToDisplay = usersToDisplay.slice(startCount - 1, endCount);
+        if (term === '' && usersToDisplay.length < USERS_PER_PAGE && users.length < totalCount) {
+            const numberOfUsersRemoved = Object.keys(excludeUsers).length;
+            const pagesOfUsersRemoved = Math.floor(numberOfUsersRemoved / USERS_PER_PAGE);
+            const pageToLoad = page + pagesOfUsersRemoved + 1;
 
-            if (usersToDisplay.length < USERS_PER_PAGE && users.length < totalCount) {
-                const numberOfUsersRemoved = Object.keys(excludeUsers).length;
-                const pagesOfUsersRemoved = Math.floor(numberOfUsersRemoved / USERS_PER_PAGE);
-                const pageToLoad = page + pagesOfUsersRemoved + 1;
-
-                // Directly call action to load more users from parent component to load more users into the state
-                this.props.loadPage(pageToLoad);
-            }
+            // Directly call action to load more users from parent component to load more users into the state
+            this.props.loadPage(pageToLoad);
         }
 
         return usersToDisplay.map((user) => {
@@ -260,6 +258,10 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             />
         );
 
+        const rowsCss = {
+            minHeight: `${rows.length * ROW_HEIGHT}px`,
+        };
+
         return (
             <DataGrid
                 columns={columns}
@@ -274,6 +276,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 search={this.search}
                 term={this.props.term || ''}
                 placeholderEmpty={placeholderEmpty}
+                customRowsCss={rowsCss}
             />
         );
     }
