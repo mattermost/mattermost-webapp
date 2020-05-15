@@ -55,6 +55,7 @@ export default class RhsThread extends React.Component {
             getPostThread: PropTypes.func.isRequired,
         }).isRequired,
         directTeammate: PropTypes.string.isRequired,
+        selectedPostFocusedAt: PropTypes.number.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -100,6 +101,12 @@ export default class RhsThread extends React.Component {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
+        // scroll to bottom if this post is re-focused
+        // ex. clicking on reply in center channel
+        if (this.props.selectedPostFocusedAt > prevProps.selectedPostFocusedAt) {
+            this.scrollToBottom();
+        }
+
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
             this.props.actions.getPostThread(this.props.selected.id);
         }
@@ -137,6 +144,10 @@ export default class RhsThread extends React.Component {
         }
 
         if (nextState.topRhsPostId !== this.state.topRhsPostId) {
+            return true;
+        }
+
+        if (nextProps.selectedPostFocusedAt > this.props.selectedPostFocusedAt) {
             return true;
         }
 

@@ -10,7 +10,7 @@ import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 
 import {Preferences} from 'utils/constants';
 import {getDirectTeammate} from 'utils/utils.jsx';
-import {getSelectedPost} from 'selectors/rhs';
+import {getSelectedPost, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
 
@@ -22,6 +22,7 @@ function makeMapStateToProps() {
     return function mapStateToProps(state) {
         const selected = getSelectedPost(state);
         const socketStatus = getSocketStatus(state);
+        const selectedPostFocusedAt = getSelectedPostFocussedAt(state);
 
         let channel = null;
         let posts = [];
@@ -40,6 +41,7 @@ function makeMapStateToProps() {
             previewCollapsed,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
             directTeammate: getDirectTeammate(state, channel.id),
+            selectedPostFocusedAt,
         };
     };
 }
