@@ -23,10 +23,12 @@ export default class AbstractList extends React.PureComponent {
             getData: PropTypes.func.isRequired,
             removeGroup: PropTypes.func,
         }).isRequired,
+        hideHeader: PropTypes.bool,
     };
 
     static defaultProps = {
         data: [],
+        hideHeader: true,
     };
 
     constructor(props) {
@@ -56,7 +58,7 @@ export default class AbstractList extends React.PureComponent {
     }
 
     renderHeader = () => {
-        if (this.props.data.length > 0) {
+        if (this.props.data.length > 0 || !this.props.hideHeader) {
             return this.props.header;
         }
         return null;
