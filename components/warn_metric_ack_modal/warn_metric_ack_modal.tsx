@@ -95,8 +95,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             mailBody += 'License ID ' + this.props.license.Id;
             mailBody += '\r\n';
         }
-        if (this.props.stats[StatTypes.REGISTERED_USERS]) {
-            mailBody += 'Registered Users ' + this.props.stats[StatTypes.REGISTERED_USERS];
+        if (this.props.stats[StatTypes.TOTAL_USERS]) {
+            mailBody += 'Registered Users ' + this.props.stats[StatTypes.TOTAL_USERS];
             mailBody += '\r\n';
         }
         mailBody += 'If you have any additional inquiries, please contact support@mattermost.com';

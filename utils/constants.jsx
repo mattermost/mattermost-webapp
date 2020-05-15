@@ -396,7 +396,6 @@ export const StatTypes = keyMirror({
     TOTAL_READ_DB_CONNECTIONS: null,
     DAILY_ACTIVE_USERS: null,
     MONTHLY_ACTIVE_USERS: null,
-    REGISTERED_USERS: null,
 });
 
 export const SearchUserTeamFilter = {
