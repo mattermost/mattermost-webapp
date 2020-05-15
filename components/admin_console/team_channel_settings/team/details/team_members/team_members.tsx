@@ -70,8 +70,9 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         const {teamId} = this.props;
-        const {loadProfilesAndReloadTeamMembers, getTeamStats} = this.props.actions;
+        const {loadProfilesAndReloadTeamMembers, getTeamStats, setModalSearchTerm} = this.props.actions;
         Promise.all([
+            setModalSearchTerm(''),
             getTeamStats(teamId),
             loadProfilesAndReloadTeamMembers(0, PROFILE_CHUNK_SIZE * 2, teamId),
         ]).then(() => this.setStateLoading(false));

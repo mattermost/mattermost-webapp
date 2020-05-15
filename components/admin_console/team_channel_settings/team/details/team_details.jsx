@@ -239,6 +239,7 @@ export default class TeamDetails extends React.Component {
             }
         });
         this.setState({usersToAdd: {...usersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     addUserToRemove = (user) => {
@@ -252,12 +253,14 @@ export default class TeamDetails extends React.Component {
         }
         delete rolesToUpdate[user.id];
         this.setState({usersToRemove: {...usersToRemove}, usersToAdd: {...usersToAdd}, rolesToUpdate: {...rolesToUpdate}, usersToRemoveCount, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     addRolesToUpdate = (userId, schemeUser, schemeAdmin) => {
         const {rolesToUpdate} = this.state;
         rolesToUpdate[userId] = {schemeUser, schemeAdmin};
         this.setState({rolesToUpdate: {...rolesToUpdate}, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     handleGroupRemoved = (gid) => {
