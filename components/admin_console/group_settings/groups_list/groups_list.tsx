@@ -153,7 +153,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
             return (
                 <button
                     className='btn btn-primary'
-                    onClick={this.linkSelectedGroups}
+                    onClick={() => this.linkSelectedGroups()}
                 >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
@@ -166,7 +166,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
             return (
                 <button
                     className='btn btn-primary'
-                    onClick={this.unlinkSelectedGroups}
+                    onClick={() => this.unlinkSelectedGroups()}
                 >
                     <i className='icon fa fa-unlink'/>
                     <FormattedMessage
@@ -446,7 +446,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                         <input
                             type='text'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                            onKeyUp={this.handleGroupSearchKeyUp}
+                            onKeyUp={(e: any) => this.handleGroupSearchKeyUp(e)}
                             onChange={(e) => this.setState({searchString: e.target.value})}
                             value={this.state.searchString}
                         />
@@ -456,7 +456,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                         />
                         <i
                             className={'fa fa-times-circle group-filter-action ' + (this.state.searchString.length ? '' : 'hidden')}
-                            onClick={this.resetFiltersAndSearch}
+                            onClick={() => this.resetFiltersAndSearch()}
                         />
                         <i
                             className={'fa fa-caret-down group-filter-action ' + (this.state.showFilters ? 'hidden' : '')}
@@ -493,14 +493,14 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                         </div>
                         <button
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                            onClick={this.previousPage}
+                            onClick={(e: any) => this.previousPage(e)}
                             disabled={firstPage}
                         >
                             <PreviousIcon/>
                         </button>
                         <button
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                            onClick={this.nextPage}
+                            onClick={(e: any) => this.nextPage(e)}
                             disabled={lastPage}
                         >
                             <NextIcon/>
