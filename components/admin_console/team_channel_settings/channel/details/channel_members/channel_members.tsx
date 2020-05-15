@@ -73,8 +73,9 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         const {channelId} = this.props;
-        const {loadProfilesAndReloadChannelMembers, getChannelStats} = this.props.actions;
+        const {loadProfilesAndReloadChannelMembers, getChannelStats, setModalSearchTerm} = this.props.actions;
         Promise.all([
+            setModalSearchTerm(''),
             getChannelStats(channelId),
             loadProfilesAndReloadChannelMembers(0, PROFILE_CHUNK_SIZE * 2, channelId),
         ]).then(() => this.setStateLoading(false));

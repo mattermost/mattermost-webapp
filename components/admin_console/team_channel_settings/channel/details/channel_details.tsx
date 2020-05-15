@@ -483,6 +483,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         const {rolesToUpdate} = this.state;
         rolesToUpdate[userId] = {schemeUser, schemeAdmin};
         this.setState({rolesToUpdate: {...rolesToUpdate}, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
     private addUserToRemove = (user: UserProfile) => {
         let {usersToRemoveCount} = this.state;
@@ -495,6 +496,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         }
         delete rolesToUpdate[user.id];
         this.setState({usersToRemove: {...usersToRemove}, usersToAdd: {...usersToAdd}, rolesToUpdate: {...rolesToUpdate}, usersToRemoveCount, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
     private addUsersToAdd = (users: UserProfile[]) => {
         let {usersToRemoveCount} = this.state;
@@ -508,6 +510,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             }
         });
         this.setState({usersToAdd: {...usersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     public render = (): JSX.Element => {
