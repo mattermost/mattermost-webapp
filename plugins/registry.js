@@ -563,12 +563,13 @@ export default class PluginRegistry {
     // Accepts the following:
     // - title - A string or JSX element to display as a title for the RHS.
     // - component - A react component to display in the Right-Hand Sidebar.
+    // - icons - A array of icon objects defined as {icon: <Icon />, tooltip: 'This is an icon', action: actionFunc}. All fields are required.
     // Returns:
     // - id: a unique identifier
     // - showRHSPlugin: the action to dispatch that will open the RHS.
     // - hideRHSPlugin: the action to dispatch that will close the RHS
     // - toggleRHSPlugin: the action to dispatch that will toggle the RHS
-    registerRightHandSidebarComponent(component, title) {
+    registerRightHandSidebarComponent(component, title, icons = []) {
         const id = generateId();
 
         store.dispatch({
@@ -579,6 +580,7 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 component,
                 title,
+                icons,
             },
         });
 
