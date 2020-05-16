@@ -19,9 +19,17 @@ exports[`components/admin_console/group_settings/group_details/GroupProfile shou
     <div
       className="col-sm-8"
     >
+      <div
+        className="icon-over-input"
+      >
+        <MentionsIcon
+          aria-hidden="true"
+          className="icon icon__mentions"
+        />
+      </div>
       <input
-        className="form-control"
-        disabled={true}
+        className="form-control group_at_mention_input"
+        disabled={false}
         type="text"
         value="Test"
       />

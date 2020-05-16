@@ -28,7 +28,9 @@ describe('System Console', () => {
         cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Check and run LDAP Sync job
-        cy.checkRunLDAPSync();
+        if (Cypress.env('runLDAPSync')) {
+            cy.checkRunLDAPSync();
+        }
     });
 
     it('MM-20059 - System Admin can map roles to groups from Team Configuration screen', () => {
