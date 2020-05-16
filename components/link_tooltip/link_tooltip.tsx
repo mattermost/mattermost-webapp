@@ -25,6 +25,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
     public static propTypes = {
         href: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
+        attribs: PropTypes.object.isRequired,
     };
     private tooltipContainerRef: RefObject<any>;
     private show: boolean;
@@ -91,7 +92,12 @@ export default class LinkTooltip extends React.PureComponent<Props> {
     };
 
     public render() {
-        const {href, title} = this.props;
+        const {href, title, attribs} = this.props;
+        const dataAttributes = {
+            'data-hashtag': attribs['data-hashtag'],
+            'data-link': attribs['data-link'],
+            'data-channel-mention': attribs['data-channel-mention'],
+        };
         return (
             <React.Fragment>
                 {ReactDOM.createPortal(
@@ -109,6 +115,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
                 <span
                     onMouseOver={this.showTooltip}
                     onMouseLeave={this.hideTooltip}
+                    {...dataAttributes}
                 >
                     {title}
                 </span>
@@ -116,4 +123,3 @@ export default class LinkTooltip extends React.PureComponent<Props> {
         );
     }
 }
-

@@ -14,6 +14,12 @@ describe('components/link_tooltip/link_tooltip', () => {
             <LinkTooltip
                 href={'www.test.com'}
                 title={'test title'}
+                attribs={{
+                    'class': 'someclass',
+                    'data-hashtag': '#somehashtag',
+                    'data-link': 'somelink',
+                    'data-channel-mention': 'somechannel',
+                }}
             />
         );
 

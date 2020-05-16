@@ -60,6 +60,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     <LinkTooltip
                         href={node.attribs[hrefAttrib]}
                         title={children[0]}
+                        attribs={node.attribs}
                     />
                 );
             },
