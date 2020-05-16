@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -71,20 +70,13 @@ export default class SearchResultsHeader extends React.PureComponent {
                     {
                         this.props.icons.map(
                             (icon) => {
-                                // Check if plugin icon component is empty
-                                // as we want to hide the wrapping button component in that case.
-                                const isEmpty = ReactDOMServer.renderToString(icon.icon) === '';
-                                if (isEmpty) {
-                                    return null;
-                                }
-
                                 const id = generateId();
                                 return (
                                     <OverlayTrigger
                                         key={id}
                                         delayShow={Constants.OVERLAY_TIME_DELAY}
                                         placement='top'
-                                        overlay={<Tooltip>{icon.tooltip}</Tooltip>}
+                                        overlay={<Tooltip id={id}>{icon.tooltip}</Tooltip>}
                                     >
                                         <button
                                             id={id}
