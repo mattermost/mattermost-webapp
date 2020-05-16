@@ -19,6 +19,7 @@ import * as Utils from 'utils/utils.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
+import Pluggable from 'plugins/pluggable';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -35,6 +36,7 @@ declare global {
 }
 
 type Props = {
+    license: Record<string, any>;
     currentUser?: {
         id: string;
     };
@@ -52,6 +54,11 @@ type Props = {
         setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
         loadStatusesForChannelAndSidebar: () => Promise<{}>;
         loadProfilesForDirect: () => Promise<{}>;
+        getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
+        getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
+        getGroupsByUserId: (userID: string) => Promise<{}>;
+        getGroups: (filterAllowReference: boolean) => Promise<{}>;
+
     };
     mfaRequired: boolean;
     match: {
@@ -64,6 +71,7 @@ type Props = {
     };
     teamsList: Team[];
     theme: any;
+    plugins?: any;
 }
 
 type State = {
@@ -73,7 +81,7 @@ type State = {
     teamsList: Team[];
 }
 
-export default class NeedsTeam extends React.Component<Props, State> {
+export default class NeedsTeam extends React.PureComponent<Props, State> {
     public blurTime: number;
     constructor(props: Props) {
         super(props);
@@ -225,6 +233,21 @@ export default class NeedsTeam extends React.Component<Props, State> {
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
+        if (this.props.license &&
+            this.props.license.IsLicensed === 'true' &&
+            this.props.license.LDAPGroups === 'true') {
+            if (this.props.currentUser) {
+                this.props.actions.getGroupsByUserId(this.props.currentUser.id);
+            }
+
+            this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+            if (team.group_constrained) {
+                this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
+            } else {
+                this.props.actions.getGroups(true);
+            }
+        }
+
         return team;
     }
 
@@ -274,6 +297,18 @@ export default class NeedsTeam extends React.Component<Props, State> {
                     path={'/:team/emoji'}
                     component={BackstageController}
                 />
+                {this.props.plugins?.map((plugin: any) => (
+                    <Route
+                        key={plugin.id}
+                        path={'/:team/' + plugin.route}
+                        render={() => (
+                            <Pluggable
+                                pluggableName={'NeedsTeamComponent'}
+                                pluggableId={plugin.id}
+                            />
+                        )}
+                    />
+                ))}
                 <Route
                     render={(renderProps) => (
                         <ChannelController

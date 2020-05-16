@@ -90,3 +90,5 @@ Cypress.Commands.add('requireStorybookServer', () => {
     const storybookUrl = Cypress.env().storybookUrl;
     cy.urlHealthCheck({url: storybookUrl, method: 'get', httpStatus: 200});
 });
+
+Cypress.Commands.overwrite('log', (subject, message) => cy.task('log', message));

@@ -18,6 +18,10 @@ let config;
 
 describe('Signin/Authentication', () => {
     before(() => {
+        // # Do email test if setup properly
+        cy.apiEmailTest();
+
+        // # Login as sysadmin and get config
         cy.apiLogin('sysadmin');
         cy.apiGetConfig().then((response) => {
             config = response.body;

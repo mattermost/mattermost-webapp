@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`] = `
+<div
+  className="FeatureDiscovery"
+>
+  <div
+    className="FeatureDiscovery_copyWrapper"
+  >
+    <div
+      className="FeatureDiscovery_title"
+      data-testid="featureDiscovery_title"
+    >
+      <FormattedMessage
+        defaultMessage="Foo"
+        id="translation.test.title"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="FeatureDiscovery_copy"
+    >
+      <FormattedMessage
+        defaultMessage="Bar"
+        id="translation.test.copy"
+        values={Object {}}
+      />
+    </div>
+    <a
+      className="btn"
+      data-testid="featureDiscovery_primaryCallToAction"
+      href="https://test.mattermost.com/primary/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage=""
+        id="admin.ldap_feature_discovery.call_to_action.primary"
+        values={Object {}}
+      />
+    </a>
+    <a
+      className="btn btn-secondary"
+      data-testid="featureDiscovery_secondaryCallToAction"
+      href="https://test.mattermost.com/secondary/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage=""
+        id="admin.ldap_feature_discovery.call_to_action.secondary"
+        values={Object {}}
+      />
+    </a>
+  </div>
+  <div
+    className="FeatureDiscovery_imageWrapper"
+  >
+    <img
+      alt="Feature Discovery Image"
+      className="FeatureDiscovery_image"
+      src="foo/bar.png"
+    />
+  </div>
+</div>
+`;

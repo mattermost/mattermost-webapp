@@ -13,14 +13,26 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Header', () => {
-    before(() => {
-        // # Login and go to /
+    let testTeam;
+
+    beforeEach(() => {
+        testTeam = null;
+
+        // # Login as user-1
         cy.apiLogin('user-1');
 
         // # Create new test team
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
             cy.visit(`/${response.body.name}`);
         });
+    });
+
+    afterEach(() => {
+        cy.apiLogin('sysadmin');
+        if (testTeam && testTeam.id) {
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('M13564 Ellipsis indicates the channel header is too long', () => {
@@ -58,7 +70,7 @@ describe('Header', () => {
         cy.get('#header-popover > div.popover-content').
             should('have.html', `<span><blockquote>\n<p>${header}</p>\n</blockquote></span>`);
 
-        cy.apiSaveMessageDisplayPreference();
+        cy.apiSaveMessageDisplayPreference('clean');
     });
 
     it('S13483 - Cleared search term should not reappear as RHS is opened and closed', () => {
