@@ -134,18 +134,26 @@ export default class PopoverBar extends React.PureComponent {
 
         let zoomResetButton;
         if (this.props.showZoomControls) {
-            if (this.props.scale > ZoomSettings.DEFAULT_SCALE || this.props.scale < ZoomSettings.DEFAULT_SCALE) {
+            if (this.props.scale > ZoomSettings.DEFAULT_SCALE) {
                 zoomResetButton = (
                     <a onClick={this.props.handleZoomReset}>
                         <span className='modal-zoom-btn'>
-                            {<i className='icon icon-magnify'/>}
+                            {<i className='icon icon-magnify-minus'/>}
+                        </span>
+                    </a>
+                );
+            } else if (this.props.scale < ZoomSettings.DEFAULT_SCALE) {
+                zoomResetButton = (
+                    <a onClick={this.props.handleZoomReset}>
+                        <span className='modal-zoom-btn'>
+                            {<i className='icon icon-magnify-plus'/>}
                         </span>
                     </a>
                 );
             } else {
                 zoomResetButton = (
                     <span className='btn-inactive'>
-                        {<i className='icon icon-magnify'/>}
+                        {<i className='icon icon-magnify-minus'/>}
                     </span>
                 );
             }
