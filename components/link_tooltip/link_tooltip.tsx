@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {RefObject, MouseEvent, CSSProperties} from 'react';
 import Popper from 'popper.js';
 import ReactDOM from 'react-dom';
@@ -19,14 +18,14 @@ const tooltipContainerStyles: CSSProperties = {
 type Props = {
     href: string;
     title: string;
+    attribs: {
+        'data-hashtag'?: string;
+        'data-link'?: string;
+        'data-channel-mention'?: string;
+    } & any;
 }
 
 export default class LinkTooltip extends React.PureComponent<Props> {
-    public static propTypes = {
-        href: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        attribs: PropTypes.object.isRequired,
-    };
     private tooltipContainerRef: RefObject<any>;
     private show: boolean;
     private hideTimeout: number;
