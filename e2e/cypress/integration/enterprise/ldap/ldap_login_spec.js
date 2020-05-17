@@ -24,7 +24,7 @@ function setLDAPTestSettings(config) {
 
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
-// for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
+// for setup with AWS: Follow the instructions mentioned in the mattermost/enterprise/config/ldap-test-setup.txt file
 context('ldap', () => {
     const user1 = users['test-1'];
     const guest1 = users['board-1'];
