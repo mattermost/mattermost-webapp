@@ -14,8 +14,7 @@ describe('components/link_tooltip/link_tooltip', () => {
             <LinkTooltip
                 href={'www.test.com'}
                 title={'test title'}
-                attribs={{
-                    className: 'mention-highlight', // unused attribute that is usually present
+                dataAttributes={{
                     'data-hashtag': '#somehashtag',
                     'data-link': 'somelink',
                     'data-channel-mention': 'somechannel',

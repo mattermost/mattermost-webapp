@@ -18,11 +18,11 @@ const tooltipContainerStyles: CSSProperties = {
 type Props = {
     href: string;
     title: string;
-    attribs: {
+    dataAttributes: {
         'data-hashtag'?: string;
         'data-link'?: string;
         'data-channel-mention'?: string;
-    } & any;
+    };
 }
 
 export default class LinkTooltip extends React.PureComponent<Props> {
@@ -91,12 +91,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
     };
 
     public render() {
-        const {href, title, attribs} = this.props;
-        const dataAttributes = {
-            'data-hashtag': attribs['data-hashtag'],
-            'data-link': attribs['data-link'],
-            'data-channel-mention': attribs['data-channel-mention'],
-        };
+        const {href, title, dataAttributes} = this.props;
         return (
             <React.Fragment>
                 {ReactDOM.createPortal(
