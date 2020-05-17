@@ -60,7 +60,11 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     <LinkTooltip
                         href={node.attribs[hrefAttrib]}
                         title={children[0]}
-                        attribs={node.attribs}
+                        dataAttributes={{
+                            'data-hashtag': attribs['data-hashtag'],
+                            'data-link': attribs['data-link'],
+                            'data-channel-mention': attribs['data-channel-mention'],
+                        }}
                     />
                 );
             },
