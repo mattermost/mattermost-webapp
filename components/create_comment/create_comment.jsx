@@ -227,7 +227,7 @@ class CreateComment extends React.PureComponent {
         /*
             Group member mention
         */
-        selectChannelMemberCountsByGroup: PropTypes.func.isRequired,
+        getChannelMemberCountsByGroup: PropTypes.func.isRequired,
         groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
     }
@@ -273,19 +273,22 @@ class CreateComment extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.clearCommentDraftUploads();
-        this.props.onResetHistoryIndex();
-        this.props.setShowPreview(false);
+        const {useGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
+        clearCommentDraftUploads();
+        onResetHistoryIndex();
+        setShowPreview(false);
 
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
-        this.props.selectChannelMemberCountsByGroup(this.props.channelId);
+        if (useGroupMentions) {
+            getChannelMemberCountsByGroup(channelId);
+        }
 
         // When draft.message is not empty, set doInitialScrollToBottom to true so that
         // on next component update, the actual this.scrollToBottom() will be called.
         // This is made so that the this.scrollToBottom() will be called only once.
-        if (this.props.draft.message !== '') {
+        if (draft.message !== '') {
             this.doInitialScrollToBottom = true;
         }
     }
@@ -312,7 +315,9 @@ class CreateComment extends React.PureComponent {
         }
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
-            this.props.selectChannelMemberCountsByGroup(this.props.channelId);
+            if (this.props.useGroupMentions) {
+                this.props.getChannelMemberCountsByGroup(this.props.channelId);
+            }
             this.focusTextbox();
         }
 
