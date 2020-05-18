@@ -587,7 +587,7 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 component,
                 title,
-                icons: icons.map((icon) => ({...icon, icon: resolveReactElement(icon.icon)})),
+                icons: [], // initial value
             },
         });
 
@@ -602,6 +602,9 @@ export default class PluginRegistry {
                 });
             };
         };
+
+        // Set initial icons
+        store.dispatch(setRHSPluginIcons(icons));
 
         return {
             id,
