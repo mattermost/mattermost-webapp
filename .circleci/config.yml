@@ -8,7 +8,6 @@ executors:
     working_directory: ~/mattermost-webapp
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
-    resource_class: "xlarge"
 
 aliases:
   - &restore_cache
@@ -24,6 +23,7 @@ jobs:
   install:
     executor:
       name: default
+    resource_class: xlarge
     steps:
       - checkout
       - *restore_cache
@@ -66,6 +66,7 @@ jobs:
   test:
     executor:
       name: default
+    resource_class: xlarge
     steps:
       - checkout
       - *restore_cache
