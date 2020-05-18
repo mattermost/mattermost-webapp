@@ -8,6 +8,7 @@ executors:
     working_directory: ~/mattermost-webapp
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
+    resource_class: "xlarge"
 
 aliases:
   - &restore_cache
@@ -75,10 +76,14 @@ jobs:
   build:
     executor:
       name: default
+    resource_class: xlarge
     steps:
       - checkout
       - *restore_cache
-      - run: make package-ci
+      - run: |
+          node --version
+          npm version
+          make package-ci
       - store_artifacts:
           path: ~/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
