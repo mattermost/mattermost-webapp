@@ -2,44 +2,74 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {GroupSearchOpts} from 'mattermost-redux/types/groups';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
-import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
+import GroupRow from 'components/admin_console/group_settings/group_row';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
-import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
-
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import {Constants} from 'utils/constants';
 
 const LDAP_GROUPS_PAGE_SIZE = 200;
 
-const FILTER_STATE_SEARCH_KEY_MAPPING = {
+type Props = {
+    groups: any[];
+    total: number;
+    actions: {
+        getLdapGroups: (page?: number, perPage?: number, opts?: GroupSearchOpts) => Promise<any>;
+        link: (key: string) => Promise<any>;
+        unlink: (key: string) => Promise<any>;
+    };
+}
+
+type FilterOption = {
+    is_configured?: boolean;
+    is_linked?: boolean;
+}
+
+type FilterConfig = {
+    filter: string;
+    option: FilterOption;
+}
+
+type FilterSearchMap = {
+    filterIsConfigured: FilterConfig;
+    filterIsUnconfigured: FilterConfig;
+    filterIsLinked: FilterConfig;
+    filterIsUnlinked: FilterConfig;
+}
+
+type State = {
+    checked?: any;
+    loading: boolean;
+    page: number;
+    showFilters: boolean;
+    searchString: string;
+    filterIsConfigured?: boolean;
+    filterIsUnconfigured?: boolean;
+    filterIsLinked?: boolean;
+    filterIsUnlinked?: boolean;
+}
+
+type filterUpdates = [string, boolean];
+
+const FILTER_STATE_SEARCH_KEY_MAPPING: FilterSearchMap = {
     filterIsConfigured: {filter: 'is:configured', option: {is_configured: true}},
     filterIsUnconfigured: {filter: 'is:notconfigured', option: {is_configured: false}},
     filterIsLinked: {filter: 'is:linked', option: {is_linked: true}},
     filterIsUnlinked: {filter: 'is:notlinked', option: {is_linked: false}},
 };
 
-export default class GroupsList extends React.PureComponent {
-    static propTypes = {
-        groups: PropTypes.arrayOf(PropTypes.object),
-        total: PropTypes.number,
-        actions: PropTypes.shape({
-            getLdapGroups: PropTypes.func.isRequired,
-            link: PropTypes.func.isRequired,
-            unlink: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    static defaultProps = {
+export default class GroupsList extends React.PureComponent<Props, State> {
+    public static defaultProps: Partial<Props> = {
         groups: [],
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             checked: {},
@@ -47,43 +77,44 @@ export default class GroupsList extends React.PureComponent {
             page: 0,
             showFilters: false,
             searchString: '',
+            filterIsConfigured: false,
+            filterIsUnconfigured: false,
+            filterIsLinked: false,
+            filterIsUnlinked: false,
         };
-        Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
-            this.state[key] = false;
-        });
     }
 
-    closeFilters = () => {
+    public closeFilters() {
         this.setState({showFilters: false});
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE).then(() => {
             this.setState({loading: false});
         });
     }
 
-    previousPage = async (e) => {
+    public async previousPage(e: any): Promise<void> {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({checked: {}, page, loading: true});
         this.searchGroups(page);
     }
 
-    nextPage = async (e) => {
+    public async nextPage(e: any): Promise<void> {
         e.preventDefault();
         const page = this.state.page + 1;
         this.setState({checked: {}, page, loading: true});
         this.searchGroups(page);
     }
 
-    onCheckToggle = (key) => {
+    public onCheckToggle(key: string) {
         const newChecked = {...this.state.checked};
         newChecked[key] = !newChecked[key];
         this.setState({checked: newChecked});
     }
 
-    linkSelectedGroups = () => {
+    public linkSelectedGroups() {
         for (const group of this.props.groups) {
             if (this.state.checked[group.primary_key] && !group.mattermost_group_id) {
                 this.props.actions.link(group.primary_key);
@@ -91,7 +122,7 @@ export default class GroupsList extends React.PureComponent {
         }
     }
 
-    unlinkSelectedGroups = () => {
+    public unlinkSelectedGroups() {
         for (const group of this.props.groups) {
             if (this.state.checked[group.primary_key] && group.mattermost_group_id) {
                 this.props.actions.unlink(group.primary_key);
@@ -99,7 +130,7 @@ export default class GroupsList extends React.PureComponent {
         }
     }
 
-    selectionActionButtonType = () => {
+    public selectionActionButtonType(): string {
         let hasSelectedLinked = false;
         for (const group of this.props.groups) {
             if (this.state.checked[group.primary_key]) {
@@ -116,13 +147,13 @@ export default class GroupsList extends React.PureComponent {
         return 'disabled';
     }
 
-    renderSelectionActionButton = () => {
+    public renderSelectionActionButton(): JSX.Element {
         switch (this.selectionActionButtonType()) {
         case 'link':
             return (
                 <button
                     className='btn btn-primary'
-                    onClick={this.linkSelectedGroups}
+                    onClick={() => this.linkSelectedGroups()}
                 >
                     <i className='icon fa fa-link'/>
                     <FormattedMessage
@@ -135,7 +166,7 @@ export default class GroupsList extends React.PureComponent {
             return (
                 <button
                     className='btn btn-primary'
-                    onClick={this.unlinkSelectedGroups}
+                    onClick={() => this.unlinkSelectedGroups()}
                 >
                     <i className='icon fa fa-unlink'/>
                     <FormattedMessage
@@ -183,7 +214,7 @@ export default class GroupsList extends React.PureComponent {
         );
     }
 
-    renderRows = () => {
+    public renderRows(): JSX.Element | JSX.Element[] {
         if (this.state.loading) {
             return (
                 <div className='groups-list-loading'>
@@ -211,7 +242,7 @@ export default class GroupsList extends React.PureComponent {
                     has_syncables={item.has_syncables}
                     failed={item.failed}
                     checked={Boolean(this.state.checked[item.primary_key])}
-                    onCheckToggle={this.onCheckToggle}
+                    onCheckToggle={(key: string) => this.onCheckToggle(key)}
                     actions={{
                         link: this.props.actions.link,
                         unlink: this.props.actions.unlink,
@@ -221,11 +252,11 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
-    regex = (str) => {
+    public regex(str: string): RegExp {
         return new RegExp(`(${str})`, 'i');
     }
 
-    searchGroups = (page) => {
+    public searchGroups(page?: number) {
         let {searchString} = this.state;
 
         const newState = {...this.state};
@@ -238,10 +269,10 @@ export default class GroupsList extends React.PureComponent {
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key, value]) => {
             const re = this.regex(value.filter);
             if (re.test(searchString)) {
-                newState[key] = true;
+                (newState as any)[key] = true;
                 q = q.replace(re, '');
                 opts = Object.assign(opts, value.option);
-            } else if (this.state[key]) {
+            } else if ((this.state as any)[key]) {
                 searchString += ' ' + value.filter;
             }
         });
@@ -259,7 +290,7 @@ export default class GroupsList extends React.PureComponent {
         });
     }
 
-    handleGroupSearchKeyUp = (e) => {
+    public handleGroupSearchKeyUp(e: any) {
         const {key} = e;
         const {searchString} = this.state;
         if (key === Constants.KeyCodes.ENTER[0]) {
@@ -269,15 +300,15 @@ export default class GroupsList extends React.PureComponent {
         const newState = {};
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([k, value]) => {
             if (!this.regex(value.filter).test(searchString)) {
-                newState[k] = false;
+                (newState as any)[k] = false;
             }
         });
         this.setState(newState);
     }
 
-    newSearchString = (searchString, stateKey, checked) => {
+    public newSearchString(searchString: string, stateKey: string, checked: boolean): string {
         let newSearchString = searchString;
-        const {filter} = FILTER_STATE_SEARCH_KEY_MAPPING[stateKey];
+        const {filter} = (FILTER_STATE_SEARCH_KEY_MAPPING as any)[stateKey];
         const re = this.regex(filter);
         const stringFilterPresent = re.test(searchString);
 
@@ -292,16 +323,16 @@ export default class GroupsList extends React.PureComponent {
         return newSearchString.replace(/\s{2,}/g, ' ');
     }
 
-    handleFilterCheck = (updates) => {
+    public handleFilterCheck(updates: filterUpdates[]) {
         let {searchString} = this.state;
-        updates.forEach((item) => {
+        updates.forEach((item: filterUpdates) => {
             searchString = this.newSearchString(searchString, item[0], item[1]);
-            this.setState({[item[0]]: item[1]});
+            this.setState({[item[0]]: item[1]} as any);
         });
         this.setState({searchString});
     }
 
-    renderSearchFilters = () => {
+    public renderSearchFilters(): JSX.Element {
         return (
             <div
                 id='group-filters'
@@ -383,22 +414,23 @@ export default class GroupsList extends React.PureComponent {
     }
 
     resetFiltersAndSearch = () => {
-        const newState = {
+        const newState: Partial<State> = {
             showFilters: false,
             searchString: '',
             loading: true,
             page: 0,
+            filterIsConfigured: false,
+            filterIsUnconfigured: false,
+            filterIsLinked: false,
+            filterIsUnlinked: false,
         };
-        Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
-            newState[key] = false;
-        });
-        this.setState(newState);
+        this.setState(newState as any);
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, {q: ''}).then(() => {
             this.setState({loading: false});
         });
-    };
+    }
 
-    render = () => {
+    public render(): JSX.Element {
         const startCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + 1;
         let endCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + LDAP_GROUPS_PAGE_SIZE;
         const total = this.props.total;
@@ -414,7 +446,7 @@ export default class GroupsList extends React.PureComponent {
                         <input
                             type='text'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                            onKeyUp={this.handleGroupSearchKeyUp}
+                            onKeyUp={(e: any) => this.handleGroupSearchKeyUp(e)}
                             onChange={(e) => this.setState({searchString: e.target.value})}
                             value={this.state.searchString}
                         />
@@ -424,7 +456,7 @@ export default class GroupsList extends React.PureComponent {
                         />
                         <i
                             className={'fa fa-times-circle group-filter-action ' + (this.state.searchString.length ? '' : 'hidden')}
-                            onClick={this.resetFiltersAndSearch}
+                            onClick={() => this.resetFiltersAndSearch()}
                         />
                         <i
                             className={'fa fa-caret-down group-filter-action ' + (this.state.showFilters ? 'hidden' : '')}
@@ -461,14 +493,14 @@ export default class GroupsList extends React.PureComponent {
                         </div>
                         <button
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                            onClick={firstPage ? null : this.previousPage}
+                            onClick={(e: any) => this.previousPage(e)}
                             disabled={firstPage}
                         >
                             <PreviousIcon/>
                         </button>
                         <button
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                            onClick={lastPage ? null : this.nextPage}
+                            onClick={(e: any) => this.nextPage(e)}
                             disabled={lastPage}
                         >
                             <NextIcon/>
