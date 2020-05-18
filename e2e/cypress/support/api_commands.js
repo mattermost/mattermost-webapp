@@ -1105,41 +1105,6 @@ Cypress.Commands.add('uploadBinaryFileByName', (fileName) => {
 });
 
 /**
- * process binary file HTTP form request
- * @param {String} method - Http request method - POST/PUT
- * @param {String} url - HTTP resource URL
- * @param {FormData} FormData - Key value pairs representing form fields and value
- */
-function formRequest(method, url, formData) {
-    const baseUrl = Cypress.config('baseUrl');
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url, false);
-    let cookies = '';
-    cy.getCookie('MMCSRF', {log: false}).then((token) => {
-        //get MMCSRF cookie value
-        const csrfToken = token.value;
-        cy.getCookies({log: false}).then((cookieValues) => {
-            //prepare cookie string
-            cookieValues.forEach((cookie) => {
-                cookies += cookie.name + '=' + cookie.value + '; ';
-            });
-
-            //set headers
-            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
-            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
-            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-            xhr.setRequestHeader('Cookie', cookies);
-            xhr.send(formData);
-            if (xhr.readyState === 4) {
-                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(201);
-            } else {
-                expect(xhr.status, 'Form request process delayed').to.equal(201);
-            }
-        });
-    });
-}
-
-/**
  * Creates a bot directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {String} username - The bots username
@@ -1279,3 +1244,120 @@ Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
+
+// *****************************************************************************
+// SAML
+// https://api.mattermost.com/#tag/SAML
+// *****************************************************************************
+
+/**
+ * Get SAML certificate status directly via API.
+ */
+Cypress.Commands.add('apiGetSAMLCertificateStatus', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/saml/certificate/status',
+        method: 'GET'
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get metadata from Identity Provider directly via API.
+ *
+ * @param {String} samlMetadataUrl
+ */
+Cypress.Commands.add('apiGetMetadataFromIdp', (samlMetadataUrl) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/saml/metadatafromidp',
+        method: 'POST',
+        body: {saml_metadata_url: samlMetadataUrl}
+    }).then((response) => {
+        expect(response.status, 'Failed to obtain metadata from Identity Provider URL').to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Upload SAML IDP certificate directly via API
+ * @param {String} fileName
+ */
+Cypress.Commands.add('apiUploadSAMLIDPCert', (fileName) => {
+    cy.apiUploadFile('/api/v4/saml/certificate/idp', 'POST', 'certificate', fileName);
+});
+
+/**
+ * Upload SAML public certificate directly via API
+ * @param {String} fileName
+ */
+Cypress.Commands.add('apiUploadSAMLPublicCert', (fileName) => {
+    cy.apiUploadFile('/api/v4/saml/certificate/public', 'POST', 'certificate', fileName);
+});
+
+/**
+ * Upload SAML private Key directly via API
+ * @param {String} fileName
+ */
+Cypress.Commands.add('apiUploadSAMLPrivateKey', (fileName) => {
+    cy.apiUploadFile('/api/v4/saml/certificate/private', 'POST', 'certificate', fileName);
+});
+
+// *****************************************************************************
+// Common / Helper commands
+// *****************************************************************************
+
+/**
+ * Upload file directly via API
+ * @param {String} url
+ * @param {String} method
+ * @param {String} formName
+ * @param {String} fileName
+ */
+Cypress.Commands.add('apiUploadFile', (url, method, formName, fileName) => {
+    const formData = new FormData();
+
+    cy.fixture(fileName, 'binary', {timeout: 1200000}).
+        then(Cypress.Blob.binaryStringToBlob).
+        then((blob) => {
+            formData.set(formName, blob, fileName);
+            formRequest(method, url, formData, 200);
+        });
+});
+
+/**
+ * process binary file HTTP form request
+ * @param {String} method - Http request method - POST/PUT
+ * @param {String} url - HTTP resource URL
+ * @param {FormData} FormData - Key value pairs representing form fields and value
+ */
+function formRequest(method, url, formData, successStatus = 201) {
+    const baseUrl = Cypress.config('baseUrl');
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, false);
+    let cookies = '';
+    cy.getCookie('MMCSRF', {log: false}).then((token) => {
+        //get MMCSRF cookie value
+        const csrfToken = token.value;
+        cy.getCookies({log: false}).then((cookieValues) => {
+            //prepare cookie string
+            cookieValues.forEach((cookie) => {
+                cookies += cookie.name + '=' + cookie.value + '; ';
+            });
+
+            //set headers
+            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
+            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+            xhr.setRequestHeader('Cookie', cookies);
+            xhr.send(formData);
+            if (xhr.readyState === 4) {
+                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(successStatus);
+            } else {
+                expect(xhr.status, 'Form request process delayed').to.equal(successStatus);
+            }
+        });
+    });
+}
