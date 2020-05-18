@@ -114,16 +114,16 @@ jobs:
   upload-storybook:
     docker:
       - image: circleci/python:3.6
-    working_directory: ~/mattermost/
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - attach_workspace:
           at: ~/mattermost/
       - aws-s3/sync:
-          from: mattermost-webapp/storybook-static
+          from: storybook-static
           to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           arguments: --cache-control no-cache
       - aws-s3/sync:
-          from: mattermost-webapp/storybook-static
+          from: storybook-static
           to: s3://alpha-storybook.mattermost.com/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
