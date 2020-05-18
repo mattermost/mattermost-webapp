@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+ // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import thunk from 'redux-thunk';
@@ -15,7 +15,7 @@ import TestHelper from 'tests/helpers/client-test-helper';
 const mockStore = configureStore([thunk]);
 
 const mockChannelsObj1 = [{id: 'gmChannel1', type: General.GM_CHANNEL}];
-const mockChannelsObj2 = [{id: 'gmChannel2', type: General.GM_CHANNEL}];
+const mockChannelsObj2 = [{id: 'gmChannel', type: General.GM_CHANNEL}];
 
 jest.mock('mattermost-redux/actions/users', () => {
     const original = require.requireActual('mattermost-redux/actions/users');
@@ -32,7 +32,7 @@ jest.mock('mattermost-redux/selectors/entities/channel_categories', () => {
     const GeneralTypes = require.requireActual('mattermost-redux/constants').General;
     const original = require.requireActual('mattermost-redux/selectors/entities/channel_categories');
 
-    const mockChannelsObj = [{id: 'gmChannel2', type: GeneralTypes.GM_CHANNEL}];
+    const mockChannelsObj = [{id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}];
     const mockFunc = jest.fn();
     return {
         ...original,
