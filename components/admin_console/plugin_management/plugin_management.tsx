@@ -381,18 +381,20 @@ const PluginItem = ({
     );
 };
 
+interface PluginSettings {
+    Enable: boolean;
+    EnableUploads: boolean;
+    AllowInsecureDownloadUrl: boolean;
+    EnableMarketplace: boolean;
+    EnableRemoteMarketplace: boolean;
+    AutomaticPrepackagedPlugins: boolean;
+    MarketplaceUrl: string;
+    RequirePluginSignature: boolean;
+}
+
 type Props = BaseProps & {
     config: {
-        PluginSettings: {
-            Enable: boolean;
-            EnableUploads: boolean;
-            AllowInsecureDownloadUrl: boolean;
-            EnableMarketplace: boolean;
-            EnableRemoteMarketplace: boolean;
-            AutomaticPrepackagedPlugins: boolean;
-            MarketplaceUrl: string;
-            RequirePluginSignature: boolean;
-        };
+        PluginSettings: PluginSettings;
         ExperimentalSettings: {
             RestrictSystemAdmin: boolean;
         };
@@ -434,7 +436,6 @@ type State = BaseState & {
     marketplaceUrl: string;
     requirePluginSignature: boolean;
     removing: string | null;
-
 }
 export default class PluginManagement extends AdminSettings<Props, State> {
     constructor(props: Props) {
