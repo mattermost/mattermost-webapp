@@ -21,7 +21,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 
-import {NoResultsVariant} from '../no_results_indicator/types';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const GET_MORE_BUFFER = 30;
 

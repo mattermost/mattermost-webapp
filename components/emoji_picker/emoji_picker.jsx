@@ -15,7 +15,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
 
-import {NoResultsVariant} from '../no_results_indicator/types';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
