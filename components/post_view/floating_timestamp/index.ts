@@ -7,10 +7,15 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {getToastStatus} from 'selectors/views/channel';
+import {GlobalState} from 'types/store';
 
 import FloatingTimestamp from './floating_timestamp';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    postId: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let postId = ownProps.postId;
     if (PostListUtils.isCombinedUserActivityPost(postId)) {
         const combinedIds = PostListUtils.getPostIdsForCombinedUserActivityPost(postId);

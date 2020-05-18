@@ -13,13 +13,8 @@ describe('Keyboard Shortcuts', () => {
     let privateChannel;
 
     before(() => {
-        // # Login as sysadmin and update config
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        cy.apiUpdateConfig({
-            TeamSettings: {
-                ExperimentalTownSquareIsReadOnly: true,
-            },
-        });
 
         // # Create and login as new user
         cy.apiCreateAndLoginAsNewUser();
