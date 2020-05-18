@@ -6,14 +6,18 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login as user-1
-        cy.apiLogin('user-1');
+    beforeEach(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
 
-        // # Use the API to create a new user
+        // # Create new user and DM
         cy.apiCreateNewUser().then((res) => {
             // # Start DM with new user
             cy.visit(`/ad-1/messages/@${res.username}`);
@@ -28,7 +32,7 @@ describe('Messaging', () => {
 
     it('M18697 - Visual verification of tooltips on post hover menu', () => {
         cy.getLastPostId().then((postId) => {
-            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More Actions');
+            verifyToolTip(postId, `#CENTER_button_${postId}`, 'More actions');
 
             verifyToolTip(postId, `#CENTER_reaction_${postId}`, 'Add Reaction');
 

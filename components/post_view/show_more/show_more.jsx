@@ -121,10 +121,10 @@ export default class ShowMore extends React.PureComponent {
             }
 
             let showIcon = 'fa fa-angle-up';
-            let showText = localizeMessage('post_info.message.show_less', 'Show Less');
+            let showText = localizeMessage('post_info.message.show_less', 'Show less');
             if (isCollapsed) {
                 showIcon = 'fa fa-angle-down';
-                showText = localizeMessage('post_info.message.show_more', 'Show More');
+                showText = localizeMessage('post_info.message.show_more', 'Show more');
             }
 
             attachmentTextOverflow = (

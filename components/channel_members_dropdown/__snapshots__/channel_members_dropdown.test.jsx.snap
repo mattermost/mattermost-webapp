@@ -23,7 +23,7 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={false}
   >
@@ -71,7 +71,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={false}
   >
@@ -129,7 +129,7 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={false}
   >
@@ -177,7 +177,7 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
     <DropdownIcon />
   </button>
   <Menu
-    ariaLabel="Channel member role change"
+    ariaLabel="Change the role of channel member"
     openLeft={true}
     openUp={true}
   >

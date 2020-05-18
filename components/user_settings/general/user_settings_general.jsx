@@ -1183,7 +1183,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.profilePicture)}
                     onSubmit={this.submitPicture}
                     onSetDefault={user.last_picture_update > 0 ? this.setDefaultProfilePicture : null}
-                    src={Utils.imageURLForUser(user)}
+                    src={Utils.imageURLForUser(user.id, user.last_picture_update)}
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}

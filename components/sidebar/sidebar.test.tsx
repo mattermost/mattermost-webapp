@@ -10,6 +10,7 @@ describe('components/sidebar', () => {
     const baseProps = {
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
+        canJoinPublicChannel: true,
         isOpen: false,
     };
 

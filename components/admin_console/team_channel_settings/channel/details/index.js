@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {bindActionCreators} from 'redux';
-
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getScheme} from 'mattermost-redux/selectors/entities/schemes';
@@ -33,6 +33,8 @@ import {setNavigationBlocked} from 'actions/admin_actions';
 import ChannelDetails from './channel_details';
 
 function mapStateToProps(state, props) {
+    const config = getConfig(state);
+    const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
     const channelID = props.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
     const team = getTeam(state, channel.team_id) || {};
@@ -50,6 +52,7 @@ function mapStateToProps(state, props) {
         channelID,
         channelPermissions,
         teamScheme,
+        guestAccountsEnabled
     };
 }
 

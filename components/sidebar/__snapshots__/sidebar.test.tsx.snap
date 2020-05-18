@@ -16,6 +16,8 @@ exports[`components/sidebar should match snapshot 1`] = `
     >
       <Connect(ChannelFilter) />
       <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
       />
@@ -53,6 +55,8 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     >
       <Connect(ChannelFilter) />
       <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
       />
@@ -94,6 +98,8 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     >
       <Connect(ChannelFilter) />
       <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
       />

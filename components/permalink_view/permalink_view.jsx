@@ -42,6 +42,7 @@ export default class PermalinkView extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.doPermalinkEvent(this.props);
         document.body.classList.add('app__body');
     }
@@ -52,10 +53,16 @@ export default class PermalinkView extends React.PureComponent {
         }
     }
 
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
     doPermalinkEvent = async (props) => {
         const postId = props.match.params.postid;
         await this.props.actions.focusPost(postId, this.props.returnTo, this.props.currentUserId);
-        this.setState({valid: true});
+        if (this.mounted) {
+            this.setState({valid: true});
+        }
     }
 
     isStateValid = () => {

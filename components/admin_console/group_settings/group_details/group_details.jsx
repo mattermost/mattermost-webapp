@@ -8,16 +8,22 @@ import {Groups} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils.jsx';
-import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
+
+import FormError from 'components/form_error';
+import {GroupProfileAndSettings} from 'components/admin_console/group_settings/group_details/group_profile_and_settings';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import BlockableLink from 'components/admin_console/blockable_link';
 
+import SaveChangesPanel from 'components/admin_console/team_channel_settings/save_changes_panel';
+
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+
+import {GroupNameIsTakenError, InvalidOrReservedGroupNameError, NeedGroupNameError} from 'components/admin_console/group_settings/group_details/group_details_errors';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -34,6 +40,8 @@ export default class GroupDetails extends React.PureComponent {
             link: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
             patchGroupSyncable: PropTypes.func.isRequired,
+            patchGroup: PropTypes.func.isRequired,
+            setNavigationBlocked: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -41,7 +49,7 @@ export default class GroupDetails extends React.PureComponent {
         members: [],
         groupTeams: [],
         groupChannels: [],
-        group: {display_name: ''},
+        group: {name: '', display_name: '', allow_reference: false},
         memberCount: 0,
     };
 
@@ -51,17 +59,30 @@ export default class GroupDetails extends React.PureComponent {
             loadingTeamsAndChannels: true,
             addTeamOpen: false,
             addChannelOpen: false,
+            allowReference: Boolean(props.group.allow_reference),
+            groupMentionName: String(props.group.name),
+            saving: false,
+            saveNeeded: false,
+            serverError: null,
+            hasAllowReferenceChanged: false,
+            hasGroupMentionNameChanged: false,
         };
     }
 
     componentDidMount() {
-        const {groupID, actions} = this.props;
+        const {groupID, actions, group} = this.props;
         actions.getGroup(groupID);
+
         Promise.all([
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM),
             actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
         ]).then(() => {
-            this.setState({loadingTeamsAndChannels: false});
+            this.setState({
+                loadingTeamsAndChannels: false,
+                group,
+                allowReference: Boolean(this.props.group.allow_reference),
+                groupMentionName: String(this.props.group.name),
+            });
         });
     }
 
@@ -112,8 +133,79 @@ export default class GroupDetails extends React.PureComponent {
         this.setState({loadingTeamsAndChannels: false});
     }
 
+    onMentionToggle = async (allowReference) => {
+        const {group} = this.props;
+        const originalAllowReference = group.allow_reference;
+        const saveNeeded = true;
+
+        this.setState({
+            saveNeeded,
+            allowReference,
+            hasAllowReferenceChanged: allowReference !== originalAllowReference}
+        );
+        this.props.actions.setNavigationBlocked(saveNeeded);
+    }
+
+    onMentionChange = async (e) => {
+        const {group} = this.props;
+        const originalGroupMentionName = group.name;
+        const groupMentionName = e.target.value;
+        const saveNeeded = true;
+
+        this.setState({
+            saveNeeded,
+            groupMentionName,
+            hasGroupMentionNameChanged: groupMentionName !== originalGroupMentionName
+        });
+        this.props.actions.setNavigationBlocked(saveNeeded);
+    }
+
+    handleSubmit = async () => {
+        this.setState({saving: true});
+        const {allowReference, groupMentionName, hasAllowReferenceChanged, hasGroupMentionNameChanged} = this.state;
+
+        let serverError = null;
+        let saveNeeded = false;
+
+        if (!groupMentionName) {
+            saveNeeded = true;
+            serverError = <NeedGroupNameError/>;
+            this.setState({allowReference, serverError, saving: false, saveNeeded});
+        } else if (hasAllowReferenceChanged || hasGroupMentionNameChanged) {
+            saveNeeded = false;
+            serverError = null;
+
+            let lcGroupMentionName;
+            if (allowReference) {
+                lcGroupMentionName = groupMentionName.toLowerCase();
+            }
+
+            const result = await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference, name: lcGroupMentionName});
+            if (result.error) {
+                saveNeeded = true;
+                if (result.error.server_error_id === 'store.sql_group.unique_constraint') {
+                    serverError = <GroupNameIsTakenError/>;
+                } else if (result.error.server_error_id === 'model.group.name.invalid_chars.app_error') {
+                    serverError = <InvalidOrReservedGroupNameError/>;
+                } else if (result.error.server_error_id === 'api.ldap_groups.existing_reserved_name_error' ||
+                    result.error.server_error_id === 'api.ldap_groups.existing_user_name_error' ||
+                    result.error.server_error_id === 'api.ldap_groups.existing_group_name_error') {
+                    serverError = <GroupNameIsTakenError/>;
+                } else {
+                    serverError = <FormError error={result.error.message}/>;
+                }
+            }
+            this.setState({allowReference, groupMentionName: lcGroupMentionName, serverError, saving: false, saveNeeded});
+        } else {
+            this.setState({saving: false, saveNeeded});
+        }
+        this.props.actions.setNavigationBlocked(saveNeeded);
+    }
+
     render = () => {
         const {group, members, groupTeams, groupChannels, memberCount} = this.props;
+        const {allowReference, groupMentionName, saving, saveNeeded, serverError} = this.state;
+
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -140,17 +232,13 @@ export default class GroupDetails extends React.PureComponent {
                             </div>
                         </div>
 
-                        <AdminPanel
-                            id='group_profile'
-                            titleId={t('admin.group_settings.group_detail.groupProfileTitle')}
-                            titleDefault='Group Profile'
-                            subtitleId={t('admin.group_settings.group_detail.groupProfileDescription')}
-                            subtitleDefault='The name for this group.'
-                        >
-                            <GroupProfile
-                                name={group.display_name}
-                            />
-                        </AdminPanel>
+                        <GroupProfileAndSettings
+                            displayname={group.display_name}
+                            mentionname={groupMentionName}
+                            allowReference={allowReference}
+                            onToggle={this.onMentionToggle}
+                            onChange={this.onMentionChange}
+                        />
 
                         <AdminPanel
                             id='group_teams_and_channels'
@@ -230,6 +318,13 @@ export default class GroupDetails extends React.PureComponent {
                     </div>
                 </div>
 
+                <SaveChangesPanel
+                    saving={saving}
+                    cancelLink='/admin_console/user_management/groups'
+                    saveNeeded={saveNeeded}
+                    onClick={this.handleSubmit}
+                    serverError={serverError}
+                />
             </div>
         );
     };

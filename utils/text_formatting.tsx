@@ -6,16 +6,20 @@ import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import {formatWithRenderer} from 'utils/markdown';
 
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
 
+import Constants from './constants';
+
 import EmojiMap from './emoji_map.js';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
-const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]+)/gi;
+const AT_MENTION_PATTERN = /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
 const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
 
@@ -25,7 +29,8 @@ const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoti
 export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
-    };
+        team_name?: string;
+    } | Channel;
 };
 
 export type Tokens = Map<
@@ -74,6 +79,13 @@ interface TextFormattingOptionsBase {
    * Defaults to `true`.
    */
     mentionHighlight: boolean;
+
+    /**
+   * Specifies whether or not to display group mentions as blue links.
+   *
+   * Defaults to `false`.
+   */
+    disableGroupHighlight: boolean;
 
     /**
    * A list of mention keys for the current user to highlight.
@@ -161,6 +173,7 @@ export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
 
 const DEFAULT_OPTIONS: TextFormattingOptions = {
     mentionHighlight: true,
+    disableGroupHighlight: false,
     singleline: false,
     emoticons: true,
     markdown: true,
@@ -332,12 +345,19 @@ function autolinkEmails(text: string, tokens: Tokens) {
 
 export function autolinkAtMentions(text: string, tokens: Tokens) {
     function replaceAtMentionWithToken(fullMatch: string, username: string) {
+        let originalText = fullMatch;
+
+        // Deliberately remove all leading underscores since regex matches leading underscore by treating it as non word boundary
+        while (originalText[0] === '_') {
+            originalText = originalText.substring(1);
+        }
+
         const index = tokens.size;
         const alias = `$MM_ATMENTION${index}$`;
 
         tokens.set(alias, {
             value: `<span data-mention="${username}">@${username}</span>`,
-            originalText: fullMatch,
+            originalText,
         });
 
         return alias;
@@ -345,9 +365,9 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
 
     let output = text;
 
-    // handle @channel, @all, @here mentions first (purposely excludes trailing punctuation)
+    // handle @channel, @all, @here mentions first (supports trailing punctuation)
     output = output.replace(
-        /\B@(channel|all|here)\b/gi,
+        Constants.SPECIAL_MENTIONS_REGEX,
         replaceAtMentionWithToken
     );
 
@@ -361,6 +381,10 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
     return output;
 }
 
+export function allAtMentions(text: string) {
+    return text.match(Constants.SPECIAL_MENTIONS_REGEX && AT_MENTION_PATTERN) || [];
+}
+
 function autolinkChannelMentions(
     text: string,
     tokens: Tokens,
@@ -370,19 +394,26 @@ function autolinkChannelMentions(
     function channelMentionExists(c: string) {
         return Boolean(channelNamesMap[c]);
     }
-    function addToken(channelName: string, mention: string, displayName: string) {
+    function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
         const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
-        if (team) {
+        if (teamName) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href = ((window as any).basename || '') + '/' + teamName + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention-team="${teamName}" "data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
+        } else if (team) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             href = ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
+            tokens.set(alias, {
+                value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
+                originalText: mention,
+            });
         }
 
-        tokens.set(alias, {
-            value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
-            originalText: mention,
-        });
         return alias;
     }
 
@@ -395,10 +426,16 @@ function autolinkChannelMentions(
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
+            let teamName = '';
+            const channelValue = channelNamesMap[channelNameLower];
+            if ('team_name' in channelValue) {
+                teamName = channelValue.team_name || '';
+            }
             const alias = addToken(
                 channelNameLower,
+                teamName,
                 mention,
-                escapeHtml(channelNamesMap[channelNameLower].display_name)
+                escapeHtml(channelValue.display_name)
             );
             return alias;
         }
@@ -412,10 +449,16 @@ function autolinkChannelMentions(
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
+                    let teamName = '';
+                    const channelValue = channelNamesMap[channelNameLower];
+                    if ('team_name' in channelValue) {
+                        teamName = channelValue.team_name || '';
+                    }
                     const alias = addToken(
                         channelNameLower,
+                        teamName,
                         '~' + channelNameLower,
-                        escapeHtml(channelNamesMap[channelNameLower].display_name)
+                        escapeHtml(channelValue.display_name)
                     );
                     return alias + suffix;
                 }

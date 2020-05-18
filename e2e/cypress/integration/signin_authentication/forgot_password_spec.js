@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @signin_authentication
+
 /*eslint max-nested-callbacks: ["error", 5]*/
 
 import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
@@ -15,6 +18,10 @@ let config;
 
 describe('Signin/Authentication', () => {
     before(() => {
+        // # Do email test if setup properly
+        cy.apiEmailTest();
+
+        // # Login as sysadmin and get config
         cy.apiLogin('sysadmin');
         cy.apiGetConfig().then((response) => {
             config = response.body;

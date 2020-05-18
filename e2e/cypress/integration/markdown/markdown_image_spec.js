@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @markdown
+
 describe('Markdown', () => {
     before(() => {
         // # Login as sysadmin and update config
@@ -87,7 +90,7 @@ describe('Markdown', () => {
                 cy.get('.markdown-inline-img').should('be.visible').
                     and((inlineImg) => {
                         expect(inlineImg.height()).to.be.closeTo(143, 2);
-                        expect(inlineImg.width()).to.be.closeTo(893, 2);
+                        expect(inlineImg.width()).to.be.closeTo(906, 2);
                     }).
                     click();
             });

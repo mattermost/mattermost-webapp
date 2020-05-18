@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @notification
+
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -18,8 +21,11 @@ describe('Email notification', () => {
     let mentionedUser;
 
     before(() => {
+        // # Do email test if setup properly
+        cy.apiEmailTest();
+
+        // # Login as sysadmin and get config
         cy.apiLogin('sysadmin');
-        cy.apiUpdateConfig({EmailSettings: {SendEmailNotifications: true}});
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });

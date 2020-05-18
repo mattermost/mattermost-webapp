@@ -8,6 +8,7 @@ executors:
     working_directory: ~/mattermost-webapp
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
+    resource_class: "xlarge"
 
 aliases:
   - &restore_cache
@@ -75,10 +76,14 @@ jobs:
   build:
     executor:
       name: default
+    resource_class: xlarge
     steps:
       - checkout
       - *restore_cache
-      - run: make package-ci
+      - run: |
+          node --version
+          npm version
+          make package-ci
       - store_artifacts:
           path: ~/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
@@ -162,9 +167,7 @@ jobs:
           command: |
             export TAG="${CIRCLE_SHA1:0:7}"
 
-            mkdir -p ~/.ssh/
-            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-            git clone git@github.com:mattermost/mattermost-server.git
+            git clone https://github.com/mattermost/mattermost-server.git
 
             cd mattermost-server
             export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
