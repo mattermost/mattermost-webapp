@@ -77,7 +77,11 @@ export default class SearchResultsHeader extends React.PureComponent {
                                             id={id}
                                             type='button'
                                             className='sidebar--right__expand btn-icon'
-                                            onClick={() => icon.action()}
+                                            onClick={() => {
+                                                if (icon.action) {
+                                                    icon.action();
+                                                }
+                                            }}
                                         >
                                             {icon.icon}
                                         </button>
