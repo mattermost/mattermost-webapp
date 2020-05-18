@@ -6,6 +6,7 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
 import {injectIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
@@ -93,7 +94,6 @@ class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
-        currentUser: PropTypes.object,
         searchTerms: PropTypes.string,
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,
@@ -106,19 +106,17 @@ class SearchResults extends React.Component {
         isPinnedPosts: PropTypes.bool,
         isCard: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
-        dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
-        dataRetentionMessageRetentionDays: PropTypes.string,
         isOpened: PropTypes.bool,
         updateSearchTerms: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
         intl: intlShape.isRequired,
+        isSideBarExpanded: PropTypes.bool,
     };
 
     static defaultProps = {
         matches: {},
-        currentUser: {},
     };
 
     constructor(props) {
@@ -179,7 +177,7 @@ class SearchResults extends React.Component {
         const results = this.props.results;
         const noResults = (!results || results.length === 0);
         const searchTerms = this.props.searchTerms;
-
+        console.log(results);
         let ctls = null;
         let loadingMorePostsComponent = null;
 
@@ -198,20 +196,28 @@ class SearchResults extends React.Component {
             );
         } else if (this.props.isFlaggedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        }])}
+                >
                     <NoResultsIndicator
                         variant={NoResultsVariant.FlaggedPosts}
-                        formattedHTMLMessageValues={{icon: <FlagIcon className='icon  no-results__icon'/>
+                        subtitleValues={{icon: <FlagIcon className='icon  no-results__icon'/>
                         }}
                     />
                 </div>
             );
         } else if (this.props.isPinnedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        }])}
+                >
                     <NoResultsIndicator
                         variant={NoResultsVariant.PinnedPosts}
-                        formattedHTMLMessageValues={{boldText: <strong>{'Pin to Channel'}</strong>}}
+                        subtitleValues={{boldText: <strong>{'Pin to Channel'}</strong>}}
                     />
                 </div>
             );
@@ -226,7 +232,11 @@ class SearchResults extends React.Component {
             );
         } else if (this.props.isMentionSearch && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        }])}
+                >
                     <NoResultsIndicator
                         variant={NoResultsVariant.Mentions}
                     />
@@ -234,10 +244,14 @@ class SearchResults extends React.Component {
             );
         } else if (noResults) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
+                <div
+                    className={classNames(['sidebar--right__subheader a11y__section',
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        }])}
+                >
                     <NoResultsIndicator
                         variant={NoResultsVariant.ChannelSearch}
-                        formattedMessageValues={{channelName: `"${this.props.searchTerms}"`}}
+                        titleValues={{channelName: `"${this.props.searchTerms}"`}}
                     />
                 </div>
             );
@@ -284,12 +298,7 @@ class SearchResults extends React.Component {
 
         const channelName = this.props.channelDisplayName;
 
-        if (!searchTerms && noResults) {
-            formattedTitle = this.props.intl.formatMessage({
-                id: 'search_bar.search',
-                defaultMessage: 'Search',
-            });
-        } else if (this.props.isMentionSearch) {
+        if (this.props.isMentionSearch) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title2',
                 defaultMessage: 'Recent Mentions',
@@ -308,6 +317,11 @@ class SearchResults extends React.Component {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title5',
                 defaultMessage: 'Extra information',
+            });
+        } else if (!searchTerms && noResults) {
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_bar.search',
+                defaultMessage: 'Search',
             });
         }
 
@@ -333,7 +347,8 @@ class SearchResults extends React.Component {
                     <div
                         id='search-items-container'
                         role='application'
-                        className='search-items-container post-list__table a11y__region'
+                        className={classNames(['search-items-container post-list__table a11y__region',
+                        ])}
                         data-a11y-sort-order='3'
                         data-a11y-focus-child={true}
                         data-a11y-loop-navigation={false}

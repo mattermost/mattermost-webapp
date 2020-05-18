@@ -322,7 +322,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                         {!this.state.hasSuggestions &&
                         <NoResultsIndicator
                             variant={NoResultsVariant.ChannelSearch}
-                            formattedMessageValues={{channelName: `"${this.state.pretext}"`}}
+                            titleValues={{channelName: `"${this.state.pretext}"`}}
                         />
                         }
                     </div>

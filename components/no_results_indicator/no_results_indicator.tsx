@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage, MessageDescriptor} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
@@ -15,8 +15,8 @@ import {NoResultsVariant} from './types';
 
 interface Props {
     variant: NoResultsVariant;
-    formattedMessageValues?: {[key: string]: string};
-    formattedHTMLMessageValues?: {[key: string]: string};
+    titleValues?: {[key: string]: string};
+    subtitleValues?: {[key: string]: string} | {[key: string]: {}};
 }
 
 const iconMap: {[key in NoResultsVariant]: string } = {
@@ -71,14 +71,14 @@ const NoResultsIndicator = (props: Props) => {
                 <FormattedMessage
                     {...{
                         ...titleMap[props.variant],
-                        values: props.formattedMessageValues
+                        values: props.titleValues
                     }}
                 />
             </div>
             <FormattedMessage
                 {...{
                     ...subtitleMap[props.variant],
-                    values: props.formattedHTMLMessageValues
+                    values: props.subtitleValues
                 }}
             />
         </div>

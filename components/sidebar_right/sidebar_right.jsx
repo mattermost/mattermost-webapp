@@ -198,7 +198,7 @@ export default class SidebarRight extends React.PureComponent {
                         channelDisplayName={channelDisplayName}
                         isOpened={this.state.isOpened}
                         updateSearchTerms={this.handleUpdateSearchTerms}
-
+                        isSideBarExpanded={this.props.isExpanded}
                     />
                 </div>
             );

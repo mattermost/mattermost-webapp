@@ -707,7 +707,7 @@ export default class EmojiPicker extends React.PureComponent {
                 return (
                     <NoResultsIndicator
                         variant={NoResultsVariant.ChannelSearch}
-                        formattedMessageValues={{channelName: `"${this.props.filter}"`}}
+                        titleValues={{channelName: `"${this.props.filter}"`}}
                     />);
             }
         }
