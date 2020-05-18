@@ -81,12 +81,11 @@ jobs:
     executor:
       name: default
     resource_class: xlarge
-    working_directory: ~/mattermost/
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
       - run: |
-          cd mattermost-webapp
           node --version
           npm version
           make package-ci
@@ -100,11 +99,8 @@ jobs:
   build-storybook:
     executor:
       name: default
-    working_directory: ~/mattermost/
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
-      - run: |
-          mkdir -p mattermost-webapp
-          cd mattermost-webapp
       - checkout
       - *restore_cache
       - run: npm run build-storybook
