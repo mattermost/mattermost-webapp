@@ -47,7 +47,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
 
     getNoticeForWarnMetricId = (warnMetricId) => {
         switch (warnMetricId) {
-        case WarnMetricTypes.SYSTEM_NUMBER_OF_ACTIVE_USERS_WARN_METRIC:
+        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS:
             return {
                 Id: AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS,
                 DefaultText: 'The number of active users is greater than the supported limit. Please acknowledge and upgrade.',

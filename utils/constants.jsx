@@ -209,7 +209,7 @@ export const PostRequestTypes = keyMirror({
 });
 
 export const WarnMetricTypes = {
-    SYSTEM_NUMBER_OF_ACTIVE_USERS_WARN_METRIC: 'NumberOfActiveUsersWarnMetric',
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS: 'warn_metric_number_of_active_users',
 };
 
 export const ModalIdentifiers = {
@@ -339,7 +339,7 @@ export const SocketEvents = {
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
-    NUMBER_OF_ACTIVE_USERS_METRIC_STATUS: 'number_of_active_users_metric_status'
+    WARN_METRICS_STATUS: 'warn_metrics_status'
 };
 
 export const TutorialSteps = {

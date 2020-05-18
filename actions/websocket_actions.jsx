@@ -1113,7 +1113,7 @@ function handleLicenseChanged(msg) {
 }
 
 function handleWarnMetricsStatus(msg) {
-    store.dispatch({type: GeneralTypes.RECEIVED_WARN_METRICS_STATUS, data: JSON.parse(msg.data)});
+    store.dispatch({type: GeneralTypes.RECEIVED_WARN_METRICS_STATUS, data: msg.data});
 }
 
 function handlePluginStatusesChangedEvent(msg) {
