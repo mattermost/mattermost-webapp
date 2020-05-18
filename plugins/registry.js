@@ -567,7 +567,7 @@ export default class PluginRegistry {
     //      {
     //        icon: Icon,                   // JSX element (required)
     //        tooltip: 'This is an icon',   // string or JSX element (required)
-    //        action: actionFunc,           // An action that is dispatched when the button is clicked (required)
+    //        action: actionFunc,           // function called when the button is clicked (required)
     //      }
     // Returns:
     // - id: a unique identifier

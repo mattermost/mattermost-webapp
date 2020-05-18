@@ -23,7 +23,6 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             closeRightHandSide,
             toggleRhsExpanded,
-            dispatchAction: (action) => (action()), // Used to dispatch arbitrary action
         }, dispatch),
     };
 }
