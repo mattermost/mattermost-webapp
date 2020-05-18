@@ -177,7 +177,7 @@ class SearchResults extends React.Component {
         const results = this.props.results;
         const noResults = (!results || results.length === 0);
         const searchTerms = this.props.searchTerms;
-        console.log(results);
+
         let ctls = null;
         let loadingMorePostsComponent = null;
 
