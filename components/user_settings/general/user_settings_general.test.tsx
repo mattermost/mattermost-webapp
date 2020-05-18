@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import UserSettingsGeneral from './user_settings_general.jsx';
+import UserSettingsGeneral from './user_settings_general';
 
 describe('components/user_settings/general/UserSettingsGeneral', () => {
     const user = {
@@ -40,6 +40,8 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             uploadProfileImage: jest.fn(),
         },
         maxFileSize: 1024,
+        ldapPositionAttributeSet?: false,
+        samlPositionAttributeSet?: false,
     };
 
     const mockStore = configureStore();
@@ -54,11 +56,11 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     test('submitUser() should have called updateMe', () => {
         const updateMe = jest.fn().mockResolvedValue({data: true});
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
-        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
+        const wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
 
-        wrapper.instance().submitUser(requiredProps.currentUser, '');
+        wrapper.instance().submitUser(requiredProps.user, '');
         expect(updateMe).toHaveBeenCalledTimes(1);
-        expect(updateMe).toHaveBeenCalledWith(requiredProps.currentUser);
+        expect(updateMe).toHaveBeenCalledWith(requiredProps.user);
     });
 
     test('submitUser() should have called getMe', async () => {
@@ -67,7 +69,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe, getMe}};
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        await wrapper.instance().submitUser(requiredProps.currentUser, '');
+        await wrapper.instance().submitUser(requiredProps.user, '');
         expect(getMe).toHaveBeenCalledTimes(1);
         expect(getMe).toHaveBeenCalledWith();
     });
@@ -77,7 +79,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const props = {...requiredProps, actions: {...requiredProps.actions, uploadProfileImage}};
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        wrapper.instance().submitPicture(requiredProps.currentUser, '');
+        wrapper.instance().submitPicture(requiredProps.user, '');
         expect(uploadProfileImage).toHaveBeenCalledTimes(0);
     });
 
@@ -94,7 +96,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         expect(wrapper.state('pictureFile')).toBe(event.target.files[0]);
         expect(wrapper.instance().submitActive).toBe(true);
 
-        await wrapper.instance().submitPicture(requiredProps.currentUser, '');
+        await wrapper.instance().submitPicture(requiredProps.user, '');
 
         expect(uploadProfileImage).toHaveBeenCalledTimes(1);
         expect(uploadProfileImage).toHaveBeenCalledWith(requiredProps.user.id, mockFile);

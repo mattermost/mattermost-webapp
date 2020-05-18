@@ -14,7 +14,7 @@ import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import UserSettingsGeneralTab from './user_settings_general';
 
@@ -72,7 +72,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>,
         Actions>({

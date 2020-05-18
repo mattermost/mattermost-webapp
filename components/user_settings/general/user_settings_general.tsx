@@ -139,7 +139,7 @@ type Props = {
     samlNicknameAttributeSet?: boolean;
     ldapPositionAttributeSet?: boolean;
     samlPositionAttributeSet?: boolean;
-    submitActive?: boolean;
+    // submitActive?: boolean;
 }
 
 type State = {
