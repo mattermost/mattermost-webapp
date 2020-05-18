@@ -8,6 +8,10 @@ import {checkIfTeamExists, createTeam} from 'mattermost-redux/actions/teams';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {getGlobalItem} from 'selectors/storage';
+
+import {StoragePrefixes, SurveyTypes} from 'utils/constants';
+
 import TeamUrl from './team_url';
 
 function mapStateToProps(state) {
@@ -16,6 +20,7 @@ function mapStateToProps(state) {
     return {
         currentUserId: currentUser.id,
         currentUserRoles: currentUser.roles || '',
+        signupSurveyUserId: getGlobalItem(state, StoragePrefixes.SURVEY + SurveyTypes.SIGNUP),
     };
 }
 

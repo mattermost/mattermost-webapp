@@ -3,21 +3,24 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {RouteComponentProps, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {Button} from 'react-bootstrap';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
-import {StoragePrefixes, SurveyTelemetryEvents} from 'utils/constants';
+import {browserHistory} from 'utils/browser_history';
+
+import {StoragePrefixes, SurveyTypes, SignupSurveyTelemetryEvents} from 'utils/constants';
 
 import logoImage from 'images/logo.png';
 
 import SiteNameAndDescription from 'components/common/site_name_and_description';
-import RadioSetting from 'components/widgets/settings/radio_setting';
+import RadioSetting, {RadioSettingOptions} from 'components/widgets/settings/radio_setting';
 
 type ValueOf<T> = T[keyof T]; // TODO delete here and use from constants.tsx after pull/5354 is merged
 
-const serverPurposeOptions = [
+const serverPurposeOptions: RadioSettingOptions = [
     {
         text: (
             <FormattedMessage
@@ -25,7 +28,7 @@ const serverPurposeOptions = [
                 defaultMessage={'Just taking a look around, this server probably won\'t live long'}
             />
         ),
-        value: SurveyTelemetryEvents.SHORT_TERM,
+        value: SignupSurveyTelemetryEvents.SHORT_TERM,
     },
     {
         text: (
@@ -34,7 +37,7 @@ const serverPurposeOptions = [
                 defaultMessage='Setting this up for the long term'
             />
         ),
-        value: SurveyTelemetryEvents.LONG_TERM,
+        value: SignupSurveyTelemetryEvents.LONG_TERM,
     },
     {
         text: (
@@ -43,23 +46,29 @@ const serverPurposeOptions = [
                 defaultMessage='Not sure yet'
             />
         ),
-        value: SurveyTelemetryEvents.UNSURE,
+        value: SignupSurveyTelemetryEvents.UNSURE,
     },
 ];
 
 type Props = {
+    location: {
+        state?: {
+            next?: string;
+        };
+    };
     currentUserId: string;
     currentUserRoles: string;
+    signupSurveyUserId: string;
     siteName: string;
     customDescriptionText: string;
-} & RouteComponentProps<{}, {}, LocationState>;
-
-type State = {
-    serverPurpose: ValueOf<typeof SurveyTelemetryEvents>;
+    diagnosticsEnabled: boolean;
+    actions: {
+        removeGlobalItem: Function;
+    };
 };
 
-type LocationState = {
-    next: string;
+type State = {
+    serverPurpose: ValueOf<typeof SignupSurveyTelemetryEvents>;
 };
 
 export default class SignupSurvey extends React.PureComponent<Props, State> {
@@ -67,28 +76,20 @@ export default class SignupSurvey extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            serverPurpose: SurveyTelemetryEvents.NO_RESPONSE,
+            serverPurpose: SignupSurveyTelemetryEvents.NO_RESPONSE,
         };
     }
 
-    serverPurposeOnChange = (name: string, value: any) => {
+    serverPurposeOnChange = (name: string, value: ValueOf<typeof SignupSurveyTelemetryEvents>) => {
         this.setState({serverPurpose: value});
     };
 
     handleSubmit = (e: React.MouseEvent<Button, MouseEvent>) => {
         e.preventDefault();
-        sessionStorage.removeItem(StoragePrefixes.SIGNUP_SURVEY);
-
-        trackEvent('signup', this.state.serverPurpose);
-
-        this.props.history.push(this.props.location?.state?.next);
-    };
-
-    render() {
         const {
-            siteName,
-            customDescriptionText,
-            currentUserRoles,
+            actions: {
+                removeGlobalItem,
+            },
             location: {
                 state: {
                     next = null,
@@ -96,8 +97,35 @@ export default class SignupSurvey extends React.PureComponent<Props, State> {
             } = {},
         } = this.props;
 
-        if (!currentUserRoles.includes('system_admin') || next == null) {
-            return <Redirect to={next || '/'}/>;
+        removeGlobalItem(StoragePrefixes.SURVEY + SurveyTypes.SIGNUP);
+
+        trackEvent('signup', this.state.serverPurpose);
+
+        browserHistory.push(next ?? '/');
+    };
+
+    render() {
+        const {
+            siteName,
+            customDescriptionText,
+            currentUserId,
+            currentUserRoles,
+            signupSurveyUserId,
+            diagnosticsEnabled,
+            location: {
+                state: {
+                    next = null
+                } = {},
+            } = {},
+        } = this.props;
+
+        if (
+            !isSystemAdmin(currentUserRoles) ||
+            signupSurveyUserId !== currentUserId ||
+            !diagnosticsEnabled ||
+            next == null
+        ) {
+            return <Redirect to={next ?? '/'}/>;
         }
 
         return (
@@ -139,7 +167,7 @@ export default class SignupSurvey extends React.PureComponent<Props, State> {
                         </div>
                         <div className='mt-8'>
                             <Button
-                                id='teamURLFinishButton'
+                                id='signupSurveyFinishButton'
                                 type='submit'
                                 bsStyle='primary'
                                 onClick={this.handleSubmit}

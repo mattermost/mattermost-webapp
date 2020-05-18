@@ -5,12 +5,14 @@ import React from 'react';
 
 import Setting from './setting';
 
+export type RadioSettingOptions = {
+    text: string | JSX.Element;
+    value: string;
+}[];
+
 type Props = {
     id: string;
-    options: {
-        text: string | JSX.Element;
-        value: string;
-    }[];
+    options: RadioSettingOptions;
     label: React.ReactNode;
     onChange(name: string, value: any): void;
     value?: string;

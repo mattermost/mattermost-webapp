@@ -456,7 +456,7 @@ export const StoragePrefixes = {
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
-    SIGNUP_SURVEY: '__signupSurvey__',
+    SURVEY: 'survey_'
 };
 
 export const LandingPreferenceTypes = {
@@ -1435,7 +1435,11 @@ export const Constants = {
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
-export const SurveyTelemetryEvents = {
+export const SurveyTypes = {
+    SIGNUP: 'signup',
+};
+
+export const SignupSurveyTelemetryEvents = {
     SHORT_TERM: 'survey_short_term',
     LONG_TERM: 'survey_long_term',
     UNSURE: 'survey_unsure',

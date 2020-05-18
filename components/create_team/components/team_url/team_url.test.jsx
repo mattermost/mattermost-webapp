@@ -26,6 +26,8 @@ describe('/components/create_team/components/display_name', () => {
             trackEvent: jest.fn(),
         },
         history: {push: jest.fn()},
+        currentUserId: 'abc123',
+        diagnosticsEnabled: false,
     };
 
     const chatLengthError = (
@@ -55,7 +57,7 @@ describe('/components/create_team/components/display_name', () => {
         expect(wrapper.prop('updateParent')).toHaveBeenCalled();
     });
 
-    test('should successfully submit', async () => {
+    test('should successfully submit without survey', async () => {
         const checkIfTeamExists = jest.fn().
             mockResolvedValueOnce({exists: true}).
             mockResolvedValue({exists: false});
@@ -77,6 +79,35 @@ describe('/components/create_team/components/display_name', () => {
         expect(actions.createTeam).toBeCalledWith({display_name: 'test-team', name: 'test-team', type: 'O'});
         expect(props.history.push).toHaveBeenCalledTimes(1);
         expect(props.history.push).toBeCalledWith('/test-team/channels/town-square');
+    });
+
+    test('should successfully submit with signup survey', async () => {
+        const checkIfTeamExists = jest.fn().
+            mockResolvedValueOnce({exists: true}).
+            mockResolvedValue({exists: false});
+
+        const actions = {...defaultProps.actions, checkIfTeamExists};
+        const props = {
+            ...defaultProps,
+            actions,
+            diagnosticsEnabled: true,
+            signupSurveyUserId: 'abc123',
+        };
+
+        const wrapper = mountWithIntl(
+            <TeamUrl {...props}/>
+        );
+
+        await wrapper.instance().submitNext({preventDefault: jest.fn()});
+        expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(1);
+        expect(actions.createTeam).not.toHaveBeenCalled();
+
+        await wrapper.instance().submitNext({preventDefault: jest.fn()});
+        expect(actions.checkIfTeamExists).toHaveBeenCalledTimes(2);
+        expect(actions.createTeam).toHaveBeenCalledTimes(1);
+        expect(actions.createTeam).toBeCalledWith({display_name: 'test-team', name: 'test-team', type: 'O'});
+        expect(props.history.push).toHaveBeenCalledTimes(1);
+        expect(props.history.push).toBeCalledWith('/signup_survey', {next: '/test-team/channels/town-square'});
     });
 
     test('should display isRequired error', () => {

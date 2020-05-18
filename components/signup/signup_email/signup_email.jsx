@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, StoragePrefixes} from 'utils/constants';
+import {Constants, StoragePrefixes, SurveyTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
@@ -32,6 +32,7 @@ export default class SignupEmail extends React.Component {
         customDescriptionText: PropTypes.string,
         passwordConfig: PropTypes.object,
         hasAccounts: PropTypes.bool.isRequired,
+        diagnosticsEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             createUser: PropTypes.func.isRequired,
             loginById: PropTypes.func.isRequired,
@@ -66,10 +67,6 @@ export default class SignupEmail extends React.Component {
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
-        }
-
-        if (!this.props.hasAccounts) {
-            document.body.classList.remove('sticky');
         }
     }
 
@@ -119,7 +116,14 @@ export default class SignupEmail extends React.Component {
     handleSignupSuccess = (user, data) => {
         trackEvent('signup', 'signup_user_02_complete');
 
-        this.props.actions.loginById(data.id, user.password, '').then(({error}) => {
+        const {
+            actions: {
+                loginById,
+                setGlobalItem,
+            }
+        } = this.props;
+
+        loginById(data.id, user.password, '').then(({error}) => {
             if (error) {
                 if (error.server_error_id === 'api.user.login.not_verified.app_error') {
                     let verifyUrl = '/should_verify_email?email=' + encodeURIComponent(user.email);
@@ -138,11 +142,11 @@ export default class SignupEmail extends React.Component {
             }
 
             if (this.state.token > 0) {
-                this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
+                setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
             }
 
             if (user.shouldBeSurveyed) {
-                sessionStorage.setItem(StoragePrefixes.SIGNUP_SURVEY, data.id);
+                setGlobalItem(StoragePrefixes.SURVEY + SurveyTypes.SIGNUP, data.id);
             }
 
             const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
@@ -252,7 +256,7 @@ export default class SignupEmail extends React.Component {
                 username: this.refs.name.value.trim().toLowerCase(),
                 password: this.refs.password.value,
                 allow_marketing: true,
-                shouldBeSurveyed: !this.props.hasAccounts,
+                shouldBeSurveyed: !this.props.hasAccounts && this.props.diagnosticsEnabled,
             };
 
             this.props.actions.createUser(user, this.state.token, this.state.inviteId).then((result) => {

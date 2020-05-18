@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
 
@@ -33,6 +33,11 @@ export default class TeamUrl extends React.PureComponent {
          * Logged in user roles
          */
         currentUserRoles: PropTypes.string,
+
+        /*
+         * User id of user 0 for signup survey
+         */
+        signupSurveyUserId: PropTypes.string,
 
         /*
          * Function that updates parent component with state props
@@ -155,7 +160,7 @@ export default class TeamUrl extends React.PureComponent {
         if (data) {
             const next = `/${data.name}/channels/${Constants.DEFAULT_CHANNEL}`;
 
-            if (sessionStorage.getItem(StoragePrefixes.SIGNUP_SURVEY) === this.props.currentUserId) {
+            if (this.props.signupSurveyUserId === this.props.currentUserId) {
                 this.props.history.push('/signup_survey', {next});
             } else {
                 this.props.history.push(next);
@@ -193,7 +198,7 @@ export default class TeamUrl extends React.PureComponent {
             />
         );
 
-        if (sessionStorage.getItem(StoragePrefixes.SIGNUP_SURVEY) === this.props.currentUserId) {
+        if (this.props.signupSurveyUserId === this.props.currentUserId) {
             finishMessage = (
                 <React.Fragment>
                     <FormattedMessage

@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SignupSurvey should match redirect snapshot if diagnostics is disabled 1`] = `
+<Redirect
+  to="/team-name"
+/>
+`;
+
+exports[`components/SignupSurvey should match redirect snapshot if next not provided 1`] = `
+<Redirect
+  to="/"
+/>
+`;
+
+exports[`components/SignupSurvey should match redirect snapshot if not survey user 1`] = `
+<Redirect
+  to="/team-name"
+/>
+`;
+
+exports[`components/SignupSurvey should match redirect snapshot if not system_admin 1`] = `
+<Redirect
+  to="/team-name"
+/>
+`;
+
+exports[`components/SignupSurvey should match snapshot 1`] = `
+<div>
+  <div
+    className="col-sm-12"
+  >
+    <form
+      className="signup-team__container padding--less"
+    >
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <SiteNameAndDescription
+        customDescriptionText=""
+        siteName="Mattermost"
+      />
+      <h3>
+        <FormattedMessage
+          defaultMessage="Almost Done"
+          id="signup_survey.subtitle"
+          values={Object {}}
+        />
+      </h3>
+      <div
+        className="form-group"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-sm-11"
+          >
+            <RadioSetting
+              id="signup_survey_serverPurpose"
+              inputClassName=""
+              label={
+                <FormattedMessage
+                  defaultMessage="Before we wrap up, will this instance of Mattermost be a test server or something more permanent?"
+                  id="signup_survey.server_purpose"
+                  values={Object {}}
+                />
+              }
+              labelClassName=""
+              onChange={[Function]}
+              options={
+                Array [
+                  Object {
+                    "text": <FormattedMessage
+                      defaultMessage="Just taking a look around, this server probably won't live long"
+                      id="signup_survey.server_purpose.short_term"
+                      values={Object {}}
+                    />,
+                    "value": "survey_short_term",
+                  },
+                  Object {
+                    "text": <FormattedMessage
+                      defaultMessage="Setting this up for the long term"
+                      id="signup_survey.server_purpose.long_term"
+                      values={Object {}}
+                    />,
+                    "value": "survey_long_term",
+                  },
+                  Object {
+                    "text": <FormattedMessage
+                      defaultMessage="Not sure yet"
+                      id="signup_survey.server_purpose.not_sure"
+                      values={Object {}}
+                    />,
+                    "value": "survey_unsure",
+                  },
+                ]
+              }
+              value="survey_no_response"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="mt-8"
+      >
+        <Button
+          active={false}
+          block={false}
+          bsClass="btn"
+          bsStyle="primary"
+          disabled={false}
+          id="signupSurveyFinishButton"
+          onClick={[Function]}
+          type="submit"
+        >
+          <FormattedMessage
+            defaultMessage="Finish"
+            id="signup_survey.finish"
+            values={Object {}}
+          />
+        </Button>
+      </div>
+    </form>
+  </div>
+</div>
+`;

@@ -8,6 +8,8 @@ import SelectTeam, {TEAMS_PER_PAGE} from 'components/select_team/select_team.jsx
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
+import {Constants} from 'utils/constants';
+
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserLoggedOutEvent: jest.fn(),
 }));
@@ -100,5 +102,12 @@ describe('components/select_team/SelectTeam', () => {
         wrapper.setState({error: {message: 'error message'}});
         wrapper.instance().clearError({preventDefault: jest.fn()});
         expect(wrapper.state('error')).toBeNull();
+    });
+
+    test('should redirect to signup survey', async () => {
+        const props = {...baseProps, signupSurveyUserId: 'test'};
+        const wrapper = shallow(<SelectTeam {...props}/>);
+        await wrapper.instance().handleTeamClick({id: 'team_id', name: 'genetic-team'});
+        expect(props.history.push).toBeCalledWith('/signup_survey', {next: `/genetic-team/channels/${Constants.DEFAULT_CHANNEL}`});
     });
 });

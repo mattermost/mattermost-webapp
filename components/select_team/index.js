@@ -16,6 +16,9 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {addUserToTeam} from 'actions/team_actions';
 import {isGuest} from 'utils/utils';
 
+import {StoragePrefixes, SurveyTypes} from 'utils/constants';
+import {getGlobalItem} from 'selectors/storage';
+
 import SelectTeam from './select_team.jsx';
 
 function mapStateToProps(state) {
@@ -37,6 +40,7 @@ function mapStateToProps(state) {
         canJoinPrivateTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PRIVATE_TEAMS}),
         siteURL: config.SiteURL,
         totalTeamsCount: state.entities.teams.totalCount || 0,
+        signupSurveyUserId: getGlobalItem(state, StoragePrefixes.SURVEY + SurveyTypes.SIGNUP)
     };
 }
 
