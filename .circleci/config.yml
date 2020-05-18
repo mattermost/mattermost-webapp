@@ -5,7 +5,6 @@ orbs:
 
 executors:
   default:
-    working_directory: ~/mattermost/
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
     resource_class: "xlarge"
@@ -18,12 +17,13 @@ aliases:
     save_cache:
       key: dependencies-{{ checksum "package-lock.json" }}
       paths:
-        - node_modules
+        - ~/mattermost/mattermost-webapp/node_modules
 
 jobs:
   install:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -35,6 +35,7 @@ jobs:
   lint:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -44,6 +45,7 @@ jobs:
   i18n-check:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -57,6 +59,7 @@ jobs:
   type-check:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -66,6 +69,7 @@ jobs:
   test:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -77,13 +81,12 @@ jobs:
     executor:
       name: default
     resource_class: xlarge
+    working_directory: ~/mattermost/
     steps:
-      - run: |
-          mkdir -p mattermost-webapp
-          cd mattermost-webapp
       - checkout
       - *restore_cache
       - run: |
+          cd mattermost-webapp
           node --version
           npm version
           make package-ci
@@ -97,6 +100,7 @@ jobs:
   build-storybook:
     executor:
       name: default
+    working_directory: ~/mattermost/
     steps:
       - run: |
           mkdir -p mattermost-webapp
@@ -112,9 +116,9 @@ jobs:
             - mattermost-webapp
 
   upload-storybook:
-    working_directory: ~/mattermost/
     docker:
       - image: circleci/python:3.6
+    working_directory: ~/mattermost/
     steps:
       - attach_workspace:
           at: ~/mattermost/
@@ -128,9 +132,9 @@ jobs:
           arguments: --cache-control no-cache
 
   upload-s3:
-    working_directory: ~/mattermost/
     docker:
       - image: circleci/python:3.6
+    working_directory: ~/mattermost/
     steps:
       - attach_workspace:
           at: ~/mattermost/
