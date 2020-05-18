@@ -2,6 +2,6 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/alpine
+      - image: circleci/golang:latest
     steps:
       - run: echo "contact build team"
