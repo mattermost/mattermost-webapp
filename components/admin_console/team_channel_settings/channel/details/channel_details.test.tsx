@@ -26,6 +26,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             has_syncables: false,
             member_count: 3,
             scheme_admin: false,
+            allow_reference: false,
         }];
         const allGroups = {
             123: groups[0],

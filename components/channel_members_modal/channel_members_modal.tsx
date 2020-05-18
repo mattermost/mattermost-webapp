@@ -50,9 +50,7 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
     }
 
     handleHide = () => {
-        this.setState({
-            show: false,
-        });
+        this.setState({show: false});
     }
 
     handleExit = () => {

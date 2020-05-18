@@ -68,37 +68,41 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
           values={Object {}}
         />
       </div>
-      <SuggestionBox
-        className="form-control focused"
-        completeOnTab={false}
-        containerClass=""
-        delayInputUpdate={true}
-        isRHS={false}
-        listComponent={[Function]}
-        listStyle="bottom"
-        listenForMentionKeyClick={false}
-        maxLength="64"
-        onChange={[Function]}
-        onItemSelected={[Function]}
-        openOnFocus={false}
-        openWhenEmpty={true}
-        providers={
-          Array [
-            SearchChannelWithPermissionsProvider {
-              "autocompleteChannelsForSearch": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-          ]
-        }
-        renderDividers={false}
-        renderNoResults={false}
-        replaceAllInputOnSelect={false}
-        requiredCharacters={1}
-        value=""
-      />
+      <div
+        className="pos-relative"
+      >
+        <SuggestionBox
+          className="form-control focused"
+          completeOnTab={false}
+          containerClass=""
+          delayInputUpdate={true}
+          isRHS={false}
+          listComponent={[Function]}
+          listStyle="bottom"
+          listenForMentionKeyClick={false}
+          maxLength="64"
+          onChange={[Function]}
+          onItemSelected={[Function]}
+          openOnFocus={false}
+          openWhenEmpty={false}
+          providers={
+            Array [
+              SearchChannelWithPermissionsProvider {
+                "autocompleteChannelsForSearch": [MockFunction],
+                "disableDispatches": false,
+                "latestComplete": true,
+                "latestPrefix": "",
+                "requestStarted": false,
+              },
+            ]
+          }
+          renderDividers={false}
+          renderNoResults={false}
+          replaceAllInputOnSelect={false}
+          requiredCharacters={1}
+          value=""
+        />
+      </div>
       <div>
         <br />
       </div>

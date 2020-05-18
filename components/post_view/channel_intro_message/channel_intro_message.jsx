@@ -84,7 +84,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
             map((profile) => (
                 <ProfilePicture
                     key={'introprofilepicture' + profile.id}
-                    src={Utils.imageURLForUser(profile)}
+                    src={Utils.imageURLForUser(profile.id, profile.last_picture_update)}
                     size='xl'
                     userId={profile.id}
                     username={profile.username}
@@ -138,7 +138,7 @@ function createDMIntroMessage(channel, centeredIntro, teammate, teammateName) {
             >
                 <div className='post-profile-img__container channel-intro-img'>
                     <ProfilePicture
-                        src={Utils.imageURLForUser(teammate)}
+                        src={Utils.imageURLForUser(teammate.id, teammate.last_picture_update)}
                         size='xl'
                         userId={teammate.id}
                         username={teammate.username}

@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @integrations
+
 import users from '../../../fixtures/users.json';
 
 describe('I18456 Built-in slash commands: common', () => {

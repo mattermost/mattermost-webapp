@@ -5,6 +5,11 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import moment from 'moment-timezone';
 
+// Feature test the browser for support of hourCycle.
+// Note that ResolvedDateTimeFormatOptions doesn't yet support hourCycle.
+// See https://github.com/microsoft/TypeScript/issues/34399
+const supportsHourCycle = Boolean(((new Intl.DateTimeFormat('en-US', {hour: 'numeric'})).resolvedOptions() as {hourCycle?: string}).hourCycle);
+
 type Props = {
 
     /*
@@ -48,14 +53,36 @@ class LocalDateTime extends React.PureComponent<Props> {
             titleString = momentDate.toString() + ' (' + momentDate.tz() + ')';
         }
 
-        const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
-        const options = {
-            ...timezoneProps,
-            hour12: !useMilitaryTime,
+        // Ideally, we'd use Intl.DateTimeFormatOptions, but hourCycle is not yet supported.
+        // See https://github.com/microsoft/TypeScript/issues/34399
+        const options: {
+            hour?: string;
+            minute?: string;
+            timeZone?: string;
+            hourCycle?: string;
+            hour12?: boolean;
+        } = {
+            hour: 'numeric',
+            minute: 'numeric',
         };
-        let formattedTime = this.props.intl.formatTime(date, options);
+        if (enableTimezone && timeZone) {
+            options.timeZone = timeZone;
+        }
+        if (supportsHourCycle) {
+            if (useMilitaryTime) {
+                options.hourCycle = 'h23';
+            } else {
+                options.hourCycle = 'h12';
+            }
+        } else {
+            options.hour12 = !useMilitaryTime;
+        }
 
-        if (formattedTime === String(date)) {
+        let formattedTime;
+        try {
+            formattedTime = (new Intl.DateTimeFormat(this.props.intl.locale, options)).format(date);
+        } catch {
+            // Fallback to Moment.js as a default rendering strategy for unsupported timezones.
             const format = useMilitaryTime ? 'HH:mm' : 'hh:mm A';
             formattedTime = momentDate.format(format);
         }

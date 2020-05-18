@@ -4,8 +4,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {ProgressBar} from 'react-bootstrap';
 
-import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
-import RemoveIcon from 'components/widgets/icons/fa_remove_icon';
+import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import {getFileTypeFromMime} from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
 
@@ -39,8 +38,6 @@ export default class FileProgressPreview extends React.PureComponent<Props> {
                 <React.Fragment>
                     <FilenameOverlay
                         fileInfo={fileInfo}
-                        index={clientId}
-                        handleImageClick={null}
                         compactDisplay={false}
                         canDownload={false}
                     />
@@ -95,7 +92,7 @@ export default class FileProgressPreview extends React.PureComponent<Props> {
                             className='file-preview__remove'
                             onClick={this.handleRemove}
                         >
-                            <RemoveIcon/>
+                            <i className='icon icon-close'/>
                         </a>
                     </div>
                     {progressBar}

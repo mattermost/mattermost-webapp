@@ -8,13 +8,15 @@ import {withRouter} from 'react-router-dom';
 import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
+import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
 import {getTheme, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {Action} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'types/store';
 
 import {setPreviousTeamId} from 'actions/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
@@ -34,8 +36,10 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
+    const plugins = state.plugins.components.NeedsTeamComponent;
 
     return {
+        license,
         theme: getTheme(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         currentUser,
@@ -43,6 +47,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
         useLegacyLHS: !getNewSidebarPreference(state),
+        plugins,
     };
 }
 
@@ -59,6 +64,10 @@ function mapDispatchToProps(dispatch: Dispatch) {
             selectTeam,
             loadStatusesForChannelAndSidebar,
             loadProfilesForDirect,
+            getAllGroupsAssociatedToChannelsInTeam,
+            getAllGroupsAssociatedToTeam,
+            getGroupsByUserId,
+            getGroups,
         }, dispatch),
     };
 }

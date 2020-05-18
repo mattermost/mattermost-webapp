@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @interactive_dialog
+
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
@@ -39,15 +42,8 @@ describe('Interactive Dialog', () => {
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
 
-        // Set required ServiceSettings
-        const newSettings = {
-            ServiceSettings: {
-                AllowedUntrustedInternalConnections: 'localhost',
-                EnablePostUsernameOverride: true,
-                EnablePostIconOverride: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings).then((res) => {
+        // # Get config
+        cy.apiGetConfig().then((res) => {
             config = res.body;
         });
 
@@ -266,6 +262,22 @@ describe('Interactive Dialog', () => {
                 }
             });
         });
+
+        closeInteractiveDialog();
+    });
+
+    it('ID21032 - Password element check', () => {
+        // # Post a slash command
+        cy.postMessage(`/${createdCommand.trigger}`);
+
+        // * Verify that the interactive dialog modal open up
+        cy.get('#interactiveDialogModal').should('be.visible');
+
+        // * Verify that the password text area is visible
+        cy.get('#somepassword').should('be.visible');
+
+        // * Verify that the password is masked on enter of text
+        cy.get('#somepassword').should('have.attr', 'type', 'password');
 
         closeInteractiveDialog();
     });

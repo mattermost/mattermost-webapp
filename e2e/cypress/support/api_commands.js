@@ -268,6 +268,24 @@ Cypress.Commands.add('apiCreateCommand', (command = {}) => {
 });
 
 // *****************************************************************************
+// Email
+// *****************************************************************************
+
+/**
+ * Test SMTP setup
+ */
+Cypress.Commands.add('apiEmailTest', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/email/test',
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status, 'SMTP not setup at sysadmin config').to.equal(200);
+        cy.wrap(response);
+    });
+});
+
+// *****************************************************************************
 // Teams
 // https://api.mattermost.com/#tag/teams
 // *****************************************************************************
@@ -870,6 +888,20 @@ Cypress.Commands.add('apiGetAnalytics', () => {
     });
 });
 
+/**
+ * Invalidate all the caches
+ */
+Cypress.Commands.add('apiInvalidateCache', () => {
+    return cy.request({
+        url: '/api/v4/caches/invalidate',
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Webhooks
 // https://api.mattermost.com/#tag/webhooks
@@ -1236,4 +1268,14 @@ Cypress.Commands.add('apiDeleteScheme', (schemeId) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
+});
+
+/**
+ * Activate/Deactivate a User directly via API
+ * @param {String} userId - The user ID
+ * @param {Boolean} active - Whether to activate or deactivate - true/false
+ */
+Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });

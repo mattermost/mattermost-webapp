@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import 'tests/helpers/localstorage.jsx';
 
-import AnnouncementBar from 'components/announcement_bar/announcement_bar.jsx';
+import AnnouncementBar from 'components/announcement_bar/default_announcement_bar/announcement_bar.jsx';
 
 describe('components/AnnouncementBar', () => {
     const baseProps = {
@@ -25,8 +25,11 @@ describe('components/AnnouncementBar', () => {
         bannerTextColor: 'black',
         enableSignUpWithGitLab: false,
         message: 'text',
+        announcementBarCount: 0,
         actions: {
             sendVerificationEmail: jest.fn(),
+            incrementAnnouncementBarCount: jest.fn(),
+            decrementAnnouncementBarCount: jest.fn()
         },
     };
 
