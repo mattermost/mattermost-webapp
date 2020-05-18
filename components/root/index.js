@@ -14,12 +14,14 @@ import Root from './root.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
     const showTermsOfService = shouldShowTermsOfService(state);
+    const plugins = state.plugins.components.CustomRouteComponent;
 
     return {
         diagnosticsEnabled: config.DiagnosticsEnabled === 'true',
         noAccounts: config.NoAccounts === 'true',
         diagnosticId: config.DiagnosticId,
         showTermsOfService,
+        plugins,
     };
 }
 

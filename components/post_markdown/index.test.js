@@ -27,7 +27,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',
@@ -65,7 +65,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',
@@ -102,7 +102,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',
@@ -139,7 +139,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',

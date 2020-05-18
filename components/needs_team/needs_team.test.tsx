@@ -91,6 +91,7 @@ describe('components/needs_team', () => {
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
+        getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         license: {},
