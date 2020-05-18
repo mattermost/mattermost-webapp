@@ -5,7 +5,7 @@ orbs:
 
 executors:
   default:
-    working_directory: ~/mattermost-webapp
+    working_directory: ~/mattermost/
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
     resource_class: "xlarge"
@@ -78,6 +78,9 @@ jobs:
       name: default
     resource_class: xlarge
     steps:
+      - run: |
+          mkdir -p mattermost-webapp
+          cd mattermost-webapp
       - checkout
       - *restore_cache
       - run: |
@@ -85,30 +88,36 @@ jobs:
           npm version
           make package-ci
       - store_artifacts:
-          path: ~/mattermost-webapp/mattermost-webapp.tar.gz
+          path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
-          root: .
-          paths: .
+          root: ~/mattermost
+          paths:
+            - mattermost-webapp
 
   build-storybook:
     executor:
       name: default
     steps:
+      - run: |
+          mkdir -p mattermost-webapp
+          cd mattermost-webapp
       - checkout
       - *restore_cache
       - run: npm run build-storybook
       - store_artifacts:
-          path: ~/mattermost-webapp/storybook-static
+          path: ~/mattermost/mattermost-webapp/storybook-static
       - persist_to_workspace:
-          root: .
-          paths: .
+          root: ~/mattermost
+          paths:
+            - mattermost-webapp
 
   upload-storybook:
+    working_directory: ~/mattermost/
     docker:
       - image: circleci/python:3.6
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - aws-s3/sync:
           from: storybook-static
           to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
@@ -119,11 +128,12 @@ jobs:
           arguments: --cache-control no-cache
 
   upload-s3:
+    working_directory: ~/mattermost/
     docker:
       - image: circleci/python:3.6
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
           to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
@@ -134,11 +144,12 @@ jobs:
           arguments: --cache-control no-cache
 
   prepare-docker-build:
+    working_directory: ~/mattermost/
     docker:
       - image: circleci/python:3.6
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - run:
           command: |
             curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
@@ -156,12 +167,12 @@ jobs:
           arguments: --cache-control no-cache
 
   build-docker:
-    working_directory: ~/
+    working_directory: ~/mattermost/
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - setup_remote_docker
       - run:
           command: |
