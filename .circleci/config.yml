@@ -119,18 +119,18 @@ jobs:
       - attach_workspace:
           at: ~/mattermost/
       - aws-s3/sync:
-          from: storybook-static
+          from: mattermost-webapp/storybook-static
           to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           arguments: --cache-control no-cache
       - aws-s3/sync:
-          from: storybook-static
+          from: mattermost-webapp/storybook-static
           to: s3://alpha-storybook.mattermost.com/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
   upload-s3:
     docker:
       - image: circleci/python:3.6
-    working_directory: ~/mattermost/
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - attach_workspace:
           at: ~/mattermost/
@@ -144,7 +144,7 @@ jobs:
           arguments: --cache-control no-cache
 
   prepare-docker-build:
-    working_directory: ~/mattermost/
+    working_directory: ~/mattermost/mattermost-webapp
     docker:
       - image: circleci/python:3.6
     steps:
@@ -160,9 +160,9 @@ jobs:
             mv client mattermost/client
             tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
       - store_artifacts:
-          path: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+          path: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
       - aws-s3/copy:
-          from: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+          from: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
           to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
