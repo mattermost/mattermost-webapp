@@ -23,16 +23,11 @@ export default class SearchResultsHeader extends React.PureComponent {
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             toggleRhsExpanded: PropTypes.func.isRequired,
-            dispatchAction: PropTypes.func.isRequired,
         }),
     };
 
     static defaultProps = {
         icons: [],
-    }
-
-    handleIconClick = (action) => {
-        this.props.actions.dispatchAction(action);
     }
 
     render() {
@@ -82,7 +77,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                                             id={id}
                                             type='button'
                                             className='sidebar--right__expand btn-icon'
-                                            onClick={() => this.handleIconClick(icon.action)}
+                                            onClick={() => icon.action()}
                                         >
                                             {icon.icon}
                                         </button>
