@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @team_settings
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -73,8 +73,7 @@ describe('Teams Suite', () => {
         const letterCount = 3;
         const nameStartsWith = user1.firstName.slice(0, letterCount);
         const teamName = 'Stub team';
-        const max = 9999;
-        const teamURL = `stub-team-${getRandomInt(max).toString()}`;
+        const teamURL = `team-${getRandomId()}`;
 
         // # Login as System Admin, update teammate name display preference to "username" and visit "/"
         cy.apiLogin(sysadmin.username);
