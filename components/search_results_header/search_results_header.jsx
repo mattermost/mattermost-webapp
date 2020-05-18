@@ -23,7 +23,7 @@ export default class SearchResultsHeader extends React.PureComponent {
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             toggleRhsExpanded: PropTypes.func.isRequired,
-            dispatch: PropTypes.func.isRequired,
+            dispatchAction: PropTypes.func.isRequired,
         }),
     };
 
@@ -32,7 +32,7 @@ export default class SearchResultsHeader extends React.PureComponent {
     }
 
     handleIconClick = (action) => {
-        this.props.actions.dispatch(action);
+        this.props.actions.dispatchAction(action);
     }
 
     render() {
