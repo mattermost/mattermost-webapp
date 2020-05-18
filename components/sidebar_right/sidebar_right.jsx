@@ -31,6 +31,7 @@ export default class SidebarRight extends React.PureComponent {
         isPinnedPosts: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
+        rhsChannel: PropTypes.object,
         selectedPostId: PropTypes.string,
         selectedPostCardId: PropTypes.string,
         actions: PropTypes.shape({
@@ -39,6 +40,7 @@ export default class SidebarRight extends React.PureComponent {
             openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             openAtPrevious: PropTypes.func.isRequired,
+            updateSearchTerms: PropTypes.func.isRequired,
         }),
     };
 
@@ -100,9 +102,13 @@ export default class SidebarRight extends React.PureComponent {
             trackEvent('ui', 'ui_rhs_opened');
         }
 
-        const {actions, isPinnedPosts, channel} = this.props;
-        if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && channel.id !== prevProps.channel.id) {
-            actions.showPinnedPosts(channel.id);
+        const {actions, isPinnedPosts, rhsChannel, channel} = this.props;
+        if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && rhsChannel.id !== prevProps.rhsChannel.id) {
+            actions.showPinnedPosts(rhsChannel.id);
+        }
+
+        if (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) {
+            this.props.actions.setRhsExpanded(false);
         }
 
         this.setPrevious();
@@ -133,9 +139,18 @@ export default class SidebarRight extends React.PureComponent {
         this.props.actions.setRhsExpanded(false);
     };
 
+    handleUpdateSearchTerms = (term) => {
+        this.props.actions.updateSearchTerms(term);
+        this.focusSearchBar();
+    }
+
+    getSearchBarFocus = (focusSearchBar) => {
+        this.focusSearchBar = focusSearchBar;
+    }
+
     render() {
         const {
-            channel,
+            rhsChannel,
             currentUserId,
             isFlaggedPosts,
             isMentionSearch,
@@ -160,17 +175,14 @@ export default class SidebarRight extends React.PureComponent {
                 <SearchBar
                     isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
                     isSideBarRight={true}
+                    getFocus={this.getSearchBarFocus}
                 />
             );
         }
 
         let channelDisplayName = '';
-        if (channel) {
-            if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
-                channelDisplayName = Utils.localizeMessage('rhs_root.direct', 'Direct Message');
-            } else {
-                channelDisplayName = channel.display_name;
-            }
+        if (rhsChannel) {
+            channelDisplayName = rhsChannel.display_name;
         }
 
         if (searchVisible) {
@@ -185,6 +197,8 @@ export default class SidebarRight extends React.PureComponent {
                         shrink={this.onShrink}
                         channelDisplayName={channelDisplayName}
                         isOpened={this.state.isOpened}
+                        updateSearchTerms={this.handleUpdateSearchTerms}
+
                     />
                 </div>
             );

@@ -107,20 +107,29 @@ function formattedError(id: string, message: string): React.ReactElement {
 export function validateChannelUrl(url: string): React.ReactElement[] {
     const errors: React.ReactElement[] = [];
 
+    const USER_ID_LENGTH = 26;
+    const directMessageRegex = new RegExp(`^.{${USER_ID_LENGTH}}__.{${USER_ID_LENGTH}}$`);
+    const isDirectMessageFormat = directMessageRegex.test(url);
+
     const cleanedURL = cleanUpUrlable(url);
     const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
-    if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url || url.indexOf('__') > -1) {
+    if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url || isDirectMessageFormat) {
         if (url.length < 2) {
-            errors.push(formattedError(t('change_url.longer'), 'URL must be two or more characters.'));
+            errors.push(formattedError(t('change_url.longer'), 'URLs must have at least 2 characters.'));
         }
-        if (url.charAt(0) === '-' || url.charAt(0) === '_') {
-            errors.push(formattedError(t('change_url.startWithLetter'), 'URL must start with a letter or number.'));
+
+        if (isDirectMessageFormat) {
+            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in channel URLs.'));
         }
-        if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
-            errors.push(formattedError(t('change_url.endWithLetter'), 'URL must end with a letter or number.'));
-        }
-        if (url.indexOf('__') > -1) {
-            errors.push(formattedError(t('change_url.noUnderscore'), 'URL can not contain two underscores in a row.'));
+
+        const startsWithoutLetter = url.charAt(0) === '-' || url.charAt(0) === '_';
+        const endsWithoutLetter = url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_');
+        if (startsWithoutLetter && endsWithoutLetter) {
+            errors.push(formattedError(t('change_url.startAndEndWithLetter'), 'URLs must start and end with a lowercase letter or number.'));
+        } else if (startsWithoutLetter) {
+            errors.push(formattedError(t('change_url.startWithLetter'), 'URLs must start with a lowercase letter or number.'));
+        } else if (endsWithoutLetter) {
+            errors.push(formattedError(t('change_url.endWithLetter'), 'URLs must end with a lowercase letter or number.'));
         }
 
         // In case of error we don't detect

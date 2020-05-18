@@ -26,6 +26,7 @@ describe('components/ProfilePopover', () => {
             getMembershipForCurrentEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
             openModal: jest.fn(),
+            closeModal: jest.fn(),
             loadBot: jest.fn(),
         },
     };

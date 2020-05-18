@@ -9,6 +9,8 @@ import channelCategories from 'mattermost-redux/selectors/entities/channel_categ
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import * as UserActions from 'actions/user_actions';
+import {getState} from 'stores/redux_store';
+import TestHelper from 'tests/helpers/client-test-helper';
 
 const mockStore = configureStore([thunk]);
 
@@ -61,6 +63,13 @@ jest.mock('mattermost-redux/actions/preferences', () => {
         ...original,
         deletePreferences: (...args) => ({type: 'MOCK_DELETE_PREFERENCES', args}),
         savePreferences: (...args) => ({type: 'MOCK_SAVE_PREFERENCES', args}),
+    };
+});
+
+jest.mock('stores/redux_store', () => {
+    return {
+        dispatch: jest.fn(),
+        getState: jest.fn(),
     };
 });
 
@@ -255,5 +264,63 @@ describe('Actions.User', () => {
         const filteredResults = UserActions.filterGMsDMs(initialState, mockChannelsObj1);
         expect(channelCategories.makeFilterAutoclosedDMs()).toHaveBeenCalledWith(initialState, mockChannelsObj1, CategoryTypes.DIRECT_MESSAGES);
         expect(filteredResults).toEqual(mockChannelsObj2);
+    });
+
+    test('Should call p-queue APIs on loadProfilesForGM', async () => {
+        const gmChannel = {id: 'gmChannel', type: General.GM_CHANNEL, team_id: ''};
+        UserActions.queue.add = jest.fn().mockReturnValue(jest.fn());
+        UserActions.queue.onEmpty = jest.fn();
+
+        const user = TestHelper.fakeUser();
+
+        const profiles = {
+            [user.id]: user,
+        };
+
+        const channels = {
+            [gmChannel.id]: gmChannel,
+        };
+
+        const channelsInTeam = {
+            '': [gmChannel.id],
+        };
+
+        const myMembers = {
+            [gmChannel.id]: {},
+        };
+
+        const state = {
+            entities: {
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles,
+                    statuses: {},
+                    profilesInChannel: {
+                        [gmChannel.id]: new Set(['current_user_id']),
+                    },
+                },
+                teams: {
+                    currentTeamId: 'team_1',
+                },
+                channels: {
+                    channels,
+                    channelsInTeam,
+                    myMembers,
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {
+                    config: {},
+                },
+            },
+        };
+
+        const testStore = mockStore(state);
+        getState.mockImplementation(testStore.getState);
+
+        await UserActions.loadProfilesForGM();
+        expect(UserActions.queue.onEmpty).toHaveBeenCalled();
+        expect(UserActions.queue.add).toHaveBeenCalled();
     });
 });

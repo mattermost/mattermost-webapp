@@ -44,6 +44,10 @@ $positions: 't'top,
     box-shadow: 0 0 0 1px 2px $primary-color;
 }
 
+.pos-relative {
+    position: relative;
+}
+
 .hidden-label {
     position: absolute;
     overflow: hidden;

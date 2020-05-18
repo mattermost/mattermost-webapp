@@ -12,6 +12,7 @@
         "webhookBaseUrl": "http://localhost:3000",
         "setChromeWebSecurity": true,
         "ldapServer": "localhost",
-        "ldapPort": 389
+        "ldapPort": 389,
+        "runLDAPSync": true
     }
 }
