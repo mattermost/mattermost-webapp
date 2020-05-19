@@ -44,7 +44,6 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
         // # Create a new channel for later use such as when channel is empty test
         cy.getCurrentTeamId().then((teamId) => {
-            // eslint-disable-next-line no-magic-numbers
             cy.apiCreateChannel(teamId, newChannelName, newChannelName).then((response) => {
                 testChannel = response.body;
             });
