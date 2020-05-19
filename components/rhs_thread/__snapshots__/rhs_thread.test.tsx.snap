@@ -38,23 +38,9 @@ exports[`components/RhsThread should match snapshot 1`] = `
     }
     rootPostId="id"
   />
-  <Scrollbars
-    autoHeight={true}
-    autoHeightMax="100%"
-    autoHeightMin={0}
-    autoHide={true}
-    autoHideDuration={500}
-    autoHideTimeout={500}
-    hideTracksWhenNotNeeded={false}
+  <div
+    className="RhsThread__scrollbars"
     onScroll={[Function]}
-    renderThumbHorizontal={[Function]}
-    renderThumbVertical={[Function]}
-    renderTrackHorizontal={[Function]}
-    renderTrackVertical={[Function]}
-    renderView={[Function]}
-    tagName="div"
-    thumbMinSize={30}
-    universal={false}
   >
     <div
       className="post-right__scroll"
@@ -114,7 +100,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
         />
       </div>
     </div>
-  </Scrollbars>
+  </div>
   <div
     className="post-create__container"
   >

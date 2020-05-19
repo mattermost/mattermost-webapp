@@ -23,25 +23,7 @@ import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {FakePost} from 'types/store/rhs';
 
-export function renderView(props: Record<string, any>) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--view'
-        />);
-}
-
-export function renderThumbHorizontal() {
-    return (<div/>);
-}
-
-export function renderThumbVertical(props: Record<string, any>) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--vertical'
-        />);
-}
+import './rhs_thread.scss';
 
 type Props = {
     posts: Post[];
@@ -74,7 +56,7 @@ type State = {
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
-    private scrollbarsRef: React.RefObject<Scrollbars>;
+    private scrollbarsRef: React.RefObject<HTMLDivElement>;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
@@ -100,7 +82,7 @@ export default class RhsThread extends React.Component<Props, State> {
             openTime,
         };
 
-        this.scrollbarsRef = React.createRef<Scrollbars>();
+        this.scrollbarsRef = React.createRef<HTMLDivElement>();
         this.rhspostlistRef = React.createRef<HTMLDivElement>();
     }
 
@@ -204,10 +186,6 @@ export default class RhsThread extends React.Component<Props, State> {
         this.props.actions.selectPostCard(post);
     }
 
-    private onBusy = (isBusy: boolean) => {
-        this.setState({isBusy});
-    }
-
     private filterPosts = (posts: Post[], selected: Post | FakePost, openTime: number): Post[] => {
         const postsArray: Post[] = [];
 
@@ -227,7 +205,8 @@ export default class RhsThread extends React.Component<Props, State> {
 
     scrollToBottom = () => {
         if (this.scrollbarsRef.current) {
-            this.scrollbarsRef.current.scrollToBottom();
+            const elem = this.scrollbarsRef.current;
+            elem.scrollTop = elem.scrollHeight - elem.clientHeight;
         }
     }
 
@@ -400,17 +379,10 @@ export default class RhsThread extends React.Component<Props, State> {
                     channel={this.props.channel}
                     previousRhsState={this.props.previousRhsState}
                 />
-                <Scrollbars
-                    autoHide={true}
-                    autoHideTimeout={500}
-                    autoHideDuration={500}
-                    renderThumbHorizontal={renderThumbHorizontal}
-                    renderThumbVertical={renderThumbVertical}
-                    renderView={renderView}
-                    onScroll={this.handleScroll}
-                    autoHeight={true}
-                    autoHeightMax={'100%'}
+                <div
+                    className={'RhsThread__scrollbars'}
                     ref={this.scrollbarsRef}
+                    onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
                         <div
@@ -445,7 +417,7 @@ export default class RhsThread extends React.Component<Props, State> {
                             </div>
                         </div>
                     </div>
-                </Scrollbars>
+                </div>
                 {createComment}
             </div>
         );
