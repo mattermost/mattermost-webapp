@@ -130,23 +130,11 @@
 }
 
 .pdf-max-pages {
-    bottom: 0;
+    bottom: 8px;
     display: block;
     left: 0;
     position: relative;
     width: 100%;
-
-    span {
-        @include border-radius(3px);
-        background: alpha-color($black, .8);
-        bottom: 15px;
-        color: $white;
-        display: inline-block;
-        height: 3em;
-        line-height: 3em;
-        padding: 0 1.5em;
-        position: relative;
-    }
 }
 
 .file-view--single {
@@ -584,6 +572,7 @@
     align-items: center;
     justify-content: center;
     min-height: 140px;
+    height: 100%;
     flex-direction: column;
     padding-top: 28px;
 

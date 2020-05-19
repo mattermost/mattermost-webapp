@@ -171,16 +171,21 @@ export default class PDFPreview extends React.PureComponent {
             const fileDownloadUrl = this.props.fileInfo.link || getFileDownloadUrl(this.props.fileInfo.id);
 
             pdfCanvases.push(
-                <a
-                    key='previewpdfmorepages'
-                    href={fileDownloadUrl}
-                    className='pdf-max-pages'
-                >
-                    <FormattedMessage
-                        id='pdf_preview.max_pages'
-                        defaultMessage='Download to read more pages'
-                    />
-                </a>,
+                <div className='pdf-max-pages'>
+                    <button
+                        className='btn btn-primary'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = fileDownloadUrl;
+                        }}
+                    >
+                        {<i className='icon icon-download-outline'/> }
+                        <FormattedMessage
+                            id='pdf_preview.max_pages'
+                            defaultMessage='Download to read more pages'
+                        />
+                    </button>
+                </div>
             );
         }
 
