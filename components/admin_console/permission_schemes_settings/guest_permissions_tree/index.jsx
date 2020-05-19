@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
@@ -22,9 +22,11 @@ export const GUEST_INCLUDED_PERMISSIONS = [
 
 function mapStateToProps(state) {
     const config = getConfig(state);
+    const license = getLicense(state);
 
     return {
         config,
+        license,
     };
 }
 

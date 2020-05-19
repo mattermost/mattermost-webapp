@@ -46,6 +46,8 @@ import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
+import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
+import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -630,6 +632,8 @@ const AdminDefinition = {
                 'admin.recycle.recycleDescription.reloadConfiguration',
                 'admin.recycle.button',
                 'admin.sql.noteDescription',
+                'admin.sql.disableDatabaseSearchTitle',
+                'admin.sql.disableDatabaseSearchDescription',
                 'admin.sql.driverName',
                 'admin.sql.driverNameDescription',
                 'admin.sql.dataSource',
@@ -2442,7 +2446,7 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Requires Guest Access to be enabled before being applied. Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this filter is removed/changed, active guests will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.guestFilterEx'),
-                        placeholder_default: 'E.g.: "(objectClass=guests)"',
+                        placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.either(
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
                             it.both(
@@ -2470,7 +2474,7 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Enter an AD/LDAP filter to use for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.adminFilterEx'),
-                        placeholder_default: 'E.g.: "(objectClass=admins)"',
+                        placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.either(
                             it.stateIsFalse('LdapSettings.EnableAdminFilter'),
                             it.both(
@@ -2583,6 +2587,20 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "mail" or "userPrincipalName"',
                         help_text: t('admin.ldap.emailAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the email address field in Mattermost.',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.PictureAttribute',
+                        label: t('admin.ldap.pictureAttrTitle'),
+                        label_default: 'Profile Picture Attribute:',
+                        placeholder: t('admin.ldap.pictureAttrEx'),
+                        placeholder_default: 'E.g.: "thumbnailPhoto" or "jpegPhoto"',
+                        help_text: t('admin.ldap.pictureAttrDesc'),
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
                         isDisabled: it.both(
                             it.stateIsFalse('LdapSettings.Enable'),
                             it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2831,6 +2849,27 @@ const AdminDefinition = {
                             );
                         },
                     },
+                ],
+            },
+        },
+        ldap_feature_discovery: {
+            url: 'authentication/discover-ldap',
+            title: t('admin.sidebar.ldap'),
+            title_default: 'AD/LDAP',
+            isHidden: it.either(
+                it.licensedForFeature('LDAP'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'LdapSettings',
+                name: t('admin.authentication.ldap'),
+                name_default: 'AD/LDAP',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: LDAPFeatureDiscovery,
+                        key: 'LDAPFeatureDiscovery',
+                    }
                 ],
             },
         },
@@ -3245,6 +3284,27 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "SAML".',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
+                ],
+            },
+        },
+        saml_feature_discovery: {
+            url: 'authentication/discover-saml',
+            title: t('admin.sidebar.saml'),
+            title_default: 'SAML 2.0',
+            isHidden: it.either(
+                it.licensedForFeature('SAML'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'SamlSettings',
+                name: t('admin.authentication.saml'),
+                name_default: 'SAML 2.0',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: SAMLFeatureDiscovery,
+                        key: 'SAMLFeatureDiscovery',
+                    }
                 ],
             },
         },
