@@ -464,7 +464,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 <label className='control-label word-break--all text-left'>{this.state.originalEmail}</label>
                             </div>
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -489,7 +489,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -513,7 +513,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -537,7 +537,7 @@ class UserSettingsGeneralTab extends React.Component {
                             </div>
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
 
                 submit = this.submitEmail;
@@ -557,7 +557,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
                 inputs.push(
@@ -575,7 +575,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
                 inputs.push(
@@ -593,7 +593,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
                 inputs.push(
@@ -610,7 +610,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 }}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
                 inputs.push(
@@ -628,7 +628,7 @@ class UserSettingsGeneralTab extends React.Component {
                             />
                         </div>
                         {helpText}
-                    </div>
+                    </div>,
                 );
             }
 
@@ -780,7 +780,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.firstName', defaultMessage: 'First Name'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -805,7 +805,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.lastName', defaultMessage: 'Last Name'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 function notifClick(e) {
@@ -932,7 +932,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.nickname', defaultMessage: 'Nickname'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 extraInfo = (
@@ -1025,7 +1025,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.username', defaultMessage: 'Username'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 extraInfo = (
@@ -1116,7 +1116,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 aria-label={formatMessage({id: 'user.settings.general.position', defaultMessage: 'Position'})}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
 
                 extraInfo = (

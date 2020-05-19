@@ -54,10 +54,10 @@ context('Okta', () => {
             LoginButtonText: 'SAML',
         },
         ExperimentalSettings: {
-            UseNewSAMLLibrary: true
+            UseNewSAMLLibrary: true,
         },
         GuestAccountsSettings: {
-            Enable: true
+            Enable: true,
         },
     };
 

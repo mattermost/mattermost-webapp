@@ -12,7 +12,7 @@ import {
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMember,
-    getChannelMembersInChannels
+    getChannelMembersInChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';

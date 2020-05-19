@@ -341,7 +341,7 @@ var config = {
         }),
         new BrotliPlugin({
             asset: '[file].br',
-            test: /\.(js|css)$/
+            test: /\.(js|css)$/,
         }),
     ],
 };

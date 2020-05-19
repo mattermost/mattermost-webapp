@@ -24,14 +24,14 @@ describe('component/PDFPreview', () => {
 
     test('should match snapshot, loading', () => {
         const wrapper = shallow(
-            <PDFPreview {...requiredProps}/>
+            <PDFPreview {...requiredProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, not successful', () => {
         const wrapper = shallow(
-            <PDFPreview {...requiredProps}/>
+            <PDFPreview {...requiredProps}/>,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -39,7 +39,7 @@ describe('component/PDFPreview', () => {
 
     test('should return correct state when updateStateFromProps is called', () => {
         const wrapper = shallow(
-            <PDFPreview {...requiredProps}/>
+            <PDFPreview {...requiredProps}/>,
         );
 
         wrapper.instance().updateStateFromProps(requiredProps);
@@ -53,7 +53,7 @@ describe('component/PDFPreview', () => {
 
     test('should return correct state when onDocumentLoad is called', () => {
         const wrapper = shallow(
-            <PDFPreview {...requiredProps}/>
+            <PDFPreview {...requiredProps}/>,
         );
 
         let pdf = {numPages: 0};

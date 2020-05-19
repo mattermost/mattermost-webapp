@@ -40,7 +40,7 @@ export default class PostListRow extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            emitShortcutReactToLastPostFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
     }
 
@@ -123,7 +123,7 @@ export default class PostListRow extends React.PureComponent {
             previousPostId: previousListId,
             shouldHighlight: this.props.shouldHighlight,
             togglePostMenu: this.props.togglePostMenu,
-            isLastPost: this.props.isLastPost
+            isLastPost: this.props.isLastPost,
         };
 
         if (PostListUtils.isCombinedUserActivityPost(listId)) {

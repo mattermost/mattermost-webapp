@@ -40,7 +40,7 @@ describe('admin_console/team_channel_settings/team/TeamDetails', () => {
                 team={testTeam}
                 teamID={testTeam.id}
                 allGroups={allGroups}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

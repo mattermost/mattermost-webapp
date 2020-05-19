@@ -60,14 +60,14 @@ describe('components/channel_invite_modal', () => {
 
     test('should match snapshot for channel_invite_modal', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -77,7 +77,7 @@ describe('components/channel_invite_modal', () => {
 
     test('should have called props.onHide when Modal.onExited is called', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal {...baseProps}/>,
         );
 
         wrapper.find(Modal).props().onExited();
@@ -88,7 +88,7 @@ describe('components/channel_invite_modal', () => {
         const wrapper = shallow(
             <ChannelInviteModal
                 {...baseProps}
-            />
+            />,
         );
 
         wrapper.setState({values: users, show: true});
@@ -117,7 +117,7 @@ describe('components/channel_invite_modal', () => {
         const wrapper = shallow(
             <ChannelInviteModal
                 {...props}
-            />
+            />,
         );
 
         wrapper.setState({values: users, show: true});
@@ -134,7 +134,7 @@ describe('components/channel_invite_modal', () => {
 
     test('should trim the search term', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal {...baseProps}/>,
         );
 
         wrapper.instance().search(' something ');

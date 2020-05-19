@@ -191,7 +191,7 @@ class SidebarChannel extends React.PureComponent {
             this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}]).then(
                 () => {
                     this.isLeaving = false;
-                }
+                },
             );
 
             trackEvent('ui', 'ui_direct_channel_x_button_clicked');

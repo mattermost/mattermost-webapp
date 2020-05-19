@@ -32,7 +32,7 @@ export default class GifPicker extends React.Component {
     static propTypes = {
         onGifClick: PropTypes.func.isRequired,
         defaultSearchText: PropTypes.string,
-        handleSearchTextChange: PropTypes.func.isRequired
+        handleSearchTextChange: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -43,7 +43,7 @@ export default class GifPicker extends React.Component {
 
         const action = props.defaultSearchText ? 'search' : 'trending';
         this.state = {
-            action
+            action,
         };
     }
 

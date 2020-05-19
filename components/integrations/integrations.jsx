@@ -69,7 +69,7 @@ export default class Integrations extends React.Component {
                         }
                         link={'/' + this.props.team.name + '/integrations/incoming_webhooks'}
                     />
-                </TeamPermissionGate>
+                </TeamPermissionGate>,
             );
         }
 
@@ -97,7 +97,7 @@ export default class Integrations extends React.Component {
                         }
                         link={'/' + this.props.team.name + '/integrations/outgoing_webhooks'}
                     />
-                </TeamPermissionGate>
+                </TeamPermissionGate>,
             );
         }
 
@@ -125,7 +125,7 @@ export default class Integrations extends React.Component {
                         }
                         link={'/' + this.props.team.name + '/integrations/commands'}
                     />
-                </TeamPermissionGate>
+                </TeamPermissionGate>,
             );
         }
 
@@ -152,7 +152,7 @@ export default class Integrations extends React.Component {
                         }
                         link={'/' + this.props.team.name + '/integrations/oauth2-apps'}
                     />
-                </SystemPermissionGate>
+                </SystemPermissionGate>,
             );
         }
 
@@ -177,7 +177,7 @@ export default class Integrations extends React.Component {
                     }
                     link={'/' + this.props.team.name + '/integrations/bots'}
                 />
-            </SystemPermissionGate>
+            </SystemPermissionGate>,
         );
 
         return (
