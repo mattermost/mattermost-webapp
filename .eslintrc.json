@@ -51,6 +51,7 @@
         "detectObjects": true
       }
     ],
+    "no-undefined": 0,
     "react/jsx-filename-extension": 0,
     "react/prop-types": [
       2,
