@@ -1284,7 +1284,7 @@ Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
  * Get all groups via the API
  *
  * @param {Integer} page - The desired page of the paginated list
- * @param {Integer} per_page - The number of groups per page
+ * @param {Integer} perPage - The number of groups per page
  *
  */
 Cypress.Commands.add('apiGetGroups', (page = 0, perPage = 100) => {
@@ -1303,7 +1303,11 @@ Cypress.Commands.add('apiGetGroups', (page = 0, perPage = 100) => {
  * Patch a group directly via API
  *
  * @param {String} name - The new name for the group
- * @param {Boolean} allow_reference - Whether to allow reference (group mention) or not  - true/false
+ * @param {Object} patch
+ *   {Boolean} allow_reference - Whether to allow reference (group mention) or not  - true/false
+ *   {String} name - Name for the group, used for group mentions
+ *   {String} display_name - Display name for the group
+ *   {String} description - Description for the group
  *
  */
 Cypress.Commands.add('apiPatchGroup', (groupID, patch) => {
