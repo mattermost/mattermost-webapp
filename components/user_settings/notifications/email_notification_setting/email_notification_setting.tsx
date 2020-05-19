@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -28,8 +29,8 @@ type Props = {
     sendEmailNotifications: boolean;
     enableEmailBatching: boolean;
     actions: {
-        savePreferences: (currentUserId: string, emailIntervalPreference: {}) =>
-        Promise<{}>;
+        savePreferences: (currentUserId: string, emailIntervalPreference: Array<PreferenceType>) =>
+        Promise<{data: boolean}>;
     };
 };
 

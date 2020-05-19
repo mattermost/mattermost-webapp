@@ -168,7 +168,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
 
     test('should derived state from props', () => {
         const nextProps = {
-            enableEmail: true,
+            enableEmail: false,
             emailInterval: Preferences.INTERVAL_IMMEDIATE,
             enableEmailBatching: true,
             sendEmailNotifications: true,
@@ -183,9 +183,10 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
         expect(wrapper.state('enableEmailBatching')).toBe(nextProps.enableEmailBatching);
         expect(wrapper.state('sendEmailNotifications')).toBe(nextProps.sendEmailNotifications);
-        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_IMMEDIATE);
+        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_NEVER);
 
         nextProps.emailInterval = Preferences.INTERVAL_FIFTEEN_MINUTES;
+        nextProps.enableEmail = true;
         wrapper.setProps(nextProps);
         expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
         expect(wrapper.state('enableEmail')).toBe(nextProps.enableEmail);
