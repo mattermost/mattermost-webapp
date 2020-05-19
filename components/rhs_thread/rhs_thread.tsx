@@ -74,7 +74,7 @@ type State = {
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
-    private scrollbarsRef: React.RefObject<HTMLInputElement>;
+    private scrollbarsRef: React.RefObject<Scrollbars>;
     private rhspostlistRef: React.RefObject<HTMLInputElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
@@ -122,8 +122,10 @@ export default class RhsThread extends React.Component<Props, State> {
 
         // scroll to bottom if this post is re-focused
         // ex. clicking on reply in center channel
-        if (this.props.selectedPostFocusedAt > prevProps.selectedPostFocusedAt) {
-            this.scrollToBottom();
+        if (this.props.selectedPostFocusedAt && prevProps.selectedPostFocusedAt) {
+            if (this.props.selectedPostFocusedAt > prevProps.selectedPostFocusedAt) {
+                this.scrollToBottom();
+            }
         }
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
@@ -166,8 +168,10 @@ export default class RhsThread extends React.Component<Props, State> {
             return true;
         }
 
-        if (nextProps.selectedPostFocusedAt > this.props.selectedPostFocusedAt) {
-            return true;
+        if (nextProps.selectedPostFocusedAt && this.props.selectedPostFocusedAt) {
+            if (nextProps.selectedPostFocusedAt > this.props.selectedPostFocusedAt) {
+                return true;
+            }
         }
 
         return false;
@@ -222,7 +226,9 @@ export default class RhsThread extends React.Component<Props, State> {
     }
 
     scrollToBottom = () => {
-        this.scrollbarsRef.current.scrollToBottom();
+        if (this.scrollbarsRef.current) {
+            this.scrollbarsRef.current.scrollToBottom();
+        }
     }
 
     private updateFloatingTimestamp = (): void => {
