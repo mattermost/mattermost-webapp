@@ -46,6 +46,7 @@ import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
+import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 
@@ -54,7 +55,6 @@ import * as DefinitionConstants from './admin_definition_constants';
 const FILE_STORAGE_DRIVER_LOCAL = 'local';
 const FILE_STORAGE_DRIVER_S3 = 'amazons3';
 const MEBIBYTE = Math.pow(1024, 2);
-const MINIMUM_IDLE_TIMEOUT = 5;
 
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA1 = 'RSAwithSHA1';
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA256 = 'RSAwithSHA256';
@@ -1287,70 +1287,28 @@ const AdminDefinition = {
             title: t('admin.sidebar.sessionLengths'),
             title_default: 'Session Lengths',
             isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            searchableStrings: [
+                'admin.sessionLengths.title',
+                'admin.service.webSessionDaysDesc.extendLength',
+                'admin.service.mobileSessionDaysDesc.extendLength',
+                'admin.service.ssoSessionDaysDesc.extendLength',
+                'admin.service.webSessionDaysDesc',
+                'admin.service.mobileSessionDaysDesc',
+                'admin.service.ssoSessionDaysDesc',
+                'admin.service.sessionIdleTimeout',
+                'admin.service.sessionIdleTimeoutDesc',
+                'admin.service.extendSessionLengthActivity.label',
+                'admin.service.extendSessionLengthActivity.helpText',
+                'admin.service.webSessionDays',
+                'admin.service.sessionDaysEx',
+                'admin.service.mobileSessionDays',
+                'admin.service.ssoSessionDays',
+                'admin.service.sessionCache',
+                'admin.service.sessionCacheDesc',
+            ],
             schema: {
                 id: 'SessionLengths',
-                name: t('admin.environment.sessionLengths'),
-                name_default: 'Session Lengths',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionLengthWebInDays',
-                        label: t('admin.service.webSessionDays'),
-                        label_default: 'Session Length AD/LDAP and Email (days):',
-                        help_text: t('admin.service.webSessionDaysDesc'),
-                        help_text_default: 'The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionLengthMobileInDays',
-                        label: t('admin.service.mobileSessionDays'),
-                        label_default: 'Session Length Mobile (days):',
-                        help_text: t('admin.service.mobileSessionDaysDesc'),
-                        help_text_default: 'The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionLengthSSOInDays',
-                        label: t('admin.service.ssoSessionDays'),
-                        label_default: 'Session Length SSO (days):',
-                        help_text: t('admin.service.ssoSessionDaysDesc'),
-                        help_text_default: 'The number of days from the last time a user entered their credentials to the expiry of the users session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionCacheInMinutes',
-                        label: t('admin.service.sessionCache'),
-                        label_default: 'Session Cache (minutes):',
-                        help_text: t('admin.service.sessionCacheDesc'),
-                        help_text_default: 'The number of minutes to cache a session in memory.',
-                        placeholder: t('admin.service.sessionDaysEx'),
-                        placeholder_default: 'E.g.: "30"',
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.SessionIdleTimeoutInMinutes',
-                        label: t('admin.service.sessionIdleTimeout'),
-                        label_default: 'Session Idle Timeout (minutes):',
-                        help_text: t('admin.service.sessionIdleTimeoutDesc'),
-                        help_text_default: 'The number of minutes from the last time a user was active on the system to the expiry of the user\'s session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.\n \nApplies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement.',
-                        help_text_markdown: true,
-                        placeholder: t('admin.service.sessionIdleTimeoutEx'),
-                        placeholder_default: 'E.g.: "60"',
-                        isHidden: it.isnt(it.licensedForFeature('Compliance')),
-                        onConfigSave: (value) => {
-                            if (value !== 0 && value < MINIMUM_IDLE_TIMEOUT) {
-                                return MINIMUM_IDLE_TIMEOUT;
-                            }
-                            return value;
-                        },
-                    },
-                ],
+                component: SessionLengthSettings,
             },
         },
         metrics: {

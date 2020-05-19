@@ -168,6 +168,19 @@ export default abstract class AdminSettings extends React.Component<Props, State
         return n;
     };
 
+    private parseIntZeroOrMin = (str: string, minimumValue = 1) => {
+        const n = parseInt(str, 10);
+
+        if (isNaN(n) || n < 0) {
+            return 0;
+        }
+        if (n > 0 && n < minimumValue) {
+            return minimumValue;
+        }
+
+        return n;
+    };
+
     private parseIntNonZero = (str: string, defaultValue?: number, minimumValue = 1) => {
         const n = parseInt(str, 10);
 
