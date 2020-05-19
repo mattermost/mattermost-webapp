@@ -42,6 +42,21 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
     };
 }
 
+export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = teamId || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
+        }
+
+        return {data: true};
+    };
+}
+
 export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
@@ -49,6 +64,21 @@ export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
+        }
+
+        return {data: true};
+    };
+}
+
+export function searchProfilesAndTeamMembers(term = '', options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = options.team_id || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.searchProfiles(term, options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
         }
 
         return {data: true};
@@ -73,7 +103,7 @@ export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamI
     };
 }
 
-export function loadTeamMembersForProfilesList(profiles, teamId) {
+export function loadTeamMembersForProfilesList(profiles, teamId, reloadAllMembers = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const teamIdParam = teamId || getCurrentTeamId(state);
@@ -81,7 +111,7 @@ export function loadTeamMembersForProfilesList(profiles, teamId) {
         for (let i = 0; i < profiles.length; i++) {
             const pid = profiles[i].id;
 
-            if (!getTeamMember(state, teamIdParam, pid)) {
+            if (reloadAllMembers === true || !getTeamMember(state, teamIdParam, pid)) {
                 membersToLoad[pid] = true;
             }
         }
