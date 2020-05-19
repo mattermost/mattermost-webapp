@@ -57,16 +57,33 @@ export default class MessageExportSettings extends AdminSettings {
     }
 
     getJobDetails = (job) => {
-        if (job.data && job.data.messages_exported) {
-            return (
-                <FormattedMessage
-                    id='admin.complianceExport.messagesExportedCount'
-                    defaultMessage='{count} messages exported.'
-                    values={{
-                        count: job.data.messages_exported,
-                    }}
-                />
-            );
+        if (job.data) {
+            const message = [];
+            if (job.data.messages_exported) {
+                message.push(
+                    <FormattedMessage
+                        id='admin.complianceExport.messagesExportedCount'
+                        defaultMessage='{count} messages exported.'
+                        values={{
+                            count: job.data.messages_exported,
+                        }}
+                    />
+                );
+            }
+            if (job.data.warning_count > 0) {
+                message.push(
+                    <div>
+                        <FormattedMessage
+                            id='admin.complianceExport.warningCount'
+                            defaultMessage='{count} warning(s) were encountered, see warning.txt for details'
+                            values={{
+                                count: job.data.warning_count,
+                            }}
+                        />
+                    </div>
+                );
+            }
+            return message;
         }
         return null;
     };

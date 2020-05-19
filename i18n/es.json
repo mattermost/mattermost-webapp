@@ -2536,7 +2536,6 @@
   "save_button.saving": "Guardando",
   "search_bar.clear": "Limpiar búsqueda",
   "search_bar.search": "Buscar",
-  "search_bar.usage.tips": "* Usa **\"comillas\"** para buscar frases\n* Usa **from:** para encontrar mensajes de usuarios específicos e **in:** para encontrar mensajes en un canal específico\n* Usa **on:** para encontrar mensajes en una fecha específica\n* Usa **before:** para encontrar mensajes antes de una fecha específica\n* Usa **after:** para encontrar mensajes después de una fecha específica",
   "search_bar.usage.title": "Opciones de Búsqueda",
   "search_header.loading": "Buscando…",
   "search_header.results": "Resultados de la Búsqueda",

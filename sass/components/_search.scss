@@ -243,3 +243,65 @@
 .search-highlight {
     background-color: $yellow;
 }
+
+.search-hint__title {
+    padding: 22px 24px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--center-channel-color-16);
+    margin: 0;
+}
+
+.search-hint__suggestions-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 8px 0;
+}
+
+.search-hint__suggestions-list__option {
+    padding: 10px 24px;
+    display: flex;
+    justify-content: left;
+    text-align: left;
+    color: var(--center-channel-color);
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &.highlighted {
+        background: rgba(61, 60, 64, 0.06);
+    }
+}
+
+.search-hint__suggestion-list__flex-wrap {
+    width: 51px;
+}
+
+.search-hint__suggestion-list__label {
+    text-transform: uppercase;
+    background: var(--center-channel-color-16);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.01em;
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.search-hint__suggestion-list__value {
+    margin-left: 16px;
+}
+
+.sidebar--right__subheader {
+    // Fighting specificity with _sidebar-right.scss (sidebar--right .sidebar--right__subheader ul)
+    ul.search-hint__suggestions-list {
+        padding-left: 0;
+        // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
+        margin: -18px -14px 0;
+    }
+
+    .search-hint__suggestions-list__option:first-child {
+        padding-top: 10px;
+    }    
+
+    .search-hint__suggestions-list__option:hover {
+        background: rgba(61, 60, 64, 0.06);
+    }
+}

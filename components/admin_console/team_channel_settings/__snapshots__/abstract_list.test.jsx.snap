@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/AbstractList should match snapshot, no headers 1`] = `
+<div
+  className="groups-list groups-list-no-padding"
+>
+  <div
+    className="groups-list--body"
+    id="groups-list--body"
+  >
+    <div
+      className="groups-list-empty"
+    >
+      <FormattedMessage
+        defaultMessage="test"
+        id="test"
+        values={Object {}}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`admin_console/team_channel_settings/AbstractList should match snapshot, with data 1`] = `
+<div
+  className="groups-list groups-list-no-padding"
+>
+  <div
+    className="groups-list--header"
+  >
+    <div
+      className="group-name adjusted"
+    >
+      <FormattedMessage
+        defaultMessage="Name"
+        id="admin.channel_settings.channel_list.nameHeader"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="group-content"
+    >
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Team"
+          id="admin.channel_settings.channel_list.teamHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-description adjusted"
+      >
+        <FormattedMessage
+          defaultMessage="Management"
+          id="admin.channel_settings.channel_list.managementHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
+      />
+    </div>
+  </div>
+  <div
+    className="groups-list--body"
+    id="groups-list--body"
+  >
+    <ChannelRow
+      channel="DN"
+      key="123"
+      onRowClick={[MockFunction]}
+    />
+  </div>
+  <div
+    className="groups-list--footer"
+  >
+    <div
+      className="counter"
+    >
+      <FormattedMessage
+        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
+        id="admin.team_channel_settings.list.paginatorCount"
+        values={
+          Object {
+            "endCount": 1,
+            "startCount": 1,
+            "total": 1,
+          }
+        }
+      />
+    </div>
+    <button
+      className="btn btn-link prev disabled"
+      disabled={true}
+      onClick={null}
+    >
+      <PreviousIcon
+        additionalClassName={null}
+      />
+    </button>
+    <button
+      className="btn btn-link next disabled"
+      data-testid="page-link-next"
+      disabled={true}
+      onClick={null}
+    >
+      <NextIcon
+        additionalClassName={null}
+      />
+    </button>
+  </div>
+</div>
+`;
