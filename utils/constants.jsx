@@ -309,6 +309,7 @@ export const SocketEvents = {
     LEAVE_TEAM: 'leave_team',
     UPDATE_TEAM: 'update_team',
     DELETE_TEAM: 'delete_team',
+    UPDATE_TEAM_SCHEME: 'update_team_scheme',
     USER_ADDED: 'user_added',
     USER_REMOVED: 'user_removed',
     USER_UPDATED: 'user_updated',
@@ -333,6 +334,11 @@ export const SocketEvents = {
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
+    RECEIVED_GROUP: 'received_group',
+    RECEIVED_GROUP_ASSOCIATED_TO_TEAM: 'received_group_associated_to_team',
+    RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
+    RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
+    RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
 };
 
 export const TutorialSteps = {
@@ -487,6 +493,7 @@ export const JobStatuses = {
     ERROR: 'error',
     CANCEL_REQUESTED: 'cancel_requested',
     CANCELED: 'canceled',
+    WARNING: 'warning',
 };
 
 export const AnnouncementBarTypes = {
@@ -787,7 +794,9 @@ export const Constants = {
     },
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
+    ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
@@ -1323,6 +1332,7 @@ export const Constants = {
         swift: {name: 'Swift', extensions: ['swift']},
         tex: {name: 'TeX', extensions: ['tex'], aliases: ['latex']},
         text: {name: 'Text', extensions: ['txt', 'log']},
+        typescript: {name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx']},
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
         vbscript: {name: 'VBScript', extensions: ['vbs']},
         verilog: {name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh']},
@@ -1428,6 +1438,15 @@ export const Constants = {
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
+
+export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_list_option.from'), defaultMessage: 'Messages from a user'}},
+    {searchTerm: 'In:', message: {id: t('search_list_option.in'), defaultMessage: 'Messages in a channel'}},
+    {searchTerm: 'On:', message: {id: t('search_list_option.on'), defaultMessage: 'Messages on a date'}},
+    {searchTerm: 'Before:', message: {id: t('search_list_option.before'), defaultMessage: 'Messages before a date'}},
+    {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
+    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}},
+    {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
+];
 
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');

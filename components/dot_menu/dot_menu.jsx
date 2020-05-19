@@ -398,7 +398,7 @@ export default class DotMenu extends React.PureComponent {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || this.props.components[PLUGGABLE_COMPONENT]) && this.renderDivider('plugins')}
+                    {(pluginItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}

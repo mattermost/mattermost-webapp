@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/AtMention should match snapshot when mentioning a group that is allowed reference 1`] = `
+<span
+  className="group-mention-link"
+>
+  @developers
+</span>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning a group that is allowed reference with group highlight disabled 1`] = `
+<Fragment>
+  (at)-developers
+</Fragment>
+`;
+
+exports[`components/AtMention should match snapshot when mentioning a group that is not allowed reference 1`] = `
+<Fragment>
+  (at)-marketing
+</Fragment>
+`;
+
 exports[`components/AtMention should match snapshot when mentioning all 1`] = `
 <Fragment>
   (at)-all

@@ -2533,7 +2533,6 @@
   "save_button.saving": "Wird gespeichert",
   "search_bar.clear": "Suchabfrage leeren",
   "search_bar.search": "Suche",
-  "search_bar.usage.tips": "* **\"Anführungszeichen\"** sucht nach exakten Übereinstimmungen\n* **from:** sucht nach Nachrichten von spezifischen Benutzern und **in:** nach Nachrichten in spezifischen Kanälen\n* **on:** sucht nach Nachrichten an einem spezifischen Datum\n* **before:** sucht nach Nachrichten vor einem spezifischen Datum\n* **after:** sucht nach Nachrichten nach einem spezifischen Datum",
   "search_bar.usage.title": "Suchoptionen",
   "search_header.loading": "Suche...",
   "search_header.results": "Suchergebnisse",
