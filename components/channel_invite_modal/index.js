@@ -23,8 +23,12 @@ function makeMapStateToProps(initialState, initialProps) {
         let profilesNotInCurrentTeam = [];
 
         if (doGetProfilesNotInChannel) {
-            profilesNotInCurrentChannel = doGetProfilesNotInChannel(state, props.channelId);
-            profilesNotInCurrentTeam = getProfilesNotInTeam(state, props.teamId);
+            let options = {};
+            if (props.filterExcludeGuests === true) {
+                options = {role: 'system_user'};
+            }
+            profilesNotInCurrentChannel = doGetProfilesNotInChannel(state, props.channelId, false, options);
+            profilesNotInCurrentTeam = getProfilesNotInTeam(state, props.teamId, options);
         } else {
             profilesNotInCurrentChannel = getProfilesNotInCurrentChannel(state);
             profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state);

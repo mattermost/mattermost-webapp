@@ -159,6 +159,10 @@ export default class ChannelInviteModal extends React.Component {
 
         this.searchTimeoutId = setTimeout(
             async () => {
+                if (!term) {
+                    return;
+                }
+
                 this.setUsersLoadingState(true);
                 const options = {
                     team_id: this.props.channel.team_id,
