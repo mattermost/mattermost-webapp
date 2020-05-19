@@ -75,7 +75,7 @@ type State = {
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private scrollbarsRef: React.RefObject<Scrollbars>;
-    private rhspostlistRef: React.RefObject<HTMLInputElement>;
+    private rhspostlistRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -100,8 +100,8 @@ export default class RhsThread extends React.Component<Props, State> {
             openTime,
         };
 
-        this.scrollbarsRef = React.createRef();
-        this.rhspostlistRef = React.createRef();
+        this.scrollbarsRef = React.createRef<Scrollbars>();
+        this.rhspostlistRef = React.createRef<HTMLDivElement>();
     }
 
     public componentDidMount() {
@@ -237,11 +237,11 @@ export default class RhsThread extends React.Component<Props, State> {
             return;
         }
 
-        if (this.props.posts) {
-            const childNodes = (this.refs.rhspostlist as HTMLElement).childNodes;
-            const viewPort = (this.refs.rhspostlist as HTMLElement).getBoundingClientRect();
-            let topRhsPostId = '';
+        if (this.props.posts && this.rhspostlistRef.current) {
+            const childNodes = this.rhspostlistRef.current.childNodes;
+            const viewPort = this.rhspostlistRef.current.getBoundingClientRect();
             const offset = 100;
+            let topRhsPostId = '';
 
             // determine the top rhs comment assuming that childNodes and postsArray are of same length
             for (let i = 0; i < childNodes.length; i++) {
