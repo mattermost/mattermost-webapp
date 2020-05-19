@@ -44,19 +44,19 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
 describe('Session Lengths', () => {
     before(() => {
         goToSessionLengths();
-    })
+    });
 
     describe('"Extend session length with activity" defaults to true', () => {
         it('"Extend session length with activity" radio is checked', () => {
             cy.get('#extendSessionLengthWithActivitytrue').check().should('be.checked');
-        })
-    })
+        });
+    });
 
     describe('Setting "Extend session length with activity" to false alters subsequent settings', () => {
         before(() => cy.get('#extendSessionLengthWithActivityfalse').check());
         it('In team edition, "Session idle timeout" setting should not exist', () => {
             cy.get('#sessionIdleTimeoutInMinutesinput').should('not.exist');
-        })
+        });
     });
 
     describe('Session Lengths settings should save successfully', () => {
@@ -64,75 +64,75 @@ describe('Session Lengths', () => {
             cy.get('#extendSessionLengthWithActivitytrue').check();
             saveConfig();
             cy.get('#extendSessionLengthWithActivitytrue').should('be.checked');
-        })
+        });
         it('Setting "Extend session length with activity" to TRUE is saved in the server configuration', () => {
             cy.apiGetConfig().then((response) => {
                 const setting = response.body.ServiceSettings.ExtendSessionLengthWithActivity;
                 expect(setting).to.be.true;
-            })
-        })
+            });
+        });
         it('Setting "Extend session length with activity" to FALSE should save in UI', () => {
             cy.get('#extendSessionLengthWithActivityfalse').check();
             saveConfig();
             cy.get('#extendSessionLengthWithActivityfalse').should('be.checked');
-        })
+        });
         it('Setting "Extend session length with activity" to FALSE is saved in the server configuration', () => {
             cy.apiGetConfig().then((response) => {
                 const setting = response.body.ServiceSettings.ExtendSessionLengthWithActivity;
                 expect(setting).to.be.false;
-            })
-        })
+            });
+        });
         it('Setting "Session Length AD/LDAP and Email (days)" should save in UI', () => {
-            cy.get('#sessionLengthWebInDays')
-                .should('have.value', '30')
-                .clear().type('31');
+            cy.get('#sessionLengthWebInDays').
+                should('have.value', '30').
+                clear().type('31');
             saveConfig();
             cy.get('#sessionLengthWebInDays').should('have.value', '31');
-        })
+        });
         it('Setting "Session Length AD/LDAP and Email (days)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then((response) => {
                 const setting = response.body.ServiceSettings.SessionLengthWebInDays;
                 expect(setting).to.equal(31);
-            })
-        })
+            });
+        });
         it('Setting "Session Length Mobile (days)" should save in UI', () => {
-            cy.get('#sessionLengthMobileInDays')
-                .should('have.value', '30')
-                .clear().type('31');
+            cy.get('#sessionLengthMobileInDays').
+                should('have.value', '30').
+                clear().type('31');
             saveConfig();
             cy.get('#sessionLengthMobileInDays').should('have.value', '31');
-        })
+        });
         it('Setting "Session Length Mobile (days)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then((response) => {
                 const setting = response.body.ServiceSettings.SessionLengthMobileInDays;
                 expect(setting).to.equal(31);
-            })
-        })
+            });
+        });
         it('Setting "Session Length SSO (days)" should save in UI', () => {
-            cy.get('#sessionLengthSSOInDays')
-                .should('have.value', '30')
-                .clear().type('31');
+            cy.get('#sessionLengthSSOInDays').
+                should('have.value', '30').
+                clear().type('31');
             saveConfig();
             cy.get('#sessionLengthSSOInDays').should('have.value', '31');
-        })
+        });
         it('Setting "Session Length SSO (days)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then((response) => {
                 const setting = response.body.ServiceSettings.SessionLengthSSOInDays;
                 expect(setting).to.equal(31);
-            })
-        })
+            });
+        });
         it('Setting "Session Cache (minutes)" should save in UI', () => {
-            cy.get('#sessionCacheInMinutes')
-                .should('have.value', '10')
-                .clear().type('11');
+            cy.get('#sessionCacheInMinutes').
+                should('have.value', '10').
+                clear().type('11');
             saveConfig();
             cy.get('#sessionCacheInMinutes').should('have.value', '11');
-        })
+        });
         it('Setting "Session Cache (minutes)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then((response) => {
                 const setting = response.body.ServiceSettings.SessionCacheInMinutes;
                 expect(setting).to.equal(11);
-            })
-        })
-    })
-})
+            });
+        });
+    });
+});

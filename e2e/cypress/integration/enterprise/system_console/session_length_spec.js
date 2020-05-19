@@ -43,40 +43,40 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
 
 describe('Session Lengths', () => {
     before(() => {
-        cy.requireLicense(); 
+        cy.requireLicense();
         goToSessionLengths();
-    })
+    });
 
     describe('"Extend session length with activity" defaults to true', () => {
         it('"Extend session length with activity" radio is checked', () => {
             cy.get('#extendSessionLengthWithActivitytrue').check().should('be.checked');
-        })
+        });
         it('"Session idle timeout" setting should not exist', () => {
             cy.get('#sessionIdleTimeoutInMinutes').should('not.exist');
-        })
-    })
+        });
+    });
 
     describe('Setting "Extend session length with activity" to false alters subsequent settings', () => {
         before(() => cy.get('#extendSessionLengthWithActivityfalse').check());
         it('In enterprise edition, "Session idle timeout" setting should exist on page', () => {
-             cy.get('#sessionIdleTimeoutInMinutes').should('exist');
-        })
+            cy.get('#sessionIdleTimeoutInMinutes').should('exist');
+        });
     });
 
     describe('Session Lengths settings should save successfully', () => {
         before(() => cy.get('#extendSessionLengthWithActivityfalse').check());
         it('Setting "Session Idle Timeout (minutes)" should save in UI', () => {
-            cy.get('#sessionIdleTimeoutInMinutes')
-                .should('have.value', '43200')
-                .clear().type('43201');
+            cy.get('#sessionIdleTimeoutInMinutes').
+                should('have.value', '43200').
+                clear().type('43201');
             saveConfig();
             cy.get('#sessionIdleTimeoutInMinutes').should('have.value', '43201');
-        })
+        });
         it('Setting "Session Cache (minutes)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then((response) => {
                 const setting = response.body.ServiceSettings.SessionIdleTimeoutInMinutes;
                 expect(setting).to.equal(43201);
-            })
-        })
-    })
-})
+            });
+        });
+    });
+});
