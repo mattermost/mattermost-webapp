@@ -19,6 +19,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
+import Pluggable from 'plugins/pluggable';
 import Constants, {StoragePrefixes} from 'utils/constants';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
@@ -90,6 +91,7 @@ export default class Root extends React.Component {
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
         }).isRequired,
+        plugins: PropTypes.array,
     }
 
     constructor(props) {
@@ -389,6 +391,18 @@ export default class Root extends React.Component {
                         path={['/_redirect/integrations*', '/_redirect/pl/:postid']}
                         component={PermalinkRedirector}
                     />
+                    {this.props.plugins?.map((plugin) => (
+                        <Route
+                            key={plugin.id}
+                            path={'/plug/' + plugin.route}
+                            render={() => (
+                                <Pluggable
+                                    pluggableName={'CustomRouteComponent'}
+                                    pluggableId={plugin.id}
+                                />
+                            )}
+                        />
+                    ))}
                     <LoggedInRoute
                         path={'/:team'}
                         component={NeedsTeam}

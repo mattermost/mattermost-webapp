@@ -55,6 +55,13 @@ export default class AbstractList extends React.PureComponent {
         this.performSearch(page);
     }
 
+    renderHeader = () => {
+        if (this.props.data.length > 0) {
+            return this.props.header;
+        }
+        return null;
+    }
+
     renderRows = () => {
         if (this.state.loading) {
             return (
@@ -108,7 +115,7 @@ export default class AbstractList extends React.PureComponent {
         const firstPage = this.state.page === 0;
         return (
             <div className='groups-list groups-list-no-padding'>
-                {this.props.header}
+                {this.renderHeader()}
                 <div
                     id='groups-list--body'
                     className='groups-list--body'

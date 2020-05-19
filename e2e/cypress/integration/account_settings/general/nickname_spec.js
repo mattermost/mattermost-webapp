@@ -67,7 +67,9 @@ describe('Account Settings > Sidebar > General', () => {
         // # Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
         cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
-        cy.get('.more-modal__details > .more-modal__name').should('be.visible').should('contain', '@user-1 - Victor Welch');
+        cy.get('.more-modal__details > .more-modal__name').should('be.visible').then((el) => {
+            expect(getInnerText(el)).equal('@user-1 - Victor Welch');
+        });
 
         // # Close Team Members modal
         cy.get('#teamMembersModal').should('be.visible').within(() => cy.get('.close').click());
@@ -95,7 +97,9 @@ describe('Account Settings > Sidebar > General', () => {
         // # Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');
         cy.get('#searchUsersInput').should('be.visible').type('Victor Welch');
-        cy.get('.more-modal__details > .more-modal__name').should('be.visible').should('contain', '@user-1 - Victor Welch (victor_nick)');
+        cy.get('.more-modal__details > .more-modal__name').should('be.visible').then((el) => {
+            expect(getInnerText(el)).equal('@user-1 - Victor Welch (victor_nick)');
+        });
 
         // # Close Channel Members modal
         cy.get('#teamMembersModal').should('be.visible').within(() => cy.get('.close').click());
@@ -111,4 +115,8 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
+
+    function getInnerText(el) {
+        return el[0].innerText.replace(/\n/g, '').replace(/\s/g, ' ');
+    }
 });
