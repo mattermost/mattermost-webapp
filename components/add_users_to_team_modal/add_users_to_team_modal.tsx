@@ -25,13 +25,14 @@ type UserProfileValue = Value & UserProfile;
 type Props = {
     team: Team;
     users: UserProfile[];
+    filterExcludeGuests?: boolean;
     excludeUsers: { [userId: string]: UserProfile };
     includeUsers: { [userId: string]: UserProfile };
     onAddCallback: (users: UserProfile[]) => void;
     onHide?: () => void;
 
     actions: {
-        getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<{ data: UserProfile[] }>;
+        getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: {}) => Promise<{ data: UserProfile[] }>;
         searchProfiles: (term: string, options?: any) => Promise<{ data: UserProfile[] }>;
     };
 }
@@ -44,11 +45,17 @@ type State = {
     saving: boolean;
     addError: null;
     loading: boolean;
+    filterOptions: {};
 }
 
 export default class AddUsersToTeamModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
+
+        let filterOptions: {} = {};
+        if (props.filterExcludeGuests) {
+            filterOptions = {role: 'system_user'};
+        }
 
         this.state = {
             searchResults: [],
@@ -58,10 +65,11 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
             saving: false,
             addError: null,
             loading: true,
+            filterOptions,
         };
     }
     public componentDidMount = async () => {
-        await this.props.actions.getProfilesNotInTeam(this.props.team.id, false, 0, USERS_PER_PAGE * 2);
+        await this.props.actions.getProfilesNotInTeam(this.props.team.id, false, 0, USERS_PER_PAGE * 2, this.state.filterOptions);
         this.setUsersLoadingState(false);
     }
 
@@ -74,10 +82,10 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         let searchResults: UserProfile[] = [];
         const search = term !== '';
         if (search) {
-            const {data} = await this.props.actions.searchProfiles(term, {not_in_team_id: this.props.team.id, replace: true});
+            const {data} = await this.props.actions.searchProfiles(term, {not_in_team_id: this.props.team.id, replace: true, ...this.state.filterOptions});
             searchResults = data;
         } else {
-            await this.props.actions.getProfilesNotInTeam(this.props.team.id, false, 0, USERS_PER_PAGE * 2);
+            await this.props.actions.getProfilesNotInTeam(this.props.team.id, false, 0, USERS_PER_PAGE * 2, this.state.filterOptions);
         }
         this.setState({loading: false, searchResults, search});
     }
@@ -156,7 +164,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         if (page > prevPage) {
             const needMoreUsers = (this.props.users.length / USERS_PER_PAGE) <= page + 1;
             this.setUsersLoadingState(needMoreUsers);
-            this.props.actions.getProfilesNotInTeam(this.props.team.id, false, page, USERS_PER_PAGE * 2).
+            this.props.actions.getProfilesNotInTeam(this.props.team.id, false, page, USERS_PER_PAGE * 2, this.state.filterOptions).
                 then(() => this.setUsersLoadingState(false));
         }
     };

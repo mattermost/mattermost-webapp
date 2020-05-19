@@ -8,11 +8,11 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @elasticsearch @autocomplete
+// Group: @autocomplete
 
-import {enableElasticSearch, getTestUsers} from './helpers';
+import {getTestUsers} from '../enterprise/elasticsearch_autocomplete/helpers';
 
-describe('Autocomplete with Elasticsearch - Users', () => {
+describe('Autocomplete without Elasticsearch - Users', () => {
     const timestamp = Date.now();
     const testUsers = getTestUsers();
     let team;
@@ -26,7 +26,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
         cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
+        cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then((response) => {
             team = response.body;
 
             // # Create pool of users for tests
@@ -35,8 +35,15 @@ describe('Autocomplete with Elasticsearch - Users', () => {
             });
         });
 
-        // # Enable Elasticsearch
-        enableElasticSearch();
+        // # Disable elastic search via API
+        cy.apiUpdateConfig({
+            ElasticsearchSettings: {
+                EnableAutocomplete: false,
+                EnableIndexing: false,
+                EnableSearching: false,
+                Sniff: false,
+            },
+        });
     });
 
     describe('autocomplete', () => {
@@ -57,8 +64,8 @@ describe('Autocomplete with Elasticsearch - Users', () => {
                         should('be.visible').
                         clear();
                 },
-                verifySuggestion: (...expectedtestUsers) => {
-                    expectedtestUsers.forEach((user) => {
+                verifySuggestion: (...expectedUsers) => {
+                    expectedUsers.forEach((user) => {
                         cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
                             cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
                             cy.wrap(name).find('.ml-2').should('have.text', `${user.firstName} ${user.lastName} (${user.nickname})`);
@@ -181,8 +188,8 @@ describe('Autocomplete with Elasticsearch - Users', () => {
                         as('input').
                         clear();
                 },
-                verifySuggestion: (...expectedtestUsers) => {
-                    expectedtestUsers.forEach((user) => {
+                verifySuggestion: (...expectedUsers) => {
+                    expectedUsers.forEach((user) => {
                         cy.findByTestId(user.username).
                             should('be.visible').
                             and('have.text', `@${user.username} - ${user.firstName} ${user.lastName} (${user.nickname})`);

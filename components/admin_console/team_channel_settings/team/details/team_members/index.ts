@@ -60,7 +60,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const searchTerm = state.views.search.modalSearch;
     let users = [];
     if (searchTerm) {
-        users = searchProfilesInTeam(state, teamId, searchTerm);
+        users = searchProfilesInTeam(state, teamId, searchTerm, false);
         usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
     } else {
         users = getProfilesInTeam(state, teamId);
