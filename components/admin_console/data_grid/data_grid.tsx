@@ -116,13 +116,13 @@ class DataGrid extends React.PureComponent<Props, State> {
         if (this.props.loading) {
             if (this.props.loadingIndicator) {
                 rowsToRender = (
-                    <div className='dg-loading'>
+                    <div className='DataGrid_loading'>
                         {this.props.loadingIndicator}
                     </div>
                 );
             } else {
                 rowsToRender = (
-                    <div className='dg-loading'>
+                    <div className='DataGrid_loading'>
                         <LoadingSpinner/>
                         <FormattedMessage
                             id='admin.data_grid.loading'
@@ -139,7 +139,7 @@ class DataGrid extends React.PureComponent<Props, State> {
                 />
             );
             rowsToRender = (
-                <div className='dg-empty'>
+                <div className='DataGrid_empty'>
                     {placeholder}
                 </div>
             );
@@ -157,7 +157,7 @@ class DataGrid extends React.PureComponent<Props, State> {
 
         return (
             <div
-                className='dg-rows'
+                className='DataGrid_rows'
                 style={customRowsCss || {}}
             >
                 {rowsToRender}
@@ -218,8 +218,8 @@ class DataGrid extends React.PureComponent<Props, State> {
             }
 
             footer = (
-                <div className='dg-row'>
-                    <div className='dg-cell dg-footer'>
+                <div className='DataGrid_row'>
+                    <div className='DataGrid_cell DataGrid_footer'>
                         <FormattedMessage
                             id='admin.data_grid.paginatorCount'
                             defaultMessage='{startCount, number} - {endCount, number} of {total, number}'

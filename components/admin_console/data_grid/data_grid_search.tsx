@@ -26,10 +26,10 @@ class DataGridSearch extends React.Component<Props> {
             placeholder = Utils.localizeMessage('search_bar.search', 'Search');
         }
         return (
-            <div className='dg-search'>
-                <div className='search-bar'>
+            <div className='DataGrid_search'>
+                <div className='DataGrid_searchBar'>
                     <SearchIcon
-                        className='search__icon'
+                        className='DataGrid_searchIcon'
                         aria-hidden='true'
                     />
                     <input

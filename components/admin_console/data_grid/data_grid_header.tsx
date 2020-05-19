@@ -21,7 +21,7 @@ class DataGridHeader extends React.Component<Props> {
         return (
             <div
                 key={col.field}
-                className='dg-cell'
+                className='DataGrid_cell'
                 style={style}
             >
                 {col.name}
@@ -31,7 +31,7 @@ class DataGridHeader extends React.Component<Props> {
 
     render() {
         return (
-            <div className='dg-header'>
+            <div className='DataGrid_header'>
                 {this.props.columns.map((col) => this.renderHeaderElement(col))}
             </div>
         );

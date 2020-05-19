@@ -15,7 +15,7 @@ export default class UserGridRemove extends React.Component<Props> {
     public render = (): JSX.Element => {
         const {user} = this.props;
         return (
-            <div className='ug-remove-row'>
+            <div className='UserGrid_removeRow'>
                 <a
                     onClick={() => this.props.removeUser(user)}
                     href='#'

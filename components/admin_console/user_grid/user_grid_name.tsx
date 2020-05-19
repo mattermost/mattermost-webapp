@@ -17,14 +17,14 @@ export default class UserGridName extends React.Component<Props> {
         const {user} = this.props;
 
         return (
-            <div className='ug-name-row'>
+            <div className='UserGrid_nameRow'>
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     status={status}
                     size='md'
                 />
 
-                <div className='ug-name'>
+                <div className='UserGrid_name'>
                     <span>
                         {`${user.username} - ${user.first_name} ${user.last_name}`}
                     </span>
