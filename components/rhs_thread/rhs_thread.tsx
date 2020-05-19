@@ -3,10 +3,13 @@
 
 import $ from 'jquery';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
+import {Channel} from 'mattermost-redux/types/channels';
+import {ExtendedPost} from 'mattermost-redux/actions/posts';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -19,8 +22,9 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {FakePost} from 'types/store/rhs';
 
-export function renderView(props) {
+export function renderView(props: Record<string, any>) {
     return (
         <div
             {...props}
@@ -32,7 +36,7 @@ export function renderThumbHorizontal() {
     return (<div/>);
 }
 
-export function renderThumbVertical(props) {
+export function renderThumbVertical(props: Record<string, any>) {
     return (
         <div
             {...props}
@@ -40,33 +44,46 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class RhsThread extends React.Component {
-    static propTypes = {
-        posts: PropTypes.arrayOf(PropTypes.object).isRequired,
-        channel: PropTypes.object.isRequired,
-        selected: PropTypes.object.isRequired,
-        previousRhsState: PropTypes.string,
-        currentUserId: PropTypes.string.isRequired,
-        previewCollapsed: PropTypes.string.isRequired,
-        previewEnabled: PropTypes.bool.isRequired,
-        socketConnectionStatus: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            removePost: PropTypes.func.isRequired,
-            selectPostCard: PropTypes.func.isRequired,
-            getPostThread: PropTypes.func.isRequired,
-        }).isRequired,
-        directTeammate: PropTypes.string.isRequired,
-    }
+type Props = {
+    posts: Post[];
+    channel: Channel | null;
+    selected: Post | FakePost;
+    previousRhsState?: string;
+    currentUserId: string;
+    previewCollapsed: string;
+    previewEnabled: boolean;
+    socketConnectionStatus: boolean;
+    actions: {
+        removePost: (post: ExtendedPost) => void;
+        selectPostCard: (post: Post) => void;
+        getPostThread: (rootId: string, root?: boolean) => void;
+    };
+    directTeammate: UserProfile;
+}
 
-    static getDerivedStateFromProps(props, state) {
-        let updatedState = {selected: props.selected};
+type State = {
+    selected?: Record<string, any>;
+    windowWidth?: number;
+    windowHeight?: number;
+    isScrolling: boolean;
+    topRhsPostId: string;
+    openTime: number;
+    postsArray?: Record<string, any>[];
+    isBusy?: boolean;
+}
+
+export default class RhsThread extends React.Component<Props, State> {
+    private scrollStopAction: DelayedAction;
+
+    public static getDerivedStateFromProps(props: Props, state: State) {
+        let updatedState: Partial<State> = {selected: props.selected};
         if (state.selected && props.selected && state.selected.id !== props.selected.id) {
             updatedState = {...updatedState, openTime: (new Date()).getTime()};
         }
         return updatedState;
     }
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
 
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
@@ -77,12 +94,12 @@ export default class RhsThread extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
-            topRhsPostId: 0,
+            topRhsPostId: '',
             openTime,
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
         if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
@@ -90,11 +107,11 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    componentDidUpdate(prevProps) {
+    public componentDidUpdate(prevProps: Props) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -113,7 +130,7 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    public shouldComponentUpdate(nextProps: Props, nextState: State) {
         if (!Utils.areObjectsEqual(nextState.postsArray, this.props.posts)) {
             return true;
         }
@@ -141,18 +158,18 @@ export default class RhsThread extends React.Component {
         return false;
     }
 
-    handleResize = () => {
+    private handleResize = (): void => {
         this.setState({
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
         });
 
-        if (UserAgent.isMobile() && document.activeElement.id === 'reply_textbox') {
+        if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
     }
 
-    handleCardClick = (post) => {
+    private handleCardClick = (post: Post) => {
         if (!post) {
             return;
         }
@@ -160,7 +177,7 @@ export default class RhsThread extends React.Component {
         this.props.actions.selectPostCard(post);
     }
 
-    handleCardClickPost = (post) => {
+    private handleCardClickPost = (post: Post) => {
         if (!post) {
             return;
         }
@@ -168,12 +185,12 @@ export default class RhsThread extends React.Component {
         this.props.actions.selectPostCard(post);
     }
 
-    onBusy = (isBusy) => {
+    private onBusy = (isBusy: boolean) => {
         this.setState({isBusy});
     }
 
-    filterPosts = (posts, selected, openTime) => {
-        const postsArray = [];
+    private filterPosts = (posts: Post[], selected: Post | FakePost, openTime: number): Post[] => {
+        const postsArray: Post[] = [];
 
         posts.forEach((cpost) => {
             // Do not show empherals created before sidebar has been opened
@@ -189,27 +206,27 @@ export default class RhsThread extends React.Component {
         return postsArray;
     }
 
-    scrollToBottom = () => {
+    public scrollToBottom = (): void => {
         if ($('.post-right__scroll')[0]) {
             $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
         }
     }
 
-    updateFloatingTimestamp = () => {
+    private updateFloatingTimestamp = (): void => {
         // skip this in non-mobile view since that's when the timestamp is visible
         if (!Utils.isMobile()) {
             return;
         }
 
         if (this.props.posts) {
-            const childNodes = this.refs.rhspostlist.childNodes;
-            const viewPort = this.refs.rhspostlist.getBoundingClientRect();
+            const childNodes = (this.refs.rhspostlist as HTMLElement).childNodes;
+            const viewPort = (this.refs.rhspostlist as HTMLElement).getBoundingClientRect();
             let topRhsPostId = '';
             const offset = 100;
 
             // determine the top rhs comment assuming that childNodes and postsArray are of same length
             for (let i = 0; i < childNodes.length; i++) {
-                if ((childNodes[i].offsetTop + viewPort.top) - offset > 0) {
+                if (((childNodes[i] as HTMLElement).offsetTop + viewPort.top) - offset > 0) {
                     topRhsPostId = this.props.posts[i].id;
                     break;
                 }
@@ -223,7 +240,7 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    handleScroll = () => {
+    private handleScroll = (): void => {
         this.updateFloatingTimestamp();
 
         if (!this.state.isScrolling) {
@@ -235,13 +252,13 @@ export default class RhsThread extends React.Component {
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
     }
 
-    handleScrollStop = () => {
+    private handleScrollStop = (): void => {
         this.setState({
             isScrolling: false,
         });
     }
 
-    render() {
+    public render(): JSX.Element {
         if (this.props.posts == null || this.props.selected == null) {
             return (
                 <div/>
@@ -253,7 +270,7 @@ export default class RhsThread extends React.Component {
         const {selected, currentUserId} = this.props;
 
         let isRhsRootLastPost = false;
-        let lastRhsCommentPost = '';
+        let lastRhsCommentPost: Partial<Post> = {};
 
         if (postsLength === 0) {
             isRhsRootLastPost = true;
@@ -261,7 +278,7 @@ export default class RhsThread extends React.Component {
             lastRhsCommentPost = postsArray[postsLength - 1];
         }
 
-        let createAt = selected.create_at;
+        let createAt = (selected as Post).create_at;
         if (!createAt && this.props.posts.length > 0) {
             createAt = this.props.posts[this.props.posts.length - 1].create_at;
         }
@@ -279,7 +296,7 @@ export default class RhsThread extends React.Component {
                 previousPostDay = currentPostDay;
                 commentsLists.push(
                     <DateSeparator
-                        key={currentPostDay}
+                        key={currentPostDay.toString()}
                         date={currentPostDay}
                     />);
             }
@@ -292,7 +309,7 @@ export default class RhsThread extends React.Component {
                     ref={comPost.id}
                     post={comPost}
                     previousPostId={previousPostId}
-                    teamId={this.props.channel.team_id}
+                    teamId={this.props.channel!.team_id}
                     currentUserId={currentUserId}
                     isBusy={this.state.isBusy}
                     removePost={this.props.actions.removePost}
@@ -307,7 +324,7 @@ export default class RhsThread extends React.Component {
 
         let createComment;
         const isFakeDeletedPost = selected.type === Constants.PostTypes.FAKE_PARENT_DELETED;
-        const channelIsArchived = this.props.channel.delete_at !== 0;
+        const channelIsArchived = this.props.channel!.delete_at !== 0;
         if (!isFakeDeletedPost) {
             if (channelIsArchived) {
                 createComment = (
@@ -324,7 +341,7 @@ export default class RhsThread extends React.Component {
                         <CreateComment
                             channelId={selected.channel_id}
                             rootId={selected.id}
-                            rootDeleted={selected.state === Posts.POST_DELETED}
+                            rootDeleted={(selected as Post).state === Posts.POST_DELETED}
                             latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
                         />
                     </div>
@@ -332,8 +349,8 @@ export default class RhsThread extends React.Component {
             }
         }
 
-        if (this.props.channel.type === Constants.DM_CHANNEL) {
-            const teammate = this.props.directTeammate;
+        if (this.props.channel!.type === Constants.DM_CHANNEL) {
+            const teammate: UserProfile = this.props.directTeammate;
             if (teammate && teammate.delete_at) {
                 createComment = (
                     <div
@@ -388,7 +405,7 @@ export default class RhsThread extends React.Component {
                                 ref={selected.id}
                                 post={selected}
                                 commentCount={postsLength}
-                                teamId={this.props.channel.team_id}
+                                teamId={this.props.channel!.team_id}
                                 currentUserId={this.props.currentUserId}
                                 previewCollapsed={this.props.previewCollapsed}
                                 previewEnabled={this.props.previewEnabled}
