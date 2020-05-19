@@ -57,6 +57,21 @@ export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options 
     };
 }
 
+export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, sort = '', options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newChannelId = channelId || getCurrentChannelId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(newChannelId, page, perPage, sort, options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadChannelMembersForProfilesList(data, newChannelId, true)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
+        }
+
+        return {data: true};
+    };
+}
+
 export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
@@ -77,6 +92,21 @@ export function searchProfilesAndTeamMembers(term = '', options = {}) {
         if (data) {
             await Promise.all([
                 doDispatch(loadTeamMembersForProfilesList(data, newTeamId)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
+        }
+
+        return {data: true};
+    };
+}
+
+export function searchProfilesAndChannelMembers(term, options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newChannelId = options.channel_id || getCurrentChannelId(doGetState());
+        const {data} = await doDispatch(UserActions.searchProfiles(term, options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadChannelMembersForProfilesList(data, newChannelId)),
                 doDispatch(loadStatusesForProfilesList(data))
             ]);
         }
@@ -151,7 +181,7 @@ export function loadTeamMembersAndChannelMembersForProfilesList(profiles, teamId
     };
 }
 
-export function loadChannelMembersForProfilesList(profiles, channelId) {
+export function loadChannelMembersForProfilesList(profiles, channelId, reloadAllMembers = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const channelIdParam = channelId || getCurrentChannelId(state);
@@ -160,7 +190,7 @@ export function loadChannelMembersForProfilesList(profiles, channelId) {
             const pid = profiles[i].id;
 
             const members = getChannelMembersInChannels(state)[channelIdParam];
-            if (!members || !members[pid]) {
+            if (reloadAllMembers === true || !members || !members[pid]) {
                 membersToLoad[pid] = true;
             }
         }
