@@ -5,16 +5,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import MentionsIcon from 'components/widgets/icons/mentions_icon';
+
 export default class GroupProfile extends React.PureComponent {
     static propTypes = {
         name: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         titleDefault: PropTypes.string.isRequired,
         customID: PropTypes.string,
+        isDisabled: PropTypes.bool.isRequired,
+        showAtMention: PropTypes.bool.isRequired,
+        onChange: PropTypes.func,
     };
 
     render = () => {
-        const {name, title, titleDefault, customID} = this.props;
+        const {name, title, titleDefault, customID, isDisabled, showAtMention, onChange} = this.props;
 
         return (
             <div
@@ -29,11 +34,21 @@ export default class GroupProfile extends React.PureComponent {
                         />
                     </label>
                     <div className='col-sm-8'>
+                        <div className='icon-over-input'>
+                            {showAtMention &&
+                                <MentionsIcon
+                                    className='icon icon__mentions'
+                                    aria-hidden='true'
+                                />
+                            }
+                        </div>
                         <input
                             type='text'
-                            className='form-control'
+                            id={customID}
+                            className='form-control group_at_mention_input'
                             value={name}
-                            disabled={true}
+                            disabled={isDisabled}
+                            onChange={onChange}
                         />
                     </div>
                 </div>

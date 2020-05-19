@@ -47,6 +47,8 @@ import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
+import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
+import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -630,6 +632,8 @@ const AdminDefinition = {
                 'admin.recycle.recycleDescription.reloadConfiguration',
                 'admin.recycle.button',
                 'admin.sql.noteDescription',
+                'admin.sql.disableDatabaseSearchTitle',
+                'admin.sql.disableDatabaseSearchDescription',
                 'admin.sql.driverName',
                 'admin.sql.driverNameDescription',
                 'admin.sql.dataSource',
@@ -2548,6 +2552,20 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.PictureAttribute',
+                        label: t('admin.ldap.pictureAttrTitle'),
+                        label_default: 'Profile Picture Attribute:',
+                        placeholder: t('admin.ldap.pictureAttrEx'),
+                        placeholder_default: 'E.g.: "thumbnailPhoto" or "jpegPhoto"',
+                        help_text: t('admin.ldap.pictureAttrDesc'),
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.UsernameAttribute',
                         label: t('admin.ldap.usernameAttrTitle'),
                         label_default: 'Username Attribute:',
@@ -2789,6 +2807,27 @@ const AdminDefinition = {
                             );
                         },
                     },
+                ],
+            },
+        },
+        ldap_feature_discovery: {
+            url: 'authentication/discover-ldap',
+            title: t('admin.sidebar.ldap'),
+            title_default: 'AD/LDAP',
+            isHidden: it.either(
+                it.licensedForFeature('LDAP'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'LdapSettings',
+                name: t('admin.authentication.ldap'),
+                name_default: 'AD/LDAP',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: LDAPFeatureDiscovery,
+                        key: 'LDAPFeatureDiscovery',
+                    }
                 ],
             },
         },
@@ -3203,6 +3242,27 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "SAML".',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
+                ],
+            },
+        },
+        saml_feature_discovery: {
+            url: 'authentication/discover-saml',
+            title: t('admin.sidebar.saml'),
+            title_default: 'SAML 2.0',
+            isHidden: it.either(
+                it.licensedForFeature('SAML'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'SamlSettings',
+                name: t('admin.authentication.saml'),
+                name_default: 'SAML 2.0',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: SAMLFeatureDiscovery,
+                        key: 'SAMLFeatureDiscovery',
+                    }
                 ],
             },
         },

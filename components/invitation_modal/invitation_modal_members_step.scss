@@ -108,23 +108,33 @@
     .invite-members {
         text-align: right;
         margin-bottom: 28px;
-        button {
-            height: 48px;
-            padding: 13px 26px;
-            font-size: 16px;
-            font-weight: 600;
-            width: 180px;
-            border-radius: 4px;
-            background: var(--button-bg);
-            color: var(--button-color);
-            &:focus, &:active, &:focus:active {
-                outline: none;
-                border-color: transparent;
-            }
-            &.btn-inactive {
-                background: var(--center-channel-color-08);
-                color: var(--center-channel-color-56);
-            }
+    }
+}
+
+.InvitationModalMembersStep,
+.FeatureDiscovery {
+    .btn {
+        line-height: 16px;
+        height: 48px;
+        padding: 14px 26px;
+        font-size: 16px;
+        font-weight: 600;
+        width: 180px;
+        border-radius: 4px;
+        background: var(--button-bg);
+        color: var(--button-color);
+        &:focus, &:active, &:focus:active {
+            outline: none;
+            border-color: transparent;
+        }
+        &.btn-inactive {
+            background: var(--center-channel-color-08);
+            color: var(--center-channel-color-56);
+        }
+        &.btn-secondary {
+            background: var(--center-channel-bg);
+            border: 1px solid var(--button-bg);
+            color: var(--button-bg);
         }
     }
 }

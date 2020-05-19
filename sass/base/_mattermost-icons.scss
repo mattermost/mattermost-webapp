@@ -2,12 +2,12 @@
 
  @font-face {
   font-family: 'mattermosticons';
-  src: url('../fonts/mattermosticons.eot?61084707');
-  src: url('../fonts/mattermosticons.eot?61084707#iefix') format('embedded-opentype'),
-       url('../fonts/mattermosticons.woff2?61084707') format('woff2'),
-       url('../fonts/mattermosticons.woff?61084707') format('woff'),
-       url('../fonts/mattermosticons.ttf?61084707') format('truetype'),
-       url('../fonts/mattermosticons.svg?61084707#mattermosticons') format('svg');
+  src: url('../fonts/mattermosticons/mattermosticons.eot?16343536');
+  src: url('../fonts/mattermosticons/mattermosticons.eot?16343536#iefix') format('embedded-opentype'),
+       url('../fonts/mattermosticons/mattermosticons.woff2?16343536') format('woff2'),
+       url('../fonts/mattermosticons/mattermosticons.woff?16343536') format('woff'),
+       url('../fonts/mattermosticons/mattermosticons.ttf?16343536') format('truetype'),
+       url('../fonts/mattermosticons/mattermosticons.svg?16343536#mattermosticons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -17,12 +17,12 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'mattermosticons';
-    src: url('../font/mattermosticons.svg?61084707#mattermosticons') format('svg');
+    src: url('../font/mattermosticons.svg?16343536#mattermosticons') format('svg');
   }
 }
 */
 
- [class^="icon-"]:before, [class*=" icon-"]:before {
+[class^="icon-"]:before, [class*=" icon-"]:before {
   font-family: "mattermosticons";
   font-style: normal;
   font-weight: normal;
@@ -57,14 +57,6 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon--no-spacing:before {
-  margin: 0;
-}
-
-.icon--standard {
-  font-size: 1.6rem;
-}
-
 .icon-mattermost:before { content: '\e800'; } /* '' */
 .icon-archive-outline:before { content: '\e801'; } /* '' */
 .icon-beach-umbrella-outline:before { content: '\e802'; } /* '' */
@@ -80,6 +72,11 @@
 .icon-webhook-incoming:before { content: '\e80c'; } /* '' */
 .icon-webhook-outgoing:before { content: '\e80d'; } /* '' */
 .icon-image-area-outline:before { content: '\e80e'; } /* '' */
+.icon-emoticon-plus-outline:before { content: '\e80f'; } /* '' */
+.icon-arrow-back-ios:before { content: '\e810'; } /* '' */
+.icon-arrow-forward-ios:before { content: '\e811'; } /* '' */
+.icon-mark-as-unread:before { content: '\e812'; } /* '' */
+.icon-brand-zoom:before { content: '\e897'; } /* '' */
 .icon-account-multiple-outline:before { content: '\f00f'; } /* '' */
 .icon-account-outline:before { content: '\f013'; } /* '' */
 .icon-airplane:before { content: '\f01d'; } /* '' */
@@ -142,6 +139,7 @@
 .icon-minus-box:before { content: '\f375'; } /* '' */
 .icon-minus-circle:before { content: '\f376'; } /* '' */
 .icon-paperclip:before { content: '\f3e2'; } /* '' */
+.icon-pin:before { content: '\f403'; } /* '' */
 .icon-plus:before { content: '\f415'; } /* '' */
 .icon-plus-box:before { content: '\f416'; } /* '' */
 .icon-refresh:before { content: '\f450'; } /* '' */
@@ -198,5 +196,21 @@
 .icon-file-powerpoint-outline:before { content: '󰁗'; } /* '\f0057' */
 .icon-file-word-outline:before { content: '󰁠'; } /* '\f0060' */
 .icon-dock-left:before { content: '󰃕'; } /* '\f00d5' */
+.icon-chevron-up:before { content: '󰅃'; } /* '\f0143' */
+.icon-close-circle:before { content: '󰅙'; } /* '\f0159' */
+.icon-content-copy:before { content: '󰆏'; } /* '\f018f' */
 .icon-view-grid-outline:before { content: '󰈄'; } /* '\f0204' */
+.icon-file-outline:before { content: '󰈤'; } /* '\f0224' */
+.icon-folder-outline:before { content: '󰉖'; } /* '\f0256' */
 .icon-archive-arrow-up-outline:before { content: '󰊇'; } /* '\f0287' */
+.icon-glasses:before { content: '󰊪'; } /* '\f02aa' */
+.icon-magnify-minus:before { content: '󰍊'; } /* '\f034a' */
+.icon-magnify-plus:before { content: '󰍋'; } /* '\f034b' */
+.icon-minus:before { content: '󰍴'; } /* '\f0374' */
+.icon-minus-circle-outline:before { content: '󰍷'; } /* '\f0377' */
+.icon-sort-alphabetical-ascending:before { content: '󰖽'; } /* '\f05bd' */
+.icon-trash-can-outline:before { content: '󰩺'; } /* '\f0a7a' */
+.icon-folder-plus-outline:before { content: '󰮝'; } /* '\f0b9d' */
+.icon-hand-right:before { content: '󰹇'; } /* '\f0e47' */
+.icon-shield-alert-outline:before { content: '󰻍'; } /* '\f0ecd' */
+.icon-folder-move-outline:before { content: '󱉆'; } /* '\f1246' */
