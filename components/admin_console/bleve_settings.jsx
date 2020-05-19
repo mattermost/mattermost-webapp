@@ -57,7 +57,7 @@ export default class BleveSettings extends AdminSettings {
 
     handleSaved = () => {
         this.setState({
-            canPurgeAndIndex: this.state.enableIndexing,
+            canPurgeAndIndex: this.state.enableIndexing && this.state.indexDir !== '',
         });
     }
 
