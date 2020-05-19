@@ -85,6 +85,11 @@ export default class TeamList extends React.PureComponent {
     }
 
     searchBarChangeHandler = (e) => {
+        const {searchString} = this.state;
+        if (searchString.length !== 0 && e.target.value.length === 0) {
+            this.resetSearch();
+            return;
+        }
         this.setState({searchString: e.target.value});
     }
 
@@ -97,10 +102,6 @@ export default class TeamList extends React.PureComponent {
                 const response = await this.props.actions.searchTeams(searchString, 0, PAGE_SIZE);
                 this.setState({searchMode: true, teams: response.data.teams, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
             }
-        }
-
-        if (searchString.length === 0) {
-            this.resetSearch();
         }
     }
 
