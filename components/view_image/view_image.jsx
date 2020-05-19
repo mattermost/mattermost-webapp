@@ -386,8 +386,10 @@ export default class ViewImageModal extends React.PureComponent {
                                 {fileName}
                             </Modal.Title>
                             {closeButton}
-                            <div className='modal-image__content'>
-                                {content}
+                            <div className='modal-image__background'>
+                                <div className='modal-image__content'>
+                                    {content}
+                                </div>
                             </div>
                             <PopoverBar
                                 showPublicLink={showPublicLink}

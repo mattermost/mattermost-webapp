@@ -336,8 +336,12 @@
             width: 100%;
         }
 
-        .modal-image__content {
+        // provides a background for the scrollbar
+        .modal-image__background {
             background: #F3F3F3;
+        }
+
+        .modal-image__content {
             height: 90vh;
             width: 90vw;
             overflow-x: hidden;
@@ -345,7 +349,6 @@
         }
 
         .post-code__container {
-            background: #F3F3F3;
             overflow: auto;
         }
 
@@ -372,6 +375,8 @@
 
                 code {
                     margin: 0;
+                    padding: 5px 0;
+                    width: 100%;
                 }
             }
 
