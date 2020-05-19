@@ -8,50 +8,17 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @elasticsearch_autocomplete
+// Group: @enterprise @elasticsearch @autocomplete
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {
+    createEmail,
+    enableElasticSearch,
+    searchAndVerifyChannel,
+    searchAndVerifyUser,
+    withTimestamp,
+} from './helpers';
 
-import {createEmail, withTimestamp, enableElasticSearch, disableElasticSearch} from './helpers';
-
-function searchAndVerifyChannel(channel) {
-    // # Type cmd-K to open channel switcher
-    cy.typeCmdOrCtrl().type('k');
-
-    // # Search for channel's display name
-    cy.get('#quickSwitchInput').
-        should('be.visible').
-        as('input').
-        clear().
-        type(channel.display_name);
-
-    // * Suggestions should appear
-    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
-
-    // * Channel should appear
-    cy.findByTestId(channel.name).
-        should('be.visible');
-}
-
-function searchAndVerifyUser(user) {
-    // # Start @ mentions autocomplete with username
-    cy.get('#post_textbox').
-        as('input').
-        should('be.visible').
-        clear().
-        type(`@${user.username}`);
-
-    // * Suggestion list should appear
-    cy.get('#suggestionList', {timeout: TIMEOUTS.SMALL}).should('be.visible');
-
-    // # Verify user appears in results post-change
-    return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
-        cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-        cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${user.firstName} ${user.lastName} (${user.nickname})`);
-    });
-}
-
-describe('renaming', () => {
+describe('Autocomplete with Elasticsearch - Renaming', () => {
     const timestamp = Date.now();
     let team;
 
@@ -64,230 +31,113 @@ describe('renaming', () => {
         cy.requireLicenseForFeature('Elasticsearch');
 
         // # Create new team for tests
-        cy.apiCreateTeam(`renaming-${timestamp}`, `renaming-${timestamp}`).then((response) => {
+        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
             team = response.body;
         });
+
+        // # Enable elastic search
+        enableElasticSearch();
     });
 
-    describe('with elastic search enabled', () => {
-        const configStamp = timestamp + 'enabled';
+    it('renamed user appears in message input box', () => {
+        const spiderman = {
+            username: withTimestamp('spiderman', timestamp),
+            firstName: 'Peter',
+            lastName: 'Parker',
+            email: createEmail('spiderman', timestamp),
+            nickname: withTimestamp('friendlyneighborhood', timestamp),
+        };
 
-        before(() => {
-            // # Enable elastic search
-            enableElasticSearch();
-        });
+        // # Create a new user
+        cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
+            const user = userResponse;
+            cy.visit(`/${team.name}`);
 
-        it('renamed user appears in message input box', () => {
-            const spiderman = {
-                username: withTimestamp('spiderman', configStamp),
-                firstName: 'Peter',
-                lastName: 'Parker',
-                email: createEmail('spiderman', configStamp),
-                nickname: withTimestamp('friendlyneighborhood', configStamp),
-            };
+            // # Verify user appears in search results pre-change
+            searchAndVerifyUser(user);
 
-            // # Create a new user
-            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
-                const user = userResponse;
-                cy.visit(`/${team.name}`);
+            // # Rename a user
+            const newName = withTimestamp('webslinger', timestamp);
+            cy.apiPatchUser(user.id, {username: newName}).then(() => {
+                user.username = newName;
 
-                // # Verify user appears in search results pre-change
+                // # Verify user appears in search results post-change
                 searchAndVerifyUser(user);
-
-                // # Rename a user
-                const newName = withTimestamp('webslinger', configStamp);
-                cy.apiPatchUser(user.id, {username: newName}).then(() => {
-                    user.username = newName;
-
-                    // # Verify user appears in search results post-change
-                    searchAndVerifyUser(user);
-                });
-            });
-        });
-
-        it('renamed channel appears in channel switcher', () => {
-            const channelName = 'newchannel' + Date.now();
-            const newChannelName = 'updatedchannel' + Date.now();
-
-            // # Create a new channel
-            cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
-                const channel = channelResponse.body;
-
-                // # Channel should appear in search results pre-change
-                searchAndVerifyChannel(channel);
-
-                // # Change the channels name
-                cy.apiPatchChannel(channel.id, {name: newChannelName});
-                channel.name = newChannelName;
-
-                cy.reload();
-
-                // # Search for channel and verify it appears
-                searchAndVerifyChannel(channel);
-            });
-        });
-
-        describe('renamed team', () => {
-            let user;
-            let channel;
-
-            before(() => {
-                const punisher = {
-                    username: withTimestamp('punisher', configStamp),
-                    firstName: 'Frank',
-                    lastName: 'Castle',
-                    email: createEmail('punisher', configStamp),
-                    nickname: withTimestamp('lockednloaded', configStamp),
-                };
-
-                // # Setup new channel and user
-                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
-                    user = userResponse;
-
-                    // # Hit escape to close and lingering modals
-                    cy.get('body').type('{esc}');
-
-                    // # Verify user appears in search results pre-change
-                    searchAndVerifyUser(user);
-                });
-
-                const channelName = 'another-channel' + Date.now();
-
-                // # Create a new channel
-                cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
-                    channel = channelResponse.body;
-
-                    // # Channel should appear in search results pre-change
-                    searchAndVerifyChannel(channel);
-
-                    // # Hit escape to close the modal
-                    cy.get('body').type('{esc}');
-                });
-
-                // # Rename the channel
-                cy.apiPatchTeam(team.id, {name: 'updatedteam' + timestamp});
-            });
-
-            it('correctly searches for user', () => {
-                cy.get('body').type('{esc}');
-                searchAndVerifyUser(user);
-            });
-
-            it('correctly searches for channel', () => {
-                cy.get('body').type('{esc}');
-                searchAndVerifyChannel(channel);
             });
         });
     });
 
-    describe('with elastic search disabled', () => {
-        const configStamp = timestamp + 'disabled';
+    it('renamed channel appears in channel switcher', () => {
+        const channelName = 'newchannel' + Date.now();
+        const newChannelName = 'updatedchannel' + Date.now();
+
+        // # Create a new channel
+        cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
+            const channel = channelResponse.body;
+
+            // # Channel should appear in search results pre-change
+            searchAndVerifyChannel(channel);
+
+            // # Change the channels name
+            cy.apiPatchChannel(channel.id, {name: newChannelName});
+            channel.name = newChannelName;
+
+            cy.reload();
+
+            // # Search for channel and verify it appears
+            searchAndVerifyChannel(channel);
+        });
+    });
+
+    describe('renamed team', () => {
+        let user;
+        let channel;
 
         before(() => {
-            // # Enable elastic search
-            disableElasticSearch();
-        });
-
-        it('renamed user appears in message input box', () => {
-            const spiderman = {
-                username: withTimestamp('spiderman', configStamp),
-                firstName: 'Peter',
-                lastName: 'Parker',
-                email: createEmail('spiderman', configStamp),
-                nickname: withTimestamp('friendlyneighborhood', configStamp),
+            const punisher = {
+                username: withTimestamp('punisher', timestamp),
+                firstName: 'Frank',
+                lastName: 'Castle',
+                email: createEmail('punisher', timestamp),
+                nickname: withTimestamp('lockednloaded', timestamp),
             };
 
-            // # Create a new user
-            cy.apiCreateNewUser(spiderman, [team.id]).then((userResponse) => {
-                const user = userResponse;
-                cy.visit(`/${team.name}`);
+            // # Setup new channel and user
+            cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
+                user = userResponse;
+
+                // # Hit escape to close and lingering modals
+                cy.get('body').type('{esc}');
 
                 // # Verify user appears in search results pre-change
                 searchAndVerifyUser(user);
-
-                // # Rename a user
-                const newName = withTimestamp('webslinger', configStamp);
-                cy.apiPatchUser(user.id, {username: newName}).then(() => {
-                    user.username = newName;
-
-                    // # Verify user appears in search results post-change
-                    searchAndVerifyUser(user);
-                });
             });
-        });
 
-        it('renamed channel appears in channel switcher', () => {
-            const channelName = 'newchannel' + Date.now();
-            const newChannelName = 'updatedchannel' + Date.now();
+            const channelName = 'another-channel' + Date.now();
 
             // # Create a new channel
             cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
-                const channel = channelResponse.body;
+                channel = channelResponse.body;
 
                 // # Channel should appear in search results pre-change
                 searchAndVerifyChannel(channel);
 
-                // # Change the channels name
-                cy.apiPatchChannel(channel.id, {name: newChannelName});
-                channel.name = newChannelName;
-
-                cy.reload();
-
-                // # Search for channel and verify it appears
-                searchAndVerifyChannel(channel);
+                // # Hit escape to close the modal
+                cy.get('body').type('{esc}');
             });
+
+            // # Rename the channel
+            cy.apiPatchTeam(team.id, {name: 'updatedteam' + timestamp});
         });
 
-        describe('renamed team', () => {
-            let user;
-            let channel;
+        it('correctly searches for user', () => {
+            cy.get('body').type('{esc}');
+            searchAndVerifyUser(user);
+        });
 
-            before(() => {
-                const punisher = {
-                    username: withTimestamp('punisher', configStamp),
-                    firstName: 'Frank',
-                    lastName: 'Castle',
-                    email: createEmail('punisher', configStamp),
-                    nickname: withTimestamp('lockednloaded', configStamp),
-                };
-
-                // # Setup new channel and user
-                cy.apiCreateNewUser(punisher, [team.id]).then((userResponse) => {
-                    user = userResponse;
-
-                    // # Hit escape to close and lingering modals
-                    cy.get('body').type('{esc}');
-
-                    // # Verify user appears in search results pre-change
-                    searchAndVerifyUser(user);
-                });
-
-                const channelName = 'another-channel' + Date.now();
-
-                // # Create a new channel
-                cy.apiCreateChannel(team.id, channelName, channelName).then((channelResponse) => {
-                    channel = channelResponse.body;
-
-                    // # Channel should appear in search results pre-change
-                    searchAndVerifyChannel(channel);
-
-                    // # Hit escape to close the modal
-                    cy.get('body').type('{esc}');
-                });
-
-                // # Rename the channel
-                cy.apiPatchTeam(team.id, {name: 'updatedteam' + timestamp});
-            });
-
-            it('correctly searches for user', () => {
-                cy.get('body').type('{esc}');
-                searchAndVerifyUser(user);
-            });
-
-            it('correctly searches for channel', () => {
-                cy.get('body').type('{esc}');
-                searchAndVerifyChannel(channel);
-            });
+        it('correctly searches for channel', () => {
+            cy.get('body').type('{esc}');
+            searchAndVerifyChannel(channel);
         });
     });
 });

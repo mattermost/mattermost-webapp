@@ -11,6 +11,7 @@
     justify-content: center;
     opacity: 0.56;
     fill: v(center-channel-color);
+    flex: 0 0 1.6rem;
 
     &--standard {
         font-size: 1.6rem;
@@ -116,12 +117,13 @@
 
     .modal & {
         max-height: 205px;
+        width: 100%;
     }
 }
 
 .slash-command {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding: 1rem 2.4rem;
 
     &:first-child {
@@ -134,6 +136,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 3.2rem;
     width: 3.2rem;
     height: 3.2rem;
     border-radius: 4px;
@@ -152,8 +155,9 @@
 
 .slash-command__desc {
     @include opacity(.56);
-    margin: 4px 0 0;
+    margin: 2px 0 0;
     font-size: 12px;
+    line-height: 1.6;
 }
 
 .suggestion-list__content--top {

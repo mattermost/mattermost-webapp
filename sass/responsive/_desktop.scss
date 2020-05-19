@@ -3,6 +3,10 @@
 @media screen and (min-width: 1680px) {
     .sidebar--right {
         width: 500px;
+
+        .sidebar--right__title__channel {
+            max-width: 30rem;
+        }
     }
 
     .channel-header {
@@ -134,6 +138,26 @@
                     width: 150px;
                 }
             }
+        }
+    }
+}
+
+@media (min-width: 1280px) {
+    .sidebar--right {
+        &.sidebar--right--expanded {
+            width: 96rem;
+
+            .multi-teams & {
+                width: 96rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 1025px) {
+    .post-image__details {
+        .post-image__download {
+            opacity: 0;
         }
     }
 }

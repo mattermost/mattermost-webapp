@@ -86,6 +86,7 @@ class ChannelHeader extends React.PureComponent {
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
         newSideBarPreference: PropTypes.bool,
+        announcementBarCount: PropTypes.number,
     };
 
     constructor(props) {
@@ -94,7 +95,7 @@ class ChannelHeader extends React.PureComponent {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -263,10 +264,12 @@ class ChannelHeader extends React.PureComponent {
     showChannelHeaderPopover = (headerText) => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
-
+        const announcementBarSize = 32;
         if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
+
+        this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount)});
     }
 
     setPopoverOverlayWidth = () => {
@@ -361,7 +364,7 @@ class ChannelHeader extends React.PureComponent {
                 if (user.id === currentUser.id) {
                     continue;
                 }
-                const userDisplayName = displayUsername(user.id, this.props.teammateNameDisplaySetting);
+                const userDisplayName = displayUsername(user, this.props.teammateNameDisplaySetting);
 
                 if (!membersMap[userDisplayName]) {
                     membersMap[userDisplayName] = []; //Create an array for cases with same display name
@@ -370,7 +373,7 @@ class ChannelHeader extends React.PureComponent {
                 membersMap[userDisplayName].push(user);
             }
 
-            const displayNames = channel.display_name.split('');
+            const displayNames = channel.display_name.split(', ');
 
             channelTitle = displayNames.map((displayName, index) => {
                 if (!membersMap[displayName]) {
@@ -436,7 +439,7 @@ class ChannelHeader extends React.PureComponent {
                     id='header-popover'
                     popoverStyle='info'
                     popoverSize='lg'
-                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translateX(${this.state.leftOffset}px)`}}
+                    style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translate(${this.state.leftOffset}px, ${this.state.topOffset}px)`}}
                     placement='bottom'
                     className={classNames(['channel-header__popover',
                         {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
@@ -501,7 +504,7 @@ class ChannelHeader extends React.PureComponent {
                     if (!isDirect || !dmUser.is_bot) {
                         editMessage = (
                             <button
-                                className='style--none'
+                                className='header-placeholder style--none'
                                 onClick={this.showEditChannelHeaderModal}
                             >
                                 <FormattedMessage
@@ -525,7 +528,7 @@ class ChannelHeader extends React.PureComponent {
                             permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                         >
                             <button
-                                className='style--none'
+                                className='header-placeholder style--none'
                                 onClick={this.showEditChannelHeaderModal}
                             >
                                 <FormattedMessage
@@ -628,7 +631,7 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon';
+        let pinnedIconClass = 'channel-header__icon channel-header__icon--wide';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' channel-header__icon--active';
         }

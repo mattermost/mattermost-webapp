@@ -27,13 +27,23 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
           compactDisplay={false}
           fileInfo={
             Object {
+              "clientId": "",
+              "create_at": 0,
+              "delete_at": 0,
+              "extension": "png",
+              "has_preview_image": true,
+              "height": 80,
               "id": "file",
+              "mime_type": "",
+              "name": "test_filename",
               "percent": 50,
+              "size": 100,
               "type": "image/png",
+              "update_at": 0,
+              "user_id": "",
+              "width": 100,
             }
           }
-          handleImageClick={null}
-          index="clientId"
         />
         <span
           className="post-image__uploadingTxt"
@@ -54,7 +64,9 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
         className="file-preview__remove"
         onClick={[Function]}
       >
-        <RemoveIcon />
+        <i
+          className="icon icon-close"
+        />
       </a>
     </div>
     <ProgressBar
@@ -99,13 +111,23 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
           compactDisplay={false}
           fileInfo={
             Object {
+              "clientId": "",
+              "create_at": 0,
+              "delete_at": 0,
+              "extension": "png",
+              "has_preview_image": true,
+              "height": 80,
               "id": "file",
+              "mime_type": "",
+              "name": "test_filename",
               "percent": undefined,
+              "size": 100,
               "type": "image/png",
+              "update_at": 0,
+              "user_id": "",
+              "width": 100,
             }
           }
-          handleImageClick={null}
-          index="clientId"
         />
         <span
           className="post-image__uploadingTxt"
@@ -126,7 +148,9 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
         className="file-preview__remove"
         onClick={[Function]}
       >
-        <RemoveIcon />
+        <i
+          className="icon icon-close"
+        />
       </a>
     </div>
   </div>

@@ -13,9 +13,11 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
-    before(() => {
-        // # Login and go to /
+    beforeEach(() => {
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
+
+        // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
     });
 

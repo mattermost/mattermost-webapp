@@ -24,42 +24,48 @@
     overflow: hidden !important;
 }
 
-.edit-modal-body {
-    overflow: visible;
-
-    .custom-textarea {
-        height: auto;
-        max-height: 60vh;
-        min-height: 8em;
-        -ms-overflow-style: auto;
-        -webkit-overflow-scrolling: touch;
-        overflow-y: auto;
-
-        &.custom-textarea--preview {
-            display: none;
-        }
-
-        &.textbox-preview-area {
-            position: relative;
+.app__body {
+    .modal {
+        .modal-content {
+            background: v(center-channel-bg);
+            border-color: v(center-channel-color-16);
+            color: v(center-channel-color);
         }
     }
 
-    .suggestion-list__content {
-        max-height: 150px;
-    }
+    .edit-modal-body {
+        overflow: visible;
 
-    .edit-post-footer {
-        display: inline-block;
-        font-size: 13px;
-        position: relative;
+        .custom-textarea {
+            height: auto;
+            max-height: 60vh;
+            min-height: 8em;
+            -ms-overflow-style: auto;
+            -webkit-overflow-scrolling: touch;
+            overflow-y: auto;
 
-        .post-error {
-            @include opacity(.55);
-            font-size: .85em;
-            font-weight: normal;
-            margin-bottom: 0;
+            &.custom-textarea--preview {
+                display: none;
+            }
+
+            &.textbox-preview-area {
+                position: relative;
+            }
+        }
+
+        .edit-post-footer {
+            display: inline-block;
+            font-size: 13px;
             position: relative;
-            top: 3px;
+
+            .post-error {
+                @include opacity(.55);
+                font-size: .85em;
+                font-weight: normal;
+                margin-bottom: 0;
+                position: relative;
+                top: 3px;
+            }
         }
     }
 }
@@ -211,7 +217,8 @@
     .modal-header {
         @include border-radius(0);
         @include clearfix;
-        background: alpha-color($black, .85);
+        border-radius: 3px 3px 0 0;
+        background: #333;
         border: 1px solid $light-gray;
         color: $white;
         min-height: 56px;
@@ -294,11 +301,10 @@
     }
 
     .modal-content {
-        background: v(center-channel-bg);
-        border-color: v(center-channel-color-16);
+        background: #fff;
+        border: 1px solid #777;
         border-radius: 4px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        color: v(center-channel-color);
     }
 
     .modal-chevron-icon {
@@ -488,6 +494,7 @@
             padding: 0 10px;
 
             .image-links {
+
                 a,
                 span {
                     float: right;
@@ -742,10 +749,12 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+
             .more-modal__name_sub {
                 opacity: 0.5;
                 font-weight: 500;
             }
+
             .more-modal__name_count {
                 opacity: 0.6;
                 font-weight: 400;
@@ -804,7 +813,7 @@
             cursor: pointer;
         }
 
-        &.more-modal__row--selected  {
+        &.more-modal__row--selected {
             background: v(center-channel-color-08);
 
             .more-modal__actions--round {
@@ -899,17 +908,22 @@
     }
 }
 
-.team-selector-modal, .channel-selector-modal {
+.team-selector-modal,
+.channel-selector-modal {
     .more-modal__row {
         border: 0px;
+
         &:nth-child(odd) {
             background: rgba(0, 0, 0, .03);
         }
+
         .team-name {
             padding-left: 5px;
             color: $gray;
         }
-        .icon__lock, .icon__globe {
+
+        .icon__lock,
+        .icon__globe {
             margin-right: 5px;
         }
     }
@@ -921,29 +935,37 @@
     }
 }
 
-.team-selector-modal, .channel-selector-modal {
+.team-selector-modal,
+.channel-selector-modal {
     .modal-header {
         background: $black;
         color: $white;
+
         .close {
             color: $white;
             opacity: 1;
+
             &:hover {
                 opacity: 1;
             }
         }
     }
+
     .modal-body {
         padding: 15px 0;
+
         .filter-row {
             padding: 0 15px;
         }
+
         .more-modal__row--selected {
             background-color: lighten($primary-color, 40%);
+
             .more-modal__actions--round {
                 opacity: .5;
             }
         }
+
         .no-channel-message {
             width: 100%;
             text-align: center;
@@ -951,14 +973,17 @@
             color: $gray;
             margin-top: 40px;
         }
+
         .filter-row--full {
             flex-grow: 0;
         }
     }
+
     .filter-control {
         color: $primary-color;
         background: none;
         border: none;
+
         &:hover,
         &:focus,
         &:active {

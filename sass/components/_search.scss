@@ -23,7 +23,8 @@
 }
 
 .search__icon {
-    fill: v(center-channel-color-48);
+    pointer-events: none;
+    fill: v(center-channel-color-56);
     left: 9px;
     position: absolute;
     top: 7px;
@@ -33,25 +34,32 @@
         height: 14px;
 
         body.enable-animations & {
-            @include single-transition(all, $transition-quick, ease-out);
+            @include single-transition(opacity, $transition-quick, ease-out);
         }
     }
 }
 
 .input-clear {
-    @include opacity(.5);
     cursor: pointer;
-    margin-right: 20px;
+    font-size: 14px;
+    color: v(center-channel-color-56);
     position: absolute;
     right: 0;
-    top: 1px;
+    top: 0;
     visibility: hidden;
-    width: 22px;
+    width: 2.4rem;
+    height: 100%;
     margin: 0;
-    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
-        @include opacity(1);
+        color: v(center-channel-color-72);
+    }
+
+    &:active {
+        color: v(center-channel-color);
     }
 
     &.visible {
@@ -70,7 +78,7 @@
 .search__form {
     display: flex;
     align-items: center;
-    padding: 0 30px;
+    padding: 0;
     position: relative;
 
     .search-bar__container & {
@@ -80,6 +88,10 @@
         width: 180px;
         height: 32px;
 
+        .input-clear {
+            right: 4px;
+        }
+
         &:hover {
             border: 1px solid v(center-channel-color-40);
         }
@@ -87,16 +99,19 @@
         &--focused,
         &--focused:hover {
             border: 2px solid v(button-bg);
-            padding: 0 29px;
+            padding: 0;
 
-            .input-clear {
-                top: 0;
-                right: -1px;
+            .search-bar {
+                padding-left: 2.9rem;
             }
 
             .search__icon {
                 top: 6px;
                 left: 8px;
+            }
+
+            .input-clear {
+                right: 3px;
             }
         }
     }
@@ -119,7 +134,7 @@
         font-size: 14px;
         height: 28px;
         outline: none;
-        padding-bottom: 2px;
+        padding: 0 2.8rem 2px 3rem;
         width: 100%;
 
         &.a11y--focused {
@@ -131,8 +146,8 @@
         @include opacity(0.5);
         font-size: 1em;
         position: absolute;
-        right: 8px;
-        top: 5px;
+        right: 25px;
+        top: 4px;
     }
 }
 
@@ -198,7 +213,7 @@
     font-size: 13px;
     position: absolute;
     right: 0;
-    top: 0;
+    top: -9px;
 
     a {
         vertical-align: top;
@@ -207,10 +222,12 @@
 
     .search-item__jump {
         @include border-radius(4px);
-        font-size: 13px;
+        font-size: 12px;
         position: relative;
-        padding: 2px 7px 0;
+        padding: 5px 4px 0;
         text-decoration: none;
+        color: v(center-channel-color-40);
+        font-weight: 600;
     }
 }
 
@@ -225,4 +242,66 @@
 
 .search-highlight {
     background-color: $yellow;
+}
+
+.search-hint__title {
+    padding: 22px 24px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--center-channel-color-16);
+    margin: 0;
+}
+
+.search-hint__suggestions-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 8px 0;
+}
+
+.search-hint__suggestions-list__option {
+    padding: 10px 24px;
+    display: flex;
+    justify-content: left;
+    text-align: left;
+    color: var(--center-channel-color);
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &.highlighted {
+        background: rgba(61, 60, 64, 0.06);
+    }
+}
+
+.search-hint__suggestion-list__flex-wrap {
+    width: 51px;
+}
+
+.search-hint__suggestion-list__label {
+    text-transform: uppercase;
+    background: var(--center-channel-color-16);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.01em;
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.search-hint__suggestion-list__value {
+    margin-left: 16px;
+}
+
+.sidebar--right__subheader {
+    // Fighting specificity with _sidebar-right.scss (sidebar--right .sidebar--right__subheader ul)
+    ul.search-hint__suggestions-list {
+        padding-left: 0;
+        // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
+        margin: -18px -14px 0;
+    }
+
+    .search-hint__suggestions-list__option:first-child {
+        padding-top: 10px;
+    }    
+
+    .search-hint__suggestions-list__option:hover {
+        background: rgba(61, 60, 64, 0.06);
+    }
 }

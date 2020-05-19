@@ -88,13 +88,22 @@ function closeAndComplete() {
 }
 
 describe('Invite Members', () => {
-    before(() => {
-        // # Login as sysadmin and update config
+    beforeEach(() => {
+        testTeam = null;
+
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
-        cy.apiUpdateConfig(
-            {EmailSettings: {RequireEmailVerification: false}},
-            {ServiceSettings: {EnableAPITeamDeletion: true}},
-        );
+
+        // # Enable API Team Deletion
+        // # Disable Require Email Verification
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableAPITeamDeletion: true,
+            },
+            EmailSettings: {
+                RequireEmailVerification: false,
+            },
+        });
 
         // # Login as new user
         cy.apiCreateAndLoginAsNewUser().then(() => {
@@ -107,15 +116,9 @@ describe('Invite Members', () => {
     });
 
     afterEach(() => {
-        // # Reload current page after each test to close any popup/modals left open
-        cy.reload();
-    });
-
-    after(() => {
-        // # Delete the new team as sysadmin
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
-            cy.apiDeleteTeam(testTeam.id, true);
+            cy.apiDeleteTeam(testTeam.id);
         }
     });
 
@@ -157,7 +160,7 @@ describe('Invite Members', () => {
         verifyInviteMembersModal();
 
         // # invite existing user
-        inviteUser({...user2, username: 'user-2'});
+        inviteUser(user2);
 
         // * verify Invitation was created successfully
         verifyInvitationSuccess();

@@ -22,6 +22,7 @@ export default class PermissionsTree extends React.Component {
         selected: PropTypes.string,
         selectRow: PropTypes.func.isRequired,
         readOnly: PropTypes.bool,
+        license: PropTypes.object,
     };
 
     static defaultProps = {
@@ -115,36 +116,41 @@ export default class PermissionsTree extends React.Component {
     }
 
     updateGroups = () => {
-        const {config, scope} = this.props;
+        const {config, scope, license} = this.props;
         const integrationsGroup = this.groups[this.groups.length - 1];
+        const postsGroup = this.groups[this.groups.length - 2];
         const teamsGroup = this.groups[0];
-        if (config.EnableIncomingWebhooks === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_INCOMING_WEBHOOKS) === -1) {
+        if (config.EnableIncomingWebhooks === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_INCOMING_WEBHOOKS)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
         }
-        if (config.EnableOutgoingWebhooks === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_OUTGOING_WEBHOOKS) === -1) {
+        if (config.EnableOutgoingWebhooks === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_OUTGOING_WEBHOOKS)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_OUTGOING_WEBHOOKS);
         }
-        if (config.EnableOAuthServiceProvider === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_OAUTH) === -1) {
+        if (config.EnableOAuthServiceProvider === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_OAUTH)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_OAUTH);
         }
-        if (config.EnableCommands === 'true' && integrationsGroup.permissions.indexOf(Permissions.MANAGE_SLASH_COMMANDS) === -1) {
+        if (config.EnableCommands === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_SLASH_COMMANDS)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_SLASH_COMMANDS);
         }
-        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf(Permissions.CREATE_EMOJIS) === -1) {
+        if (config.EnableCustomEmoji === 'true' && !integrationsGroup.permissions.includes(Permissions.CREATE_EMOJIS)) {
             integrationsGroup.permissions.push(Permissions.CREATE_EMOJIS);
         }
-        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf(Permissions.DELETE_EMOJIS) === -1) {
+        if (config.EnableCustomEmoji === 'true' && !integrationsGroup.permissions.includes(Permissions.DELETE_EMOJIS)) {
             integrationsGroup.permissions.push(Permissions.DELETE_EMOJIS);
         }
-        if (config.EnableCustomEmoji === 'true' && integrationsGroup.permissions.indexOf(Permissions.DELETE_OTHERS_EMOJIS) === -1) {
+        if (config.EnableCustomEmoji === 'true' && !integrationsGroup.permissions.includes(Permissions.DELETE_OTHERS_EMOJIS)) {
             integrationsGroup.permissions.push(Permissions.DELETE_OTHERS_EMOJIS);
         }
-        if (config.EnableGuestAccounts === 'true' && teamsGroup.permissions.indexOf(Permissions.INVITE_GUEST) === -1) {
+        if (config.EnableGuestAccounts === 'true' && !teamsGroup.permissions.includes(Permissions.INVITE_GUEST)) {
             teamsGroup.permissions.push(Permissions.INVITE_GUEST);
         }
         if (scope === 'team_scope' && this.groups[0].id !== 'teams_team_scope') {
             this.groups[0].id = 'teams_team_scope';
         }
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && !postsGroup.permissions.includes(Permissions.USE_GROUP_MENTIONS)) {
+            postsGroup.permissions.push(Permissions.USE_GROUP_MENTIONS);
+        }
+        postsGroup.permissions.push(Permissions.CREATE_POST);
     }
 
     openPostTimeLimitModal = () => {
@@ -156,7 +162,7 @@ export default class PermissionsTree extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.config !== prevProps.config) {
+        if (this.props.config !== prevProps.config || this.props.license !== prevProps.license) {
             this.updateGroups();
         }
     }
