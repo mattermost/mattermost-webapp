@@ -35,7 +35,7 @@ type Props = {
     placeholderEmpty?: JSX.Element;
     loadingIndicator?: JSX.Element;
 
-    customRowsCss?: CSSProperties;
+    rowsContainerStyles?: CSSProperties;
 
     minimumColumnWidth?: number;
 
@@ -109,7 +109,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private renderRows(): JSX.Element {
-        const {rows, customRowsCss} = this.props;
+        const {rows, rowsContainerStyles} = this.props;
         const {visibleColumns} = this.state;
         let rowsToRender: JSX.Element | JSX.Element[] | null = null;
 
@@ -158,7 +158,7 @@ class DataGrid extends React.PureComponent<Props, State> {
         return (
             <div
                 className='DataGrid_rows'
-                style={customRowsCss || {}}
+                style={rowsContainerStyles || {}}
             >
                 {rowsToRender}
             </div>

@@ -36,7 +36,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
     ]
   }
-  customRowsCss={
+  rowsContainerStyles={
     Object {
       "minHeight": "160px",
     }
@@ -378,7 +378,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
     ]
   }
-  customRowsCss={
+  rowsContainerStyles={
     Object {
       "minHeight": "240px",
     }
@@ -854,7 +854,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
     ]
   }
-  customRowsCss={
+  rowsContainerStyles={
     Object {
       "minHeight": "80px",
     }
