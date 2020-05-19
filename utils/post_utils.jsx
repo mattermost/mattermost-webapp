@@ -12,6 +12,8 @@ import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
+import {allAtMentions} from 'utils/text_formatting';
+
 import {getEmojiMap} from 'selectors/emojis';
 
 import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
@@ -114,13 +116,27 @@ export function containsAtChannel(text, options = {}) {
         return false;
     }
 
-    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    let mentionsRegex;
     if (options.checkAllMentions === true) {
-        return (/\B@(all|channel|here)\b/i).test(mentionableText);
+        mentionsRegex = new RegExp(Constants.SPECIAL_MENTIONS_REGEX);
+    } else {
+        mentionsRegex = new RegExp(Constants.ALL_MEMBERS_MENTIONS_REGEX);
     }
 
-    return (/\B@(all|channel)\b/i).test(mentionableText);
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    return mentionsRegex.test(mentionableText);
 }
+
+export const groupsMentionedInText = (text, groups) => {
+    // Don't warn for slash commands
+    if (!text || text.startsWith('/')) {
+        return [];
+    }
+
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+    const mentions = allAtMentions(mentionableText);
+    return (mentions.length > 0 && mentions.map((mention) => groups && groups.get(mention)).filter((trueVal) => trueVal)) || [];
+};
 
 export function shouldFocusMainTextbox(e, activeElement) {
     if (!e) {
@@ -349,7 +365,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
     if (post.root_id) {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.replyMessage',
-            defaultMessage: '{authorName} at {time} {date} wrote a reply, {message}',
+            defaultMessage: 'At {time} {date}, {authorName} replied, {message}',
         },
         {
             authorName: author,
@@ -360,7 +376,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
     } else {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.message',
-            defaultMessage: '{authorName} at {time} {date} wrote, {message}',
+            defaultMessage: 'At {time} {date}, {authorName} wrote, {message}',
         },
         {
             authorName: author,

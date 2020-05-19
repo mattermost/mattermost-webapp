@@ -6,20 +6,24 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @account_setting
+
 import {getRandomInt} from '../../../utils';
 
 describe('Account Settings > Sidebar > General', () => {
     // # number to identify particular user
     const uniqueNumber = getRandomInt(1000);
     before(() => {
-        cy.apiLogin('user-2');
-        cy.visit('/ad-1/channels/town-square');
+        cy.apiLogin('sysadmin');
+        cy.apiGetTeamByName('ad-1').then((res) => {
+            const team = res.body;
+            cy.apiCreateAndLoginAsNewUser({}, [team.id]).as('newuser');
 
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.loginAsNewUser({}, [teamId]).as('newuser');
-
-            // # Go to Account Settings as new user
-            cy.toAccountSettingsModal(null, true);
+            // # Go to town-square channel and into the Account Settings
+            cy.visit('/ad-1/channels/town-square');
+            cy.toAccountSettingsModal();
 
             // # Click General button
             cy.get('#generalButton').click();
@@ -36,7 +40,7 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('M17459 - Filtering by first name with Korean characters', () => {
-        cy.apiLogin('user-2');
+        cy.apiLogin('user-1');
         cy.get('@newuser').then((user) => {
             cy.visit('/ad-1/channels/town-square');
 
@@ -48,8 +52,8 @@ describe('Account Settings > Sidebar > General', () => {
                     should('have.text', 'Channel Members');
                 cy.wrap(name).find('.mention--align').
                     should('have.text', `@${user.username}`);
-                cy.wrap(name).find('.mention__fullname').
-                    should('have.text', ` - 정트리나${uniqueNumber}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
+                cy.wrap(name).find('.ml-2').
+                    should('have.text', `정트리나${uniqueNumber}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
             });
 
             // # Press tab on text input

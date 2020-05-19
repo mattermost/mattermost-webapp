@@ -7,10 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @accessibility
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import accountSettingSections from '../../fixtures/account_setting_sections.json';
-
-let origConfig;
 
 function verifySections(sections) {
     // * Verify Accessibility support in the specified sections
@@ -32,24 +33,8 @@ describe('Verify Accessibility Support in different sections in Account Settings
     before(() => {
         cy.apiLogin('sysadmin');
 
-        // Get config
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-            origConfig = {
-                DisplaySettings: {
-                    ExperimentalTimezone: config.DisplaySettings.ExperimentalTimezone,
-                },
-                SamlSettings: {
-                    Enable: config.SamlSettings.Enable,
-                },
-                ServiceSettings: {
-                    EnableMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication,
-                },
-            };
-        });
-
         // # Update Configs
-        cy.apiUpdateConfigBasic({
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
                 ExperimentalChannelOrganization: false,
@@ -68,15 +53,15 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
     beforeEach(() => {
         // # Open Account Settings
-        cy.toAccountSettingsModal(null, true).wait(TIMEOUTS.TINY);
+        cy.toAccountSettingsModal();
 
         // # Wait until the content in the settings are loaded
         cy.get('.settings-content > div').should('be.visible');
     });
 
-    after(() => {
-        // # Revert Config
-        cy.apiUpdateConfig(origConfig);
+    afterEach(() => {
+        // # Click "x" button to close Account Settings modal
+        cy.get('#accountSettingsHeader > .close').click();
     });
 
     it('MM-22628 Verify Label & Tab behavior in section links', () => {
@@ -187,6 +172,9 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('#generalButton').click();
         cy.get('#pictureEdit').click();
 
+        // * Verify image alt in profile image
+        cy.get('.profile-img').should('have.attr', 'alt', 'profile image');
+
         cy.get('#generalSettings').then((el) => {
             if (el.find('.profile-img__remove').length > 0) {
                 cy.findByTestId('removeSettingPicture').click();
@@ -206,6 +194,9 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
         // # Click on Edit Profile Picture
         cy.get('#pictureEdit').click();
+
+        // * Verify image alt in profile image
+        cy.get('.profile-img').should('have.attr', 'alt', 'profile image');
 
         // # Option to Remove Profile picture should be present
         cy.findByTestId('removeSettingPicture').within(() => {

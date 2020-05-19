@@ -23,10 +23,12 @@ type Props = {
 const AdminPanelWithButton: React.FC<Props> = (props: Props) => {
     let button;
     if (props.onButtonClick && props.buttonTextId) {
+        const buttonId = (props.buttonTextDefault || '').split(' ').join('-').toLowerCase();
         button = (
             <a
                 className='btn btn-primary'
                 onClick={props.disabled ? (e) => e.preventDefault() : props.onButtonClick}
+                data-testid={buttonId}
             >
                 <FormattedMessage
                     id={props.buttonTextId}

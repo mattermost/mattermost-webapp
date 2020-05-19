@@ -175,7 +175,7 @@ class Post extends React.PureComponent {
             return;
         }
 
-        if (this.props.channelIsArchived) {
+        if (this.props.channelIsArchived || post.system_post_ids) {
             return;
         }
 
@@ -270,7 +270,7 @@ class Post extends React.PureComponent {
             className += ' post--pinned';
         }
 
-        if (this.state.alt && !this.props.channelIsArchived) {
+        if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
             className += ' cursor--pointer';
         }
 

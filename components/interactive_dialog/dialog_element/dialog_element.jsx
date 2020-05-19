@@ -34,6 +34,7 @@ export default class DialogElement extends React.PureComponent {
         options: PropTypes.arrayOf(PropTypes.object),
         value: PropTypes.any,
         onChange: PropTypes.func,
+        autoFocus: PropTypes.bool,
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
             autocompleteUsers: PropTypes.func.isRequired,
@@ -147,6 +148,7 @@ export default class DialogElement extends React.PureComponent {
 
             return (
                 <TextSetting
+                    autoFocus={this.props.autoFocus}
                     id={name}
                     type={type}
                     label={displayNameContent}
@@ -169,11 +171,13 @@ export default class DialogElement extends React.PureComponent {
                     placeholder={placeholder}
                     value={this.state.value}
                     listComponent={ModalSuggestionList}
+                    listStyle='bottom'
                 />
             );
         } else if (type === 'bool') {
             return (
                 <BoolSetting
+                    autoFocus={this.props.autoFocus}
                     id={name}
                     label={displayNameContent}
                     value={value || false}

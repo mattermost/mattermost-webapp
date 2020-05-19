@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @interactive_dialog
+
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
@@ -22,16 +25,6 @@ describe('Interactive Dialog', () => {
     describe('ID17212 Interactive Dialog without element', () => {
         before(() => {
             cy.requireWebhookServer();
-
-            // Set required ServiceSettings
-            const newSettings = {
-                ServiceSettings: {
-                    AllowedUntrustedInternalConnections: 'localhost',
-                    EnablePostUsernameOverride: true,
-                    EnablePostIconOverride: true,
-                },
-            };
-            cy.apiUpdateConfig(newSettings);
 
             // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
             cy.apiLogin('sysadmin');

@@ -4,7 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
@@ -14,13 +16,13 @@ import Suggestion from '../suggestion.jsx';
 export default class AtMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
-        const user = this.props.item;
+        const item = this.props.item;
 
-        let username;
+        let itemname;
         let description;
         let icon;
-        if (user.username === 'all') {
-            username = 'all';
+        if (item.username === 'all') {
+            itemname = 'all';
             description = (
                 <FormattedMessage
                     id='suggestion.mention.all'
@@ -33,15 +35,17 @@ export default class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Member Icon'
                 >
                     {(title) => (
-                        <i
-                            className='mention__image fa fa-users fa-2x'
-                            title={title}
-                        />
+                        <span className='suggestion-list__icon suggestion-list__icon--large'>
+                            <i
+                                className='icon icon-account-multiple-outline'
+                                title={title}
+                            />
+                        </span>
                     )}
                 </FormattedMessage>
             );
-        } else if (user.username === 'channel') {
-            username = 'channel';
+        } else if (item.username === 'channel') {
+            itemname = 'channel';
             description = (
                 <FormattedMessage
                     id='suggestion.mention.channel'
@@ -54,15 +58,17 @@ export default class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Member Icon'
                 >
                     {(title) => (
-                        <i
-                            className='mention__image fa fa-users fa-2x'
-                            title={title}
-                        />
+                        <span className='suggestion-list__icon suggestion-list__icon--large'>
+                            <i
+                                className='icon icon-account-multiple-outline'
+                                title={title}
+                            />
+                        </span>
                     )}
                 </FormattedMessage>
             );
-        } else if (user.username === 'here') {
-            username = 'here';
+        } else if (item.username === 'here') {
+            itemname = 'here';
             description = (
                 <FormattedMessage
                     id='suggestion.mention.here'
@@ -75,6 +81,24 @@ export default class AtMentionSuggestion extends Suggestion {
                     defaultMessage='Member Icon'
                 >
                     {(title) => (
+                        <span className='suggestion-list__icon suggestion-list__icon--large'>
+                            <i
+                                className='icon icon-account-multiple-outline'
+                                title={title}
+                            />
+                        </span>
+                    )}
+                </FormattedMessage>
+            );
+        } else if (item.type === Constants.MENTION_GROUPS) {
+            itemname = item.name;
+            description = `- ${item.display_name}`;
+            icon = (
+                <FormattedMessage
+                    id='generic_icons.member'
+                    defaultMessage='Group Icon'
+                >
+                    {(title) => (
                         <i
                             className='mention__image fa fa-users fa-2x'
                             title={title}
@@ -83,29 +107,29 @@ export default class AtMentionSuggestion extends Suggestion {
                 </FormattedMessage>
             );
         } else {
-            username = user.username;
+            itemname = item.username;
 
-            if ((user.first_name || user.last_name) && user.nickname) {
-                description = `- ${Utils.getFullName(user)} (${user.nickname})`;
-            } else if (user.nickname) {
-                description = `- (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                description = `- ${Utils.getFullName(user)}`;
+            if ((item.first_name || item.last_name) && item.nickname) {
+                description = `${Utils.getFullName(item)} (${item.nickname})`;
+            } else if (item.nickname) {
+                description = `(${item.nickname})`;
+            } else if (item.first_name || item.last_name) {
+                description = `${Utils.getFullName(item)}`;
             }
 
             icon = (
                 <Avatar
-                    size='xs'
-                    username={user && user.username}
-                    url={Utils.imageURLForUser(user)}
+                    size='sm'
+                    username={item && item.username}
+                    url={Utils.imageURLForUser(item.id, item.last_picture_update)}
                 />
             );
         }
 
         let youElement = null;
-        if (user.isCurrentUser) {
+        if (item.isCurrentUser) {
             youElement =
-            (<span className='mention__you'>
+            (<span className='ml-1'>
                 <FormattedMessage
                     id='suggestion.user.isCurrent'
                     defaultMessage='(you)'
@@ -121,28 +145,29 @@ export default class AtMentionSuggestion extends Suggestion {
         return (
             <div
                 className={className}
-                data-testid={`mentionSuggestion_${username}`}
+                data-testid={`mentionSuggestion_${itemname}`}
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span className='mention--align'>
-                    {'@' + username}
+                <span>
+                    <span className='mention--align'>
+                        {'@' + itemname}
+                    </span>
+                    <BotBadge
+                        show={Boolean(item.is_bot)}
+                        className='badge-autocomplete'
+                    />
+                    <span className='light ml-2'>
+                        {description}
+                        {youElement}
+                    </span>
+                    <GuestBadge
+                        show={Utils.isGuest(item)}
+                        className='badge-autocomplete'
+                    />
                 </span>
-                <BotBadge
-                    show={Boolean(user.is_bot)}
-                    className='badge-autocomplete'
-                />
-                <span className='mention__fullname'>
-                    {' '}
-                    {description}
-                </span>
-                {youElement}
-                <GuestBadge
-                    show={Utils.isGuest(user)}
-                    className='badge-autocomplete'
-                />
             </div>
         );
     }

@@ -104,8 +104,13 @@ export default class LegacyTeamSidebar extends React.Component {
         ];
 
         for (const idx in digits) {
-            if (Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
+            if (Utils.isKeyPressed(e, digits[idx]) && idx < teams.length) {
                 e.preventDefault();
+
+                // prevents reloading the current team, while still capturing the keyboard shortcut
+                if (teams[idx].id === currentTeamId) {
+                    return false;
+                }
                 const team = teams[idx];
                 this.props.actions.switchTeam(`/${team.name}`);
                 return true;
@@ -117,7 +122,7 @@ export default class LegacyTeamSidebar extends React.Component {
     handleKeyDown = (e) => {
         if ((e.ctrlKey || e.metaKey) && e.altKey) {
             const {currentTeamId} = this.props;
-            const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
+            const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
             if (this.switchToPrevOrNextTeam(e, currentTeamId, teams)) {
                 return;
@@ -205,6 +210,8 @@ export default class LegacyTeamSidebar extends React.Component {
                     active={team.id === this.props.currentTeamId}
                     displayName={team.display_name}
                     unread={member.msg_count > 0}
+                    order={index + 1}
+                    showOrder={this.state.showOrder}
                     mentions={member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={this.props.actions.switchTeam}
@@ -226,7 +233,7 @@ export default class LegacyTeamSidebar extends React.Component {
                     tip={
                         <FormattedMessage
                             id='team_sidebar.join'
-                            defaultMessage='Other teams you can join.'
+                            defaultMessage='Other teams you can join'
                         />
                     }
                     content={'+'}

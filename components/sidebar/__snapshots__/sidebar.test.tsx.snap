@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar should match snapshot 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <Connect(SidebarHeader) />
+  <div
+    className="a11y__region"
+    data-a11y-sort-order="6"
+  >
+    <Connect(ChannelNavigator) />
+    <div
+      className="SidebarContainer_filterAddChannel"
+    >
+      <Connect(ChannelFilter) />
+      <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
+        showMoreChannelsModal={[Function]}
+        showNewChannelModal={[Function]}
+      />
+    </div>
+  </div>
+  <Connect(Pluggable)
+    pluggableName="LeftSidebarHeader"
+  />
+  <Connect(SidebarCategoryList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+  />
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType="O"
+    onModalDismissed={[Function]}
+    show={false}
+  />
+</div>
+`;
+
+exports[`components/sidebar should match snapshot when direct channels modal is open 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <Connect(SidebarHeader) />
+  <div
+    className="a11y__region"
+    data-a11y-sort-order="6"
+  >
+    <Connect(ChannelNavigator) />
+    <div
+      className="SidebarContainer_filterAddChannel"
+    >
+      <Connect(ChannelFilter) />
+      <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
+        showMoreChannelsModal={[Function]}
+        showNewChannelModal={[Function]}
+      />
+    </div>
+  </div>
+  <Connect(Pluggable)
+    pluggableName="LeftSidebarHeader"
+  />
+  <Connect(SidebarCategoryList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+  />
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType="O"
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(MoreDirectChannels)
+    isExistingChannel={false}
+    onModalDismissed={[Function]}
+  />
+</div>
+`;
+
+exports[`components/sidebar should match snapshot when more channels modal is open 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <Connect(SidebarHeader) />
+  <div
+    className="a11y__region"
+    data-a11y-sort-order="6"
+  >
+    <Connect(ChannelNavigator) />
+    <div
+      className="SidebarContainer_filterAddChannel"
+    >
+      <Connect(ChannelFilter) />
+      <injectIntl(AddChannelDropdown)
+        canCreateChannel={true}
+        canJoinPublicChannel={true}
+        showMoreChannelsModal={[Function]}
+        showNewChannelModal={[Function]}
+      />
+    </div>
+  </div>
+  <Connect(Pluggable)
+    pluggableName="LeftSidebarHeader"
+  />
+  <Connect(SidebarCategoryList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+  />
+  <Connect(NewChannelFlow)
+    canCreatePrivateChannel={true}
+    canCreatePublicChannel={true}
+    channelType="O"
+    onModalDismissed={[Function]}
+    show={false}
+  />
+  <Connect(MoreChannels)
+    handleNewChannel={[Function]}
+    morePublicChannelsModalType="public"
+    onModalDismissed={[Function]}
+  />
+</div>
+`;

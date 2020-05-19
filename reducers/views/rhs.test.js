@@ -22,7 +22,6 @@ describe('Reducers.RHS', () => {
         isMenuOpen: false,
         isSidebarOpen: false,
         isSidebarExpanded: false,
-
     };
 
     test('Initial state', () => {

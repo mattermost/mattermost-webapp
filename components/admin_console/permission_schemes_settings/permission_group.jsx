@@ -282,7 +282,10 @@ export default class PermissionGroup extends React.Component {
                                 className={'fa fa-caret-right permission-arrow ' + (this.state.expanded ? 'open' : '')}
                                 onClick={this.toggleExpanded}
                             />}
-                        <PermissionCheckbox value={this.getStatus(this.props.permissions)}/>
+                        <PermissionCheckbox
+                            value={this.getStatus(this.props.permissions)}
+                            id={`${uniqId}-checkbox`}
+                        />
                         <span className='permission-name'>
                             <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>

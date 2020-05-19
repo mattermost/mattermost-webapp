@@ -7,6 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @accessibility
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 // * Verify the accessibility support in the menu items
 function verifyMenuItems(menuEl, labels) {
     cy.get(`${menuEl} .MenuItem`).each((child, index) => {
@@ -41,7 +46,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
     beforeEach(() => {
         // Visit the Off Topic channel
-        cy.visit('/ad-1/channels/off-topic');
+        cy.visit('/ad-1/channels/off-topic').wait(TIMEOUTS.SMALL);
     });
 
     it('MM-22627 Accessibility Support in Channel Menu Dropdown', () => {

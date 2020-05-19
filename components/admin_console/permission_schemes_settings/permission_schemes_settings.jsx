@@ -143,6 +143,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
         if (hasCustomSchemes) {
             return (
                 <AdminPanelWithLink
+                    id='team-override-schemes'
                     className='permissions-block'
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
@@ -256,6 +257,8 @@ t('admin.permissions.permission.create_direct_channel.description');
 t('admin.permissions.permission.create_direct_channel.name');
 t('admin.permissions.permission.create_group_channel.description');
 t('admin.permissions.permission.create_group_channel.name');
+t('admin.permissions.permission.create_post.description');
+t('admin.permissions.permission.create_post.name');
 t('admin.permissions.permission.create_private_channel.description');
 t('admin.permissions.permission.create_private_channel.name');
 t('admin.permissions.permission.create_public_channel.description');
@@ -328,6 +331,10 @@ t('admin.permissions.permission.revoke_user_access_token.description');
 t('admin.permissions.permission.revoke_user_access_token.name');
 t('admin.permissions.permission.upload_file.description');
 t('admin.permissions.permission.upload_file.name');
+t('admin.permissions.permission.use_channel_mentions.description');
+t('admin.permissions.permission.use_channel_mentions.name');
+t('admin.permissions.permission.use_group_mentions.description');
+t('admin.permissions.permission.use_group_mentions.name');
 t('admin.permissions.permission.view_team.description');
 t('admin.permissions.permission.view_team.name');
 t('admin.permissions.permission.edit_others_posts.description');

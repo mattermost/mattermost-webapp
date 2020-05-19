@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @guest_account
+
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
@@ -17,6 +20,7 @@ let guest;
 describe('Guest Account - Guest User Experience', () => {
     before(() => {
         // * Check if server has license for Guest Accounts
+        cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
 
         // # Enable Guest Account Settings
@@ -30,8 +34,9 @@ describe('Guest Account - Guest User Experience', () => {
         });
 
         // # Login as a guest user and go to /
-        cy.loginAsNewGuestUser().then((userResponse) => {
-            guest = userResponse;
+        cy.loginAsNewGuestUser().then(({user, team}) => {
+            guest = user;
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

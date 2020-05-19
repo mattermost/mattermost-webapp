@@ -7,6 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @enterprise @saml
+// Skip:  @headless @electron @firefox // run on Chrome (headed) only
+
 import users from '../../../fixtures/saml_users.json';
 
 //Manual Setup required: Follow the instructions mentioned in the mattermost/platform-private/config/saml-okta-setup.txt file
@@ -63,6 +67,7 @@ context('Okta', () => {
     describe('SAML Login flow', () => {
         before(() => {
             // * Check if server has license for SAML
+            cy.apiLogin('sysadmin');
             cy.requireLicenseForFeature('SAML');
 
             cy.oktaAddUsers(users);
@@ -116,7 +121,7 @@ context('Okta', () => {
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
                             cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                                cy.doSamlLogoutFromSignUp().then(() => {
+                                cy.doLogoutFromSignUp().then(() => {
                                     cy.oktaDeleteSession(oktaUserId);
                                 });
                             });
@@ -129,7 +134,7 @@ context('Okta', () => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
-                            cy.doSamlLogoutFromSignUp().then(() => {
+                            cy.doLogoutFromSignUp().then(() => {
                                 cy.oktaDeleteSession(oktaUserId);
                             });
                         });
@@ -149,7 +154,7 @@ context('Okta', () => {
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
                             cy.skipOrCreateTeam(testSettings, oktaUserId).then(() => {
-                                cy.doSamlLogoutFromSignUp().then(() => {
+                                cy.doLogoutFromSignUp().then(() => {
                                     cy.oktaDeleteSession(oktaUserId);
                                 });
                             });
@@ -162,7 +167,7 @@ context('Okta', () => {
                     cy.oktaDeleteSession(oktaUserId);
                     cy.doSamlLogin(testSettings).then(() => {
                         cy.doOktaLogin(testSettings.user).then(() => {
-                            cy.doSamlLogoutFromSignUp().then(() => {
+                            cy.doLogoutFromSignUp().then(() => {
                                 cy.oktaDeleteSession(oktaUserId);
                             });
                         });
@@ -260,7 +265,7 @@ context('Okta', () => {
                                             //login the guest
                                             cy.doSamlLogin(testSettings).then(() => {
                                                 cy.doOktaLogin(testSettings.user).then(() => {
-                                                    cy.doSamlLogoutFromSignUp();
+                                                    cy.doLogoutFromSignUp();
                                                     cy.oktaDeleteSession(_oktaUserId);
                                                 });
                                             });
