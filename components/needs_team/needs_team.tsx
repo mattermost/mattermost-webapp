@@ -19,6 +19,7 @@ import * as Utils from 'utils/utils.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
+import Pluggable from 'plugins/pluggable';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -70,6 +71,7 @@ type Props = {
     };
     teamsList: Team[];
     theme: any;
+    plugins?: any;
 }
 
 type State = {
@@ -79,7 +81,7 @@ type State = {
     teamsList: Team[];
 }
 
-export default class NeedsTeam extends React.Component<Props, State> {
+export default class NeedsTeam extends React.PureComponent<Props, State> {
     public blurTime: number;
     constructor(props: Props) {
         super(props);
@@ -295,6 +297,18 @@ export default class NeedsTeam extends React.Component<Props, State> {
                     path={'/:team/emoji'}
                     component={BackstageController}
                 />
+                {this.props.plugins?.map((plugin: any) => (
+                    <Route
+                        key={plugin.id}
+                        path={'/:team/' + plugin.route}
+                        render={() => (
+                            <Pluggable
+                                pluggableName={'NeedsTeamComponent'}
+                                pluggableId={plugin.id}
+                            />
+                        )}
+                    />
+                ))}
                 <Route
                     render={(renderProps) => (
                         <ChannelController

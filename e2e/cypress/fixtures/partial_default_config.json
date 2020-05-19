@@ -374,6 +374,9 @@
         "LoginButtonBorderColor": "#2389D7",
         "LoginButtonTextColor": "#ffffff"
     },
+    "LogSettings": {
+        "EnableDiagnostics": true
+    },
     "NativeAppSettings": {
         "AppDownloadLink": "https://mattermost.com/download/#mattermostApps",
         "AndroidAppDownloadLink": "https://about.mattermost.com/mattermost-android-app/",
