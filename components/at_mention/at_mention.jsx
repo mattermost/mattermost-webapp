@@ -54,18 +54,18 @@ export default class AtMention extends React.PureComponent {
         this.setState({show: false});
     }
 
-    getUserFromMentionName(props) {
-        const usersByUsername = props.usersByUsername;
-        let mentionName = props.mentionName.toLowerCase();
+    getUserFromMentionName() {
+        const {usersByUsername, mentionName} = this.props;
+        let mentionNameToLowerCase = mentionName.toLowerCase();
 
-        while (mentionName.length > 0) {
-            if (usersByUsername.hasOwnProperty(mentionName)) {
-                return usersByUsername[mentionName];
+        while (mentionNameToLowerCase.length > 0) {
+            if (usersByUsername.hasOwnProperty(mentionNameToLowerCase)) {
+                return usersByUsername[mentionNameToLowerCase];
             }
 
             // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
-            if ((/[._-]$/).test(mentionName)) {
-                mentionName = mentionName.substring(0, mentionName.length - 1);
+            if ((/[._-]$/).test(mentionNameToLowerCase)) {
+                mentionNameToLowerCase = mentionNameToLowerCase.substring(0, mentionNameToLowerCase.length - 1);
             } else {
                 break;
             }
@@ -74,31 +74,17 @@ export default class AtMention extends React.PureComponent {
         return '';
     }
 
-    getGroupFromMentionName(props) {
-        const groupsByName = props.groupsByName;
-        let mentionName = props.mentionName.toLowerCase();
-
-        while (mentionName.length > 0) {
-            if (groupsByName.hasOwnProperty(mentionName)) {
-                return groupsByName[mentionName];
-            }
-
-            // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
-            if ((/[._-]$/).test(mentionName)) {
-                mentionName = mentionName.substring(0, mentionName.length - 1);
-            } else {
-                break;
-            }
-        }
-
-        return {};
+    getGroupFromMentionName() {
+        const {groupsByName, mentionName} = this.props;
+        const mentionNameTrimmed = mentionName.toLowerCase().replace(/[._-]*$/, '');
+        return groupsByName?.[mentionNameTrimmed] || {};
     }
 
     render() {
-        const user = this.getUserFromMentionName(this.props);
+        const user = this.getUserFromMentionName();
 
         if (!this.props.disableGroupHighlight && !user) {
-            const group = this.getGroupFromMentionName(this.props);
+            const group = this.getGroupFromMentionName();
             if (group.allow_reference) {
                 return <span className='group-mention-link'>{'@' + group.name}</span>;
             }

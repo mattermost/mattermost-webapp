@@ -8,19 +8,18 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @elasticsearch @autocomplete
+// Group: @autocomplete
 
-import users from '../../../fixtures/users.json';
+import users from '../../fixtures/users.json';
 
 import {
-    createEmail,
     createPrivateChannel,
-    enableElasticSearch,
+    createEmail,
     searchForChannel,
     withTimestamp,
-} from './helpers';
+} from '../enterprise/elasticsearch_autocomplete/helpers';
 
-describe('Autocomplete with Elasticsearch - Channel', () => {
+describe('Autocomplete without Elasticsearch - Channel', () => {
     const timestamp = Date.now();
     let team = {};
     let user;
@@ -29,11 +28,18 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
         // # Execute the before hook based on current config
         cy.apiLogin('sysadmin');
 
-        // * Check if server has license for Elasticsearch
-        cy.requireLicenseForFeature('Elasticsearch');
+        // # Disable elastic search via API
+        cy.apiUpdateConfig({
+            ElasticsearchSettings: {
+                EnableAutocomplete: false,
+                EnableIndexing: false,
+                EnableSearching: false,
+                Sniff: false,
+            },
+        });
 
         // # Create new team to run tests against
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then((response) => {
+        cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then((response) => {
             team = response.body;
 
             const daredevil = {
@@ -47,8 +53,6 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
             // # Setup new channel and user
             cy.apiCreateNewUser(daredevil, [team.id]).as('newUser');
         });
-
-        enableElasticSearch();
         cy.apiLogout();
 
         // # Login and navigate to team with new user
@@ -81,13 +85,13 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
     });
 
     it('private channel I do belong to appears', () => {
+        // # Go to off-topic channel to partially reload the page
+        cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
+            cy.findAllByText('Off-Topic').should('be.visible').click();
+        });
+
         // # Create private channel and add new user to it (sets @privateChannel alias)
         createPrivateChannel(team.id, user).then((channel) => {
-            // # Go to off-topic channel to partially reload the page
-            cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-                cy.findAllByText('Off-Topic').should('be.visible').click();
-            });
-
             // # Search for the private channel
             searchForChannel(channel.name);
 
@@ -139,6 +143,8 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
         let channelId;
 
         before(() => {
+            cy.apiLogout();
+
             // # Login as admin
             cy.apiLogin('sysadmin');
             cy.visit(`/${team.name}`);
