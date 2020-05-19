@@ -4,11 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupsList from 'components/admin_console/group_settings/groups_list/groups_list.jsx';
+import GroupsList from 'components/admin_console/group_settings/groups_list/groups_list';
 
-describe('components/admin_console/group_settings/GroupsList', () => {
+describe('components/admin_console/group_settings/GroupsList.tsx', () => {
     test('should match snapshot, while loading', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -24,7 +24,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('should match snapshot, with only linked selected', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -100,7 +100,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('onCheckToggle must toggle the checked data', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -128,7 +128,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('linkSelectedGroups must call link for unlinked selected groups', () => {
         const link = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -153,7 +153,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('unlinkSelectedGroups must call unlink for linked selected groups', () => {
         const unlink = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -290,7 +290,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on previousPage when page > 0', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -317,7 +317,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on previousPage when page == 0', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -344,7 +344,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('should change properly the state and call the getLdapGroups, on nextPage clicked', async () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[
                     {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: null},
@@ -392,7 +392,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('clicking the clear icon clears searchString', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -409,7 +409,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
     });
 
     test('clicking the down arrow opens the filters', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -427,7 +427,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('clicking search invokes getLdapGroups', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -451,7 +451,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('checking a filter checkbox add the filter to the searchString', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}
@@ -469,7 +469,7 @@ describe('components/admin_console/group_settings/GroupsList', () => {
 
     test('unchecking a filter checkbox removes the filter from the searchString', () => {
         const getLdapGroups = jest.fn().mockReturnValue(Promise.resolve());
-        const wrapper = shallow(
+        const wrapper = shallow<GroupsList>(
             <GroupsList
                 groups={[]}
                 total={0}

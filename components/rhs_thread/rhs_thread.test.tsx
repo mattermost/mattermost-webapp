@@ -4,10 +4,26 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import RhsThread from './rhs_thread.jsx';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from 'mattermost-redux/src/types/posts';
+
+import RhsThread from './rhs_thread';
 
 describe('components/RhsThread', () => {
-    const post = {
+    const post: Post = {
+        edit_at: 0,
+        original_id: '',
+        hashtags: '',
+        pending_post_id: '',
+        reply_count: 0,
+        metadata: {
+            embeds: [],
+            emojis: [],
+            files: [],
+            images: {},
+            reactions: []
+        },
         channel_id: 'channel_id',
         create_at: 1502715365009,
         delete_at: 0,
@@ -17,21 +33,77 @@ describe('components/RhsThread', () => {
         parent_id: '',
         props: {},
         root_id: '',
-        type: '',
+        type: 'system_add_remove',
         update_at: 1502715372443,
         user_id: 'user_id',
     };
 
-    const channel = {
+    const channel: Channel = {
         id: 'channel_id',
+        create_at: 0,
+        update_at: 0,
         team_id: 'team_id',
         delete_at: 0,
+        type: 'O',
+        display_name: '',
+        name: '',
+        header: '',
+        purpose: '',
+        last_post_at: 0,
+        total_msg_count: 0,
+        extra_update_at: 0,
+        creator_id: '',
+        scheme_id: '',
+        isCurrent: false,
+        teammate_id: '',
+        status: '',
+        fake: false,
+        group_constrained: false
     };
 
     const actions = {
         removePost: jest.fn(),
         selectPostCard: jest.fn(),
         getPostThread: jest.fn(),
+    };
+
+    const directTeammate: UserProfile = {
+        id: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        username: '',
+        auth_data: '',
+        auth_service: '',
+        email: '',
+        email_verified: true,
+        nickname: '',
+        first_name: '',
+        last_name: '',
+        position: '',
+        roles: '',
+        locale: '',
+        notify_props: {
+            desktop: 'default',
+            desktop_sound: 'true',
+            email: 'true',
+            mark_unread: 'all',
+            push: 'default',
+            push_status: 'ooo',
+            comments: 'never',
+            first_name: 'true',
+            channel: 'true',
+            mention_keys: '',
+        },
+        terms_of_service_id: '',
+        terms_of_service_create_at: 0,
+        timezone: {
+            useAutomaticTimezone: true,
+            automaticTimezone: '',
+            manualTimezone: '',
+        },
+        is_bot: true,
+        last_picture_update: 0,
     };
 
     const baseProps = {
@@ -43,7 +115,7 @@ describe('components/RhsThread', () => {
         previewEnabled: true,
         socketConnectionStatus: true,
         actions,
-        directTeammate: 'dummy_teammate'
+        directTeammate
     };
 
     test('should match snapshot', () => {
@@ -85,10 +157,10 @@ describe('components/RhsThread', () => {
         const wrapper = shallow(
             <RhsThread {...baseProps}/>
         );
-        wrapper.instance().scrollToBottom = scrollToBottom;
+        const instance = wrapper.instance() as RhsThread;
+        instance.scrollToBottom = scrollToBottom;
 
         expect(scrollToBottom).not.toHaveBeenCalled();
-
         wrapper.setProps({
             posts: [
                 {
@@ -109,7 +181,8 @@ describe('components/RhsThread', () => {
         const wrapper = shallow(
             <RhsThread {...baseProps}/>
         );
-        wrapper.instance().scrollToBottom = scrollToBottom;
+        const instance = wrapper.instance() as RhsThread;
+        instance.scrollToBottom = scrollToBottom;
 
         expect(scrollToBottom).not.toHaveBeenCalled();
 

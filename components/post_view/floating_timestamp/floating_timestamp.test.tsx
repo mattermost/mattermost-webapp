@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FloatingTimestamp from './floating_timestamp.jsx';
+import FloatingTimestamp from './floating_timestamp';
 
 describe('components/post_view/FloatingTimestamp', () => {
     const baseProps = {
