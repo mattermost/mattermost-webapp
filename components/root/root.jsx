@@ -388,8 +388,8 @@ export default class Root extends React.Component {
                         component={Mfa}
                     />
                     <Redirect
-                        from={'/_redirect/integrations*'}
-                        to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
+                        from={'/_redirect/integrations/:subpath*'}
+                        to={`/${this.props.permalinkRedirectTeamName}/integrations/:subpath*`}
                     />
                     <Redirect
                         from={'/_redirect/pl/:postid'}
