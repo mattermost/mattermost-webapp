@@ -78,6 +78,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     };
 
     private searchBarChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {searchString} = this.state;
+        if (searchString.length !== 0 && e.target.value.length === 0) {
+            this.resetSearch();
+            return;
+        }
         this.setState({searchString: e.target.value});
     };
 
@@ -91,9 +96,6 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     this.setState({searchMode: true, channels: response.data.channels, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
                 }
             }
-        }
-        if (searchString.length === 0) {
-            this.resetSearch();
         }
     };
     private getDataBySearch = async (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean): Promise<ChannelWithTeamData[]> => {
