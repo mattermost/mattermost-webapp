@@ -151,6 +151,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                             skipCommit: true,
                             excludeUsers: usersToAdd,
                             includeUsers: usersToRemove,
+                            filterExcludeGuests: true,
                         }}
                     >
                         <FormattedMessage

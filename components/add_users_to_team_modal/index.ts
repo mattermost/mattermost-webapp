@@ -17,16 +17,23 @@ import AddUsersToTeamModal from './add_users_to_team_modal';
 
 type Props = {
     team: Team;
+    filterExcludeGuests?: boolean;
 };
 
 type Actions = {
-    getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<{ data: UserProfile[] }>;
+    getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: {}) => Promise<{ data: UserProfile[] }>;
     searchProfiles: (term: string, options?: any) => Promise<{ data: UserProfile[] }>;
 };
 
 function mapStateToProps(state: GlobalState, props: Props) {
     const {id: teamId} = props.team;
-    const users: UserProfile[] = selectProfilesNotInTeam(state, teamId);
+
+    let filterOptions: {} = {};
+    if (props.filterExcludeGuests) {
+        filterOptions = {role: 'system_user'};
+    }
+
+    const users: UserProfile[] = selectProfilesNotInTeam(state, teamId, filterOptions);
 
     return {
         users,
