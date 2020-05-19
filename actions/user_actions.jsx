@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import PQueue from 'p-queue';
 import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
-import {savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
@@ -11,19 +12,25 @@ import {
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMember,
-    getChannelMembersInChannels,
+    getChannelMembersInChannels
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
+import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
 
+export const queue = new PQueue({concurrency: 4});
 const dispatch = store.dispatch;
 const getState = store.getState;
+
+export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
+export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
 export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '') {
     return async (doDispatch) => {
@@ -143,8 +150,8 @@ export function loadNewDMIfNeeded(channelId) {
         const state = doGetState();
         const currentUserId = Selectors.getCurrentUserId(state);
 
-        function checkPreference() {
-            const userId = Utils.getUserIdFromChannelName(currentUserId);
+        function checkPreference(channel) {
+            const userId = Utils.getUserIdFromChannelName(channel);
 
             if (!userId) {
                 return;
@@ -153,7 +160,7 @@ export function loadNewDMIfNeeded(channelId) {
             const pref = getBool(state, Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, false);
             if (pref === false) {
                 const now = Utils.getTimestamp();
-                savePreferencesRedux(currentUserId, [
+                savePreferences(currentUserId, [
                     {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
                     {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
                 ])(doDispatch, doGetState);
@@ -173,7 +180,7 @@ export function loadNewDMIfNeeded(channelId) {
     };
 }
 
-export async function loadNewGMIfNeeded(channelId) {
+export function loadNewGMIfNeeded(channelId) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const currentUserId = Selectors.getCurrentUserId(state);
@@ -181,7 +188,7 @@ export async function loadNewGMIfNeeded(channelId) {
         function checkPreference() {
             const pref = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
             if (pref === false) {
-                dispatch(savePreferencesRedux(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}]));
+                dispatch(savePreferences(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}]));
                 loadProfilesForGM();
             }
         }
@@ -222,15 +229,22 @@ export function loadProfilesForSidebar() {
     loadProfilesForGM();
 }
 
+export function filterGMsDMs(state, channels) {
+    const filteredClosedChannels = filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
+    return filterManuallyClosedDMs(state, filteredClosedChannels);
+}
+
 export async function loadProfilesForGM() {
     const state = getState();
-    const channels = getMyChannels(state);
     const newPreferences = [];
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
 
-    for (let i = 0; i < channels.length; i++) {
-        const channel = channels[i];
+    const channels = getMyChannels(state);
+    const filteredChannels = filterGMsDMs(state, channels);
+
+    for (let i = 0; i < filteredChannels.length; i++) {
+        const channel = filteredChannels[i];
         if (channel.type !== Constants.GM_CHANNEL) {
             continue;
         }
@@ -256,11 +270,13 @@ export async function loadProfilesForGM() {
             });
         }
 
-        await dispatch(UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM)); //eslint-disable-line no-await-in-loop
+        const getProfilesAction = UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM);
+        queue.add(() => dispatch(getProfilesAction));
     }
 
+    await queue.onEmpty();
     if (newPreferences.length > 0) {
-        savePreferencesRedux(currentUserId, newPreferences)(dispatch, getState);
+        dispatch(savePreferences(currentUserId, newPreferences));
     }
 }
 
@@ -302,7 +318,7 @@ export async function loadProfilesForDM() {
     }
 
     if (newPreferences.length > 0) {
-        savePreferencesRedux(currentUserId, newPreferences)(dispatch, getState);
+        savePreferences(currentUserId, newPreferences)(dispatch, getState);
     }
 
     if (profilesToLoad.length > 0) {

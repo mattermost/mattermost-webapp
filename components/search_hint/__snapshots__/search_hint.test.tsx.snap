@@ -2,25 +2,379 @@
 
 exports[`components/SearchHint should match snapshot, with title 1`] = `
 <Fragment>
-  <h4>
+  <h4
+    className="search-hint__title"
+  >
     <FormattedMessage
       defaultMessage="Search Options"
       id="search_bar.usage.title"
       values={Object {}}
     />
   </h4>
-  <injectIntl(FormattedMarkdownMessage)
-    defaultMessage="* Use **\\"quotation marks\\"** to search for phrases\\\\n* Use **from:** to find posts from specific users\\\\n * Use **in:** to find posts in specific channels\\\\n* Use **on:** to find posts on a specific date\\\\n* Use **before:** to find posts before a specific date\\\\n* Use **after:** to find posts after a specific date\\\\n* Use **dash** \\"-\\" to exclude search terms and modifiers"
-    id="search_bar.usage.tips"
-  />
+  <ul
+    className="search-hint__suggestions-list"
+    role="list"
+  >
+    <li
+      className="search-hint__suggestions-list__option"
+      key="From:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          From:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages from a user"
+          id="search_list_option.from"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="In:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          In:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages in a channel"
+          id="search_list_option.in"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="On:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          On:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages on a date"
+          id="search_list_option.on"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="Before:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          Before:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages before a date"
+          id="search_list_option.before"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="After:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          After:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages after a date"
+          id="search_list_option.after"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="-"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          -
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Exclude search terms"
+          id="search_list_option.exclude"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="\\"\\""
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          ""
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages with phrases"
+          id="search_list_option.phrases"
+          values={Object {}}
+        />
+      </div>
+    </li>
+  </ul>
 </Fragment>
 `;
 
 exports[`components/SearchHint should match snapshot, without title 1`] = `
 <Fragment>
-  <injectIntl(FormattedMarkdownMessage)
-    defaultMessage="* Use **\\"quotation marks\\"** to search for phrases\\\\n* Use **from:** to find posts from specific users\\\\n * Use **in:** to find posts in specific channels\\\\n* Use **on:** to find posts on a specific date\\\\n* Use **before:** to find posts before a specific date\\\\n* Use **after:** to find posts after a specific date\\\\n* Use **dash** \\"-\\" to exclude search terms and modifiers"
-    id="search_bar.usage.tips"
-  />
+  <ul
+    className="search-hint__suggestions-list"
+    role="list"
+  >
+    <li
+      className="search-hint__suggestions-list__option"
+      key="From:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          From:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages from a user"
+          id="search_list_option.from"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="In:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          In:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages in a channel"
+          id="search_list_option.in"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="On:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          On:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages on a date"
+          id="search_list_option.on"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="Before:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          Before:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages before a date"
+          id="search_list_option.before"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="After:"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          After:
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages after a date"
+          id="search_list_option.after"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="-"
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          -
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Exclude search terms"
+          id="search_list_option.exclude"
+          values={Object {}}
+        />
+      </div>
+    </li>
+    <li
+      className="search-hint__suggestions-list__option"
+      key="\\"\\""
+      onClick={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="search-hint__suggestion-list__flex-wrap"
+      >
+        <span
+          className="search-hint__suggestion-list__label"
+        >
+          ""
+        </span>
+      </div>
+      <div
+        className="search-hint__suggestion-list__value"
+      >
+        <FormattedMessage
+          defaultMessage="Messages with phrases"
+          id="search_list_option.phrases"
+          values={Object {}}
+        />
+      </div>
+    </li>
+  </ul>
 </Fragment>
 `;
