@@ -275,7 +275,7 @@ export default class Renderer extends marked.Renderer {
         return output;
     }
 
-    public listitem(text: string, bullet = '') {
+    public listitem(text: string, bullet = '') { // eslint-disable-line @typescript-eslint/no-unused-vars
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
 

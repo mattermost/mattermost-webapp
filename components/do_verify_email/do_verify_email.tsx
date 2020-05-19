@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {Error} from 'mattermost-redux/types/errors';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
