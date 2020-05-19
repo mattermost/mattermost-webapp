@@ -137,7 +137,7 @@
     padding: 5px 10px;
 
     .emoji-picker__category {
-        color: v(center-channel-color-50);
+        color: v(center-channel-color-48);
         width: 20px;
         height: 20px;
         display: inline-flex;
@@ -147,12 +147,12 @@
         text-decoration: none;
 
         &:hover {
-            background-color: v(center-channel-color-05);
+            background-color: v(center-channel-color-04);
             color: v(center-channel-color);
         }
 
         &:active {
-            background-color: v(center-channel-color-15);
+            background-color: v(center-channel-color-16);
             color: v(center-channel-color);
         }
 
@@ -309,11 +309,11 @@
 
     &.selected,
     &:hover {
-        background-color: v(center-channel-color-15);
+        background-color: v(center-channel-color-16);
     }
 
     &:active {
-        background-color: v(center-channel-color-30);
+        background-color: v(center-channel-color-32);
     }
 
     > div {

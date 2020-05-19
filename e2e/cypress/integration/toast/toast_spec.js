@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @toast
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import TIMEOUTS from '../../fixtures/timeouts';
 
 const otherUser = users['user-2'];
 let testTeam;
@@ -194,10 +194,12 @@ describe('toasts', () => {
 
         cy.getNthPostId(40).then((postId) => {
             cy.get(`#post_${postId}`).trigger('mouseover');
-            cy.get(`#post_${postId} .post__dropdown`).click({force: true});
+            cy.clickPostDotMenu(postId, 'CENTER');
 
             // # Mark post as unread
-            cy.get(`#post_${postId} #unread_post_${postId}`).should('be.visible').click();
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                cy.findByText('Mark as Unread').should('be.visible').click();
+            });
 
             // # Visit another channel and come back to the same channel again
             cy.get('#sidebarItem_off-topic').should('be.visible').scrollIntoView().click();
@@ -222,11 +224,11 @@ describe('toasts', () => {
         // # Post a new message
         cy.postMessageAs({sender: otherUser, message: 'post1', channelId: townsquareChannelId}).then(() => {
             // * The new messages line should appear above the last post
-            cy.get('.NotificationSeparator').should('exist').parent().parent().next().should('contain', 'post1');
+            cy.get('.NotificationSeparator').should('exist').parent().parent().parent().next().should('contain', 'post1');
             scrollUp();
             cy.postMessageAs({sender: otherUser, message: 'post2', channelId: townsquareChannelId}).then(() => {
                 // * The new messages line should have moved to the last post
-                cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
+                cy.get('.NotificationSeparator').parent().parent().parent().next().should('contain', 'post2');
             });
         });
     });

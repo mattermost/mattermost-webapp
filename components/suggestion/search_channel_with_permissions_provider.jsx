@@ -14,9 +14,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 import {logError} from 'mattermost-redux/actions/errors';
 
-import GlobeIcon from 'components/widgets/icons/globe_icon';
-import LockIcon from 'components/widgets/icons/lock_icon';
-import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants';
 
@@ -44,15 +41,15 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
         let icon = null;
         if (channelIsArchived) {
             icon = (
-                <ArchiveIcon className='icon icon__archive'/>
+                <i className='icon icon--no-spacing icon-archive-outline'/>
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <GlobeIcon className='icon icon__globe icon--body'/>
+                <i className='icon icon--no-spacing icon-globe'/>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <LockIcon className='icon icon__lock icon--body'/>
+                <i className='icon icon--no-spacing icon-lock-outline'/>
             );
         }
 
@@ -66,7 +63,7 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
                 }}
                 {...Suggestion.baseProps}
             >
-                {icon}
+                <span className='suggestion-list__icon suggestion-list__icon--standard'>{icon}</span>
                 {displayName}
             </div>
         );

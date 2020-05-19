@@ -106,7 +106,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -158,7 +158,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon"
+      buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -316,7 +316,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -368,7 +368,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon"
+      buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -526,7 +526,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -578,7 +578,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon channel-header__icon--active"
+      buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--active"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -727,7 +727,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon"
+      buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -920,7 +920,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -972,7 +972,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon"
+      buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -1136,7 +1136,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -1188,7 +1188,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon"
+      buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -1346,7 +1346,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 style={
                   Object {
                     "maxWidth": "0px",
-                    "transform": "translateX(0px)",
+                    "transform": "translate(0px, 0px)",
                   }
                 }
               >
@@ -1436,7 +1436,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon"
+      buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <PinIcon
@@ -1594,7 +1594,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             teamId="team_id"
           >
             <button
-              className="style--none"
+              className="header-placeholder style--none"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -1646,7 +1646,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
     />
     <HeaderIconWrapper
       ariaLabel={true}
-      buttonClass="channel-header__icon"
+      buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
       iconComponent={
         <React.Fragment>

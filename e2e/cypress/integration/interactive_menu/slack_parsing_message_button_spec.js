@@ -11,7 +11,7 @@
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
 
-import TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 let channel;
 let incomingWebhook;
@@ -22,16 +22,6 @@ describe('Interactive Menu', () => {
 
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
-
-        // Set required ServiceSettings
-        const newSettings = {
-            ServiceSettings: {
-                AllowedUntrustedInternalConnections: 'localhost',
-                EnablePostUsernameOverride: true,
-                EnablePostIconOverride: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
 
         // # Update teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');

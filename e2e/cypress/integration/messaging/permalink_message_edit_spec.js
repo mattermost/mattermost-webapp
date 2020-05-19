@@ -31,6 +31,9 @@ describe('Permalink message edit', () => {
         cy.get('.search-item__jump').first().click();
 
         cy.getLastPostId().then((postId) => {
+            // # Check if url include the permalink
+            cy.url().should('include', `/ad-1/channels/town-square/${postId}`);
+
             // # Click on ... button of last post matching the searchWord
             cy.clickPostDotMenu(postId);
 
@@ -56,14 +59,15 @@ describe('Permalink message edit', () => {
             // # Find searchWord and verify edited post
             cy.get('#searchBox').type(searchWord).type('{enter}');
             cy.get('.search-item__jump').first().click();
+
+            // # Check if url include the permalink
+            cy.url().should('include', `/ad-1/channels/town-square/${postId}`);
+
             verifyEditedPermalink(postId, editedText);
         });
     });
 
     function verifyEditedPermalink(permalinkId, text) {
-        // # Check if url include the permalink
-        cy.url().should('include', `/ad-1/channels/town-square/${permalinkId}`);
-
         // * Check if url redirects back to parent path eventually
         cy.wait(TIMEOUTS.SMALL).url().should('include', '/ad-1/channels/town-square').and('not.include', `/${permalinkId}`);
 
