@@ -35,7 +35,7 @@ type Props = {
     placeholderEmpty?: JSX.Element;
     loadingIndicator?: JSX.Element;
 
-    customRowsCss?: CSSProperties;
+    rowsContainerStyles?: CSSProperties;
 
     minimumColumnWidth?: number;
 
@@ -109,20 +109,20 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private renderRows(): JSX.Element {
-        const {rows, customRowsCss} = this.props;
+        const {rows, rowsContainerStyles} = this.props;
         const {visibleColumns} = this.state;
         let rowsToRender: JSX.Element | JSX.Element[] | null = null;
 
         if (this.props.loading) {
             if (this.props.loadingIndicator) {
                 rowsToRender = (
-                    <div className='dg-loading'>
+                    <div className='DataGrid_loading'>
                         {this.props.loadingIndicator}
                     </div>
                 );
             } else {
                 rowsToRender = (
-                    <div className='dg-loading'>
+                    <div className='DataGrid_loading'>
                         <LoadingSpinner/>
                         <FormattedMessage
                             id='admin.data_grid.loading'
@@ -139,7 +139,7 @@ class DataGrid extends React.PureComponent<Props, State> {
                 />
             );
             rowsToRender = (
-                <div className='dg-empty'>
+                <div className='DataGrid_empty'>
                     {placeholder}
                 </div>
             );
@@ -157,8 +157,8 @@ class DataGrid extends React.PureComponent<Props, State> {
 
         return (
             <div
-                className='dg-rows'
-                style={customRowsCss || {}}
+                className='DataGrid_rows'
+                style={rowsContainerStyles || {}}
             >
                 {rowsToRender}
             </div>
@@ -218,8 +218,8 @@ class DataGrid extends React.PureComponent<Props, State> {
             }
 
             footer = (
-                <div className='dg-row'>
-                    <div className='dg-cell dg-footer'>
+                <div className='DataGrid_row'>
+                    <div className='DataGrid_cell DataGrid_footer'>
                         <FormattedMessage
                             id='admin.data_grid.paginatorCount'
                             defaultMessage='{startCount, number} - {endCount, number} of {total, number}'

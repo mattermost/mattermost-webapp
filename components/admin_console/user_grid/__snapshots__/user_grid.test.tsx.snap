@@ -36,11 +36,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
     ]
   }
-  customRowsCss={
-    Object {
-      "minHeight": "160px",
-    }
-  }
   endCount={2}
   loading={false}
   nextPage={[Function]}
@@ -335,6 +330,11 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
     ]
   }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "160px",
+    }
+  }
   search={[Function]}
   startCount={1}
   term=""
@@ -377,11 +377,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "textAlign": "right",
       },
     ]
-  }
-  customRowsCss={
-    Object {
-      "minHeight": "240px",
-    }
   }
   endCount={3}
   loading={false}
@@ -811,6 +806,11 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       },
     ]
   }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "240px",
+    }
+  }
   search={[Function]}
   startCount={1}
   term=""
@@ -853,11 +853,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         "textAlign": "right",
       },
     ]
-  }
-  customRowsCss={
-    Object {
-      "minHeight": "80px",
-    }
   }
   endCount={1}
   loading={false}
@@ -1013,6 +1008,11 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
         />,
       },
     ]
+  }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "80px",
+    }
   }
   search={[Function]}
   startCount={1}

@@ -1,13 +1,12 @@
-$grey: #F5F5F5;
-$white: #FFF;
+@import 'utils/variables';
 
 .DataGrid {
     width: 100%;
 
     padding: 2rem 2rem 2rem 2rem;
-    background: $grey;
+    background: $bg--gray;
 
-    .dg-search {
+    .DataGrid_search {
         height: 48px;
         background: $white;
         border-bottom: solid 1px rgba(0, 0, 0, 0.1);
@@ -17,7 +16,7 @@ $white: #FFF;
         font-weight: bold;
         padding: .5em 0;
 
-        .search-bar {
+        .DataGrid_searchBar {
             display: flex;
             position: relative;
 
@@ -41,13 +40,17 @@ $white: #FFF;
                 outline: none;
             }
 
-            .search__icon {
+            .DataGrid_searchIcon {
                 top: 6px;
+                left: 9px;
+                position: absolute;
+                pointer-events: none;
+                fill: var(--center-channel-color-56);
             }
         }
     }
 
-    .dg-header {
+    .DataGrid_header {
         border-bottom: solid 1px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: row;
@@ -56,12 +59,12 @@ $white: #FFF;
         padding: .5em 0;
     }
 
-    .dg-rows {
+    .DataGrid_rows {
         display: flex;
         flex-direction: column;
         background: rgba(255, 255, 255, 0.5);
 
-        .dg-loading {
+        .DataGrid_loading {
             margin: auto;
             font-size: 1.6rem;
             color: rgba(0, 0, 0, 0.3);
@@ -69,7 +72,7 @@ $white: #FFF;
             padding-bottom: 20px;
         }
 
-        .dg-empty {
+        .DataGrid_empty {
             font-size: 1.6rem;
             width: 100%;
             padding-top: 20px;
@@ -78,13 +81,13 @@ $white: #FFF;
             text-align: center;
         }
 
-        .dg-row {
+        .DataGrid_row {
             min-height: 50px;
 
             &:nth-child(odd) {
-                background: $grey;
+                background: $bg--gray;
             }
-            .dg-cell {
+            .DataGrid_cell {
                 margin: auto;
                 text-overflow: ellipsis;
                 padding-right: 10px;
@@ -94,19 +97,19 @@ $white: #FFF;
         }
     }
 
-    .dg-row, .dg-header {
+    .DataGrid_row, .DataGrid_header {
         display: flex;
         flex-direction: row;
         padding-left: 20px;
         height: auto;
 
-        .dg-cell {
+        .DataGrid_cell {
             flex-basis: 100%;
             flex: 1 0;
         }
     }
 
-    .dg-footer {
+    .DataGrid_footer {
         text-align: right;
     }
 }

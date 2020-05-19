@@ -258,7 +258,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
             />
         );
 
-        const rowsCss = {
+        const rowsContainerStyles = {
             minHeight: `${rows.length * ROW_HEIGHT}px`,
         };
 
@@ -276,7 +276,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 search={this.search}
                 term={this.props.term || ''}
                 placeholderEmpty={placeholderEmpty}
-                customRowsCss={rowsCss}
+                rowsContainerStyles={rowsContainerStyles}
             />
         );
     }

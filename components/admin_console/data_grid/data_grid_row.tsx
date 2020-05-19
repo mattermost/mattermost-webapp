@@ -30,7 +30,7 @@ class DataGridRow extends React.Component<Props> {
         return (
             <div
                 key={column.field}
-                className='dg-cell'
+                className='DataGrid_cell'
                 style={style}
             >
                 {row[column.field]}
@@ -41,7 +41,7 @@ class DataGridRow extends React.Component<Props> {
     render() {
         const cells = this.props.columns.map((col) => this.renderCell(this.props.row, col));
         return (
-            <div className='dg-row'>
+            <div className='DataGrid_row'>
                 {cells}
             </div>
         );

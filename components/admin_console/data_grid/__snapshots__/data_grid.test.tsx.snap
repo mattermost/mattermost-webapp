@@ -13,11 +13,11 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot while
     columns={Array []}
   />
   <div
-    className="dg-rows"
+    className="DataGrid_rows"
     style={Object {}}
   >
     <div
-      className="dg-loading"
+      className="DataGrid_loading"
     >
       <LoadingSpinner
         text={null}
@@ -59,7 +59,7 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
     }
   />
   <div
-    className="dg-rows"
+    className="DataGrid_rows"
     style={Object {}}
   >
     <DataGridRow
@@ -151,11 +151,11 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
     columns={Array []}
   />
   <div
-    className="dg-rows"
+    className="DataGrid_rows"
     style={Object {}}
   >
     <div
-      className="dg-empty"
+      className="DataGrid_empty"
     >
       <FormattedMessage
         defaultMessage="No items found"
