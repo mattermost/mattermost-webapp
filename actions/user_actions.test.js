@@ -203,6 +203,11 @@ describe('Actions.User', () => {
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([{id: 'current_user_id'}], 'team_1'));
         expect(testStore.getActions()).toEqual([]);
 
+        // should call getTeamMembersByIds when reloadAllMembers = true even though 'current_user_id' is already loaded
+        testStore = await mockStore(initialState);
+        await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([{id: 'current_user_id'}], 'team_1', true));
+        expect(testStore.getActions()).toEqual([{args: ['team_1', ['current_user_id']], type: 'MOCK_GET_TEAM_MEMBERS_BY_IDS'}]);
+
         // should not call getTeamMembersByIds since no or empty profile is passed
         testStore = await mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([], 'team_1'));
