@@ -47,7 +47,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           ],
           "display_name": "custom_category_1",
           "id": "category1",
-          "sorting": "alphabetical",
+          "sorting": "recent",
           "team_id": "team1",
           "type": "custom",
         }
@@ -125,7 +125,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           ],
           "display_name": "custom_category_1",
           "id": "category1",
-          "sorting": "alphabetical",
+          "sorting": "recent",
           "team_id": "team1",
           "type": "custom",
         }
@@ -210,7 +210,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           "channel_ids": Array [],
           "display_name": "custom_category_1",
           "id": "category1",
-          "sorting": "alphabetical",
+          "sorting": "recent",
           "team_id": "team1",
           "type": "custom",
         }
@@ -418,7 +418,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
       </div>
     </button>
     <button
-      aria-label="Sorted alphabetically"
+      aria-label="Sorted by recency"
       className="SidebarChannelGroupHeader_sortButton"
       onClick={[Function]}
     >
@@ -432,7 +432,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
             id="new-group-tooltip"
             placement="right"
           >
-            Sorted alphabetically
+            Sorted by recency
           </Tooltip>
         }
         placement="top"
@@ -444,7 +444,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
         }
       >
         <i
-          className="icon-sort-alphabetical-ascending"
+          className="icon-clock-outline"
         />
       </OverlayTrigger>
     </button>

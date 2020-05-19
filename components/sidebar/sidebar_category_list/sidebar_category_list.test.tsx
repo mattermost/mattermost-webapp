@@ -5,7 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {MovementMode, DropResult} from 'react-beautiful-dnd';
 
-import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 import {TeamType} from 'mattermost-redux/types/teams';
 
@@ -76,7 +77,7 @@ describe('components/sidebar/sidebar_category_list', () => {
                 team_id: 'team1',
                 type: CategoryTypes.CUSTOM,
                 display_name: 'custom_category_1',
-                sorting: Sorting.ALPHABETICAL,
+                sorting: CategorySorting.Alphabetical,
                 channel_ids: ['channel_id', 'channel_id_2'],
             },
         ],

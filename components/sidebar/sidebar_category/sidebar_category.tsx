@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
-import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
@@ -130,7 +130,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const {category} = this.props;
         e.stopPropagation();
 
-        const newSorting = category.sorting === Sorting.RECENCY ? Sorting.ALPHABETICAL : Sorting.RECENCY;
+        const newSorting = category.sorting === CategorySorting.Recency ? CategorySorting.Alphabetical : CategorySorting.Recency;
         this.props.actions.setCategorySorting(category.id, newSorting);
     }
     removeAnimation = () => {
@@ -257,7 +257,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
             let sortingIcon: JSX.Element;
             let sortHelpLabel;
-            if (category.sorting === Sorting.ALPHABETICAL) {
+            if (category.sorting === CategorySorting.Alphabetical) {
                 sortingIcon = (<i className='icon-sort-alphabetical-ascending'/>);
                 sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted alphabetically');
             } else {

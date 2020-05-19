@@ -4,7 +4,8 @@
 import React from 'react';
 import {ShallowWrapper} from 'enzyme';
 
-import {CategoryTypes, Sorting} from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -38,7 +39,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             team_id: 'team1',
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
-            sorting: Sorting.ALPHABETICAL,
+            sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],
         }],
         currentUserId: 'user_id',
@@ -46,7 +47,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             id: 'category1',
             team_id: 'team1',
             type: CategoryTypes.CUSTOM,
-            sorting: Sorting.ALPHABETICAL,
+            sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],
             display_name: 'custom_category_1',
         },

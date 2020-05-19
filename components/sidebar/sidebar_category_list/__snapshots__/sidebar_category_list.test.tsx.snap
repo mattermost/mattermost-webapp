@@ -92,7 +92,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot 2`] = `
         ],
         "display_name": "custom_category_1",
         "id": "category1",
-        "sorting": "alphabetical",
+        "sorting": "alpha",
         "team_id": "team1",
         "type": "custom",
       }
@@ -199,7 +199,7 @@ exports[`components/sidebar/sidebar_category_list should match snapshot when unr
         ],
         "display_name": "custom_category_1",
         "id": "category1",
-        "sorting": "alphabetical",
+        "sorting": "alpha",
         "team_id": "team1",
         "type": "custom",
       }
