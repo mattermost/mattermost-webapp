@@ -22,7 +22,7 @@ describe('components/RhsThread', () => {
             emojis: [],
             files: [],
             images: {},
-            reactions: []
+            reactions: [],
         },
         channel_id: 'channel_id',
         create_at: 1502715365009,
@@ -58,7 +58,7 @@ describe('components/RhsThread', () => {
         teammate_id: '',
         status: '',
         fake: false,
-        group_constrained: false
+        group_constrained: false,
     };
 
     const actions = {
@@ -115,19 +115,19 @@ describe('components/RhsThread', () => {
         previewEnabled: true,
         socketConnectionStatus: true,
         actions,
-        directTeammate
+        directTeammate,
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
         );
 
         wrapper.setProps({socketConnectionStatus: false});
@@ -139,7 +139,7 @@ describe('components/RhsThread', () => {
     test('should update openTime state when selected prop updated', async () => {
         jest.useRealTimers();
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
         );
 
         const waitMilliseconds = 100;
@@ -155,7 +155,7 @@ describe('components/RhsThread', () => {
         const scrollToBottom = jest.fn();
 
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
         );
         const instance = wrapper.instance() as RhsThread;
         instance.scrollToBottom = scrollToBottom;
@@ -179,7 +179,7 @@ describe('components/RhsThread', () => {
         const scrollToBottom = jest.fn();
 
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
         );
         const instance = wrapper.instance() as RhsThread;
         instance.scrollToBottom = scrollToBottom;

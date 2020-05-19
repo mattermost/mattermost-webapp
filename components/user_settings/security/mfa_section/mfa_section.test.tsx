@@ -104,7 +104,7 @@ describe('MfaSection', () => {
             const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
             const mockEvent = {
-                preventDefault: jest.fn()
+                preventDefault: jest.fn(),
             } as unknown as React.MouseEvent<HTMLElement>;
 
             (wrapper.instance() as MfaSection).setupMfa(mockEvent);
@@ -118,7 +118,7 @@ describe('MfaSection', () => {
             const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
             const mockEvent = {
-                preventDefault: jest.fn()
+                preventDefault: jest.fn(),
             } as unknown as React.MouseEvent<HTMLElement>;
 
             wrapper.setState({serverError: 'An error has occurred'});
@@ -139,7 +139,7 @@ describe('MfaSection', () => {
             const wrapper = mountWithIntl(<MfaSection {...props}/>);
 
             const mockEvent = {
-                preventDefault: jest.fn()
+                preventDefault: jest.fn(),
             } as unknown as React.MouseEvent<HTMLElement>;
 
             await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
@@ -154,7 +154,7 @@ describe('MfaSection', () => {
             const wrapper = mountWithIntl(<MfaSection {...baseProps}/>);
 
             const mockEvent = {
-                preventDefault: jest.fn()
+                preventDefault: jest.fn(),
             } as unknown as React.MouseEvent<HTMLElement>;
 
             baseProps.actions.deactivateMfa.mockImplementation(() => Promise.resolve({error}));

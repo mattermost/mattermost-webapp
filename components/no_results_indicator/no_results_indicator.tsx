@@ -26,7 +26,7 @@ const iconMap: {[key in NoResultsVariant]: string } = {
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     [NoResultsVariant.ChannelSearch]: {
-        id: t('no_results.channel_search.title')
+        id: t('no_results.channel_search.title'),
     },
 
     // this will be changed soon in the PRs following the other no results indicators
@@ -37,7 +37,7 @@ const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
 
 const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     [NoResultsVariant.ChannelSearch]: {
-        id: t('no_results.channel_search.subtitle')
+        id: t('no_results.channel_search.subtitle'),
     },
 
     // this will be changed soon in the PRs following the other no results indicators
@@ -61,7 +61,7 @@ const NoResultsIndicator = (props: Props) => {
                 <FormattedMessage
                     {...{
                         ...titleMap[props.variant],
-                        values: props.formattedMessageValues
+                        values: props.formattedMessageValues,
                     }}
                 />
             </div>

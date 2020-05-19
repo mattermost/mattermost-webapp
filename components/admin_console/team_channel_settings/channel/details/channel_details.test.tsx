@@ -104,7 +104,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channelID={testChannel.id}
                 allGroups={allGroups}
                 {...additionalProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -119,7 +119,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channelID={testChannel.id}
                 allGroups={allGroups}
                 {...additionalProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
