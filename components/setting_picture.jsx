@@ -301,7 +301,7 @@ export default class SettingPicture extends Component {
                         disabled={disableSaveButtonFocus}
                         ref={this.confirmButton}
                         className={confirmButtonClass}
-                        onClick= {this.handleSave}
+                        onClick={this.handleSave}
                         aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}
                     >
                         <LoadingWrapper
