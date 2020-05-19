@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import TIMEOUTS from '../../fixtures/timeouts';
 
 const user1 = users['user-1'];
 const sysadmin = users.sysadmin;
@@ -128,20 +128,17 @@ describe('Mark as Unread', () => {
         markAsUnreadFromPost(post2);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
+        verifyPostNextToNewMessageSeparator('post2');
 
         markAsUnreadFromPost(post1);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post1');
+        verifyPostNextToNewMessageSeparator('post1');
 
         markAsUnreadFromPost(post3);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post3');
+        verifyPostNextToNewMessageSeparator('post3');
     });
 
     it('Should be able to mark channel as unread from post menu', () => {
@@ -150,20 +147,17 @@ describe('Mark as Unread', () => {
         markAsUnreadFromMenu(post2);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
+        verifyPostNextToNewMessageSeparator('post2');
 
         markAsUnreadFromMenu(post1);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post1');
+        verifyPostNextToNewMessageSeparator('post1');
 
         markAsUnreadFromMenu(post3);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post3');
+        verifyPostNextToNewMessageSeparator('post3');
     });
 
     it('Should be able to mark channel as unread by alt-clicking on RHS', () => {
@@ -175,14 +169,12 @@ describe('Mark as Unread', () => {
         markAsUnreadFromPost(post1, true);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post1');
+        verifyPostNextToNewMessageSeparator('post1');
 
         markAsUnreadFromPost(post3, true);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post3');
+        verifyPostNextToNewMessageSeparator('post3');
     });
 
     it('Should be able to mark channel as unread from RHS post menu', () => {
@@ -191,17 +183,15 @@ describe('Mark as Unread', () => {
         // Show the RHS
         cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
 
-        markAsUnreadFromMenu(post1, true);
+        markAsUnreadFromMenu(post1, 'rhsPost', 'RHS_ROOT');
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post1');
+        verifyPostNextToNewMessageSeparator('post1');
 
-        markAsUnreadFromMenu(post3, true);
+        markAsUnreadFromMenu(post3, 'rhsPost', 'RHS_COMMENT');
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post3');
+        verifyPostNextToNewMessageSeparator('post3');
     });
 
     it('Should show cursor pointer when holding down alt', () => {
@@ -261,8 +251,7 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
 
         // The New Messages line should appear above the selected post
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
+        verifyPostNextToNewMessageSeparator('post2');
 
         switchToChannel(channelB);
 
@@ -274,8 +263,8 @@ describe('Mark as Unread', () => {
         // And becomes read when switching back
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
 
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
+        // The New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post2');
     });
 
     it('Marking a channel as unread from another session while viewing another channel', () => {
@@ -294,8 +283,8 @@ describe('Mark as Unread', () => {
         // And becomes read when switching back
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
 
-        cy.get('.NotificationSeparator').should('exist');
-        cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
+        // The New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post2');
     });
 });
 
@@ -318,12 +307,12 @@ function beUnread(items) {
     expect(items[0].className).to.match(/unread-title/);
 }
 
-function markAsUnreadFromMenu(post, rhs = false) {
-    const prefix = rhs ? 'rhsPost' : 'post';
-
+function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER') {
     cy.get(`#${prefix}_${post.id}`).trigger('mouseover');
-    cy.get(`#${prefix}_${post.id} .post__dropdown`).click({force: true});
-    cy.get(`#${prefix}_${post.id} #unread_post_${post.id}`).click();
+    cy.clickPostDotMenu(post.id, location);
+    cy.get('.dropdown-menu').should('be.visible').within(() => {
+        cy.findByText('Mark as Unread').should('be.visible').click();
+    });
 }
 
 function markAsUnreadFromPost(post, rhs = false) {
@@ -342,4 +331,8 @@ function markAsUnreadFromAnotherSession(post) {
             path: `users/${userId}/posts/${post.id}/set_unread`,
         });
     });
+}
+
+function verifyPostNextToNewMessageSeparator(message) {
+    cy.get('.NotificationSeparator').should('exist').parent().parent().parent().next().should('contain', message);
 }

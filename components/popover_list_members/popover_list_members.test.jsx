@@ -90,43 +90,6 @@ describe('components/PopoverListMembers', () => {
         expect(wrapper.state('showPopover')).toEqual(false);
     });
 
-    test('should match state when showChannelInviteModal is called', () => {
-        const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
-        );
-
-        wrapper.instance().componentDidUpdate = jest.fn();
-        wrapper.setState({showChannelInviteModal: false});
-        expect(wrapper).toMatchSnapshot();
-
-        wrapper.instance().showChannelInviteModal({preventDefault: jest.fn()});
-        expect(wrapper.state('showChannelInviteModal')).toEqual(true);
-    });
-
-    test('should match state when hideChannelInviteModal is called', () => {
-        const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
-        );
-
-        wrapper.instance().componentDidUpdate = jest.fn();
-        wrapper.setState({showChannelInviteModal: true});
-        wrapper.instance().hideChannelInviteModal({preventDefault: jest.fn()});
-
-        expect(wrapper.state('showChannelInviteModal')).toEqual(false);
-    });
-
-    test('should match state when hideTeamMembersModal is called', () => {
-        const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
-        );
-
-        wrapper.instance().componentDidUpdate = jest.fn();
-        wrapper.setState({showTeamMembersModal: true});
-        wrapper.instance().hideTeamMembersModal({preventDefault: jest.fn()});
-
-        expect(wrapper.state('showTeamMembersModal')).toEqual(false);
-    });
-
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channel: {...channel, delete_at: 1234}};
 

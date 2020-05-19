@@ -181,9 +181,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
               values={Object {}}
             />
           </a>
-          <span>
-             - 
-          </span>
+           - 
           <a
             href="https://about.mattermost.com/default-privacy-policy/"
             id="privacyLink"
@@ -421,9 +419,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
               values={Object {}}
             />
           </a>
-          <span>
-             - 
-          </span>
+           - 
           <a
             href="https://about.mattermost.com/default-privacy-policy/"
             id="privacyLink"
@@ -672,9 +668,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
               values={Object {}}
             />
           </a>
-          <span>
-             - 
-          </span>
+           - 
           <a
             href="https://about.mattermost.com/default-privacy-policy/"
             id="privacyLink"
@@ -911,9 +905,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
               values={Object {}}
             />
           </a>
-          <span>
-             - 
-          </span>
+           - 
           <a
             href="https://about.mattermost.com/default-privacy-policy/"
             id="privacyLink"

@@ -22,6 +22,7 @@ describe('ConfirmModal', () => {
         const wrapper = shallow(<ConfirmModal {...props}/>);
 
         expect(wrapper.state('checked')).toBe(false);
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(false);
         expect(wrapper.find('input[type="checkbox"]').exists()).toBe(true);
 
         wrapper.find('#confirmModalButton').simulate('click');
@@ -31,6 +32,7 @@ describe('ConfirmModal', () => {
         wrapper.find('input[type="checkbox"]').simulate('change', {target: {checked: true}});
 
         expect(wrapper.state('checked')).toBe(true);
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(true);
 
         wrapper.find('#confirmModalButton').simulate('click');
 
@@ -46,6 +48,7 @@ describe('ConfirmModal', () => {
         const wrapper = shallow(<ConfirmModal {...props}/>);
 
         expect(wrapper.state('checked')).toBe(false);
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(false);
         expect(wrapper.find('input[type="checkbox"]').exists()).toBe(true);
 
         wrapper.find('#cancelModalButton').simulate('click');
@@ -55,6 +58,7 @@ describe('ConfirmModal', () => {
         wrapper.find('input[type="checkbox"]').simulate('change', {target: {checked: true}});
 
         expect(wrapper.state('checked')).toBe(true);
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(true);
 
         wrapper.find('#cancelModalButton').simulate('click');
 

@@ -46,6 +46,8 @@ import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
+import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
+import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -630,6 +632,8 @@ const AdminDefinition = {
                 'admin.recycle.recycleDescription.reloadConfiguration',
                 'admin.recycle.button',
                 'admin.sql.noteDescription',
+                'admin.sql.disableDatabaseSearchTitle',
+                'admin.sql.disableDatabaseSearchDescription',
                 'admin.sql.driverName',
                 'admin.sql.driverNameDescription',
                 'admin.sql.dataSource',
@@ -1743,9 +1747,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableConfirmNotificationsToChannel',
                         label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
-                        label_default: 'Show @channel and @all confirmation dialog:',
+                        label_default: 'Show @channel and @all and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.',
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2590,6 +2594,20 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.PictureAttribute',
+                        label: t('admin.ldap.pictureAttrTitle'),
+                        label_default: 'Profile Picture Attribute:',
+                        placeholder: t('admin.ldap.pictureAttrEx'),
+                        placeholder_default: 'E.g.: "thumbnailPhoto" or "jpegPhoto"',
+                        help_text: t('admin.ldap.pictureAttrDesc'),
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.UsernameAttribute',
                         label: t('admin.ldap.usernameAttrTitle'),
                         label_default: 'Username Attribute:',
@@ -2608,10 +2626,10 @@ const AdminDefinition = {
                         label: t('admin.ldap.idAttrTitle'),
                         label_default: 'ID Attribute: ',
                         placeholder: t('admin.ldap.idAttrEx'),
-                        placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
+                        placeholder_default: 'E.g.: "objectGUID" or "uid"',
                         help_text: t('admin.ldap.idAttrDesc'),
                         help_text_markdown: true,
-                        help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `entryUUID` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
+                        help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
                         isDisabled: it.both(
                             it.stateEquals('LdapSettings.Enable', false),
                             it.stateEquals('LdapSettings.EnableSync', false),
@@ -2831,6 +2849,27 @@ const AdminDefinition = {
                             );
                         },
                     },
+                ],
+            },
+        },
+        ldap_feature_discovery: {
+            url: 'authentication/discover-ldap',
+            title: t('admin.sidebar.ldap'),
+            title_default: 'AD/LDAP',
+            isHidden: it.either(
+                it.licensedForFeature('LDAP'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'LdapSettings',
+                name: t('admin.authentication.ldap'),
+                name_default: 'AD/LDAP',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: LDAPFeatureDiscovery,
+                        key: 'LDAPFeatureDiscovery',
+                    }
                 ],
             },
         },
@@ -3245,6 +3284,27 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "SAML".',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
+                ],
+            },
+        },
+        saml_feature_discovery: {
+            url: 'authentication/discover-saml',
+            title: t('admin.sidebar.saml'),
+            title_default: 'SAML 2.0',
+            isHidden: it.either(
+                it.licensedForFeature('SAML'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'SamlSettings',
+                name: t('admin.authentication.saml'),
+                name_default: 'SAML 2.0',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: SAMLFeatureDiscovery,
+                        key: 'SAMLFeatureDiscovery',
+                    }
                 ],
             },
         },

@@ -98,7 +98,7 @@ export default class RhsThread extends React.Component<Props, State> {
         };
     }
 
-    public componentDidMount() {
+    componentDidMount() {
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
         if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
@@ -106,11 +106,11 @@ export default class RhsThread extends React.Component<Props, State> {
         }
     }
 
-    public componentWillUnmount() {
+    componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
