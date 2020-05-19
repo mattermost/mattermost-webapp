@@ -9,14 +9,31 @@ exports[`components/RhsThread should match snapshot 1`] = `
     isMobile={false}
     isRhsPost={true}
     isScrolling={false}
-    postId={0}
+    postId=""
   />
   <Connect(RhsHeaderPost)
     channel={
       Object {
+        "create_at": 0,
+        "creator_id": "",
         "delete_at": 0,
+        "display_name": "",
+        "extra_update_at": 0,
+        "fake": false,
+        "group_constrained": false,
+        "header": "",
         "id": "channel_id",
+        "isCurrent": false,
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "status": "",
         "team_id": "team_id",
+        "teammate_id": "",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
       }
     }
     rootPostId="id"
@@ -64,13 +81,25 @@ exports[`components/RhsThread should match snapshot 1`] = `
               "channel_id": "channel_id",
               "create_at": 1502715365009,
               "delete_at": 0,
+              "edit_at": 0,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
+              "original_id": "",
               "parent_id": "",
+              "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
-              "type": "",
+              "type": "system_add_remove",
               "update_at": 1502715372443,
               "user_id": "user_id",
             }
