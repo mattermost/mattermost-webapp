@@ -8,7 +8,8 @@
     height: 100%;
     align-items: center;
     font-size: 16px;
-    color: var(--center-channel-color-90);
+    color: var(--center-channel-color);
+
     @media (max-width: 768px) {
         padding-left: 15px;
         padding-right: 15px;

@@ -14,6 +14,7 @@ describe('components/PostMarkdown', () => {
         isRHS: false,
         message: 'message',
         post: {},
+        mentionKeys: ['a', 'b', 'c'],
     };
 
     test('should not error when rendering without a post', () => {
@@ -58,6 +59,23 @@ describe('components/PostMarkdown', () => {
                 mentionHighlight: false,
             },
             post: {},
+        };
+        const wrapper = shallow(
+            <PostMarkdown {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render properly without group highlight on a post', () => {
+        const props = {
+            ...baseProps,
+            message: 'No @group highlight',
+            options: {},
+            post: {
+                props: {
+                    disable_group_highlight: true,
+                },
+            },
         };
         const wrapper = shallow(
             <PostMarkdown {...props}/>
