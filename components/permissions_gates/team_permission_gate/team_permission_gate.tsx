@@ -28,7 +28,7 @@ type Props = {
     /**
      * Content protected by the permissions gate
      */
-    children: React.ReactElement;
+    children: React.ReactNode;
 };
 
 export default class TeamPermissionGate extends React.Component<Props> {

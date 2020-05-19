@@ -45,13 +45,27 @@ class RhsRootPost extends React.PureComponent {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
-        channelType: PropTypes.string,
-        channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+
+        /**
+         * To Check if the current post is last in the list of RHS
+         */
+        isLastPost: PropTypes.bool,
+
+        /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func
         }),
+        emojiMap: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -68,6 +82,39 @@ class RhsRootPost extends React.PureComponent {
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+
+        this.postHeaderRef = React.createRef();
+    }
+
+    handleShortcutReactToLastPost = (isLastPost) => {
+        if (isLastPost) {
+            const {post, enableEmojiPicker, channelIsArchived,
+                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+
+            // Setting the last message emoji action to empty to clean up the redux state
+            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
+
+            // Following are the types of posts on which adding reaction is not possible
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
+            const isEphemeralPost = post && Utils.isPostEphemeral(post);
+            const isSystemMessage = post && PostUtils.isSystemMessage(post);
+            const isFailedPost = post && post.failed;
+            const isPostsFakeParentDeleted = post && post.type === Constants.PostTypes.FAKE_PARENT_DELETED;
+
+            // Checking if rhs root comment is at scroll view of the user
+            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
+            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight);
+
+            if (isPostHeaderVisibleToUser) {
+                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
+                    !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
+                    // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
+                    // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
+                    this.toggleEmojiPicker(isLastPost);
+                }
+            }
+        }
     }
 
     componentDidMount() {
@@ -78,6 +125,16 @@ class RhsRootPost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleAlt);
         document.removeEventListener('keyup', this.handleAlt);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+
+        const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
+        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+        if (shortcutReactToLastPostEmittedFromRHS) {
+            this.handleShortcutReactToLastPost(isLastPost);
+        }
     }
 
     renderPostTime = (isEphemeral) => {
@@ -109,13 +166,13 @@ class RhsRootPost extends React.PureComponent {
         });
     };
 
-    getClassName = (post, isSystemMessage) => {
+    getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--root post--thread';
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
 
-        if (isSystemMessage) {
+        if (isSystemMessage || isMeMessage) {
             className += ' post--system';
         }
 
@@ -161,8 +218,8 @@ class RhsRootPost extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
+        const {post, author, reactions, isFlagged, emojiMap} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap)});
     }
 
     getDotMenuRef = () => {
@@ -170,23 +227,12 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
-
-        let channelName;
-        if (channelType === 'D') {
-            channelName = (
-                <FormattedMessage
-                    id='rhs_root.direct'
-                    defaultMessage='Direct Message'
-                />
-            );
-        } else {
-            channelName = channelDisplayName;
-        }
+        const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
         let postReaction;
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
@@ -288,6 +334,7 @@ class RhsRootPost extends React.PureComponent {
                 handleDropdownOpened={this.handleDropdownOpened}
                 handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
+                isMenuOpen={this.state.dropdownOpened}
                 isReadOnly={isReadOnly || channelIsArchived}
                 enableEmojiPicker={this.props.enableEmojiPicker}
             />
@@ -298,7 +345,7 @@ class RhsRootPost extends React.PureComponent {
             dotMenuContainer = (
                 <div
                     ref='dotMenu'
-                    className='col col__reply'
+                    className='col post-menu'
                 >
                     {dotMenu}
                     {postReaction}
@@ -334,7 +381,7 @@ class RhsRootPost extends React.PureComponent {
                     }
                 >
                     <button
-                        className='card-icon__container icon--show style--none'
+                        className='post-menu__item post-menu__item--show'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -354,13 +401,12 @@ class RhsRootPost extends React.PureComponent {
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
+                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 aria-label={this.state.currentAriaLabel}
                 onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
             >
-                <div className='post-right-channel__name'>{channelName}</div>
                 <div
                     role='application'
                     className='post__content'
@@ -375,7 +421,10 @@ class RhsRootPost extends React.PureComponent {
                         />
                     </div>
                     <div>
-                        <div className='post__header'>
+                        <div
+                            className='post__header'
+                            ref={this.postHeaderRef}
+                        >
                             <div className='col__name'>
                                 {userProfile}
                                 {botIndicator}

@@ -2,10 +2,13 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
@@ -14,26 +17,24 @@ const sysadmin = users.sysadmin;
 
 describe('Messaging', () => {
     before(() => {
-        // # Set the configuration on Link Previews
+        // # Login and setup link preferences
+        cy.apiLogin('user-1');
+        cy.apiSaveShowPreviewPreference();
+        cy.apiSavePreviewCollapsedPreference('false');
+
+        // # Login as sysadmin and set the configuration on Link Previews
+        cy.apiLogin('sysadmin');
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLinkPreviews: true,
             },
         });
 
-        // # Login and setup link preferences
-        cy.apiLogin('user-1');
-        cy.apiSaveShowPreviewPreference();
-        cy.apiSavePreviewCollapsedPreference('false');
-
-        // # Login and go to /
-        cy.apiLogin('sysadmin');
-        cy.visit('/');
+        // # Go to town-square channel
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M18692-Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both', () => {
-        cy.visit('/ad-1/channels/town-square');
-
         // # Type message to use
         cy.postMessage('123');
 
@@ -99,9 +100,6 @@ describe('Messaging', () => {
     });
 
     it('M18692-Delete a GIF from RHS reply thread, other user viewing in center and RHS sees GIF preview disappear from both (mobile view)', () => {
-        cy.apiLogin('sysadmin');
-        cy.visit('/ad-1/channels/town-square');
-
         // # Type message to use
         cy.postMessage('123');
 

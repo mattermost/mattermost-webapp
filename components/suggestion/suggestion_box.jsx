@@ -132,6 +132,16 @@ export default class SuggestionBox extends React.Component {
          * Passes the wrapper reference for height calculation
          */
         wrapperHeight: PropTypes.number,
+
+        /**
+         * Allows parent to access received suggestions
+         */
+        onSuggestionsReceived: PropTypes.func,
+
+        /**
+         * Suppress loading spinner when necessary
+         */
+        suppressLoadingSpinner: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -548,6 +558,10 @@ export default class SuggestionBox extends React.Component {
     handleReceivedSuggestions = (suggestions) => {
         const newComponents = [];
         const newPretext = [];
+        if (this.props.onSuggestionsReceived) {
+            this.props.onSuggestionsReceived(suggestions);
+        }
+
         for (let i = 0; i < suggestions.terms.length; i++) {
             newComponents.push(suggestions.component);
             newPretext.push(suggestions.matchedPretext);
@@ -619,6 +633,19 @@ export default class SuggestionBox extends React.Component {
 
     blur = () => {
         this.inputRef.current.blur();
+    }
+
+    focus = () => {
+        const input = this.inputRef.current.input;
+        if (input.value === '""' || input.value.endsWith('""')) {
+            input.selectionStart = input.value.length - 1;
+            input.selectionEnd = input.value.length - 1;
+        } else {
+            input.selectionStart = input.value.length;
+        }
+        input.focus();
+
+        this.handleChange({target: this.inputRef.current});
     }
 
     setContainerRef = (container) => {
@@ -693,24 +720,29 @@ export default class SuggestionBox extends React.Component {
                     onKeyDown={this.handleKeyDown}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <SuggestionListComponent
-                        ariaLiveRef={this.suggestionReadOut}
-                        open={this.state.focused}
-                        pretext={this.pretext}
-                        location={listStyle}
-                        renderDividers={renderDividers}
-                        renderNoResults={renderNoResults}
-                        onCompleteWord={this.handleCompleteWord}
-                        preventClose={this.preventSuggestionListClose}
-                        onItemHover={this.setSelection}
-                        cleared={this.state.cleared}
-                        matchedPretext={this.state.matchedPretext}
-                        items={this.state.items}
-                        terms={this.state.terms}
-                        selection={this.state.selection}
-                        components={this.state.components}
-                        wrapperHeight={this.props.wrapperHeight}
-                    />
+                    <div style={{width: this.state.width}}>
+                        <SuggestionListComponent
+                            ariaLiveRef={this.suggestionReadOut}
+                            open={this.state.focused}
+                            pretext={this.pretext}
+                            location={listStyle}
+                            renderDividers={renderDividers}
+                            renderNoResults={renderNoResults}
+                            onCompleteWord={this.handleCompleteWord}
+                            preventClose={this.preventSuggestionListClose}
+                            onItemHover={this.setSelection}
+                            cleared={this.state.cleared}
+                            matchedPretext={this.state.matchedPretext}
+                            items={this.state.items}
+                            terms={this.state.terms}
+                            selection={this.state.selection}
+                            components={this.state.components}
+                            wrapperHeight={this.props.wrapperHeight}
+                            inputRef={this.inputRef}
+                            onLoseVisibility={this.blur}
+                            suppressLoadingSpinner={this.props.suppressLoadingSpinner}
+                        />
+                    </div>
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent

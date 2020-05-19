@@ -32,13 +32,11 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
         >
           <b>
             @test
-            &nbsp;
+             
           </b>
-          <div>
-            -
-            &nbsp;
-            Test display name
-          </div>
+          -
+           
+          Test display name
         </div>
         <div
           className="row email-group-row"
@@ -93,13 +91,11 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
         >
           <b>
             @test
-            &nbsp;
+             
           </b>
-          <div>
-            -
-            &nbsp;
-            Test display name
-          </div>
+          -
+           
+          Test display name
         </div>
         <div
           className="row email-group-row"

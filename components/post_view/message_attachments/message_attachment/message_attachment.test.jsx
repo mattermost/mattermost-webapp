@@ -28,6 +28,7 @@ describe('components/post_view/MessageAttachment', () => {
     const baseProps = {
         postId: 'post_id',
         attachment,
+        currentRelativeTeamUrl: 'dummy_team',
         actions: {doPostActionWithCookie: jest.fn()},
         imagesMetadata: {
             image_url: {

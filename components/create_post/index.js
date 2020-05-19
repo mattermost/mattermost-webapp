@@ -3,12 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {getChannelTimezones} from 'mattermost-redux/actions/channels';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -19,23 +20,28 @@ import {
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {
+    getAssociatedGroupsForReference,
+} from 'mattermost-redux/selectors/entities/groups';
+import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
     removeReaction,
 } from 'mattermost-redux/actions/posts';
-import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
+import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
+import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
-import {getEmojiMap} from 'selectors/emojis';
+import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
@@ -49,6 +55,7 @@ function makeMapStateToProps() {
 
     return (state, ownProps) => {
         const config = getConfig(state);
+        const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
         const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
@@ -64,9 +71,31 @@ function makeMapStateToProps() {
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+        const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+        const canPost = haveIChannelPermission(
+            state,
+            {
+                channel: currentChannel.id,
+                team: currentChannel.team_id,
+                permission: Permissions.CREATE_POST,
+            }
+        );
+        const useChannelMentions = haveIChannelPermission(state, {
+            channel: currentChannel.id,
+            team: currentChannel.team_id,
+            permission: Permissions.USE_CHANNEL_MENTIONS,
+        });
+        const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
+        const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, {
+            channel: currentChannel.id,
+            team: currentChannel.team_id,
+            permission: Permissions.USE_GROUP_MENTIONS,
+        });
+        const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
+        const currentTeamId = getCurrentTeamId(state);
 
         return {
-            currentTeamId: getCurrentTeamId(state),
+            currentTeamId,
             currentChannel,
             currentChannelMembersCount,
             currentUserId,
@@ -91,6 +120,14 @@ function makeMapStateToProps() {
             emojiMap: getEmojiMap(state),
             badConnection,
             isTimezoneEnabled,
+            shortcutReactToLastPostEmittedFrom,
+            canPost,
+            useChannelMentions,
+            shouldShowPreview: showPreviewOnCreatePost(state),
+            groupsWithAllowReference: new Map(getAssociatedGroupsForReference(state, currentTeamId, currentChannel.id).map((group) => [`@${group.name}`, group])),
+            useGroupMentions,
+            channelMemberCountsByGroup,
+            isLDAPEnabled,
         };
     };
 }
@@ -114,12 +151,15 @@ function mapDispatchToProps(dispatch) {
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
+            emitShortcutReactToLastPostFrom,
             openModal,
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
+            setShowPreview: setShowPreviewOnCreatePost,
+            getChannelMemberCountsByGroup,
         }, dispatch),
     };
 }

@@ -5,6 +5,25 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter active"
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value="autolink"
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -31,25 +50,6 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <QuickInput
-              className="filter active"
-              clearable={true}
-              delayInputUpdate={false}
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              onClear={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value="autolink"
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-plug"
             key="6"
@@ -83,6 +83,25 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -109,25 +128,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <QuickInput
-              className="filter "
-              clearable={true}
-              delayInputUpdate={false}
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              onClear={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-info-circle"
             key="0"
@@ -563,7 +563,33 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="8"
+              name="authentication/discover-ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="10"
+              name="authentication/discover-saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -715,6 +741,25 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -741,25 +786,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <QuickInput
-              className="filter "
-              clearable={true}
-              delayInputUpdate={false}
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              onClear={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
@@ -1168,7 +1194,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -1320,6 +1346,25 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -1346,25 +1391,6 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <QuickInput
-              className="filter "
-              clearable={true}
-              delayInputUpdate={false}
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              onClear={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
@@ -1773,7 +1799,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -1918,6 +1944,25 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -1944,25 +1989,6 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <QuickInput
-              className="filter "
-              clearable={true}
-              delayInputUpdate={false}
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              onClear={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-bar-chart"
             key="1"
@@ -2371,7 +2397,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -2516,6 +2542,25 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -2542,25 +2587,6 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <QuickInput
-              className="filter "
-              clearable={true}
-              delayInputUpdate={false}
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              onClear={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-info-circle"
             key="0"
@@ -3113,7 +3139,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="authentication/saml"
               parentLink=""
               subsection={false}
@@ -3126,7 +3152,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="12"
               name="authentication/oauth"
               parentLink=""
               subsection={false}
@@ -3139,7 +3165,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="13"
               name="authentication/guest_access"
               parentLink=""
               subsection={false}
@@ -3350,6 +3376,25 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
   className="admin-sidebar"
 >
   <Connect(SidebarHeader) />
+  <div
+    className="filter-container"
+  >
+    <SearchIcon
+      aria-hidden="true"
+      className="search__icon"
+    />
+    <QuickInput
+      className="filter "
+      clearable={true}
+      delayInputUpdate={false}
+      id="adminSidebarFilter"
+      onChange={[Function]}
+      onClear={[Function]}
+      placeholder="Find settings"
+      type="text"
+      value=""
+    />
+  </div>
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -3376,25 +3421,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
         <ul
           className="nav nav-pills nav-stacked"
         >
-          <li
-            className="filter-container"
-          >
-            <SearchIcon
-              aria-hidden="true"
-              className="search__icon"
-            />
-            <QuickInput
-              className="filter "
-              clearable={true}
-              delayInputUpdate={false}
-              id="adminSidebarFilter"
-              onChange={[Function]}
-              onClear={[Function]}
-              placeholder="Find settings"
-              type="text"
-              value=""
-            />
-          </li>
           <AdminSidebarCategory
             icon="fa-info-circle"
             key="0"
@@ -3856,7 +3882,33 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
+              key="8"
+              name="authentication/discover-ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="10"
+              name="authentication/discover-saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="authentication/oauth"
               parentLink=""
               subsection={false}
@@ -3869,7 +3921,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="13"
               name="authentication/guest_access"
               parentLink=""
               subsection={false}

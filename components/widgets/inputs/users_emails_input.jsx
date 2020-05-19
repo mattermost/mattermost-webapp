@@ -95,7 +95,7 @@ export default class UsersEmailsInput extends React.Component {
     }
 
     formatOptionLabel = (user, options) => {
-        const profileImg = imageURLForUser(user);
+        const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
         if (!isEmail(user.value) && isGuest(user)) {
             guestBadge = <GuestBadge/>;
@@ -200,7 +200,7 @@ export default class UsersEmailsInput extends React.Component {
     };
 
     handleInputChange = (inputValue, action) => {
-        if (action.action === 'input-blur') {
+        if (action.action === 'input-blur' && inputValue !== '') {
             const values = this.props.value.map((v) => {
                 if (v.id) {
                     return v;

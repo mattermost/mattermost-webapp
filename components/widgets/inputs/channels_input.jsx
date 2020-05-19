@@ -53,7 +53,7 @@ export default class ChannelsInput extends React.Component {
     getOptionValue = (channel) => channel.id
 
     handleInputChange = (inputValue, action) => {
-        if (action.action === 'input-blur') {
+        if (action.action === 'input-blur' && inputValue !== '') {
             for (const option of this.state.options) {
                 if (this.props.inputValue === option.name) {
                     this.onChange([...this.props.value, option]);

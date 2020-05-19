@@ -70,7 +70,7 @@ export default class SecurityTab extends React.PureComponent {
             updateUserPassword: PropTypes.func.isRequired,
             getAuthorizedOAuthApps: PropTypes.func.isRequired,
             deauthorizeOAuthApp: PropTypes.func.isRequired,
-        }).isRequired,
+        }),
     }
 
     static defaultProps = {

@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod @smoke
+// Group: @guest_account
+
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
@@ -19,8 +22,8 @@ let newUser;
 const user1 = users['user-1'];
 
 function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
-    // # Update Guest Account Settings
-    cy.apiUpdateConfigBasic({
+    // # Update Guest Accounts, Email Invitations, and Whitelisted Domains
+    cy.apiUpdateConfig({
         GuestAccountsSettings: {
             Enable: featureFlag,
             RestrictCreationToDomains: whitelistedDomains,
@@ -107,11 +110,16 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 }
 
 describe('Guest Account - Guest User Invitation Flow', () => {
-    before(() => {
-        // # Login as "sysadmin"
+    beforeEach(() => {
+        testTeam = null;
+
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Enable Guest Account Settings
+        // * Check if server has license for Guest Accounts
+        cy.requireLicenseForFeature('GuestAccounts');
+
+        // # Reset Guest Feature settings
         changeGuestFeatureSettings();
 
         // # Create new team and visit its URL
@@ -119,25 +127,17 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             testTeam = response.body;
 
             // # Create a new user and add it to the new team
-            cy.createNewUser().then((user) => {
+            cy.apiCreateNewUser().then((user) => {
                 newUser = user;
                 cy.apiAddUserToTeam(testTeam.id, user.id);
             });
 
-            cy.visit(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     afterEach(() => {
-        // # Reload current page after each test to close any popup/modals left open
-        cy.reload();
-    });
-
-    after(() => {
-        // # Reset Guest Feature settings
-        changeGuestFeatureSettings();
-
-        // # Delete the new team as sysadmin
+        cy.apiLogin('sysadmin');
         if (testTeam && testTeam.id) {
             cy.apiDeleteTeam(testTeam.id);
         }
@@ -157,7 +157,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the header has changed in the modal
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', 'Invite Guests to Test Team');
+            cy.get('h1').should('have.text', `Invite Guests to ${testTeam.display_name}`);
         });
 
         // * Verify Invite Guests button is disabled by default
@@ -264,7 +264,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
 
         // # Search and add an existing guest by email, who is not part of the team
-        cy.createNewUser().then((user) => {
+        cy.apiCreateNewUser().then((user) => {
             // # Demote the user from member to guest
             cy.demoteUser(user.id);
 
@@ -282,21 +282,19 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18050 Verify when different feature settings are disabled', () => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
-        // # Disable Guest Account Feature
+        // # Disable Guest Accounts
+        // # Enable Email Invitations
         changeGuestFeatureSettings(false, true);
 
         // # reload current page
-        cy.visit(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
-        cy.findByTestId('invitationModal').find('h1').should('have.text', 'Invite Members to Test Team');
+        cy.findByTestId('invitationModal').find('h1').should('have.text', `Invite Members to ${testTeam.display_name}`);
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {
@@ -307,7 +305,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Close the Modal
         cy.get('#closeIcon').should('be.visible').click();
 
-        // # Enable Guest Account Feature and disable Email Invitation
+        // # Enable Guest Accounts
+        // # Disable Email Invitations
         changeGuestFeatureSettings(true, false);
 
         // # Reload the current page
@@ -321,15 +320,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18047 Verify Guest User whitelisted domains', () => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // # Configure a whitelisted domain
         changeGuestFeatureSettings(true, true, 'example.com');
 
         // # Visit to newly created team
         cy.reload();
-        cy.visit(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a Guest by email
         const email = `temp-${getRandomInt(9999)}@mattermost.com`;
@@ -340,7 +336,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(email, expectedError);
 
         // # From System Console try to update email of guest user
-        cy.createNewUser().then((user) => {
+        cy.apiCreateNewUser().then((user) => {
             // # Demote the user from member to guest
             cy.demoteUser(user.id);
 
@@ -363,5 +359,20 @@ describe('Guest Account - Guest User Invitation Flow', () => {
                 cy.get('.close').click();
             });
         });
+    });
+
+    it('MM-22037 Invite Guest via Email containing upper case letters', () => {
+        // # Reset Guest Feature settings
+        changeGuestFeatureSettings();
+
+        // # Visit Team page
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Invite a email containing uppercase letters
+        const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(email.toLowerCase(), 'An invitation email has been sent.');
     });
 });

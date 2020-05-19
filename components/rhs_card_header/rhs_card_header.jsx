@@ -55,7 +55,7 @@ export default class RhsCardHeader extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToResultsTooltip'
-                        defaultMessage='Back to Search Results'
+                        defaultMessage='Back to search results'
                     />
                 </Tooltip>
             );
@@ -65,7 +65,7 @@ export default class RhsCardHeader extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToFlaggedTooltip'
-                        defaultMessage='Back to Flagged Posts'
+                        defaultMessage='Back to flagged posts'
                     />
                 </Tooltip>
             );
@@ -75,7 +75,7 @@ export default class RhsCardHeader extends React.Component {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToPinnedTooltip'
-                        defaultMessage='Back to Pinned Posts'
+                        defaultMessage='Back to pinned posts'
                     />
                 </Tooltip>
             );
@@ -127,7 +127,7 @@ export default class RhsCardHeader extends React.Component {
                         >
                             {(ariaLabel) => (
                                 <i
-                                    className='fa fa-angle-left'
+                                    className='icon icon-arrow-back-ios'
                                     aria-label={ariaLabel}
                                 />
                             )}
@@ -149,7 +149,7 @@ export default class RhsCardHeader extends React.Component {
                 <div className='pull-right'>
                     <button
                         type='button'
-                        className='sidebar--right__expand'
+                        className='sidebar--right__expand btn-icon'
                         aria-label='Expand'
                         onClick={this.props.actions.toggleRhsExpanded}
                     >
@@ -164,7 +164,7 @@ export default class RhsCardHeader extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-expand'
+                                        className='icon icon-arrow-expand'
                                         aria-label={ariaLabel}
                                     />
                                 )}
@@ -181,7 +181,7 @@ export default class RhsCardHeader extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-compress'
+                                        className='icon icon-arrow-collapse'
                                         aria-label={ariaLabel}
                                     />
                                 )}
@@ -190,7 +190,7 @@ export default class RhsCardHeader extends React.Component {
                     </button>
                     <button
                         type='button'
-                        className='sidebar--right__close'
+                        className='sidebar--right__close btn-icon'
                         aria-label='Close'
                         onClick={this.props.actions.closeRightHandSide}
                     >
@@ -205,7 +205,7 @@ export default class RhsCardHeader extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-sign-out'
+                                        className='icon icon-close'
                                         aria-label={ariaLabel}
                                     />
                                 )}

@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/sidebar/UserSettingsSidebar should match snapshot 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+        onClick={[Function]}
+      >
+        <LocalizedIcon
+          className="fa fa-angle-left"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
+        />
+      </div>
+      <FormattedMessage
+        defaultMessage="Sidebar Settings"
+        id="user.settings.sidebar.title"
+        values={Object {}}
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+    id="sidebarTitle"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="Sidebar Settings"
+        id="user.settings.sidebar.title"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <Connect(SettingItemMin)
+      describe={
+        <FormattedMessage
+          defaultMessage="Off"
+          id="user.settings.sidebar.off"
+          values={Object {}}
+        />
+      }
+      section="channelSidebarOrganization"
+      title={
+        <FormattedMessage
+          defaultMessage="Experimental Sidebar Features"
+          id="user.settings.sidebar.channelSidebarOrganizationSectionTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(SettingItemMin)
+      describe={
+        Array [
+          <FormattedMessage
+            defaultMessage="Group by channel type"
+            id="user.settings.sidebar.groupByTypeShort"
+            values={Object {}}
+          />,
+          <span>
+            , 
+          </span>,
+          <FormattedMessage
+            defaultMessage="sorted alphabetically"
+            id="user.settings.sidebar.sortAlphaShort"
+            values={Object {}}
+          />,
+          <br />,
+          <FormattedMessage
+            defaultMessage="Unreads and favorites grouped separately"
+            id="user.settings.sidebar.unreadsFavoritesShort"
+            values={Object {}}
+          />,
+        ]
+      }
+      section="groupChannels"
+      title={
+        <FormattedMessage
+          defaultMessage="Channel Grouping and Sorting"
+          id="user.settings.sidebar.groupAndSortChannelsTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(SettingItemMin)
+      describe={
+        <FormattedMessage
+          defaultMessage="On"
+          id="user.settings.sidebar.on"
+          values={Object {}}
+        />
+      }
+      section="channelSwitcher"
+      title={
+        <FormattedMessage
+          defaultMessage="Channel Switcher"
+          id="user.settings.sidebar.channelSwitcherSectionTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+  </div>
+</div>
+`;

@@ -217,6 +217,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -552,6 +553,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -795,6 +797,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -1038,6 +1041,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -1281,6 +1285,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
     </Connect(BlockableLink)>
     <a
       className="cancel-button reset-defaults-btn"
+      data-testid="resetPermissionsToDefault"
       onClick={[Function]}
     >
       <FormattedMessage

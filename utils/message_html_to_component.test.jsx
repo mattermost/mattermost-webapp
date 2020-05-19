@@ -7,6 +7,7 @@ import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting';
 import MarkdownImage from 'components/markdown_image';
+import AtMention from 'components/at_mention';
 
 describe('messageHtmlToComponent', () => {
     test('plain text', () => {
@@ -68,5 +69,39 @@ That was some latex!`;
         });
         expect(component).toMatchSnapshot();
         expect(shallow(component).find(MarkdownImage).prop('imageIsLink')).toBe(true);
+    });
+
+    test('At mention', () => {
+        const options = {mentionHighlight: true, atMentions: true, mentionKeys: [{key: '@joram'}]};
+        let html = TextFormatting.formatText('@joram', options);
+
+        let component = messageHtmlToComponent(html, false, {mentionHighlight: true});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(false);
+
+        options.mentionHighlight = false;
+
+        html = TextFormatting.formatText('@joram', options);
+
+        component = messageHtmlToComponent(html, false, {mentionHighlight: false});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(true);
+    });
+
+    test('At mention with group highlight disabled', () => {
+        const options = {mentionHighlight: true, atMentions: true, mentionKeys: [{key: '@joram'}]};
+        let html = TextFormatting.formatText('@developers', options);
+
+        let component = messageHtmlToComponent(html, false, {disableGroupHighlight: false});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableGroupHighlight')).toBe(false);
+
+        options.disableGroupHighlight = true;
+
+        html = TextFormatting.formatText('@developers', options);
+
+        component = messageHtmlToComponent(html, false, {disableGroupHighlight: true});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableGroupHighlight')).toBe(true);
     });
 });

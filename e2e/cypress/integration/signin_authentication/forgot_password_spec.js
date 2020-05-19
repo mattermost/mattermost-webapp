@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @signin_authentication
+
 /*eslint max-nested-callbacks: ["error", 5]*/
 
 import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
@@ -15,13 +18,18 @@ let config;
 
 describe('Signin/Authentication', () => {
     before(() => {
+        // # Do email test if setup properly
+        cy.apiEmailTest();
+
+        // # Login as sysadmin and get config
+        cy.apiLogin('sysadmin');
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
     });
 
     it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
-        cy.loginAsNewUser().then((user) => {
+        cy.apiCreateAndLoginAsNewUser().then((user) => {
             cy.apiLogout();
 
             resetPasswordAndLogin(user, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
@@ -66,14 +74,14 @@ function resetPasswordAndLogin(user, feedbackEmail, supportEmail) {
     const newPassword = 'newpasswd';
 
     // # Visit '/'
-    cy.visit('/');
+    cy.visit('/ad-1/channels/town-square');
 
     // * Verify that it redirects to /login
     cy.url().should('contain', '/login');
 
     // * Verify that forgot password link is present
     // # Click forgot password link
-    cy.get('#login_forgot > a').should('be.visible').and('have.text', 'I forgot my password').click();
+    cy.get('#login_forgot > a').should('be.visible').and('have.text', 'I forgot my password.').click();
 
     // * Verify that it redirects to /reset_password
     cy.url().should('contain', '/reset_password');

@@ -164,6 +164,7 @@ export default class PermissionsSchemeSummary extends React.Component {
         return (
             <div
                 className='permissions-scheme-summary'
+                data-testid='permissions-scheme-summary'
                 onClick={this.goToEdit}
             >
                 <div onClick={this.stopPropagation}>{confirmModal}</div>
@@ -175,6 +176,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                     </div>
                     <div className='actions'>
                         <Link
+                            data-testid={`${scheme.display_name}-edit`}
                             className='edit-button'
                             to={'/admin_console/user_management/permissions/team_override_scheme/' + scheme.id}
                         >
@@ -185,6 +187,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                         </Link>
                         {'-'}
                         <a
+                            data-testid={`${scheme.display_name}-delete`}
                             className='delete-button'
                             onClick={this.delete}
                         >

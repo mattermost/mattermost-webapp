@@ -29,11 +29,11 @@ export default class CommentIcon extends React.PureComponent<Props> {
 
     public render(): JSX.Element {
         let commentCountSpan: JSX.Element | null = null;
-        let iconStyle = 'comment-icon__container';
+        let iconStyle = 'post-menu__item post-menu__item--wide post-menu__item--comment';
         if (this.props.commentCount > 0) {
-            iconStyle += ' icon--show';
+            iconStyle += ' post-menu__item--show';
             commentCountSpan = (
-                <span className='comment-count'>
+                <span className='post-menu__comment-count'>
                     {this.props.commentCount}
                 </span>
             );
@@ -62,11 +62,11 @@ export default class CommentIcon extends React.PureComponent<Props> {
                 <button
                     id={`${this.props.location}_commentIcon_${this.props.postId}`}
                     aria-label={localizeMessage('post_info.comment_icon.tooltip.reply', 'Reply').toLowerCase()}
-                    className={iconStyle + ' color--link style--none ' + this.props.extraClass}
+                    className={iconStyle + ' ' + this.props.extraClass}
                     onClick={this.props.handleCommentClick}
                 >
-                    <span className='d-flex'>
-                        <ReplyIcon className='comment-icon'/>
+                    <span className='d-flex align-items-center'>
+                        <ReplyIcon className='icon icon--small'/>
                         {commentCountSpan}
                     </span>
                 </button>

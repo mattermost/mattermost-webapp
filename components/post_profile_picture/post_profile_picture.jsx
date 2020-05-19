@@ -23,6 +23,7 @@ export default class PostProfilePicture extends React.PureComponent {
         user: PropTypes.object,
         isBot: PropTypes.bool,
         postIconOverrideURL: PropTypes.string,
+        overwriteIcon: PropTypes.string,
     };
 
     static defaultProps = {
@@ -33,7 +34,7 @@ export default class PostProfilePicture extends React.PureComponent {
         const {post, user} = this.props;
 
         if (user && user.id === post.user_id) {
-            return Utils.imageURLForUser(user);
+            return Utils.imageURLForUser(user.id, user.last_picture_update);
         } else if (post.user_id) {
             return Utils.imageURLForUser(post.user_id);
         }
@@ -97,6 +98,7 @@ export default class PostProfilePicture extends React.PureComponent {
         const src = this.getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
 
         const overrideIconEmoji = post.props ? post.props.override_icon_emoji : '';
+        const overwriteName = post.props ? post.props.override_username : '';
         const isEmoji = typeof overrideIconEmoji == 'string' && overrideIconEmoji !== '';
         const status = this.getStatus(fromAutoResponder, fromWebhook, user);
 
@@ -112,6 +114,9 @@ export default class PostProfilePicture extends React.PureComponent {
                 status={status}
                 userId={user ? user.id : null}
                 username={user ? user.username : null}
+                overwriteIcon={this.props.overwriteIcon}
+                overwriteName={overwriteName}
+                post={this.props.post}
             />
         );
     }

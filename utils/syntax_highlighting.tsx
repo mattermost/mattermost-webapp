@@ -55,6 +55,7 @@ import hljsSql from 'highlight.js/lib/languages/sql.js';
 import hljsStylus from 'highlight.js/lib/languages/stylus.js';
 import hljsSwift from 'highlight.js/lib/languages/swift.js';
 import hljsTex from 'highlight.js/lib/languages/tex.js';
+import hljsTypescript from 'highlight.js/lib/languages/typescript.js';
 import hljsVbnet from 'highlight.js/lib/languages/vbnet.js';
 import hljsVbscript from 'highlight.js/lib/languages/vbscript.js';
 import hljsVerilog from 'highlight.js/lib/languages/verilog.js';
@@ -118,6 +119,7 @@ hlJS.registerLanguage('sql', hljsSql);
 hlJS.registerLanguage('stylus', hljsStylus);
 hlJS.registerLanguage('swift', hljsSwift);
 hlJS.registerLanguage('tex', hljsTex);
+hlJS.registerLanguage('typescript', hljsTypescript);
 hlJS.registerLanguage('vbnet', hljsVbnet);
 hlJS.registerLanguage('vbscript', hljsVbscript);
 hlJS.registerLanguage('verilog', hljsVerilog);
@@ -138,13 +140,10 @@ const HighlightedLanguages: languageObject = Constants.HighlightedLanguages;
 // This function add line numbers to code
 function formatHighLight(code: string) {
     if (code) {
-        return code.split('\n').map((str, index) => {
+        return code.split('\n').map((str) => {
             if (str || str === '') {
                 return `
-                    <div>
-                        <span class='hljs-ln-numbers'>
-                            ${index + 1}
-                        </span>
+                    <div class='hljs-ln-numbers'>
                         <span class='hljs-code'>${str}</span>
                     </div>
                 `;

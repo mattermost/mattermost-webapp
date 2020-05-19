@@ -6,13 +6,14 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {removeUserFromTeam as leaveTeam} from 'mattermost-redux/actions/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {toggleSideBarRightMenuAction} from 'actions/global_actions.jsx';
 import {ModalIdentifiers} from 'utils/constants';
 
 import {isModalOpen} from 'selectors/views/modals';
+
+import {GlobalState} from 'types/store';
 
 import LeaveTeamModal from './leave_team_modal';
 

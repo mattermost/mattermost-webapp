@@ -8,6 +8,14 @@ import PermissionTeamSchemeSettings from 'components/admin_console/permission_sc
 
 describe('components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings', () => {
     const defaultProps = {
+        config: {
+            EnableGuestAccounts: 'true',
+        },
+        license: {
+            IsLicensed: 'true',
+            CustomPermissionsSchemes: 'true',
+            GuestAccountsPermissions: 'true',
+        },
         location: {},
         schemeId: '',
         scheme: null,
@@ -28,6 +36,12 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 permissions: [],
             },
             channel_admin: {
+                permissions: [],
+            },
+            team_guest: {
+                permissions: [],
+            },
+            channel_guest: {
                 permissions: [],
             },
             aaa: {
@@ -79,6 +93,15 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
 
     test('should match snapshot on new with default roles with permissions', (done) => {
         const roles = {
+            system_guest: {
+                permissions: ['create_post'],
+            },
+            team_guest: {
+                permissions: ['invite_user'],
+            },
+            channel_guest: {
+                permissions: ['add_reaction'],
+            },
             system_user: {
                 permissions: ['create_post'],
             },
@@ -121,6 +144,8 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_team_admin_role: 'bbb',
                 default_channel_user_role: 'ccc',
                 default_channel_admin_role: 'ddd',
+                default_team_guest_role: 'eee',
+                default_channel_guest_role: 'fff',
             },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
@@ -133,7 +158,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
 
         expect(wrapper).toMatchSnapshot();
         await wrapper.instance().handleSubmit();
-        expect(editRole).toHaveBeenCalledTimes(4);
+        expect(editRole).toHaveBeenCalledTimes(6);
     });
 
     test('should show error if createScheme fails', async () => {
@@ -160,6 +185,8 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_team_admin_role: 'bbb',
                 default_channel_user_role: 'ccc',
                 default_channel_admin_role: 'ddd',
+                default_team_guest_role: 'eee',
+                default_channel_guest_role: 'fff',
             },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
@@ -179,6 +206,12 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             <PermissionTeamSchemeSettings {...defaultProps}/>
         );
         const instance = wrapper.instance();
+        expect(wrapper.state().openRoles.guests).toBe(true);
+        instance.toggleRole('guests');
+        expect(wrapper.state().openRoles.guests).toBe(false);
+        instance.toggleRole('guests');
+        expect(wrapper.state().openRoles.guests).toBe(true);
+
         expect(wrapper.state().openRoles.all_users).toBe(true);
         instance.toggleRole('all_users');
         expect(wrapper.state().openRoles.all_users).toBe(false);
@@ -211,6 +244,8 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_team_admin_role: 'bbb',
                 default_channel_user_role: 'ccc',
                 default_channel_admin_role: 'ddd',
+                default_team_guest_role: 'eee',
+                default_channel_guest_role: 'fff',
             },
         };
 
@@ -227,6 +262,9 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
     test('should match snapshot on edit with permissions', (done) => {
         const props = {
             ...defaultProps,
+            config: {
+                EnableGuestAccounts: 'false',
+            },
             schemeId: 'xyz',
             scheme: {
                 id: 'xxx',
@@ -237,6 +275,8 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_team_admin_role: 'bbb',
                 default_channel_user_role: 'ccc',
                 default_channel_admin_role: 'ddd',
+                default_team_guest_role: 'eee',
+                default_channel_guest_role: 'fff',
             },
             roles: {
                 aaa: {
@@ -251,6 +291,74 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 ddd: {
                     permissions: ['delete_post'],
                 },
+                eee: {
+                    permissions: ['edit_post'],
+                },
+                fff: {
+                    permissions: ['delete_post'],
+                },
+            },
+        };
+
+        const wrapper = shallow(
+            <PermissionTeamSchemeSettings {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+        defaultProps.actions.loadRolesIfNeeded().then(() => {
+            expect(wrapper.instance().getStateRoles()).toMatchSnapshot();
+            done();
+        });
+    });
+
+    test('should match snapshot on edit without guest permissions', (done) => {
+        const props = {
+            ...defaultProps,
+            config: {
+                EnableGuestAccounts: 'false',
+            },
+            schemeId: 'xyz',
+            scheme: {
+                id: 'xxx',
+                name: 'yyy',
+                display_name: 'Test scheme',
+                description: 'Test scheme description',
+                default_team_user_role: 'aaa',
+                default_team_admin_role: 'bbb',
+                default_channel_user_role: 'ccc',
+                default_channel_admin_role: 'ddd',
+                default_team_guest_role: 'eee',
+                default_channel_guest_role: 'fff',
+            },
+        };
+
+        const wrapper = shallow(
+            <PermissionTeamSchemeSettings {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+        defaultProps.actions.loadRolesIfNeeded().then(() => {
+            expect(wrapper.instance().getStateRoles()).toMatchSnapshot();
+            done();
+        });
+    });
+
+    test('should match snapshot on edit without license', (done) => {
+        const props = {
+            ...defaultProps,
+            license: {
+                IsLicensed: 'false',
+            },
+            schemeId: 'xyz',
+            scheme: {
+                id: 'xxx',
+                name: 'yyy',
+                display_name: 'Test scheme',
+                description: 'Test scheme description',
+                default_team_user_role: 'aaa',
+                default_team_admin_role: 'bbb',
+                default_channel_user_role: 'ccc',
+                default_channel_admin_role: 'ddd',
+                default_team_guest_role: 'eee',
+                default_channel_guest_role: 'fff',
             },
         };
 

@@ -2,16 +2,26 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. # Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
+
+function waitForImageUpload() {
+    // * Verify that the image exists in the post message footer
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
+}
 
 describe('Messaging', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Set the default image preview setting to Expanded
         cy.apiSavePreviewCollapsedPreference('false');
@@ -24,9 +34,10 @@ describe('Messaging', () => {
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
         cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        waitForImageUpload();
 
         // # post it with a message
-        const IMAGE_WITH_POST_TEXT = 'image in compact display setting';
+        const IMAGE_WITH_POST_TEXT = `image in compact display setting ${Date.now()}`;
         cy.postMessage(IMAGE_WITH_POST_TEXT);
 
         cy.getLastPostId().then((lastPostId) => {
@@ -55,9 +66,10 @@ describe('Messaging', () => {
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
         cy.fileUpload('#fileUploadInput', IMAGE_NAME);
+        waitForImageUpload();
 
         // # post it with a message
-        const IMAGE_WITH_POST_TEXT = 'image in standard display setting';
+        const IMAGE_WITH_POST_TEXT = `image in standard display setting ${Date.now()}`;
         cy.postMessage(IMAGE_WITH_POST_TEXT);
 
         cy.getLastPostId().then((lastPostId) => {

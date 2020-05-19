@@ -8,6 +8,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
+import EmojiMap from 'utils/emoji_map';
 
 jest.mock('utils/post_utils.jsx', () => ({
     isEdited: jest.fn().mockReturnValue(true),
@@ -58,9 +59,11 @@ describe('components/RhsComment', () => {
         channelIsArchived: false,
         isConsecutivePost: false,
         handleCardClick: jest.fn(),
+        shortcutReactToLastPostEmittedFrom: '',
         actions: {
             markPostAsUnread: jest.fn(),
         },
+        emojiMap: new EmojiMap(new Map())
     };
 
     test('should match snapshot', () => {

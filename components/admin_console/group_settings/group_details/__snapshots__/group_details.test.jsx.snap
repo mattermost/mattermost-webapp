@@ -38,18 +38,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        mentionname="Group"
+        onChange={[Function]}
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -173,6 +168,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;
 
@@ -214,18 +216,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        mentionname="Group"
+        onChange={[Function]}
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -348,6 +345,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;
 
@@ -389,18 +393,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        mentionname="Group"
+        onChange={[Function]}
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -512,6 +511,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;
 
@@ -553,18 +559,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           />
         </div>
       </div>
-      <AdminPanel
-        className=""
-        id="group_profile"
-        subtitleDefault="The name for this group."
-        subtitleId="admin.group_settings.group_detail.groupProfileDescription"
-        titleDefault="Group Profile"
-        titleId="admin.group_settings.group_detail.groupProfileTitle"
-      >
-        <GroupProfile
-          name="Group"
-        />
-      </AdminPanel>
+      <GroupProfileAndSettings
+        allowReference={false}
+        displayname="Group"
+        mentionname="Group"
+        onChange={[Function]}
+        onToggle={[Function]}
+      />
       <AdminPanel
         button={
           <div
@@ -676,5 +677,12 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
       </AdminPanel>
     </div>
   </div>
+  <SaveChangesPanel
+    cancelLink="/admin_console/user_management/groups"
+    onClick={[Function]}
+    saveNeeded={false}
+    saving={false}
+    serverError={null}
+  />
 </div>
 `;

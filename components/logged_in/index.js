@@ -8,7 +8,9 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
+import {browserHistory} from 'utils/browser_history';
 import {checkIfMFARequired} from 'utils/route';
+import {getChannelURL} from 'utils/utils';
 
 import LoggedIn from './logged_in.jsx';
 
@@ -26,10 +28,14 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
+// NOTE: suggestions where to keep this welcomed
+const getChannelURLAction = (channel, teamId) => (dispatch, getState) => browserHistory.push(getChannelURL(getState(), channel, teamId));
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             autoUpdateTimezone,
+            getChannelURLAction,
         }, dispatch),
     };
 }

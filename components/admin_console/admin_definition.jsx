@@ -46,6 +46,8 @@ import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
+import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
+import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -630,6 +632,8 @@ const AdminDefinition = {
                 'admin.recycle.recycleDescription.reloadConfiguration',
                 'admin.recycle.button',
                 'admin.sql.noteDescription',
+                'admin.sql.disableDatabaseSearchTitle',
+                'admin.sql.disableDatabaseSearchDescription',
                 'admin.sql.driverName',
                 'admin.sql.driverNameDescription',
                 'admin.sql.dataSource',
@@ -1743,9 +1747,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableConfirmNotificationsToChannel',
                         label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
-                        label_default: 'Show @channel and @all confirmation dialog:',
+                        label_default: 'Show @channel and @all and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.',
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2590,6 +2594,20 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.PictureAttribute',
+                        label: t('admin.ldap.pictureAttrTitle'),
+                        label_default: 'Profile Picture Attribute:',
+                        placeholder: t('admin.ldap.pictureAttrEx'),
+                        placeholder_default: 'E.g.: "thumbnailPhoto" or "jpegPhoto"',
+                        help_text: t('admin.ldap.pictureAttrDesc'),
+                        help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.UsernameAttribute',
                         label: t('admin.ldap.usernameAttrTitle'),
                         label_default: 'Username Attribute:',
@@ -2608,10 +2626,10 @@ const AdminDefinition = {
                         label: t('admin.ldap.idAttrTitle'),
                         label_default: 'ID Attribute: ',
                         placeholder: t('admin.ldap.idAttrEx'),
-                        placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
+                        placeholder_default: 'E.g.: "objectGUID" or "uid"',
                         help_text: t('admin.ldap.idAttrDesc'),
                         help_text_markdown: true,
-                        help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `entryUUID` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
+                        help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
                         isDisabled: it.both(
                             it.stateEquals('LdapSettings.Enable', false),
                             it.stateEquals('LdapSettings.EnableSync', false),
@@ -2831,6 +2849,27 @@ const AdminDefinition = {
                             );
                         },
                     },
+                ],
+            },
+        },
+        ldap_feature_discovery: {
+            url: 'authentication/discover-ldap',
+            title: t('admin.sidebar.ldap'),
+            title_default: 'AD/LDAP',
+            isHidden: it.either(
+                it.licensedForFeature('LDAP'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'LdapSettings',
+                name: t('admin.authentication.ldap'),
+                name_default: 'AD/LDAP',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: LDAPFeatureDiscovery,
+                        key: 'LDAPFeatureDiscovery',
+                    }
                 ],
             },
         },
@@ -3248,6 +3287,27 @@ const AdminDefinition = {
                 ],
             },
         },
+        saml_feature_discovery: {
+            url: 'authentication/discover-saml',
+            title: t('admin.sidebar.saml'),
+            title_default: 'SAML 2.0',
+            isHidden: it.either(
+                it.licensedForFeature('SAML'),
+                it.isnt(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'SamlSettings',
+                name: t('admin.authentication.saml'),
+                name_default: 'SAML 2.0',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: SAMLFeatureDiscovery,
+                        key: 'SAMLFeatureDiscovery',
+                    }
+                ],
+            },
+        },
         gitlab: {
             url: 'authentication/gitlab',
             title: t('admin.sidebar.gitlab'),
@@ -3426,7 +3486,7 @@ const AdminDefinition = {
                                 display_name_default: 'Google Apps',
                                 isHidden: it.isnt(it.licensedForFeature('GoogleOAuth')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.\n8. Finally, go to [Google+ API](!https://console.developers.google.com/apis/api/plus/overview) and click *Enable*. This setting might take a few minutes to propagate.',
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
                             },
                             {
@@ -3588,6 +3648,17 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.DirectoryId',
+                        label: t('admin.office365.directoryIdTitle'),
+                        label_default: 'Directory (tenant) ID:',
+                        help_text: t('admin.office365.directoryIdDescription'),
+                        help_text_default: 'The Directory (tenant) ID you received when registering your application with Microsoft.',
+                        placeholder: t('admin.office365.directoryIdExample'),
+                        placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'Office365Settings.UserApiEndpoint',
                         label: t('admin.office365.userTitle'),
                         label_default: 'User API Endpoint:',
@@ -3600,7 +3671,12 @@ const AdminDefinition = {
                         key: 'Office365Settings.AuthEndpoint',
                         label: t('admin.office365.authTitle'),
                         label_default: 'Auth Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/authorize';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/authorize';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
@@ -3609,7 +3685,12 @@ const AdminDefinition = {
                         key: 'Office365Settings.TokenEndpoint',
                         label: t('admin.office365.tokenTitle'),
                         label_default: 'Token Endpoint:',
-                        dynamic_value: () => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/oauth2/v2.0/token';
+                            }
+                            return 'https://login.microsoftonline.com/{directoryId}/oauth2/v2.0/token';
+                        },
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'office365')),
                     },
@@ -4436,12 +4517,38 @@ const AdminDefinition = {
                         isHidden: it.isnt(it.licensedForFeature('SAML')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
+                        label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
+                        label_default: 'Experimental Sidebar Features',
+                        help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
+                        help_text_default: 'When enabled, users can access experimental channel sidebar features, including collapsible sections and unreads filtering. If default on, this enabled the new sidebar features by default for all users on this server. Users can disable the features in **Account Settings > Sidebar > Experimental Sidebar Features**. If default off, users must enable the experimental sidebar features in Account Settings. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.disabled'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+                        ],
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalChannelOrganization',
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
-                        label_default: 'Sidebar Organization:',
+                        label_default: 'Channel Grouping and Sorting',
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list.',
+                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
                     },
                     {
