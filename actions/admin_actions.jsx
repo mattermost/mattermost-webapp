@@ -260,7 +260,7 @@ export async function blevePurgeIndexes(success, error) {
         params: [],
     });
 
-    const {data, error: err} = await purgeBleveIndexes()(dispatch, getState);
+    const {data, error: err} = await dispatch(purgeBleveIndexes);
     if (data && success) {
         success(data);
     } else if (err && error) {
