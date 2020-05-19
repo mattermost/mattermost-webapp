@@ -153,12 +153,11 @@ exports[`messageHtmlToComponent link with enabled a tooltip plugin 1`] = `
     target="_blank"
   >
     <LinkTooltip
-      attribs={
+      dataAttributes={
         Object {
-          "class": "theme markdown__link",
-          "href": "http://www.dolor.com",
-          "rel": "noreferrer",
-          "target": "_blank",
+          "data-channel-mention": undefined,
+          "data-hashtag": undefined,
+          "data-link": undefined,
         }
       }
       href="http://www.dolor.com"
