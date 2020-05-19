@@ -3,24 +3,20 @@
 
 import React, {ReactNode} from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {FileInfo} from 'mattermost-redux/types/files';
 
-import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
+import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import Constants, {FileTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import FileProgressPreview from './file_progress_preview';
 
-export type FilePreviewInfo = {
-    extension?: string;
-    id: string;
-    width?: number;
-    height?: number;
-    has_preview_image?: boolean;
-    size?: number;
-    create_at?: string;
+type UploadInfo = {
+    name: string;
     percent?: number;
     type?: string;
 }
+export type FilePreviewInfo = FileInfo & UploadInfo;
 
 type Props = {
     enableSVGs: boolean;
@@ -44,7 +40,7 @@ export default class FilePreview extends React.PureComponent<Props> {
     render() {
         const previews: ReactNode[] = [];
 
-        this.props.fileInfos.forEach((info, idx) => {
+        this.props.fileInfos.forEach((info) => {
             const type = Utils.getFileType(info.extension);
 
             let className = 'file-preview post-image__column';
@@ -98,8 +94,6 @@ export default class FilePreview extends React.PureComponent<Props> {
                             <div className='post-image__detail'>
                                 <FilenameOverlay
                                     fileInfo={info}
-                                    index={idx}
-                                    handleImageClick={null}
                                     compactDisplay={false}
                                     canDownload={false}
                                 />
@@ -124,14 +118,16 @@ export default class FilePreview extends React.PureComponent<Props> {
             const uploadsProgressPercent = this.props.uploadsProgressPercent;
             this.props.uploadsInProgress.forEach((clientId) => {
                 const fileInfo = uploadsProgressPercent[clientId];
-                previews.push(
-                    <FileProgressPreview
-                        key={clientId}
-                        clientId={clientId}
-                        fileInfo={fileInfo}
-                        handleRemove={this.handleRemove}
-                    />
-                );
+                if (fileInfo) {
+                    previews.push(
+                        <FileProgressPreview
+                            key={clientId}
+                            clientId={clientId}
+                            fileInfo={fileInfo}
+                            handleRemove={this.handleRemove}
+                        />
+                    );
+                }
             });
         }
 

@@ -115,6 +115,18 @@ class JobTable extends React.PureComponent {
                     />
                 </span>
             );
+        } else if (job.status === JobStatuses.WARNING) {
+            return (
+                <span
+                    className='status-icon-warning'
+                    title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}
+                >
+                    <FormattedMessage
+                        id='admin.jobTable.statusWarning'
+                        defaultMessage='Warning'
+                    />
+                </span>
+            );
         } else if (job.status === JobStatuses.ERROR) {
             return (
                 <span
