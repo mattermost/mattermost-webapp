@@ -59,6 +59,12 @@
       ],
       "rules": {
         "comma-dangle": 0,
+        "@typescript-eslint/camelcase": [
+          2,
+          {
+            "properties": "never"
+          }
+        ],
         "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/no-empty-function": 0,
@@ -77,12 +83,6 @@
             "classes": false,
             "functions": false,
             "variables": false
-          }
-        ],
-        "@typescript-eslint/camelcase": [
-          2,
-          {
-            "properties": "never"
           }
         ],
         "react/jsx-filename-extension": 0
