@@ -84,7 +84,7 @@ type State = {
     loadingUsers: boolean;
 }
 
-export default class MoreDirectChannels extends React.Component<Props, State> {
+export default class MoreDirectChannels extends React.PureComponent<Props, State> {
     searchTimeoutId: any;
     exitToChannel?: string;
     multiselect: React.RefObject<MultiSelect<OptionType>>;

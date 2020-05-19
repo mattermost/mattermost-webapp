@@ -23,7 +23,7 @@ const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';
 const TOKEN_NOT_CREATING = 'not_creating';
 
-export default class UserAccessTokenSection extends React.Component {
+export default class UserAccessTokenSection extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         active: PropTypes.bool,

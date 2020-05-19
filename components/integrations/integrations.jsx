@@ -20,7 +20,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import IntegrationOption from './integration_option.jsx';
 
-export default class Integrations extends React.Component {
+export default class Integrations extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object,

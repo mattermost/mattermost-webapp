@@ -34,7 +34,7 @@ import Markdown from 'components/markdown';
 
 import LoginMfa from '../login_mfa.jsx';
 
-class LoginController extends React.Component {
+class LoginController extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
 

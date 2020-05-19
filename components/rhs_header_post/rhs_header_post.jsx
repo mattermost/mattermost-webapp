@@ -12,7 +12,7 @@ import Constants, {RHSStates} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
 
-export default class RhsHeaderPost extends React.Component {
+export default class RhsHeaderPost extends React.PureComponent {
     static propTypes = {
         rootPostId: PropTypes.string.isRequired,
         channel: PropTypes.object.isRequired,

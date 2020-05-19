@@ -130,7 +130,7 @@ interface UserSettingsSidebarState {
     serverError?: string;
 }
 
-export default class UserSettingsSidebar extends React.Component<UserSettingsSidebarProps, UserSettingsSidebarState> {
+export default class UserSettingsSidebar extends React.PureComponent<UserSettingsSidebarProps, UserSettingsSidebarState> {
     constructor(props: UserSettingsSidebarProps) {
         super(props);
 

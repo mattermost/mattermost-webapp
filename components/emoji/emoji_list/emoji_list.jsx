@@ -20,7 +20,7 @@ import {t} from 'utils/i18n.jsx';
 const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
 
-export default class EmojiList extends React.Component {
+export default class EmojiList extends React.PureComponent {
     static propTypes = {
 
         /**

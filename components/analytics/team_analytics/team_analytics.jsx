@@ -24,7 +24,7 @@ import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
-export default class TeamAnalytics extends React.Component {
+export default class TeamAnalytics extends React.PureComponent {
     static propTypes = {
 
         /*

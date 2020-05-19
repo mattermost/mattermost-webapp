@@ -11,7 +11,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 
 import LogList from './log_list.jsx';
 
-export default class Logs extends React.Component {
+export default class Logs extends React.PureComponent {
     static propTypes = {
 
         /*

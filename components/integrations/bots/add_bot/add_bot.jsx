@@ -25,7 +25,7 @@ import * as FileUtils from 'utils/file_utils.jsx';
 const roleOptionSystemAdmin = 'System Admin';
 const roleOptionMember = 'Member';
 
-export default class AddBot extends React.Component {
+export default class AddBot extends React.PureComponent {
     static propTypes = {
 
         /**

@@ -14,7 +14,7 @@ const LazyRoot = React.lazy(() => import('components/root'));
 
 const Root = makeAsyncComponent(LazyRoot);
 
-class App extends React.Component {
+class App extends React.PureComponent {
     render() {
         return (
             <Provider store={store}>

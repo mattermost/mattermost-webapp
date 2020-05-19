@@ -82,7 +82,7 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
-export default class Root extends React.Component {
+export default class Root extends React.PureComponent {
     static propTypes = {
         diagnosticsEnabled: PropTypes.bool,
         diagnosticId: PropTypes.string,

@@ -38,7 +38,7 @@ type State = {
     show: boolean;
 }
 
-export default class TutorialTip extends React.Component<Props, State> {
+export default class TutorialTip extends React.PureComponent<Props, State> {
     public targetRef: React.RefObject<HTMLImageElement>;
 
     public static defaultProps: Partial<Props> = {

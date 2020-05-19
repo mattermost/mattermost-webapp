@@ -12,7 +12,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {isKeyPressed} from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 
-export default class ManageLanguage extends React.Component {
+export default class ManageLanguage extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         locale: PropTypes.string.isRequired,

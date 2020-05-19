@@ -17,7 +17,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import DialogElement from './dialog_element';
 import DialogIntroductionText from './dialog_introduction_text';
 
-export default class InteractiveDialog extends React.Component {
+export default class InteractiveDialog extends React.PureComponent {
     static propTypes = {
         url: PropTypes.string.isRequired,
         callbackId: PropTypes.string,

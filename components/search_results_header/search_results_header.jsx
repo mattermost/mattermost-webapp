@@ -10,7 +10,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
 
-export default class SearchResultsHeader extends React.Component {
+export default class SearchResultsHeader extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
         actions: PropTypes.shape({

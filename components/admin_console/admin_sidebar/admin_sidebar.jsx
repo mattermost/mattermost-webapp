@@ -40,7 +40,7 @@ const renderScrollThumbVertical = (props) => (
     />
 );
 
-class AdminSidebar extends React.Component {
+class AdminSidebar extends React.PureComponent {
     static propTypes = {
         license: PropTypes.object.isRequired,
         config: PropTypes.object,

@@ -14,7 +14,7 @@ type Props = {
     placeholder?: string;
 }
 
-export default class AutosizeTextarea extends React.Component<Props> {
+export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
     constructor(props: Props) {
         super(props);

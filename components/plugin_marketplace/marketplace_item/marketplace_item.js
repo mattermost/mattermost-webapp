@@ -263,7 +263,7 @@ UpdateConfirmationModal.propTypes = {
     onCancel: PropTypes.func.isRequired,
 };
 
-export default class MarketplaceItem extends React.Component {
+export default class MarketplaceItem extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,

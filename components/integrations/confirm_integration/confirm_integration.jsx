@@ -13,7 +13,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import {getSiteURL} from 'utils/url';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class ConfirmIntegration extends React.Component {
+export default class ConfirmIntegration extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object,

@@ -18,7 +18,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import SystemUsersDropdown from '../system_users_dropdown';
 
-export default class SystemUsersList extends React.Component {
+export default class SystemUsersList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,

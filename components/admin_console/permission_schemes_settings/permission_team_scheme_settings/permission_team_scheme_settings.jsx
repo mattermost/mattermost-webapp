@@ -27,7 +27,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import TeamInList from './team_in_list';
 
-export default class PermissionTeamSchemeSettings extends React.Component {
+export default class PermissionTeamSchemeSettings extends React.PureComponent {
     static propTypes = {
         schemeId: PropTypes.string,
         scheme: PropTypes.object,

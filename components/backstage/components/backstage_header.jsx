@@ -8,7 +8,7 @@ import LocalizedIcon from 'components/localized_icon';
 
 import {t} from 'utils/i18n';
 
-export default class BackstageHeader extends React.Component {
+export default class BackstageHeader extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
     };

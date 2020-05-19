@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class SuggestionBox extends React.Component {
+export default class SuggestionBox extends React.PureComponent {
     static propTypes = {
 
         /**
