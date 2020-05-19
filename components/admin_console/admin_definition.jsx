@@ -2446,7 +2446,7 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Requires Guest Access to be enabled before being applied. Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this filter is removed/changed, active guests will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.guestFilterEx'),
-                        placeholder_default: 'E.g.: "(objectClass=guests)"',
+                        placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.either(
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
                             it.both(
@@ -2474,7 +2474,7 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Enter an AD/LDAP filter to use for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.adminFilterEx'),
-                        placeholder_default: 'E.g.: "(objectClass=admins)"',
+                        placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.either(
                             it.stateIsFalse('LdapSettings.EnableAdminFilter'),
                             it.both(
