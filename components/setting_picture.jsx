@@ -94,6 +94,9 @@ export default class SettingPicture extends Component {
 
     handleSave = (e) => {
         e.preventDefault();
+        if (this.props.loadingPicture) {
+            return;
+        }
         if (this.state.removeSrc) {
             this.props.onRemove();
         } else if (this.state.setDefaultSrc) {
@@ -102,10 +105,6 @@ export default class SettingPicture extends Component {
             this.props.onSubmit();
         }
     }
-
-    returnTrue = (e) => {
-        return true;
-    }    
 
     handleRemoveSrc = (e) => {
         e.preventDefault();
@@ -302,7 +301,7 @@ export default class SettingPicture extends Component {
                         disabled={disableSaveButtonFocus}
                         ref={this.confirmButton}
                         className={confirmButtonClass}
-                        onClick={this.props.loadingPicture ? this.returnTrue : this.handleSave}
+                        onClick= {this.handleSave}
                         aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}
                     >
                         <LoadingWrapper
