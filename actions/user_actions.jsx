@@ -17,6 +17,8 @@ import {
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
+import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
@@ -26,6 +28,9 @@ import {Constants, Preferences, UserStatuses} from 'utils/constants';
 export const queue = new PQueue({concurrency: 4});
 const dispatch = store.dispatch;
 const getState = store.getState;
+
+export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
+export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
 export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '') {
     return async (doDispatch) => {
@@ -37,6 +42,21 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
     };
 }
 
+export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = teamId || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
+        }
+
+        return {data: true};
+    };
+}
+
 export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
@@ -44,6 +64,21 @@ export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
+        }
+
+        return {data: true};
+    };
+}
+
+export function searchProfilesAndTeamMembers(term = '', options = {}) {
+    return async (doDispatch, doGetState) => {
+        const newTeamId = options.team_id || getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.searchProfiles(term, options));
+        if (data) {
+            await Promise.all([
+                doDispatch(loadTeamMembersForProfilesList(data, newTeamId)),
+                doDispatch(loadStatusesForProfilesList(data))
+            ]);
         }
 
         return {data: true};
@@ -68,7 +103,7 @@ export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamI
     };
 }
 
-export function loadTeamMembersForProfilesList(profiles, teamId) {
+export function loadTeamMembersForProfilesList(profiles, teamId, reloadAllMembers = false) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const teamIdParam = teamId || getCurrentTeamId(state);
@@ -76,7 +111,7 @@ export function loadTeamMembersForProfilesList(profiles, teamId) {
         for (let i = 0; i < profiles.length; i++) {
             const pid = profiles[i].id;
 
-            if (!getTeamMember(state, teamIdParam, pid)) {
+            if (reloadAllMembers === true || !getTeamMember(state, teamIdParam, pid)) {
                 membersToLoad[pid] = true;
             }
         }
@@ -224,16 +259,22 @@ export function loadProfilesForSidebar() {
     loadProfilesForGM();
 }
 
+export function filterGMsDMs(state, channels) {
+    const filteredClosedChannels = filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
+    return filterManuallyClosedDMs(state, filteredClosedChannels);
+}
+
 export async function loadProfilesForGM() {
     const state = getState();
-    const channels = getMyChannels(state);
     const newPreferences = [];
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
 
-    for (let i = 0; i < channels.length; i++) {
-        const channel = channels[i];
+    const channels = getMyChannels(state);
+    const filteredChannels = filterGMsDMs(state, channels);
 
+    for (let i = 0; i < filteredChannels.length; i++) {
+        const channel = filteredChannels[i];
         if (channel.type !== Constants.GM_CHANNEL) {
             continue;
         }
