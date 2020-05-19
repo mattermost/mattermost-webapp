@@ -15,7 +15,7 @@ import LineSwitch from 'components/admin_console/team_channel_settings/line_swit
 
 const GroupSettingsToggle = ({isDefault, allowReference, onToggle}) => (
     <LineSwitch
-        id={'allow_reference_switch'}
+        id={'allowReferenceSwitch'}
         disabled={isDefault}
         toggled={allowReference}
         last={true}
@@ -58,7 +58,7 @@ export const GroupProfileAndSettings = ({displayname, mentionname, allowReferenc
             name={displayname}
             title={t('admin.group_settings.group_details.group_profile.name')}
             titleDefault={'Name:'}
-            customID={'group_display_name'}
+            customID={'groupDisplayName'}
             isDisabled={true}
             showAtMention={false}
         />
@@ -77,7 +77,7 @@ export const GroupProfileAndSettings = ({displayname, mentionname, allowReferenc
                 name={mentionname}
                 title={t('admin.group_settings.group_details.group_mention.name')}
                 titleDefault={'Group Mention:'}
-                customID={'group_mention'}
+                customID={'groupMention'}
                 isDisabled={false}
                 showAtMention={true}
                 onChange={onChange}

@@ -18,10 +18,14 @@ let boardUser;
 
 // Goes to the groups page for the group specified by id as sysadmin
 const navigateToGroup = (id) => {
-    // # Login as sysadmin and visit board group page, timeout to allow components to render properly
+    // # Login as sysadmin and visit board group page, and wait until board user is visible
     cy.apiLogin('sysadmin');
     cy.visit(`/admin_console/user_management/groups/${id}`);
-    cy.wait(TIMEOUTS.TINY * 2);
+
+    // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
+    cy.get('#group_users').scrollIntoView();
+    cy.findByText(boardUser.email).should('be.visible');
+    cy.get('#group_profile').scrollIntoView();
 };
 
 // Goes to the ad-1 townsquare and attempts to display suggestions for the given group name
@@ -158,14 +162,14 @@ describe('System Console', () => {
             });
         });
 
-        // # Login once as board user
+        // # Login once as board user to ensure the user is created in the system
         boardUser = users['board-1'];
         cy.apiLogin(boardUser.username, boardUser.password);
 
         // # Login as sysadmin and add board-one to ad-1 team
         cy.apiLogin('sysadmin');
 
-        // # Add board user to test team and to ad-1 to ensure that he has two teams so that we can see notifications on unopened team
+        // # Add board user to ad-1 to ensure that he exists in the team and set his preferences to skip tutorial step
         cy.apiGetUserByEmail(boardUser.email).then((eRes) => {
             const user = eRes.body;
             cy.apiGetTeamByName('ad-1').then((teamRes) => {
@@ -176,32 +180,42 @@ describe('System Console', () => {
                     });
                 });
             });
+
+            const preferences = [{
+                user_id: user.id,
+                category: 'tutorial_step',
+                name: user.id,
+                value: '999',
+            }];
+            cy.apiSaveUserPreference(preferences, user.id);
         });
     });
 
     it('MM-23937 - Can enable and disable group mentions with a custom name for a group ', () => {
+        const groupName = `board_test_case_${Date.now()}`;
+
         // # Login as sysadmin and navigate to board group page
         navigateToGroup(groupID);
 
         // # Click the allow reference button
-        cy.findByTestId('allow_reference_switch').then((el) => {
+        cy.findByTestId('allowReferenceSwitch').then((el) => {
             el.find('button').click();
         });
 
         // # Give the group a custom name different from its DisplayName attribute
-        cy.get('#group_mention').find('input').clear().type('board_test_case_1');
+        cy.get('#groupMention').find('input').clear().type(groupName);
 
         // # Click save button
         saveConfig();
 
         // * Assert that the group mention works as expected since the group is enabled and sysadmin always has permission to mention
-        assertGroupMentionEnabled('board_test_case_1');
+        assertGroupMentionEnabled(groupName);
 
         // # Login as sysadmin and navigate to board group page
         navigateToGroup(groupID);
 
         // # Click the allow reference button
-        cy.findByTestId('allow_reference_switch').then((el) => {
+        cy.findByTestId('allowReferenceSwitch').then((el) => {
             el.find('button').click();
         });
 
@@ -209,15 +223,17 @@ describe('System Console', () => {
         saveConfig();
 
         // * Assert that the group mention does not do anything since the group is disabled even though sysadmin has permission to mention
-        assertGroupMentionDisabled('board_test_case_1');
+        assertGroupMentionDisabled(groupName);
     });
 
     it('MM-23937 - Can restrict users from mentioning a group through the use_group_mentions permission', () => {
+        const groupName = `board_test_case_${Date.now()}`;
+
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // # Set group as allow reference = true with name board_test_case_2
-        cy.apiPatchGroup(groupID, {allow_reference: true, name: 'board_test_case_2'});
+        // # Set group as allow reference = true with name groupName
+        cy.apiPatchGroup(groupID, {allow_reference: true, name: groupName});
 
         // # Navigate to system scheme page
         cy.visit('/admin_console/user_management/permissions/system_scheme');
@@ -231,7 +247,7 @@ describe('System Console', () => {
         cy.apiLogin('user-1');
 
         // * Assert that the group mention works as expected since the group is enabled and user has permission to mention
-        assertGroupMentionEnabled('board_test_case_2');
+        assertGroupMentionEnabled(groupName);
 
         // # Login as sysadmin and navigate to system scheme
         cy.apiLogin('sysadmin');
@@ -249,7 +265,7 @@ describe('System Console', () => {
         cy.apiLogin('user-1');
 
         // * Assert that the group mention does not do anything since the user does not have the permission to mention the group
-        assertGroupMentionDisabled('board_test_case_2');
+        assertGroupMentionDisabled(groupName);
 
         // # Login as sysadmin and navigate to system scheme page
         cy.apiLogin('sysadmin');
