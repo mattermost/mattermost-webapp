@@ -1,11 +1,10 @@
-$grey: #F5F5F5;
-$white: #FFF;
+@import 'utils/variables';
 
 .DataGrid {
     width: 100%;
 
     padding: 2rem 2rem 2rem 2rem;
-    background: $grey;
+    background: $bg--gray;
 
     .DataGrid_search {
         height: 48px;
@@ -86,7 +85,7 @@ $white: #FFF;
             min-height: 50px;
 
             &:nth-child(odd) {
-                background: $grey;
+                background: $bg--gray;
             }
             .DataGrid_cell {
                 margin: auto;
