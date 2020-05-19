@@ -119,10 +119,10 @@ export default class PopoverBar extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={
-                        <Tooltip id='zoom-out-icon-tooltip'>
+                        <Tooltip id='zoom-in-icon-tooltip'>
                             <FormattedMessage
-                                id='view_image.zoom_out'
-                                defaultMessage='Zoom Out'
+                                id='view_image.zoom_in'
+                                defaultMessage='Zoom In'
                             />
                         </Tooltip>
                     }
