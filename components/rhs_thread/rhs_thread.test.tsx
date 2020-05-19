@@ -136,7 +136,8 @@ describe('components/RhsThread', () => {
             socketConnectionStatus: false,
         };
         wrapper.setProps({socketConnectionStatus: true});
-        wrapper.instance().componentDidUpdate(prevProps);
+        const instance = wrapper.instance() as RhsThread;
+        instance.componentDidUpdate(prevProps);
 
         expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
     });
@@ -165,6 +166,7 @@ describe('components/RhsThread', () => {
             {disableLifecycleMethods: true},
         );
         const instance = wrapper.instance() as RhsThread;
+        instance.scrollToBottom = scrollToBottom;
         instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
@@ -191,6 +193,7 @@ describe('components/RhsThread', () => {
             {disableLifecycleMethods: true},
         );
         const instance = wrapper.instance() as RhsThread;
+        instance.scrollToBottom = scrollToBottom;
         instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();

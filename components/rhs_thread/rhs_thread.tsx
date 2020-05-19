@@ -58,7 +58,7 @@ type Props = {
         getPostThread: (rootId: string, root?: boolean) => void;
     };
     directTeammate: UserProfile;
-    selectedPostFocusedAt: PropTypes.number.isRequired,
+    selectedPostFocusedAt?: number;
 }
 
 type State = {
