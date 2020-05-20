@@ -71,6 +71,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
 
     private search = async (term: string) => {
         this.props.search(term);
+        this.setState({page: 0});
     }
 
     private getVisibleTotalCount = (): number => {
