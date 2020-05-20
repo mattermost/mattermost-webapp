@@ -207,6 +207,11 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           path="/experimental/features"
           render={[Function]}
         />
+        <Route
+          key="experimental/blevesearch"
+          path="/experimental/blevesearch"
+          render={[Function]}
+        />
         <Redirect
           to="/about/license"
         />

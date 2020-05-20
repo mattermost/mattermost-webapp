@@ -1,0 +1,115 @@
+@import 'utils/variables';
+
+.DataGrid {
+    width: 100%;
+
+    padding: 2rem 2rem 2rem 2rem;
+    background: $bg--gray;
+
+    .DataGrid_search {
+        height: 48px;
+        background: $white;
+        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row;
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: .5em 0;
+
+        .DataGrid_searchBar {
+            display: flex;
+            position: relative;
+
+            height: 32px;
+            width: 300px;
+            border: 1px solid rgba(61, 60, 64, 0.2);
+            box-sizing: border-box;
+            border-radius: 4px;
+
+            margin-left: 8px;
+
+            input {
+                border: 0px;
+                margin-left: 32px;
+                margin-right: 16px;
+                font-size: .95em;
+                width: 100%;
+            }
+
+            input:focus {
+                outline: none;
+            }
+
+            .DataGrid_searchIcon {
+                top: 6px;
+                left: 9px;
+                position: absolute;
+                pointer-events: none;
+                fill: var(--center-channel-color-56);
+            }
+        }
+    }
+
+    .DataGrid_header {
+        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row;
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: .5em 0;
+    }
+
+    .DataGrid_rows {
+        display: flex;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.5);
+
+        .DataGrid_loading {
+            margin: auto;
+            font-size: 1.6rem;
+            color: rgba(0, 0, 0, 0.3);
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .DataGrid_empty {
+            font-size: 1.6rem;
+            width: 100%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .DataGrid_row {
+            min-height: 50px;
+
+            &:nth-child(odd) {
+                background: $bg--gray;
+            }
+            .DataGrid_cell {
+                margin: auto;
+                text-overflow: ellipsis;
+                padding-right: 10px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .DataGrid_row, .DataGrid_header {
+        display: flex;
+        flex-direction: row;
+        padding-left: 20px;
+        height: auto;
+
+        .DataGrid_cell {
+            flex-basis: 100%;
+            flex: 1 0;
+        }
+    }
+
+    .DataGrid_footer {
+        text-align: right;
+    }
+}
