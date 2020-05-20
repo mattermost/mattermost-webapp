@@ -40,8 +40,8 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             uploadProfileImage: jest.fn(),
         },
         maxFileSize: 1024,
-        ldapPositionAttributeSet?: false,
-        samlPositionAttributeSet?: false,
+        ldapPositionAttributeSet: false,
+        samlPositionAttributeSet: false,
     };
 
     const mockStore = configureStore();

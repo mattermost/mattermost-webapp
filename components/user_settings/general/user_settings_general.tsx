@@ -110,24 +110,24 @@ type Props = {
         clearErrors: () => void;
         getMe: () => void;
         updateMe: (user: object) => Promise<{
-            data: {};
+            data: boolean;
             error?: {
                 server_error_id: string;
                 message: string;
             }
         }>;
         sendVerificationEmail: (email: string) => Promise<{
-           data: {};
-            error: {
-              err: string;
-            } 
+            data: boolean;
+            error?: {
+                err: string;
+            }
         }>;
         setDefaultProfileImage: (id: string) => void;
         uploadProfileImage: (id: string, file: object) => Promise<{
-            data: {};
+            data: boolean;
             error?: {
-              message: string;
-            } 
+                message: string;
+            }
         }>;
     };
     requireEmailVerification?: boolean;
