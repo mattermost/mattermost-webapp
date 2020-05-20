@@ -44,6 +44,7 @@ const baseProps = {
     atLatestPost: false,
     formattedPostIds: [],
     prevChannelId: 'prevChannelId',
+    isPrefetchingInProcess: false,
 };
 
 describe('components/post_view/post_list', () => {

@@ -233,14 +233,20 @@ describe('channel view actions', () => {
 
             PostActions.getPostsUnread.mockReturnValue(() => ({data: posts}));
 
-            await store.dispatch(Actions.loadUnreads('channel', 'post'));
+            await store.dispatch(Actions.loadUnreads('channel'));
 
             expect(store.getActions()).toEqual([
-                {amount: 0, data: 'channel', type: 'INCREASE_POST_VISIBILITY'},
                 {
-                    channelId: 'channel',
-                    time: 12344,
-                    type: 'RECEIVED_POSTS_FOR_CHANNEL_AT_TIME'},
+                    meta: {batch: true},
+                    payload: [
+                        {amount: 0, data: 'channel', type: 'INCREASE_POST_VISIBILITY'},
+                        {
+                            channelId: 'channel',
+                            time: 12344,
+                            type: 'RECEIVED_POSTS_FOR_CHANNEL_AT_TIME'
+                        }],
+                    type: 'BATCHING_REDUCER.BATCH',
+                }
             ]);
         });
     });

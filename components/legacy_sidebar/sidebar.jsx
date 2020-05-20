@@ -19,6 +19,7 @@ import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
+import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -723,6 +724,7 @@ class LegacySidebar extends React.PureComponent {
                 role='navigation'
                 aria-labelledby='sidebar-left'
             >
+                <DataPrefetch/>
                 <NewChannelFlow
                     show={showChannelModal}
                     canCreatePublicChannel={this.props.canCreatePublicChannel}

@@ -13,7 +13,8 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {autocompleteUsers} from 'mattermost-redux/actions/users';
 import {selectTeam} from 'mattermost-redux/actions/teams';
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, RequestStatus} from 'mattermost-redux/constants';
+
 import {
     getChannel,
     getChannelsNameMapInCurrentTeam,
@@ -25,6 +26,8 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
+
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getChannelByName, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -172,11 +175,26 @@ export function autocompleteUsersInChannel(prefix, channelId) {
     };
 }
 
-export function loadUnreads(channelId) {
+export function loadUnreads(channelId, prefetch = false) {
     return async (dispatch) => {
         const time = Date.now();
+        const actions = [];
+        if (prefetch) {
+            dispatch({
+                type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                channelId,
+                status: RequestStatus.STARTED,
+            });
+        }
         const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
         if (error) {
+            if (prefetch) {
+                dispatch({
+                    type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                    channelId,
+                    status: RequestStatus.FAILURE,
+                });
+            }
             return {
                 error,
                 atLatestMessage: false,
@@ -184,20 +202,29 @@ export function loadUnreads(channelId) {
             };
         }
 
-        dispatch({
+        actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,
             amount: data.order.length,
         });
 
+        if (prefetch) {
+            actions.push({
+                type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                channelId,
+                status: RequestStatus.SUCCESS,
+            });
+        }
+
         if (data.next_post_id === '') {
-            dispatch({
+            actions.push({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
                 channelId,
                 time,
             });
         }
 
+        dispatch(batchActions(actions));
         return {
             atLatestMessage: data.next_post_id === '',
             atOldestmessage: data.prev_post_id === '',
@@ -302,27 +329,66 @@ export function loadPosts({channelId, postId, type}) {
     };
 }
 
-export function syncPostsInChannel(channelId, since) {
+export function syncPostsInChannel(channelId, since, prefetch = false) {
     return async (dispatch, getState) => {
         const time = Date.now();
         const state = getState();
         const socketStatus = getSocketStatus(state);
         let sinceTimeToGetPosts = since;
         const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state, channelId);
+        const actions = [];
 
         if (lastPostsApiCallForChannel && lastPostsApiCallForChannel < socketStatus.lastDisconnectAt) {
             sinceTimeToGetPosts = lastPostsApiCallForChannel;
         }
 
+        if (prefetch) {
+            dispatch({
+                type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                channelId,
+                status: RequestStatus.STARTED,
+            });
+        }
+
         const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
         if (data) {
-            dispatch({
+            actions.push({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
                 channelId,
                 time,
             });
         }
+
+        if (error && prefetch) {
+            actions.push({
+                type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                channelId,
+                status: RequestStatus.FAILURE,
+            });
+        } else if (prefetch) {
+            actions.push({
+                type: ActionTypes.PREFETCH_POSTS_FOR_CHANNEL,
+                channelId,
+                status: RequestStatus.SUCCESS,
+            });
+        }
+
+        dispatch(batchActions(actions));
+
         return {data, error};
+    };
+}
+
+export function prefetchChannelPosts(channelId) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        if (!state.entities.posts.postsInChannel[channelId]) {
+            return dispatch(loadUnreads(channelId, true));
+        }
+
+        const recentPostIdInChannel = getMostRecentPostIdInChannel(state, channelId);
+        const recentPost = getPost(state, recentPostIdInChannel);
+        return dispatch(syncPostsInChannel(channelId, recentPost.create_at, true));
     };
 }
 

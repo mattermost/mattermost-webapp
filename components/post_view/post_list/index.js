@@ -8,6 +8,7 @@ import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPost
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
+import {RequestStatus} from 'mattermost-redux/constants';
 
 import {updateNewMessagesAtInChannel} from 'actions/global_actions.jsx';
 import {getLatestPostId, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
@@ -42,14 +43,17 @@ function makeMapStateToProps() {
         let atOldestPost = false;
         let formattedPostIds;
         let latestAriaLabelFunc;
-        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
+        const {focusedPostId, unreadChunkTimeStamp, channelId} = ownProps;
+        const channelViewState = state.views.channel;
+        const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
+        const isPrefetchingInProcess = channelViewState.prefetchChannelStatus[channelId] === RequestStatus.STARTED;
 
-        if (ownProps.focusedPostId && ownProps.unreadChunkTimeStamp !== '') {
-            chunk = getPostsChunkAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
-        } else if (ownProps.unreadChunkTimeStamp) {
-            chunk = getUnreadPostsChunk(state, ownProps.channelId, ownProps.unreadChunkTimeStamp);
+        if (focusedPostId && unreadChunkTimeStamp !== '') {
+            chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
+        } else if (unreadChunkTimeStamp) {
+            chunk = getUnreadPostsChunk(state, channelId, unreadChunkTimeStamp);
         } else {
-            chunk = getRecentPostsChunkInChannel(state, ownProps.channelId);
+            chunk = getRecentPostsChunkInChannel(state, channelId);
         }
 
         if (chunk) {
@@ -59,7 +63,7 @@ function makeMapStateToProps() {
         }
 
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId: ownProps.channelId});
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -70,13 +74,14 @@ function makeMapStateToProps() {
 
         return {
             lastViewedAt,
-            isFirstLoad: isFirstLoad(state, ownProps.channelId),
+            isFirstLoad: isFirstLoad(state, channelId),
             formattedPostIds,
             atLatestPost,
             atOldestPost,
             latestPostTimeStamp,
             postListIds: postIds,
             latestAriaLabelFunc,
+            isPrefetchingInProcess,
         };
     };
 }

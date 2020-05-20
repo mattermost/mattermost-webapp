@@ -62,9 +62,8 @@ export function emitChannelClickEvent(channel) {
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
         const member = getMyChannelMember(state, chan.id);
-
+        const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
-
         if (chan.delete_at === 0) {
             const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
             if (penultimate !== chan.name) {
@@ -79,7 +78,9 @@ export function emitChannelClickEvent(channel) {
             dispatch(updateRhsState(RHSStates.PIN, chan.id));
         }
 
-        loadProfilesForSidebar();
+        if (currentChannelId) {
+            loadProfilesForSidebar();
+        }
 
         dispatch(batchActions([{
             type: ChannelTypes.SELECT_CHANNEL,

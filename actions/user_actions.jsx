@@ -217,9 +217,9 @@ export function loadProfilesForGroupChannels(groupChannels) {
     };
 }
 
-export function loadProfilesForSidebar() {
-    loadProfilesForDM();
-    loadProfilesForGM();
+export async function loadProfilesForSidebar() {
+    await loadProfilesForDM();
+    await loadProfilesForGM();
 }
 
 export async function loadProfilesForGM() {

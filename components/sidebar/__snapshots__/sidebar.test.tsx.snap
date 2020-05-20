@@ -26,9 +26,11 @@ exports[`components/sidebar should match snapshot 1`] = `
   <Connect(Pluggable)
     pluggableName="LeftSidebarHeader"
   />
-  <Connect(SidebarCategoryList)
-    handleOpenMoreDirectChannelsModal={[Function]}
-  />
+  <Connect(CreateTeam)>
+    <Connect(SidebarCategoryList)
+      handleOpenMoreDirectChannelsModal={[Function]}
+    />
+  </Connect(CreateTeam)>
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -65,9 +67,11 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
   <Connect(Pluggable)
     pluggableName="LeftSidebarHeader"
   />
-  <Connect(SidebarCategoryList)
-    handleOpenMoreDirectChannelsModal={[Function]}
-  />
+  <Connect(CreateTeam)>
+    <Connect(SidebarCategoryList)
+      handleOpenMoreDirectChannelsModal={[Function]}
+    />
+  </Connect(CreateTeam)>
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -108,9 +112,11 @@ exports[`components/sidebar should match snapshot when more channels modal is op
   <Connect(Pluggable)
     pluggableName="LeftSidebarHeader"
   />
-  <Connect(SidebarCategoryList)
-    handleOpenMoreDirectChannelsModal={[Function]}
-  />
+  <Connect(CreateTeam)>
+    <Connect(SidebarCategoryList)
+      handleOpenMoreDirectChannelsModal={[Function]}
+    />
+  </Connect(CreateTeam)>
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
