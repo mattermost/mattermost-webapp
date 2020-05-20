@@ -86,7 +86,7 @@ const actionsProp = {
         return {data: {message, args}};
     },
     scrollPostListToBottom: jest.fn(),
-    selectChannelMemberCountsByGroup: jest.fn(),
+    getChannelMemberCountsByGroup: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -109,6 +109,7 @@ function createPost({
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
+    useGroupMentions = true,
 } = {}) {
     return (
         <CreatePost
@@ -141,7 +142,7 @@ function createPost({
             isTimezoneEnabled={isTimezoneEnabled}
             canPost={true}
             useChannelMentions={true}
-            useGroupMentions={true}
+            useGroupMentions={useGroupMentions}
         />
     );
 }
@@ -182,8 +183,8 @@ describe('components/create_post', () => {
         expect(clearDraftUploads).toHaveBeenCalled();
     });
 
-    it('Check for state change on channelId change', () => {
-        const wrapper = shallowWithIntl(createPost());
+    it('Check for state change on channelId change with useGroupMentions = true', () => {
+        const wrapper = shallowWithIntl(createPost({}));
         const draft = {
             ...draftProp,
             message: 'test',
@@ -201,6 +202,41 @@ describe('components/create_post', () => {
             },
         });
         expect(wrapper.state('message')).toBe('test');
+    });
+
+    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
+        const getChannelMemberCountsByGroup = jest.fn();
+        const actions = {
+            ...actionsProp,
+            getChannelMemberCountsByGroup,
+        };
+        const wrapper = shallowWithIntl(createPost({actions}));
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
+    });
+
+    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
+        const getChannelMemberCountsByGroup = jest.fn();
+        const useGroupMentions = false;
+        const actions = {
+            ...actionsProp,
+            getChannelMemberCountsByGroup,
+        };
+        const wrapper = shallowWithIntl(createPost({actions, useGroupMentions}));
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
     });
 
     it('click toggleEmojiPicker', () => {
@@ -1100,6 +1136,13 @@ describe('components/create_post', () => {
 
     it('should be able to format a pasted markdown table', () => {
         const wrapper = shallowWithIntl(createPost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
 
         const event = {
             target: {
@@ -1150,6 +1193,13 @@ describe('components/create_post', () => {
 
     it('should be able to format a github codeblock (pasted as a table)', () => {
         const wrapper = shallowWithIntl(createPost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
 
         const event = {
             target: {
@@ -1169,6 +1219,43 @@ describe('components/create_post', () => {
         };
 
         const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(codeBlockMarkdown);
+    });
+
+    it('should be able to format a github codeblock (pasted as a table) with existing draft post', () => {
+        const wrapper = shallowWithIntl(createPost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()})}};
+        wrapper.setState({
+            message: 'test',
+            caretPosition: 'test'.length, // cursor is at the end
+        });
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/plain', 'text/html'],
+                getData: (type) => {
+                    if (type === 'text/plain') {
+                        return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
+                    }
+                    return '<table class="highlight tab-size js-file-line-container" data-tab-size="8"><tbody><tr><td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> a javascript codeblock example</span></td></tr><tr><td id="L2" class="blob-num js-line-number" data-line-number="2">&nbsp;</td><td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> (<span class="pl-c1">1</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {</td></tr><tr><td id="L3" class="blob-num js-line-number" data-line-number="3">&nbsp;</td><td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">\'</span>condition is true<span class="pl-pds">\'</span></span>);</td></tr><tr><td id="L4" class="blob-num js-line-number" data-line-number="4">&nbsp;</td><td id="LC4" class="blob-code blob-code-inner js-file-line">}</td></tr></tbody></table>';
+                },
+            },
+        };
+
+        const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(codeBlockMarkdown);

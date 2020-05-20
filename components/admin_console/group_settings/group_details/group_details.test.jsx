@@ -37,6 +37,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             unlink: jest.fn(),
             patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
+            setNavigationBlocked: jest.fn(),
         },
     };
 
@@ -76,6 +77,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             unlink: jest.fn(),
             patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
+            setNavigationBlocked: jest.fn(),
         };
         shallow(
             <GroupDetails
@@ -98,6 +100,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
             patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
+            setNavigationBlocked: jest.fn(),
         };
         const wrapper = shallow(
             <GroupDetails
@@ -123,6 +126,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             unlink: jest.fn().mockReturnValue(Promise.resolve()),
             patchGroup: jest.fn(),
             patchGroupSyncable: jest.fn(),
+            setNavigationBlocked: jest.fn(),
         };
         const wrapper = shallow(
             <GroupDetails
