@@ -136,13 +136,14 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm} = this.props;
         return (
             <AdminPanel
-                id='team_members'
+                id='teamMembers'
                 titleId={t('admin.team_settings.team_detail.membersTitle')}
                 titleDefault='Members'
                 subtitleId={t('admin.team_settings.team_detail.membersDescription')}
                 subtitleDefault='A list of users who are currently in the team right now'
                 button={
                     <ToggleModalButton
+                        id='addTeamMembers'
                         className='btn btn-primary'
                         dialogType={AddUsersToTeamModal}
                         dialogProps={{
