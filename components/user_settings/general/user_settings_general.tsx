@@ -139,7 +139,6 @@ type Props = {
     samlNicknameAttributeSet?: boolean;
     ldapPositionAttributeSet?: boolean;
     samlPositionAttributeSet?: boolean;
-    // submitActive?: boolean;
 }
 
 type State = {
@@ -163,9 +162,10 @@ type State = {
 }
 
 class UserSettingsGeneralTab extends React.Component<Props, State> {
+    private submitActive = false;
+
     constructor(props: Props) {
         super(props);
-        props.submitActive = false;
 
         this.state = this.setupInitialState(props);
     }
@@ -338,7 +338,7 @@ class UserSettingsGeneralTab extends React.Component<Props, State> {
         try {
             await this.props.actions.setDefaultProfileImage(this.props.user.id);
             this.updateSection('');
-            this.props.submitActive = false;
+            this.submitActive = false;
         } catch (err) {
             let serverError;
             if (err.message) {
