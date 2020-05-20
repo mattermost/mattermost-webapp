@@ -156,6 +156,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                 <AbstractList
                     header={this.header()}
                     renderRow={this.renderRow}
+                    noPadding={true}
                     {...absProps}
                     key={this.state.pageResetKey}
                     onPageChangedCallback={this.onPageChangedCallback}
