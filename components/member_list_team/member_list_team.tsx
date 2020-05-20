@@ -134,7 +134,14 @@ export default class MemberListTeam extends React.Component<Props, State> {
         this.loadComplete();
     }
 
-    search = (term: string) => {
+    search = async (term: string) => {
+        await this.props.actions.getTeamMembers(this.props.currentTeamId, 0, this.props.users.length,
+            {
+                sort: Teams.SORT_USERNAME_OPTION,
+                exclude_deleted_users: true,
+                term,
+            } as GetTeamMembersOpts
+        );
         this.props.actions.setModalSearchTerm(term);
     }
 
