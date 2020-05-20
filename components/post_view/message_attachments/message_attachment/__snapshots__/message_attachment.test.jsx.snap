@@ -101,7 +101,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           <div
             className="attachment-actions"
           >
-            <ActionButton
+            <Connect(ActionButton)
               action={
                 Object {
                   "cookie": "cookie-contents",
@@ -657,7 +657,7 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
 <div
   className="attachment-actions"
 >
-  <ActionButton
+  <Connect(ActionButton)
     action={
       Object {
         "id": "action_id_1",
@@ -666,7 +666,7 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
     }
     handleAction={[Function]}
   />
-  <ActionButton
+  <Connect(ActionButton)
     action={
       Object {
         "id": "action_id_2",

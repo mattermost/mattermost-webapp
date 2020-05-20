@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Bot} from 'mattermost-redux/types/bots';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -53,5 +54,40 @@ export class TestHelper {
             display_name: ''
         };
         return Object.assign({}, defaultBot, override);
+    }
+
+    public static getTeamMock(override: Partial<Team>): Team {
+        const defaultTeam: Team = {
+            id: 'team_id',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            type: 'O',
+            display_name: 'name',
+            name: 'DN',
+            scheme_id: 'id',
+            allow_open_invite: false,
+            group_constrained: false,
+            description: '',
+            email: '',
+            company_name: '',
+            allowed_domains: '',
+            invite_id: '',
+        };
+        return Object.assign({}, defaultTeam, override);
+    }
+
+    public static getTeamMembershipMock(override: Partial<TeamMembership>): TeamMembership {
+        const defaultMembership: TeamMembership = {
+            mention_count: 0,
+            msg_count: 0,
+            team_id: 'team_id',
+            user_id: 'user_id',
+            roles: 'team_user',
+            delete_at: 0,
+            scheme_user: true,
+            scheme_admin: false,
+        };
+        return Object.assign({}, defaultMembership, override);
     }
 }
