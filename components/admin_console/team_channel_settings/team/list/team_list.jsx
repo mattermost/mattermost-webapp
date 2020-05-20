@@ -135,6 +135,7 @@ export default class TeamList extends React.PureComponent {
                 <AbstractList
                     header={this.header()}
                     renderRow={this.renderRow}
+                    noPadding={true}
                     {...absProps}
                     key={this.state.pageResetKey}
                     onPageChangedCallback={this.onPageChangedCallback}
