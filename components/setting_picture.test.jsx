@@ -4,7 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
+
+const helpText = (
+    <FormattedMarkdownMessage
+        id={'setting_picture.help.profile'}
+        defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
+        values={{max: 52428800}}
+    />
+);
 
 describe('components/SettingItemMin', () => {
     const baseProps = {
@@ -18,6 +27,7 @@ describe('components/SettingItemMin', () => {
         onFileChange: () => {}, // eslint-disable-line no-empty-function
         updateSection: () => {}, // eslint-disable-line no-empty-function
         maxFileSize: 209715200,
+        helpText: {helpText}
     };
 
     test('should match snapshot, profile picture on source', () => {
