@@ -110,20 +110,17 @@ const assertGroupMentionEnabled = (groupName) => {
 };
 
 // Clicks the save button in the system console page.
-// waitUntilConfigSaved: If we need to wait for the save button to go from saving -> save.
-// Usually we need to wait unless we are doing this in team override scheme
-const saveConfig = (waitUntilConfigSaved = true) => {
+const saveConfig = () => {
     // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
     cy.get('#saveSetting').then((btn) => {
-        if (!btn.disabled) {
+        if (btn.is(':enabled')) {
             btn.click();
+
+            cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+                return el[0].innerText === 'Save';
+            }));
         }
     });
-    if (waitUntilConfigSaved) {
-        cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-            return el[0].innerText === 'Save';
-        }));
-    }
 };
 
 describe('System Console', () => {
@@ -265,7 +262,9 @@ describe('System Console', () => {
 
         // * Assert that the group mention does not do anything since the user does not have the permission to mention the group
         assertGroupMentionDisabled(groupName);
+    });
 
+    after(() => {
         // # Login as sysadmin and navigate to system scheme page
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/user_management/permissions/system_scheme');
