@@ -16,7 +16,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 const saveAndNavigateBackTo = (name) => {
     // # Save the setting
     cy.get('#saveSetting').then((btn) => {
-        if (btn.is('enabled')) {
+        if (btn.is(':enabled')) {
             btn.click();
 
             // # Navigate back to the resource specified
@@ -24,7 +24,7 @@ const saveAndNavigateBackTo = (name) => {
             cy.findByTestId(`${name}edit`).click();
         }
     });
-}
+};
 
 describe('System Console', () => {
     before(() => {
