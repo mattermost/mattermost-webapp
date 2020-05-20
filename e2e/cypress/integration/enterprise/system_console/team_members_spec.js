@@ -14,44 +14,60 @@ let user1;
 let user2;
 let sysadmin;
 
+const saveConfig = () => {
+    // # Click save
+    cy.get('#saveSetting').click();
+
+    // # Check that the members block is no longer visible meaning that the save has succeeded and we were redirected out
+    cy.get('#teamMembers').should('not.be.visible');
+};
+
+const setupData = () => {
+    // # Login as sysadmin
+    cy.apiLogin('sysadmin');
+
+    // # Ensure that team is not group constrained
+    cy.apiGetTeamByName('ad-1').then((teamRes) => {
+        team = teamRes.body;
+        cy.apiPatchTeam(team.id, {...team, group_constrained: false}).then((patchTeamRes) => {
+            team = patchTeamRes.body;
+        });
+
+        // # Make sure user1 is in the team initially
+        cy.apiGetUserByEmail(users['user-1'].email).then((user1Res) => {
+            user1 = user1Res.body;
+            cy.apiAddUserToTeam(team.id, user1.id);
+        });
+
+        // # Make sure user2 is in the team initially
+        cy.apiGetUserByEmail(users['user-2'].email).then((user2Res) => {
+            user2 = user2Res.body;
+            cy.apiAddUserToTeam(team.id, user2.id);
+        });
+
+        // # Make sure sysadmin is in the team initially
+        cy.apiGetUserByEmail(users.sysadmin.email).then((sysadminRes) => {
+            sysadmin = sysadminRes.body;
+            cy.apiAddUserToTeam(team.id, sysadmin.id);
+        });
+    });
+};
+
 describe('Team members test', () => {
     before(() => {
-        // # Login as sysadmin and navigate to system scheme page
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
         // * Check if server has license
         cy.requireLicense();
 
-        // # Ensure that team is not group constrained
-        cy.apiGetTeamByName('ad-1').then((teamRes) => {
-            team = teamRes.body;
-            cy.apiPatchTeam(team.id, {...team, group_constrained: false}).then((patchTeamRes) => {
-                team = patchTeamRes.body;
-            });
-
-            // # Make sure user1 is in the team initially
-            cy.apiGetUserByEmail(users['user-1'].email).then((user1Res) => {
-                user1 = user1Res.body;
-                cy.apiAddUserToTeam(team.id, user1.id);
-            });
-
-            // # Make sure user2 is in the team initially
-            cy.apiGetUserByEmail(users['user-2'].email).then((user2Res) => {
-                user2 = user2Res.body;
-                cy.apiAddUserToTeam(team.id, user2.id);
-            });
-
-            // # Make sure sysadmin is in the team initially
-            cy.apiGetUserByEmail(users.sysadmin.email).then((sysadminRes) => {
-                sysadmin = sysadminRes.body;
-                cy.apiAddUserToTeam(team.id, sysadmin.id);
-            });
-        });
+        // # Reset data before running tests
+        setupData();
     });
 
     after(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        // # Reset data after running tests
+        setupData();
     });
 
     it('MM-23938 - Team members block is only visible when team is not group synced', () => {
@@ -85,8 +101,8 @@ describe('Team members test', () => {
         cy.get('#teamMembers .DataGrid_search input').clear().type(user1.email);
 
         // # Wait till loading complete and then remove the only visible user
-        cy.get('#teamMembers .UserGrid_removeRow a').should('be.visible').click();
         cy.get('#teamMembers .DataGrid_loading').should('not.be.visible');
+        cy.get('#teamMembers .UserGrid_removeRow a').should('be.visible').click();
 
         // # Attempt to save
         cy.get('#saveSetting').click();
@@ -101,8 +117,8 @@ describe('Team members test', () => {
         cy.get('#teamMembers .DataGrid_search input').clear().type(user2.email);
 
         // # Wait till loading complete and then remove the only visible user
-        cy.get('#teamMembers .UserGrid_removeRow a').should('be.visible').click();
         cy.get('#teamMembers .DataGrid_loading').should('not.be.visible');
+        cy.get('#teamMembers .UserGrid_removeRow a').should('be.visible').click();
 
         // # Attempt to save
         cy.get('#saveSetting').click();
@@ -131,13 +147,8 @@ describe('Team members test', () => {
         // # Open the add members modal
         cy.findByTestId('addTeamMembers').click();
 
-        // # Enter user1 email and click the first result
-        cy.get('#addUsersToTeamModal input').clear().type(user1.email);
-        cy.get('#multiSelectList').children(0).click();
-
-        // # Enter user2 email and click the first result
-        cy.get('#addUsersToTeamModal input').type(user2.email);
-        cy.get('#multiSelectList').children(0).click();
+        // # Enter user1 and user2 emails
+        cy.get('#addUsersToTeamModal input').clear().type(`${user1.email}{enter}${user2.email}{enter}`);
 
         // # Confirm add the users
         cy.get('#addUsersToTeamModal #saveItems').click();
@@ -170,13 +181,14 @@ describe('Team members test', () => {
         cy.get('#teamMembers .DataGrid_rows').children(0).should('contain', sysadmin.email);
 
         // # Attempt to save
-        cy.get('#saveSetting').click();
+        saveConfig();
 
         // # Click the team edit link
         cy.findByTestId(`${team.display_name}edit`).click();
 
         // # Search user1 that we know is now in the team again
         cy.get('#teamMembers .DataGrid_search input').scrollIntoView().clear().type(user1.email);
+        cy.get('#teamMembers .DataGrid_loading').should('not.be.visible');
 
         // * Assert that the user is now saved as an admin
         cy.get('#teamMembers .DataGrid_rows').children(0).should('contain', user1.email).and('not.contain', 'New').and('contain', 'Team Admin');
@@ -195,11 +207,12 @@ describe('Team members test', () => {
 
         // # Search user2 that we know is now in the team again
         cy.get('#teamMembers .DataGrid_search input').scrollIntoView().clear().type(user2.email);
+        cy.get('#teamMembers .DataGrid_loading').should('not.be.visible');
 
         // * Assert user2 is now saved as a regular member
         cy.get('#teamMembers .DataGrid_rows').children(0).should('contain', user2.email).and('not.contain', 'New').and('contain', 'Team Member');
 
         // # Attempt to save
-        cy.get('#saveSetting').click();
+        saveConfig();
     });
 });
