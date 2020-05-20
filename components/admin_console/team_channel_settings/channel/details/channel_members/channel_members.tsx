@@ -146,6 +146,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 subtitleDefault='A list of users who are currently in the channel right now'
                 button={
                     <ToggleModalButton
+                        id='addChannelMembers'
                         className='btn btn-primary'
                         dialogType={ChannelInviteModal}
                         dialogProps={{
