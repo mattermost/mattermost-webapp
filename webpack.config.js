@@ -339,12 +339,15 @@ var config = {
                 sizes: '96x96',
             }],
         }),
-        new BrotliPlugin({
-            asset: '[file].br',
-            test: /\.(js|css)$/
-        }),
     ],
 };
+
+if (!DEV) {
+    config.plugins.push(new BrotliPlugin({
+        asset: '[file].br',
+        test: /\.(js|css)$/
+    }));
+}
 
 if (!targetIsStats) {
     config.stats = MYSTATS;
