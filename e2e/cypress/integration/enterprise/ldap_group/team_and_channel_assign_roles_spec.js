@@ -19,7 +19,7 @@ const saveAndNavigateBackTo = (name) => {
         if (btn.is('enabled')) {
             btn.click();
 
-            // # Navigate back to the team
+            // # Navigate back to the resource specified
             cy.findByTestId('search-input').should('be.visible').type(`${name}{enter}`);
             cy.findByTestId(`${name}edit`).click();
         }
