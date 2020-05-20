@@ -6,8 +6,6 @@
 const axios = require('axios');
 const fse = require('fs-extra');
 
-const users = require('../cypress/fixtures/users.json');
-
 const MAX_FAILED_TITLES = 5;
 
 function getAllTests(results) {
@@ -83,7 +81,7 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateTestReport(summary, isUploadedToS3, bucketFolder) {
+function generateTestReport(summary, isUploadedToS3, reportLink) {
     const {BRANCH, BROWSER} = process.env;
     const {statsFieldValue, stats} = summary;
 
@@ -100,7 +98,7 @@ function generateTestReport(summary, isUploadedToS3, bucketFolder) {
         awsS3Fields = {
             short: false,
             title: 'Test Report',
-            value: `[Link to the report](https://${process.env.AWS_S3_BUCKET}.s3.amazonaws.com/${bucketFolder}/mochawesome.html)`,
+            value: `[Link to the report](${reportLink})`,
         };
     }
 
@@ -145,41 +143,9 @@ function generateDiagnosticReport(summary, serverInfo) {
             title: `Cypress UI Test Automation #${BUILD_ID}, **${BRANCH}** branch`,
             fields: [{
                 short: false,
-                value: `Start: **${summary.stats.start}**\nEnd: **${summary.stats.end}**\nUser ID: **${serverInfo.sysadminId}**\nTeam ID: **${serverInfo.ad1TeamId}**`,
+                value: `Start: **${summary.stats.start}**\nEnd: **${summary.stats.end}**\nUser ID: **${serverInfo.userId}**\nTeam ID: **${serverInfo.teamId}**`,
             }],
         }],
-    };
-}
-
-async function getServerInfo(baseUrl) {
-    const sysadmin = users.sysadmin;
-    const headers = {'X-Requested-With': 'XMLHttpRequest'};
-
-    const loginResponse = await axios({
-        method: 'post',
-        url: `${baseUrl}/api/v4/users/login`,
-        headers,
-        data: {login_id: sysadmin.username, password: sysadmin.password},
-    });
-
-    let cookieString = '';
-    const setCookie = loginResponse.headers['set-cookie'];
-    setCookie.forEach((cookie) => {
-        const nameAndValue = cookie.split(';')[0];
-        cookieString += nameAndValue + ';';
-    });
-
-    headers.Cookie = cookieString;
-
-    const teamResponse = await axios({
-        method: 'get',
-        url: `${baseUrl}/api/v4/teams/name/ad-1`,
-        headers,
-    });
-
-    return {
-        sysadminId: loginResponse.data.id,
-        ad1TeamId: teamResponse.data.id,
     };
 }
 
@@ -204,7 +170,6 @@ module.exports = {
     generateShortSummary,
     generateTestReport,
     getAllTests,
-    getServerInfo,
     sendReport,
     writeJsonToFile,
 };
