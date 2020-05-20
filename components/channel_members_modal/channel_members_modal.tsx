@@ -31,7 +31,7 @@ type Props = {
         openModal: (modalData: {
             modalId: string;
             dialogProps: {};
-            dialogType: (props: {}) => React.ReactElement | null;
+            dialogType: (props: any) => React.ReactElement | null;
         }) => Promise<{data: boolean}>;
     };
 }

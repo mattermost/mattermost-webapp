@@ -16,10 +16,12 @@ describe('components/channel_invite_modal', () => {
         id: 'user-1',
         label: 'user-1',
         value: 'user-1',
+        delete_at: 0,
     }, {
         id: 'user-2',
         label: 'user-2',
         value: 'user-2',
+        delete_at: 0,
     }];
 
     const channel = {
@@ -58,9 +60,44 @@ describe('components/channel_invite_modal', () => {
         onHide: jest.fn(),
     };
 
-    test('should match snapshot for channel_invite_modal', () => {
+    test('should match snapshot for channel_invite_modal with profiles', () => {
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>
+            <ChannelInviteModal
+                {...baseProps}
+                profilesNotInCurrentChannel={users}
+                profilesNotInCurrentTeam={[]}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with exclude and include users', () => {
+        const wrapper = shallow(
+            <ChannelInviteModal
+                {...baseProps}
+                profilesNotInCurrentChannel={users}
+                profilesNotInCurrentTeam={[]}
+                includeUsers={
+                    {
+                        'user-3': {
+                            id: 'user-3',
+                            label: 'user-3',
+                            value: 'user-3',
+                            delete_at: 0,
+                        }
+                    }
+                }
+                excludeUsers={
+                    {
+                        'user-1': {
+                            id: 'user-1',
+                            label: 'user-1',
+                            value: 'user-1',
+                            delete_at: 0,
+                        }
+                    }
+                }
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -130,6 +167,26 @@ describe('components/channel_invite_modal', () => {
             expect(wrapper.state('show')).toEqual(false);
             done();
         });
+    });
+
+    test('should call onAddCallback on handleSubmit with skipCommit', () => {
+        const onAddCallback = jest.fn();
+        const props = {
+            ...baseProps,
+            skipCommit: true,
+            onAddCallback,
+        };
+
+        const wrapper = shallow(
+            <ChannelInviteModal
+                {...props}
+            />
+        );
+
+        wrapper.setState({values: users, show: true});
+        wrapper.instance().handleSubmit(event);
+        expect(onAddCallback).toHaveBeenCalled();
+        expect(wrapper.instance().props.actions.addUsersToChannel).toHaveBeenCalledTimes(0);
     });
 
     test('should trim the search term', () => {

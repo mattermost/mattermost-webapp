@@ -135,6 +135,14 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         synced={false}
         totalGroups={1}
       />
+      <Connect(ChannelMembers)
+        channelId="123"
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
+      />
     </div>
   </div>
   <SaveChangesPanel
@@ -277,6 +285,14 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         setNewGroupRole={[Function]}
         synced={false}
         totalGroups={1}
+      />
+      <Connect(ChannelMembers)
+        channelId="123"
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
       />
     </div>
   </div>
