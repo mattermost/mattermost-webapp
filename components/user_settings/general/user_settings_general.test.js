@@ -135,4 +135,28 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         );
         expect(wrapper.find('#position').length).toBe(0);
     });
+
+    test('should not show image field when LDAP picture attribute is set', () => {
+        const props = {...requiredProps};
+        props.user = {...user};
+        props.user.auth_service = 'ldap';
+        props.activeSection = 'picture';
+
+        props.ldapPictureAttributeSet = false;
+
+        let wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UserSettingsGeneral {...props}/>
+            </Provider>
+        );
+        expect(wrapper.find('.profile-img').exists()).toBeTruthy();
+
+        props.ldapPictureAttributeSet = true;
+        wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UserSettingsGeneral {...props}/>
+            </Provider>
+        );
+        expect(wrapper.find('.profile-img').exists()).toBeFalsy();
+    });
 });
