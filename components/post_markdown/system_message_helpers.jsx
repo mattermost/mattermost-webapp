@@ -356,7 +356,6 @@ function renderWarnMetricStatusMessage(post) {
     const options = {
         markdown: false,
         warnMetricStatus: true,
-        searchTerm: post.props.searchTerm,
         warnMetricId: post.props.warnMetricId
     };
 

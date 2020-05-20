@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getClientConfig, getLicenseConfig, getWarnMetricsStatus} from 'mattermost-redux/actions/general';
+import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import * as UserActions from 'mattermost-redux/actions/users';
 
 import {Client4} from 'mattermost-redux/client';
@@ -80,10 +80,3 @@ export function loadTranslations(locale, url) {
         });
     };
 }
-
-export function loadWarnMetricsStatus() {
-    return async (dispatch) => {
-        dispatch(getWarnMetricsStatus());
-    };
-}
-

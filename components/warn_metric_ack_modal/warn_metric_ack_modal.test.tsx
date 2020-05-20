@@ -32,8 +32,8 @@ describe('components/WarnMetricAckModal', () => {
         closeParentComponent: jest.fn(),
         warnMetricId: 'metric1',
         actions: {
-            getStandardAnalytics: jest.fn(),
             closeModal: jest.fn(),
+            getStandardAnalytics: jest.fn(),
             sendWarnMetricAck: jest.fn(),
         },
     };

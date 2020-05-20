@@ -26,6 +26,10 @@ jest.mock('utils/utils', () => ({
     enableDevModeFeatures: jest.fn(),
 }));
 
+jest.mock('mattermost-redux/actions/general', () => ({
+    setUrl: () => {},
+}));
+
 describe('components/Root', () => {
     const baseProps = {
         diagnosticsEnabled: true,
@@ -33,8 +37,8 @@ describe('components/Root', () => {
         noAccounts: false,
         showTermsOfService: false,
         actions: {
-            loadWarnMetricsStatus: async () => {},
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            getWarnMetricsStatus: async () => {},
         },
         location: {
             pathname: '/',

@@ -29,11 +29,12 @@ type Props = {
     actions: {
         closeModal: (arg: string) => void;
         getStandardAnalytics: () => any;
-        sendWarnMetricAck: (arg: string) => ActionFunc & Partial<{error: Error}>;
+        sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error: Error}>;
     };
 }
 
 type State = {
+    forceAck: boolean;
     serverError: string | null;
     saving: boolean;
 }
@@ -42,6 +43,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     public constructor(props: Props) {
         super(props);
         this.state = {
+            forceAck: false,
             saving: false,
             serverError: null,
         };
@@ -51,11 +53,11 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         AdminActions.getStandardAnalytics();
     }
 
-    onEmailUsClick = async () => {
+    onAcknowledgeClick = async () => {
         trackEvent('admin', 'click_warn_metric_ack_acknowledge', {metric: this.props.warnMetricId});
 
         this.setState({saving: true});
-        const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricId);
+        const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricId, this.state.forceAck);
         if (error) {
             this.setState({serverError: error.message, saving: false});
         } else {
@@ -64,7 +66,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     }
 
     onHide = () => {
-        this.setState({serverError: null, saving: false});
+        this.setState({serverError: null, saving: false, forceAck: false});
         this.props.actions.closeModal(ModalIdentifiers.WARN_METRIC_ACK);
     }
 
@@ -104,6 +106,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 
         const mailToLinkText = 'mailto:' + mailRecipient + '?cc=' + this.props.user.email + '&subject=' + mailSubject + '&body=' + mailBody;
 
+        this.setState({forceAck: true});
         return (
             <div className='form-group has-error'>
                 <br/>
@@ -117,7 +120,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                                     url={mailToLinkText}
                                     messageId={t('warn_metric_ack_modal.mailto.link')}
                                     defaultMessage={'Email Us'}
-                                    onClickHandler={this.onEmailUsClick}
+                                    onClickHandler={this.onAcknowledgeClick}
                                     warnMetricId={this.props.warnMetricId}
                                 />
                             ),
@@ -202,7 +205,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                         data-dismiss='modal'
                         disabled={this.state.saving}
                         autoFocus={true}
-                        onClick={this.onEmailUsClick}
+                        onClick={this.onAcknowledgeClick}
                     >
                         {buttonText}
                     </button>
@@ -220,7 +223,7 @@ type ErrorLinkProps = {
     warnMetricId: string;
 }
 
-const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messageId, onClickHandler, url, warnMetricId}: ErrorLinkProps) => {
+const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messageId, onClickHandler, url}: ErrorLinkProps) => {
     return (
         <a
             href={url}
@@ -228,7 +231,6 @@ const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messa
             target='_blank'
             onClick={
                 () => {
-                    trackEvent('admin', 'click_warn_metric_ack_acknowledge', {metric: warnMetricId});
                     onClickHandler();
                 }
             }

@@ -30,7 +30,6 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         dismissedExpiringLicense: PropTypes.bool,
         dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
         siteURL: PropTypes.string.isRequired,
-        dismissWarnMetricStatus: PropTypes.bool,
         warnMetricsStatus: PropTypes.object,
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
@@ -118,28 +117,32 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             }
             if (this.props.license.IsLicensed === 'false' && this.props.warnMetricsStatus) {
                 for (const [id, flag] of Object.entries(this.props.warnMetricsStatus)) {
-                    if (flag) {
-                        var notice = this.getNoticeForWarnMetricId(id);
-                        if (!notice.IsDismissed) {
-                            return (
-                                <AnnouncementBar
-                                    showCloseButton={true}
-                                    handleClose={notice.DismissFunc}
-                                    type={AnnouncementBarTypes.LICENSE_EXPIRED}
-                                    showModal={true}
-                                    modalButtonText={t('announcement_bar.error.number_active_users_warn_metric_status.link')}
-                                    modalButtonDefaultText={'Acknowledge'}
-                                    warnMetricId={id}
-                                    message={
-                                        <FormattedMarkdownMessage
-                                            id={notice.Id}
-                                            defaultMessage={notice.DefaultText}
-                                        />
-                                    }
-                                />
-                            );
-                        }
+                    if (!flag) {
+                        continue;
                     }
+
+                    var notice = this.getNoticeForWarnMetricId(id);
+                    if (notice.IsDismissed) {
+                        continue;
+                    }
+
+                    return (
+                        <AnnouncementBar
+                            showCloseButton={true}
+                            handleClose={notice.DismissFunc}
+                            type={AnnouncementBarTypes.LICENSE_EXPIRED}
+                            showModal={true}
+                            modalButtonText={t('announcement_bar.error.warn_metric_status.link')}
+                            modalButtonDefaultText={'Acknowledge'}
+                            warnMetricId={id}
+                            message={
+                                <FormattedMarkdownMessage
+                                    id={notice.Id}
+                                    defaultMessage={notice.DefaultText}
+                                />
+                            }
+                        />
+                    );
                 }
             }
         } else {

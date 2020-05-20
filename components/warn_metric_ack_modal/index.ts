@@ -33,16 +33,16 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     closeModal: (arg: string) => void;
     getStandardAnalytics: () => any;
-    sendWarnMetricAck: (arg: string) => ActionFunc & Partial<{error: Error}>;
+    sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error: Error}>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
             {
+                closeModal,
                 getStandardAnalytics,
                 sendWarnMetricAck,
-                closeModal,
             },
             dispatch
         )
