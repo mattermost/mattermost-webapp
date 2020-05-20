@@ -60,7 +60,7 @@ describe('System Console', () => {
         });
 
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
+        cy.findByTestId('addGroupsToTeamToggle').click();
         cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
         cy.get('#saveSetting').click();
@@ -156,7 +156,7 @@ describe('System Console', () => {
         });
 
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
+        cy.findByTestId('addGroupsToTeamToggle').click();
         cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
 
@@ -207,7 +207,7 @@ describe('System Console', () => {
         });
 
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
+        cy.findByTestId('addGroupsToChannelToggle').click();
         cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
         cy.get('#saveSetting').click();
@@ -306,7 +306,7 @@ describe('System Console', () => {
         });
 
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
+        cy.findByTestId('addGroupsToChannelToggle').click();
         cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
         cy.get('#saveItems').click();
 
