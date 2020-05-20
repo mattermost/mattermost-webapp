@@ -140,6 +140,8 @@ describe('Message', () => {
     });
 
     it('M23361 Focus remains in the RHS text box', () => {
+        cy.apiSaveShowMarkdownPreviewPreference();
+
         cy.postMessage(MESSAGES.MEDIUM);
 
         // # Open reply thread (RHS)
@@ -149,6 +151,7 @@ describe('Message', () => {
         cy.get('#reply_textbox').type(MESSAGES.TINY);
 
         // # Click on Preview
+        cy.get('#previewLink').click();
 
         // # Click on Add Comment
         cy.get('#addCommentButton').click();
