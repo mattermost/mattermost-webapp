@@ -3,7 +3,7 @@
 
 import merge from 'merge-deep';
 
-import {getRandomInt} from '../utils';
+import {getRandomId} from '../utils';
 
 import users from '../fixtures/users.json';
 import partialDefaultConfig from '../fixtures/partial_default_config.json';
@@ -89,7 +89,7 @@ Cypress.Commands.add('apiGetBots', () => {
  * All parameters required except purpose and header
  */
 Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '') => {
-    const uniqueName = `${name}-${getRandomInt(9999).toString()}`;
+    const uniqueName = `${name}-${getRandomId()}`;
 
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -299,7 +299,7 @@ Cypress.Commands.add('apiEmailTest', () => {
  * All parameters required
  */
 Cypress.Commands.add('apiCreateTeam', (name, displayName, type = 'O') => {
-    const uniqueName = `${name}-${getRandomInt(9999).toString()}`;
+    const uniqueName = `${name}-${getRandomId()}`;
 
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -688,14 +688,14 @@ Cypress.Commands.add('apiPatchMe', (data) => {
  */
 
 Cypress.Commands.add('apiCreateNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
-    const timestamp = Date.now();
+    const randomId = getRandomId();
 
     const {
-        email = `user${timestamp}@sample.mattermost.com`,
-        username = `user${timestamp}`,
-        firstName = `First${timestamp}`,
-        lastName = `Last${timestamp}`,
-        nickname = `NewE2ENickname${timestamp}`,
+        email = `user${randomId}@sample.mattermost.com`,
+        username = `user${randomId}`,
+        firstName = `First${randomId}`,
+        lastName = `Last${randomId}`,
+        nickname = `NewE2ENickname${randomId}`,
         password = 'password123'} = user;
 
     const createUserOption = {

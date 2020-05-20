@@ -171,6 +171,7 @@
   "admin.authentication.oauth": "OAuth 2.0",
   "admin.authentication.saml": "SAML 2.0",
   "admin.banner.heading": "Nota:",
+  "admin.bleve.enableIndexingDescription": "Cuando es verdadero, la indexación de nuevos mensajes ocurre de manera automática. Las búsquedas se realizarán en la base de datos hasta que la opción de \"Habilitar búsquedas con Bleve\" sea seleccionada. {documentationLink}",
   "admin.client_versions.androidLatestVersion": "Última Versión de Android",
   "admin.client_versions.androidLatestVersionHelp": "La última versión de Android publicada",
   "admin.client_versions.androidMinVersion": "Mínima versión de Android",
