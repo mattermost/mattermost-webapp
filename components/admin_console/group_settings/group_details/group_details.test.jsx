@@ -147,22 +147,22 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         const wrapper = shallow(
             <GroupDetails
                 {...defaultProps}
-                group={{name: "5hc4t6g7migspfqrfdrb9mchba", display_name: "test", allow_reference: false}}
-            />
+                group={{name: '5hc4t6g7migspfqrfdrb9mchba', display_name: 'test', allow_reference: false}}
+            />,
         );
 
         wrapper.instance().onMentionToggle(true);
-        expect(wrapper.state().groupMentionName).toBe("test");
+        expect(wrapper.state().groupMentionName).toBe('test');
     });
 
     test('No update name for slug', async () => {
         const wrapper = shallow(
             <GroupDetails
                 {...defaultProps}
-                group={{name: "5hc4t6g7migspfq-fdrb9mchba", display_name: "test", allow_reference: false}}
-            />
+                group={{name: '5hc4t6g7migspfq-fdrb9mchba', display_name: 'test', allow_reference: false}}
+            />,
         );
         wrapper.instance().onMentionToggle(true);
-        expect(wrapper.state().groupMentionName).toBe("5hc4t6g7migspfq-fdrb9mchba");
+        expect(wrapper.state().groupMentionName).toBe('5hc4t6g7migspfq-fdrb9mchba');
     });
 });
