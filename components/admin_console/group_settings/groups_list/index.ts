@@ -19,7 +19,7 @@ const getSortedListOfLdapGroups = createSelector(
         const groups = Object.values<any>(ldapGroups);
         groups.sort((a, b) => a.name.localeCompare(b.name));
         return groups;
-    }
+    },
 );
 
 function mapStateToProps(state: GlobalState) {

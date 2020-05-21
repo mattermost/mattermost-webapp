@@ -20,7 +20,7 @@ describe('components/SizeAwareImage', () => {
         onImageLoaded: jest.fn(),
         onImageLoadFail: jest.fn(),
         src: 'https://example.com/image.png',
-        className: 'class'
+        className: 'class',
     };
 
     loadImage.mockReturnValue(() => ({}));

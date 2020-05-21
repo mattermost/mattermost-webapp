@@ -26,7 +26,7 @@ export function makeGetMentionKeysForPost() {
             }
 
             return mentionKeys;
-        }
+        },
     );
 }
 

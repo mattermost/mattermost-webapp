@@ -120,7 +120,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions, match: existingTeamMatch};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         fetchMyChannelsAndMembers().then(() => {
@@ -135,7 +135,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
         expect(wrapper.state().team).toEqual(null);
         await wrapper.instance().joinTeam(props);
@@ -148,7 +148,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
@@ -167,7 +167,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);

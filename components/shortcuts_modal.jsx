@@ -155,7 +155,7 @@ const allShortcuts = defineMessages({
         mac: {
             id: t('shortcuts.nav.open_close_sidebar.mac'),
             defaultMessage: 'Open or close the right sidebar\t⌘|.',
-        }
+        },
     },
     msgHeader: {
         id: t('shortcuts.msgs.header'),

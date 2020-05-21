@@ -308,7 +308,7 @@ export default class AddBot extends React.Component {
                     await this.props.actions.setDefaultProfileImage(data.user_id);
                 }
                 const tokenResult = await this.props.actions.createUserAccessToken(data.user_id,
-                    Utils.localizeMessage('bot.token.default.description', 'Default Token')
+                    Utils.localizeMessage('bot.token.default.description', 'Default Token'),
                 );
 
                 // On error just skip the confirmation because we have a bot without a token.

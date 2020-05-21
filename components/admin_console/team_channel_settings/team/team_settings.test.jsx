@@ -11,7 +11,7 @@ describe('admin_console/team_channel_settings/team/TeamSettings', () => {
         const wrapper = shallow(
             <TeamsSettings
                 siteName='site'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
