@@ -5,7 +5,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
@@ -19,7 +18,6 @@ type Props = {
 
 type State = {
     copiedLink: boolean;
-    buttonOpacity: number;
 }
 
 export default class GetLinkModal extends React.PureComponent<Props, State> {
@@ -68,12 +66,12 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
         }
 
         let copyLink = null;
-        const linkAvailable = Boolean(this.props.link);
-        const buttonTextOpacity = linkAvailable ? 1 : 0;
-        const buttonSpinOpacity = linkAvailable ? 0 : 1;
-        const spinnerVisible = linkAvailable ? 'hidden' : 'visible';
-
         if (document.queryCommandSupported('copy')) {
+            const linkAvailable = Boolean(this.props.link);
+            const buttonTextOpacity = linkAvailable ? 1 : 0;
+            const buttonSpinOpacity = linkAvailable ? 0 : 1;
+            const spinnerVisible = linkAvailable ? 'hidden' : 'visible';
+
             copyLink = (
                 <button
                     id='linkModalCopyLink'
