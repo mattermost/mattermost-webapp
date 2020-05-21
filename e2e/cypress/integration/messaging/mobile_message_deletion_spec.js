@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @messaging
 
-import {getRandomInt} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Delete Parent Message', () => {
@@ -31,8 +30,8 @@ describe('Delete Parent Message', () => {
             // * Check that the RHS is open
             cy.get('#rhsContainer').should('be.visible');
 
-            // * Add replies (randomly between 1 to 3)
-            const replyCount = getRandomInt(2) + 1;
+            // * Add 2 replies
+            const replyCount = 2;
             for (var i = 0; i < replyCount; i++) {
                 cy.get('#reply_textbox').type('Reply').type('{enter}');
 
