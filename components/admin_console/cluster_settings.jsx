@@ -23,6 +23,8 @@ export default class ClusterSettings extends AdminSettings {
         config.ClusterSettings.OverrideHostname = this.state.OverrideHostname;
         config.ClusterSettings.UseIpAddress = this.state.UseIpAddress;
         config.ClusterSettings.UseExperimentalGossip = this.state.UseExperimentalGossip;
+        config.ClusterSettings.EnableExperimentalGossipEncryption = this.state.EnableExperimentalGossipEncryption;
+        config.ClusterSettings.EncryptionKey = this.state.EncryptionKey;
         config.ClusterSettings.GossipPort = this.parseIntNonZero(this.state.GossipPort, 8074);
         config.ClusterSettings.StreamingPort = this.parseIntNonZero(this.state.StreamingPort, 8075);
         return config;
@@ -37,6 +39,8 @@ export default class ClusterSettings extends AdminSettings {
             OverrideHostname: settings.OverrideHostname,
             UseIpAddress: settings.UseIpAddress,
             UseExperimentalGossip: settings.UseExperimentalGossip,
+            EnableExperimentalGossipEncryption: settings.EnableExperimentalGossipEncryption,
+            EncryptionKey: settings.EncryptionKey,
             GossipPort: settings.GossipPort,
             StreamingPort: settings.StreamingPort,
             showWarning: false,
@@ -210,6 +214,43 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.UseExperimentalGossip}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseExperimentalGossip')}
+                />
+                <BooleanSetting
+                    id='EnableExperimentalGossipEncryption'
+                    label={
+                        <FormattedMessage
+                            id='admin.cluster.EnableExperimentalGossipEncryption'
+                            defaultMessage='Enable Experimental Gossip encryption:'
+                        />
+                    }
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.cluster.EnableExperimentalGossipEncryptionDesc'
+                            defaultMessage='When true, all communication through the gossip protocol will be encrypted.'
+                        />
+                    }
+                    value={this.state.EnableExperimentalGossipEncryption}
+                    onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.EnableExperimentalGossipEncryption')}
+                />
+                <TextSetting
+                    id='EncryptionKey'
+                    label={
+                        <FormattedMessage
+                            id='admin.cluster.EncryptionKey'
+                            defaultMessage='Encryption Key:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.cluster.EncryptionKeyEx', 'E.g.: "LO8rL0QLjPubWlcT7+tLtqlsihOYo15KmMpYXlP+I9M="')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.cluster.EncryptionKeyDesc'
+                            defaultMessage='A base64 encoded representation of the encryption key used. A key should be either 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256.'
+                        />
+                    }
+                    value={this.state.EncryptionKey}
+                    onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.EncryptionKey')}
                 />
                 <TextSetting
                     id='GossipPort'
