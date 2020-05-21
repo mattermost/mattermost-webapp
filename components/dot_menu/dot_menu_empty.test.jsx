@@ -45,7 +45,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
         };
 
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

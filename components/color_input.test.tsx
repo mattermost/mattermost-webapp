@@ -12,7 +12,7 @@ describe('components/ColorInput', () => {
             <ColorInput
                 color='#ffffff'
                 id='sidebarBg'
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -23,7 +23,7 @@ describe('components/ColorInput', () => {
             <ColorInput
                 color='#ffffff'
                 id='sidebarBg'
-            />
+            />,
         );
 
         wrapper.find('.input-group-addon').simulate('click');
@@ -36,7 +36,7 @@ describe('components/ColorInput', () => {
             <ColorInput
                 color='#ffffff'
                 id='sidebarBg'
-            />
+            />,
         );
         wrapper.find('.input-group-addon').simulate('click');
         wrapper.find('.input-group-addon').simulate('click');
@@ -49,7 +49,7 @@ describe('components/ColorInput', () => {
             <ColorInput
                 color='#ffffff'
                 id='sidebarBg'
-            />
+            />,
         );
 
         wrapper.find('.input-group-addon').simulate('click');
@@ -63,7 +63,7 @@ describe('components/ColorInput', () => {
             <ColorInput
                 color='#ffffff'
                 id='sidebarBg'
-            />
+            />,
         );
 
         wrapper.setState({isOpened: true});
@@ -82,7 +82,7 @@ describe('components/ColorInput', () => {
                 color='#ffffff'
                 id='sidebarBg'
                 onChange={onChange}
-            />
+            />,
         );
 
         const newColorData: any = {hex: '#ccc'};

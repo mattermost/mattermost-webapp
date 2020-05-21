@@ -91,7 +91,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         this.props.handleUpdateMembership({
             user_id: this.props.user.id,
             scheme_admin: true,
-            scheme_user: true
+            scheme_user: true,
         });
     }
 
@@ -99,7 +99,7 @@ export default class UserGridRoleDropdown extends React.Component<Props> {
         this.props.handleUpdateMembership({
             user_id: this.props.user.id,
             scheme_admin: false,
-            scheme_user: true
+            scheme_user: true,
         });
     }
 

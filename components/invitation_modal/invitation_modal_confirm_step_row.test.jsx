@@ -11,7 +11,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepRow
                 invitation={{email: 'test-email@test.com', reason: 'Test reason email'}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -29,7 +29,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
                     },
                     reason: 'Test reason user',
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -51,7 +51,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
                         values: {count: 1},
                     },
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -63,7 +63,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
                     text: 'test',
                     reason: 'Test reason for text',
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

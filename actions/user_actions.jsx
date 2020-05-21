@@ -12,7 +12,7 @@ import {
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMember,
-    getChannelMembersInChannels
+    getChannelMembersInChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
@@ -49,7 +49,7 @@ export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options 
         if (data) {
             await Promise.all([
                 doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 
@@ -64,7 +64,7 @@ export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, so
         if (data) {
             await Promise.all([
                 doDispatch(loadChannelMembersForProfilesList(data, newChannelId, true)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 
@@ -92,7 +92,7 @@ export function searchProfilesAndTeamMembers(term = '', options = {}) {
         if (data) {
             await Promise.all([
                 doDispatch(loadTeamMembersForProfilesList(data, newTeamId)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 
@@ -107,7 +107,7 @@ export function searchProfilesAndChannelMembers(term, options = {}) {
         if (data) {
             await Promise.all([
                 doDispatch(loadChannelMembersForProfilesList(data, newChannelId)),
-                doDispatch(loadStatusesForProfilesList(data))
+                doDispatch(loadStatusesForProfilesList(data)),
             ]);
         }
 

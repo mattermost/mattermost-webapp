@@ -42,7 +42,7 @@ export default class ActionButton extends React.PureComponent {
                     borderColor: changeOpacity(hexColor, 0.25),
                     backgroundColor: '#ffffff',
                     color: hexColor,
-                    borderWidth: 2
+                    borderWidth: 2,
                 };
             }
         }

@@ -15,7 +15,7 @@ storiesOf('Loading', module).
         () => (<LoadingSpinner/>),
     ).
     add('LoadingSpinner with text',
-        () => <LoadingSpinner text={text('Text', 'Loading')}/>
+        () => <LoadingSpinner text={text('Text', 'Loading')}/>,
     ).
     add('loadingWrapper', () => {
         const LoadingExample = () => {

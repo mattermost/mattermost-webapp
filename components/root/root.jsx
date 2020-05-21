@@ -251,9 +251,9 @@ export default class Root extends React.Component {
                 },
                 {
                     context: {
-                        ip: '0.0.0.0'
+                        ip: '0.0.0.0',
                     },
-                    anonymousId: '00000000000000000000000000'
+                    anonymousId: '00000000000000000000000000',
                 });
             }
         }

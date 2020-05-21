@@ -27,7 +27,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             <GroupUsers
                 {...defaultProps}
                 members={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -42,7 +42,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             <GroupUsers
                 {...defaultProps}
                 members={[]}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             <GroupUsers
                 {...defaultProps}
                 total={55}
-            />
+            />,
         );
 
         // First page
@@ -87,7 +87,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             <GroupUsers
                 {...defaultProps}
                 getMembers={getMembers}
-            />
+            />,
         );
         wrapper.instance().componentDidMount();
         expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 0, 20);
@@ -100,7 +100,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
                 {...defaultProps}
                 getMembers={getMembers}
                 total={55}
-            />
+            />,
         );
         const instance = wrapper.instance();
         getMembers.mockClear();
@@ -125,7 +125,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
                 {...defaultProps}
                 getMembers={getMembers}
                 total={55}
-            />
+            />,
         );
         const instance = wrapper.instance();
         getMembers.mockClear();

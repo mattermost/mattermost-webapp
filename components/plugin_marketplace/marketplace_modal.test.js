@@ -36,21 +36,21 @@ describe('components/marketplace/', () => {
     describe('AllPlugins', () => {
         it('should render with no plugins', () => {
             const wrapper = shallow(
-                <AllPlugins plugins={[]}/>
+                <AllPlugins plugins={[]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with one plugin', () => {
             const wrapper = shallow(
-                <AllPlugins plugins={[samplePlugin]}/>
+                <AllPlugins plugins={[samplePlugin]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with plugins', () => {
             const wrapper = shallow(
-                <AllPlugins plugins={[samplePlugin, sampleInstalledPlugin]}/>
+                <AllPlugins plugins={[samplePlugin, sampleInstalledPlugin]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -59,21 +59,21 @@ describe('components/marketplace/', () => {
     describe('InstalledPlugins', () => {
         it('should render with no plugins', () => {
             const wrapper = shallow(
-                <InstalledPlugins installedPlugins={[]}/>
+                <InstalledPlugins installedPlugins={[]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with one plugin', () => {
             const wrapper = shallow(
-                <InstalledPlugins installedPlugins={[sampleInstalledPlugin]}/>
+                <InstalledPlugins installedPlugins={[sampleInstalledPlugin]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with multiple plugins', () => {
             const wrapper = shallow(
-                <InstalledPlugins installedPlugins={[sampleInstalledPlugin, sampleInstalledPlugin]}/>
+                <InstalledPlugins installedPlugins={[sampleInstalledPlugin, sampleInstalledPlugin]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -95,7 +95,7 @@ describe('components/marketplace/', () => {
 
         test('should render with no plugins installed', () => {
             const wrapper = shallow(
-                <MarketplaceModal {...baseProps}/>
+                <MarketplaceModal {...baseProps}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -113,7 +113,7 @@ describe('components/marketplace/', () => {
             };
 
             const wrapper = shallow(
-                <MarketplaceModal {...props}/>
+                <MarketplaceModal {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -133,7 +133,7 @@ describe('components/marketplace/', () => {
 
         test('should render with error banner', () => {
             const wrapper = shallow(
-                <MarketplaceModal {...baseProps}/>
+                <MarketplaceModal {...baseProps}/>,
             );
 
             wrapper.setState({serverError: {message: 'Error test'}});

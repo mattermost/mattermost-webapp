@@ -66,8 +66,8 @@ export default class MemberListTeam extends React.Component<Props, State> {
             this.props.actions.getTeamMembers(this.props.currentTeamId, 0, Constants.DEFAULT_MAX_USERS_PER_TEAM,
                 {
                     sort: Teams.SORT_USERNAME_OPTION,
-                    exclude_deleted_users: true
-                } as GetTeamMembersOpts
+                    exclude_deleted_users: true,
+                } as GetTeamMembersOpts,
             ),
             this.props.actions.getTeamStats(this.props.currentTeamId),
         ]);
@@ -111,7 +111,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
                         }
                     });
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
 
             this.searchTimeoutId = searchTimeoutId;
@@ -128,8 +128,8 @@ export default class MemberListTeam extends React.Component<Props, State> {
         await this.props.actions.getTeamMembers(this.props.currentTeamId, page, Constants.DEFAULT_MAX_USERS_PER_TEAM,
             {
                 sort: Teams.SORT_USERNAME_OPTION,
-                exclude_deleted_users: true
-            } as GetTeamMembersOpts
+                exclude_deleted_users: true,
+            } as GetTeamMembersOpts,
         );
         this.loadComplete();
     }
