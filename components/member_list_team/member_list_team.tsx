@@ -34,7 +34,7 @@ type Props = {
         loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
             data: boolean;
         }>;
-        loadTeamMembersForProfilesList: (profiles: any, teamId: string) => Promise<{
+        loadTeamMembersForProfilesList: (profiles: any, teamId: string, reloadAllMembers: boolean) => Promise<{
             data: boolean;
         }>;
         setModalSearchTerm: (term: string) => Promise<{
@@ -105,7 +105,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
                     this.setState({loading: true});
 
                     loadStatusesForProfilesList(data);
-                    loadTeamMembersForProfilesList(data, this.props.currentTeamId).then(({data: membersLoaded}) => {
+                    loadTeamMembersForProfilesList(data, this.props.currentTeamId, true).then(({data: membersLoaded}) => {
                         if (membersLoaded) {
                             this.loadComplete();
                         }
@@ -134,14 +134,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
         this.loadComplete();
     }
 
-    search = async (term: string) => {
-        await this.props.actions.getTeamMembers(this.props.currentTeamId, 0, this.props.users.length,
-            {
-                sort: Teams.SORT_USERNAME_OPTION,
-                exclude_deleted_users: true,
-                term,
-            } as GetTeamMembersOpts
-        );
+    search = (term: string) => {
         this.props.actions.setModalSearchTerm(term);
     }
 
