@@ -48,6 +48,7 @@ type State = {
     windowWidth?: number;
     windowHeight?: number;
     isScrolling: boolean;
+    isAtBottom: boolean;
     topRhsPostId: string;
     openTime: number;
     postsArray?: Record<string, any>[];
@@ -78,6 +79,7 @@ export default class RhsThread extends React.Component<Props, State> {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
+            isAtBottom: true,
             topRhsPostId: '',
             openTime,
         };
@@ -98,7 +100,7 @@ export default class RhsThread extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props) {
+    public componentDidUpdate(prevProps: Props, snapshot?: any) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -112,6 +114,16 @@ export default class RhsThread extends React.Component<Props, State> {
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
             this.props.actions.getPostThread(this.props.selected.id);
+        }
+
+        // if snapshot value, new posts have been added
+        // if at bottom of thread, continue to scroll after adding new post
+        if (curPostsArray.length > prevPostsArray.length) {
+            if (snapshot) {
+                if (snapshot.isAtBottom) {
+                    this.scrollToBottom();
+                }
+            }
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
@@ -157,6 +169,14 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         return false;
+    }
+
+    public getSnapshotBeforeUpdate(prevProps: Props, prevState: State) {
+        // if adding posts to thread, capture state of rhs to determine if scrolled to botttom
+        if (!Utils.areObjectsEqual(prevState.postsArray, this.props.posts)) {
+            return prevState.isAtBottom;
+        }
+        return null;
     }
 
     private handleResize = (): void => {
@@ -254,6 +274,14 @@ export default class RhsThread extends React.Component<Props, State> {
         this.setState({
             isScrolling: false,
         });
+
+        if (this.scrollbarsRef.current) {
+            const elem = this.scrollbarsRef.current;
+            const isAtBottom = elem.scrollTop + elem.clientHeight === elem.scrollHeight;
+            this.setState({
+                isAtBottom,
+            });
+        }
     }
 
     public render(): JSX.Element {
