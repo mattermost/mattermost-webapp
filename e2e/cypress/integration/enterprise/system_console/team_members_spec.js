@@ -23,37 +23,6 @@ const saveConfig = () => {
     cy.get('#teamMembers').should('not.be.visible');
 };
 
-const setupData = () => {
-    // # Login as sysadmin
-    cy.apiLogin('sysadmin');
-
-    // # Ensure that team is not group constrained
-    cy.apiGetTeamByName('ad-1').then((teamRes) => {
-        team = teamRes.body;
-        cy.apiPatchTeam(team.id, {...team, group_constrained: false}).then((patchTeamRes) => {
-            team = patchTeamRes.body;
-        });
-
-        // # Make sure user1 is in the team initially
-        cy.apiGetUserByEmail(users['user-1'].email).then((user1Res) => {
-            user1 = user1Res.body;
-            cy.apiAddUserToTeam(team.id, user1.id);
-        });
-
-        // # Make sure user2 is in the team initially
-        cy.apiGetUserByEmail(users['user-2'].email).then((user2Res) => {
-            user2 = user2Res.body;
-            cy.apiAddUserToTeam(team.id, user2.id);
-        });
-
-        // # Make sure sysadmin is in the team initially
-        cy.apiGetUserByEmail(users.sysadmin.email).then((sysadminRes) => {
-            sysadmin = sysadminRes.body;
-            cy.apiAddUserToTeam(team.id, sysadmin.id);
-        });
-    });
-};
-
 describe('Team members test', () => {
     before(() => {
         // # Login as sysadmin
@@ -63,20 +32,45 @@ describe('Team members test', () => {
         cy.requireLicense();
 
         // # Reset data before running tests
-        setupData();
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
+        // # Create a new team that is not group constrained
+        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
+            team = teamRes.body;
+
+            // # Make sure user1 is in the team initially
+            cy.apiGetUserByEmail(users['user-1'].email).then((user1Res) => {
+                user1 = user1Res.body;
+                cy.apiAddUserToTeam(team.id, user1.id);
+            });
+
+            // # Make sure user2 is in the team initially
+            cy.apiGetUserByEmail(users['user-2'].email).then((user2Res) => {
+                user2 = user2Res.body;
+                cy.apiAddUserToTeam(team.id, user2.id);
+            });
+
+            // # Make sure sysadmin is in the team initially
+            cy.apiGetUserByEmail(users.sysadmin.email).then((sysadminRes) => {
+                sysadmin = sysadminRes.body;
+                cy.apiAddUserToTeam(team.id, sysadmin.id);
+            });
+        });
     });
 
     after(() => {
         // # Reset data after running tests
-        setupData();
+        cy.apiLogin('sysadmin');
+
+        if (team && team.id) {
+            cy.apiDeleteTeam(team.id, true);
+        }
     });
 
     it('MM-23938 - Team members block is only visible when team is not group synced', () => {
-        // # Visit the teams page
-        cy.visit('/admin_console/user_management/teams');
-
-        // # Click the team edit link
-        cy.findByTestId(`${team.display_name}edit`).click();
+        // # Visit the team page
+        cy.visit(`/admin_console/user_management/teams/${team.id}`);
 
         // * Assert that the members block is visible on non group synced team
         cy.get('#teamMembers').scrollIntoView().should('be.visible');
@@ -89,11 +83,8 @@ describe('Team members test', () => {
     });
 
     it('MM-23938 - Team members block can search for users, remove users, add users and modify their roles', () => {
-        // # Visit the teams page
-        cy.visit('/admin_console/user_management/teams');
-
-        // # Click the team edit link
-        cy.findByTestId(`${team.display_name}edit`).click();
+        // # Visit the team page
+        cy.visit(`/admin_console/user_management/teams/${team.id}`);
 
         // * Assert that the members block is visible on non group synced team
         cy.get('#teamMembers').scrollIntoView().should('be.visible');
@@ -132,8 +123,11 @@ describe('Team members test', () => {
         // # Confirm Save
         cy.get('#confirmModalButton').click();
 
-        // # Click the team edit link
-        cy.findByTestId(`${team.display_name}edit`).click();
+        // # Check that the members block is no longer visible meaning that the save has succeeded and we were redirected out
+        cy.get('#teamMembers').should('not.be.visible');
+
+        // # Visit the team page
+        cy.visit(`/admin_console/user_management/teams/${team.id}`);
 
         // # Search for user1 that we know is no longer in the team
         cy.get('#teamMembers .DataGrid_search input').scrollIntoView().clear().type(user1.email);
@@ -191,8 +185,8 @@ describe('Team members test', () => {
         // # Attempt to save
         saveConfig();
 
-        // # Click the team edit link
-        cy.findByTestId(`${team.display_name}edit`).click();
+        // # Visit the team page
+        cy.visit(`/admin_console/user_management/teams/${team.id}`);
 
         // # Search user1 that we know is now in the team again
         cy.get('#teamMembers .DataGrid_search input').scrollIntoView().clear().type(user1.email);
