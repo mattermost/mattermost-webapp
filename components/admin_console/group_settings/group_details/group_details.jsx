@@ -137,10 +137,17 @@ export default class GroupDetails extends React.PureComponent {
         const {group} = this.props;
         const originalAllowReference = group.allow_reference;
         const saveNeeded = true;
+        let {groupMentionName} = this.state
+
+        if ( !originalAllowReference && allowReference 
+            && groupMentionName.length == 26 && new RegExp('^[a-z0-9]+$').test(groupMentionName)){
+                groupMentionName = group.display_name.toLowerCase().replace(/\s/g, '-')
+        }
 
         this.setState({
             saveNeeded,
             allowReference,
+            groupMentionName,
             hasAllowReferenceChanged: allowReference !== originalAllowReference}
         );
         this.props.actions.setNavigationBlocked(saveNeeded);
