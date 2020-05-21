@@ -13,7 +13,7 @@ import LineSwitch from '../../line_switch.jsx';
 
 const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle}) => (
     <LineSwitch
-        id={'syncGroupSwitch'}
+        id='syncGroupSwitch'
         toggled={syncChecked}
         last={syncChecked}
         onToggle={() => onToggle(!syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains)}

@@ -70,9 +70,9 @@ describe('Channel members test', () => {
         cy.apiLogin('sysadmin');
 
         // # Reset data after running tests
-        if (channel && channel.id) {
+        if (channel?.id) {
             cy.apiDeleteChannel(channel.id).then(() => {
-                if (team && team.id) {
+                if (team?.id) {
                     cy.apiDeleteTeam(team.id, true);
                 }
             });
