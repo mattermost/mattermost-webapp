@@ -57,4 +57,3 @@ Cypress.Commands.add('setTestSettings', (loginButtonText, config) => {
         user: null
     };
 });
-
