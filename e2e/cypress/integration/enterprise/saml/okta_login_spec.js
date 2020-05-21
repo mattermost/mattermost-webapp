@@ -26,7 +26,7 @@ context('Okta', () => {
     const {
         oktaBaseUrl,
         oktaMMAppName,
-        oktaMMEntityId
+        oktaMMEntityId,
     } = Cypress.env();
     const idpUrl = `${oktaBaseUrl}/app/${oktaMMAppName}/${oktaMMEntityId}/sso/saml`;
     const idpMetadataUrl = `${oktaBaseUrl}/app/${oktaMMEntityId}/sso/saml/metadata`;
@@ -59,10 +59,10 @@ context('Okta', () => {
             LoginButtonText: loginButtonText,
         },
         ExperimentalSettings: {
-            UseNewSAMLLibrary: true
+            UseNewSAMLLibrary: true,
         },
         GuestAccountsSettings: {
-            Enable: true
+            Enable: true,
         },
     };
 

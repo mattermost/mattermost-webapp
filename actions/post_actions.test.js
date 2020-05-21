@@ -196,8 +196,8 @@ describe('Actions.Posts', () => {
                         data: {
                             id: 'other_channel_idundefined',
                             now: POST_CREATED_TIME,
-                            userId: newPost.user_id}
-                    }
+                            userId: newPost.user_id},
+                    },
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
             },
@@ -211,7 +211,7 @@ describe('Actions.Posts', () => {
         expect(data).toEqual(true);
 
         expect(testStore.getActions()).toEqual(
-            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}]
+            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
         );
 
         const general = {
@@ -227,7 +227,7 @@ describe('Actions.Posts', () => {
         const {data: withLicenseData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
         expect(withLicenseData).toEqual(true);
         expect(testStore.getActions()).toEqual(
-            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}]
+            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
         );
 
         // should not allow edit for pending post

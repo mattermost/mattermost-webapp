@@ -44,7 +44,7 @@ describe('components/TextBox', () => {
                 createMessage='placeholder text'
                 supportsCommands={false}
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -69,7 +69,7 @@ describe('components/TextBox', () => {
                 supportsCommands={false}
                 handlePostError={handlePostError}
                 {...baseProps}
-            />
+            />,
         );
 
         expect(gotError).toEqual(true);
@@ -96,7 +96,7 @@ describe('components/TextBox', () => {
                 supportsCommands={false}
                 handlePostError={handlePostError}
                 {...baseProps}
-            />
+            />,
         );
 
         wrapper.setProps({value: 'some test text that exceeds char limit'});

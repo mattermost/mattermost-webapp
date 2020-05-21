@@ -33,7 +33,7 @@ export function makeCountUnreadsBelow() {
                     post.state !== Posts.POST_DELETED &&
                     post.create_at > lastViewedBottom;
             }).length;
-        }
+        },
     );
 }
 

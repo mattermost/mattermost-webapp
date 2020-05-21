@@ -130,7 +130,7 @@ export default class ManageLanguage extends React.Component {
 
         languages.forEach((lang) => {
             options.push(
-                {value: lang.value, label: lang.name}
+                {value: lang.value, label: lang.name},
             );
         });
 

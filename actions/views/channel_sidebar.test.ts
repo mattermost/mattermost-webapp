@@ -16,8 +16,8 @@ describe('setCategoryCollapsed', () => {
                 currentUserId: 'user1',
                 profiles: {
                     user1: {},
-                }
-            }
+                },
+            },
         };
 
         const store = await configureStore(initialState);

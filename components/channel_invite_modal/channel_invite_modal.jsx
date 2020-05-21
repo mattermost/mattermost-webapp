@@ -172,7 +172,7 @@ export default class ChannelInviteModal extends React.Component {
                 await this.props.actions.searchProfiles(term, options);
                 this.setUsersLoadingState(false);
             },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
+            Constants.SEARCH_TIMEOUT_MILLISECONDS,
         );
     };
 

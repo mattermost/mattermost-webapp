@@ -316,7 +316,7 @@ export default class RhsThread extends React.Component<Props, State> {
                     handleCardClick={this.handleCardClickPost}
                     a11yIndex={a11yIndex++}
                     isLastPost={comPost.id === lastRhsCommentPost.id}
-                />
+                />,
             );
         }
 

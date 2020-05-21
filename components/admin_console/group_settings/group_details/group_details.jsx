@@ -141,7 +141,7 @@ export default class GroupDetails extends React.PureComponent {
         this.setState({
             saveNeeded,
             allowReference,
-            hasAllowReferenceChanged: allowReference !== originalAllowReference}
+            hasAllowReferenceChanged: allowReference !== originalAllowReference},
         );
         this.props.actions.setNavigationBlocked(saveNeeded);
     }
@@ -155,7 +155,7 @@ export default class GroupDetails extends React.PureComponent {
         this.setState({
             saveNeeded,
             groupMentionName,
-            hasGroupMentionNameChanged: groupMentionName !== originalGroupMentionName
+            hasGroupMentionNameChanged: groupMentionName !== originalGroupMentionName,
         });
         this.props.actions.setNavigationBlocked(saveNeeded);
     }

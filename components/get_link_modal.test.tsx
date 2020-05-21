@@ -22,7 +22,7 @@ describe('components/GetLinkModal', () => {
         const props = {...requiredProps, helpText};
 
         const wrapper = shallow(
-            <GetLinkModal {...props}/>
+            <GetLinkModal {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -30,7 +30,7 @@ describe('components/GetLinkModal', () => {
 
     test('should match snapshot when helpText is not set', () => {
         const wrapper = shallow(
-            <GetLinkModal {...requiredProps}/>
+            <GetLinkModal {...requiredProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -41,7 +41,7 @@ describe('components/GetLinkModal', () => {
         const props = {...requiredProps, onHide: newOnHide};
 
         const wrapper = shallow(
-            <GetLinkModal {...props}/>
+            <GetLinkModal {...props}/>,
         );
 
         wrapper.find(Modal).first().props().onHide();
@@ -61,7 +61,7 @@ describe('components/GetLinkModal', () => {
 
     test('should have handle copyLink', () => {
         const wrapper = mountWithIntl(
-            <GetLinkModal {...requiredProps}/>
+            <GetLinkModal {...requiredProps}/>,
         );
         wrapper.find('#linkModalTextArea').simulate('click');
         expect(wrapper.state('copiedLink')).toBe(true);

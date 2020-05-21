@@ -91,7 +91,7 @@ export default class FileAttachmentList extends React.Component {
                         index={i}
                         handleImageClick={this.handleImageClick}
                         compactDisplay={compactDisplay}
-                    />
+                    />,
                 );
             }
         } else if (fileCount > 0) {
@@ -101,7 +101,7 @@ export default class FileAttachmentList extends React.Component {
                     <div
                         key={`fileCount-${i}`}
                         className='post-image__column post-image__column--placeholder'
-                    />
+                    />,
                 );
             }
         }

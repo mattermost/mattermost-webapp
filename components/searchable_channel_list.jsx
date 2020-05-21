@@ -53,7 +53,7 @@ export default class SearchableChannelList extends React.Component {
             channel,
             () => {
                 this.setState({joiningChannel: ''});
-            }
+            },
         );
     }
 

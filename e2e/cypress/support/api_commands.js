@@ -1250,7 +1250,7 @@ Cypress.Commands.add('apiGetSAMLCertificateStatus', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/saml/certificate/status',
-        method: 'GET'
+        method: 'GET',
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -1267,7 +1267,7 @@ Cypress.Commands.add('apiGetMetadataFromIdp', (samlMetadataUrl) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/saml/metadatafromidp',
         method: 'POST',
-        body: {saml_metadata_url: samlMetadataUrl}
+        body: {saml_metadata_url: samlMetadataUrl},
     }).then((response) => {
         expect(response.status, 'Failed to obtain metadata from Identity Provider URL').to.equal(200);
         return cy.wrap(response);
