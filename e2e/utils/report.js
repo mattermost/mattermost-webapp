@@ -6,6 +6,8 @@
 const axios = require('axios');
 const fse = require('fs-extra');
 
+const {MOCHAWESOME_REPORT_DIR} = require('./constants');
+
 const MAX_FAILED_TITLES = 5;
 
 function getAllTests(results) {
@@ -66,6 +68,14 @@ function generateShortSummary(report) {
         stats,
         statsFieldValue,
     };
+}
+
+function removeOldGeneratedReports() {
+    [
+        'all.json',
+        'summary.json',
+        'mochawesome.html',
+    ].forEach((file) => fse.removeSync(`${MOCHAWESOME_REPORT_DIR}/${file}`));
 }
 
 function writeJsonToFile(jsonObject, filename, dir) {
@@ -170,6 +180,7 @@ module.exports = {
     generateShortSummary,
     generateTestReport,
     getAllTests,
+    removeOldGeneratedReports,
     sendReport,
     writeJsonToFile,
 };

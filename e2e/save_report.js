@@ -27,6 +27,7 @@ const {
     generateDiagnosticReport,
     generateShortSummary,
     generateTestReport,
+    removeOldGeneratedReports,
     sendReport,
     writeJsonToFile
 } = require('./utils/report');
@@ -49,6 +50,8 @@ const saveReport = async () => {
         WEBHOOK_URL,
     } = process.env;
 
+    removeOldGeneratedReports();
+
     // Merge all json reports into one single json report
     const jsonReport = await merge({files: [`${MOCHAWESOME_REPORT_DIR}/**/*.json`]});
     writeJsonToFile(jsonReport, 'all.json', MOCHAWESOME_REPORT_DIR);
@@ -58,7 +61,7 @@ const saveReport = async () => {
         jsonReport,
         {
             reportDir: MOCHAWESOME_REPORT_DIR,
-            reportTitle: `Build:${BUILD_ID} Branch: ${BRANCH} Commit: ${BUILD_TAG}`,
+            reportTitle: `Build:${BUILD_ID} Branch: ${BRANCH} Tag: ${BUILD_TAG}`,
         }
     );
 
