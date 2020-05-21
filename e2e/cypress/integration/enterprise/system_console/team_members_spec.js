@@ -63,7 +63,7 @@ describe('Team members test', () => {
         // # Reset data after running tests
         cy.apiLogin('sysadmin');
 
-        if (team && team.id) {
+        if (team?.id) {
             cy.apiDeleteTeam(team.id, true);
         }
     });
