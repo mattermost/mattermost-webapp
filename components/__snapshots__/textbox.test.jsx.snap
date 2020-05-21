@@ -41,6 +41,8 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "lastCompletedWord": "",
+          "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "profilesInChannel": Array [
@@ -137,6 +139,8 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "lastCompletedWord": "",
+          "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "profilesInChannel": Array [
@@ -233,6 +237,8 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "lastCompletedWord": "",
+          "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "profilesInChannel": Array [
