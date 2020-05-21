@@ -1024,7 +1024,7 @@ Cypress.Commands.add('promoteUser', (userId) => {
  * @param {String} pluginDownloadUrl - URL used to download the plugin
  * @param {String} force - Set to 'true' to overwrite a previously installed plugin with the same ID, if any
  */
-Cypress.Commands.add('installPluginFromUrl', (pluginDownloadUrl, force = false) => {
+Cypress.Commands.add('apiInstallPluginFromUrl', (pluginDownloadUrl, force = false) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/plugins/install_from_url?plugin_download_url=${encodeURIComponent(pluginDownloadUrl)}&force=${force}`,
@@ -1037,11 +1037,11 @@ Cypress.Commands.add('installPluginFromUrl', (pluginDownloadUrl, force = false) 
 });
 
 /**
- * Uninstall plugin by id.
+ * Remove the plugin with the provided ID from the server. All plugin files are deleted.
  *
  * @param {String} pluginId - Id of the plugin to uninstall
  */
-Cypress.Commands.add('uninstallPluginById', (pluginId) => {
+Cypress.Commands.add('apiRemovePluginById', (pluginId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/plugins/${encodeURIComponent(pluginId)}`,
@@ -1059,7 +1059,7 @@ Cypress.Commands.add('uninstallPluginById', (pluginId) => {
  * Get all user`s plugins.
  *
  */
-Cypress.Commands.add('getAllPlugins', () => {
+Cypress.Commands.add('apiGetAllPlugins', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/plugins',
@@ -1076,7 +1076,7 @@ Cypress.Commands.add('getAllPlugins', () => {
  *
  * @param {String} pluginId - Id of the plugin to enable
  */
-Cypress.Commands.add('enablePluginById', (pluginId) => {
+Cypress.Commands.add('apiEnablePluginById', (pluginId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/plugins/${encodeURIComponent(pluginId)}/enable`,
@@ -1091,53 +1091,11 @@ Cypress.Commands.add('enablePluginById', (pluginId) => {
 
 /**
  * Upload binary file by name and Type *
- * @param {String} fileName - name of the plugin to upload
+ * @param {String} filename - name of the plugin to upload
  */
-Cypress.Commands.add('uploadBinaryFileByName', (fileName) => {
-    const formData = new FormData();
-
-    cy.fixture(fileName, 'binary', {timeout: 1200000}).
-        then(Cypress.Blob.binaryStringToBlob).
-        then((blob) => {
-            formData.set('plugin', blob, fileName);
-            formRequest('POST', '/api/v4/plugins', formData);
-        });
+Cypress.Commands.add('apiUploadPlugin', (filename) => {
+    cy.apiUploadFile('plugin', filename, {url: '/api/v4/plugins', method: 'POST', successStatus: 201});
 });
-
-/**
- * process binary file HTTP form request
- * @param {String} method - Http request method - POST/PUT
- * @param {String} url - HTTP resource URL
- * @param {FormData} FormData - Key value pairs representing form fields and value
- */
-function formRequest(method, url, formData) {
-    const baseUrl = Cypress.config('baseUrl');
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url, false);
-    let cookies = '';
-    cy.getCookie('MMCSRF', {log: false}).then((token) => {
-        //get MMCSRF cookie value
-        const csrfToken = token.value;
-        cy.getCookies({log: false}).then((cookieValues) => {
-            //prepare cookie string
-            cookieValues.forEach((cookie) => {
-                cookies += cookie.name + '=' + cookie.value + '; ';
-            });
-
-            //set headers
-            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
-            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
-            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-            xhr.setRequestHeader('Cookie', cookies);
-            xhr.send(formData);
-            if (xhr.readyState === 4) {
-                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(201);
-            } else {
-                expect(xhr.status, 'Form request process delayed').to.equal(201);
-            }
-        });
-    });
-}
 
 /**
  * Creates a bot directly via API
@@ -1280,6 +1238,7 @@ Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
 
+
 /**
  * Get all groups via the API
  *
@@ -1322,3 +1281,122 @@ Cypress.Commands.add('apiPatchGroup', (groupID, patch) => {
         return cy.wrap(response);
     });
 });
+
+// *****************************************************************************
+// SAML
+// https://api.mattermost.com/#tag/SAML
+// *****************************************************************************
+
+/**
+ * Get SAML certificate status directly via API.
+ */
+Cypress.Commands.add('apiGetSAMLCertificateStatus', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/saml/certificate/status',
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get metadata from Identity Provider directly via API.
+ *
+ * @param {String} samlMetadataUrl
+ */
+Cypress.Commands.add('apiGetMetadataFromIdp', (samlMetadataUrl) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/saml/metadatafromidp',
+        method: 'POST',
+        body: {saml_metadata_url: samlMetadataUrl},
+    }).then((response) => {
+        expect(response.status, 'Failed to obtain metadata from Identity Provider URL').to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Upload SAML IDP certificate directly via API
+ * @param {String} filename
+ */
+Cypress.Commands.add('apiUploadSAMLIDPCert', (filename) => {
+    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/idp', method: 'POST', successStatus: 201});
+});
+
+/**
+ * Upload SAML public certificate directly via API
+ * @param {String} filename
+ */
+Cypress.Commands.add('apiUploadSAMLPublicCert', (filename) => {
+    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200});
+});
+
+/**
+ * Upload SAML private Key directly via API
+ * @param {String} filename
+ */
+Cypress.Commands.add('apiUploadSAMLPrivateKey', (filename) => {
+    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/private', method: 'POST', successStatus: 200});
+});
+
+// *****************************************************************************
+// Common / Helper commands
+// *****************************************************************************
+
+/**
+ * Upload file directly via API
+ * @param {String} name - name of form
+ * @param {String} filename - name of a file to upload
+ * @param {Object} options - request options
+ * @param {String} options.url
+ * @param {String} options.method
+ * @param {Number} options.successStatus
+ */
+Cypress.Commands.add('apiUploadFile', (name, filename, options = {}) => {
+    const formData = new FormData();
+
+    cy.fixture(filename, 'binary', {timeout: 1200000}).
+        then(Cypress.Blob.binaryStringToBlob).
+        then((blob) => {
+            formData.set(name, blob, filename);
+            formRequest(options.method, options.url, formData, options.successStatus);
+        });
+});
+
+/**
+ * process binary file HTTP form request
+ * @param {String} method - Http request method - POST/PUT
+ * @param {String} url - HTTP resource URL
+ * @param {FormData} FormData - Key value pairs representing form fields and value
+ */
+function formRequest(method, url, formData, successStatus) {
+    const baseUrl = Cypress.config('baseUrl');
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, false);
+    let cookies = '';
+    cy.getCookie('MMCSRF', {log: false}).then((token) => {
+        //get MMCSRF cookie value
+        const csrfToken = token.value;
+        cy.getCookies({log: false}).then((cookieValues) => {
+            //prepare cookie string
+            cookieValues.forEach((cookie) => {
+                cookies += cookie.name + '=' + cookie.value + '; ';
+            });
+
+            //set headers
+            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
+            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+            xhr.setRequestHeader('Cookie', cookies);
+            xhr.send(formData);
+            if (xhr.readyState === 4) {
+                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(successStatus);
+            } else {
+                expect(xhr.status, 'Form request process delayed').to.equal(successStatus);
+            }
+        });
+    });
+}

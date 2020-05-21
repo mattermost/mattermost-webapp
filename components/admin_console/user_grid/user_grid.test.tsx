@@ -87,7 +87,7 @@ describe('components/admin_console/user_grid/UserGrid', () => {
         const wrapper = shallow(
             <UserGrid
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -97,7 +97,7 @@ describe('components/admin_console/user_grid/UserGrid', () => {
             <UserGrid
                 {...baseProps}
                 includeUsers={{[notSavedUser.id]: notSavedUser}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -107,14 +107,14 @@ describe('components/admin_console/user_grid/UserGrid', () => {
             <UserGrid
                 {...baseProps}
                 excludeUsers={{[user1.id]: user1}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should return pagination props while taking into account added or removed users when getPaginationProps is called', () => {
         const wrapper = shallow(
-            <UserGrid {...baseProps}/>
+            <UserGrid {...baseProps}/>,
         );
         const userGrid = wrapper.instance() as UserGrid;
 

@@ -233,5 +233,5 @@ module.exports = {
             cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
             cy.wrap(name).find('.ml-2').should('have.text', `${user.firstName} ${user.lastName} (${user.nickname})`);
         });
-    }
+    },
 };

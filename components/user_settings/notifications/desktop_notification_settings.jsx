@@ -192,7 +192,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 </fieldset>
                 <hr/>
                 {soundSection}
-            </div>
+            </div>,
         );
 
         return (

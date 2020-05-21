@@ -147,7 +147,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                 sorting,
             },
             unreadsAtTop,
-            favoriteAtTop
+            favoriteAtTop,
         } = this.props;
 
         return {
@@ -176,7 +176,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
 
         this.setState({
             ...this.state,
-            settings
+            settings,
         });
     }
 
@@ -365,7 +365,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                     key='by_type'
                     id='user.settings.sidebar.groupByTypeShort'
                     defaultMessage='Group by channel type'
-                />
+                />,
             );
         } else {
             messages.push(
@@ -373,7 +373,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                     key='none'
                     id='user.settings.sidebar.groupByNoneShort'
                     defaultMessage='No grouping'
-                />
+                />,
             );
         }
 
@@ -388,7 +388,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
         }
 
         messages.push(
-            <span key='comma'>{', '}</span>
+            <span key='comma'>{', '}</span>,
         );
 
         messages.push(
@@ -396,7 +396,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                 key='sorting'
                 id={sortingId}
                 defaultMessage={sortingDefaultMessage}
-            />
+            />,
         );
 
         let atTopId: string | null = null;
@@ -414,7 +414,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
 
         if (atTopId) {
             messages.push(
-                <br key='break'/>
+                <br key='break'/>,
             );
 
             messages.push(
@@ -422,7 +422,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                     key='atTop'
                     id={atTopId}
                     defaultMessage={atTopDefaultMessage as any}
-                />
+                />,
             );
         }
 
@@ -602,7 +602,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Group channels by type, or combine all types into a list.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             inputs.push(<hr key='sortingDivider'/>);
@@ -651,7 +651,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Sort channels alphabetically, or by most recent post.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             inputs.push(<hr key='divider'/>);
@@ -678,7 +678,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Group unread channels separately until read.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             inputs.push(<hr key='groupingDivider'/>);
@@ -706,7 +706,7 @@ export default class UserSettingsSidebar extends React.Component<UserSettingsSid
                             defaultMessage='Channels marked as favorites will be grouped separately.'
                         />
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             contents = (

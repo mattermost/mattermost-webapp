@@ -87,7 +87,7 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
         const wrapper = shallow(
             <AddUsersToTeamModal
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -98,14 +98,14 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
                 {...baseProps}
                 includeUsers={{[removedUser.id]: removedUser}}
                 excludeUsers={{[user1.id]: user1}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <AddUsersToTeamModal {...baseProps}/>
+            <AddUsersToTeamModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -123,7 +123,7 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
                     searchProfiles,
                     getProfilesNotInTeam,
                 }}
-            />
+            />,
         );
         const addUsers = wrapper.instance() as AddUsersToTeamModal;
 

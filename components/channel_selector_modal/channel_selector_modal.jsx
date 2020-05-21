@@ -67,7 +67,7 @@ export default class ChannelSelectorModal extends React.Component {
                         this.setState({channels: response.data});
                         this.setChannelsLoadingState(false);
                     },
-                    Constants.SEARCH_TIMEOUT_MILLISECONDS
+                    Constants.SEARCH_TIMEOUT_MILLISECONDS,
                 );
             }
         }
