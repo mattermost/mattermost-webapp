@@ -463,7 +463,7 @@
     },
     "PluginSettings": {
         "Enable": true,
-        "EnableUploads": false,
+        "EnableUploads": true,
         "AllowInsecureDownloadUrl": false,
         "EnableHealthCheck": true,
         "Directory": "./plugins",
