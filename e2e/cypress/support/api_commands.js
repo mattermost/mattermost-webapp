@@ -1238,7 +1238,6 @@ Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
 
-
 /**
  * Get all groups via the API
  *
