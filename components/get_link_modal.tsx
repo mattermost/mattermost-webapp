@@ -6,6 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
 
 type State = {
     copiedLink: boolean;
+    buttonOpacity: number;
 }
 
 export default class GetLinkModal extends React.PureComponent<Props, State> {
@@ -67,6 +69,9 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
 
         let copyLink = null;
         const linkAvailable = Boolean(this.props.link);
+        const buttonTextOpacity = linkAvailable ? 1 : 0;
+        const buttonSpinOpacity = linkAvailable ? 0 : 1;
+        const spinnerVisible = linkAvailable ? 'hidden' : 'visible';
 
         if (document.queryCommandSupported('copy')) {
             copyLink = (
@@ -78,15 +83,27 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     disabled={!linkAvailable}
                     onClick={this.copyLink}
                 >
-                    <LoadingWrapper
-                        loading={!linkAvailable}
-                        text={''}
-                    >
-                        <FormattedMessage
-                            id='get_link.copy'
-                            defaultMessage='Copy Link'
-                        />
-                    </LoadingWrapper>
+                    <span style={{position: 'relative'}} >
+                        <span style={{opacity: buttonTextOpacity}} >
+                            <FormattedMessage
+                                id='get_link.copy'
+                                defaultMessage='Copy Link'
+                            />
+                        </span>
+                        <span
+                            style={{
+                                visibility: spinnerVisible,
+                                left: 0,
+                                top: 0,
+                                marginLeft: '50%',
+                                opacity: buttonSpinOpacity,
+                                position: 'absolute',
+                                transform: 'translate3d(-50%, 0, 0)'
+                            }}
+                        >
+                            <LoadingSpinner/>
+                        </span>
+                    </span>
                 </button>
             );
         }

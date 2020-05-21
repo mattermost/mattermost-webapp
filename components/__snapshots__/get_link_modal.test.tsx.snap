@@ -77,16 +77,44 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <LoadingWrapper
-        loading={false}
-        text=""
+      <span
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
       >
-        <FormattedMessage
-          defaultMessage="Copy Link"
-          id="get_link.copy"
-          values={Object {}}
-        />
-      </LoadingWrapper>
+        <span
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <FormattedMessage
+            defaultMessage="Copy Link"
+            id="get_link.copy"
+            values={Object {}}
+          />
+        </span>
+        <span
+          style={
+            Object {
+              "left": 0,
+              "marginLeft": "50%",
+              "opacity": 0,
+              "position": "absolute",
+              "top": 0,
+              "transform": "translate3d(-50%, 0, 0)",
+              "visibility": "hidden",
+            }
+          }
+        >
+          <LoadingSpinner
+            text={null}
+          />
+        </span>
+      </span>
     </button>
     <p
       className="alert alert-success alert--confirm"
@@ -179,16 +207,44 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
       onClick={[Function]}
       type="button"
     >
-      <LoadingWrapper
-        loading={false}
-        text=""
+      <span
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
       >
-        <FormattedMessage
-          defaultMessage="Copy Link"
-          id="get_link.copy"
-          values={Object {}}
-        />
-      </LoadingWrapper>
+        <span
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <FormattedMessage
+            defaultMessage="Copy Link"
+            id="get_link.copy"
+            values={Object {}}
+          />
+        </span>
+        <span
+          style={
+            Object {
+              "left": 0,
+              "marginLeft": "50%",
+              "opacity": 0,
+              "position": "absolute",
+              "top": 0,
+              "transform": "translate3d(-50%, 0, 0)",
+              "visibility": "hidden",
+            }
+          }
+        >
+          <LoadingSpinner
+            text={null}
+          />
+        </span>
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -276,16 +332,44 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
       onClick={[Function]}
       type="button"
     >
-      <LoadingWrapper
-        loading={false}
-        text=""
+      <span
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
       >
-        <FormattedMessage
-          defaultMessage="Copy Link"
-          id="get_link.copy"
-          values={Object {}}
-        />
-      </LoadingWrapper>
+        <span
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <FormattedMessage
+            defaultMessage="Copy Link"
+            id="get_link.copy"
+            values={Object {}}
+          />
+        </span>
+        <span
+          style={
+            Object {
+              "left": 0,
+              "marginLeft": "50%",
+              "opacity": 0,
+              "position": "absolute",
+              "top": 0,
+              "transform": "translate3d(-50%, 0, 0)",
+              "visibility": "hidden",
+            }
+          }
+        >
+          <LoadingSpinner
+            text={null}
+          />
+        </span>
+      </span>
     </button>
   </ModalFooter>
 </Modal>
@@ -368,16 +452,44 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
       onClick={[Function]}
       type="button"
     >
-      <LoadingWrapper
-        loading={false}
-        text=""
+      <span
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
       >
-        <FormattedMessage
-          defaultMessage="Copy Link"
-          id="get_link.copy"
-          values={Object {}}
-        />
-      </LoadingWrapper>
+        <span
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <FormattedMessage
+            defaultMessage="Copy Link"
+            id="get_link.copy"
+            values={Object {}}
+          />
+        </span>
+        <span
+          style={
+            Object {
+              "left": 0,
+              "marginLeft": "50%",
+              "opacity": 0,
+              "position": "absolute",
+              "top": 0,
+              "transform": "translate3d(-50%, 0, 0)",
+              "visibility": "hidden",
+            }
+          }
+        >
+          <LoadingSpinner
+            text={null}
+          />
+        </span>
+      </span>
     </button>
   </ModalFooter>
 </Modal>
