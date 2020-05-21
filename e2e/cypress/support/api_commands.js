@@ -1094,7 +1094,7 @@ Cypress.Commands.add('apiEnablePluginById', (pluginId) => {
  * @param {String} filename - name of the plugin to upload
  */
 Cypress.Commands.add('apiUploadPlugin', (filename) => {
-    cy.apiUploadFile('/api/v4/plugins', 'POST', 'plugin', filename, 201);
+    cy.apiUploadFile('plugin', filename, {url: '/api/v4/plugins', method: 'POST', successStatus: 201});
 });
 
 /**
@@ -1276,26 +1276,26 @@ Cypress.Commands.add('apiGetMetadataFromIdp', (samlMetadataUrl) => {
 
 /**
  * Upload SAML IDP certificate directly via API
- * @param {String} fileName
+ * @param {String} filename
  */
-Cypress.Commands.add('apiUploadSAMLIDPCert', (fileName) => {
-    cy.apiUploadFile('/api/v4/saml/certificate/idp', 'POST', 'certificate', fileName);
+Cypress.Commands.add('apiUploadSAMLIDPCert', (filename) => {
+    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/idp', method: 'POST', successStatus: 201});
 });
 
 /**
  * Upload SAML public certificate directly via API
- * @param {String} fileName
+ * @param {String} filename
  */
-Cypress.Commands.add('apiUploadSAMLPublicCert', (fileName) => {
-    cy.apiUploadFile('/api/v4/saml/certificate/public', 'POST', 'certificate', fileName);
+Cypress.Commands.add('apiUploadSAMLPublicCert', (filename) => {
+    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200});
 });
 
 /**
  * Upload SAML private Key directly via API
- * @param {String} fileName
+ * @param {String} filename
  */
-Cypress.Commands.add('apiUploadSAMLPrivateKey', (fileName) => {
-    cy.apiUploadFile('/api/v4/saml/certificate/private', 'POST', 'certificate', fileName);
+Cypress.Commands.add('apiUploadSAMLPrivateKey', (filename) => {
+    cy.apiUploadFile('certificate', filename, {url: '/api/v4/saml/certificate/private', method: 'POST', successStatus: 200});
 });
 
 // *****************************************************************************
@@ -1304,19 +1304,21 @@ Cypress.Commands.add('apiUploadSAMLPrivateKey', (fileName) => {
 
 /**
  * Upload file directly via API
- * @param {String} url
- * @param {String} method
- * @param {String} formName
- * @param {String} fileName
+ * @param {String} name - name of form
+ * @param {String} filename - name of a file to upload
+ * @param {Object} options - request options
+ * @param {String} options.url
+ * @param {String} options.method
+ * @param {Number} options.successStatus
  */
-Cypress.Commands.add('apiUploadFile', (url, method, formName, fileName, successStatus = 200) => {
+Cypress.Commands.add('apiUploadFile', (name, filename, options = {}) => {
     const formData = new FormData();
 
-    cy.fixture(fileName, 'binary', {timeout: 1200000}).
+    cy.fixture(filename, 'binary', {timeout: 1200000}).
         then(Cypress.Blob.binaryStringToBlob).
         then((blob) => {
-            formData.set(formName, blob, fileName);
-            formRequest(method, url, formData, successStatus);
+            formData.set(name, blob, filename);
+            formRequest(options.method, options.url, formData, options.successStatus);
         });
 });
 
@@ -1326,7 +1328,7 @@ Cypress.Commands.add('apiUploadFile', (url, method, formName, fileName, successS
  * @param {String} url - HTTP resource URL
  * @param {FormData} FormData - Key value pairs representing form fields and value
  */
-function formRequest(method, url, formData, successStatus = 201) {
+function formRequest(method, url, formData, successStatus) {
     const baseUrl = Cypress.config('baseUrl');
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, false);
