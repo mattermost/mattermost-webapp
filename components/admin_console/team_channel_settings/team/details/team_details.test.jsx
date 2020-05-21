@@ -36,6 +36,9 @@ describe('admin_console/team_channel_settings/team/TeamDetails', () => {
                     getGroups: jest.fn().mockResolvedValue([]),
                     membersMinusGroupMembers: jest.fn(),
                     patchGroupSyncable: jest.fn(),
+                    addUserToTeam: jest.fn(),
+                    removeUserFromTeam: jest.fn(),
+                    updateTeamMemberSchemeRoles: jest.fn(),
                 }}
                 team={testTeam}
                 teamID={testTeam.id}

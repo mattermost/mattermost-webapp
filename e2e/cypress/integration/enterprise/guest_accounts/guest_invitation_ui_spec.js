@@ -13,7 +13,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {getRandomInt} from '../../../utils';
+import {getRandomId} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import users from '../../../fixtures/users.json';
 
@@ -164,7 +164,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#inviteGuestButton').scrollIntoView().should('be.visible').and('be.disabled');
 
         // * Verify Invite People field
-        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         cy.findByTestId('addPeople').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Invite People');
             cy.get('.help-text > span').should('have.text', 'Add existing guests or send email invites to new guests.');
@@ -274,7 +274,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
 
         // # Search and add a new guest by email, who is not part of the team
-        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
@@ -312,7 +312,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Reload the current page
         cy.reload();
 
-        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email, 'Town Square', false);
 
         // * Verify Invite Guests button is disabled
@@ -328,7 +328,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a Guest by email
-        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
@@ -369,7 +369,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a email containing uppercase letters
-        const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;
+        const email = `tEMp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen

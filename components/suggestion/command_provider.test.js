@@ -12,6 +12,7 @@ describe('CommandSuggestion', () => {
             suggestion: '/invite',
             hint: '@[username] ~[channel]',
             description: 'Invite a user to a channel',
+            iconData: '',
         },
         isSelection: true,
         term: '/',
