@@ -16,13 +16,13 @@ require('dotenv').config();
 const {
     AWS_S3_BUCKET,
     AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY
+    AWS_SECRET_ACCESS_KEY,
 } = process.env;
 
 const s3 = new AWS.S3({
     signatureVersion: 'v4',
     accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
 
 function getFiles(dirPath) {
@@ -54,7 +54,7 @@ async function saveArtifacts(upload, bucketFolder) {
                             Key,
                             Bucket: AWS_S3_BUCKET,
                             Body: fs.readFileSync(file),
-                            ContentType: `${contentType}${charset ? '; charset=' + charset : ''}`
+                            ContentType: `${contentType}${charset ? '; charset=' + charset : ''}`,
                         },
                         (err) => {
                             if (err) {
@@ -62,7 +62,7 @@ async function saveArtifacts(upload, bucketFolder) {
                                 return rej(new Error(err));
                             }
                             res({success: true});
-                        }
+                        },
                     );
                 });
             }),
@@ -73,7 +73,7 @@ async function saveArtifacts(upload, bucketFolder) {
                 }
 
                 resolve({success: true});
-            }
+            },
         );
     });
 }

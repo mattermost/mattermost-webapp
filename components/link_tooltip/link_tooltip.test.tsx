@@ -14,7 +14,7 @@ describe('components/link_tooltip/link_tooltip', () => {
             <LinkTooltip
                 href={'www.test.com'}
                 title={'test title'}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

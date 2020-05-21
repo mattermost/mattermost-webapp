@@ -36,7 +36,7 @@ describe('components/SuggestionBox', () => {
 
     test('should avoid ref access on unmount race', (done) => {
         const wrapper = mount(
-            <SuggestionBox {...baseProps}/>
+            <SuggestionBox {...baseProps}/>,
         );
         wrapper.instance().handleFocusIn({});
         wrapper.unmount();
@@ -49,7 +49,7 @@ describe('components/SuggestionBox', () => {
             <SuggestionBox
                 {...baseProps}
                 onBlur={onBlur}
-            />
+            />,
         );
         wrapper.setState({focused: true});
         const instance = wrapper.instance();
@@ -79,7 +79,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
-            />
+            />,
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
@@ -99,7 +99,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
-            />
+            />,
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
@@ -116,7 +116,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
-            />
+            />,
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
@@ -154,7 +154,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...props}
-            />
+            />,
         );
         const instance = wrapper.instance();
 
@@ -175,7 +175,7 @@ describe('components/SuggestionBox', () => {
 
     test('should call setState for clear based on present cleared state', () => {
         const wrapper = mount(
-            <SuggestionBox {...baseProps}/>
+            <SuggestionBox {...baseProps}/>,
         );
 
         const instance = wrapper.instance();

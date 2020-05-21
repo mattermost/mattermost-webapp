@@ -124,9 +124,9 @@ function generateTestReport(summary, isUploadedToS3, bucketFolder) {
                     short: false,
                     title: `Key metrics (required support: ${testResult.priority})`,
                     value: statsFieldValue,
-                }
+                },
             ],
-            image_url: 'https://pbs.twimg.com/profile_images/1044345247440896001/pXI1GDHW_bigger.jpg'
+            image_url: 'https://pbs.twimg.com/profile_images/1044345247440896001/pXI1GDHW_bigger.jpg',
         }],
     };
 }

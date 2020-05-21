@@ -22,7 +22,7 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
 
     test('should match snapshot, with channel header', () => {
         const wrapper = mountWithIntl(
-            <ChannelInfoButton {...baseProps}/>
+            <ChannelInfoButton {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -39,7 +39,7 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
     test('should match snapshot, without channel header', () => {
         const props = {...baseProps, channel: {id: 'channel_id'}};
         const wrapper = mountWithIntl(
-            <ChannelInfoButton {...props}/>
+            <ChannelInfoButton {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

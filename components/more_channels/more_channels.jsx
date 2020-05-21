@@ -136,7 +136,7 @@ export default class MoreChannels extends React.Component {
                         this.setState({searchedChannels: [], searching: false});
                     });
             },
-            SEARCH_TIMEOUT_MILLISECONDS
+            SEARCH_TIMEOUT_MILLISECONDS,
         );
 
         this.searchTimeoutId = searchTimeoutId;

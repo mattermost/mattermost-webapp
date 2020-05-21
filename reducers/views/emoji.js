@@ -36,5 +36,5 @@ function shortcutReactToLastPostEmittedFrom(state = '', action) {
 
 export default combineReducers({
     emojiPickerCustomPage,
-    shortcutReactToLastPostEmittedFrom
+    shortcutReactToLastPostEmittedFrom,
 });

@@ -10,11 +10,11 @@
 // Stage: @prod
 // Group: @account_setting
 
-import {getRandomInt} from '../../../utils';
+import {getRandomId} from '../../../utils';
 
 describe('Account Settings > Sidebar > General', () => {
     // # number to identify particular user
-    const uniqueNumber = getRandomInt(1000);
+    const randomId = getRandomId();
     before(() => {
         cy.apiLogin('sysadmin');
         cy.apiGetTeamByName('ad-1').then((res) => {
@@ -32,7 +32,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.get('#nameDesc').click();
 
             // * Set first name value
-            cy.get('#firstName').clear().type(`정트리나${uniqueNumber}/trina.jung/집단사무국(CO)`);
+            cy.get('#firstName').clear().type(`정트리나${randomId}/trina.jung/집단사무국(CO)`);
 
             // # save form
             cy.get('#saveSetting').click();
@@ -45,7 +45,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.visit('/ad-1/channels/town-square');
 
             // # type in user`s firstName substring
-            cy.get('#post_textbox').clear().type(`@정트리나${uniqueNumber}`);
+            cy.get('#post_textbox').clear().type(`@정트리나${randomId}`);
 
             cy.findByTestId(user.username, {exact: false}).within((name) => {
                 cy.wrap(name).prev('.suggestion-list__divider').
@@ -53,7 +53,7 @@ describe('Account Settings > Sidebar > General', () => {
                 cy.wrap(name).find('.mention--align').
                     should('have.text', `@${user.username}`);
                 cy.wrap(name).find('.ml-2').
-                    should('have.text', `정트리나${uniqueNumber}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
+                    should('have.text', `정트리나${randomId}/trina.jung/집단사무국(CO) ${user.lastName} (${user.nickname})`);
             });
 
             // # Press tab on text input

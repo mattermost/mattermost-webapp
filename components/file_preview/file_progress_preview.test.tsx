@@ -35,7 +35,7 @@ describe('component/file_preview/file_progress_preview', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <FileProgressPreview {...baseProps}/>
+            <FileProgressPreview {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -50,7 +50,7 @@ describe('component/file_preview/file_progress_preview', () => {
         };
 
         const wrapper = shallow(
-            <FileProgressPreview {...props}/>
+            <FileProgressPreview {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -119,7 +119,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
 
         const heightProps = {
             rows: 0,
-            height: 0
+            height: 0,
         };
 
         if (this.height <= 0) {

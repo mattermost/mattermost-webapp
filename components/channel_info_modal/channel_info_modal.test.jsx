@@ -17,7 +17,7 @@ describe('components/ChannelInfoModal', () => {
                 channel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
                 currentTeam={{id: 'testid', name: 'testteam'}}
                 onHide={emptyFunction}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -44,7 +44,7 @@ describe('components/ChannelInfoModal', () => {
                 channel={channel}
                 currentTeam={{id: 'testid', name: 'testteam'}}
                 onHide={emptyFunction}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -61,7 +61,7 @@ describe('components/ChannelInfoModal', () => {
                 channel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
                 currentTeam={{id: 'testid', name: 'testteam'}}
                 onHide={onHide}
-            />
+            />,
         );
 
         wrapper.find(Modal).first().props().onExited();

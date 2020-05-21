@@ -168,7 +168,7 @@ export default class SignupController extends React.Component {
                             defaultMessage='Email and Password'
                         />
                     </span>
-                </Link>
+                </Link>,
             );
         }
 
@@ -188,7 +188,7 @@ export default class SignupController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -208,7 +208,7 @@ export default class SignupController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -228,7 +228,7 @@ export default class SignupController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -262,7 +262,7 @@ export default class SignupController extends React.Component {
                             {LDAPText}
                         </span>
                     </span>
-                </Link>
+                </Link>,
             );
         }
 
@@ -290,7 +290,7 @@ export default class SignupController extends React.Component {
                             {this.props.samlLoginButtonText}
                         </span>
                     </span>
-                </Link>
+                </Link>,
             );
         }
 
