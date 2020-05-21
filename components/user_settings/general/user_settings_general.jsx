@@ -113,6 +113,7 @@ class UserSettingsGeneralTab extends React.Component {
         samlNicknameAttributeSet: PropTypes.bool,
         ldapPositionAttributeSet: PropTypes.bool,
         samlPositionAttributeSet: PropTypes.bool,
+        ldapPictureAttributeSet: PropTypes.bool,
     }
 
     constructor(props) {
@@ -898,7 +899,7 @@ class UserSettingsGeneralTab extends React.Component {
                     <span>
                         <FormattedMessage
                             id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so though your login provider.'
+                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
                         />
                     </span>
                 );
@@ -1043,7 +1044,7 @@ class UserSettingsGeneralTab extends React.Component {
                     <span>
                         <FormattedMessage
                             id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so though your login provider.'
+                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
                         />
                     </span>
                 );
@@ -1081,7 +1082,7 @@ class UserSettingsGeneralTab extends React.Component {
                     <span>
                         <FormattedMessage
                             id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so though your login provider.'
+                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
                         />
                     </span>
                 );
@@ -1178,12 +1179,39 @@ class UserSettingsGeneralTab extends React.Component {
 
         let pictureSection;
         if (this.props.activeSection === 'picture') {
+            let submit = null;
+            let setDefault = null;
+            let helpText = null;
+            let imgSrc = null;
+
+            if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPictureAttributeSet)) {
+                helpText = (
+                    <span>
+                        <FormattedMessage
+                            id='user.settings.general.field_handled_externally'
+                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
+                        />
+                    </span>
+                );
+            } else {
+                submit = this.submitPicture;
+                setDefault = user.last_picture_update > 0 ? this.setDefaultProfilePicture : null;
+                imgSrc = Utils.imageURLForUser(user.id, user.last_picture_update);
+                helpText = (
+                    <FormattedMessage
+                        id={'setting_picture.help.profile'}
+                        defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
+                        values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
+                    />
+                );
+            }
+
             pictureSection = (
                 <SettingPicture
                     title={formatMessage(holders.profilePicture)}
-                    onSubmit={this.submitPicture}
-                    onSetDefault={user.last_picture_update > 0 ? this.setDefaultProfilePicture : null}
-                    src={Utils.imageURLForUser(user.id, user.last_picture_update)}
+                    onSubmit={submit}
+                    onSetDefault={setDefault}
+                    src={imgSrc}
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
@@ -1196,6 +1224,7 @@ class UserSettingsGeneralTab extends React.Component {
                     submitActive={this.submitActive}
                     loadingPicture={this.state.loadingPicture}
                     maxFileSize={this.props.maxFileSize}
+                    helpText={helpText}
                 />
             );
         } else {

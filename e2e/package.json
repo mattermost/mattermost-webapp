@@ -29,6 +29,7 @@
     "reportportal-client": "5.5.0",
     "shelljs": "0.8.3",
     "start-server-and-test": "1.11.0",
+    "uuid": "8.0.0",
     "yargs": "15.3.1"
   },
   "scripts": {
