@@ -24,50 +24,6 @@ const saveConfig = () => {
     cy.get('#channelMembers').should('not.be.visible');
 };
 
-const setupData = () => {
-    // # Login as sysadmin
-    cy.apiLogin('sysadmin');
-
-    // # Ensure that the team and channel are not group constrained
-    cy.apiGetChannelByName('ad-1', 'aut-8').then((channelRes) => {
-        channel = channelRes.body;
-        cy.apiPatchChannel(channel.id, {...channel, group_constrained: false}).then((patchChannelRes) => {
-            channel = patchChannelRes.body;
-        });
-
-        cy.apiGetTeamByName('ad-1').then((teamRes) => {
-            team = teamRes.body;
-            cy.apiPatchTeam(team.id, {...team, group_constrained: false}).then((patchTeamRes) => {
-                team = patchTeamRes.body;
-            });
-
-            // # Make sure user1 is in the team and channel initially
-            cy.apiGetUserByEmail(users['user-1'].email).then((user1Res) => {
-                user1 = user1Res.body;
-                cy.apiAddUserToTeam(team.id, user1.id).then(() => {
-                    cy.apiAddUserToChannel(channel.id, user1.id);
-                });
-            });
-
-            // # Make sure user2 is in the team and channel initially
-            cy.apiGetUserByEmail(users['user-2'].email).then((user2Res) => {
-                user2 = user2Res.body;
-                cy.apiAddUserToTeam(team.id, user2.id).then(() => {
-                    cy.apiAddUserToChannel(channel.id, user2.id);
-                });
-            });
-
-            // # Make sure sysadmin is in the team and channel initially
-            cy.apiGetUserByEmail(users.sysadmin.email).then((sysadminRes) => {
-                sysadmin = sysadminRes.body;
-                cy.apiAddUserToTeam(team.id, sysadmin.id).then(() => {
-                    cy.apiAddUserToChannel(channel.id, sysadmin.id);
-                });
-            });
-        });
-    });
-};
-
 describe('Channel members test', () => {
     before(() => {
         // # Login as sysadmin
@@ -76,13 +32,51 @@ describe('Channel members test', () => {
         // * Check if server has license
         cy.requireLicense();
 
-        // # Reset data before running tests
-        setupData();
+        // # Create a new team and channel that are not group constrained
+        cy.apiCreateTeam('test-team', 'Test Team').then((teamRes) => {
+            team = teamRes.body;
+            cy.apiCreateChannel(team.id, 'channel-members-test-channel', 'Channel members test channel').then((channelRes) => {
+                channel = channelRes.body;
+
+                // # Make sure user1 is in the team and channel initially
+                cy.apiGetUserByEmail(users['user-1'].email).then((user1Res) => {
+                    user1 = user1Res.body;
+                    cy.apiAddUserToTeam(team.id, user1.id).then(() => {
+                        cy.apiAddUserToChannel(channel.id, user1.id);
+                    });
+                });
+
+                // # Make sure user2 is in the team and channel initially
+                cy.apiGetUserByEmail(users['user-2'].email).then((user2Res) => {
+                    user2 = user2Res.body;
+                    cy.apiAddUserToTeam(team.id, user2.id).then(() => {
+                        cy.apiAddUserToChannel(channel.id, user2.id);
+                    });
+                });
+
+                // # Make sure sysadmin is in the team and channel initially
+                cy.apiGetUserByEmail(users.sysadmin.email).then((sysadminRes) => {
+                    sysadmin = sysadminRes.body;
+                    cy.apiAddUserToTeam(team.id, sysadmin.id).then(() => {
+                        cy.apiAddUserToChannel(channel.id, sysadmin.id);
+                    });
+                });
+            });
+        });
     });
 
     after(() => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // # Reset data after running tests
-        setupData();
+        if (channel && channel.id) {
+            cy.apiDeleteChannel(channel.id).then(() => {
+                if (team && team.id) {
+                    cy.apiDeleteTeam(team.id, true);
+                }
+            });
+        }
     });
 
     it('MM-23938 - Channel members block is only visible when channel is not group synced', () => {
@@ -139,6 +133,9 @@ describe('Channel members test', () => {
 
         // # Confirm Save
         cy.get('#confirmModalButton').click();
+
+        // # Check that the members block is no longer visible meaning that the save has succeeded and we were redirected out
+        cy.get('#channelMembers').should('not.be.visible');
 
         // # Visit the channel page
         cy.visit(`/admin_console/user_management/channels/${channel.id}`);
