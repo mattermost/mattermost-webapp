@@ -18,10 +18,11 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
 
-export default class AddGroupsToChannelModal extends React.Component {
+export default class AddGroupsToChannelModal extends React.PureComponent {
     static propTypes = {
         currentChannelName: PropTypes.string.isRequired,
         currentChannelId: PropTypes.string.isRequired,
+        teamID: PropTypes.string.isRequired,
         searchTerm: PropTypes.string.isRequired,
         groups: PropTypes.array.isRequired,
 
@@ -36,6 +37,8 @@ export default class AddGroupsToChannelModal extends React.Component {
             setModalSearchTerm: PropTypes.func.isRequired,
             linkGroupSyncable: PropTypes.func.isRequired,
             getAllGroupsAssociatedToChannel: PropTypes.func.isRequired,
+            getTeam: PropTypes.func.isRequired,
+            getAllGroupsAssociatedToTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -56,6 +59,8 @@ export default class AddGroupsToChannelModal extends React.Component {
 
     componentDidMount() {
         Promise.all([
+            this.props.actions.getTeam(this.props.teamID),
+            this.props.actions.getAllGroupsAssociatedToTeam(this.props.teamID),
             this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, '', 0, GROUPS_PER_PAGE + 1),
             this.props.actions.getAllGroupsAssociatedToChannel(this.props.currentChannelId),
         ]).then(() => {
