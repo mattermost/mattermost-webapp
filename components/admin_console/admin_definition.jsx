@@ -1983,7 +1983,7 @@ const AdminDefinition = {
                         label: t('admin.customization.enableLatexTitle'),
                         label_default: 'Enable Latex Rendering:',
                         help_text: t('admin.customization.enableLatexDesc'),
-                        help_text_default: 'Enable rending of Latex code. If false, Latex code will be highlighted only.',
+                        help_text_default: 'Enable rendering of Latex code. If false, Latex code will be highlighted only.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
