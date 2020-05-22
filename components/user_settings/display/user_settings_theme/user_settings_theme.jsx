@@ -205,7 +205,7 @@ export default class ThemeSetting extends React.Component {
                             />
                         </label>
                         <br/>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -230,7 +230,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='Custom Theme'
                             />
                         </label>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(custom);
@@ -249,7 +249,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='See other themes'
                             />
                         </a>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -267,7 +267,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='Import theme colors from Slack'
                             />
                         </button>
-                    </div>
+                    </div>,
                 );
             }
 

@@ -11,7 +11,7 @@ describe('components/widgets/popover', () => {
         const wrapper = shallow(
             <Popover id='test'>
                 {'Some text'}
-            </Popover>
+            </Popover>,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -62,7 +62,7 @@ export default class ResetEmailModal extends React.Component {
             (err) => {
                 const serverError = err.message ? err.message : err;
                 this.setState({error: serverError});
-            }
+            },
         );
     }
 

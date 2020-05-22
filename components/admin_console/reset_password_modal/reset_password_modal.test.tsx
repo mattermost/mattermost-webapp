@@ -23,7 +23,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         mark_unread: 'all',
         mention_keys: '',
         push: 'default',
-        push_status: 'ooo'
+        push_status: 'ooo',
     };
     const user: UserProfile = {
         auth_data: '',
@@ -65,7 +65,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ResetPasswordModal {...baseProps}/>
+            <ResetPasswordModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +73,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     test('should match snapshot when there is no user', () => {
         const props = {...baseProps, user: undefined};
         const wrapper = shallow(
-            <ResetPasswordModal {...props}/>
+            <ResetPasswordModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

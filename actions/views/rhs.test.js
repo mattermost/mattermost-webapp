@@ -94,7 +94,7 @@ describe('rhs view actions', () => {
             posts: {
                 posts: {
                     [previousSelectedPost.id]: previousSelectedPost,
-                }
+                },
             },
             preferences: {myPreferences: {}},
         },

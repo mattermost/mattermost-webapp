@@ -50,7 +50,7 @@ const baseProps = {
 describe('components/post_view/post_list', () => {
     it('snapshot for loading when there are no posts', () => {
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: []}}/>
+            <PostList {...{...baseProps, postListIds: []}}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -58,7 +58,7 @@ describe('components/post_view/post_list', () => {
     it('snapshot with couple of posts', () => {
         const postIds = createFakePosIds(2);
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: postIds}}/>
+            <PostList {...{...baseProps, postListIds: postIds}}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -67,7 +67,7 @@ describe('components/post_view/post_list', () => {
         const emptyPostList = [];
 
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: emptyPostList}}/>
+            <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
         );
 
         expect(actionsProp.loadUnreads).toHaveBeenCalledWith(baseProps.channelId);
@@ -79,7 +79,7 @@ describe('components/post_view/post_list', () => {
     it('Should call for before and afterPosts', async () => {
         const postIds = createFakePosIds(2);
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: postIds}}/>
+            <PostList {...{...baseProps, postListIds: postIds}}/>,
         );
 
         wrapper.find(VirtPostList).prop('actions').loadOlderPosts();
@@ -98,7 +98,7 @@ describe('components/post_view/post_list', () => {
     it('VirtPostList Should have formattedPostIds as prop', async () => {
         const postIds = createFakePosIds(2);
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: postIds}}/>
+            <PostList {...{...baseProps, postListIds: postIds}}/>,
         );
 
         const formattedPostIds = wrapper.find(VirtPostList).prop('postListIds');
@@ -109,7 +109,7 @@ describe('components/post_view/post_list', () => {
         const postIds = createFakePosIds(10);
         const formattedPostIds = ['1', '2'];
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: postIds, formattedPostIds}}/>
+            <PostList {...{...baseProps, postListIds: postIds, formattedPostIds}}/>,
         );
 
         const instance = wrapper.instance();
@@ -120,7 +120,7 @@ describe('components/post_view/post_list', () => {
     it('Should call for permalink posts', async () => {
         const focusedPostId = 'new';
         const wrapper = shallow(
-            <PostList {...{...baseProps, focusedPostId}}/>
+            <PostList {...{...baseProps, focusedPostId}}/>,
         );
 
         expect(actionsProp.loadPostsAround).toHaveBeenCalledWith(baseProps.channelId, focusedPostId);
@@ -131,7 +131,7 @@ describe('components/post_view/post_list', () => {
 
     it('Should call for loadLatestPosts', async () => {
         const wrapper = shallow(
-            <PostList {...{...baseProps, postListIds: [], isFirstLoad: false}}/>
+            <PostList {...{...baseProps, postListIds: [], isFirstLoad: false}}/>,
         );
 
         expect(actionsProp.loadLatestPosts).toHaveBeenCalledWith(baseProps.channelId);
@@ -215,7 +215,7 @@ describe('components/post_view/post_list', () => {
             };
 
             const wrapper = shallow(
-                <PostList {...props}/>
+                <PostList {...props}/>,
             );
 
             wrapper.find(VirtPostList).prop('actions').loadOlderPosts();
@@ -233,7 +233,7 @@ describe('components/post_view/post_list', () => {
             const emptyPostList = [];
 
             const wrapper = shallow(
-                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId'}}/>
+                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId'}}/>,
             );
 
             await wrapper.instance().postsOnLoad();
@@ -244,7 +244,7 @@ describe('components/post_view/post_list', () => {
             const emptyPostList = [];
             const focusedPostId = 'new';
             shallow(
-                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId', focusedPostId}}/>
+                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId', focusedPostId}}/>,
             );
 
             await actionsProp.loadPostsAround();

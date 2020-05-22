@@ -49,7 +49,7 @@ describe('components/widgets/loading/LoadingWrapper', () => {
                     text={testCase.text}
                 >
                     {testCase.children}
-                </LoadingWrapper>
+                </LoadingWrapper>,
             );
             expect(wrapper).toMatchInlineSnapshot(testCase.snapshot, '""');
         });

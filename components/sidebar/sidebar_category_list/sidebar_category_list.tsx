@@ -299,7 +299,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 this.props.currentChannel!.id,
                 allChannelIds,
                 this.props.unreadChannelIds,
-                direction
+                direction,
             );
 
             if (nextIndex !== -1) {

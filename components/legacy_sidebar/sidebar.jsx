@@ -429,7 +429,7 @@ class LegacySidebar extends React.PureComponent {
                 this.props.currentChannel.id,
                 allChannelIds,
                 this.props.unreadChannelIds,
-                direction
+                direction,
             );
 
             if (nextIndex !== -1) {

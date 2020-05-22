@@ -14,7 +14,7 @@ import users from '../../fixtures/users';
 
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 const sysadmin = users.sysadmin;
 
@@ -33,7 +33,7 @@ describe('Channel sidebar', () => {
 
     it('should switch channels when clicking on a channel in the sidebar', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -55,7 +55,7 @@ describe('Channel sidebar', () => {
 
     it('should mark channel as read and unread in sidebar', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -80,7 +80,7 @@ describe('Channel sidebar', () => {
 
     it('should remove channel from sidebar after leaving it', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -105,7 +105,7 @@ describe('Channel sidebar', () => {
 
     it('MM-23239 should remove channel from sidebar after deleting it', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team

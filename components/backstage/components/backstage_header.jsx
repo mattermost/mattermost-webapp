@@ -27,7 +27,7 @@ export default class BackstageHeader extends React.Component {
                             className='fa fa-angle-right'
                             title={{id: t('generic_icons.breadcrumb'), defaultMessage: 'Breadcrumb Icon'}}
                         />
-                    </span>
+                    </span>,
                 );
             }
 

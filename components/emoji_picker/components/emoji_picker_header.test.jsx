@@ -13,7 +13,7 @@ describe('components/emoji_picker/components/EmojiPickerHeader', () => {
         };
 
         const wrapper = shallow(
-            <EmojiPickerHeader {...props}/>
+            <EmojiPickerHeader {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -24,7 +24,7 @@ describe('components/emoji_picker/components/EmojiPickerHeader', () => {
         };
 
         const wrapper = shallow(
-            <EmojiPickerHeader {...props}/>
+            <EmojiPickerHeader {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

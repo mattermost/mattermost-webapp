@@ -51,7 +51,7 @@ describe('components/PermalinkRedirector', () => {
             url: 'pl/post_id',
         };
         shallow(
-            <PermalinkRedirector {...props}/>
+            <PermalinkRedirector {...props}/>,
         );
 
         expect(baseProps.actions.redirect).toHaveBeenCalledWith(props.url, props.params);
@@ -64,7 +64,7 @@ describe('components/PermalinkRedirector', () => {
             url: '/_redirect/integrations',
         };
         shallow(
-            <PermalinkRedirector {...props}/>
+            <PermalinkRedirector {...props}/>,
         );
 
         expect(baseProps.actions.redirect).toHaveBeenCalledWith(props.url, props.params);
@@ -77,7 +77,7 @@ describe('components/PermalinkRedirector', () => {
             url: '/_redirect/integrations/bots',
         };
         shallow(
-            <PermalinkRedirector {...props}/>
+            <PermalinkRedirector {...props}/>,
         );
 
         expect(baseProps.actions.redirect).toHaveBeenCalledWith(props.url, props.params);

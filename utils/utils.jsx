@@ -90,7 +90,7 @@ export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)) // alt/option + enter is already handled in Safari, so don't handle again
+            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -1200,6 +1200,10 @@ export function getLongDisplayName(user) {
         displayName = displayName + ' (' + user.nickname + ')';
     }
 
+    if (user.position && user.position.trim().length > 0) {
+        displayName = displayName + ' -' + user.position;
+    }
+
     return displayName;
 }
 
@@ -1208,6 +1212,7 @@ export function getLongDisplayNameParts(user) {
         displayName: '@' + user.username,
         fullName: getFullName(user),
         nickname: user.nickname && user.nickname.trim() ? user.nickname : null,
+        position: user.position && user.position.trim() ? user.position : null,
     };
 }
 
@@ -1268,34 +1273,27 @@ export function displayEntireNameForUser(user) {
         return '';
     }
 
-    let displayName = '@' + user.username;
+    let displayName = '';
     const fullName = getFullName(user);
 
-    if (fullName && user.nickname) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
-            </span>
-        );
-    } else if (fullName) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{fullName}</span>
-            </span>
-        );
-    } else if (user.nickname) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{'(' + user.nickname + ')'}</span>
-            </span>
-        );
+    if (fullName) {
+        displayName = ' - ' + fullName;
     }
+
+    if (user.nickname) {
+        displayName = displayName + ' (' + user.nickname + ')';
+    }
+
+    if (user.position) {
+        displayName = displayName + ' - ' + user.position;
+    }
+
+    displayName = (
+        <span>
+            {'@' + user.username}
+            <span className='light'>{displayName}</span>
+        </span>
+    );
 
     return displayName;
 }

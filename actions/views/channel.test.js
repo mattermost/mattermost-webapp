@@ -243,10 +243,10 @@ describe('channel view actions', () => {
                         {
                             channelId: 'channel',
                             time: 12344,
-                            type: 'RECEIVED_POSTS_FOR_CHANNEL_AT_TIME'
+                            type: 'RECEIVED_POSTS_FOR_CHANNEL_AT_TIME',
                         }],
                     type: 'BATCHING_REDUCER.BATCH',
-                }
+                },
             ]);
         });
     });
@@ -532,7 +532,7 @@ describe('channel view actions', () => {
 
             expect(store.getActions()).toEqual([{
                 data: true,
-                type: 'UPDATE_TOAST_STATUS'
+                type: 'UPDATE_TOAST_STATUS',
             }]);
         });
     });

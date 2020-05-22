@@ -66,7 +66,7 @@ describe('Messaging', () => {
                     {postIndex: 1, standard: '12:30 PM', military: '12:30'},
                     {postIndex: 2, standard: '8:30 PM', military: '20:30'},
                     {postIndex: 3, standard: '12:30 AM', military: '00:30'},
-                ]
+                ],
             },
             {
                 name: 'in Spanish',
@@ -78,7 +78,7 @@ describe('Messaging', () => {
                     {postIndex: 1, standard: '12:30 p. m.', military: '12:30'},
                     {postIndex: 2, standard: '8:30 p. m.', military: '20:30'},
                     {postIndex: 3, standard: '12:30 a. m.', military: '0:30'},
-                ]
+                ],
             },
             {
                 name: 'in react-intl unsupported timezone',
@@ -90,7 +90,7 @@ describe('Messaging', () => {
                     {postIndex: 1, standard: '02:15 AM', military: '02:15'},
                     {postIndex: 2, standard: '10:15 AM', military: '10:15'},
                     {postIndex: 3, standard: '02:15 PM', military: '14:15'},
-                ]
+                ],
             },
         ];
 

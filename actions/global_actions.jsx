@@ -101,7 +101,7 @@ export function emitChannelClickEvent(channel) {
             },
             () => {
                 browserHistory.push('/' + this.state.currentTeam.name);
-            }
+            },
         );
     } else {
         switchToChannel(channel);
