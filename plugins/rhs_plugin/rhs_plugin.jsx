@@ -10,11 +10,16 @@ import Pluggable from 'plugins/pluggable';
 
 export default class RhsPlugin extends React.PureComponent {
     static propTypes = {
+        pluggableId: PropTypes.string.isRequired,
         title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.object,
         ]),
-        pluggableId: PropTypes.string.isRequired,
+        icons: PropTypes.arrayOf(PropTypes.shape({
+            icon: PropTypes.node.isRequired,
+            tooltip: PropTypes.node.isRequired,
+            action: PropTypes.func.isRequired,
+        }))
     }
 
     render() {
@@ -23,7 +28,9 @@ export default class RhsPlugin extends React.PureComponent {
                 id='rhsContainer'
                 className='sidebar-right__body'
             >
-                <SearchResultsHeader>
+                <SearchResultsHeader
+                    icons={this.props.icons}
+                >
                     {this.props.title}
                 </SearchResultsHeader>
                 <Pluggable

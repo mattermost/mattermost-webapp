@@ -139,6 +139,7 @@ export const ActionTypes = keyMirror({
     BROWSER_CHANGE_FOCUS: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
+    RECEIVED_PLUGIN_RHS_ICONS: null,
     REMOVED_PLUGIN_COMPONENT: null,
     RECEIVED_PLUGIN_POST_COMPONENT: null,
     RECEIVED_PLUGIN_POST_CARD_COMPONENT: null,
@@ -482,6 +483,7 @@ export const ErrorPageTypes = {
 export const JobTypes = {
     DATA_RETENTION: 'data_retention',
     ELASTICSEARCH_POST_INDEXING: 'elasticsearch_post_indexing',
+    BLEVE_POST_INDEXING: 'bleve_post_indexing',
     LDAP_SYNC: 'ldap_sync',
     MESSAGE_EXPORT: 'message_export',
 };
