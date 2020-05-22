@@ -25,6 +25,8 @@ import {FakePost} from 'types/store/rhs';
 
 import './rhs_thread.scss';
 
+const SCROLL_NEAR_BOTTOM_BUFFER = 200;
+
 type Props = {
     posts: Post[];
     channel: Channel | null;
@@ -48,7 +50,7 @@ type State = {
     windowWidth?: number;
     windowHeight?: number;
     isScrolling: boolean;
-    isAtBottom: boolean;
+    isNearBottom: boolean;
     topRhsPostId: string;
     openTime: number;
     postsArray?: Record<string, any>[];
@@ -79,7 +81,7 @@ export default class RhsThread extends React.Component<Props, State> {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
-            isAtBottom: true,
+            isNearBottom: true,
             topRhsPostId: '',
             openTime,
         };
@@ -118,10 +120,8 @@ export default class RhsThread extends React.Component<Props, State> {
 
         // if snapshot value, new posts have been added
         // if at bottom of thread, continue to scroll after adding new post
-        if (curPostsArray.length > prevPostsArray.length) {
-            if (snapshot) {
-                this.scrollToBottom();
-            }
+        if (snapshot) {
+            this.scrollToBottom();
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
@@ -172,7 +172,7 @@ export default class RhsThread extends React.Component<Props, State> {
     public getSnapshotBeforeUpdate(prevProps: Props, prevState: State) {
         // if adding posts to thread, capture state of rhs to determine if scrolled to botttom
         if (!Utils.areObjectsEqual(prevState.postsArray, this.props.posts)) {
-            return prevState.isAtBottom;
+            return prevState.isNearBottom;
         }
         return null;
     }
@@ -275,9 +275,12 @@ export default class RhsThread extends React.Component<Props, State> {
 
         if (this.scrollbarsRef.current) {
             const elem = this.scrollbarsRef.current;
-            const isAtBottom = elem.scrollTop + elem.clientHeight === elem.scrollHeight;
+
+            // scrollTop on Chrome/Win10 when UI is scaled sometimes returns float value +/- <.5px
+            // corrected by rounding plus a buffer of 200px for inadvertant/insignificant scroll
+            const isNearBottom = Math.round(elem.scrollTop) + elem.clientHeight >= (elem.scrollHeight - SCROLL_NEAR_BOTTOM_BUFFER);
             this.setState({
-                isAtBottom,
+                isNearBottom,
             });
         }
     }

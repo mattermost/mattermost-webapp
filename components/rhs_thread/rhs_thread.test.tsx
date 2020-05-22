@@ -167,11 +167,11 @@ describe('components/RhsThread', () => {
     test('should not continue scrolling to show next post when thread is scrolled away from the bottom', () => {
         const wrapper = shallow(<RhsThread {...baseProps}/>);
         const instance = wrapper.instance() as RhsThread;
-        instance.scrollToBottom = jest.fn();
 
         wrapper.setState({
-            isAtBottom: false,
+            isNearBottom: false,
         });
+        instance.scrollToBottom = jest.fn();
         wrapper.setProps({
             posts: [
                 {
@@ -190,8 +190,6 @@ describe('components/RhsThread', () => {
         const wrapper = shallow(<RhsThread {...baseProps}/>);
         const instance = wrapper.instance() as RhsThread;
 
-        //console.log(instance.state);
-
         instance.scrollToBottom = jest.fn();
         wrapper.setProps({
             posts: [
@@ -204,7 +202,7 @@ describe('components/RhsThread', () => {
             ],
         });
 
-        expect(instance.state.isAtBottom).toBeTruthy();
+        expect(instance.state.isNearBottom).toBeTruthy();
         expect(instance.scrollToBottom).toHaveBeenCalled();
     });
 });
