@@ -122,17 +122,17 @@ describe('Emoji', () => {
         test('special case for thumbsup emoji should sort custom "thumb" emojis after system', () => {
             const thumbsUpEmoji = {
                 aliases: ['+1', 'thumbsup'],
-                category: 'default'
+                category: 'default',
             };
 
             const thumbsDownEmoji = {
                 name: 'thumbsdown',
-                category: 'default'
+                category: 'default',
             };
 
             const thumbsUpCustomEmoji = {
                 name: 'thumbsup-custom',
-                category: 'custom'
+                category: 'custom',
             };
 
             const emojiArray = [thumbsUpCustomEmoji, thumbsDownEmoji, thumbsUpEmoji];

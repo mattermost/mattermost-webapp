@@ -293,7 +293,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     setDraft,
                 },
-            })
+            }),
         );
 
         const postTextbox = wrapper.find('#post_textbox');
@@ -340,15 +340,15 @@ describe('components/create_post', () => {
             groupsWithAllowReference: new Map([
                 ['@developers', {
                     id: 'developers',
-                    name: 'developers'
-                }]
+                    name: 'developers',
+                }],
             ]),
             channelMemberCountsByGroup: {
                 developers: {
                     channel_member_count: 10,
                     channel_member_timezones_count: 0,
-                }
-            }
+                },
+            },
         });
         wrapper.setState({
             message: '@developers',
@@ -411,7 +411,7 @@ describe('components/create_post', () => {
                     channel_member_count: 5,
                     channel_member_timezones_count: 0,
                 },
-            }
+            },
         });
         wrapper.setState({
             message: '@developers @boss @love @you @software-developers',
@@ -466,7 +466,7 @@ describe('components/create_post', () => {
                     channel_member_count: 40,
                     channel_member_timezones_count: 5,
                 },
-            }
+            },
         });
         wrapper.setState({
             message: '@developers @boss @love @you',
@@ -551,7 +551,7 @@ describe('components/create_post', () => {
                 },
                 isTimezoneEnabled: true,
                 currentChannelMembersCount: 9,
-            })
+            }),
         );
 
         wrapper.setState({
@@ -582,7 +582,7 @@ describe('components/create_post', () => {
             createPost({
                 getChannelTimezones: jest.fn(() => Promise.resolve([])),
                 isTimezoneEnabled: false,
-            })
+            }),
         );
 
         wrapper.setState({
@@ -613,7 +613,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     openModal,
                 },
-            })
+            }),
         );
 
         wrapper.setState({
@@ -636,7 +636,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     openModal,
                 },
-            })
+            }),
         );
 
         wrapper.setState({
@@ -686,7 +686,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     addReaction,
                 },
-            })
+            }),
         );
 
         wrapper.setState({
@@ -706,7 +706,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     removeReaction,
                 },
-            })
+            }),
         );
 
         wrapper.setState({
@@ -754,7 +754,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     setDraft,
                 },
-            })
+            }),
         );
 
         const instance = wrapper.instance();
@@ -780,7 +780,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     setDraft,
                 },
-            })
+            }),
         );
 
         const instance = wrapper.instance();
@@ -820,7 +820,7 @@ describe('components/create_post', () => {
                     ...actionsProp,
                     setDraft,
                 },
-            })
+            }),
         );
 
         const instance = wrapper.instance();
@@ -872,7 +872,7 @@ describe('components/create_post', () => {
                     ...draftProp,
                     ...uploadsInProgressDraft,
                 },
-            })
+            }),
         );
 
         const instance = wrapper.instance();
@@ -949,7 +949,7 @@ describe('components/create_post', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
         const wrapper = shallowWithIntl(createPost({
             actions: {
@@ -969,7 +969,7 @@ describe('components/create_post', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
         const wrapper = shallowWithIntl(createPost({
             actions: {
@@ -1067,7 +1067,7 @@ describe('components/create_post', () => {
                     executeCommand,
                     onSubmitPost,
                 },
-            })
+            }),
         );
 
         wrapper.setState({
@@ -1106,7 +1106,7 @@ describe('components/create_post', () => {
                     executeCommand,
                     onSubmitPost,
                 },
-            })
+            }),
         );
 
         wrapper.setState({
@@ -1284,6 +1284,6 @@ describe('components/create_post', () => {
 
     testComponentForLineBreak(
         (value) => createPost({draft: {...draftProp, message: value}}),
-        (instance) => instance.state().message
+        (instance) => instance.state().message,
     );
 });

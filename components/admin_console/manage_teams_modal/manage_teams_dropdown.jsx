@@ -9,7 +9,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class ManageTeamsDropdown extends React.Component {
+export default class ManageTeamsDropdown extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,

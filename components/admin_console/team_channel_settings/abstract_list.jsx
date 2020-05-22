@@ -124,7 +124,7 @@ export default class AbstractList extends React.PureComponent {
                     'groups-list-no-padding',
                     {
                         'groups-list-less-padding': noPadding,
-                    }
+                    },
                 )}
             >
                 {this.renderHeader()}

@@ -53,7 +53,7 @@ describe('components/PostMarkdown', () => {
             },
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +73,7 @@ describe('components/PostMarkdown', () => {
             },
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -91,7 +91,7 @@ describe('components/PostMarkdown', () => {
             },
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -108,7 +108,7 @@ describe('components/PostMarkdown', () => {
             },
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper.find(Markdown).prop('postId')).toEqual(props.post.id);
         expect(wrapper).toMatchSnapshot();
@@ -133,7 +133,7 @@ describe('components/PostMarkdown', () => {
             },
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -167,7 +167,7 @@ describe('components/PostMarkdown', () => {
             ],
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -201,7 +201,7 @@ describe('components/PostMarkdown', () => {
             ],
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

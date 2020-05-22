@@ -60,7 +60,7 @@ export const getSelectedPost = createSelector(
             channel_id: selectedPostChannelId,
             user_id: currentUserId,
         };
-    }
+    },
 );
 
 export function getRhsState(state: GlobalState): RhsState {

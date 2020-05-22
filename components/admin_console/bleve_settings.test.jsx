@@ -20,12 +20,12 @@ describe('components/BleveSettings', () => {
                 EnableIndexing: false,
                 EnableSearching: false,
                 EnableAutocomplete: false,
-            }
+            },
         };
         const wrapper = shallow(
             <BleveSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -37,12 +37,12 @@ describe('components/BleveSettings', () => {
                 EnableIndexing: true,
                 EnableSearching: false,
                 EnableAutocomplete: false,
-            }
+            },
         };
         const wrapper = shallow(
             <BleveSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

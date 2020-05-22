@@ -14,7 +14,7 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import {placeCaretAtEnd} from 'utils/utils.jsx';
 
-export default class AddUserToChannelModal extends React.Component {
+export default class AddUserToChannelModal extends React.PureComponent {
     static propTypes = {
 
         /**
