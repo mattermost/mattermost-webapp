@@ -39,7 +39,7 @@ describe('components/logged_in/LoggedIn', () => {
   position="relative"
   style={Object {}}
 />
-`
+`,
         );
     });
 
@@ -55,7 +55,7 @@ describe('components/logged_in/LoggedIn', () => {
 <Redirect
   to="/mfa/setup"
 />
-`
+`,
         );
     });
 
@@ -74,7 +74,7 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
     });
 
@@ -93,7 +93,7 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
     });
 
@@ -110,7 +110,7 @@ describe('components/logged_in/LoggedIn', () => {
 <Redirect
   to="/terms_of_service?redirect_to=%2F"
 />
-`
+`,
         );
     });
 
@@ -130,7 +130,7 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
     });
 
@@ -147,7 +147,7 @@ describe('components/logged_in/LoggedIn', () => {
 <span>
   Test
 </span>
-`
+`,
         );
     });
 });

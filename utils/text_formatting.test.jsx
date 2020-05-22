@@ -181,22 +181,22 @@ describe('handleUnicodeEmoji', () => {
         {
             description: 'should correctly match gendered emojis',
             text: '🙅‍♀️🙅‍♂️',
-            output: '<span data-emoticon="no_good_woman">🙅‍♀️</span><span data-emoticon="no_good_man">🙅‍♂️</span>'
+            output: '<span data-emoticon="no_good_woman">🙅‍♀️</span><span data-emoticon="no_good_man">🙅‍♂️</span>',
         },
         {
             description: 'should correctly match flags',
             text: '🏳️🇨🇦🇫🇮',
-            output: '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>'
+            output: '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>',
         },
         {
             description: 'should correctly match emojis with skin tones',
             text: '👍🏿👍🏻',
-            output: '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>'
+            output: '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>',
         },
         {
             description: 'should correctly match combined emojis',
             text: '👨‍👩‍👧‍👦👨‍❤️‍👨',
-            output: '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>'
+            output: '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>',
         },
     ];
 

@@ -52,7 +52,7 @@ export default class CustomUrlSchemesSetting extends React.Component {
         const label = Utils.localizeMessage('admin.customization.customUrlSchemes', 'Custom URL Schemes:');
         const helpText = Utils.localizeMessage(
             'admin.customization.customUrlSchemesDesc',
-            'Allows message text to link if it begins with any of the comma-separated URL schemes listed. By default, the following schemes will create links: "http", "https", "ftp", "tel", and "mailto".'
+            'Allows message text to link if it begins with any of the comma-separated URL schemes listed. By default, the following schemes will create links: "http", "https", "ftp", "tel", and "mailto".',
         );
 
         return (

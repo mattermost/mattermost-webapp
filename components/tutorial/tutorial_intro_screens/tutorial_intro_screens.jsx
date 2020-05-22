@@ -304,7 +304,7 @@ export default class TutorialIntroScreens extends React.Component {
                     className={className}
                     data-screen={i}
                     onClick={(e) => this.handleCircleClick(e, i)}
-                />
+                />,
             );
         }
 

@@ -40,7 +40,7 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverl
 
 OverlayTrigger.defaultProps = {
     defaultOverlayShown: false,
-    trigger: ['hover', 'focus']
+    trigger: ['hover', 'focus'],
 };
 OverlayTrigger.displayName = 'OverlayTrigger';
 

@@ -37,8 +37,8 @@ export class TestHelper {
                 mark_unread: 'mention',
                 mention_keys: '',
                 push: 'none',
-                push_status: 'offline'
-            }
+                push_status: 'offline',
+            },
         };
         return Object.assign({}, defaultUser, override);
     }
@@ -52,7 +52,7 @@ export class TestHelper {
             user_id: '',
             username: '',
             description: '',
-            display_name: ''
+            display_name: '',
         };
         return Object.assign({}, defaultBot, override);
     }

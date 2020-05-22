@@ -78,7 +78,7 @@ function makeMapStateToProps() {
                 channel: currentChannel.id,
                 team: currentChannel.team_id,
                 permission: Permissions.CREATE_POST,
-            }
+            },
         );
         const useChannelMentions = haveIChannelPermission(state, {
             channel: currentChannel.id,

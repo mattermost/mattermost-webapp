@@ -231,7 +231,7 @@ function getUserAndChannelDialog(triggerId, webhookBaseUrl) {
                     options: null,
                 },
             ],
-        }
+        },
     };
 }
 
@@ -258,7 +258,7 @@ function getBooleanDialog(triggerId, webhookBaseUrl) {
                     help_text: 'This is the help text',
                 },
             ],
-        }
+        },
     };
 }
 

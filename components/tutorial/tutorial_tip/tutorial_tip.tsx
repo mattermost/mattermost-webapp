@@ -50,7 +50,7 @@ export default class TutorialTip extends React.Component<Props, State> {
 
         this.state = {
             currentScreen: 0,
-            show: false
+            show: false,
         };
 
         this.targetRef = React.createRef();
@@ -164,7 +164,7 @@ export default class TutorialTip extends React.Component<Props, State> {
                         className={className}
                         data-screen={i}
                         onClick={(e) => this.handleCircleClick(e, i)}
-                    />
+                    />,
                 );
             }
         }
