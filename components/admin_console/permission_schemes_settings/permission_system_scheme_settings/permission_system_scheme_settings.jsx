@@ -74,9 +74,10 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         }
 
         if (this.state.urlParams.get('rowIdFromQuery')) {
-            setTimeout(() => { this.selectRow(this.state.urlParams.get('rowIdFromQuery')); }, 1000);
+            setTimeout(() => {
+                this.selectRow(this.state.urlParams.get('rowIdFromQuery'));
+            }, 1000);
         }
-        
     }
 
     componentWillReceiveProps(nextProps) {
