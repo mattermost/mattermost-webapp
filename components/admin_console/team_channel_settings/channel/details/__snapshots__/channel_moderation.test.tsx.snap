@@ -63,10 +63,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                   data-testid="admin-channel_settings-channel_moderation-channelMentions-disabledBoth"
                 >
                   <injectIntl(FormattedMarkdownMessage)
-                    defaultMessage="Channel mentions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link})."
+                    defaultMessage="Channel mentions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=use_channel_mentions)."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledBoth"
                     values={
                       Object {
+                        "public_or_private": "public",
                         "scheme_link": "team_override_scheme/id",
                         "scheme_name": "dp Team Scheme",
                       }
@@ -394,10 +395,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                   data-testid="admin-channel_settings-channel_moderation-channelMentions-disabledMember"
                 >
                   <injectIntl(FormattedMarkdownMessage)
-                    defaultMessage="Channel mentions for members are disabled in [{scheme_name}](../permissions/{scheme_link})."
+                    defaultMessage="Channel mentions for members are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=use_channel_mentions)."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledMember"
                     values={
                       Object {
+                        "public_or_private": "private",
                         "scheme_link": "team_override_scheme/id",
                         "scheme_name": "dp Team Scheme",
                       }
@@ -550,10 +552,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                   data-testid="admin-channel_settings-channel_moderation-channelMentions-disabledGuest"
                 >
                   <injectIntl(FormattedMarkdownMessage)
-                    defaultMessage="Channel mentions for guests are disabled in [{scheme_name}](../permissions/{scheme_link})."
+                    defaultMessage="Channel mentions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=use_channel_mentions)."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledGuest"
                     values={
                       Object {
+                        "public_or_private": "public",
                         "scheme_link": "team_override_scheme/id",
                         "scheme_name": "dp Team Scheme",
                       }
