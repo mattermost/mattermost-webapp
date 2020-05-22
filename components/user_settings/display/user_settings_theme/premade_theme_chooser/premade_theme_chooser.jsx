@@ -48,7 +48,7 @@ export default class PremadeThemeChooser extends React.Component {
                                 <div className='theme-label'>{Utils.toTitleCase(premadeTheme.type)}</div>
                             </label>
                         </div>
-                    </div>
+                    </div>,
                 );
             }
         }

@@ -50,7 +50,7 @@ const demoteToChannelOrTeamMember = (userId, id, channelsOrTeams = 'channels') =
         data: {
             scheme_user: true,
             scheme_admin: false,
-        }
+        },
     });
 };
 
@@ -62,7 +62,7 @@ const promoteToChannelOrTeamAdmin = (userId, id, channelsOrTeams = 'channels') =
         data: {
             scheme_user: true,
             scheme_admin: true,
-        }
+        },
     });
 };
 
@@ -102,30 +102,30 @@ const enableDisableAllChannelModeratedPermissionsViaAPI = (channelId, enable = t
                         roles: {
                             members: enable,
                             guests: enable,
-                        }
+                        },
                     },
                     {
                         name: 'create_reactions',
                         roles: {
                             members: enable,
                             guests: enable,
-                        }
+                        },
                     },
                     {
                         name: 'manage_members',
                         roles: {
                             members: enable,
-                        }
+                        },
                     },
                     {
                         name: 'use_channel_mentions',
                         roles: {
                             members: enable,
                             guests: enable,
-                        }
+                        },
                     },
                 ],
-        }
+        },
     );
 };
 

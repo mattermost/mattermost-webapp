@@ -18,7 +18,7 @@ function setLDAPTestSettings(config) {
         siteName: config.TeamSettings.SiteName,
         siteUrl: config.ServiceSettings.SiteURL,
         teamName: '',
-        user: null
+        user: null,
     };
 }
 
@@ -68,10 +68,10 @@ context('ldap', () => {
             LoginButtonColor: '#0000',
             LoginButtonBorderColor: '#2389D7',
             LoginButtonTextColor: '#2389D7',
-            Trace: false
+            Trace: false,
         },
         GuestAccountsSettings: {
-            Enable: true
+            Enable: true,
         },
     };
 

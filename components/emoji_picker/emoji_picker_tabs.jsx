@@ -36,7 +36,7 @@ export default class EmojiPickerTabs extends PureComponent {
 
         this.state = {
             emojiTabVisible: true,
-            filter: ''
+            filter: '',
         };
     }
 

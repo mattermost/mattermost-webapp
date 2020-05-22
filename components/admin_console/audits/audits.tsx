@@ -37,30 +37,30 @@ export default class Audits extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            loadingAudits: true
+            loadingAudits: true,
         };
     }
 
     public componentDidMount() {
         this.props.actions.getAudits().then(
-            () => this.setState({loadingAudits: false})
+            () => this.setState({loadingAudits: false}),
         );
     }
 
     private reload = () => {
         this.setState({loadingAudits: true});
         this.props.actions.getAudits().then(
-            () => this.setState({loadingAudits: false})
+            () => this.setState({loadingAudits: false}),
         );
     };
 
     private activityLogHeader = () => {
         const h4Style = {
             display: 'inline-block',
-            marginBottom: '6px'
+            marginBottom: '6px',
         };
         const divStyle: object = {
-            clear: 'both'
+            clear: 'both',
         };
         return (
             <div style={divStyle}>

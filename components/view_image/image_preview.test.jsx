@@ -16,7 +16,7 @@ describe('components/view_image/ImagePreview', () => {
 
     test('should match snapshot, without preview', () => {
         const wrapper = shallow(
-            <ImagePreview {...baseProps}/>
+            <ImagePreview {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -32,7 +32,7 @@ describe('components/view_image/ImagePreview', () => {
         };
 
         const wrapper = shallow(
-            <ImagePreview {...props}/>
+            <ImagePreview {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe('components/view_image/ImagePreview', () => {
         };
 
         const wrapper = shallow(
-            <ImagePreview {...props}/>
+            <ImagePreview {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe('components/view_image/ImagePreview', () => {
         };
 
         const wrapper = shallow(
-            <ImagePreview {...props}/>
+            <ImagePreview {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -70,7 +70,7 @@ describe('components/view_image/ImagePreview', () => {
 
     test('should download link for internal file', () => {
         const wrapper = shallow(
-            <ImagePreview {...baseProps}/>
+            <ImagePreview {...baseProps}/>,
         );
 
         expect(wrapper.find('a').prop('download')).toBe(true);
@@ -85,7 +85,7 @@ describe('components/view_image/ImagePreview', () => {
         };
 
         const wrapper = shallow(
-            <ImagePreview {...props}/>
+            <ImagePreview {...props}/>,
         );
 
         expect(wrapper.find('a').prop('download')).toBe(false);

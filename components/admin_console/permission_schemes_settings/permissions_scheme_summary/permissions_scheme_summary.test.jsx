@@ -27,7 +27,7 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
 
     test('should match snapshot on default data', () => {
         const wrapper = shallow(
-            <PermissionsSchemeSummary {...defaultProps}/>
+            <PermissionsSchemeSummary {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -48,7 +48,7 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
                     {id: 'iii', name: 'team-9', display_name: 'Team 9'},
                     {id: 'jjj', name: 'team-9', display_name: 'Team 10'},
                 ]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -58,7 +58,7 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
             <PermissionsSchemeSummary
                 {...defaultProps}
                 teams={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -71,7 +71,7 @@ describe('components/admin_console/permission_schemes_settings/permissions_schem
                 actions={{
                     deleteScheme,
                 }}
-            />
+            />,
         );
         expect(deleteScheme).not.toBeCalled();
         wrapper.find('.delete-button').first().simulate('click', {stopPropagation: jest.fn()});

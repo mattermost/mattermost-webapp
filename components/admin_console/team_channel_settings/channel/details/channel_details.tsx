@@ -120,7 +120,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 totalGroups,
                 isSynced: Boolean(channel.group_constrained),
                 isPublic: channel.type === Constants.OPEN_CHANNEL,
-                isDefault: channel.name === Constants.DEFAULT_CHANNEL
+                isDefault: channel.name === Constants.DEFAULT_CHANNEL,
             });
         }
 
@@ -142,7 +142,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         if (channelID) {
             actionsToAwait.push(actions.getGroups(channelID).
                 then(() => actions.getChannel(channelID)).
-                then(() => this.setState({groups: this.props.groups}))
+                then(() => this.setState({groups: this.props.groups})),
             );
             actionsToAwait.push(actions.getChannelModerations(channelID).then(() => this.restrictChannelMentions()));
         }
@@ -154,7 +154,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                         await actions.loadScheme(data.data.scheme_id);
                     }
                 }).
-                then(() => this.setState({teamScheme: this.props.teamScheme}))
+                then(() => this.setState({teamScheme: this.props.teamScheme})),
             );
         }
 
@@ -175,8 +175,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             [channelRole]: {
                                 value: false,
                                 enabled: false,
-                            }
-                        }
+                            },
+                        },
                     };
                 }
                 return permission;
@@ -193,9 +193,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 saveNeeded: true,
                 isSynced,
                 isPublic,
-                isPrivacyChanging: isPublic !== isOriginallyPublic
+                isPrivacyChanging: isPublic !== isOriginallyPublic,
             },
-            () => this.processGroupsChange(this.state.groups)
+            () => this.processGroupsChange(this.state.groups),
         );
         this.props.actions.setNavigationBlocked(true);
     };
@@ -271,8 +271,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             [channelRole]: {
                                 value: false,
                                 enabled: false,
-                            }
-                        }
+                            },
+                        },
                     };
                 } else if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS) {
                     return {
@@ -282,8 +282,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             [channelRole]: {
                                 value: originalObj?.value,
                                 enabled: originalObj?.enabled,
-                            }
-                        }
+                            },
+                        },
                     };
                 }
                 return permission;
@@ -295,9 +295,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 ...channelPermissions![currentValueIndex].roles,
                 [channelRole]: {
                     ...channelPermissions![currentValueIndex].roles[channelRole],
-                    value: newValue
-                }
-            }
+                    value: newValue,
+                },
+            },
         };
         this.setState({channelPermissions, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
@@ -327,7 +327,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
             isPrivacyChanging = isOriginallyPublic;
             this.setState({
                 isPublic,
-                isPrivacyChanging
+                isPrivacyChanging,
             });
         }
         if (isPrivacyChanging && usersToRemoveCount > 0) {
@@ -368,16 +368,16 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                     }
                     return actions.patchChannel(channel.id, {
                         ...channel,
-                        group_constrained: isSynced
+                        group_constrained: isSynced,
                     });
-                })
+                }),
             );
         } else {
             promises.push(
                 actions.patchChannel(channel.id, {
                     ...channel,
-                    group_constrained: isSynced
-                })
+                    group_constrained: isSynced,
+                }),
             );
         }
 
@@ -412,7 +412,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                             channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
                         }
                         this.setState({channelPermissions});
-                    })
+                    }),
                 );
             }
             await Promise.all(actionsToAwait);
@@ -423,8 +423,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 name: p.name,
                 roles: {
                     ...(p.roles.members && p.roles.members.enabled && {members: p.roles.members!.value}),
-                    ...(p.roles.guests && p.roles.guests.enabled && {guests: p.roles.guests!.value})
-                }
+                    ...(p.roles.guests && p.roles.guests.enabled && {guests: p.roles.guests!.value}),
+                },
             };
         });
 

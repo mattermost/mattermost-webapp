@@ -43,7 +43,7 @@ export default class RadioSetting extends React.Component<Props> {
                         />
                         {text}
                     </label>
-                </div>
+                </div>,
             );
         }
 

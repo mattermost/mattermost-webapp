@@ -22,7 +22,7 @@ describe('components/RhsThread', () => {
             emojis: [],
             files: [],
             images: {},
-            reactions: []
+            reactions: [],
         },
         channel_id: 'channel_id',
         create_at: 1502715365009,
@@ -58,7 +58,7 @@ describe('components/RhsThread', () => {
         teammate_id: '',
         status: '',
         fake: false,
-        group_constrained: false
+        group_constrained: false,
     };
 
     const actions = {
@@ -115,7 +115,7 @@ describe('components/RhsThread', () => {
         previewEnabled: true,
         socketConnectionStatus: true,
         actions,
-        directTeammate
+        directTeammate,
     };
 
     test('should match snapshot', () => {

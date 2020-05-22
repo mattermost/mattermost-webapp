@@ -36,7 +36,7 @@ type Actions = {
     loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
         data: boolean;
     }>;
-    loadTeamMembersForProfilesList: (profiles: any, teamId: string) => Promise<{
+    loadTeamMembersForProfilesList: (profiles: any, teamId: string, reloadAllMembers: boolean) => Promise<{
         data: boolean;
     }>;
     setModalSearchTerm: (term: string) => Promise<{
