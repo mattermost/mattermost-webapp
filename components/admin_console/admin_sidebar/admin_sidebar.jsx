@@ -274,7 +274,7 @@ class AdminSidebar extends React.Component {
                         key={'customplugin' + p.id}
                         name={'plugins/plugin_' + p.id}
                         title={p.name}
-                    />
+                    />,
                 );
             });
         }

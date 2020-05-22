@@ -20,7 +20,7 @@ describe('components/link_tooltip/link_tooltip', () => {
                     'data-link': 'somelink',
                     'data-channel-mention': 'somechannel',
                 }}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

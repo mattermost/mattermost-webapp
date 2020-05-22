@@ -20,7 +20,7 @@ describe('components/admin_console/TextSetting', () => {
                 maxLength={-1}
                 resizable={true}
                 type='input'
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
         <TextSetting

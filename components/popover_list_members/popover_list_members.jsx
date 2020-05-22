@@ -80,7 +80,7 @@ export default class PopoverListMembers extends React.Component {
         const modalData = {
             modalId: ModalIdentifiers.CHANNEL_MEMBERS,
             dialogProps: this.props,
-            dialogType: ChannelMembersModal
+            dialogType: ChannelMembersModal,
         };
 
         this.props.actions.openModal(modalData);

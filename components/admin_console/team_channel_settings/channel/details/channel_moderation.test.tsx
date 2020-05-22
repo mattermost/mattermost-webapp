@@ -35,7 +35,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -52,7 +52,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 onClick={onChannelPermissionsChanged}
                 errorMessages={jest.fn().mockResolvedValue([])}
                 guestAccountsEnabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -84,7 +84,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         enabled: false,
                     },
                 },
-            }
+            },
         ];
         const wrapper = shallow(
             <ChannelModeration
@@ -93,7 +93,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -125,7 +125,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         enabled: false,
                     },
                 },
-            }
+            },
         ];
         const wrapper = shallow(
             <ChannelModeration
@@ -134,7 +134,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -166,7 +166,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         enabled: false,
                     },
                 },
-            }
+            },
         ];
         const wrapper = shallow(
             <ChannelModeration
@@ -175,7 +175,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -207,7 +207,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         enabled: false,
                     },
                 },
-            }
+            },
         ];
         const wrapper = shallow(
             <ChannelModeration
@@ -216,7 +216,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -229,7 +229,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={undefined}
                 teamSchemeDisplayName={undefined}
                 guestAccountsEnabled={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -246,7 +246,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 onClick={onChannelPermissionsChanged}
                 errorMessages={jest.fn().mockResolvedValue([])}
                 guestAccountsEnabled={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -260,7 +260,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = channelPermissions[0];
@@ -278,7 +278,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = {
@@ -306,7 +306,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = {
@@ -334,7 +334,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = {
@@ -381,7 +381,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                             enabled: true,
                         },
                     },
-                }
+                },
             ];
             const wrapper = shallow(
                 <ChannelModeration
@@ -390,7 +390,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = channelPermissionsCustom[1];
@@ -425,7 +425,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                             enabled: false,
                         },
                     },
-                }
+                },
             ];
             const wrapper = shallow(
                 <ChannelModeration
@@ -434,7 +434,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = channelPermissionsCustom[1];
@@ -469,7 +469,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                             enabled: false,
                         },
                     },
-                }
+                },
             ];
             const wrapper = shallow(
                 <ChannelModeration
@@ -478,7 +478,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = channelPermissionsCustom[1];
@@ -513,7 +513,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                             enabled: false,
                         },
                     },
-                }
+                },
             ];
             const wrapper = shallow(
                 <ChannelModeration
@@ -522,7 +522,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = channelPermissionsCustom[1];
@@ -557,7 +557,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                             enabled: false,
                         },
                     },
-                }
+                },
             ];
             const wrapper = shallow(
                 <ChannelModeration
@@ -566,7 +566,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
-                />
+                />,
             );
             const instance: any = wrapper.instance();
             const input: ChannelPermissions = channelPermissionsCustom[1];

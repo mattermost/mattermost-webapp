@@ -83,7 +83,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             <GroupDetails
                 {...defaultProps}
                 actions={actions}
-            />
+            />,
         );
         expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
         expect(actions.getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
@@ -106,7 +106,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             <GroupDetails
                 {...defaultProps}
                 actions={actions}
-            />
+            />,
         );
         const instance = wrapper.instance();
         await instance.addChannels([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);
@@ -132,7 +132,7 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
             <GroupDetails
                 {...defaultProps}
                 actions={actions}
-            />
+            />,
         );
         const instance = wrapper.instance();
         await instance.addTeams([{id: '11111111111111111111111111'}, {id: '22222222222222222222222222'}]);

@@ -17,7 +17,7 @@ export default class RhsHeaderPost extends React.Component {
         rootPostId: PropTypes.string.isRequired,
         channel: PropTypes.object.isRequired,
         previousRhsState: PropTypes.oneOf(
-            Object.values(RHSStates)
+            Object.values(RHSStates),
         ),
         relativeTeamUrl: PropTypes.string.isRequired,
         actions: PropTypes.shape({

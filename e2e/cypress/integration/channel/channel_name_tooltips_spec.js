@@ -75,7 +75,7 @@ describe('channel name tooltips', () => {
         cy.apiCreateChannel(
             team.id,
             'channel-test',
-            `Public channel with a long name-${timestamp}`
+            `Public channel with a long name-${timestamp}`,
         ).then((res) => {
             verifyChannel(res);
         });
@@ -87,7 +87,7 @@ describe('channel name tooltips', () => {
             team.id,
             'channel-test',
             `Private channel with a long name-${timestamp}`,
-            'P'
+            'P',
         ).then((res) => {
             verifyChannel(res);
         });
@@ -110,7 +110,7 @@ describe('channel name tooltips', () => {
             team.id,
             'channel-test',
             'Private channel',
-            'P'
+            'P',
         ).then((res) => {
             verifyChannel(res, false);
         });

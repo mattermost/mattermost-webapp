@@ -35,7 +35,7 @@ export default class DropdownSetting extends React.Component {
                     key={value}
                 >
                     {text}
-                </option>
+                </option>,
             );
         }
 

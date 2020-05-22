@@ -28,7 +28,7 @@ interface AdminGroupUsersRowProps {
 export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUsersRowProps, {}> {
     renderRolesColumn = (member: ProfileWithGroups) => {
         return member.roles!.split(' ').map((role) =>
-            Utils.localizeMessage('admin.permissions.roles.' + role + '.name', role)
+            Utils.localizeMessage('admin.permissions.roles.' + role + '.name', role),
         ).join(', ');
     };
 

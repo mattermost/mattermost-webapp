@@ -195,7 +195,7 @@ class CreateComment extends React.PureComponent {
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
 
-        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
+        isMarkdownPreviewEnabled: PropTypes.bool,
 
         /**
          * Function to set or unset emoji picker for last message
@@ -493,7 +493,7 @@ class CreateComment extends React.PureComponent {
             isTimezoneEnabled,
             groupsWithAllowReference,
             channelMemberCountsByGroup,
-            useGroupMentions
+            useGroupMentions,
         } = this.props;
         const {draft} = this.state;
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;

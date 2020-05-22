@@ -79,6 +79,12 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <SettingPicture
       clientError=""
       file={null}
+      helpText={
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
+          id="setting_picture.help.team"
+        />
+      }
       imageContext="team"
       loadingPicture={false}
       onFileChange={[Function]}
@@ -209,6 +215,12 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <SettingPicture
       clientError=""
       file={null}
+      helpText={
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
+          id="setting_picture.help.team"
+        />
+      }
       imageContext="team"
       loadingPicture={false}
       onFileChange={[Function]}
@@ -328,6 +340,12 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <SettingPicture
       clientError=""
       file={null}
+      helpText={
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
+          id="setting_picture.help.team"
+        />
+      }
       imageContext="team"
       loadingPicture={false}
       onFileChange={[Function]}
