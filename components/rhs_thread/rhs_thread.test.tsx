@@ -119,35 +119,23 @@ describe('components/RhsThread', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
-        );
+        const wrapper = shallow(<RhsThread {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
-        );
-        const prevProps = {
+        const wrapper = shallow(<RhsThread {...baseProps}/>);
+        wrapper.setProps({
             ...baseProps,
             socketConnectionStatus: false,
-        };
+        });
         wrapper.setProps({socketConnectionStatus: true});
-        const instance = wrapper.instance() as RhsThread;
-        instance.componentDidUpdate(prevProps);
-
         expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
     });
 
     test('should update openTime state when selected prop updated', async () => {
         jest.useRealTimers();
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
-        );
+        const wrapper = shallow(<RhsThread {...baseProps}/>);
 
         const waitMilliseconds = 100;
         const originalOpenTimeState = wrapper.state('openTime');
@@ -159,17 +147,10 @@ describe('components/RhsThread', () => {
     });
 
     test('should scroll to the bottom when the current user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
-        );
+        const wrapper = shallow(<RhsThread {...baseProps}/>);
         const instance = wrapper.instance() as RhsThread;
-        instance.scrollToBottom = scrollToBottom;
-        instance.componentDidUpdate(baseProps);
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
+        instance.scrollToBottom = jest.fn();
+        expect(instance.scrollToBottom).not.toHaveBeenCalled();
         wrapper.setProps({
             posts: [
                 {
@@ -180,36 +161,50 @@ describe('components/RhsThread', () => {
                 post,
             ],
         });
-        instance.componentDidUpdate(baseProps);
-
-        expect(scrollToBottom).toHaveBeenCalled();
+        expect(instance.scrollToBottom).toHaveBeenCalled();
     });
 
-    test('should not scroll to the bottom when another user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
-        );
+    test('should not continue scrolling to show next post when thread is scrolled away from the bottom', () => {
+        const wrapper = shallow(<RhsThread {...baseProps}/>);
         const instance = wrapper.instance() as RhsThread;
-        instance.scrollToBottom = scrollToBottom;
-        instance.componentDidUpdate(baseProps);
+        instance.scrollToBottom = jest.fn();
 
-        expect(scrollToBottom).not.toHaveBeenCalled();
-
+        wrapper.setState({
+            isAtBottom: false,
+        });
         wrapper.setProps({
             posts: [
                 {
-                    id: 'newpost',
+                    id: '5kkodt8t4brcugytq4kniu7w1o',
                     root_id: post.id,
-                    user_id: 'other_user_id',
+                    user_id: 'hari5n3xdtybik415jjz4p36qc',
                 },
                 post,
             ],
         });
-        instance.componentDidUpdate(baseProps);
 
-        expect(scrollToBottom).not.toHaveBeenCalled();
+        expect(instance.scrollToBottom).not.toHaveBeenCalled();
+    });
+
+    test('should continue scrolling to show next post when thread is currently scrolled to the bottom', () => {
+        const wrapper = shallow(<RhsThread {...baseProps}/>);
+        const instance = wrapper.instance() as RhsThread;
+
+        //console.log(instance.state);
+
+        instance.scrollToBottom = jest.fn();
+        wrapper.setProps({
+            posts: [
+                {
+                    id: '5kkodt8t4brcugytq4kniu7w1o',
+                    root_id: post.id,
+                    user_id: 'hari5n3xdtybik415jjz4p36qc',
+                },
+                post,
+            ],
+        });
+
+        expect(instance.state.isAtBottom).toBeTruthy();
+        expect(instance.scrollToBottom).toHaveBeenCalled();
     });
 });

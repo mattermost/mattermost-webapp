@@ -100,7 +100,7 @@ export default class RhsThread extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props, snapshot?: any) {
+    public componentDidUpdate(prevProps: Props, prevState: State, snapshot?: any) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -120,9 +120,7 @@ export default class RhsThread extends React.Component<Props, State> {
         // if at bottom of thread, continue to scroll after adding new post
         if (curPostsArray.length > prevPostsArray.length) {
             if (snapshot) {
-                if (snapshot.isAtBottom) {
-                    this.scrollToBottom();
-                }
+                this.scrollToBottom();
             }
         }
 
