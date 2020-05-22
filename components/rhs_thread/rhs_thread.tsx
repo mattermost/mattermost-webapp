@@ -100,7 +100,7 @@ export default class RhsThread extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props, prevState: State, snapshot?: any) {
+    public componentDidUpdate(prevProps: Props, prevState: State, snapshot?: boolean) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
