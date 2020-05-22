@@ -10,7 +10,7 @@ import LoadingScreen from 'components/loading_screen';
 
 import UserListRow from './user_list_row';
 
-export default class UserList extends React.Component {
+export default class UserList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         extraInfo: PropTypes.object,
