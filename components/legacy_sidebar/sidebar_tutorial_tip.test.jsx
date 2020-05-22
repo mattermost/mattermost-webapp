@@ -20,7 +20,7 @@ describe('component/legacy_sidebar/SidebarTutorialTip', () => {
     test('should match snapshot, with townSquare and without offTopic', () => {
         const props = {...defaultProps, townSquareDisplayName: 'TestTownSquare'};
         const wrapper = shallow(
-            <SidebarTutorialTip {...props}/>
+            <SidebarTutorialTip {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).toBeCalled();
@@ -29,7 +29,7 @@ describe('component/legacy_sidebar/SidebarTutorialTip', () => {
     test('should match snapshot, without townSquare and with offTopic', () => {
         const props = {...defaultProps, offTopicDisplayName: 'TestOffTopic'};
         const wrapper = shallow(
-            <SidebarTutorialTip {...props}/>
+            <SidebarTutorialTip {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).toBeCalled();
@@ -38,7 +38,7 @@ describe('component/legacy_sidebar/SidebarTutorialTip', () => {
     test('should match snapshot, with townSquare and with offTopic', () => {
         const props = {...defaultProps, townSquareDisplayName: 'TestTownSquare', offTopicDisplayName: 'TestOffTopic'};
         const wrapper = shallow(
-            <SidebarTutorialTip {...props}/>
+            <SidebarTutorialTip {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).toBeCalled();

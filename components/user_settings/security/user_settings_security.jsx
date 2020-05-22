@@ -143,7 +143,7 @@ export default class SecurityTab extends React.PureComponent {
         const {data, error: err} = await this.props.actions.updateUserPassword(
             user.id,
             currentPassword,
-            newPassword
+            newPassword,
         );
         if (data) {
             this.props.updateSection('');
@@ -248,7 +248,7 @@ export default class SecurityTab extends React.PureComponent {
                                 aria-label={Utils.localizeMessage('user.settings.security.currentPassword', 'Current Password')}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
                 inputs.push(
                     <div
@@ -271,7 +271,7 @@ export default class SecurityTab extends React.PureComponent {
                                 aria-label={Utils.localizeMessage('user.settings.security.newPassword', 'New Password')}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
                 inputs.push(
                     <div
@@ -294,7 +294,7 @@ export default class SecurityTab extends React.PureComponent {
                                 aria-label={Utils.localizeMessage('user.settings.security.retypePassword', 'Retype New Password')}
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 inputs.push(
@@ -308,7 +308,7 @@ export default class SecurityTab extends React.PureComponent {
                                 defaultMessage='Login occurs through GitLab. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
                 inputs.push(
@@ -322,7 +322,7 @@ export default class SecurityTab extends React.PureComponent {
                                 defaultMessage='Login occurs through AD/LDAP. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
                 inputs.push(
@@ -336,7 +336,7 @@ export default class SecurityTab extends React.PureComponent {
                                 defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
                 inputs.push(
@@ -350,7 +350,7 @@ export default class SecurityTab extends React.PureComponent {
                                 defaultMessage='Login occurs through Google Apps. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
                 inputs.push(
@@ -364,7 +364,7 @@ export default class SecurityTab extends React.PureComponent {
                                 defaultMessage='Login occurs through Office 365. Password cannot be updated.'
                             />
                         </div>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -597,7 +597,7 @@ export default class SecurityTab extends React.PureComponent {
                     {office365Option}
                     {ldapOption}
                     {samlOption}
-                </div>
+                </div>,
             );
 
             const extraInfo = (
@@ -759,7 +759,7 @@ export default class SecurityTab extends React.PureComponent {
                     key='authorizedApps'
                 >
                     {apps}
-                </div>
+                </div>,
             );
 
             const title = (

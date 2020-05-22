@@ -104,7 +104,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             return this.teamOverrideUnavalableView(
                 t('admin.permissions.teamOverrideSchemesInProgress'),
                 'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}.',
-                docLink
+                docLink,
             );
         }
 

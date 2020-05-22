@@ -65,7 +65,7 @@ export default class LoggedIn extends React.PureComponent {
                     viewChannel('', this.props.currentChannelId || '')(dispatch, getState);
                 }
                 WebSocketActions.close();
-            }
+            },
         );
 
         // Listen for focused tab/window state
@@ -80,7 +80,7 @@ export default class LoggedIn extends React.PureComponent {
             {
                 type: 'webapp-ready',
             },
-            window.location.origin
+            window.location.origin,
         );
 
         // Because current CSS requires the root tag to have specific stuff

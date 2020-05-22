@@ -268,7 +268,7 @@ const PluginItem = ({
                     id='admin.plugin.multiple_versions_warning'
                     defaultMessage='There are multiple versions of this plugin installed across your cluster. Re-install this plugin to ensure it works consistently.'
                 />
-            </div>
+            </div>,
         );
     }
 
@@ -276,7 +276,7 @@ const PluginItem = ({
         <PluginItemStateDescription
             key='state-description'
             state={pluginStatus.state}
-        />
+        />,
     );
 
     const instances = pluginStatus.instances.slice();
@@ -445,7 +445,7 @@ export default class PluginManagement extends AdminSettings {
     componentDidMount() {
         if (this.state.enable) {
             this.props.actions.getPluginStatuses().then(
-                () => this.setState({loading: false})
+                () => this.setState({loading: false}),
             );
         }
     }

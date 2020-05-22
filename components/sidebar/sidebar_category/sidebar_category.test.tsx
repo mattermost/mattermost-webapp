@@ -48,7 +48,7 @@ describe('components/sidebar/sidebar_category', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarCategory {...baseProps}/>
+            <SidebarCategory {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -61,7 +61,7 @@ describe('components/sidebar/sidebar_category', () => {
         };
 
         const wrapper = shallow(
-            <SidebarCategory {...props}/>
+            <SidebarCategory {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -78,7 +78,7 @@ describe('components/sidebar/sidebar_category', () => {
         };
 
         const wrapper = shallow(
-            <SidebarCategory {...props}/>
+            <SidebarCategory {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -91,7 +91,7 @@ describe('components/sidebar/sidebar_category', () => {
         };
 
         const wrapper = shallow(
-            <SidebarCategory {...props}/>
+            <SidebarCategory {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -99,7 +99,7 @@ describe('components/sidebar/sidebar_category', () => {
 
     test('should collapse the channel on toggle when it is not collapsed', () => {
         const wrapper = shallow<SidebarCategory>(
-            <SidebarCategory {...baseProps}/>
+            <SidebarCategory {...baseProps}/>,
         );
 
         wrapper.instance().handleCollapse();
@@ -113,7 +113,7 @@ describe('components/sidebar/sidebar_category', () => {
         };
 
         const wrapper = shallow<SidebarCategory>(
-            <SidebarCategory {...props}/>
+            <SidebarCategory {...props}/>,
         );
 
         wrapper.instance().handleCollapse();

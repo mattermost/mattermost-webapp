@@ -9,7 +9,7 @@
 
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -26,7 +26,7 @@ describe('Channel sidebar', () => {
 
     it('should create a new channel when using the new channel dropdown', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -54,7 +54,7 @@ describe('Channel sidebar', () => {
 
     it('should join a new public channel when using the new channel dropdown', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -71,8 +71,8 @@ describe('Channel sidebar', () => {
         cy.get('#channelLeaveChannel').click();
 
         // * Verify that we've switched to Town Square
-        cy.url().should('include', `/${teamName}/channels/town-square`);
         cy.get('#channelHeaderTitle').should('contain', 'Town Square');
+        cy.url().should('include', `/${teamName}/channels/town-square`);
 
         // # Click the New Channel Dropdown button
         cy.get('.AddChannelDropdown_dropdownButton').should('be.visible').click();

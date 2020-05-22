@@ -183,7 +183,7 @@ export default class RequestButton extends React.Component {
                         busy: false,
                         fail: errMsg,
                     });
-                }
+                },
             );
         };
 

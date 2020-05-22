@@ -26,7 +26,7 @@ export default class ClusterTableContainer extends React.Component {
                     clusterInfos: data,
                 });
             },
-            null
+            null,
         );
     }
 

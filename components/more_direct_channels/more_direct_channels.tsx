@@ -150,7 +150,7 @@ export default class MoreDirectChannels extends React.Component<Props, State> {
                         this.resetPaging();
                         this.setUsersLoadingState(false);
                     },
-                    Constants.SEARCH_TIMEOUT_MILLISECONDS
+                    Constants.SEARCH_TIMEOUT_MILLISECONDS,
                 );
             }
         }
