@@ -37,7 +37,7 @@ describe('components/ToggleModalButtonRedux', () => {
                     id='channel_header.delete'
                     defaultMessage='Delete Channel'
                 />
-            </ToggleModalButtonRedux>
+            </ToggleModalButtonRedux>,
         );
 
         expect(wrapper).toMatchSnapshot();

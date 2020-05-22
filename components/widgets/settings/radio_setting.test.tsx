@@ -19,7 +19,7 @@ describe('components/widgets/settings/RadioSetting', () => {
                 ]}
                 value={'Sales'}
                 onChange={onChange}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Setting
@@ -90,7 +90,7 @@ describe('components/widgets/settings/RadioSetting', () => {
                 ]}
                 value={'Sales'}
                 onChange={onChange}
-            />
+            />,
         );
 
         wrapper.find('input').at(0).simulate('change', {target: {value: 'Administration'}});

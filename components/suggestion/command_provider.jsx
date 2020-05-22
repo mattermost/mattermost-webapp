@@ -105,9 +105,9 @@ export default class CommandProvider extends Provider {
                     items: matches,
                     component: CommandSuggestion,
                 });
-            }
+            },
         ).catch(
-            () => {} //eslint-disable-line no-empty-function
+            () => {}, //eslint-disable-line no-empty-function
         );
 
         return true;
@@ -137,9 +137,9 @@ export default class CommandProvider extends Provider {
                     items: matches,
                     component: CommandSuggestion,
                 });
-            }
+            },
         ).catch(
-            () => {} //eslint-disable-line no-empty-function
+            () => {}, //eslint-disable-line no-empty-function
         );
 
         return true;

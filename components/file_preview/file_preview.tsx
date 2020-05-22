@@ -110,7 +110,7 @@ export default class FilePreview extends React.PureComponent<Props> {
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>,
             );
         });
 
@@ -125,7 +125,7 @@ export default class FilePreview extends React.PureComponent<Props> {
                             clientId={clientId}
                             fileInfo={fileInfo}
                             handleRemove={this.handleRemove}
-                        />
+                        />,
                     );
                 }
             });

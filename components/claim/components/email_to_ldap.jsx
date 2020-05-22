@@ -105,7 +105,7 @@ export default class EmailToLDAP extends React.Component {
                         this.setState({serverError: err.message, showMfa: false});
                     }
                 }
-            }
+            },
         );
     }
 

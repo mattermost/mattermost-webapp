@@ -104,7 +104,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
                             pluggableName='LinkTooltip'
                         />
                     </div>,
-                    document.getElementById('root') as HTMLElement
+                    document.getElementById('root') as HTMLElement,
                 )}
                 <span
                     onMouseOver={this.showTooltip}

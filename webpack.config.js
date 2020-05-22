@@ -345,7 +345,7 @@ var config = {
 if (!DEV) {
     config.plugins.push(new BrotliPlugin({
         asset: '[file].br',
-        test: /\.(js|css)$/
+        test: /\.(js|css)$/,
     }));
 }
 

@@ -102,7 +102,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     }
                     this.setStateLoading(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
 
             this.searchTimeoutId = searchTimeoutId;

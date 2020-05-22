@@ -19,7 +19,7 @@ export default class RhsPlugin extends React.PureComponent {
             icon: PropTypes.node.isRequired,
             tooltip: PropTypes.node.isRequired,
             action: PropTypes.func.isRequired,
-        }))
+        })),
     }
 
     render() {

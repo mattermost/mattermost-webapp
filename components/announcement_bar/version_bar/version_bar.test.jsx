@@ -10,7 +10,7 @@ import AnnouncementBar from 'components/announcement_bar/default_announcement_ba
 describe('components/VersionBar', () => {
     test('should match snapshot - bar rendered after server version change', () => {
         const wrapper = shallow(
-            <VersionBar serverVersion='5.11.0.5.11.0.844f70a08ead47f06232ecb6fcad63d2.true'/>
+            <VersionBar serverVersion='5.11.0.5.11.0.844f70a08ead47f06232ecb6fcad63d2.true'/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(AnnouncementBar).exists()).toBe(false);

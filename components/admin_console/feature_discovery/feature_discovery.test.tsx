@@ -18,7 +18,7 @@ describe('components/feature_discovery', () => {
                     primaryURL='https://test.mattermost.com/primary/'
                     secondaryURL='https://test.mattermost.com/secondary/'
                     imgPath='foo/bar.png'
-                />
+                />,
             );
             expect(wrapper).toMatchSnapshot();
         });

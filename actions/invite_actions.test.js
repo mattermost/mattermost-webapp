@@ -7,7 +7,7 @@ import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions.jsx'
 
 jest.mock('actions/team_actions', () => ({
     addUsersToTeam: () => ({ // since we are using addUsersToTeamGracefully, this call will always succeed
-        type: 'MOCK_RECEIVED_ME'
+        type: 'MOCK_RECEIVED_ME',
     }),
 }));
 
@@ -372,29 +372,29 @@ describe('actions/invite_actions', () => {
                     {
                         user: {
                             id: 'guest1',
-                            roles: 'system_guest'
+                            roles: 'system_guest',
                         },
                         reason: {
                             id: 'invite.guests.new-member',
                             message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
                             values: {
-                                count: 1
-                            }
-                        }
+                                count: 1,
+                            },
+                        },
                     },
                     {
                         user: {
                             id: 'other-guest',
-                            roles: 'system_guest'
+                            roles: 'system_guest',
                         },
                         reason: {
                             id: 'invite.guests.new-member',
                             message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
                             values: {
-                                count: 1
-                            }
-                        }
-                    }
+                                count: 1,
+                            },
+                        },
+                    },
                 ],
                 notSent: [
                     {

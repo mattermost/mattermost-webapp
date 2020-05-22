@@ -383,7 +383,7 @@ export default class UserAccessTokenSection extends React.Component {
                         </a>
                     </div>
                     <hr className='mb-3 mt-3'/>
-                </div>
+                </div>,
             );
         });
 
@@ -546,7 +546,7 @@ export default class UserAccessTokenSection extends React.Component {
                     </div>
                     {newTokenSection}
                 </div>
-            </div>
+            </div>,
         );
 
         return (
