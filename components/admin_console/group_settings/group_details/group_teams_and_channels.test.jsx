@@ -63,7 +63,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             <GroupTeamsAndChannels
                 {...defaultProps}
                 loading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +73,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             <GroupTeamsAndChannels
                 {...defaultProps}
                 loading={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -85,7 +85,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 teams={[]}
                 channels={[]}
                 loading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -97,7 +97,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 teams={[]}
                 channels={[]}
                 loading={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -123,7 +123,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 {...defaultProps}
                 unlink={unlink}
                 getGroupSyncables={getGroupSyncables}
-            />
+            />,
         );
         const instance = wrapper.instance();
         await instance.onRemoveItem('11111111111111111111111111', 'public-team');

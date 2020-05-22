@@ -17,14 +17,14 @@ describe('component/AudioVideoPreview', () => {
 
     test('should match snapshot without children', () => {
         const wrapper = shallow(
-            <AudioVideoPreview {...requiredProps}/>
+            <AudioVideoPreview {...requiredProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, cannot play', () => {
         const wrapper = shallow(
-            <AudioVideoPreview {...requiredProps}/>
+            <AudioVideoPreview {...requiredProps}/>,
         );
         wrapper.setState({canPlay: false});
         expect(wrapper).toMatchSnapshot();

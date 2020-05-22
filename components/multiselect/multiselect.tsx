@@ -159,7 +159,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
 
         if (this.reactSelectRef.current) {
             this.reactSelectRef.current.select.handleInputChange(
-                {currentTarget: {value: ''}} as React.KeyboardEvent<HTMLInputElement>
+                {currentTarget: {value: ''}} as React.KeyboardEvent<HTMLInputElement>,
             );
             this.onInput('');
             this.reactSelectRef.current.focus();

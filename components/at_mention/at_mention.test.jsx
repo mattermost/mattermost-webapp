@@ -23,7 +23,7 @@ describe('components/AtMention', () => {
             developers: {id: 'qwerty1', name: 'developers', allow_reference: true},
             marketing: {id: 'qwerty2', name: 'marketing', allow_reference: false},
             accounting: {id: 'qwerty3', name: 'accounting', allow_reference: true},
-        }
+        },
     };
 
     test('should match snapshot when mentioning user', () => {
@@ -33,7 +33,7 @@ describe('components/AtMention', () => {
                 mentionName='user1'
             >
                 {'(at)-user1'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -47,7 +47,7 @@ describe('components/AtMention', () => {
                 teammateNameDisplay={General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME}
             >
                 {'(at)-user1'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe('components/AtMention', () => {
                 mentionName='user1...'
             >
                 {'(at)-user1'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -73,7 +73,7 @@ describe('components/AtMention', () => {
                 mentionName='userdot.'
             >
                 {'(at)-userdot.'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -86,7 +86,7 @@ describe('components/AtMention', () => {
                 mentionName='userdot..'
             >
                 {'(at)-userdot..'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -99,7 +99,7 @@ describe('components/AtMention', () => {
                 mentionName='USeR1'
             >
                 {'(at)-USeR1'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -112,7 +112,7 @@ describe('components/AtMention', () => {
                 mentionName='currentUser'
             >
                 {'(at)-currentUser'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -125,7 +125,7 @@ describe('components/AtMention', () => {
                 mentionName='all'
             >
                 {'(at)-all'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -138,7 +138,7 @@ describe('components/AtMention', () => {
                 mentionName='aLL'
             >
                 {'(at)-aLL'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -151,7 +151,7 @@ describe('components/AtMention', () => {
                 mentionName='notauser'
             >
                 {'(at)-notauser'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -164,7 +164,7 @@ describe('components/AtMention', () => {
                 mentionName='NOTAuser'
             >
                 {'(at)-NOTAuser'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -177,7 +177,7 @@ describe('components/AtMention', () => {
                 mentionName='developers'
             >
                 {'(at)-developers'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -191,7 +191,7 @@ describe('components/AtMention', () => {
                 disableGroupHighlight={true}
             >
                 {'(at)-developers'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -204,7 +204,7 @@ describe('components/AtMention', () => {
                 mentionName='marketing'
             >
                 {'(at)-marketing'}
-            </AtMention>
+            </AtMention>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -217,7 +217,7 @@ describe('components/AtMention', () => {
                 mentionName={'user1'}
             >
                 {'(at)-user1'}
-            </AtMention>
+            </AtMention>,
         );
 
         const instance = wrapper.instance();

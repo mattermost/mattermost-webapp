@@ -118,7 +118,7 @@ export default class MessageAttachment extends React.PureComponent {
                         postId={this.props.postId}
                         action={action}
                         disabled={action.disabled}
-                    />
+                    />,
                 );
                 break;
             case 'button':
@@ -129,7 +129,7 @@ export default class MessageAttachment extends React.PureComponent {
                         action={action}
                         disabled={action.disabled}
                         handleAction={this.handleAction}
-                    />
+                    />,
                 );
                 break;
             }
@@ -184,7 +184,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 {bodyCols}
                             </tr>
                         </tbody>
-                    </table>
+                    </table>,
                 );
                 headerCols = [];
                 bodyCols = [];
@@ -202,7 +202,7 @@ export default class MessageAttachment extends React.PureComponent {
                         message={field.title}
                         options={markdown}
                     />
-                </th>
+                </th>,
             );
 
             bodyCols.push(
@@ -211,7 +211,7 @@ export default class MessageAttachment extends React.PureComponent {
                     key={'attachment__field-' + i + '__' + nrTables}
                 >
                     <Markdown message={field.value}/>
-                </td>
+                </td>,
             );
             rowPos += 1;
             lastWasLong = !(field.short === true);
@@ -232,7 +232,7 @@ export default class MessageAttachment extends React.PureComponent {
                             {bodyCols}
                         </tr>
                     </tbody>
-                </table>
+                </table>,
             );
         }
         return (
@@ -276,7 +276,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 width='14'
                             />
                         )}
-                    </ExternalImage>
+                    </ExternalImage>,
                 );
             }
             if (attachment.author_name) {
@@ -286,7 +286,7 @@ export default class MessageAttachment extends React.PureComponent {
                         key={'attachment__author-name'}
                     >
                         {attachment.author_name}
-                    </span>
+                    </span>,
                 );
             }
         }

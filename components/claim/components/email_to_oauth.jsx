@@ -63,7 +63,7 @@ export default class EmailToOAuth extends React.PureComponent {
                 } else {
                     this.setState({error: err.message, showMfa: false});
                 }
-            }
+            },
         );
     }
 

@@ -339,7 +339,7 @@ export function makeCreateAriaLabelForPost() {
         getEmojiMap,
         (post, author, reactions, isFlagged, emojiMap) => {
             return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap);
-        }
+        },
     );
 }
 
@@ -468,7 +468,7 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
 
 export function getNewMessageIndex(postListIds) {
     return postListIds.findIndex(
-        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
     );
 }
 
@@ -483,6 +483,6 @@ export function makeGetReplyCount() {
 
             // Count the number of non-ephemeral posts in the thread
             return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
-        }
+        },
     );
 }

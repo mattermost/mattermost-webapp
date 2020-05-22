@@ -13,7 +13,7 @@ describe('components/user_settings/display/ColorChooser', () => {
                 color='#ffeec0'
                 label='Choose color'
                 id='choose-color'
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

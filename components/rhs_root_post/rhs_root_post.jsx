@@ -63,7 +63,7 @@ class RhsRootPost extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            emitShortcutReactToLastPostFrom: PropTypes.func
+            emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
         emojiMap: PropTypes.object.isRequired,
     };

@@ -88,7 +88,7 @@ describe('components/sidebar/sidebar_category_list', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarCategoryList {...baseProps}/>
+            <SidebarCategoryList {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -101,7 +101,7 @@ describe('components/sidebar/sidebar_category_list', () => {
         };
 
         const wrapper = shallow(
-            <SidebarCategoryList {...props}/>
+            <SidebarCategoryList {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -109,7 +109,7 @@ describe('components/sidebar/sidebar_category_list', () => {
 
     test('should close sidebar on mobile when channel is selected (ie. changed)', () => {
         const wrapper = shallow(
-            <SidebarCategoryList {...baseProps}/>
+            <SidebarCategoryList {...baseProps}/>,
         );
 
         const newCurrentChannel = {
@@ -123,7 +123,7 @@ describe('components/sidebar/sidebar_category_list', () => {
 
     test('should scroll to top when team changes', () => {
         const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>
+            <SidebarCategoryList {...baseProps}/>,
         );
 
         wrapper.instance().scrollbar = {
@@ -143,7 +143,7 @@ describe('components/sidebar/sidebar_category_list', () => {
 
     test('should display unread scroll indicator when channels appear outside visible area', () => {
         const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>
+            <SidebarCategoryList {...baseProps}/>,
         );
         const instance = wrapper.instance();
 
@@ -173,7 +173,7 @@ describe('components/sidebar/sidebar_category_list', () => {
 
     test('should scroll to correct position when scrolling to channel', () => {
         const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>
+            <SidebarCategoryList {...baseProps}/>,
         );
         const instance = wrapper.instance();
 

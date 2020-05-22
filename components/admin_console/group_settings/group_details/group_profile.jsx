@@ -44,8 +44,7 @@ export default class GroupProfile extends React.PureComponent {
                         </div>
                         <input
                             type='text'
-                            id={customID}
-                            className='form-control group_at_mention_input'
+                            className='form-control group-at-mention-input'
                             value={name}
                             disabled={isDisabled}
                             onChange={onChange}

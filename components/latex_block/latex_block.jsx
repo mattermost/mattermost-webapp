@@ -42,7 +42,7 @@ export default class LatexBlock extends React.Component {
                 displayMode: true,
                 maxSize: 200,
                 maxExpand: 100,
-                fleqn: true
+                fleqn: true,
             };
             const html = this.state.katex.renderToString(this.props.content, katexOptions);
 

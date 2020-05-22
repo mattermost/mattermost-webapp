@@ -45,7 +45,7 @@ describe('plugins/MainMenuActions', () => {
         const wrapper = shallowWithIntl(
             <MainMenu
                 {...requiredProps}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
