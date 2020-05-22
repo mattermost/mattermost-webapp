@@ -967,12 +967,11 @@
     }
 
     .SidebarChannelLinkLabel_wrapper {
-        text-overflow: ellipsis;
         overflow: hidden;
         display: flex;
         margin-right: 16px;
 
-        > div {
+        > span {
             text-overflow: ellipsis;
             overflow: hidden;
         }
@@ -1054,5 +1053,4 @@
         }
     }
 }
-
 
