@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {NavLink, Route} from 'react-router-dom';
 
-export default class AdminSidebarCategory extends React.Component {
+export default class AdminSidebarCategory extends React.PureComponent {
     static get propTypes() {
         return {
             name: PropTypes.string,

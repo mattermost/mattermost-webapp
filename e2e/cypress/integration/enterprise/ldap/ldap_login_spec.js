@@ -11,14 +11,14 @@
 // Group: @enterprise @ldap
 
 import users from '../../../fixtures/ldap_users.json';
-import {getRandomInt} from '../../../utils';
+import {getRandomId} from '../../../utils';
 
 function setLDAPTestSettings(config) {
     return {
         siteName: config.TeamSettings.SiteName,
         siteUrl: config.ServiceSettings.SiteURL,
         teamName: '',
-        user: null
+        user: null,
     };
 }
 
@@ -68,10 +68,10 @@ context('ldap', () => {
             LoginButtonColor: '#0000',
             LoginButtonBorderColor: '#2389D7',
             LoginButtonTextColor: '#2389D7',
-            Trace: false
+            Trace: false,
         },
         GuestAccountsSettings: {
-            Enable: true
+            Enable: true,
         },
     };
 
@@ -95,8 +95,7 @@ context('ldap', () => {
             cy.apiUpdateConfig(newConfig).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     // new user create team
-                    const randomTeam = String(getRandomInt(10000));
-                    cy.skipOrCreateTeam(testSettings, randomTeam).then(() => {
+                    cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
                         cy.get('#headerTeamName').should('be.visible').then((teamName) => {
                             testSettings.teamName = teamName.text();
                         });

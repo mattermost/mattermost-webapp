@@ -296,6 +296,6 @@ export function resetEmbedVisibility() {
 export function emitShortcutReactToLastPostFrom(emittedFrom) {
     return {
         type: ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST,
-        payload: emittedFrom
+        payload: emittedFrom,
     };
 }

@@ -65,7 +65,7 @@ class JobTable extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getJobsByType(this.props.jobType).then(
-            () => this.setState({loading: false})
+            () => this.setState({loading: false}),
         );
 
         this.interval = setInterval(this.reload, 15000);
@@ -272,7 +272,7 @@ class JobTable extends React.PureComponent {
                 this.setState({
                     loading: false,
                 });
-            }
+            },
         );
     };
 

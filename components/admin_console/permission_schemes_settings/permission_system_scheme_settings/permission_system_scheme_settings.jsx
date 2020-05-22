@@ -24,7 +24,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 
-export default class PermissionSystemSchemeSettings extends React.Component {
+export default class PermissionSystemSchemeSettings extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object.isRequired,
         roles: PropTypes.object.isRequired,

@@ -47,10 +47,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
             openModal,
             unlinkGroupSyncable,
             patchGroupSyncable,
-            getMyChannelMember
+            getMyChannelMember,
         },
-        dispatch
-    )
+        dispatch,
+    ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelGroupsManageModal);

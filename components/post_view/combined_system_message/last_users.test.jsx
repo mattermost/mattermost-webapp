@@ -28,7 +28,7 @@ describe('components/post_view/combined_system_message/LastUsers', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <LastUsers {...baseProps}/>
+            <LastUsers {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -36,7 +36,7 @@ describe('components/post_view/combined_system_message/LastUsers', () => {
 
     test('should match snapshot, expanded', () => {
         const wrapper = shallowWithIntl(
-            <LastUsers {...baseProps}/>
+            <LastUsers {...baseProps}/>,
         );
 
         wrapper.setState({expand: true});
@@ -45,7 +45,7 @@ describe('components/post_view/combined_system_message/LastUsers', () => {
 
     test('should match state on handleOnClick', () => {
         const wrapper = shallowWithIntl(
-            <LastUsers {...baseProps}/>
+            <LastUsers {...baseProps}/>,
         );
 
         wrapper.setState({expand: false});

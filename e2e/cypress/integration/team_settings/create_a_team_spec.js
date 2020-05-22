@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @team_settings
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Teams Suite', () => {
     before(() => {
@@ -20,7 +20,7 @@ describe('Teams Suite', () => {
     });
 
     it('TS13872 Create a team', async () => {
-        const teamURL = `team-test-${getRandomInt(9999).toString()}`;
+        const teamURL = `team-test-${getRandomId()}`;
 
         // # Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').click();

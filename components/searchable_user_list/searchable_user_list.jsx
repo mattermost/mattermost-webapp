@@ -15,7 +15,7 @@ import {t} from 'utils/i18n';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-class SearchableUserList extends React.Component {
+class SearchableUserList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,

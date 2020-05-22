@@ -10,7 +10,7 @@ import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-export default class LDAPToEmail extends React.Component {
+export default class LDAPToEmail extends React.PureComponent {
     static propTypes = {
         email: PropTypes.string,
         passwordConfig: PropTypes.object,

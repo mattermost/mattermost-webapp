@@ -21,7 +21,7 @@ function mapStateToProps(state, ownProps) {
             channel: channel.id,
             team: channel.team_id,
             permission: Permissions.MANAGE_CHANNEL_ROLES,
-        }
+        },
     );
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';

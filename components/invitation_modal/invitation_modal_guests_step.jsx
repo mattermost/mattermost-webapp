@@ -19,7 +19,7 @@ import './invitation_modal_guests_step.scss';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
-export default class InvitationModalGuestsStep extends React.Component {
+export default class InvitationModalGuestsStep extends React.PureComponent {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
         myInvitableChannels: PropTypes.array.isRequired,

@@ -38,7 +38,7 @@ describe('components/multiselect/multiselect', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <MultiSelect {...baseProps}/>
+            <MultiSelect {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('components/multiselect/multiselect', () => {
 
     test('should match snapshot for page 2', () => {
         const wrapper = shallow(
-            <MultiSelect {...baseProps}/>
+            <MultiSelect {...baseProps}/>,
         );
 
         wrapper.find('.filter-control__next').simulate('click');
@@ -78,7 +78,7 @@ describe('components/multiselect/multiselect', () => {
                 {...baseProps}
                 optionRenderer={renderOption}
                 valueRenderer={renderValue}
-            />
+            />,
         );
 
         expect(wrapper.find(MultiSelectList).state('selected')).toEqual(-1);

@@ -86,7 +86,7 @@ describe('components/MoreChannels', () => {
 
     test('should match snapshot and state', () => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -104,7 +104,7 @@ describe('components/MoreChannels', () => {
 
     test('should match state on handleHide', () => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
         wrapper.setState({show: true});
         wrapper.instance().handleHide();
@@ -114,7 +114,7 @@ describe('components/MoreChannels', () => {
     test('should call props.onModalDismissed on handleExit', () => {
         const props = {...baseProps, onModalDismissed: jest.fn()};
         const wrapper = shallow(
-            <MoreChannels {...props}/>
+            <MoreChannels {...props}/>,
         );
 
         wrapper.instance().handleExit();
@@ -124,7 +124,7 @@ describe('components/MoreChannels', () => {
 
     test('should match state on onChange', () => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
         wrapper.setState({searchedChannels: [{id: 'other_channel_id'}]});
         wrapper.instance().onChange();
@@ -137,7 +137,7 @@ describe('components/MoreChannels', () => {
 
     test('should call props.getChannels on nextPage', () => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -149,7 +149,7 @@ describe('components/MoreChannels', () => {
 
     test('should have loading prop true when searching state is true', () => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
 
         wrapper.setState({search: true, searching: true});
@@ -173,7 +173,7 @@ describe('components/MoreChannels', () => {
         };
 
         const wrapper = shallow(
-            <MoreChannels {...props}/>
+            <MoreChannels {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -203,7 +203,7 @@ describe('components/MoreChannels', () => {
         };
 
         const wrapper = shallow(
-            <MoreChannels {...props}/>
+            <MoreChannels {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -221,7 +221,7 @@ describe('components/MoreChannels', () => {
 
     test('should not perform a search if term is empty', () => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -237,7 +237,7 @@ describe('components/MoreChannels', () => {
 
     test('should handle a failed search', (done) => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -266,7 +266,7 @@ describe('components/MoreChannels', () => {
 
     test('should perform search and set the correct state', (done) => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -293,7 +293,7 @@ describe('components/MoreChannels', () => {
 
     test('should perform search on archived channels and set the correct state', (done) => {
         const wrapper = shallow(
-            <MoreChannels {...baseProps}/>
+            <MoreChannels {...baseProps}/>,
         );
 
         const instance = wrapper.instance();

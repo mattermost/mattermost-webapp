@@ -21,12 +21,12 @@ type Props = {
     };
 }
 
-export default class LeavePrivateChannelModal extends React.Component<Props, State> {
+export default class LeavePrivateChannelModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            show: false
+            show: false,
         };
     }
 
@@ -67,7 +67,7 @@ export default class LeavePrivateChannelModal extends React.Component<Props, Sta
 
     handleHide = () => {
         this.setState({
-            show: false
+            show: false,
         });
     };
 

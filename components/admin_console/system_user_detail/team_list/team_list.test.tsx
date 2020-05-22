@@ -46,7 +46,7 @@ describe('admin_console/system_user_detail/team_list/TeamList', () => {
         const wrapper = shallow(
             <TeamList
                 {...props}
-            />
+            />,
         );
         wrapper.setState({teamsWithMemberships});
         expect(wrapper).toMatchSnapshot();
