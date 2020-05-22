@@ -62,7 +62,6 @@ describe('channel groups', () => {
     });
 
     it('limits the listed groups if the parent team is group-constrained', () => {
-
         // # Open the Add Groups modal
         openAddGroupsToChannelModal();
 
