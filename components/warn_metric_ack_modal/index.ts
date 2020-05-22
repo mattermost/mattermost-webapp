@@ -44,8 +44,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 getStandardAnalytics,
                 sendWarnMetricAck,
             },
-            dispatch
-        )
+            dispatch,
+        ),
     };
 }
 

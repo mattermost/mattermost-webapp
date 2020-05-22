@@ -137,7 +137,7 @@ export default class AnnouncementBar extends React.PureComponent {
                                         modalId={ModalIdentifiers.WARN_METRIC_ACK}
                                         dialogProps={{
                                             warnMetricId: this.props.warnMetricId,
-                                            closeParentComponent: this.props.handleClose
+                                            closeParentComponent: this.props.handleClose,
                                         }}
                                     >
                                         {linkmessage}

@@ -32,7 +32,7 @@ describe('components/PostMarkdown', () => {
             },
         };
         const wrapper = shallow(
-            <PostMarkdown {...props}/>
+            <PostMarkdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -66,7 +66,7 @@ describe('components/PostMarkdown', () => {
                 type: Posts.POST_TYPES.HEADER_CHANGE,
                 props: {
                     warnMetricId: '',
-                }
+                },
             },
             options: {
                 mentionHighlight: false,
@@ -104,7 +104,7 @@ describe('components/PostMarkdown', () => {
                 type: null,
                 props: {
                     warnMetricId: '',
-                }
+                },
             },
         };
         const wrapper = shallow(

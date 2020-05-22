@@ -26,7 +26,7 @@ describe('components/WarnMetricAckModal', () => {
             id: 'someUserId',
             first_name: 'Fake',
             last_name: 'Person',
-            email: 'a@test.com'
+            email: 'a@test.com',
         } as UserProfile,
         show: false,
         closeParentComponent: jest.fn(),
@@ -40,14 +40,14 @@ describe('components/WarnMetricAckModal', () => {
 
     test('should match snapshot, init', () => {
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>
+            <WarnMetricAckModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('error display', () => {
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>
+            <WarnMetricAckModal {...baseProps}/>,
         );
 
         wrapper.setState({serverError});
@@ -56,7 +56,7 @@ describe('components/WarnMetricAckModal', () => {
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>
+            <WarnMetricAckModal {...baseProps}/>,
         );
 
         wrapper.setState({saving: true});
@@ -66,7 +66,7 @@ describe('components/WarnMetricAckModal', () => {
 
     test('should match state when onHideWithParent is called', () => {
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>
+            <WarnMetricAckModal {...baseProps}/>,
         );
 
         wrapper.setState({saving: true});
@@ -78,7 +78,7 @@ describe('components/WarnMetricAckModal', () => {
 
     test('send ack on acknowledge button click', () => {
         const wrapper = shallow<WarnMetricAckModal>(
-            <WarnMetricAckModal {...baseProps}/>
+            <WarnMetricAckModal {...baseProps}/>,
         );
 
         wrapper.setState({saving: true});
@@ -89,7 +89,7 @@ describe('components/WarnMetricAckModal', () => {
     test('should have called props.onHide when Modal.onExited is called', () => {
         const props = {...baseProps};
         const wrapper = shallow(
-            <WarnMetricAckModal {...props}/>
+            <WarnMetricAckModal {...props}/>,
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));

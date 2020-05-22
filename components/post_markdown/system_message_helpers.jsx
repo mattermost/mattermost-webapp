@@ -356,7 +356,7 @@ function renderWarnMetricStatusMessage(post) {
     const options = {
         markdown: false,
         warnMetricStatus: true,
-        warnMetricId: post.props.warnMetricId
+        warnMetricId: post.props.warnMetricId,
     };
 
     const ackMessage = renderFormattedText(post.message, options);

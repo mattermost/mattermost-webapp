@@ -424,7 +424,7 @@ export function autolinkWarnMetricStatus(text: string, tokens: Tokens) {
 
     output = output.replace(
         Constants.SPECIAL_CONTACT_LINK_REGEX,
-        replaceWarnMetricStatusWithToken
+        replaceWarnMetricStatusWithToken,
     );
 
     return output;
