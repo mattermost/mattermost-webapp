@@ -20,8 +20,8 @@
     height: 24px;
     margin: 0 4px 4px 0;
     padding: 0 5px;
-    transition: border-color 200ms ease-in-out,
-        background-color 200ms ease-in-out;
+    transition: border-color 100ms linear,
+        background-color 100ms linear;
     &:hover {
         color: rgba(#3d3c40, 0.72);
         border: solid 1px rgba(#3D3C40, .16);
