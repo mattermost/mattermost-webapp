@@ -110,7 +110,7 @@ describe('components/post_view/PostInfo', () => {
             <PostInfo
                 {...requiredProps}
                 enableEmojiPicker={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -109,7 +109,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             team,
             finishedFetchingChannels: false,
             prevTeam: this.props.match.params.team,
-            teamsList: this.props.teamsList
+            teamsList: this.props.teamsList,
         };
 
         if (!team) {
@@ -124,7 +124,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
-                team: (team || null)
+                team: (team || null),
             };
         }
         return {prevTeam: nextProps.match.params.team};
@@ -227,7 +227,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 this.setState({
                     finishedFetchingChannels: true,
                 });
-            }
+            },
         );
 
         this.props.actions.loadStatusesForChannelAndSidebar();

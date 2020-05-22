@@ -64,7 +64,7 @@ export default class Authorize extends React.Component {
                 } else if (error) {
                     this.setState({error: error.message});
                 }
-            }
+            },
         );
     }
 

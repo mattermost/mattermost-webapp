@@ -29,7 +29,7 @@ describe('ManageTeamsModal', () => {
 
     test('should match snapshot init', () => {
         const wrapper = shallow(
-            <ManageTeamsModal {...baseProps}/>
+            <ManageTeamsModal {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -37,7 +37,7 @@ describe('ManageTeamsModal', () => {
 
     test('should call api calls on mount', () => {
         shallow(
-            <ManageTeamsModal {...baseProps}/>
+            <ManageTeamsModal {...baseProps}/>,
         );
 
         expect(baseProps.actions.getTeamMembersForUser).toHaveBeenCalledTimes(1);
@@ -67,7 +67,7 @@ describe('ManageTeamsModal', () => {
         };
 
         const wrapper = shallow(
-            <ManageTeamsModal {...props}/>
+            <ManageTeamsModal {...props}/>,
         );
 
         process.nextTick(() => {

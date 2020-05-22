@@ -55,7 +55,7 @@ const {
     generateTestReport,
     getServerInfo,
     sendReport,
-    writeJsonToFile
+    writeJsonToFile,
 } = require('./utils/report');
 const {saveArtifacts} = require('./utils/save_artifacts');
 const {saveDashboard} = require('./utils/dashboard');

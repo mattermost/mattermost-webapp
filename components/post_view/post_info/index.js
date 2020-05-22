@@ -34,7 +34,7 @@ function mapStateToProps(state, ownProps) {
         enableEmojiPicker,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
-        shortcutReactToLastPostEmittedFrom
+        shortcutReactToLastPostEmittedFrom,
     };
 }
 

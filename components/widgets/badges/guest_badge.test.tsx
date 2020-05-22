@@ -9,7 +9,7 @@ import GuestBadge from './guest_badge';
 describe('components/widgets/badges/GuestBadge', () => {
     test('should match the snapshot', () => {
         const wrapper = shallow(
-            <GuestBadge className={'test'}/>
+            <GuestBadge className={'test'}/>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Badge

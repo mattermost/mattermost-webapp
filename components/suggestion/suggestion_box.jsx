@@ -454,7 +454,7 @@ export default class SuggestionBox extends React.Component {
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
-                provider.handleCompleteWord(term, matchedPretext);
+                provider.handleCompleteWord(term, matchedPretext, this.handlePretextChanged);
             }
         }
     }

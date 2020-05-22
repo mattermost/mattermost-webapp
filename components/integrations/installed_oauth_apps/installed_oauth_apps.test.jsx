@@ -55,13 +55,13 @@ describe('components/integrations/InstalledOAuthApps', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
 
         const props = {...baseProps};
         props.actions.loadOAuthAppsAndProfiles = newGetOAuthApps;
         const wrapper = shallow(
-            <InstalledOAuthApps {...props}/>
+            <InstalledOAuthApps {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -81,7 +81,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
         const props = {...baseProps};
         props.actions.deleteOAuthApp = newDeleteOAuthApp;
         const wrapper = shallow(
-            <InstalledOAuthApps {...props}/>
+            <InstalledOAuthApps {...props}/>,
         );
 
         wrapper.instance().deleteOAuthApp(oauthApps.facxd9wpzpbpfp8pad78xj75pr);
