@@ -8,6 +8,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -278,6 +279,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -548,6 +550,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -818,6 +821,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -1092,6 +1096,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -1366,6 +1371,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -1636,6 +1642,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -1910,6 +1917,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -2180,6 +2188,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
@@ -2450,6 +2459,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   key="sidebar-left"
   role="navigation"
 >
+  <Connect(DataPrefetch) />
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
     canCreatePublicChannel={true}
