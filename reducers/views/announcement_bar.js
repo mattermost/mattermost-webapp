@@ -10,13 +10,13 @@ function announcementBarState(state = {announcementBarCount: 0}, action) {
     case ActionTypes.TRACK_ANNOUNCEMENT_BAR:
         return {
             ...state,
-            announcementBarCount: state.announcementBarCount + 1
+            announcementBarCount: state.announcementBarCount + 1,
         };
 
     case ActionTypes.DISMISS_ANNOUNCEMENT_BAR:
         return {
             ...state,
-            announcementBarCount: Math.max(state.announcementBarCount - 1, 0)
+            announcementBarCount: Math.max(state.announcementBarCount - 1, 0),
         };
 
     default:

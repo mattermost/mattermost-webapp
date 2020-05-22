@@ -13,7 +13,7 @@ describe('components/analytics/table_chart.tsx', () => {
             <TableChart
                 title='Test'
                 data={data}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -29,7 +29,7 @@ describe('components/analytics/table_chart.tsx', () => {
             <TableChart
                 title='Test'
                 data={data}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

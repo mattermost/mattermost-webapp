@@ -42,7 +42,7 @@ describe('System message', () => {
         cy.getCurrentChannelId().then((channelId) => {
             cy.apiPatchChannel(
                 channelId,
-                {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))}
+                {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))},
             );
         });
 

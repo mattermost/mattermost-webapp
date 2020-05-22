@@ -40,7 +40,7 @@ describe('components/ChannelMembersModal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ChannelMembersModal {...baseProps}/>
+            <ChannelMembersModal {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -48,7 +48,7 @@ describe('components/ChannelMembersModal', () => {
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <ChannelMembersModal {...baseProps}/>
+            <ChannelMembersModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -67,7 +67,7 @@ describe('components/ChannelMembersModal', () => {
             },
         };
         const wrapper = shallow(
-            <ChannelMembersModal {...props}/>
+            <ChannelMembersModal {...props}/>,
         );
 
         (wrapper.instance() as ChannelMembersModal).onAddNewMembersButton();
@@ -77,7 +77,7 @@ describe('components/ChannelMembersModal', () => {
 
     test('should have state when Modal.onHide', () => {
         const wrapper = shallow(
-            <ChannelMembersModal {...baseProps}/>
+            <ChannelMembersModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -89,7 +89,7 @@ describe('components/ChannelMembersModal', () => {
         const props = {...baseProps, channel: {...baseProps.channel, delete_at: 1234}};
 
         const wrapper = shallow(
-            <ChannelMembersModal {...props}/>
+            <ChannelMembersModal {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -97,7 +97,7 @@ describe('components/ChannelMembersModal', () => {
 
     test('renders the channel display name', () => {
         const wrapper = shallow(
-            <ChannelMembersModal {...baseProps}/>
+            <ChannelMembersModal {...baseProps}/>,
         );
         expect(wrapper.find('.name').text()).toBe(baseProps.channel.display_name);
     });
@@ -105,7 +105,7 @@ describe('components/ChannelMembersModal', () => {
     test('should show the invite modal link if the user can manage channel members', () => {
         const newProps = {...baseProps, canManageChannelMembers: true};
         const wrapper = shallow(
-            <ChannelMembersModal {...newProps}/>
+            <ChannelMembersModal {...newProps}/>,
         );
         expect(wrapper.find('#showInviteModal').length).toBe(1);
     });
@@ -113,7 +113,7 @@ describe('components/ChannelMembersModal', () => {
     test('should not show the invite modal link if the user can not manage channel members', () => {
         const newProps = {...baseProps, canManageChannelMembers: false};
         const wrapper = shallow(
-            <ChannelMembersModal {...newProps}/>
+            <ChannelMembersModal {...newProps}/>,
         );
         expect(wrapper.find('#showInviteModal').length).toBe(0);
     });
@@ -128,7 +128,7 @@ describe('components/ChannelMembersModal', () => {
             },
         };
         const wrapper = shallow(
-            <ChannelMembersModal {...newProps}/>
+            <ChannelMembersModal {...newProps}/>,
         );
         expect(openModal).not.toHaveBeenCalled();
         (wrapper.instance() as ChannelMembersModal).onAddNewMembersButton();

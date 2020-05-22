@@ -54,7 +54,7 @@ class AdminNavbarDropdown extends React.Component<Props, {}> {
                         key={'team_' + team.name}
                         to={'/' + team.name}
                         text={formatMessage({id: 'navbar_dropdown.switchTo', defaultMessage: 'Switch to '}) + ' ' + team.display_name}
-                    />
+                    />,
                 );
             }
         } else {

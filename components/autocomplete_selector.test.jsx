@@ -13,7 +13,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 label='some label'
                 value='some value'
                 providers={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <div
@@ -60,7 +60,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 providers={[]}
                 label='some label'
                 value='value from prop'
-            />
+            />,
         );
 
         wrapper.instance().onBlur();
@@ -153,7 +153,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 value='some value'
                 providers={[]}
                 onSelected={onSelected}
-            />
+            />,
         );
 
         const selected = {text: 'sometext', value: 'somevalue'};

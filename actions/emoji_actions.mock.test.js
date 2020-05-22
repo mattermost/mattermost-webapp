@@ -14,7 +14,7 @@ const initialState = {
         general: {
             config: {EnableCustomEmoji: 'true'},
         },
-    }
+    },
 };
 
 jest.mock('selectors/emojis', () => ({
@@ -23,7 +23,7 @@ jest.mock('selectors/emojis', () => ({
 }));
 
 jest.mock('mattermost-redux/actions/emojis', () => ({
-    getCustomEmojiByName: (...args) => ({type: 'MOCK_GET_CUSTOM_EMOJI_BY_NAME', args})
+    getCustomEmojiByName: (...args) => ({type: 'MOCK_GET_CUSTOM_EMOJI_BY_NAME', args}),
 }));
 
 describe('loadRecentlyUsedCustomEmojis', () => {

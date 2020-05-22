@@ -95,7 +95,7 @@ export function startPeriodicStatusUpdates() {
         () => {
             store.dispatch(loadStatusesForChannelAndSidebar());
         },
-        Constants.STATUS_INTERVAL
+        Constants.STATUS_INTERVAL,
     );
 }
 

@@ -70,7 +70,7 @@ export default class TeamSelectorModal extends React.Component {
                     await this.props.actions.searchTeams(searchTerm);
                     this.setTeamsLoadingState(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         }
     }
