@@ -35,6 +35,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                isPublic={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -93,6 +94,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                isPublic={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -175,6 +177,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={teamSchemeID}
                 teamSchemeDisplayName={teamSchemeDisplayName}
                 guestAccountsEnabled={true}
+                isPublic={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -229,6 +232,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                 teamSchemeID={undefined}
                 teamSchemeDisplayName={undefined}
                 guestAccountsEnabled={false}
+                isPublic={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -260,6 +264,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -278,6 +283,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -334,6 +340,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -390,6 +397,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -434,6 +442,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={false}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -478,6 +487,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={true}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -522,6 +532,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={true}
                 />,
             );
             const instance: any = wrapper.instance();
@@ -566,6 +577,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     teamSchemeID={teamSchemeID}
                     teamSchemeDisplayName={teamSchemeDisplayName}
                     guestAccountsEnabled={true}
+                    isPublic={true}
                 />,
             );
             const instance: any = wrapper.instance();
