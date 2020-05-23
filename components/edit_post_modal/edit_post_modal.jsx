@@ -209,10 +209,9 @@ class EditPostModal extends React.PureComponent {
         this.handleHide();
     }
 
-    handleChange = (e) => {
-        const message = e.target.value;
+    handleChange = (editText) => {
         this.setState({
-            editText: message,
+            editText
         });
     }
 

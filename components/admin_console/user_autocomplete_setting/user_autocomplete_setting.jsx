@@ -31,8 +31,8 @@ export default class UserAutocompleteSetting extends React.PureComponent {
         this.userSuggestionProviders = [new GenericUserProvider(props.actions.autocompleteUsers)];
     }
 
-    handleChange = (e) => {
-        this.props.onChange(this.props.id, e.target.value);
+    handleChange = (value) => {
+        this.props.onChange(this.props.id, value);
     }
 
     handleUserSelected = (user) => {

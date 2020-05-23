@@ -64,6 +64,10 @@
 
     &.visible {
         visibility: visible;
+
+        &+.search-suggestion__tagged-input__tags {
+            max-width: calc(100% - 2.4rem);
+        }
     }
 
     body.enable-animations & {
@@ -304,4 +308,50 @@
     .search-hint__suggestions-list__option:hover {
         background: rgba(61, 60, 64, 0.06);
     }
+}
+
+ .search-suggestion__tagged-input {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 14px;
+    outline: none;
+    padding: 0 1rem;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    &.a11y--focused {
+        box-shadow: none;
+    }
+
+ }
+
+.search-suggestion__tagged-input__tags {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+  
+.search-suggestion__tagged-input__tags .tag {
+    padding: 0px 4px;
+    height: 16px;
+    background: rgba(61, 60, 64, 0.08);
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 10px;
+    color: #3D3C40;
+}
+
+.search-suggestion__tagged-input__tags .value {
+    padding: 0px 4px;
+    color: #3D3C40;
+}
+.search-suggestion__tagged-input__tags li {
+    list-style: none;
 }

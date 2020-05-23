@@ -781,8 +781,7 @@ class CreatePost extends React.PureComponent {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e) => {
-        const message = e.target.value;
+    handleChange = (message) => {
         const channelId = this.props.currentChannel.id;
 
         let serverError = this.state.serverError;
@@ -1000,6 +999,7 @@ class CreatePost extends React.PureComponent {
 
     fillMessageFromHistory() {
         const lastMessage = this.props.messageInHistoryItem;
+
         if (lastMessage) {
             this.setState({
                 message: lastMessage,

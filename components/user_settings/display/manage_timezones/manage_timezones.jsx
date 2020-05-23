@@ -38,8 +38,8 @@ export default class ManageTimezones extends React.PureComponent {
         };
     }
 
-    onChange = (e) => {
-        this.setState({manualTimezoneInput: e.target.value});
+    onChange = (manualTimezoneInput) => {
+        this.setState({manualTimezoneInput});
     };
 
     handleTimezoneSelected = (selected) => {

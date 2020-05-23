@@ -684,9 +684,7 @@ class CreateComment extends React.PureComponent {
         }
     }
 
-    handleChange = (e) => {
-        const message = e.target.value;
-
+    handleChange = (message) => {
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;

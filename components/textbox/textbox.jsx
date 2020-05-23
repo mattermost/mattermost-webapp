@@ -83,6 +83,7 @@ export default class Textbox extends React.PureComponent {
         this.wrapper = React.createRef();
     }
 
+    // TODO: remove redundant
     handleChange = (e) => {
         this.props.onChange(e);
     }
@@ -171,24 +172,16 @@ export default class Textbox extends React.PureComponent {
         }
     }
 
-    getInputBox = () => {
-        const textbox = this.refs.message.getTextbox();
-        return textbox;
-    }
-
     focus = () => {
-        const textbox = this.refs.message.getTextbox();
-
+        const textbox = this.refs.message;
         textbox.focus();
-        Utils.placeCaretAtEnd(textbox);
 
         // reset character count warning
-        this.checkMessageLength(textbox.value);
+        this.checkMessageLength(textbox.getValue());
     }
 
     blur = () => {
-        const textbox = this.refs.message.getTextbox();
-        textbox.blur();
+        this.refs.message.blur();
     };
 
     recalculateSize = () => {
@@ -208,7 +201,7 @@ export default class Textbox extends React.PureComponent {
             textboxClassName += ' bad-connection';
         }
         if (this.wrapper.current) {
-            wrapperHeight = this.getInputBox().clientHeight;
+            wrapperHeight = this.refs.message.getClientHeight();
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';

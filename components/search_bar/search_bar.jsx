@@ -108,8 +108,7 @@ export default class SearchBar extends React.PureComponent {
         }
     }
 
-    handleChange = (e) => {
-        var term = e.target.value;
+    handleChange = (term) => {
         this.props.actions.updateSearchTerms(term);
     }
 
@@ -188,15 +187,10 @@ export default class SearchBar extends React.PureComponent {
     }
 
     handleUpdateSearchTerm = (term) => {
-        if (this.state.termsUsed === 0) {
-            this.props.actions.updateSearchTerms(term.toLowerCase());
-        } else {
-            const pretextArray = this.props.searchTerms.split(' ');
-            pretextArray.pop();
-            pretextArray.push(term.toLowerCase());
-            this.props.actions.updateSearchTerms(pretextArray.join(' '));
-        }
-
+        const pretextArray = this.props.searchTerms.split(' ');
+        pretextArray.pop();
+        pretextArray.push(term.toLowerCase());
+        this.props.actions.updateSearchTerms(pretextArray.join(' '));
         this.focus();
         this.setState({index: -1});
         this.setState({termsUsed: this.state.termsUsed + 1});
@@ -380,6 +374,7 @@ export default class SearchBar extends React.PureComponent {
                             renderDividers={true}
                             clearable={true}
                             onClear={this.onClear}
+                            renderTaggedInput={true}
                         />
                         {this.props.isSearchingTerm && <LoadingSpinner/>}
                         {this.renderHintPopover()}

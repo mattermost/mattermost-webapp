@@ -110,8 +110,8 @@ export default class AddUserToChannelModal extends React.PureComponent {
         }
     }
 
-    onInputChange = (e) => {
-        this.setState({text: e.target.value, selectedChannelId: null});
+    onInputChange = (text) => {
+        this.setState({text, selectedChannelId: null});
     }
 
     onHide = () => {

@@ -100,8 +100,8 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     };
 
-    onChange = (e) => {
-        this.setState({text: e.target.value});
+    onChange = (text) => {
+        this.setState({text});
     };
 
     handleKeyDown = (e) => {

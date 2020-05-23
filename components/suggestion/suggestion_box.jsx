@@ -6,10 +6,12 @@ import React from 'react';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import QuickInput from 'components/quick_input.jsx';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+
+import SearchSuggestionTaggedInput from './search_suggestion_tagged_input.jsx';
+import SearchSuggestionInput from './search_suggestion_input.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -142,6 +144,11 @@ export default class SuggestionBox extends React.PureComponent {
          * Suppress loading spinner when necessary
          */
         suppressLoadingSpinner: PropTypes.bool,
+
+        /**
+         * Define whether or not to render the tagged input
+         */
+        renderTaggedInput: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -189,9 +196,11 @@ export default class SuggestionBox extends React.PureComponent {
             selection: '',
             allowDividers: true,
             presentationType: 'text',
+            tags: [],
         };
 
         this.inputRef = React.createRef();
+        this.inputCompRef = React.createRef();
     }
 
     componentDidMount() {
@@ -214,8 +223,7 @@ export default class SuggestionBox extends React.PureComponent {
         }
 
         if (prevProps.contextId !== this.props.contextId) {
-            const textbox = this.getTextbox();
-            const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+            const pretext = this.inputCompRef.current.getPretext();
 
             this.handlePretextChanged(pretext);
         }
@@ -236,24 +244,10 @@ export default class SuggestionBox extends React.PureComponent {
         this.addTextAtCaret(insertText, '');
     }
 
-    getTextbox = () => {
-        if (!this.inputRef.current) {
-            return null;
-        }
-
-        const input = this.inputRef.current.getInput();
-
-        if (input.getDOMNode) {
-            return input.getDOMNode();
-        }
-
-        return input;
-    }
-
     recalculateSize = () => {
         // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
         // we're rendering as the input
-        const input = this.inputRef.current.getInput();
+        const input = this.inputCompRef.current;
 
         if (input.recalculateSize) {
             input.recalculateSize();
@@ -310,12 +304,9 @@ export default class SuggestionBox extends React.PureComponent {
 
         if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
-                const textbox = this.getTextbox();
-                if (textbox) {
-                    const pretext = textbox.value.substring(0, textbox.selectionEnd);
-                    if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
-                        this.handlePretextChanged(pretext);
-                    }
+                const pretext = this.inputCompRef.current.getPretext();
+                if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
+                    this.handlePretextChanged(pretext);
                 }
             });
         }
@@ -325,16 +316,15 @@ export default class SuggestionBox extends React.PureComponent {
         }
     };
 
-    handleChange = (e) => {
-        const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+    handleChange = (value) => {
+        const pretext = this.inputCompRef.current.getPretext();
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
         }
 
         if (this.props.onChange) {
-            this.props.onChange(e);
+            this.props.onChange(value);
         }
     }
 
@@ -351,8 +341,7 @@ export default class SuggestionBox extends React.PureComponent {
         }
 
         // The caret appears before the CJK character currently being composed, so re-add it to the pretext
-        const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
+        const pretext = this.inputCompRef.current.getPretext() + e.data;
 
         this.handlePretextChanged(pretext);
         if (this.props.onComposition) {
@@ -368,10 +357,9 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     addTextAtCaret = (term, matchedPretext) => {
-        const textbox = this.getTextbox();
-        const caret = textbox.selectionEnd;
-        const text = this.props.value;
-        const pretext = textbox.value.substring(0, textbox.selectionEnd);
+        const caret = this.inputCompRef.current.getSelectionEnd();
+        const text = this.inputCompRef.current.getValue();
+        const pretext = this.inputCompRef.current.getPretext();
 
         let prefix;
         let keepPretext = false;
@@ -395,38 +383,25 @@ export default class SuggestionBox extends React.PureComponent {
             newValue = prefix + term + ' ' + suffix;
         }
 
-        textbox.value = newValue;
-
         if (this.props.onChange) {
-            // fake an input event to send back to parent components
-            const e = {
-                target: textbox,
-            };
-
             // don't call handleChange or we'll get into an event loop
-            this.props.onChange(e);
+            this.props.onChange(newValue);
         }
 
         // set the caret position after the next rendering
         window.requestAnimationFrame(() => {
-            if (textbox.value === newValue) {
-                Utils.setCaretPosition(textbox, prefix.length + term.length + 1);
+            const textbox = this.inputCompRef.current;
+            const value = textbox.getValue();
+            if (value === newValue) {
+                textbox.setCaretPosition(prefix.length + term.length + 1);
             }
         });
     }
 
     replaceText = (term) => {
-        const textbox = this.getTextbox();
-        textbox.value = term;
-
         if (this.props.onChange) {
-            // fake an input event to send back to parent components
-            const e = {
-                target: textbox,
-            };
-
             // don't call handleChange or we'll get into an event loop
-            this.props.onChange(e);
+            this.props.onChange(term);
         }
     }
 
@@ -450,7 +425,7 @@ export default class SuggestionBox extends React.PureComponent {
 
         this.clear();
 
-        this.inputRef.current.focus();
+        this.inputCompRef.current.focus();
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
@@ -592,6 +567,7 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleReceivedSuggestionsAndComplete = (suggestions) => {
         const {selection, matchedPretext} = this.handleReceivedSuggestions(suggestions);
+
         if (selection) {
             this.handleCompleteWord(selection, matchedPretext);
         }
@@ -608,9 +584,13 @@ export default class SuggestionBox extends React.PureComponent {
             handled = provider.handlePretextChanged(pretext, callback) || handled;
 
             if (handled) {
+                const tags = this.state.tags;
+                const hasTagForPretext = tags.some(({name, value}) => pretext.startsWith(name) && value === '');
+                const newTags = hasTagForPretext ? tags : [...tags, {name: pretext, value: ''}];
                 this.setState({
                     presentationType: provider.presentationType(),
                     allowDividers: provider.allowDividers(),
+                    tags: newTags,
                 });
 
                 break;
@@ -632,20 +612,25 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     blur = () => {
-        this.inputRef.current.blur();
+        this.inputCompRef.current.blur();
     }
 
     focus = () => {
-        const input = this.inputRef.current.input;
-        if (input.value === '""' || input.value.endsWith('""')) {
-            input.selectionStart = input.value.length - 1;
-            input.selectionEnd = input.value.length - 1;
-        } else {
-            input.selectionStart = input.value.length;
-        }
-        input.focus();
+        const input = this.inputCompRef.current;
+        if (input) {
+            input.focus();
 
-        this.handleChange({target: this.inputRef.current});
+            this.handleChange(this.getValue());
+        }
+    }
+
+    // terrible hack to play nice with textbox.jsx - should be solved differently.
+    getValue = () => {
+        return this.inputCompRef.current.getValue();
+    }
+
+    getClientHeight = () => {
+        return this.inputCompRef.current.getClientHeight();
     }
 
     setContainerRef = (container) => {
@@ -670,6 +655,7 @@ export default class SuggestionBox extends React.PureComponent {
             dateComponent,
             listStyle,
             renderNoResults,
+            renderTaggedInput,
             ...props
         } = this.props;
 
@@ -709,16 +695,30 @@ export default class SuggestionBox extends React.PureComponent {
                     role='alert'
                     className='sr-only'
                 />
-                <QuickInput
-                    ref={this.inputRef}
-                    autoComplete='off'
-                    {...props}
-                    onInput={this.handleChange}
-                    onCompositionStart={this.handleCompositionStart}
-                    onCompositionUpdate={this.handleCompositionUpdate}
-                    onCompositionEnd={this.handleCompositionEnd}
-                    onKeyDown={this.handleKeyDown}
-                />
+                {renderTaggedInput ?
+                    <SearchSuggestionTaggedInput
+                        inputRef={this.inputRef}
+                        ref={this.inputCompRef}
+                        autoComplete='off'
+                        {...props}
+                        onInput={this.handleChange}
+                        onCompositionStart={this.handleCompositionStart}
+                        onCompositionUpdate={this.handleCompositionUpdate}
+                        onCompositionEnd={this.handleCompositionEnd}
+                        onKeyDown={this.handleKeyDown}
+                        pretext={this.pretext}
+                        onFocus={this.focus}
+                    /> :
+                    <SearchSuggestionInput
+                        ref={this.inputCompRef}
+                        autoComplete='off'
+                        {...props}
+                        onInput={this.handleChange}
+                        onCompositionStart={this.handleCompositionStart}
+                        onCompositionUpdate={this.handleCompositionUpdate}
+                        onCompositionEnd={this.handleCompositionEnd}
+                        onKeyDown={this.handleKeyDown}
+                    />}
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent

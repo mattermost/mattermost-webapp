@@ -90,9 +90,9 @@ class EditChannelHeaderModal extends React.PureComponent {
         this.props.actions.setShowPreview(newState);
     }
 
-    handleChange = (e) => {
+    handleChange = (header) => {
         this.setState({
-            header: e.target.value,
+            header
         });
     }
 
