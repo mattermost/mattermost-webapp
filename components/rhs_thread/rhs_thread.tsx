@@ -120,8 +120,10 @@ export default class RhsThread extends React.Component<Props, State> {
 
         // if snapshot value, new posts have been added
         // if at bottom of thread, continue to scroll after adding new post
-        if (snapshot) {
-            this.scrollToBottom();
+        if (!Utils.areObjectsEqual(prevPostsArray, curPostsArray)) {
+            if (snapshot) {
+                this.scrollToBottom();
+            }
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
@@ -153,6 +155,10 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         if (nextState.isScrolling !== this.state.isScrolling) {
+            return true;
+        }
+
+        if (nextState.isNearBottom !== this.state.isNearBottom) {
             return true;
         }
 
