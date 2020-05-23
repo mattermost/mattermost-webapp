@@ -5,24 +5,25 @@ orbs:
 
 executors:
   default:
-    working_directory: ~/mattermost-webapp
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
+    resource_class: "xlarge"
 
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}
+      key: dependencies-{{ checksum "package-lock.json" }}-1
   - &save_cache
     save_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}
+      key: dependencies-{{ checksum "package-lock.json" }}-1
       paths:
-        - node_modules
+        - ~/mattermost/mattermost-webapp/node_modules
 
 jobs:
   install:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -34,6 +35,7 @@ jobs:
   lint:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -43,6 +45,7 @@ jobs:
   i18n-check:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -56,6 +59,7 @@ jobs:
   type-check:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -65,6 +69,7 @@ jobs:
   test:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -75,35 +80,44 @@ jobs:
   build:
     executor:
       name: default
+    resource_class: xlarge
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
-      - run: make package-ci
+      - run: |
+          node --version
+          npm version
+          make package-ci
       - store_artifacts:
-          path: ~/mattermost-webapp/mattermost-webapp.tar.gz
+          path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
-          root: .
-          paths: .
+          root: ~/mattermost
+          paths:
+            - mattermost-webapp
 
   build-storybook:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
       - run: npm run build-storybook
       - store_artifacts:
-          path: ~/mattermost-webapp/storybook-static
+          path: ~/mattermost/mattermost-webapp/storybook-static
       - persist_to_workspace:
-          root: .
-          paths: .
+          root: ~/mattermost
+          paths:
+            - mattermost-webapp
 
   upload-storybook:
     docker:
       - image: circleci/python:3.6
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - aws-s3/sync:
           from: storybook-static
           to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
@@ -116,9 +130,10 @@ jobs:
   upload-s3:
     docker:
       - image: circleci/python:3.6
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
           to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
@@ -129,11 +144,12 @@ jobs:
           arguments: --cache-control no-cache
 
   prepare-docker-build:
+    working_directory: ~/mattermost/mattermost-webapp
     docker:
       - image: circleci/python:3.6
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - run:
           command: |
             curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
@@ -144,19 +160,19 @@ jobs:
             mv client mattermost/client
             tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
       - store_artifacts:
-          path: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+          path: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
       - aws-s3/copy:
-          from: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+          from: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
           to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
   build-docker:
-    working_directory: ~/
+    working_directory: ~/mattermost/
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - setup_remote_docker
       - run:
           command: |

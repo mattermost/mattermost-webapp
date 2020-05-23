@@ -16,7 +16,7 @@ import SettingItemMin from 'components/setting_item_min';
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser';
 
-export default class ThemeSetting extends React.Component {
+export default class ThemeSetting extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
             saveTheme: PropTypes.func.isRequired,
@@ -205,7 +205,7 @@ export default class ThemeSetting extends React.Component {
                             />
                         </label>
                         <br/>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -230,7 +230,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='Custom Theme'
                             />
                         </label>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(custom);
@@ -249,7 +249,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='See other themes'
                             />
                         </a>
-                    </div>
+                    </div>,
                 );
 
                 inputs.push(
@@ -267,7 +267,7 @@ export default class ThemeSetting extends React.Component {
                                 defaultMessage='Import theme colors from Slack'
                             />
                         </button>
-                    </div>
+                    </div>,
                 );
             }
 

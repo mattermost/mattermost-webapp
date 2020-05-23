@@ -28,7 +28,7 @@ describe('admin_console/team_channel_settings/group/GroupUsersRow', () => {
                 displayName='Test display name'
                 user={testUser}
                 lastPictureUpdate={0}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -48,7 +48,7 @@ describe('admin_console/team_channel_settings/group/GroupUsersRow', () => {
                 displayName='Test display name'
                 user={testUser2}
                 lastPictureUpdate={0}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

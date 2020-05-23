@@ -11,9 +11,11 @@ import {
     getGroupMembers as fetchMembers,
     getGroupSyncables as fetchGroupSyncables,
     patchGroupSyncable,
-    patchGroup
+    patchGroup,
 } from 'mattermost-redux/actions/groups';
 import {getGroup, getGroupTeams, getGroupChannels, getGroupMembers, getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
+
+import {setNavigationBlocked} from 'actions/admin_actions';
 
 import GroupDetails from './group_details.jsx';
 
@@ -38,6 +40,7 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            setNavigationBlocked,
             getGroup: fetchGroup,
             getMembers: fetchMembers,
             getGroupSyncables: fetchGroupSyncables,

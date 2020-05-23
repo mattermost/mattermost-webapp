@@ -63,7 +63,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <SidebarDirectChannel {...baseProps}/>
+            <SidebarDirectChannel {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -76,7 +76,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarDirectChannel {...props}/>
+            <SidebarDirectChannel {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -92,7 +92,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarDirectChannel {...props}/>
+            <SidebarDirectChannel {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -109,7 +109,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarDirectChannel {...props}/>
+            <SidebarDirectChannel {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

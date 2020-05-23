@@ -59,7 +59,7 @@ describe('components/view_image/popover_bar/PopoverBar', () => {
                 <PopoverBar
                     {...props}
                     isExternalFile={true}
-                />
+                />,
             );
 
             expect(wrapper.find('a').prop('download')).toBeUndefined();
@@ -70,7 +70,7 @@ describe('components/view_image/popover_bar/PopoverBar', () => {
                 <PopoverBar
                     {...props}
                     isExternalFile={false}
-                />
+                />,
             );
 
             expect(wrapper.find('a').prop('download')).toBe(props.filename);

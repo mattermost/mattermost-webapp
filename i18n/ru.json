@@ -2533,7 +2533,6 @@
   "save_button.saving": "Saving",
   "search_bar.clear": "Clear search query",
   "search_bar.search": "Поиск",
-  "search_bar.usage.tips": "* Use **\"quotation marks\"** to search for phrases\n* Use **from:** to find posts from specific users and **in:** to find posts in specific channels\n* Use **on:** to find posts on a specific date\n* Use **before:** to find posts before a specific date\n* Use **after:** to find posts after a specific date",
   "search_bar.usage.title": "Search Options",
   "search_header.loading": "Searching...",
   "search_header.results": "Результаты поиска",

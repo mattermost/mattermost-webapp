@@ -28,9 +28,9 @@ describe('components/marketplace/marketplace_list', () => {
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
-                    samplePlugin, samplePlugin
+                    samplePlugin, samplePlugin,
                 ]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -47,7 +47,7 @@ describe('components/marketplace/marketplace_list', () => {
             <MarketplaceList
                 theme={{centerChannelColor: '#3d3c40'}}
                 plugins={[samplePlugin, samplePlugin]}
-            />
+            />,
         );
 
         wrapper.setState({page: 10});

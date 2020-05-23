@@ -46,7 +46,7 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
         expect(props.actions.updateChannelNotifyProps).toBeCalledWith(
             props.user.id,
             props.channel.id,
-            {mark_unread: NotificationLevels.ALL}
+            {mark_unread: NotificationLevels.ALL},
         );
     });
 
@@ -65,7 +65,7 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
         expect(props.actions.updateChannelNotifyProps).toBeCalledWith(
             props.user.id,
             props.channel.id,
-            {mark_unread: NotificationLevels.MENTION}
+            {mark_unread: NotificationLevels.MENTION},
         );
     });
 
@@ -86,7 +86,7 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
                 <MenuItemToggleMuteChannel
                     {...baseProps}
                     channel={channel}
-                />
+                />,
             );
             expect(wrapper.find(MenuItemAction).props().show).toEqual(true);
             expect(wrapper.find(MenuItemAction).props().text).toEqual('Mute Channel');
