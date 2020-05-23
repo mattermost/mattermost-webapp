@@ -12,7 +12,7 @@ describe('components/MenuItemExternalLink', () => {
             <MenuItemExternalLinkImpl
                 url='http://test.com'
                 text='Whatever'
-            />
+            />,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`

@@ -91,6 +91,7 @@ describe('components/needs_team', () => {
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
+        getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         license: {},
@@ -104,6 +105,7 @@ describe('components/needs_team', () => {
         teamsList,
         history,
         useLegacyLHS: true,
+        previousTeamId: '',
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
@@ -118,7 +120,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions, match: existingTeamMatch};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         fetchMyChannelsAndMembers().then(() => {
@@ -133,7 +135,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
         expect(wrapper.state().team).toEqual(null);
         await wrapper.instance().joinTeam(props);
@@ -146,7 +148,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
@@ -165,7 +167,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);

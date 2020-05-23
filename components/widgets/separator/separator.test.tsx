@@ -12,7 +12,7 @@ describe('components/widgets/separator', () => {
         const wrapper = shallow(
             <BasicSeparator>
                 {'Some text'}
-            </BasicSeparator>
+            </BasicSeparator>,
         );
         expect(wrapper).toMatchSnapshot();
     });

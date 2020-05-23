@@ -24,7 +24,7 @@ describe('components/admin_console/brand_image_setting', () => {
 
     test('should have called deleteBrandImage or uploadBrandImage on save depending on component state', () => {
         const wrapper = shallow(
-            <BrandImageSetting {...baseProps}/>
+            <BrandImageSetting {...baseProps}/>,
         );
 
         const instance = wrapper.instance();

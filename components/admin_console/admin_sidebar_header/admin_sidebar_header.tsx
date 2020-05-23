@@ -17,7 +17,7 @@ type Props = {
     currentUser: UserProfile& {last_picture_update?: number};
 }
 
-export default class SidebarHeader extends React.Component<Props> {
+export default class SidebarHeader extends React.PureComponent<Props> {
     public render() {
         const me = this.props.currentUser;
         let profilePicture = null;

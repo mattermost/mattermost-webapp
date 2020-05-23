@@ -16,7 +16,7 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
  * its outcome as either success, or failure accompanied by the
  * `message` property of the `err` object.
  */
-export default class RequestButton extends React.Component {
+export default class RequestButton extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -183,7 +183,7 @@ export default class RequestButton extends React.Component {
                         busy: false,
                         fail: errMsg,
                     });
-                }
+                },
             );
         };
 

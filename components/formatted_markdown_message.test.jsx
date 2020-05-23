@@ -54,7 +54,7 @@ describe('components/FormattedMarkdownMessage', () => {
             values: {
                 petName: 'http://www.mattermost.com',
             },
-            disableLinks: true
+            disableLinks: true,
         };
         const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...descriptor}/>));
         expect(wrapper).toMatchSnapshot();

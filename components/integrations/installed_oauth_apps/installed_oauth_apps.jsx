@@ -63,7 +63,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
     componentDidMount() {
         if (this.props.enableOAuthServiceProvider) {
             this.props.actions.loadOAuthAppsAndProfiles().then(
-                () => this.setState({loading: false})
+                () => this.setState({loading: false}),
             );
         }
     }

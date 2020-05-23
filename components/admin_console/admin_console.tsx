@@ -69,7 +69,7 @@ type Item = {
     url: string;
 }
 
-export default class AdminConsole extends React.Component<Props, State> {
+export default class AdminConsole extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
         this.state = {

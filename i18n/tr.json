@@ -2533,7 +2533,6 @@
   "save_button.saving": "Kaydediliyor",
   "search_bar.clear": "Arama sorgusunu temizle",
   "search_bar.search": "Arama",
-  "search_bar.usage.tips": "* İfadeleri aramak için **\"çift tırnak\"** kullanın\n* Belirli bir kullanıcının iletilerini bulmak için **kimden:** (from:) belirli bir kanalın iletilerini bulmak için **şurada:** (in:) ifadelerini kullanın\n* Belirli bir tarihteki iletileri bulmak için **tarih:** (on:) ifadesini kullanın\n* Belirli bir tarihten önceki iletileri bulmak için **önce:** (before:) ifadesini kullanın\n* Belirli bir tarihten sonraki iletileri bulmak için **sonra:** (after:) ifadesini kullanın",
   "search_bar.usage.title": "Arama Seçenekleri",
   "search_header.loading": "Aranıyor...",
   "search_header.results": "Arama Sonuçları",

@@ -25,7 +25,7 @@ describe('components/MessageSubmitError', () => {
         };
 
         const wrapper = shallow(
-            <MessageSubmitError {...props}/>
+            <MessageSubmitError {...props}/>,
         );
 
         expect(wrapper.find('[id="message_submit_error.invalidCommand"]').exists()).toBe(true);
@@ -46,7 +46,7 @@ describe('components/MessageSubmitError', () => {
         };
 
         const wrapper = shallow(
-            <MessageSubmitError {...props}/>
+            <MessageSubmitError {...props}/>,
         );
 
         expect(wrapper.find('[id="message_submit_error.invalidCommand"]').exists()).toBe(false);

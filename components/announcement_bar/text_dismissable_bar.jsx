@@ -65,7 +65,7 @@ export default class TextDismissableBar extends React.PureComponent {
                         message={text}
                         options={{
                             singleline: true,
-                            mentionHighlight: false
+                            mentionHighlight: false,
                         }}
                     />
                 }

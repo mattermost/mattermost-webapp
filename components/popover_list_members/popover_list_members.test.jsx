@@ -52,7 +52,7 @@ describe('components/PopoverListMembers', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
+            <PopoverListMembers {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -61,7 +61,7 @@ describe('components/PopoverListMembers', () => {
     test('should have called openDirectChannelToUserId when handleShowDirectChannel is called', (done) => {
         const browserHistory = require('utils/browser_history').browserHistory; //eslint-disable-line global-require
         const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
+            <PopoverListMembers {...baseProps}/>,
         );
 
         wrapper.instance().closePopover = jest.fn();
@@ -80,7 +80,7 @@ describe('components/PopoverListMembers', () => {
 
     test('should match state when closePopover is called', () => {
         const wrapper = shallow(
-            <PopoverListMembers {...baseProps}/>
+            <PopoverListMembers {...baseProps}/>,
         );
 
         wrapper.instance().componentDidUpdate = jest.fn();
@@ -94,7 +94,7 @@ describe('components/PopoverListMembers', () => {
         const props = {...baseProps, channel: {...channel, delete_at: 1234}};
 
         const wrapper = shallow(
-            <PopoverListMembers {...props}/>
+            <PopoverListMembers {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -104,7 +104,7 @@ describe('components/PopoverListMembers', () => {
         const props = {...baseProps, channel: {...channel, group_constrained: true}};
 
         const wrapper = shallow(
-            <PopoverListMembers {...props}/>
+            <PopoverListMembers {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

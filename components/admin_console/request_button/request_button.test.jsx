@@ -27,7 +27,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                         defaultMessage='Button Text'
                     />
                 }
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -53,7 +53,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                 }
                 saveNeeded={false}
                 saveConfigAction={saveConfigActionSuccess}
-            />
+            />,
         );
 
         wrapper.find('button').first().simulate('click');
@@ -83,7 +83,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                 }
                 saveNeeded={true}
                 saveConfigAction={saveConfigActionSuccess}
-            />
+            />,
         );
 
         wrapper.find('button').first().simulate('click');
@@ -116,7 +116,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                     id: 'success.message',
                     defaultMessage: 'Success Message',
                 }}
-            />
+            />,
         );
 
         wrapper1.find('button').first().simulate('click');
@@ -143,7 +143,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                     id: 'success.message',
                     defaultMessage: 'Success Message',
                 }}
-            />
+            />,
         );
 
         wrapper2.find('button').first().simulate('click');
@@ -178,7 +178,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                     id: 'error.message',
                     defaultMessage: 'Error Message: {error}',
                 }}
-            />
+            />,
         );
 
         wrapper1.find('button').first().simulate('click');
@@ -204,7 +204,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                     id: 'error.message',
                     defaultMessage: 'Error Message: {error}',
                 }}
-            />
+            />,
         );
 
         wrapper2.find('button').first().simulate('click');
