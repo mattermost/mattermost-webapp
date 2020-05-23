@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-export default class LatexBlock extends React.Component {
+export default class LatexBlock extends React.PureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired,
         enableLatex: PropTypes.bool.isRequired,

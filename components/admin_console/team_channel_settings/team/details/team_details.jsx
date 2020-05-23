@@ -24,7 +24,7 @@ import {TeamModes} from './team_modes';
 import {TeamGroups} from './team_groups';
 import TeamMembers from './team_members/index';
 
-export default class TeamDetails extends React.Component {
+export default class TeamDetails extends React.PureComponent {
     static propTypes = {
         teamID: PropTypes.string.isRequired,
         team: PropTypes.object.isRequired,

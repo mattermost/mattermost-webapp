@@ -88,7 +88,7 @@ interface ChannelDetailsState {
     teamScheme?: Scheme;
 }
 
-export default class ChannelDetails extends React.Component<ChannelDetailsProps, ChannelDetailsState> {
+export default class ChannelDetails extends React.PureComponent<ChannelDetailsProps, ChannelDetailsState> {
     constructor(props: ChannelDetailsProps) {
         super(props);
         this.state = {

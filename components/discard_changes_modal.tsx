@@ -12,7 +12,7 @@ type Props = {
     onCancel: (checked: boolean) => void;
 }
 
-export default class DiscardChangesModal extends React.Component<Props> {
+export default class DiscardChangesModal extends React.PureComponent<Props> {
     public render(): JSX.Element {
         const title: JSX.Element = (
             <FormattedMessage
