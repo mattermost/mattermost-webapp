@@ -102,7 +102,7 @@ export default class RhsThread extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props, prevState: State, snapshot?: boolean) {
+    public componentDidUpdate(prevProps: Props, prevState: State) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -118,10 +118,9 @@ export default class RhsThread extends React.Component<Props, State> {
             this.props.actions.getPostThread(this.props.selected.id);
         }
 
-        // if snapshot value, new posts have been added
-        // if at bottom of thread, continue to scroll after adding new post
+        // if near bottom of thread, continue to scroll after adding new post
         if (!Utils.areObjectsEqual(prevPostsArray, curPostsArray)) {
-            if (snapshot) {
+            if (prevState.isNearBottom) {
                 this.scrollToBottom();
             }
         }
@@ -173,14 +172,6 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         return false;
-    }
-
-    public getSnapshotBeforeUpdate(prevProps: Props, prevState: State) {
-        // if adding posts to thread, capture state of rhs to determine if scrolled to botttom
-        if (!Utils.areObjectsEqual(prevState.postsArray, this.props.posts)) {
-            return prevState.isNearBottom;
-        }
-        return null;
     }
 
     private handleResize = (): void => {
