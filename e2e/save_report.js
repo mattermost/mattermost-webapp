@@ -29,7 +29,7 @@ const {
     generateTestReport,
     removeOldGeneratedReports,
     sendReport,
-    writeJsonToFile
+    writeJsonToFile,
 } = require('./utils/report');
 const {saveArtifacts} = require('./utils/artifacts');
 const {MOCHAWESOME_REPORT_DIR} = require('./utils/constants');
@@ -62,7 +62,7 @@ const saveReport = async () => {
         {
             reportDir: MOCHAWESOME_REPORT_DIR,
             reportTitle: `Build:${BUILD_ID} Branch: ${BRANCH} Tag: ${BUILD_TAG}`,
-        }
+        },
     );
 
     // Generate short summary, write to file and then send report via webhook

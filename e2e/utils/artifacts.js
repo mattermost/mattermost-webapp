@@ -27,7 +27,7 @@ const {
 const s3 = new AWS.S3({
     signatureVersion: 'v4',
     accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
 
 function getFiles(dirPath) {
@@ -41,7 +41,7 @@ async function saveArtifacts() {
         return;
     }
 
-    const s3Folder = `${BUILD_ID}-${BRANCH}-${BUILD_TAG}`;
+    const s3Folder = `${BUILD_ID}-${BRANCH}-${BUILD_TAG}`.replace(/\./g, '-');
     const uploadPath = path.resolve(__dirname, `../${MOCHAWESOME_REPORT_DIR}`);
     const filesToUpload = await getFiles(uploadPath);
 
@@ -60,7 +60,7 @@ async function saveArtifacts() {
                             Key,
                             Bucket: AWS_S3_BUCKET,
                             Body: fs.readFileSync(file),
-                            ContentType: `${contentType}${charset ? '; charset=' + charset : ''}`
+                            ContentType: `${contentType}${charset ? '; charset=' + charset : ''}`,
                         },
                         (err) => {
                             if (err) {
@@ -68,7 +68,7 @@ async function saveArtifacts() {
                                 return rej(new Error(err));
                             }
                             res({success: true});
-                        }
+                        },
                     );
                 });
             }),
@@ -80,7 +80,7 @@ async function saveArtifacts() {
 
                 const reportLink = `https://${AWS_S3_BUCKET}.s3.amazonaws.com/${s3Folder}/mochawesome.html`;
                 resolve({success: true, reportLink});
-            }
+            },
         );
     });
 }
