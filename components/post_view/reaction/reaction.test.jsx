@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import Reaction from 'components/post_view/reaction/reaction.jsx';
 import {getSortedUsers} from 'utils/utils';
