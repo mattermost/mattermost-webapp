@@ -60,9 +60,9 @@ describe("Click another user's emoji reaction to add it", () => {
                 and('eq', 'rgba(22, 109, 224, 0.08)');
 
             // * The number shown on the "slightly_frowning_face" reaction is incremented by 1
-            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`)
-                .should('have.text', '2')
-                .should('be.visible');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
+                should('have.text', '2').
+                should('be.visible');
 
             // # Click on the + icon
             cy.get(`#addReaction-${postId}`).click({force: true});
@@ -84,9 +84,9 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.get(`#postReaction-${postId}-slightly_frowning_face`).click();
 
             // * The number shown on the "slightly_frowning_face" reaction  is decremented by 1
-            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`)
-                .should('have.text', '1')
-                .should('be.visible');
+            cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
+                should('have.text', '1').
+                should('be.visible');
 
             // # Click on the "sweat_smile" emoji
             cy.get(`#postReaction-${postId}-sweat_smile`).click();
