@@ -117,19 +117,34 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.show === true && this.props.show === false) {
-            this.onModalShown(nextProps);
-        } else if (nextProps.show === false && this.props.show === true) {
-            this.onModalHidden();
+    getSnapshotBeforeUpdate(prevProps) {
+        if (this.props.show === true && prevProps.show === false) {
+            return 'modalShown';
+        } else if (this.props.show === false && prevProps.show === true) {
+            return 'modalHidden';
         }
+        return null;
+    }
 
-        if (this.props.fileInfos.length !== nextProps.fileInfos.length) {
-            this.setState({
-                loaded: Utils.fillArray(false, nextProps.fileInfos.length),
-                progress: Utils.fillArray(0, nextProps.fileInfos.length),
-            });
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (snapshot !== null) {
+            if (snapshot === 'modalShown') {
+                this.onModalShown(prevProps);
+            } else {
+                this.onModalHidden();
+            }
         }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.fileInfos.length !== state.prevFileInfosCount) {
+            return {
+                loaded: Utils.fillArray(false, props.fileInfos.length),
+                progress: Utils.fillArray(0, props.fileInfos.length),
+                prevFileInfosCount: props.fileInfos.length,
+            };
+        }
+        return null;
     }
 
     showImage = (id) => {
