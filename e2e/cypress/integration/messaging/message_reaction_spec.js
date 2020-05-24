@@ -12,8 +12,8 @@
 
 import users from '../../fixtures/users.json';
 
-describe("Emoji reactions to posts/messages", () => {
-    it("adding a reaction to a post is visible to another user in the channel", () => {
+describe('Emoji reactions to posts/messages', () => {
+    it('adding a reaction to a post is visible to another user in the channel', () => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/town-square');
@@ -53,7 +53,7 @@ describe("Emoji reactions to posts/messages", () => {
                 should('be.visible');
         });
     });
-    it("another user adding to existing reaction increases reaction count", () => {
+    it('another user adding to existing reaction increases reaction count', () => {
         cy.getLastPostId().then((postId) => {
             // # Click on the "slightly_frowning_face" emoji
             cy.get(`#postReaction-${postId}-slightly_frowning_face`).click();
@@ -64,7 +64,7 @@ describe("Emoji reactions to posts/messages", () => {
                 should('be.visible');
         });
     });
-    it("a reaction added by current user has highlighted background color", () => {
+    it('a reaction added by current user has highlighted background color', () => {
         cy.getLastPostId().then((postId) => {
             // # The "slightly_frowning_face" emoji of the last post and the background color changes
             cy.get(`#postReaction-${postId}-slightly_frowning_face`).
@@ -88,8 +88,8 @@ describe("Emoji reactions to posts/messages", () => {
                 should('have.text', '1').
                 should('be.visible');
         });
-    })
-    it("can add a reaction to a post with an existing reaction", () => {
+    });
+    it('can add a reaction to a post with an existing reaction', () => {
         cy.getLastPostId().then((postId) => {
             // # Click on the + icon
             cy.get(`#addReaction-${postId}`).click({force: true});
@@ -108,7 +108,7 @@ describe("Emoji reactions to posts/messages", () => {
             cy.get(`#postReaction-${postId}-sweat_smile`).should('be.visible');
         });
     });
-    it("can remove a reaction to a post with an existing reaction", () => {
+    it('can remove a reaction to a post with an existing reaction', () => {
         cy.getLastPostId().then((postId) => {
             // * The "sweat_smile" should exist on the post
             cy.get(`#postReaction-${postId}-sweat_smile`).should('be.visible');
@@ -119,5 +119,5 @@ describe("Emoji reactions to posts/messages", () => {
             // * The "sweat_smile" emoji is removed
             cy.get(`#postReaction-${postId}-sweat_smile`).should('be.not.visible');
         });
-    }); 
+    });
 });
