@@ -132,6 +132,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         const newSorting = category.sorting === CategorySorting.Recency ? CategorySorting.Alphabetical : CategorySorting.Recency;
         this.props.actions.setCategorySorting(category.id, newSorting);
+        trackEvent('ui', `ui_sidebar_sort_dm_${newSorting}`);
     }
     removeAnimation = () => {
         if (this.newDropBoxRef.current) {
@@ -142,6 +143,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
+        trackEvent('ui', 'ui_sidebar_create_direct_message');
     }
 
     handleMenuToggle = (open: boolean) => {
