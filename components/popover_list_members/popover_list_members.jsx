@@ -16,7 +16,7 @@ import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
 
-export default class PopoverListMembers extends React.Component {
+export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         statuses: PropTypes.object.isRequired,

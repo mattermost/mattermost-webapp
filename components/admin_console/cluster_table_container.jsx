@@ -8,7 +8,7 @@ import LoadingScreen from '../loading_screen';
 
 import ClusterTable from './cluster_table.jsx';
 
-export default class ClusterTableContainer extends React.Component {
+export default class ClusterTableContainer extends React.PureComponent {
     constructor(props) {
         super(props);
 
