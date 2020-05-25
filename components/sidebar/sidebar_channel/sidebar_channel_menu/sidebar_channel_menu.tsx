@@ -31,7 +31,6 @@ type Props = {
     managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
     actions: {
-        createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: ChannelCategory};
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
@@ -85,16 +84,12 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         return () => this.props.actions.addChannelToCategory(categoryId, this.props.channel.id);
     }
 
-    handleCreateCategory = (teamId: string, displayName: string) => {
-        this.props.actions.createCategory(teamId, displayName, [this.props.channel.id]);
-    }
-
     moveToNewCategory = () => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
             dialogProps: {
-                createCategoryOverride: this.handleCreateCategory,
+                channelIdsToAdd: [this.props.channel.id],
             },
         });
     }

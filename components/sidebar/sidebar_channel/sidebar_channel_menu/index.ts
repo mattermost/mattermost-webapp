@@ -66,7 +66,6 @@ function makeMapStateToProps() {
 }
 
 type Actions = {
-    createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: ChannelCategory};
     markChannelAsRead: (channelId: string) => void;
     favoriteChannel: (channelId: string) => void;
     unfavoriteChannel: (channelId: string) => void;
@@ -79,7 +78,6 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            createCategory,
             markChannelAsRead,
             favoriteChannel,
             unfavoriteChannel,
