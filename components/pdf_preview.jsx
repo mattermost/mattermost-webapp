@@ -182,7 +182,7 @@ export default class PDFPreview extends React.PureComponent {
                             window.location.href = fileDownloadUrl;
                         }}
                     >
-                        {<i className='icon icon-download-outline'/> }
+                        {<i className='icon icon-download-outline pdf-download-btn-spacer'/> }
                         <FormattedMessage
                             id='pdf_preview.max_pages'
                             defaultMessage='Download to read more pages'
