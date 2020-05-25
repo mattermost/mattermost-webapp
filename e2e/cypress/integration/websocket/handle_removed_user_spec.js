@@ -9,7 +9,7 @@
 
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 function createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass) {
     // # Start with a new team
@@ -112,7 +112,7 @@ describe('Handle removed user - old sidebar', () => {
     });
 
     it('should be redirected to last channel when a user is removed from their current channel', () => {
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
 
         removeMeFromCurrentChannel().then(() => {
@@ -124,13 +124,13 @@ describe('Handle removed user - old sidebar', () => {
     });
 
     it('should remove mentions from RHS', () => {
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
         shouldRemoveMentionsInRHS(teamName, sidebarItemClass);
     });
 
     it('should remove flagged posts from RHS', () => {
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
         shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass);
     });
@@ -152,7 +152,7 @@ describe('Handle removed user - new sidebar', () => {
     });
 
     it('should be redirected to last channel when a user is removed from their current channel', () => {
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
 
         removeMeFromCurrentChannel().then(() => {
@@ -163,13 +163,13 @@ describe('Handle removed user - new sidebar', () => {
     });
 
     it('should remove mentions from RHS', () => {
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
         shouldRemoveMentionsInRHS(teamName, sidebarItemClass);
     });
 
     it('should remove flagged posts from RHS', () => {
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass);
         shouldRemoveFlaggedPostsInRHS(teamName, sidebarItemClass);
     });

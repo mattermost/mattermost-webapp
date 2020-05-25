@@ -11,7 +11,7 @@ import {
     getGroupMembers as fetchMembers,
     getGroupSyncables as fetchGroupSyncables,
     patchGroupSyncable,
-    patchGroup
+    patchGroup,
 } from 'mattermost-redux/actions/groups';
 import {getGroup, getGroupTeams, getGroupChannels, getGroupMembers, getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
 

@@ -25,7 +25,7 @@ describe('admin_console/team_channel_settings/group/GroupUsers', () => {
             <GroupUsers
                 {...defaultProps}
                 members={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -40,7 +40,7 @@ describe('admin_console/team_channel_settings/group/GroupUsers', () => {
             <GroupUsers
                 {...defaultProps}
                 total={55}
-            />
+            />,
         );
 
         // First page

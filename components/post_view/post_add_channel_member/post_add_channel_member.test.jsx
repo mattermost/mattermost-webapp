@@ -75,7 +75,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         };
         const props = {...requiredProps, actions};
         const wrapper = shallow(
-            <PostAddChannelMember {...props}/>
+            <PostAddChannelMember {...props}/>,
         );
 
         wrapper.find('a').simulate('click');
@@ -97,7 +97,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         };
         const props = {...requiredProps, userIds, usernames, actions};
         const wrapper = shallow(
-            <PostAddChannelMember {...props}/>
+            <PostAddChannelMember {...props}/>,
         );
 
         wrapper.find('a').simulate('click');

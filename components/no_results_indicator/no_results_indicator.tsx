@@ -28,31 +28,31 @@ const iconMap: {[key in NoResultsVariant]: string } = {
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     [NoResultsVariant.ChannelSearch]: {
-        id: t('no_results.channel_search.title')
+        id: t('no_results.channel_search.title'),
     },
     [NoResultsVariant.Mentions]: {
-        id: t('no_results.mentions.title')
+        id: t('no_results.mentions.title'),
     },
     [NoResultsVariant.FlaggedPosts]: {
-        id: t('no_results.flagged_posts.title')
+        id: t('no_results.flagged_posts.title'),
     },
     [NoResultsVariant.PinnedPosts]: {
-        id: t('no_results.pinned_posts.title')
+        id: t('no_results.pinned_posts.title'),
     },
 };
 
 const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     [NoResultsVariant.ChannelSearch]: {
-        id: t('no_results.channel_search.subtitle')
+        id: t('no_results.channel_search.subtitle'),
     },
     [NoResultsVariant.Mentions]: {
-        id: t('no_results.mentions.subtitle')
+        id: t('no_results.mentions.subtitle'),
     },
     [NoResultsVariant.FlaggedPosts]: {
-        id: t('no_results.flagged_posts.subtitle')
+        id: t('no_results.flagged_posts.subtitle'),
     },
     [NoResultsVariant.PinnedPosts]: {
-        id: t('no_results.pinned_posts.subtitle')
+        id: t('no_results.pinned_posts.subtitle'),
     },
 };
 
@@ -71,14 +71,14 @@ const NoResultsIndicator = (props: Props) => {
                 <FormattedMessage
                     {...{
                         ...titleMap[props.variant],
-                        values: props.titleValues
+                        values: props.titleValues,
                     }}
                 />
             </div>
             <FormattedMessage
                 {...{
                     ...subtitleMap[props.variant],
-                    values: props.subtitleValues
+                    values: props.subtitleValues,
                 }}
             />
         </div>

@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @onboarding
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
-const uniqueUserId = getRandomInt(99999);
+const uniqueUserId = getRandomId();
 
 function signupWithEmail(name, pw) {
     // # Go to /login

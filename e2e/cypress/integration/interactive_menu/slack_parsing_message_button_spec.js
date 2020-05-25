@@ -83,7 +83,7 @@ function getPayload(webhookBaseUrl) {
                         spoiler: 'a < a | b > a',
                         skipSlackParsing: true,
                     },
-                }
+                },
             }, {
                 name: 'Do Parsing',
                 integration: {

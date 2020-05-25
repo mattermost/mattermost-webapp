@@ -9,7 +9,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 describe('components/backstage/components/BackstageHeader', () => {
     test('should match snapshot without children', () => {
         const wrapper = shallow(
-            <BackstageHeader/>
+            <BackstageHeader/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -19,7 +19,7 @@ describe('components/backstage/components/BackstageHeader', () => {
             <BackstageHeader>
                 <div>{'Child 1'}</div>
                 <div>{'Child 2'}</div>
-            </BackstageHeader>
+            </BackstageHeader>,
         );
         expect(wrapper).toMatchSnapshot();
     });
