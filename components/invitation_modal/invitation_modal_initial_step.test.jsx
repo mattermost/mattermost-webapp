@@ -14,7 +14,7 @@ describe('components/invitation_modal/InvitationModalInitialStep', () => {
                 goToMembers={jest.fn()}
                 goToGuests={jest.fn()}
                 emailInvitationsEnabled={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -26,7 +26,7 @@ describe('components/invitation_modal/InvitationModalInitialStep', () => {
                 goToMembers={jest.fn()}
                 goToGuests={jest.fn()}
                 emailInvitationsEnabled={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

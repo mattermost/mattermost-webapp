@@ -72,7 +72,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
 
     test('should match snapshot and contain correct buttons', () => {
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...baseProps}/>
+            <SidebarChannelMenu {...baseProps}/>,
         );
 
         expect(wrapper.find('#favorite-channel_id')).toHaveLength(1);
@@ -91,7 +91,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...props}/>
+            <SidebarChannelMenu {...props}/>,
         );
 
         expect(wrapper.find('#markAsRead-channel_id')).toHaveLength(1);
@@ -106,7 +106,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...props}/>
+            <SidebarChannelMenu {...props}/>,
         );
 
         expect(wrapper.find('#favorite-channel_id')).toHaveLength(0);
@@ -122,7 +122,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...props}/>
+            <SidebarChannelMenu {...props}/>,
         );
 
         expect(wrapper.find('#mute-channel_id')).toHaveLength(0);
@@ -141,7 +141,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...props}/>
+            <SidebarChannelMenu {...props}/>,
         );
 
         expect(wrapper.find('#copyLink-channel_id')).toHaveLength(0);
@@ -159,7 +159,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...props}/>
+            <SidebarChannelMenu {...props}/>,
         );
 
         expect(wrapper.find('#copyLink-channel_id')).toHaveLength(0);
@@ -178,7 +178,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...props}/>
+            <SidebarChannelMenu {...props}/>,
         );
 
         expect(wrapper.find('#leave-channel_id')).toHaveLength(0);
@@ -188,7 +188,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
 
     test('should copy state from SidebarMenu when refCallback is called', () => {
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...baseProps}/>
+            <SidebarChannelMenu {...baseProps}/>,
         ) as ShallowWrapper<typeof baseProps, any, SidebarChannelMenuType>;
 
         const ref = {
@@ -205,7 +205,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
 
     test('should call the close handler when leave channel is clicked', () => {
         const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...baseProps}/>
+            <SidebarChannelMenu {...baseProps}/>,
         ) as ShallowWrapper<typeof baseProps, any, SidebarChannelMenuType>;
 
         wrapper.instance().handleLeaveChannel({preventDefault: jest.fn(), stopPropagation: jest.fn()} as any);

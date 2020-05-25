@@ -17,7 +17,7 @@ describe('components/sidebar/channel_filter', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ChannelFilter {...baseProps}/>
+            <ChannelFilter {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -30,7 +30,7 @@ describe('components/sidebar/channel_filter', () => {
         };
 
         const wrapper = shallow(
-            <ChannelFilter {...props}/>
+            <ChannelFilter {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -38,7 +38,7 @@ describe('components/sidebar/channel_filter', () => {
 
     test('should enable the unread filter on toggle when it is disabled', () => {
         const wrapper = shallow<ChannelFilter>(
-            <ChannelFilter {...baseProps}/>
+            <ChannelFilter {...baseProps}/>,
         );
 
         wrapper.instance().toggleUnreadFilter();
@@ -52,7 +52,7 @@ describe('components/sidebar/channel_filter', () => {
         };
 
         const wrapper = shallow<ChannelFilter>(
-            <ChannelFilter {...props}/>
+            <ChannelFilter {...props}/>,
         );
 
         wrapper.instance().toggleUnreadFilter();

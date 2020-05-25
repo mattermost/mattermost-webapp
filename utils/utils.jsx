@@ -90,7 +90,7 @@ export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)) // alt/option + enter is already handled in Safari, so don't handle again
+            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 

@@ -20,7 +20,7 @@ describe('components/sidebar/sidebar_menu', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarMenu {...baseProps}/>
+            <SidebarMenu {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -28,7 +28,7 @@ describe('components/sidebar/sidebar_menu', () => {
 
     test('should set menu state and set position when menu is toggled', () => {
         const wrapper = shallow<SidebarMenu>(
-            <SidebarMenu {...baseProps}/>
+            <SidebarMenu {...baseProps}/>,
         );
 
         wrapper.instance().setMenuPosition = jest.fn();
@@ -44,7 +44,7 @@ describe('components/sidebar/sidebar_menu', () => {
 
     test('should call external onToggle when menu is toggled', () => {
         const wrapper = shallow<SidebarMenu>(
-            <SidebarMenu {...baseProps}/>
+            <SidebarMenu {...baseProps}/>,
         );
 
         wrapper.instance().handleMenuToggle(true);
@@ -61,7 +61,7 @@ describe('components/sidebar/sidebar_menu', () => {
         }));
 
         const wrapper = shallow<SidebarMenu>(
-            <SidebarMenu {...baseProps}/>
+            <SidebarMenu {...baseProps}/>,
         );
 
         wrapper.instance().menuButtonRef = {

@@ -24,7 +24,6 @@ import Constants, {StoragePrefixes} from 'utils/constants';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
-import PermalinkRedirector from 'components/permalink_redirector';
 import {makeAsyncComponent} from 'components/async_load';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
@@ -82,12 +81,13 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
-export default class Root extends React.Component {
+export default class Root extends React.PureComponent {
     static propTypes = {
         diagnosticsEnabled: PropTypes.bool,
         diagnosticId: PropTypes.string,
         noAccounts: PropTypes.bool,
         showTermsOfService: PropTypes.bool,
+        permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
         }).isRequired,
@@ -251,9 +251,9 @@ export default class Root extends React.Component {
                 },
                 {
                     context: {
-                        ip: '0.0.0.0'
+                        ip: '0.0.0.0',
                     },
-                    anonymousId: '00000000000000000000000000'
+                    anonymousId: '00000000000000000000000000',
                 });
             }
         }
@@ -387,9 +387,13 @@ export default class Root extends React.Component {
                         path={'/mfa'}
                         component={Mfa}
                     />
-                    <LoggedInRoute
-                        path={['/_redirect/integrations*', '/_redirect/pl/:postid']}
-                        component={PermalinkRedirector}
+                    <Redirect
+                        from={'/_redirect/integrations/:subpath*'}
+                        to={`/${this.props.permalinkRedirectTeamName}/integrations/:subpath*`}
+                    />
+                    <Redirect
+                        from={'/_redirect/pl/:postid'}
+                        to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
                     {this.props.plugins?.map((plugin) => (
                         <Route

@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class ModalToggleButton extends React.Component {
+export default class ModalToggleButton extends React.PureComponent {
     constructor(props) {
         super(props);
 

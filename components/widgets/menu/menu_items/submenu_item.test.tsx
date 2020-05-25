@@ -18,7 +18,7 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
                 subMenu={[]}
                 action={jest.fn()}
                 root={true}
-            />
+            />,
         );
         expect(wrapper.html()).toEqual('<li class="SubMenuItem MenuItem" role="menuitem" id="1_menuitem"><div id="1" tabindex="0"><span id="channelHeaderDropdownIconLeft_1" class="fa fa-angle-left SubMenu__icon-left-empty" aria-label="submenu icon"></span>test<span id="channelHeaderDropdownIconRight_1" class="fa fa-angle-right SubMenu__icon-right-empty" aria-label="submenu icon"></span><ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden;"></ul></div></li>');
     });
@@ -42,7 +42,7 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
                 ]}
                 action={jest.fn()}
                 root={true}
-            />
+            />,
         );
         expect(wrapper.html()).toEqual('<li class="SubMenuItem MenuItem" role="menuitem" id="1_menuitem"><div id="1" tabindex="0"><span id="channelHeaderDropdownIconLeft_1" class="fa fa-angle-left SubMenu__icon-left" aria-label="submenu icon"></span>test<span id="channelHeaderDropdownIconRight_1" class="fa fa-angle-right SubMenu__icon-right-empty" aria-label="submenu icon"></span><ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden;"><li class="SubMenuItem MenuItem" role="menuitem" id="A_menuitem"><div id="A" tabindex="0"><span id="channelHeaderDropdownIconLeft_A" class="fa fa-angle-left SubMenu__icon-left-empty" aria-label="submenu icon"></span>Test A<span id="channelHeaderDropdownIconRight_A" class="fa fa-angle-right SubMenu__icon-right-empty" aria-label="submenu icon"></span><ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden; right: 0px;"></ul></div></li><li class="SubMenuItem MenuItem" role="menuitem" id="B_menuitem"><div id="B" tabindex="0"><span id="channelHeaderDropdownIconLeft_B" class="fa fa-angle-left SubMenu__icon-left-empty" aria-label="submenu icon"></span>Test B<span id="channelHeaderDropdownIconRight_B" class="fa fa-angle-right SubMenu__icon-right-empty" aria-label="submenu icon"></span><ul class="a11y__popup Menu dropdown-menu SubMenu" style="visibility: hidden; right: 0px;"></ul></div></li></ul></div></li>');
     });
@@ -71,7 +71,7 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
                 ]}
                 action={action1}
                 root={true}
-            />
+            />,
         );
         wrapper.setState({show: true});
         wrapper.find('#Z').at(1).simulate('click');
@@ -92,7 +92,7 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
                 subMenu={[]}
                 root={true}
                 direction={'right'}
-            />
+            />,
         );
 
         wrapper.instance().show = jest.fn();

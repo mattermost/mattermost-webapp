@@ -30,7 +30,7 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
 
     test('should match snapshot, on MentionsIcon', () => {
         const wrapper = shallow(
-            <HeaderIconWrapper {...baseProps}/>
+            <HeaderIconWrapper {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
 
         const props = {...baseProps, iconComponent: flagIcon, tooltipKey: 'flaggedPosts'};
         const wrapper = shallow(
-            <HeaderIconWrapper {...props}/>
+            <HeaderIconWrapper {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
 
         const props = {...baseProps, iconComponent: pinIcon, tooltipKey: 'pinnedPosts', buttonClass: 'pinned_posts_class'};
         const wrapper = shallow(
-            <HeaderIconWrapper {...props}/>
+            <HeaderIconWrapper {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -78,7 +78,7 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
 
         const props = {...baseProps, iconComponent: searchIcon, tooltipKey: 'search', buttonClass: 'search_class'};
         const wrapper = shallow(
-            <HeaderIconWrapper {...props}/>
+            <HeaderIconWrapper {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -91,7 +91,7 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
 
         const props = {...baseProps, iconComponent: pluginIcon, tooltipKey: 'plugin', tooltipText: 'plugin_tooltip_text'};
         const wrapper = shallow(
-            <HeaderIconWrapper {...props}/>
+            <HeaderIconWrapper {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -104,7 +104,7 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
 
         const props = {...baseProps, iconComponent: pluginIcon, tooltipKey: 'plugin'};
         const wrapper = shallow(
-            <HeaderIconWrapper {...props}/>
+            <HeaderIconWrapper {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

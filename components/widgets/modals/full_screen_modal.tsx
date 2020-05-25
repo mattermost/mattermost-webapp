@@ -23,7 +23,7 @@ type Props = {
     intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
 };
 
-class FullScreenModal extends React.Component<Props> {
+class FullScreenModal extends React.PureComponent<Props> {
     private modal = React.createRef<HTMLDivElement>();
 
     public componentDidMount() {

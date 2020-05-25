@@ -30,7 +30,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
 
     test('should match snapshot and contain correct buttons', () => {
         const wrapper = shallowWithIntl(
-            <SidebarCategoryMenu {...baseProps}/>
+            <SidebarCategoryMenu {...baseProps}/>,
         );
 
         expect(wrapper.find('#rename-category1')).toHaveLength(1);
@@ -50,7 +50,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SidebarCategoryMenu {...props}/>
+            <SidebarCategoryMenu {...props}/>,
         );
 
         expect(wrapper.find('#rename-category1')).toHaveLength(0);

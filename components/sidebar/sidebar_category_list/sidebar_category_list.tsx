@@ -321,7 +321,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                 this.props.currentChannel!.id,
                 allChannelIds,
                 this.props.unreadChannelIds,
-                direction
+                direction,
             );
 
             if (nextIndex !== -1) {
@@ -429,7 +429,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             <div
                 id='sidebar-left'
                 className={classNames('SidebarNavContainer a11y__region', {
-                    disabled: this.props.isUnreadFilterEnabled
+                    disabled: this.props.isUnreadFilterEnabled,
                 })}
                 data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
                 data-a11y-sort-order='7'

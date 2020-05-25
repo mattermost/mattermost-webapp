@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @integrations
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
@@ -129,9 +129,9 @@ describe('Integrations page', () => {
         cy.get('#addOauthApp').click();
 
         // # Fill in dummy details
-        cy.get('#name').type(`test-name${getRandomInt(10000)}`);
-        cy.get('#description').type(`test-descr${getRandomInt(10000)}`);
-        cy.get('#homepage').type(`https://dummy${getRandomInt(10000)}`);
+        cy.get('#name').type(`test-name${getRandomId()}`);
+        cy.get('#description').type(`test-descr${getRandomId()}`);
+        cy.get('#homepage').type(`https://dummy${getRandomId()}`);
         cy.get('#callbackUrls').type('https://dummy');
 
         // # Save
@@ -159,7 +159,7 @@ describe('Integrations page', () => {
         cy.get('#addBotAccount').click();
 
         // # Fill in dummy details
-        cy.get('#username').type(`test-bot${getRandomInt(10000)}`);
+        cy.get('#username').type(`test-bot${getRandomId()}`);
 
         // # Save
         cy.get('#saveBot').click();
