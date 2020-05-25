@@ -26,7 +26,7 @@ const getSortedListOfChannels = createSelector(
     getAllChannels,
     (teams) => Object.values(teams).
         filter((c) => (c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL) && c.delete_at === 0).
-        sort(compareByDisplayName)
+        sort(compareByDisplayName),
 );
 
 function mapStateToProps(state: GlobalState) {

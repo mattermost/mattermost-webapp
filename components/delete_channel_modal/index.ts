@@ -30,8 +30,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
             {
                 deleteChannel,
             },
-            dispatch
-        )
+            dispatch,
+        ),
     };
 }
 

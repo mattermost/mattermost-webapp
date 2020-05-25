@@ -25,7 +25,7 @@ describe('components/SuggestionList', () => {
             <SuggestionList
                 {...baseProps}
                 ariaLiveRef={React.createRef()}
-            />
+            />,
         );
 
         const instance = wrapper.instance();

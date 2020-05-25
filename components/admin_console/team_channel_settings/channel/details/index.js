@@ -55,7 +55,7 @@ function mapStateToProps(state, props) {
         channelID,
         channelPermissions,
         teamScheme,
-        guestAccountsEnabled
+        guestAccountsEnabled,
     };
 }
 

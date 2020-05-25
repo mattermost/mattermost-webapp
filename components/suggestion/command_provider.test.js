@@ -21,7 +21,7 @@ describe('CommandSuggestion', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <CommandSuggestion {...baseProps}/>
+            <CommandSuggestion {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

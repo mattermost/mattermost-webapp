@@ -264,7 +264,7 @@ export const EventTypes = Object.assign(
     },
     keyMirror({
         POST_LIST_SCROLL_TO_BOTTOM: null,
-    })
+    }),
 );
 
 export const A11yClassNames = {
@@ -745,7 +745,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE'
+    NO_WHERE: 'NO_WHERE',
 };
 
 export const PostListRowListIds = {

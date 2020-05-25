@@ -490,7 +490,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                     {this.renderFeatureLabel(key)}
                                 </label>
                             </div>
-                        </div>
+                        </div>,
                     );
                 });
 
@@ -501,7 +501,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                             id='user.settings.advance.preReleaseDesc'
                             defaultMessage="Check any pre-released features you'd like to preview.  You may also need to refresh the page before the setting will take effect."
                         />
-                    </div>
+                    </div>,
                 );
                 previewFeaturesSection = (
                     <SettingItemMax

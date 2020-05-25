@@ -319,17 +319,17 @@
     }
 }
 
-#GroupDisplayName{
-    &.group-profile{
+#groupDisplayName {
+    &.group-profile {
         padding-bottom: 0px;
     }
 }
 
-#GroupMention{
-    &.group-profile{
+#groupMention {
+    .group-profile {
         padding-top: 0px;
     }
-    &.group_at_mention_input {
+    .group-at-mention-input {
         padding-left: 30px;
     }
 }

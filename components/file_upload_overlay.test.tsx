@@ -11,7 +11,7 @@ describe('components/FileUploadOverlay', () => {
         const wrapper = shallow(
             <FileUploadOverlay
                 overlayType=''
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -21,7 +21,7 @@ describe('components/FileUploadOverlay', () => {
         const wrapper = shallow(
             <FileUploadOverlay
                 overlayType='right'
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe('components/FileUploadOverlay', () => {
         const wrapper = shallow(
             <FileUploadOverlay
                 overlayType='center'
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

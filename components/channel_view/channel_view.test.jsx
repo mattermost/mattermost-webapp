@@ -33,7 +33,7 @@ describe('components/channel_view', () => {
             <ChannelView
                 {...baseProps}
                 channelRolesLoading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -44,7 +44,7 @@ describe('components/channel_view', () => {
                 {...baseProps}
                 channelRolesLoading={true}
                 channelIsArchived={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

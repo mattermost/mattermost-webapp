@@ -138,7 +138,7 @@ class ToastWrapper extends React.PureComponent {
             postListIds,
             lastViewedBottom,
             updateNewMessagesAtInChannel,
-            actions
+            actions,
         } = this.props;
 
         if (!prevProps.atBottom && atBottom && atLatestPost) {
@@ -231,7 +231,7 @@ class ToastWrapper extends React.PureComponent {
                             <LocalDateTime
                                 eventTime={since}
                             />
-                        )
+                        ),
                     }}
                 />
             );

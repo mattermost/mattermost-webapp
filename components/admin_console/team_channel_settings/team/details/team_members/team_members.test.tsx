@@ -43,12 +43,12 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
             loadProfilesAndReloadTeamMembers: jest.fn(),
             searchProfilesAndTeamMembers: jest.fn(),
             setModalSearchTerm: jest.fn(),
-        }
+        },
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <TeamMembers {...baseProps}/>
+            <TeamMembers {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -61,7 +61,7 @@ describe('admin_console/team_channel_settings/team/TeamMembers', () => {
                 teamMembers={{}}
                 totalCount={0}
                 loading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -35,7 +35,7 @@ describe('components/TeamSettings', () => {
         collapseModal: jest.fn(),
         actions: baseActions,
         canInviteTeamMembers: true,
-        helpText: {helpText}
+        helpText: {helpText},
     };
 
     test('should handle bad updateTeamIcon function call', () => {
