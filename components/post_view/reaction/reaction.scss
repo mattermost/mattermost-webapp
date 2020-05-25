@@ -27,7 +27,7 @@
         border: solid 1px rgba(#3D3C40, .16);
         background-color: transparent;
     }
-    &:not(.Reaction.reacted) {
+    &:not(.Reaction--reacted) {
         &:hover {
             background-color: v(center-channel-bg);
             border-color: v(center-channel-color-16);
@@ -40,7 +40,7 @@
             fill: v(button-bg);
         }
     }
-    &.read-only {
+    &.Reaction--read-only {
         cursor: default;
     }
     &__add {
@@ -65,8 +65,8 @@
         overflow: hidden;
         line-height: 16px;
     }
-    &.reacted,
-    &.reacting {
+    &.Reaction--reacted,
+    &.Reaction--reacting {
         color: v(button-bg);
         background-color: v(button-bg-08);
         border-color: v(button-bg);
@@ -80,10 +80,10 @@
             fill: v(button-bg);
         }
     }
-    &.reacting {
+    &.Reaction--reacting {
         transition: border-color 200ms ease-in-out;
     }
-    &.unreacting {
+    &.Reaction--unreacting {
         transition: border-color 200ms ease-in-out;
     }
     .Reaction__number {
@@ -104,7 +104,7 @@
             left: 0;
         }
     }
-    &.reacting {
+    &.Reaction--reacting {
         .Reaction__number--display {
             visibility: hidden;
         }
@@ -117,7 +117,7 @@
             animation-timing-function: ease-in-out;
         }
     }
-    &.unreacting {
+    &.Reaction--unreacting {
         .Reaction__number--display {
             visibility: hidden;
         }

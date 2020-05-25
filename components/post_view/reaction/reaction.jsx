@@ -41,7 +41,7 @@ export default class Reaction extends React.Component {
         if (currentUserReacted) {
             this.state = {
                 userReacted: currentUserReacted,
-                reactedClass: 'Reaction reacted',
+                reactedClass: 'Reaction--reacted',
                 displayNumber: reactionCount,
                 reactedNumber: reactionCount,
                 unreactedNumber: reactionCount - 1,
@@ -49,7 +49,7 @@ export default class Reaction extends React.Component {
         } else {
             this.state = {
                 userReacted: currentUserReacted,
-                reactedClass: 'Reaction unreacted',
+                reactedClass: 'Reaction--unreacted',
                 displayNumber: reactionCount,
                 reactedNumber: reactionCount + 1,
                 unreactedNumber: reactionCount,
@@ -59,12 +59,12 @@ export default class Reaction extends React.Component {
         if (currentUserReacted && !canRemoveReaction) {
             this.state = {
                 ...this.state,
-                reactedClass: 'Reaction read-only',
+                reactedClass: 'Reaction--read-only',
             };
         } else if (!currentUserReacted && !canAddReaction) {
             this.state = {
                 ...this.state,
-                reactedClass: 'Reaction read-only',
+                reactedClass: 'Reaction--read-only',
             };
         }
 
@@ -73,48 +73,26 @@ export default class Reaction extends React.Component {
         this.reactedNumeralRef = React.createRef();
     }
 
-    shouldComponentUpdate(nextProps) {
-        // reaction count is changing
-        if (nextProps.reactionCount !== this.props.reactionCount) {
-            // if current user is reacting
-            if (!this.props.sortedUsers.currentUserReacted && nextProps.sortedUsers.currentUserReacted) {
-                this.setState({
+    static getDerivedStateFromProps(nextProps, prevState) {
+        // reaction count has changed, but not by current user
+        if (nextProps.reactionCount !== prevState.displayNumber && nextProps.sortedUsers.currentUserReacted === prevState.userReacted) {
+            // set counts relative to current user having reacted
+            if (prevState.userReacted) {
+                return {
                     displayNumber: nextProps.reactionCount,
                     reactedNumber: nextProps.reactionCount,
                     unreactedNumber: nextProps.reactionCount - 1,
-                });
-                return true;
+                };
             }
 
-            // if current user is unreacting
-            if (this.props.sortedUsers.currentUserReacted && !nextProps.sortedUsers.currentUserReacted) {
-                this.setState({
-                    displayNumber: nextProps.reactionCount,
-                    reactedNumber: nextProps.reactionCount + 1,
-                    unreactedNumber: nextProps.reactionCount,
-                });
-                return true;
-            }
-
-            // if another user is reacting/unreacting
-            if (this.props.sortedUsers.currentUserReacted === nextProps.sortedUsers.currentUserReacted) {
-                if (this.props.sortedUsers.currentUserReacted) {
-                    this.setState({
-                        displayNumber: nextProps.reactionCount,
-                        reactedNumber: nextProps.reactionCount,
-                        unreactedNumber: nextProps.reactionCount - 1,
-                    });
-                    return true;
-                }
-                this.setState({
-                    displayNumber: nextProps.reactionCount,
-                    reactedNumber: nextProps.reactionCount + 1,
-                    unreactedNumber: nextProps.reactionCount,
-                });
-                return true;
-            }
+            // set counts relative to current user having NOT reacted
+            return {
+                displayNumber: nextProps.reactionCount,
+                reactedNumber: nextProps.reactionCount + 1,
+                unreactedNumber: nextProps.reactionCount,
+            };
         }
-        return true;
+        return null;
     }
 
     handleClick = () => {
@@ -126,12 +104,12 @@ export default class Reaction extends React.Component {
             if (state.userReacted) {
                 return {
                     userReacted: false,
-                    reactedClass: 'Reaction unreacting',
+                    reactedClass: 'Reaction--unreacting',
                 };
             }
             return {
                 userReacted: true,
-                reactedClass: 'Reaction reacting',
+                reactedClass: 'Reaction--reacting',
             };
         });
     }
@@ -142,12 +120,12 @@ export default class Reaction extends React.Component {
         this.setState((state) => {
             if (state.userReacted) {
                 return {
-                    reactedClass: 'Reaction reacted',
+                    reactedClass: 'Reaction--reacted',
                     displayNumber: reactedNumber,
                 };
             }
             return {
-                reactedClass: 'Reaction unreacted',
+                reactedClass: 'Reaction--unreacted',
                 displayNumber: unreactedNumber,
             };
         });
@@ -270,8 +248,6 @@ export default class Reaction extends React.Component {
                         defaultMessage='(click to remove)'
                     />
                 );
-            } else {
-                //className += ' Reaction--read-only';
             }
         } else if (!currentUserReacted && canAddReaction) {
             clickTooltip = (
@@ -280,15 +256,13 @@ export default class Reaction extends React.Component {
                     defaultMessage='(click to add)'
                 />
             );
-        } else {
-            //className += ' Reaction--read-only';
         }
 
         return (
             <button
                 id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
                 aria-label={ariaLabelEmoji}
-                className={this.state.reactedClass}
+                className={`Reaction ${this.state.reactedClass}`}
                 onClick={this.handleClick}
                 ref={this.reactionButtonRef}
             >
