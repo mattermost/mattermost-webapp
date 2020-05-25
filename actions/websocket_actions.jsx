@@ -1159,7 +1159,7 @@ function handleGroupUpdatedEvent(msg) {
         {
             type: GroupTypes.RECEIVED_MY_GROUPS,
             data: [data],
-        }
+        },
     ]));
 }
 
