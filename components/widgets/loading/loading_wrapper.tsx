@@ -11,7 +11,7 @@ type Props = {
     children: React.ReactNode;
 }
 
-export default class LoadingWrapper extends React.Component<Props> {
+export default class LoadingWrapper extends React.PureComponent<Props> {
     public static defaultProps: Props = {
         loading: true,
         text: null,

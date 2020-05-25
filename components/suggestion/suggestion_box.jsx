@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class SuggestionBox extends React.Component {
+export default class SuggestionBox extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -454,7 +454,7 @@ export default class SuggestionBox extends React.Component {
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
-                provider.handleCompleteWord(term, matchedPretext);
+                provider.handleCompleteWord(term, matchedPretext, this.handlePretextChanged);
             }
         }
     }

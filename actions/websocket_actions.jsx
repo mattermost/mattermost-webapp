@@ -207,7 +207,7 @@ export function startPeriodicSync() {
                 reconnect(false);
             }
         },
-        SYNC_INTERVAL_MILLISECONDS
+        SYNC_INTERVAL_MILLISECONDS,
     );
 }
 
@@ -599,7 +599,7 @@ export function handlePostUnreadEvent(msg) {
                 msgCount: msg.data.msg_count,
                 mentionCount: msg.data.mention_count,
             },
-        }
+        },
     );
 }
 
@@ -1160,27 +1160,27 @@ function handleGroupUpdatedEvent(msg) {
 function handleGroupAssociatedToTeamEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_TEAM,
-        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]}
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]},
     });
 }
 
 function handleGroupNotAssociatedToTeamEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM,
-        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]}
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]},
     });
 }
 
 function handleGroupAssociatedToChannelEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL,
-        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]}
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
     });
 }
 
 function handleGroupNotAssociatedToChannelEvent(msg) {
     store.dispatch({
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
-        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]}
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
     });
 }

@@ -26,7 +26,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
 
     it('should match snapshot', () => {
         const wrapper = shallow(
-            <UserSettingsTheme {...requiredProps}/>
+            <UserSettingsTheme {...requiredProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -34,7 +34,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
 
     it('should saveTheme', async () => {
         const wrapper = shallow(
-            <UserSettingsTheme {...requiredProps}/>
+            <UserSettingsTheme {...requiredProps}/>,
         );
 
         await wrapper.instance().submitTheme();
@@ -58,7 +58,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         };
 
         const wrapper = shallow(
-            <UserSettingsTheme {...props}/>
+            <UserSettingsTheme {...props}/>,
         );
 
         wrapper.instance().setState({applyToAllTeams: true});

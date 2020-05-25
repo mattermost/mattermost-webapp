@@ -40,7 +40,7 @@ describe('components/post_view/ShowMore', () => {
             <ShowMore
                 {...baseProps}
                 isAttachmentText={true}
-            />
+            />,
         );
         wrapper.setState({isOverflow: true, isCollapsed: true});
         expect(wrapper).toMatchSnapshot();
@@ -51,7 +51,7 @@ describe('components/post_view/ShowMore', () => {
             <ShowMore
                 {...baseProps}
                 isAttachmentText={true}
-            />
+            />,
         );
         wrapper.setState({isOverflow: true, isCollapsed: false});
         expect(wrapper).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe('components/post_view/ShowMore', () => {
             <ShowMore
                 {...baseProps}
                 compactDisplay={true}
-            />
+            />,
         );
         wrapper.setState({isOverflow: true, isCollapsed: false});
         expect(wrapper).toMatchSnapshot();

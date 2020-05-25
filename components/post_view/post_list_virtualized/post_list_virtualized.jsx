@@ -241,7 +241,7 @@ class PostList extends React.PureComponent {
 
     getNewMessagesSeparatorIndex = (postListIds) => {
         return postListIds.findIndex(
-            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
         );
     }
 
@@ -441,7 +441,7 @@ class PostList extends React.PureComponent {
     initScrollToIndex = () => {
         if (this.props.focusedPostId) {
             const index = this.state.postListIds.findIndex(
-                (item) => item === this.props.focusedPostId
+                (item) => item === this.props.focusedPostId,
             );
             return {
                 index,

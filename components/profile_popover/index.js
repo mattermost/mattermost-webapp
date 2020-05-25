@@ -63,7 +63,7 @@ function mapStateToProps(state, ownProps) {
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
-        modals: state.views.modals.modalState
+        modals: state.views.modals.modalState,
     };
 }
 

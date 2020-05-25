@@ -12,7 +12,7 @@ describe('components/LocalDateTime', () => {
         const wrapper = mountWithIntl(
             <LocalDateTime
                 eventTime={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)').getTime()}
-            />
+            />,
         );
 
         expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 12:15:13 GMT+0000');
@@ -25,7 +25,7 @@ describe('components/LocalDateTime', () => {
                 eventTime={new Date('Fri Jan 12 2018 20:15:13 GMT+0800 (+08)').getTime()}
                 enableTimezone={false}
                 timeZone={'Australia/Sydney'}
-            />
+            />,
         );
 
         expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 12:15:13 GMT+0000');
@@ -39,7 +39,7 @@ describe('components/LocalDateTime', () => {
                 useMilitaryTime={true}
                 enableTimezone={false}
                 timeZone={'Australia/Sydney'}
-            />
+            />,
         );
 
         expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 15:15:13 GMT+0000');
@@ -51,7 +51,7 @@ describe('components/LocalDateTime', () => {
             <LocalDateTime
                 eventTime={new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)').getTime()}
                 enableTimezone={true}
-            />
+            />,
         );
 
         // Can't do an exact match here, since without a default, the timezone gets set to local
@@ -81,7 +81,7 @@ describe('components/LocalDateTime', () => {
         const wrapper = mountWithIntl(
             <LocalDateTime
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 10:15:13 GMT-1000 (US/Hawaii)');
         expect(wrapper.find('span').text()).toBe('10:15 AM');
@@ -112,7 +112,7 @@ describe('components/LocalDateTime', () => {
         const wrapper = mountWithIntl(
             <LocalDateTime
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 19:15:13 GMT-0900 (US/Alaska)');
         expect(wrapper.find('span').text()).toBe('19:15');

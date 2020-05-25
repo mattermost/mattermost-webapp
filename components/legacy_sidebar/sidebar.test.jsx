@@ -152,7 +152,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should match snapshot, on sidebar show', () => {
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -164,7 +164,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
                     ...defaultProps,
                     favoriteChannelIds: ['c1', 'c3', 'c5'],
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -177,7 +177,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
                     unreadChannelIds: ['c3', 'c5'],
                     showUnreadSection: true,
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -190,7 +190,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
                     unreadChannelIds: ['c3', 'c5'],
                     channelSwitcherOption: true,
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -202,7 +202,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
                     ...defaultProps,
                     currentTeam: null,
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
         wrapper = shallowWithIntl(
@@ -211,7 +211,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
                     ...defaultProps,
                     currentUser: null,
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -233,7 +233,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.scrollToChannel = jest.fn();
@@ -322,7 +322,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.scrollToChannel = jest.fn();
@@ -397,7 +397,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.handleOpenMoreDirectChannelsModal = jest.fn();
@@ -416,7 +416,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should show/hide correctly more channels modal', () => {
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.componentDidUpdate = jest.fn();
@@ -430,7 +430,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should show/hide correctly new channel modal', () => {
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.componentDidUpdate = jest.fn();
@@ -444,7 +444,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should show/hide correctly more direct channels modal', () => {
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.componentDidUpdate = jest.fn();
@@ -458,7 +458,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should verify if the channel is displayed for props', () => {
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         expect(instance.channelIdIsDisplayedForProps(instance.props.orderedChannelIds, 'c1')).toBe(true);
@@ -467,7 +467,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should handle correctly open more direct channels toggle', () => {
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.showMoreDirectChannelsModal = jest.fn();
@@ -487,7 +487,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         document.addEventListener = jest.fn();
         document.removeEventListener = jest.fn();
         const wrapper = shallowWithIntl(
-            <Sidebar {...defaultProps}/>
+            <Sidebar {...defaultProps}/>,
         );
         const instance = wrapper.instance();
 
