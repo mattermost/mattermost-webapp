@@ -136,6 +136,7 @@ describe('components/sidebar/sidebar_category', () => {
             category: {
                 ...baseProps.category,
                 type: CategoryTypes.DIRECT_MESSAGES,
+                sorting: CategorySorting.Recency,
             },
             channels: [],
         };

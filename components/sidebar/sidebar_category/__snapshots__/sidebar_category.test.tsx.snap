@@ -418,7 +418,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
       </div>
     </button>
     <button
-      aria-label="Sorted alphabetically"
+      aria-label="Sorted by recency"
       className="SidebarChannelGroupHeader_sortButton"
       onClick={[Function]}
     >
@@ -432,7 +432,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
             id="new-group-tooltip"
             placement="right"
           >
-            Sorted alphabetically
+            Sorted by recency
           </Tooltip>
         }
         placement="top"
@@ -444,7 +444,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
         }
       >
         <i
-          className="icon-sort-alphabetical-ascending"
+          className="icon-clock-outline"
         />
       </OverlayTrigger>
     </button>
