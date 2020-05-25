@@ -198,12 +198,12 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
                         }])}
                 >
                     <NoResultsIndicator
                         variant={NoResultsVariant.FlaggedPosts}
-                        subtitleValues={{icon: <FlagIcon className='icon  no-results__icon'/>
+                        subtitleValues={{icon: <FlagIcon className='icon  no-results__icon'/>,
                         }}
                     />
                 </div>
@@ -212,16 +212,16 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
                         }])}
                 >
                     <NoResultsIndicator
                         variant={NoResultsVariant.PinnedPosts}
-                        subtitleValues={{boldText: <strong>{'Pin to Channel'}</strong>}}
+                        subtitleValues={{text: <strong>{'Pin to Channel'}</strong>}}
                     />
                 </div>
             );
-        } else if (!searchTerms && noResults) {
+        } else if (!searchTerms && noResults && !this.props.isMentionSearch) {
             ctls = (
                 <div className='sidebar--right__subheader a11y__section'>
                     <SearchHint
@@ -234,7 +234,7 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
                         }])}
                 >
                     <NoResultsIndicator
@@ -246,7 +246,7 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
                         }])}
                 >
                     <NoResultsIndicator
@@ -347,8 +347,7 @@ class SearchResults extends React.Component {
                     <div
                         id='search-items-container'
                         role='application'
-                        className={classNames(['search-items-container post-list__table a11y__region',
-                        ])}
+                        className={classNames(['search-items-container post-list__table a11y__region'])}
                         data-a11y-sort-order='3'
                         data-a11y-focus-child={true}
                         data-a11y-loop-navigation={false}
