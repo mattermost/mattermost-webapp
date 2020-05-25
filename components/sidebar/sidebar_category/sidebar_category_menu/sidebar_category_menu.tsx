@@ -7,32 +7,63 @@ import {IntlShape, injectIntl} from 'react-intl';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
+import DeleteCategoryModal from 'components/delete_category_modal';
+import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
+import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
+    currentTeamId: string;
     category: ChannelCategory;
-    canCreatePublicChannel: boolean;
-    canCreatePrivateChannel: boolean;
     onToggle: (open: boolean) => void;
     intl: IntlShape;
+    actions: {
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
+            data: boolean;
+        }>;
+    };
 };
 
-class SidebarCategoryMenu extends React.PureComponent<Props> {
-    deleteCategory = () => {
+type State = {
+    showDeleteCategoryModal: boolean;
+}
 
+class SidebarCategoryMenu extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            showDeleteCategoryModal: false,
+        };
+    }
+
+    deleteCategory = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.DELETE_CATEGORY,
+            dialogType: DeleteCategoryModal,
+            dialogProps: {
+                category: this.props.category,
+            },
+        });
     }
 
     renameCategory = () => {
-
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+            dialogProps: {
+                categoryId: this.props.category.id,
+                initialCategoryName: this.props.category.display_name,
+            },
+        });
     }
 
     createCategory = () => {
-
-    }
-
-    createChannel = () => {
-
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+        });
     }
 
     renderDropdownItems = () => {
@@ -42,15 +73,13 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
         let renameCategory;
         if (category.type === CategoryTypes.CUSTOM) {
             deleteCategory = (
-                <Menu.Group>
-                    <Menu.ItemAction
-                        isDangerous={true}
-                        id={`delete-${category.id}`}
-                        onClick={this.deleteCategory}
-                        icon={<i className='icon-bell-outline'/>}
-                        text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.deleteCategory', defaultMessage: 'Delete Category'})}
-                    />
-                </Menu.Group>
+                <Menu.ItemAction
+                    isDangerous={true}
+                    id={`delete-${category.id}`}
+                    onClick={this.deleteCategory}
+                    icon={<i className='icon-trash-can-outline'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.deleteCategory', defaultMessage: 'Delete Category'})}
+                />
             );
 
             renameCategory = (
@@ -63,23 +92,11 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
             );
         }
 
-        let createChannel;
-        if (category.type !== CategoryTypes.FAVORITES && (this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel)) {
-            createChannel = (
-                <Menu.ItemAction
-                    id={`createChannel-${category.id}`}
-                    onClick={this.createChannel}
-                    icon={<i className='icon-plus'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.createChannel', defaultMessage: 'Create Channel'})}
-                />
-            );
-        }
-
         return (
             <React.Fragment>
                 <Menu.Group>
                     {renameCategory}
-                    {createChannel}
+                    {deleteCategory}
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemAction
@@ -89,7 +106,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
                         text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create Category'})}
                     />
                 </Menu.Group>
-                {deleteCategory}
             </React.Fragment>
         );
     }
@@ -98,15 +114,17 @@ class SidebarCategoryMenu extends React.PureComponent<Props> {
         const {intl, category} = this.props;
 
         return (
-            <SidebarMenu
-                id={`SidebarCategoryMenu-${category.id}`}
-                ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-                buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-                onToggle={this.props.onToggle}
-            >
-                {this.renderDropdownItems()}
-            </SidebarMenu>
+            <React.Fragment>
+                <SidebarMenu
+                    id={`SidebarCategoryMenu-${category.id}`}
+                    ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                    buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                    tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+                    onToggle={this.props.onToggle}
+                >
+                    {this.renderDropdownItems()}
+                </SidebarMenu>
+            </React.Fragment>
         );
     }
 }

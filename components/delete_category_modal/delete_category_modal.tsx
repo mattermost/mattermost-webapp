@@ -9,31 +9,51 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import './category_modal.scss';
+import '../category_modal.scss';
 
 type Props = {
     category: ChannelCategory;
     onHide: () => void;
-    deleteCategory: (category: ChannelCategory) => void;
+    actions: {
+        deleteCategory: (categoryId: string) => void;
+    };
 };
 
-export default class DeleteCategoryModal extends React.PureComponent<Props> {
-    handleCancel = () => {
-        this.props.onHide();
+type State = {
+    show: boolean;
+}
+
+export default class DeleteCategoryModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            show: true,
+        };
     }
 
-    handleConfirm = () => {
-        this.props.deleteCategory(this.props.category);
-        this.props.onHide();
+    handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        this.onHide();
+    }
+
+    handleConfirm = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        this.props.actions.deleteCategory(this.props.category.id);
+        this.onHide();
+    }
+
+    onHide = () => {
+        this.setState({show: false}, this.props.onHide);
     }
 
     render() {
         return (
             <Modal
                 dialogClassName='a11y__modal edit-category'
-                show={true}
-                onHide={this.props.onHide}
-                onExited={this.props.onHide}
+                show={this.state.show}
+                onHide={this.onHide}
+                onExited={this.onHide}
                 enforceFocus={true}
                 restoreFocus={true}
                 role='dialog'

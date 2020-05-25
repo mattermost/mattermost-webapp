@@ -12,7 +12,7 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
 import Pluggable from 'plugins/pluggable';
-import {Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import AddChannelDropdown from './add_channel_dropdown';
@@ -28,7 +28,11 @@ type Props = {
     canJoinPublicChannel: boolean;
     isOpen: boolean;
     actions: {
+        fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
+            data: boolean;
+        }>;
     };
 };
 
@@ -36,8 +40,6 @@ type State = {
     showDirectChannelsModal: boolean;
     showMoreChannelsModal: boolean;
     showNewChannelModal: boolean;
-    showCreateCategoryModal: boolean;
-    newCategoryIds: string[];
     isDragging: boolean;
 };
 
@@ -48,10 +50,20 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showNewChannelModal: false,
-            showCreateCategoryModal: false,
-            newCategoryIds: [],
             isDragging: false,
         };
+    }
+
+    componentDidMount() {
+        if (this.props.teamId) {
+            this.props.actions.fetchMyCategories(this.props.teamId);
+        }
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.teamId && prevProps.teamId !== this.props.teamId) {
+            this.props.actions.fetchMyCategories(this.props.teamId);
+        }
     }
 
     showMoreDirectChannelsModal = () => {
@@ -64,16 +76,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     showCreateCategoryModal = () => {
-        this.setState({showCreateCategoryModal: true});
-    }
-
-    hideCreateCategoryModal = () => {
-        this.setState({showCreateCategoryModal: false});
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+        });
     }
 
     handleCreateCategory = (categoryName: string) => {
         const result = this.props.actions.createCategory(this.props.teamId, categoryName);
-        this.state.newCategoryIds.push(result.data);
     }
 
     showMoreChannelsModal = () => {
@@ -138,18 +148,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             );
         }
 
-        let createCategoryModal;
-        if (this.state.showCreateCategoryModal) {
-            createCategoryModal = (
-                <EditCategoryModal
-                    onHide={this.hideCreateCategoryModal}
-                    editCategory={this.handleCreateCategory}
-                    modalHeaderText={Utils.localizeMessage('create_category_modal.createCategory', 'Create Category')}
-                    editButtonText={Utils.localizeMessage('create_category_modal.create', 'Create')}
-                />
-            );
-        }
-
         return (
             <React.Fragment>
                 <NewChannelFlow
@@ -161,7 +159,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 />
                 {moreDirectChannelsModal}
                 {moreChannelsModal}
-                {createCategoryModal}
             </React.Fragment>
         );
     }
@@ -195,7 +192,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarCategoryList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
-                    newCategoryIds={this.state.newCategoryIds}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />

@@ -29,7 +29,6 @@ exports[`components/sidebar should match snapshot 1`] = `
   />
   <Connect(SidebarCategoryList)
     handleOpenMoreDirectChannelsModal={[Function]}
-    newCategoryIds={Array []}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
@@ -72,7 +71,6 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
   />
   <Connect(SidebarCategoryList)
     handleOpenMoreDirectChannelsModal={[Function]}
-    newCategoryIds={Array []}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
@@ -119,7 +117,6 @@ exports[`components/sidebar should match snapshot when more channels modal is op
   />
   <Connect(SidebarCategoryList)
     handleOpenMoreDirectChannelsModal={[Function]}
-    newCategoryIds={Array []}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />

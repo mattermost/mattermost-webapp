@@ -2,42 +2,36 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {Dispatch, bindActionCreators} from 'redux';
+import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import Permissions from 'mattermost-redux/constants/permissions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
+
+import {openModal} from 'actions/views/modals';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
-type OwnProps = {
-    category: ChannelCategory;
-}
-
 function makeMapStateToProps() {
-    return (state: GlobalState, ownProps: OwnProps) => {
+    return (state: GlobalState) => {
         const currentTeam = getCurrentTeam(state);
 
-        let canCreatePublicChannel = false;
-        let canCreatePrivateChannel = false;
-
-        if (currentTeam) {
-            canCreatePublicChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PUBLIC_CHANNEL});
-            canCreatePrivateChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PRIVATE_CHANNEL});
-        }
-
         return {
-            canCreatePrivateChannel,
-            canCreatePublicChannel,
+            currentTeamId: currentTeam.id,
         };
     };
 }
 
+type Actions = {
+    openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
+        data: boolean;
+    }>;
+}
+
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+            openModal,
         }, dispatch),
     };
 }

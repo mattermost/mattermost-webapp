@@ -104,10 +104,23 @@
             &:hover {
                 background: alpha-color($black, .08);
             }
-        }
 
-        &.MenuItem__dangerous {
-            color: $red;
+            &.MenuItem__dangerous {
+                color: var(--dnd-indicator);
+
+                i {
+                    color: var(--dnd-indicator) !important;
+                }
+
+                &:hover {
+                    background-color: var(--dnd-indicator) !important;
+                    color: var(--sidebar-text);
+
+                    i {
+                        color: var(--sidebar-text) !important;
+                    }
+                }
+            }
         }
     }
 }

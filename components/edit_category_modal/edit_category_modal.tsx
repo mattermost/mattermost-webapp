@@ -6,20 +6,27 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+
 import QuickInput from 'components/quick_input';
 import {localizeMessage} from 'utils/utils';
 
-import './category_modal.scss';
+import '../category_modal.scss';
 
 type Props = {
-    modalHeaderText: string;
-    editButtonText: string;
     onHide: () => void;
-    editCategory: (categoryName: string) => void;
+    currentTeamId: string;
+    categoryId?: string;
+    initialCategoryName?: string;
+    actions: {
+        createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
+        renameCategory: (categoryId: string, newName: string) => void;
+    };
 };
 
 type State = {
     categoryName: string;
+    show: boolean;
 }
 
 export default class EditCategoryModal extends React.PureComponent<Props, State> {
@@ -27,7 +34,8 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         super(props);
 
         this.state = {
-            categoryName: '',
+            categoryName: props.initialCategoryName || '',
+            show: true,
         };
     }
 
@@ -39,23 +47,67 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         this.setState({categoryName: e.target.value});
     }
 
-    handleCancel = () => {
+    handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         this.handleClear();
-        this.props.onHide();
+        this.onHide();
     }
 
-    handleConfirm = () => {
-        this.props.editCategory(this.state.categoryName);
-        this.props.onHide();
+    handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        if (this.props.categoryId) {
+            this.props.actions.renameCategory(this.props.categoryId, this.state.categoryName);
+        } else {
+            this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName);
+        }
+        this.onHide();
+    }
+
+    onHide = () => {
+        this.setState({show: false}, this.props.onHide);
+    }
+
+    getText = () => {
+        let modalHeaderText = (
+            <FormattedMessage
+                id='create_category_modal.createCategory'
+                defaultMessage='Create Category'
+            />
+        );
+        let editButtonText = (
+            <FormattedMessage
+                id='create_category_modal.create'
+                defaultMessage='Create'
+            />
+        );
+
+        if (this.props.categoryId) {
+            modalHeaderText = (
+                <FormattedMessage
+                    id='rename_category_modal.renameCategory'
+                    defaultMessage='Rename Category'
+                />
+            );
+            editButtonText = (
+                <FormattedMessage
+                    id='rename_category_modal.rename'
+                    defaultMessage='Rename'
+                />
+            );
+        }
+
+        return {modalHeaderText, editButtonText};
     }
 
     render() {
+        const {modalHeaderText, editButtonText} = this.getText();
+
         return (
             <Modal
                 dialogClassName='a11y__modal edit-category'
-                show={true}
-                onHide={this.props.onHide}
-                onExited={this.props.onHide}
+                show={this.state.show}
+                onHide={this.onHide}
+                onExited={this.onHide}
                 enforceFocus={true}
                 restoreFocus={true}
                 role='dialog'
@@ -68,7 +120,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                     <Modal.Body>
                         <div className='edit-category__header'>
                             <h1 id='editCategoryModalLabel'>
-                                {this.props.modalHeaderText}
+                                {modalHeaderText}
                             </h1>
                         </div>
                         <div className='edit-category__body'>
@@ -81,7 +133,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                                 clearable={true}
                                 onClear={this.handleClear}
                                 onChange={this.handleChange}
-                                maxlength={22}
+                                maxLength={22}
                             />
                             <span className='edit-category__helpText'>
                                 <FormattedMessage
@@ -105,12 +157,12 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                         <button
                             type='submit'
                             className={classNames('edit_category__button create', {
-                                disabled: !this.state.categoryName,
+                                disabled: !this.state.categoryName || (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName),
                             })}
                             onClick={this.handleConfirm}
-                            disabled={!this.state.categoryName}
+                            disabled={!this.state.categoryName || (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName)}
                         >
-                            {this.props.editButtonText}
+                            {editButtonText}
                         </button>
                     </Modal.Footer>
                 </form>

@@ -202,6 +202,7 @@ export const ActionTypes = keyMirror({
 
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
+    ADD_NEW_CATEGORY_ID: null,
 
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
@@ -245,6 +246,8 @@ export const ModalIdentifiers = {
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
+    EDIT_CATEGORY: 'edit_category',
+    DELETE_CATEGORY: 'delete_category',
 };
 
 export const UserStatuses = {

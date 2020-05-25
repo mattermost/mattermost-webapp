@@ -10,6 +10,7 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
+import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
@@ -18,7 +19,9 @@ type Props = {
     channel: Channel;
     channelLink: string;
     categories?: ChannelCategory[];
+    currentCategory?: ChannelCategory;
     currentUserId: string;
+    currentTeamId: string;
     isUnread: boolean;
     isFavorite: boolean;
     isMuted: boolean;
@@ -27,16 +30,19 @@ type Props = {
     managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
     actions: {
+        createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: ChannelCategory};
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
         muteChannel: (userId: string, channelId: string) => void;
         unmuteChannel: (userId: string, channelId: string) => void;
         openModal: (modalData: any) => void;
+        addChannelToCategory: (categoryId: string, channelId: string) => void;
     };
 };
 
 type State = {
+    showCreateCategoryModal: boolean;
     openUp: boolean;
     width: number;
 };
@@ -48,6 +54,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
+            showCreateCategoryModal: false,
             openUp: false,
             width: 0,
         };
@@ -76,13 +83,23 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     moveToCategory = (categoryId: string) => {
-        return (id: string) => {
-            // TODO
-        };
+        return () => this.props.actions.addChannelToCategory(categoryId, this.props.channel.id);
+    }
+
+    showCreateCategoryModal = () => {
+        this.setState({showCreateCategoryModal: true});
+    }
+
+    hideCreateCategoryModal = () => {
+        this.setState({showCreateCategoryModal: false});
     }
 
     moveToNewCategory = () => {
-        // TODO
+        this.showCreateCategoryModal();
+    }
+
+    handleCreateCategory = (categoryName: string) => {
+        this.props.actions.createCategory(this.props.currentTeamId, categoryName, [this.props.channel.id]);
     }
 
     copyLink = () => {
@@ -182,16 +199,18 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         }
 
-        // TODO: Filter out the current category
         const categoryMenuItems = categories.filter((category) => {
+            if (category.id === this.props.currentCategory?.id) {
+                return false;
+            }
+
             switch (channel.type) {
             case Constants.OPEN_CHANNEL:
-                return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PRIVATE;
             case Constants.PRIVATE_CHANNEL:
-                return category.type !== CategoryTypes.DIRECT_MESSAGES && category.type !== CategoryTypes.PUBLIC;
+                return category.type !== CategoryTypes.DIRECT_MESSAGES;
             case Constants.DM_CHANNEL:
             case Constants.GM_CHANNEL:
-                return category.type !== CategoryTypes.PRIVATE && category.type !== CategoryTypes.PUBLIC;
+                return category.type !== CategoryTypes.CHANNELS;
             default:
                 return true;
             }
@@ -289,7 +308,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         );
     }
 
-    refCallback = (ref: SidebarMenu) => {
+    refCallback = (ref: SidebarMenuType) => {
         if (ref) {
             this.setState({
                 openUp: ref.state.openUp,
@@ -302,15 +321,17 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         const {intl, channel} = this.props;
 
         return (
-            <SidebarMenu
-                refCallback={this.refCallback}
-                id={`SidebarChannelMenu-${channel.id}`}
-                ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            >
-                {this.renderDropdownItems()}
-            </SidebarMenu>
+            <React.Fragment>
+                <SidebarMenu
+                    refCallback={this.refCallback}
+                    id={`SidebarChannelMenu-${channel.id}`}
+                    ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+                    buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+                    tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
+                >
+                    {this.renderDropdownItems()}
+                </SidebarMenu>
+            </React.Fragment>
         );
     }
 }

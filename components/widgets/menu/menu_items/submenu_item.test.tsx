@@ -90,7 +90,6 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
                 id={'1'}
                 text={'test'}
                 subMenu={[]}
-                action={jest.fn()}
                 root={true}
                 direction={'right'}
             />

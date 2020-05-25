@@ -5,47 +5,18 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {ChannelCategoryTypes} from 'mattermost-redux/action_types';
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import Permissions from 'mattermost-redux/constants/permissions';
-import {getCategoryIdsForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GenericAction, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
+import {createCategory} from 'actions/views/channel_sidebar';
+import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 
 import Sidebar from './sidebar';
-
-function mockCreateCategory(teamId: string, categoryName: string) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({
-            type: ChannelCategoryTypes.RECEIVED_CATEGORY,
-            data: {
-                id: `${teamId}-${categoryName}`,
-                team_id: teamId,
-                type: CategoryTypes.CUSTOM,
-                display_name: categoryName,
-                channel_ids: [],
-            },
-        });
-
-        const currentCategoryIds = Array.from(getCategoryIdsForTeam(getState(), teamId)!);
-        const indexOfFavorites = currentCategoryIds.findIndex((id) => id.includes('favorites'));
-        currentCategoryIds.splice(indexOfFavorites || 1, 0, `${teamId}-${categoryName}`);
-
-        dispatch({
-            type: ChannelCategoryTypes.RECEIVED_CATEGORY_ORDER,
-            data: {
-                teamId,
-                categoryIds: currentCategoryIds,
-            },
-        });
-
-        return {data: `${teamId}-${categoryName}`};
-    };
-}
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
@@ -70,13 +41,19 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
+    fetchMyCategories: (teamId: string) => {data: boolean};
     createCategory: (teamId: string, categoryName: string) => {data: string};
+    openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
+        data: boolean;
+    }>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            createCategory: mockCreateCategory,
+            createCategory,
+            fetchMyCategories,
+            openModal,
         }, dispatch),
     };
 }

@@ -19,6 +19,7 @@ type Props = {
     redirectChannel: string;
     active: boolean;
     membersCount: number;
+    isCollapsed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     };
@@ -59,6 +60,7 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
                 label={channel.display_name}
                 closeHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
+                isCollapsed={this.props.isCollapsed}
             />
         );
     }

@@ -9,9 +9,11 @@ import SidebarMenu from './sidebar_menu';
 describe('components/sidebar/sidebar_menu', () => {
     const baseProps = {
         id: 'menu_id',
+        children: null,
         tooltipText: 'some tooltip text',
         buttonAriaLabel: 'some aria label',
         ariaLabel: 'some other aria label',
+        draggingState: {},
         refCallback: jest.fn(),
         onToggle: jest.fn(),
     };

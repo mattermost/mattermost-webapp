@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -16,12 +17,15 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             team_id: 'team1',
             type: CategoryTypes.CUSTOM,
             display_name: 'custom_category_1',
+            channel_ids: ['channel_id'],
+            sorting: CategorySorting.Alphabetical,
         },
-        canCreatePublicChannel: true,
-        canCreatePrivateChannel: true,
+        currentTeamId: 'team1',
         isMuted: false,
         onToggle: jest.fn(),
-        actions: {},
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot and contain correct buttons', () => {
@@ -30,7 +34,6 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         );
 
         expect(wrapper.find('#rename-category1')).toHaveLength(1);
-        expect(wrapper.find('#createChannel-category1')).toHaveLength(1);
         expect(wrapper.find('#create-category1')).toHaveLength(1);
         expect(wrapper.find('#delete-category1')).toHaveLength(1);
 
@@ -52,22 +55,6 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
 
         expect(wrapper.find('#rename-category1')).toHaveLength(0);
         expect(wrapper.find('#delete-category1')).toHaveLength(0);
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot when user does not have permissions', () => {
-        const props = {
-            ...baseProps,
-            canCreatePrivateChannel: false,
-            canCreatePublicChannel: false,
-        };
-
-        const wrapper = shallowWithIntl(
-            <SidebarCategoryMenu {...props}/>
-        );
-
-        expect(wrapper.find('#createChannel-category1')).toHaveLength(0);
 
         expect(wrapper).toMatchSnapshot();
     });
