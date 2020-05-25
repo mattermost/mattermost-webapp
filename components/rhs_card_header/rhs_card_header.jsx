@@ -10,7 +10,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
 
-export default class RhsCardHeader extends React.Component {
+export default class RhsCardHeader extends React.PureComponent {
     static propTypes = {
         previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
         actions: PropTypes.shape({

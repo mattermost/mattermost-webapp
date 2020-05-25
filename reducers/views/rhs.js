@@ -173,8 +173,6 @@ function isSidebarOpen(state = false, action) {
         return false;
     case ActionTypes.OPEN_LHS:
         return false;
-    case TeamTypes.SELECT_TEAM:
-        return false;
     default:
         return state;
     }

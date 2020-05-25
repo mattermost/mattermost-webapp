@@ -20,7 +20,7 @@ type State = {
     serverError: string | null;
 }
 
-export default class TeamListDropdown extends React.Component<Props, State> {
+export default class TeamListDropdown extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 

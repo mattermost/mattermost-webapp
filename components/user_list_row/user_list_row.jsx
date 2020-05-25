@@ -11,7 +11,7 @@ import UserProfile from 'components/user_profile';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class UserListRow extends React.Component {
+export default class UserListRow extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         status: PropTypes.string,
