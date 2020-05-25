@@ -13,7 +13,7 @@ import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_gri
 
 import UserGridName from './user_grid_name';
 import UserGridRemove from './user_grid_remove';
-import UserGridRoleDropdown, {BaseMembership, Role} from './user_grid_role_dropdown';
+import UserGridRoleDropdown, {BaseMembership} from './user_grid_role_dropdown';
 
 import './user_grid.scss';
 
