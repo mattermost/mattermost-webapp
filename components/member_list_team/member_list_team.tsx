@@ -47,7 +47,7 @@ type State = {
     loading: boolean;
 }
 
-export default class MemberListTeam extends React.Component<Props, State> {
+export default class MemberListTeam extends React.PureComponent<Props, State> {
     private searchTimeoutId: number;
 
     constructor(props: Props) {

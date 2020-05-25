@@ -19,7 +19,7 @@ import {t} from 'utils/i18n.jsx';
 
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
-export default class GeneralTab extends React.Component {
+export default class GeneralTab extends React.PureComponent {
     static propTypes = {
         updateSection: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,

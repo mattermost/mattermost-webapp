@@ -12,7 +12,7 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
-export default class PermissionsTree extends React.Component {
+export default class PermissionsTree extends React.PureComponent {
     static propTypes = {
         scope: PropTypes.string.isRequired,
         config: PropTypes.object.isRequired,
