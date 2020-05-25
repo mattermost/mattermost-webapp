@@ -11,7 +11,6 @@ import debounce from 'lodash/debounce';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {Constants} from 'utils/constants';

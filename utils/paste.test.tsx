@@ -68,7 +68,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, '', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, '', clipboardData); // eslint-disable-line @typescript-eslint/no-unused-vars
         expect(message).toBe(message);
         expect(codeBlock).toBe(codeBlock);
     });
@@ -77,7 +77,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(4, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(4, 'test', clipboardData); // eslint-disable-line @typescript-eslint/no-unused-vars
         expect(message).toBe(message);
         expect(codeBlock).toBe(codeBlock);
     });
@@ -86,7 +86,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\ntest";
         const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, 'test', clipboardData); // eslint-disable-line @typescript-eslint/no-unused-vars
         expect(message).toBe(message);
         expect(codeBlock).toBe(codeBlock);
     });
@@ -95,7 +95,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "te\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\nst";
         const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(2, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(2, 'test', clipboardData); // eslint-disable-line @typescript-eslint/no-unused-vars
         expect(message).toBe(message);
         expect(codeBlock).toBe(codeBlock);
     });
