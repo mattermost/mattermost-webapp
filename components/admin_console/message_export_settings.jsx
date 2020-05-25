@@ -67,7 +67,7 @@ export default class MessageExportSettings extends AdminSettings {
                         values={{
                             count: job.data.messages_exported,
                         }}
-                    />
+                    />,
                 );
             }
             if (job.data.warning_count > 0) {
@@ -80,7 +80,7 @@ export default class MessageExportSettings extends AdminSettings {
                                 count: job.data.warning_count,
                             }}
                         />
-                    </div>
+                    </div>,
                 );
             }
             return message;

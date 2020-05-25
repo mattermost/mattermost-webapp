@@ -49,7 +49,7 @@ describe('components/permissions_gates', () => {
                     <SystemPermissionGate permissions={['test_system_permission']}>
                         <p>{'Valid permission (shown)'}</p>
                     </SystemPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe('components/permissions_gates', () => {
                     <SystemPermissionGate permissions={['test_system_permission', 'not_existing_permission']}>
                         <p>{'Valid permission (shown)'}</p>
                     </SystemPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Valid permission but inverted (not shown)'}</p>
                     </SystemPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -88,7 +88,7 @@ describe('components/permissions_gates', () => {
                     >
                         <p>{'Invalid permission but inverted (shown)'}</p>
                     </SystemPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -99,7 +99,7 @@ describe('components/permissions_gates', () => {
                     <SystemPermissionGate permissions={['invalid_permission']}>
                         <p>{'Invalid permission (not shown)'}</p>
                     </SystemPermissionGate>
-                </Provider>
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();

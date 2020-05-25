@@ -141,7 +141,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                 <FormattedMessage
                     id='admin.manage_roles.saveError'
                     defaultMessage='Unable to save roles.'
-                />
+                />,
             );
         }
     }

@@ -88,7 +88,7 @@ describe('components/PermalinkView', () => {
 
     test('should call baseProps.actions.focusPost on doPermalinkEvent', async () => {
         const wrapper = shallow(
-            <PermalinkView {...baseProps}/>
+            <PermalinkView {...baseProps}/>,
         );
 
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(1);
@@ -101,7 +101,7 @@ describe('components/PermalinkView', () => {
 
     test('should call baseProps.actions.focusPost when postid changes', async () => {
         const wrapper = shallow(
-            <PermalinkView {...baseProps}/>
+            <PermalinkView {...baseProps}/>,
         );
         const newPostid = `${baseProps.match.params.postid}_new`;
         await wrapper.setProps({...baseProps, match: {params: {postid: newPostid}}});
@@ -114,7 +114,7 @@ describe('components/PermalinkView', () => {
         const props = {...baseProps, channelIsArchived: true};
 
         const wrapper = shallow(
-            <PermalinkView {...props}/>
+            <PermalinkView {...props}/>,
         );
 
         wrapper.setState({valid: true});
@@ -129,9 +129,9 @@ describe('components/PermalinkView', () => {
                     profiles: {
                         dmchannel: {
                             id: 'dmchannel',
-                            username: 'otherUser'
-                        }
-                    }
+                            username: 'otherUser',
+                        },
+                    },
                 },
                 channels: {
                     channels: {
@@ -148,8 +148,8 @@ describe('components/PermalinkView', () => {
                             id: 'current_team_id',
                             display_name: 'currentteam',
                             name: 'currentteam',
-                        }
-                    }
+                        },
+                    },
                 },
             },
         };

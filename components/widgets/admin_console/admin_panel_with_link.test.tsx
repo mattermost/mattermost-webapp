@@ -24,7 +24,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
         const wrapper = shallow(
             <AdminPanelWithLink {...defaultProps}>
                 {'Test'}
-            </AdminPanelWithLink>
+            </AdminPanelWithLink>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminPanel
@@ -52,7 +52,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
 >
   Test
 </AdminPanel>
-`
+`,
         );
     });
 
@@ -63,7 +63,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
                 disabled={true}
             >
                 {'Test'}
-            </AdminPanelWithLink>
+            </AdminPanelWithLink>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminPanel
@@ -91,7 +91,7 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
 >
   Test
 </AdminPanel>
-`
+`,
         );
     });
 });

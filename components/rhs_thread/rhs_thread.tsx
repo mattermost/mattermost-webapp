@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import {FormattedMessage} from 'react-intl';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
@@ -25,25 +24,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingScreen from 'components/loading_screen';
 import {FakePost} from 'types/store/rhs';
 
-export function renderView(props: Record<string, any>) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--view'
-        />);
-}
-
-export function renderThumbHorizontal() {
-    return (<div/>);
-}
-
-export function renderThumbVertical(props: Record<string, any>) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--vertical'
-        />);
-}
+import './rhs_thread.scss';
 
 type Props = {
     posts: Post[];
@@ -60,6 +41,7 @@ type Props = {
         getPostThread: (rootId: string, root?: boolean) => void;
     };
     directTeammate: UserProfile;
+    selectedPostFocusedAt?: number;
 }
 
 type State = {
@@ -75,6 +57,8 @@ type State = {
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
+    private scrollbarsRef: React.RefObject<HTMLDivElement>;
+    private rhspostlistRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -104,6 +88,9 @@ export default class RhsThread extends React.Component<Props, State> {
             loading,
             openTime,
         };
+
+        this.scrollbarsRef = React.createRef<HTMLDivElement>();
+        this.rhspostlistRef = React.createRef<HTMLDivElement>();
     }
 
     public componentDidMount() {
@@ -123,6 +110,14 @@ export default class RhsThread extends React.Component<Props, State> {
     public componentDidUpdate(prevProps: Props) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
+
+        // scroll to bottom if this post is re-focused
+        // ex. clicking on reply in center channel
+        if (this.props.selectedPostFocusedAt && prevProps.selectedPostFocusedAt) {
+            if (this.props.selectedPostFocusedAt > prevProps.selectedPostFocusedAt) {
+                this.scrollToBottom();
+            }
+        }
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
             this.props.actions.getPostThread(this.props.selected.id, true);
@@ -164,6 +159,12 @@ export default class RhsThread extends React.Component<Props, State> {
             return true;
         }
 
+        if (nextProps.selectedPostFocusedAt && this.props.selectedPostFocusedAt) {
+            if (nextProps.selectedPostFocusedAt > this.props.selectedPostFocusedAt) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -194,10 +195,6 @@ export default class RhsThread extends React.Component<Props, State> {
         this.props.actions.selectPostCard(post);
     }
 
-    private onBusy = (isBusy: boolean) => {
-        this.setState({isBusy});
-    }
-
     private filterPosts = (posts: Post[], selected: Post | FakePost, openTime: number): Post[] => {
         const postsArray: Post[] = [];
 
@@ -215,9 +212,10 @@ export default class RhsThread extends React.Component<Props, State> {
         return postsArray;
     }
 
-    public scrollToBottom = (): void => {
-        if ($('.post-right__scroll')[0]) {
-            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
+    scrollToBottom = () => {
+        if (this.scrollbarsRef.current) {
+            const elem = this.scrollbarsRef.current;
+            elem.scrollTop = elem.scrollHeight - elem.clientHeight;
         }
     }
 
@@ -227,11 +225,11 @@ export default class RhsThread extends React.Component<Props, State> {
             return;
         }
 
-        if (this.props.posts) {
-            const childNodes = (this.refs.rhspostlist as HTMLElement).childNodes;
-            const viewPort = (this.refs.rhspostlist as HTMLElement).getBoundingClientRect();
-            let topRhsPostId = '';
+        if (this.props.posts && this.rhspostlistRef.current) {
+            const childNodes = this.rhspostlistRef.current.childNodes;
+            const viewPort = this.rhspostlistRef.current.getBoundingClientRect();
             const offset = 100;
+            let topRhsPostId = '';
 
             // determine the top rhs comment assuming that childNodes and postsArray are of same length
             for (let i = 0; i < childNodes.length; i++) {
@@ -330,7 +328,7 @@ export default class RhsThread extends React.Component<Props, State> {
                     handleCardClick={this.handleCardClickPost}
                     a11yIndex={a11yIndex++}
                     isLastPost={comPost.id === lastRhsCommentPost.id}
-                />
+                />,
             );
         }
 
@@ -393,13 +391,9 @@ export default class RhsThread extends React.Component<Props, State> {
                     channel={this.props.channel}
                     previousRhsState={this.props.previousRhsState}
                 />
-                <Scrollbars
-                    autoHide={true}
-                    autoHideTimeout={500}
-                    autoHideDuration={500}
-                    renderThumbHorizontal={renderThumbHorizontal}
-                    renderThumbVertical={renderThumbVertical}
-                    renderView={renderView}
+                <div
+                    className={'RhsThread__scrollbars'}
+                    ref={this.scrollbarsRef}
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
@@ -427,16 +421,16 @@ export default class RhsThread extends React.Component<Props, State> {
                             />
                             {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                             <div
-                                ref='rhspostlist'
+                                ref={this.rhspostlistRef}
                                 className='post-right-comments-container'
                                 id='rhsPostList'
                             >
                                 {commentsLists}
                             </div>
                         </div>
-                        {createComment}
                     </div>
-                </Scrollbars>
+                </div>
+                {createComment}
             </div>
         );
     }

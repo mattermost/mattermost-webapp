@@ -15,7 +15,7 @@ describe('components/error_page/ErrorLink', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ErrorLink {...baseProps}/>
+            <ErrorLink {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

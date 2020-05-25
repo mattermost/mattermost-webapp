@@ -10,7 +10,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {adminResetEmail} from 'actions/admin_actions.jsx';
 
-export default class ResetEmailModal extends React.Component {
+export default class ResetEmailModal extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         show: PropTypes.bool.isRequired,
@@ -62,7 +62,7 @@ export default class ResetEmailModal extends React.Component {
             (err) => {
                 const serverError = err.message ? err.message : err;
                 this.setState({error: serverError});
-            }
+            },
         );
     }
 

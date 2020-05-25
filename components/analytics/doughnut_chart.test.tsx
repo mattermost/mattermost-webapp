@@ -15,7 +15,7 @@ describe('components/analytics/doughnut_chart.tsx', () => {
                 title='Test'
                 height={400}
                 width={600}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe('components/analytics/doughnut_chart.tsx', () => {
                 height={400}
                 width={600}
                 data={data}
-            />
+            />,
         );
 
         expect(Chart).toBeCalledWith(expect.anything(), {data, options: {}, type: 'doughnut'});
@@ -52,7 +52,7 @@ describe('components/analytics/doughnut_chart.tsx', () => {
                 height={400}
                 width={600}
                 data={data}
-            />
+            />,
         );
         expect(Chart).toBeCalledWith(expect.anything(), {data, options: {}, type: 'doughnut'});
         expect(wrapper).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe('components/analytics/doughnut_chart.tsx', () => {
                 height={400}
                 width={600}
                 data={data}
-            />
+            />,
         ) as ReactWrapper<{}, {}, DoughnutChart>;
 
         expect(Chart).toBeCalled();
@@ -106,7 +106,7 @@ describe('components/analytics/doughnut_chart.tsx', () => {
                 height={400}
                 width={600}
                 data={oldData}
-            />
+            />,
         ) as ReactWrapper<{}, {}, DoughnutChart>;
 
         expect(Chart).toBeCalled();

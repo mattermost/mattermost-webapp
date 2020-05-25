@@ -93,7 +93,7 @@ describe('plugins/Pluggable', () => {
                     components={{}}
                     theme={{}}
                 />
-            </Provider>
+            </Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -106,7 +106,7 @@ describe('plugins/Pluggable', () => {
                     components={{PopoverSection1: [{component: ProfilePopoverPlugin}]}}
                     theme={{id: 'theme_id'}}
                 />
-            </Provider>
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -119,7 +119,7 @@ describe('plugins/Pluggable', () => {
                 pluggableName='PopoverSection1'
                 components={{PopoverSection1: [{component: ProfilePopoverPlugin}]}}
                 theme={{id: 'theme_id'}}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -131,7 +131,7 @@ describe('plugins/Pluggable', () => {
             <Pluggable
                 components={{PopoverSection1: [{component: ProfilePopoverPlugin}]}}
                 theme={{id: 'theme_id'}}
-            />
+            />,
         );
 
         expect(wrapper.type()).toBe(null);
@@ -143,7 +143,7 @@ describe('plugins/Pluggable', () => {
                 pluggableName='PopoverSection1'
                 components={{}}
                 theme={{id: 'theme_id'}}
-            />
+            />,
         );
 
         expect(wrapper.type()).toBe(null);

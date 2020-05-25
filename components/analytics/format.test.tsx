@@ -7,7 +7,7 @@ describe('components/analytics/format.tsx', () => {
     test('should syncronize chart date ranges', () => {
         const data1 = {
             datasets: [
-                {data: [1, 2]}
+                {data: [1, 2]},
             ],
             labels: ['date1', 'date2'],
         };

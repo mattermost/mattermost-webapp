@@ -15,7 +15,7 @@ describe('components/LoadingImagePreview', () => {
             <LoadingImagePreview
                 loading={loading}
                 progress={progress}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -48,7 +48,7 @@ describe('components/channel_layout/CenterChannel', () => {
         expect(baseProps.actions.onChannelByIdentifierEnter).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.onChannelByIdentifierEnter).toHaveBeenLastCalledWith({
             match: props2.match,
-            actions: baseProps.actions
+            actions: baseProps.actions,
         });
     });
 

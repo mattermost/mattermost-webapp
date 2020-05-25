@@ -117,7 +117,7 @@ const mockState = {
                 team: ['channel1', 'channel2'],
             },
             membersInChannel: {
-                otherChannel: {}
+                otherChannel: {},
             },
         },
         preferences: {
@@ -477,7 +477,7 @@ describe('handleNewPostEvent', () => {
                     ...initialState.entities.users,
                     isManualStatus: {
                         user2: true,
-                    }
+                    },
                 },
             },
         });
@@ -609,7 +609,7 @@ describe('handleUserTypingEvent', () => {
                         otheruser: {
                             id: 'otheruser',
                             roles: 'system_user',
-                        }
+                        },
                     },
                     statuses: {
                         ...initialState.entities.users.statuses,
