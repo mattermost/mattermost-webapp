@@ -11,13 +11,13 @@ describe('components/ClusterSettings', () => {
         license: {
             IsLicensed: 'true',
             Cluster: 'true',
-        }
+        },
     };
     test('should match snapshot, encryption disabled', () => {
         const props = {
             ...baseProps,
             value: [],
-        }
+        };
         const config = {
             ClusterSettings: {
                 Enable: true,
@@ -47,7 +47,7 @@ describe('components/ClusterSettings', () => {
         const props = {
             ...baseProps,
             value: [],
-        }
+        };
         const config = {
             ClusterSettings: {
                 Enable: true,
