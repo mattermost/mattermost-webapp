@@ -49,7 +49,7 @@ export default class GroupDetails extends React.PureComponent {
         members: [],
         groupTeams: [],
         groupChannels: [],
-        group: {name: '', display_name: '', allow_reference: false},
+        group: {name: '', allow_reference: false},
         memberCount: 0,
     };
 
@@ -60,7 +60,7 @@ export default class GroupDetails extends React.PureComponent {
             addTeamOpen: false,
             addChannelOpen: false,
             allowReference: Boolean(props.group.allow_reference),
-            groupMentionName: String(props.group.name),
+            groupMentionName: props.group.name,
             saving: false,
             saveNeeded: false,
             serverError: null,
@@ -81,7 +81,7 @@ export default class GroupDetails extends React.PureComponent {
                 loadingTeamsAndChannels: false,
                 group,
                 allowReference: Boolean(this.props.group.allow_reference),
-                groupMentionName: String(this.props.group.name),
+                groupMentionName: this.props.group.name,
             });
         });
     }
@@ -139,8 +139,7 @@ export default class GroupDetails extends React.PureComponent {
         const saveNeeded = true;
         let {groupMentionName} = this.state;
 
-        if (!originalAllowReference && allowReference &&
-            groupMentionName.length === 26 && new RegExp('^[a-z0-9]+$').test(groupMentionName)) {
+        if (!originalAllowReference && allowReference && (typeof groupMentionName === 'undefined' || groupMentionName === '')) {
             groupMentionName = group.display_name.toLowerCase().replace(/\s/g, '-');
         }
 
