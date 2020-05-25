@@ -243,7 +243,7 @@ describe('components/post_view/post_list', () => {
             const emptyPostList = [];
 
             const wrapper = shallow(
-                <PostList {...{...baseProps, postListIds: emptyPostList}}/>
+                <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
             );
 
             await wrapper.instance().componentWillUnmount();
