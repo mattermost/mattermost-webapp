@@ -24,7 +24,6 @@ import Constants, {StoragePrefixes} from 'utils/constants';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
-import PermalinkRedirector from 'components/permalink_redirector';
 import {makeAsyncComponent} from 'components/async_load';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
@@ -88,6 +87,7 @@ export default class Root extends React.PureComponent {
         diagnosticId: PropTypes.string,
         noAccounts: PropTypes.bool,
         showTermsOfService: PropTypes.bool,
+        permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
         }).isRequired,
@@ -387,9 +387,13 @@ export default class Root extends React.PureComponent {
                         path={'/mfa'}
                         component={Mfa}
                     />
-                    <LoggedInRoute
-                        path={['/_redirect/integrations*', '/_redirect/pl/:postid']}
-                        component={PermalinkRedirector}
+                    <Redirect
+                        from={'/_redirect/integrations/:subpath*'}
+                        to={`/${this.props.permalinkRedirectTeamName}/integrations/:subpath*`}
+                    />
+                    <Redirect
+                        from={'/_redirect/pl/:postid'}
+                        to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
                     {this.props.plugins?.map((plugin) => (
                         <Route
