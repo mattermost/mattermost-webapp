@@ -217,27 +217,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <AdminTextSetting
         helpText={
           <FormattedMessage
-            defaultMessage="A base64 encoded representation of the encryption key used. A key should be either 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256."
-            id="admin.cluster.EncryptionKeyDesc"
-            values={Object {}}
-          />
-        }
-        id="EncryptionKey"
-        label={
-          <FormattedMessage
-            defaultMessage="Encryption Key:"
-            id="admin.cluster.EncryptionKey"
-            values={Object {}}
-          />
-        }
-        onChange={[Function]}
-        placeholder="E.g.: \\"LO8rL0QLjPubWlcT7+tLtqlsihOYo15KmMpYXlP+I9M=\\""
-        setByEnv={false}
-        value=""
-      />
-      <AdminTextSetting
-        helpText={
-          <FormattedMessage
             defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
             id="admin.cluster.GossipPortDesc"
             values={Object {}}
@@ -535,27 +514,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           />
         }
         value={true}
-      />
-      <AdminTextSetting
-        helpText={
-          <FormattedMessage
-            defaultMessage="A base64 encoded representation of the encryption key used. A key should be either 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256."
-            id="admin.cluster.EncryptionKeyDesc"
-            values={Object {}}
-          />
-        }
-        id="EncryptionKey"
-        label={
-          <FormattedMessage
-            defaultMessage="Encryption Key:"
-            id="admin.cluster.EncryptionKey"
-            values={Object {}}
-          />
-        }
-        onChange={[Function]}
-        placeholder="E.g.: \\"LO8rL0QLjPubWlcT7+tLtqlsihOYo15KmMpYXlP+I9M=\\""
-        setByEnv={false}
-        value="jHMKqasC0deu3H033mw7oLDQ/HLDe2oR0UbtEvfhLUU="
       />
       <AdminTextSetting
         helpText={
