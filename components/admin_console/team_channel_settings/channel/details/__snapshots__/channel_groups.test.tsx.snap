@@ -27,6 +27,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelGroups should match 
         }
       }
       dialogType={[Function]}
+      id="addGroupsToChannelToggle"
     >
       <FormattedMessage
         defaultMessage="Add Group"
