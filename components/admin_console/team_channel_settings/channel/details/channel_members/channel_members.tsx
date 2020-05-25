@@ -95,7 +95,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchProfilesAndChannelMembers(searchTerm, {channel_id: this.props.channelId});
+                    await prevProps.actions.searchProfilesAndChannelMembers(searchTerm, {in_channel_id: this.props.channelId});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
@@ -139,13 +139,14 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm} = this.props;
         return (
             <AdminPanel
-                id='channel_members'
+                id='channelMembers'
                 titleId={t('admin.channel_settings.channel_detail.membersTitle')}
                 titleDefault='Members'
                 subtitleId={t('admin.channel_settings.channel_detail.membersDescription')}
                 subtitleDefault='A list of users who are currently in the channel right now'
                 button={
                     <ToggleModalButton
+                        id='addChannelMembers'
                         className='btn btn-primary'
                         dialogType={ChannelInviteModal}
                         dialogProps={{
