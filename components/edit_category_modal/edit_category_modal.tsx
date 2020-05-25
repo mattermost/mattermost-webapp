@@ -18,6 +18,7 @@ type Props = {
     currentTeamId: string;
     categoryId?: string;
     initialCategoryName?: string;
+    createCategoryOverride?: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
     actions: {
         createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
         renameCategory: (categoryId: string, newName: string) => void;
@@ -57,9 +58,12 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         event.preventDefault();
         if (this.props.categoryId) {
             this.props.actions.renameCategory(this.props.categoryId, this.state.categoryName);
+        } else if (this.props.createCategoryOverride) {
+            this.props.createCategoryOverride(this.props.currentTeamId, this.state.categoryName);
         } else {
             this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName);
         }
+
         this.onHide();
     }
 
