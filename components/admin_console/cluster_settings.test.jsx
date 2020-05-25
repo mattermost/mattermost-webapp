@@ -26,7 +26,6 @@ describe('components/ClusterSettings', () => {
                 UseIpAddress: false,
                 UseExperimentalGossip: true,
                 EnableExperimentalGossipEncryption: false,
-                EncryptionKey: '',
                 GossipPort: 8074,
                 SteamingPort: 8075,
             },
@@ -40,7 +39,6 @@ describe('components/ClusterSettings', () => {
         expect(wrapper).toMatchSnapshot();
 
         expect(wrapper.find('#EnableExperimentalGossipEncryption').prop('value')).toBe(false);
-        expect(wrapper.find('#EncryptionKey').prop('value')).toBe('');
     });
 
     test('should match snapshot, encryption enabled', () => {
@@ -56,7 +54,6 @@ describe('components/ClusterSettings', () => {
                 UseIpAddress: false,
                 UseExperimentalGossip: true,
                 EnableExperimentalGossipEncryption: true,
-                EncryptionKey: 'jHMKqasC0deu3H033mw7oLDQ/HLDe2oR0UbtEvfhLUU=',
                 GossipPort: 8074,
                 SteamingPort: 8075,
             },
@@ -70,6 +67,5 @@ describe('components/ClusterSettings', () => {
         expect(wrapper).toMatchSnapshot();
 
         expect(wrapper.find('#EnableExperimentalGossipEncryption').prop('value')).toBe(true);
-        expect(wrapper.find('#EncryptionKey').prop('value')).toBe('jHMKqasC0deu3H033mw7oLDQ/HLDe2oR0UbtEvfhLUU=');
     });
 });
