@@ -32,6 +32,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         }
       }
       dialogType={[Function]}
+      id="addTeamMembers"
     >
       <FormattedMessage
         defaultMessage="Add Members"
@@ -41,7 +42,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
     </ModalToggleButton>
   }
   className=""
-  id="team_members"
+  id="teamMembers"
   subtitleDefault="A list of users who are currently in the team right now"
   subtitleId="admin.team_settings.team_detail.membersDescription"
   titleDefault="Members"
@@ -231,6 +232,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         }
       }
       dialogType={[Function]}
+      id="addTeamMembers"
     >
       <FormattedMessage
         defaultMessage="Add Members"
@@ -240,7 +242,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
     </ModalToggleButton>
   }
   className=""
-  id="team_members"
+  id="teamMembers"
   subtitleDefault="A list of users who are currently in the team right now"
   subtitleId="admin.team_settings.team_detail.membersDescription"
   titleDefault="Members"
