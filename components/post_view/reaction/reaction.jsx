@@ -61,7 +61,7 @@ export default class Reaction extends React.Component {
                 ...this.state,
                 reactedClass: 'Reaction--read-only',
             };
-        } else if (!(currentUserReacted || canAddReaction)) {
+        } else if (!(currentUserReacted && canAddReaction)) {
             this.state = {
                 ...this.state,
                 reactedClass: 'Reaction--read-only',
@@ -97,7 +97,7 @@ export default class Reaction extends React.Component {
 
     handleClick = () => {
         // only proceed if user has permission to react
-        if (!(this.props.canAddReaction || this.props.canRemoveReaction)) {
+        if (!(this.props.canAddReaction && this.props.canRemoveReaction)) {
             return;
         }
         this.setState((state) => {
