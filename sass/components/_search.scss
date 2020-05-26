@@ -267,7 +267,7 @@
     box-sizing: border-box;
 
     &.highlighted {
-        background: var(--center-channel-color-06);
+        background: var(--center-channel-color-08);
     }
 }
 
@@ -302,6 +302,6 @@
     }
 
     .search-hint__suggestions-list__option:hover {
-        background: var(--center-channel-color-06);
+        background: var(--center-channel-color-08);
     }
 }
