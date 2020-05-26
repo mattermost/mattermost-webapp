@@ -91,8 +91,14 @@ export default class Reaction extends React.Component {
         const {reactionCount, canRemoveReaction, canAddReaction} = this.props;
         const {currentUserReacted} = this.props.sortedUsers;
 
+        this.state = {
+            canAddReaction,
+            canRemoveReaction,
+        };
+
         if (currentUserReacted) {
             this.state = {
+                ...this.state,
                 userReacted: currentUserReacted,
                 reactedClass: 'Reaction--reacted',
                 displayNumber: reactionCount,
@@ -101,6 +107,7 @@ export default class Reaction extends React.Component {
             };
         } else {
             this.state = {
+                ...this.state,
                 userReacted: currentUserReacted,
                 reactedClass: 'Reaction--unreacted',
                 displayNumber: reactionCount,
@@ -109,12 +116,7 @@ export default class Reaction extends React.Component {
             };
         }
 
-        if (currentUserReacted && !canRemoveReaction) {
-            this.state = {
-                ...this.state,
-                reactedClass: 'Reaction--read-only',
-            };
-        } else if (!(currentUserReacted && canAddReaction)) {
+        if (!canAddReaction || !canRemoveReaction) {
             this.state = {
                 ...this.state,
                 reactedClass: 'Reaction--read-only',
@@ -145,12 +147,57 @@ export default class Reaction extends React.Component {
                 unreactedNumber: nextProps.reactionCount,
             };
         }
+
+        // if permission to add reactions has changed
+        if (nextProps.canAddReaction !== prevState.canAddReaction) {
+            // if can't add reaction
+            if (!nextProps.canAddReaction) {
+                return {
+                    reactedClass: 'Reaction--read-only',
+                    canAddReaction: nextProps.canAddReaction,
+                };
+            }
+
+            // if can add reaction and has/hasn't reacted
+            if (nextProps.sortedUsers.currentUserReacted) {
+                return {
+                    reactedClass: 'Reaction--reacted',
+                    canAddReaction: nextProps.canAddReaction,
+                };
+            }
+            return {
+                reactedClass: '',
+                canAddReaction: nextProps.canAddReaction,
+            };
+        }
+
+        // if permission to remove reactions has changed
+        if (nextProps.canRemoveReaction !== prevState.canRemoveReaction) {
+            if (!nextProps.canRemoveReaction) {
+                return {
+                    reactedClass: 'Reaction--read-only',
+                    canRemoveReaction: nextProps.canRemoveReaction,
+                };
+            }
+
+            // if can remove reaction and has/hasn't reacted
+            if (nextProps.sortedUsers.currentUserReacted) {
+                return {
+                    reactedClass: 'Reaction--reacted',
+                    canRemoveReaction: nextProps.canRemoveReaction,
+                };
+            }
+            return {
+                reactedClass: '',
+                canRemoveReaction: nextProps.canRemoveReaction,
+            };
+        }
         return null;
     }
 
     handleClick = () => {
         // only proceed if user has permission to react
-        if (!(this.props.canAddReaction && this.props.canRemoveReaction)) {
+        if (!(this.props.canAddReaction || this.props.canRemoveReaction)) {
             return;
         }
         this.setState((state) => {
