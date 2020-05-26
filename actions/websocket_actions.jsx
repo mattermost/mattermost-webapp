@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 import {
     ChannelTypes,
     EmojiTypes,
+    GroupTypes,
     PostTypes,
     TeamTypes,
     UserTypes,
@@ -49,7 +50,7 @@ import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -206,7 +207,7 @@ export function startPeriodicSync() {
                 reconnect(false);
             }
         },
-        SYNC_INTERVAL_MILLISECONDS
+        SYNC_INTERVAL_MILLISECONDS,
     );
 }
 
@@ -424,6 +425,26 @@ export function handleEvent(msg) {
         handleOpenDialogEvent(msg);
         break;
 
+    case SocketEvents.RECEIVED_GROUP:
+        handleGroupUpdatedEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
+        handleGroupAssociatedToTeamEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM:
+        handleGroupNotAssociatedToTeamEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL:
+        handleGroupAssociatedToChannelEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL:
+        handleGroupNotAssociatedToChannelEvent(msg);
+        break;
+
     default:
     }
 
@@ -578,7 +599,7 @@ export function handlePostUnreadEvent(msg) {
                 msgCount: msg.data.msg_count,
                 mentionCount: msg.data.mention_count,
             },
-        }
+        },
     );
 }
 
@@ -729,6 +750,7 @@ function handleDirectAddedEvent(msg) {
 function handleUserAddedEvent(msg) {
     const state = getState();
     const config = getConfig(state);
+    const license = getLicense(state);
     const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
     const currentChannelId = getCurrentChannelId(state);
     if (currentChannelId === msg.broadcast.channel_id) {
@@ -737,10 +759,8 @@ function handleUserAddedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (isTimezoneEnabled) {
-            dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
-        } else {
-            dispatch(getChannelMemberCountsByGroup(currentChannelId, false));
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+            dispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
         }
     }
 
@@ -756,6 +776,7 @@ export async function handleUserRemovedEvent(msg) {
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
     const config = getConfig(state);
+    const license = getLicense(state);
     const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
     if (msg.broadcast.user_id === currentUser.id) {
@@ -769,6 +790,11 @@ export async function handleUserRemovedEvent(msg) {
         if (msg.data.channel_id === currentChannel.id) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
+
+                await dispatch({
+                    type: ChannelTypes.LEAVE_CHANNEL,
+                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+                });
             } else {
                 const user = getUser(state, msg.data.remover_id);
                 if (!user) {
@@ -783,6 +809,12 @@ export async function handleUserRemovedEvent(msg) {
                         removerId: msg.data.remover_id,
                     },
                 }));
+
+                await dispatch({
+                    type: ChannelTypes.LEAVE_CHANNEL,
+                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+                });
+
                 redirectUserToDefaultTeam();
             }
         }
@@ -796,10 +828,8 @@ export async function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (isTimezoneEnabled) {
-            dispatch(getChannelMemberCountsByGroup(currentChannel.id, true));
-        } else {
-            dispatch(getChannelMemberCountsByGroup(currentChannel.id, false));
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+            dispatch(getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled));
         }
     }
 
@@ -845,9 +875,13 @@ export async function handleUserUpdatedEvent(msg) {
     const user = msg.data.user;
 
     const config = getConfig(state);
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const license = getLicense(state);
+
     const userIsGuest = isGuest(user);
-    if (userIsGuest || isTimezoneEnabled) {
+    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
+    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
+
+    if (userIsGuest || (isTimezoneEnabled && isLDAPEnabled)) {
         let members = getMembersInCurrentChannel(state);
         const currentChannelId = getCurrentChannelId(state);
         let memberExists = members && members[user.id];
@@ -858,7 +892,7 @@ export async function handleUserUpdatedEvent(msg) {
         }
 
         if (memberExists) {
-            if (isTimezoneEnabled) {
+            if (isLDAPEnabled && isTimezoneEnabled) {
                 dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
             }
             if (isGuest(user)) {
@@ -1113,4 +1147,40 @@ function handleOpenDialogEvent(msg) {
     }
 
     store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
+}
+
+function handleGroupUpdatedEvent(msg) {
+    const data = JSON.parse(msg.data.group);
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP,
+        data,
+    });
+}
+
+function handleGroupAssociatedToTeamEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_TEAM,
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]},
+    });
+}
+
+function handleGroupNotAssociatedToTeamEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM,
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]},
+    });
+}
+
+function handleGroupAssociatedToChannelEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL,
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
+    });
+}
+
+function handleGroupNotAssociatedToChannelEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
+    });
 }

@@ -101,7 +101,7 @@ Cypress.on('test:after:run', (test, runnable) => {
 
         // Add context to the mochawesome report which includes the screenshot
         addContext({test}, {
-            title: 'Failing Screenshot',
+            title: 'Failing Screenshot: >> screenshots/' + Cypress.spec.name + '/' + filename,
             value: 'screenshots/' + Cypress.spec.name + '/' + filename,
         });
     }
@@ -111,6 +111,7 @@ Cypress.on('test:after:run', (test, runnable) => {
 before(() => {
     cy.apiLogin('sysadmin');
     cy.apiUpdateConfig();
+    cy.apiInvalidateCache();
 });
 
 // Add login cookies to whitelist to preserve it

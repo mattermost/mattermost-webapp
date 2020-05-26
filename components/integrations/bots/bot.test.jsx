@@ -27,7 +27,7 @@ describe('components/integrations/bots/Bot', () => {
                 owner={null}
                 accessTokens={{}}
                 team={team}
-            />
+            />,
         );
 
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
@@ -39,25 +39,25 @@ describe('components/integrations/bots/Bot', () => {
             <FormattedMessage
                 id='bot.manage.create_token'
                 defaultMessage='Create New Token'
-            />
+            />,
         )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bots.manage.edit'
                 defaultMessage='Edit'
-            />
+            />,
         )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.disable'
                 defaultMessage='Disable'
-            />
+            />,
         )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.enable'
                 defaultMessage='Enable'
-            />
+            />,
         )).toEqual(false);
     });
 
@@ -74,7 +74,7 @@ describe('components/integrations/bots/Bot', () => {
                 owner={null}
                 accessTokens={{}}
                 team={team}
-            />
+            />,
         );
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
         expect(wrapper.contains(<Markdown message={bot.description}/>)).toEqual(true);
@@ -83,25 +83,25 @@ describe('components/integrations/bots/Bot', () => {
             <FormattedMessage
                 id='bot.manage.create_token'
                 defaultMessage='Create New Token'
-            />
+            />,
         )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bots.manage.edit'
                 defaultMessage='Edit'
-            />
+            />,
         )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.disable'
                 defaultMessage='Disable'
-            />
+            />,
         )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.enable'
                 defaultMessage='Enable'
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -118,7 +118,7 @@ describe('components/integrations/bots/Bot', () => {
                 user={user}
                 accessTokens={{}}
                 team={team}
-            />
+            />,
         );
         expect(wrapper.contains(owner.username)).toEqual(true);
         expect(wrapper.contains('plugin')).toEqual(false);
@@ -128,19 +128,19 @@ describe('components/integrations/bots/Bot', () => {
             <FormattedMessage
                 id='bot.manage.create_token'
                 defaultMessage='Create New Token'
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bots.manage.edit'
                 defaultMessage='Edit'
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.disable'
                 defaultMessage='Disable'
-            />
+            />,
         )).toEqual(true);
     });
 
@@ -166,7 +166,7 @@ describe('components/integrations/bots/Bot', () => {
                 user={user}
                 accessTokens={accessTokens}
                 team={team}
-            />
+            />,
         );
 
         expect(wrapper.contains(tokenId)).toEqual(true);
@@ -174,13 +174,13 @@ describe('components/integrations/bots/Bot', () => {
             <FormattedMessage
                 id='user.settings.tokens.deactivate'
                 defaultMessage='Disable'
-            />
+            />,
         )).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
                 id='user.settings.tokens.activate'
                 defaultMessage='Enable'
-            />
+            />,
         )).toEqual(false);
     });
 
@@ -207,7 +207,7 @@ describe('components/integrations/bots/Bot', () => {
                 user={user}
                 accessTokens={accessTokens}
                 team={team}
-            />
+            />,
         );
 
         expect(wrapper.contains(tokenId)).toEqual(true);
@@ -215,13 +215,13 @@ describe('components/integrations/bots/Bot', () => {
             <FormattedMessage
                 id='user.settings.tokens.deactivate'
                 defaultMessage='Disable'
-            />
+            />,
         )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='user.settings.tokens.activate'
                 defaultMessage='Enable'
-            />
+            />,
         )).toEqual(true);
     });
 });

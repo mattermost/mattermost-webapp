@@ -46,9 +46,9 @@ export function handleNewPost(post, msg) {
         if (msg && msg.data) {
             const currentUserId = getCurrentUserId(state);
             if (msg.data.channel_type === Constants.DM_CHANNEL) {
-                loadNewDMIfNeeded(post.channel_id, currentUserId);
+                dispatch(loadNewDMIfNeeded(post.channel_id, currentUserId));
             } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
-                loadNewGMIfNeeded(post.channel_id);
+                dispatch(loadNewGMIfNeeded(post.channel_id));
             }
         }
     };
@@ -296,6 +296,6 @@ export function resetEmbedVisibility() {
 export function emitShortcutReactToLastPostFrom(emittedFrom) {
     return {
         type: ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST,
-        payload: emittedFrom
+        payload: emittedFrom,
     };
 }

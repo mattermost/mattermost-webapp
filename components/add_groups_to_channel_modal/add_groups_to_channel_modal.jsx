@@ -18,7 +18,7 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
 
-export default class AddGroupsToChannelModal extends React.Component {
+export default class AddGroupsToChannelModal extends React.PureComponent {
     static propTypes = {
         currentChannelName: PropTypes.string.isRequired,
         currentChannelId: PropTypes.string.isRequired,
@@ -78,7 +78,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                     await this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, searchTerm);
                     this.setGroupsLoadingState(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         }
     }

@@ -8,7 +8,7 @@ import {
     defineMessages,
     FormattedMessage,
     injectIntl,
-    IntlShape
+    IntlShape,
 } from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -87,7 +87,7 @@ type State = {
     resendStatus: string;
 }
 
-class UserSettingsModal extends React.Component<Props, State> {
+class UserSettingsModal extends React.PureComponent<Props, State> {
     private requireConfirm: boolean;
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
@@ -102,7 +102,7 @@ class UserSettingsModal extends React.Component<Props, State> {
             showConfirmModal: false,
             enforceFocus: true,
             show: true,
-            resendStatus: ''
+            resendStatus: '',
         };
 
         this.requireConfirm = false;

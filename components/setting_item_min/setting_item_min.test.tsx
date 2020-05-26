@@ -20,7 +20,7 @@ describe('components/SettingItemMin', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SettingItemMin {...baseProps}/>
+            <SettingItemMin {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -29,7 +29,7 @@ describe('components/SettingItemMin', () => {
     test('should match snapshot, on disableOpen to true', () => {
         const props = {...baseProps, disableOpen: true};
         const wrapper = shallow(
-            <SettingItemMin {...props}/>
+            <SettingItemMin {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -39,7 +39,7 @@ describe('components/SettingItemMin', () => {
         const updateSection = jest.fn();
         const props = {...baseProps, updateSection};
         const wrapper = shallow<SettingItemMin>(
-            <SettingItemMin {...props}/>
+            <SettingItemMin {...props}/>,
         );
 
         wrapper.instance().handleUpdateSection({preventDefault: jest.fn()} as any);
@@ -51,7 +51,7 @@ describe('components/SettingItemMin', () => {
         const updateSection = jest.fn();
         const props = {...baseProps, updateSection, section: ''};
         const wrapper = shallow<SettingItemMin>(
-            <SettingItemMin {...props}/>
+            <SettingItemMin {...props}/>,
         );
 
         wrapper.instance().handleUpdateSection({preventDefault: jest.fn()} as any);

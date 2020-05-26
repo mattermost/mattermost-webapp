@@ -61,7 +61,7 @@ export class SearchBar extends Component {
         saveSearchBarText: PropTypes.func,
         searchTextUpdate: PropTypes.func,
         defaultSearchText: PropTypes.string,
-        handleSearchTextChange: PropTypes.func.isRequired
+        handleSearchTextChange: PropTypes.func.isRequired,
     }
 
     constructor(props) {

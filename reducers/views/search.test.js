@@ -16,7 +16,7 @@ describe('Reducers.Search', () => {
                 modalSearch: '',
                 systemUsersSearch: {},
             },
-            {}
+            {},
         );
 
         expect(nextState).toEqual(initialState);
@@ -30,7 +30,7 @@ describe('Reducers.Search', () => {
             {
                 type: SearchTypes.SET_MODAL_SEARCH,
                 data: ' something ',
-            }
+            },
         );
 
         expect(nextState).toEqual({

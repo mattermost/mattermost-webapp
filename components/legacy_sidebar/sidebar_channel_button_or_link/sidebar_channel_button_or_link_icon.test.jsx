@@ -17,7 +17,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 channelId={'test-channel-id'}
                 channelStatus={'test'}
                 hasDraft={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -31,7 +31,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 teammateId={'test'}
                 teammateDeletedAt={1}
                 hasDraft={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -44,7 +44,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 channelId={'test-channel-id'}
                 membersCount={3}
                 hasDraft={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -56,7 +56,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 channelType={Constants.PRIVATE_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -68,7 +68,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -80,7 +80,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -92,7 +92,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -32,15 +32,15 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         isLicensed,
-        audits: Object.values(Selectors.getAudits(state))
+        audits: Object.values(Selectors.getAudits(state)),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            getAudits
-        }, dispatch)
+            getAudits,
+        }, dispatch),
     };
 }
 

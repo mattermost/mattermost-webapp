@@ -24,7 +24,7 @@ export default class Popover extends React.PureComponent<Props> {
     static defaultProps = {
         placement: 'right',
         popoverStyle: 'info',
-        popoverSize: 'sm'
+        popoverSize: 'sm',
 
     }
     render() {

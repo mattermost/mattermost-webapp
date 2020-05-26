@@ -30,10 +30,6 @@ module.exports = (on, config) => {
         urlHealthCheck,
     });
 
-    if (!config.env.setChromeWebSecurity) {
-        config.chromeWebSecurity = false;
-    }
-
     on('before:browser:launch', (browser = {}, launchOptions) => {
         if (browser.name === 'chrome') {
             launchOptions.args.push('--disable-notifications');

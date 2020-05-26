@@ -19,6 +19,7 @@ import * as Utils from 'utils/utils.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
+import Pluggable from 'plugins/pluggable';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -55,7 +56,9 @@ type Props = {
         loadProfilesForDirect: () => Promise<{}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{}>;
+        getGroupsByUserId: (userID: string) => Promise<{}>;
         getGroups: (filterAllowReference: boolean) => Promise<{}>;
+
     };
     mfaRequired: boolean;
     match: {
@@ -63,11 +66,13 @@ type Props = {
             team: string;
         };
     };
+    previousTeamId?: string;
     history: {
         push(path: string): void;
     };
     teamsList: Team[];
     theme: any;
+    plugins?: any;
 }
 
 type State = {
@@ -77,7 +82,7 @@ type State = {
     teamsList: Team[];
 }
 
-export default class NeedsTeam extends React.Component<Props, State> {
+export default class NeedsTeam extends React.PureComponent<Props, State> {
     public blurTime: number;
     constructor(props: Props) {
         super(props);
@@ -105,7 +110,7 @@ export default class NeedsTeam extends React.Component<Props, State> {
             team,
             finishedFetchingChannels: false,
             prevTeam: this.props.match.params.team,
-            teamsList: this.props.teamsList
+            teamsList: this.props.teamsList,
         };
 
         if (!team) {
@@ -120,7 +125,7 @@ export default class NeedsTeam extends React.Component<Props, State> {
                     teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
-                team: (team || null)
+                team: (team || null),
             };
         }
         return {prevTeam: nextProps.match.params.team};
@@ -208,12 +213,15 @@ export default class NeedsTeam extends React.Component<Props, State> {
     }
 
     initTeam = (team: Team) => {
+        if (team.id !== this.props.previousTeamId) {
+            GlobalActions.emitCloseRightHandSide();
+        }
+
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
         this.props.actions.getMyTeamUnreads();
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
-        GlobalActions.emitCloseRightHandSide();
 
         if (Utils.isGuest(this.props.currentUser)) {
             this.setState({finishedFetchingChannels: false});
@@ -223,7 +231,7 @@ export default class NeedsTeam extends React.Component<Props, State> {
                 this.setState({
                     finishedFetchingChannels: true,
                 });
-            }
+            },
         );
 
         this.props.actions.loadStatusesForChannelAndSidebar();
@@ -232,6 +240,10 @@ export default class NeedsTeam extends React.Component<Props, State> {
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
             this.props.license.LDAPGroups === 'true') {
+            if (this.props.currentUser) {
+                this.props.actions.getGroupsByUserId(this.props.currentUser.id);
+            }
+
             this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
             if (team.group_constrained) {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
@@ -289,6 +301,18 @@ export default class NeedsTeam extends React.Component<Props, State> {
                     path={'/:team/emoji'}
                     component={BackstageController}
                 />
+                {this.props.plugins?.map((plugin: any) => (
+                    <Route
+                        key={plugin.id}
+                        path={'/:team/' + plugin.route}
+                        render={() => (
+                            <Pluggable
+                                pluggableName={'NeedsTeamComponent'}
+                                pluggableId={plugin.id}
+                            />
+                        )}
+                    />
+                ))}
                 <Route
                     render={(renderProps) => (
                         <ChannelController

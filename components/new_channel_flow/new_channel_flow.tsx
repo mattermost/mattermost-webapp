@@ -85,7 +85,7 @@ type NewChannelData = {
     header: string;
 }
 
-export default class NewChannelFlow extends React.Component<Props, State> {
+export default class NewChannelFlow extends React.PureComponent<Props, State> {
     public static defaultProps = {
         show: false,
         channelType: Constants.OPEN_CHANNEL as ChannelType,
