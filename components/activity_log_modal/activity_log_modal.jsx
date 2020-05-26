@@ -98,7 +98,7 @@ export default class ActivityLogModal extends React.PureComponent {
                         locale={this.props.locale}
                         currentSession={currentSession}
                         submitRevoke={this.submitRevoke}
-                    />
+                    />,
                 );
                 return array;
             }, []);

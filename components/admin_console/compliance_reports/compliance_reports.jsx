@@ -69,7 +69,7 @@ export default class ComplianceReports extends React.PureComponent {
         }
 
         this.props.actions.getComplianceReports().then(
-            () => this.setState({loadingReports: false})
+            () => this.setState({loadingReports: false}),
         );
     }
 
@@ -77,7 +77,7 @@ export default class ComplianceReports extends React.PureComponent {
         this.setState({loadingReports: true});
 
         this.props.actions.getComplianceReports().then(
-            () => this.setState({loadingReports: false})
+            () => this.setState({loadingReports: false}),
         );
     }
 
@@ -104,7 +104,7 @@ export default class ComplianceReports extends React.PureComponent {
                 }
                 this.setState({runningReport: false});
                 this.props.actions.getComplianceReports();
-            }
+            },
         );
     }
 

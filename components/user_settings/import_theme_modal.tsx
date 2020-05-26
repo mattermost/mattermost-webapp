@@ -20,7 +20,7 @@ type State = {
     callback: ((args: {}) => void) | null;
 }
 
-export default class ImportThemeModal extends React.Component<{}, State> {
+export default class ImportThemeModal extends React.PureComponent<{}, State> {
     public constructor(props: {}) {
         super(props);
 

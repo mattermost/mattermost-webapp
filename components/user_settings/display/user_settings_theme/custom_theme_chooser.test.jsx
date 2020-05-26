@@ -16,7 +16,7 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
 
     it('should match, init', () => {
         const wrapper = shallow(
-            <CustomThemeChooser {...baseProps}/>
+            <CustomThemeChooser {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -24,7 +24,7 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
 
     it('should create a custom theme when the code theme changes', () => {
         const wrapper = shallow(
-            <CustomThemeChooser {...baseProps}/>
+            <CustomThemeChooser {...baseProps}/>,
         );
 
         const event = {

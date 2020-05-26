@@ -47,7 +47,7 @@ describe('components/Menu', () => {
                 ariaLabel='test-label'
             >
                 {'text'}
-            </Menu>
+            </Menu>,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -79,7 +79,7 @@ describe('components/Menu', () => {
                 ariaLabel='test-label'
             >
                 {'text'}
-            </Menu>
+            </Menu>,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -110,7 +110,7 @@ describe('components/Menu', () => {
                 ariaLabel='test-label'
             >
                 {'text'}
-            </Menu>
+            </Menu>,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`

@@ -23,7 +23,7 @@ import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-export default class SearchableChannelList extends React.Component {
+export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
     }
@@ -53,7 +53,7 @@ export default class SearchableChannelList extends React.Component {
             channel,
             () => {
                 this.setState({joiningChannel: ''});
-            }
+            },
         );
     }
 

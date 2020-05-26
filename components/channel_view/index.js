@@ -26,7 +26,7 @@ const getDeactivatedChannel = createSelector(
     },
     (teammate) => {
         return Boolean(teammate && teammate.delete_at);
-    }
+    },
 );
 
 function mapStateToProps(state) {

@@ -17,7 +17,7 @@ describe('components/QuickInput', () => {
         ].forEach(([description, props]) => {
             it(description, () => {
                 const wrapper = mount(
-                    <QuickInput {...props}/>
+                    <QuickInput {...props}/>,
                 );
 
                 expect(wrapper.find('.input-clear').exists()).toBe(false);
@@ -32,7 +32,7 @@ describe('components/QuickInput', () => {
                     value='mock'
                     clearable={true}
                     onClear={() => {}}
-                />
+                />,
             );
 
             expect(wrapper.find('.input-clear')).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe('components/QuickInput', () => {
                     clearable={true}
                     clearableTooltipText='Custom'
                     onClear={() => {}}
-                />
+                />,
             );
 
             expect(wrapper.find('.input-clear')).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe('components/QuickInput', () => {
                         <span>{'Custom'}</span>
                     }
                     onClear={() => {}}
-                />
+                />,
             );
 
             expect(wrapper.find('.input-clear')).toMatchSnapshot();
@@ -81,7 +81,7 @@ describe('components/QuickInput', () => {
                 clearable={true}
                 onClear={() => {}}
                 inputComponent={MockComp}
-            />
+            />,
         );
 
         wrapper.setProps({onClear: () => wrapper.setProps({value: ''})});

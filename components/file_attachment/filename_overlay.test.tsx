@@ -9,7 +9,7 @@ import DownloadIcon from 'components/widgets/icons/download_icon';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 
 describe('components/file_attachment/FilenameOverlay', () => {
-    function emptyFunction(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {} //eslint-disable-line no-empty-function
+    function emptyFunction() {} //eslint-disable-line no-empty-function
     const fileInfo = {
         id: 'thumbnail_id',
         name: 'test_filename',
@@ -35,7 +35,7 @@ describe('components/file_attachment/FilenameOverlay', () => {
 
     test('should match snapshot, standard display', () => {
         const wrapper = shallow(
-            <FilenameOverlay {...baseProps}/>
+            <FilenameOverlay {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe('components/file_attachment/FilenameOverlay', () => {
         const handleImageClick = jest.fn();
         const props = {...baseProps, compactDisplay: true, handleImageClick};
         const wrapper = shallow(
-            <FilenameOverlay {...props}/>
+            <FilenameOverlay {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe('components/file_attachment/FilenameOverlay', () => {
         const wrapper = shallow(
             <FilenameOverlay {...props}>
                 <DownloadIcon/>
-            </FilenameOverlay>
+            </FilenameOverlay>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -72,7 +72,7 @@ describe('components/file_attachment/FilenameOverlay', () => {
         const wrapper = shallow(
             <FilenameOverlay {...props}>
                 <DownloadIcon/>
-            </FilenameOverlay>
+            </FilenameOverlay>,
         );
 
         expect(wrapper).toMatchSnapshot();

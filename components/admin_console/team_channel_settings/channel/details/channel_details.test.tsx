@@ -83,6 +83,9 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             getChannelModerations: jest.fn().mockResolvedValue([]),
             patchChannelModerations: jest.fn(),
             loadScheme: jest.fn(),
+            addChannelMember: jest.fn(),
+            removeChannelMember: jest.fn(),
+            updateChannelMemberSchemeRoles: jest.fn(),
         };
 
         const additionalProps = {
@@ -104,7 +107,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channelID={testChannel.id}
                 allGroups={allGroups}
                 {...additionalProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -119,7 +122,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channelID={testChannel.id}
                 allGroups={allGroups}
                 {...additionalProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

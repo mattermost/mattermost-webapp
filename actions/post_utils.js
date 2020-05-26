@@ -70,21 +70,27 @@ export function lastPostActions(post, websocketMessageProps) {
 
         // Still needed to update unreads
 
-        dispatch(setChannelReadAndView(post, websocketMessageProps));
+        dispatch(setChannelReadAndViewed(post, websocketMessageProps));
 
         dispatch(sendDesktopNotification(post, websocketMessageProps));
     };
 }
 
-export function setChannelReadAndView(post, websocketMessageProps) {
+export function setChannelReadAndViewed(post, websocketMessageProps) {
     return (dispatch, getState) => {
         const state = getState();
-        if (shouldIgnorePost(post)) {
+        const currentUserId = getCurrentUserId(state);
+
+        // ignore system message posts, except when added to a team
+        if (shouldIgnorePost(post, currentUserId)) {
             return;
         }
 
         let markAsRead = false;
         let markAsReadOnServer = false;
+
+        // Skip marking a channel as read (when the user is viewing a channel)
+        // if they have manually marked it as unread.
         if (!isManuallyUnread(getState(), post.channel_id)) {
             if (
                 post.user_id === getCurrentUserId(state) &&

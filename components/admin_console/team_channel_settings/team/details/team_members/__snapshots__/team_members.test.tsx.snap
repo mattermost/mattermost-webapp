@@ -1,0 +1,266 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/team/TeamMembers should match snapshot 1`] = `
+<AdminPanel
+  button={
+    <ModalToggleButton
+      className="btn btn-primary"
+      dialogProps={
+        Object {
+          "excludeUsers": Object {},
+          "filterExcludeGuests": true,
+          "includeUsers": Object {},
+          "onAddCallback": [Function],
+          "skipCommit": true,
+          "team": Object {
+            "allow_open_invite": false,
+            "allowed_domains": "",
+            "company_name": "",
+            "create_at": 0,
+            "delete_at": 0,
+            "description": "",
+            "display_name": "name",
+            "email": "",
+            "group_constrained": false,
+            "id": "team-1",
+            "invite_id": "",
+            "name": "DN",
+            "scheme_id": "id",
+            "type": "O",
+            "update_at": 0,
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="addTeamMembers"
+    >
+      <FormattedMessage
+        defaultMessage="Add Members"
+        id="admin.team_settings.team_details.add_members"
+        values={Object {}}
+      />
+    </ModalToggleButton>
+  }
+  className=""
+  id="teamMembers"
+  subtitleDefault="A list of users who are currently in the team right now"
+  subtitleId="admin.team_settings.team_detail.membersDescription"
+  titleDefault="Members"
+  titleId="admin.team_settings.team_detail.membersTitle"
+>
+  <UserGrid
+    excludeUsers={Object {}}
+    includeUsers={Object {}}
+    loadPage={[Function]}
+    loading={true}
+    memberships={
+      Object {
+        "user-1": Object {
+          "delete_at": 0,
+          "mention_count": 0,
+          "msg_count": 0,
+          "roles": "team_user",
+          "scheme_admin": false,
+          "scheme_user": true,
+          "team_id": "team_id",
+          "user_id": "user-1",
+        },
+        "user-2": Object {
+          "delete_at": 0,
+          "mention_count": 0,
+          "msg_count": 0,
+          "roles": "team_user",
+          "scheme_admin": false,
+          "scheme_user": true,
+          "team_id": "team_id",
+          "user_id": "user-2",
+        },
+        "user-3": Object {
+          "delete_at": 0,
+          "mention_count": 0,
+          "msg_count": 0,
+          "roles": "team_user",
+          "scheme_admin": false,
+          "scheme_user": true,
+          "team_id": "team_id",
+          "user_id": "user-3",
+        },
+      }
+    }
+    removeUser={[Function]}
+    scope="team"
+    search={[Function]}
+    term=""
+    totalCount={3}
+    updateMembership={[Function]}
+    users={
+      Array [
+        Object {
+          "auth_data": "",
+          "auth_service": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "email": "",
+          "email_verified": true,
+          "first_name": "",
+          "id": "user-1",
+          "is_bot": false,
+          "last_name": "",
+          "last_picture_update": 0,
+          "locale": "",
+          "nickname": "",
+          "notify_props": Object {
+            "channel": "false",
+            "comments": "never",
+            "desktop": "default",
+            "desktop_sound": "false",
+            "email": "false",
+            "first_name": "false",
+            "mark_unread": "mention",
+            "mention_keys": "",
+            "push": "none",
+            "push_status": "offline",
+          },
+          "position": "",
+          "roles": "",
+          "terms_of_service_create_at": 0,
+          "terms_of_service_id": "",
+          "update_at": 0,
+          "username": "some-user",
+        },
+        Object {
+          "auth_data": "",
+          "auth_service": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "email": "",
+          "email_verified": true,
+          "first_name": "",
+          "id": "user-2",
+          "is_bot": false,
+          "last_name": "",
+          "last_picture_update": 0,
+          "locale": "",
+          "nickname": "",
+          "notify_props": Object {
+            "channel": "false",
+            "comments": "never",
+            "desktop": "default",
+            "desktop_sound": "false",
+            "email": "false",
+            "first_name": "false",
+            "mark_unread": "mention",
+            "mention_keys": "",
+            "push": "none",
+            "push_status": "offline",
+          },
+          "position": "",
+          "roles": "",
+          "terms_of_service_create_at": 0,
+          "terms_of_service_id": "",
+          "update_at": 0,
+          "username": "some-user",
+        },
+        Object {
+          "auth_data": "",
+          "auth_service": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "email": "",
+          "email_verified": true,
+          "first_name": "",
+          "id": "user-3",
+          "is_bot": false,
+          "last_name": "",
+          "last_picture_update": 0,
+          "locale": "",
+          "nickname": "",
+          "notify_props": Object {
+            "channel": "false",
+            "comments": "never",
+            "desktop": "default",
+            "desktop_sound": "false",
+            "email": "false",
+            "first_name": "false",
+            "mark_unread": "mention",
+            "mention_keys": "",
+            "push": "none",
+            "push_status": "offline",
+          },
+          "position": "",
+          "roles": "",
+          "terms_of_service_create_at": 0,
+          "terms_of_service_id": "",
+          "update_at": 0,
+          "username": "some-user",
+        },
+      ]
+    }
+  />
+</AdminPanel>
+`;
+
+exports[`admin_console/team_channel_settings/team/TeamMembers should match snapshot loading no users 1`] = `
+<AdminPanel
+  button={
+    <ModalToggleButton
+      className="btn btn-primary"
+      dialogProps={
+        Object {
+          "excludeUsers": Object {},
+          "filterExcludeGuests": true,
+          "includeUsers": Object {},
+          "onAddCallback": [Function],
+          "skipCommit": true,
+          "team": Object {
+            "allow_open_invite": false,
+            "allowed_domains": "",
+            "company_name": "",
+            "create_at": 0,
+            "delete_at": 0,
+            "description": "",
+            "display_name": "name",
+            "email": "",
+            "group_constrained": false,
+            "id": "team-1",
+            "invite_id": "",
+            "name": "DN",
+            "scheme_id": "id",
+            "type": "O",
+            "update_at": 0,
+          },
+        }
+      }
+      dialogType={[Function]}
+      id="addTeamMembers"
+    >
+      <FormattedMessage
+        defaultMessage="Add Members"
+        id="admin.team_settings.team_details.add_members"
+        values={Object {}}
+      />
+    </ModalToggleButton>
+  }
+  className=""
+  id="teamMembers"
+  subtitleDefault="A list of users who are currently in the team right now"
+  subtitleId="admin.team_settings.team_detail.membersDescription"
+  titleDefault="Members"
+  titleId="admin.team_settings.team_detail.membersTitle"
+>
+  <UserGrid
+    excludeUsers={Object {}}
+    includeUsers={Object {}}
+    loadPage={[Function]}
+    loading={true}
+    memberships={Object {}}
+    removeUser={[Function]}
+    scope="team"
+    search={[Function]}
+    term=""
+    totalCount={0}
+    updateMembership={[Function]}
+    users={Array []}
+  />
+</AdminPanel>
+`;
