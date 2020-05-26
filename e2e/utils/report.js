@@ -127,7 +127,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink) {
     }
 
     let title;
-    
+
     switch (TYPE) {
     case 'PR':
         title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) with ${BUILD_TAG ? dockerImageLink : ''}`;
@@ -139,8 +139,8 @@ function generateTestReport(summary, isUploadedToS3, reportLink) {
         title = `E2E for Master Nightly Build (Prod tests) with ${BUILD_TAG ? dockerImageLink : ''}`;
         break;
     case 'MASTER_UNSTABLE':
-            title = `E2E for Master Nightly Build (Unstable tests) with ${BUILD_TAG ? dockerImageLink : ''}`;
-            break;
+        title = `E2E for Master Nightly Build (Unstable tests) with ${BUILD_TAG ? dockerImageLink : ''}`;
+        break;
     default:
         title = 'Cypress UI Test';
     }
@@ -170,25 +170,25 @@ function generateTestReport(summary, isUploadedToS3, reportLink) {
                 ],
             }],
         };
-    } else {
-        let summary = `${stats.passPercent.toFixed(2)}% (${stats.passes}/${stats.tests}) in ${stats.suites} suites`;
-        if (isUploadedToS3) {
-            summary = `[${summary}](${reportLink})`;
-        }
-
-        return {
-            username: 'Cypress UI Test',
-            icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-            attachments: [{
-                color: testResult.color,
-                author_name: 'Webapp End-to-end Testing',
-                author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
-                author_link: 'https://www.mattermost.com/',
-                title,
-                text: `${summary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins | ${os.type()} ${BROWSER} (${HEADLESS === 'false', 'headed', 'headless'})`,
-            }],
-        }
     }
+
+    let quickSummary = `${stats.passPercent.toFixed(2)}% (${stats.passes}/${stats.tests}) in ${stats.suites} suites`;
+    if (isUploadedToS3) {
+        quickSummary = `[${quickSummary}](${reportLink})`;
+    }
+
+    return {
+        username: 'Cypress UI Test',
+        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+        attachments: [{
+            color: testResult.color,
+            author_name: 'Webapp End-to-end Testing',
+            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            author_link: 'https://www.mattermost.com/',
+            title,
+            text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins | ${os.type()} ${BROWSER} (${HEADLESS === 'false' ? 'headed' : 'headless'})`,
+        }],
+    };
 }
 
 function generateDiagnosticReport(summary, serverInfo) {
