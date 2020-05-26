@@ -139,17 +139,23 @@ describe('Message', () => {
     });
 
     it('message with emoji contains hidden shortcode text', () => {
+        const message = 'This post has a shortcode emoji :raising_hand_man: within it.';
+
         // # Post a message with a shortcode emoji
-        cy.postMessage('This post has a shortcode emoji :raising_hand_man: within it.');
+        cy.postMessage(message);
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#post_${postId}`;
 
+            // * Check that message matches what was posted with the emoji omitted
+            cy.get(`#postMessageText_${postId}`).should('have.text', message);
+
+            // * Check that the emoji image contains the hidden shortcode text
             cy.get(divPostId).find('span.emoticon').should('have.text', ':raising_hand_man:');
         });
     });
 
-    it('message with unicode emoji contains hidden shortcode text', () => {
+    it('message with unicode emoji displays the unicode and not a span with background image', () => {
         // # Post a message with a shortcode emoji
         cy.postMessage('This post a unicode emoji in a code snippet: `😉`');
 
