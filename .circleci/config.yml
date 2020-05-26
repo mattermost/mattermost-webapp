@@ -47,7 +47,9 @@ jobs:
       - checkout
       - run:
           name: Link dependency cache
-          command: sudo ln -s ~/mattermost/mattermost-webapp /root/mattermost/mattermost-webapp; sudo chmod 777 /root
+          command: |
+            sudo mkdir /root/mattermost
+            sudo ln -s ~/mattermost/mattermost-webapp /root/mattermost/mattermost-webapp; sudo chmod 777 /root
       - *restore_cache
       - run:
           name: Adjust permissions
