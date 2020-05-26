@@ -43,7 +43,7 @@ const baseProps = {
     isFirstLoad: true,
     atLatestPost: false,
     formattedPostIds: [],
-    prevChannelId: 'prevChannelId',
+    channelManuallyUnread: false,
 };
 
 describe('components/post_view/post_list', () => {
@@ -232,18 +232,29 @@ describe('components/post_view/post_list', () => {
             const emptyPostList = [];
 
             const wrapper = shallow(
-                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId'}}/>,
+                <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
             );
 
             await wrapper.instance().postsOnLoad();
-            expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId, 'prevChannelId');
-            expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId, 'prevChannelId');
+            expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId);
+            expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId);
+        });
+        test('Should call markChannelAsReadAndViewed on componeneWillUnmount', async () => {
+            const emptyPostList = [];
+
+            const wrapper = shallow(
+                <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
+            );
+
+            await wrapper.instance().componentWillUnmount();
+            expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId);
+            expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId);
         });
         test('Should not call markChannelAsReadAndViewed as it is a permalink', async () => {
             const emptyPostList = [];
             const focusedPostId = 'new';
             shallow(
-                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId', focusedPostId}}/>,
+                <PostList {...{...baseProps, postListIds: emptyPostList, focusedPostId}}/>,
             );
 
             await actionsProp.loadPostsAround();
