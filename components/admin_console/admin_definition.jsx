@@ -1072,8 +1072,6 @@ const AdminDefinition = {
                 'admin.cluster.UseExperimentalGossipDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
-                'admin.cluster.EncryptionKey',
-                'admin.cluster.EncryptionKeyDesc',
                 'admin.cluster.GossipPort',
                 'admin.cluster.GossipPortDesc',
                 'admin.cluster.StreamingPort',
