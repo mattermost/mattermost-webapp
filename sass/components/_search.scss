@@ -316,12 +316,14 @@
     box-shadow: none;
     font-size: 14px;
     outline: none;
-    padding: 0 1rem;
+    padding: 0 0.3rem;
     width: 100%;
     display:flex;
     align-items: center;
     flex-wrap: nowrap;
-
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     &.a11y--focused {
         box-shadow: none;
     }
@@ -332,9 +334,11 @@
     display: inline-flex;
     align-items: center;
     max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+
+    .pair:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
   
 .search-suggestion__tagged-input__tags .tag {

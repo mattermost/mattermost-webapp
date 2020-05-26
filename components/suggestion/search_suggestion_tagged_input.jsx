@@ -173,24 +173,25 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
                 </div>
                 <ul className='search-suggestion__tagged-input__tags'>
                     { pairs.map(({tag, value}) => (
-                        <>
+                        <li
+                            className='pair'
+                            key={tag}
+                        >
                             {Boolean(tag) && (
-                                <li
+                                <span
                                     className='tag'
-                                    key={tag}
                                 >
                                     {tag}{':'}
-                                </li>
+                                </span>
                             )}
                             {value && (
-                                <li
+                                <span
                                     className='value'
-                                    key={value}
                                 >
                                     {value}
-                                </li>
+                                </span>
                             )}
-                        </>
+                        </li>
                     ))}
                 </ul>
                 <input
