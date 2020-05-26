@@ -139,7 +139,7 @@ export default class GroupDetails extends React.PureComponent {
         const saveNeeded = true;
         let {groupMentionName} = this.state;
 
-        if (!originalAllowReference && allowReference && (typeof groupMentionName === 'undefined' || groupMentionName === '')) {
+        if (!originalAllowReference && allowReference && !groupMentionName) {
             groupMentionName = group.display_name.toLowerCase().replace(/\s/g, '-');
         }
 
