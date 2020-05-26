@@ -137,4 +137,27 @@ describe('Message', () => {
             cy.get(divPostId).should('have.class', 'post--system');
         });
     });
+
+    it('message with emoji contains hidden shortcode text', () => {
+        // # Post a message with a shortcode emoji
+        cy.postMessage('This post has a shortcode emoji :raising_hand_man: within it.');
+
+        cy.getLastPostId().then((postId) => {
+            const divPostId = `#post_${postId}`;
+
+            cy.get(divPostId).find('span.emoticon').should('have.text', ':raising_hand_man:');
+        });
+    });
+
+    it('message with unicode emoji contains hidden shortcode text', () => {
+        // # Post a message with a shortcode emoji
+        cy.postMessage('This post a unicode emoji in a code snippet: `😉`');
+
+        cy.getLastPostId().then((postId) => {
+            const divPostId = `#post_${postId}`;
+
+            cy.get(divPostId).find('span.emoticon').should('not.exist');
+            cy.get(divPostId).find('span.codespan__pre-wrap code').should('have.text', '😉');
+        });
+    });
 });
