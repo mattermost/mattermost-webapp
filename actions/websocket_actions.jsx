@@ -1151,10 +1151,16 @@ function handleOpenDialogEvent(msg) {
 
 function handleGroupUpdatedEvent(msg) {
     const data = JSON.parse(msg.data.group);
-    store.dispatch({
-        type: GroupTypes.RECEIVED_GROUP,
-        data,
-    });
+    dispatch(batchActions([
+        {
+            type: GroupTypes.RECEIVED_GROUP,
+            data,
+        },
+        {
+            type: GroupTypes.RECEIVED_MY_GROUPS,
+            data: [data],
+        },
+    ]));
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {
