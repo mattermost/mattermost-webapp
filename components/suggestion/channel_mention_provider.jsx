@@ -20,7 +20,7 @@ class ChannelMentionSuggestion extends Suggestion {
         const item = this.props.item;
 
         const channelName = item.channel.display_name;
-        const channelIcon = (<span className='suggestion-list__icon suggestion-list__icon--standard'><i className='icon icon--no-spacing icon-globe'/></span>);
+        const channelIcon = (<span className='suggestion-list__icon suggestion-list__icon--large'><i className='icon icon--no-spacing icon-globe'/></span>);
 
         let className = 'mentions__name no-flex';
         if (isSelection) {
@@ -36,10 +36,8 @@ class ChannelMentionSuggestion extends Suggestion {
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <div className='mention__align'>
-                    <span>
-                        {channelIcon}
-                    </span>
+                <div className='d-flex align-items-center'>
+                    {channelIcon}
                     <span>
                         {channelName}
                     </span>
