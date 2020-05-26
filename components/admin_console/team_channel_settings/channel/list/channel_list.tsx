@@ -98,7 +98,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             }
         }
     };
-    private getDataBySearch = async (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean): Promise<ChannelWithTeamData[]> => {
+    private getDataBySearch = async (page: number, perPage: number): Promise<ChannelWithTeamData[]> => {
         const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
         if ('data' in response) {
