@@ -198,8 +198,7 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
-                        }])}
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
                 >
                     <NoResultsIndicator
                         variant={NoResultsVariant.FlaggedPosts}
@@ -212,8 +211,7 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
-                        }])}
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
                 >
                     <NoResultsIndicator
                         variant={NoResultsVariant.PinnedPosts}
@@ -234,8 +232,7 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
-                        }])}
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
                 >
                     <NoResultsIndicator
                         variant={NoResultsVariant.Mentions}
@@ -246,8 +243,7 @@ class SearchResults extends React.Component {
             ctls = (
                 <div
                     className={classNames(['sidebar--right__subheader a11y__section',
-                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults,
-                        }])}
+                        {'sidebar-expanded': this.props.isSideBarExpanded && noResults}])}
                 >
                     <NoResultsIndicator
                         variant={NoResultsVariant.ChannelSearch}
