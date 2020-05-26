@@ -13,7 +13,7 @@ import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_gri
 
 import UserGridName from './user_grid_name';
 import UserGridRemove from './user_grid_remove';
-import UserGridRoleDropdown, {BaseMembership, Role} from './user_grid_role_dropdown';
+import UserGridRoleDropdown, {BaseMembership} from './user_grid_role_dropdown';
 
 import './user_grid.scss';
 
@@ -71,6 +71,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
 
     private search = async (term: string) => {
         this.props.search(term);
+        this.setState({page: 0});
     }
 
     private getVisibleTotalCount = (): number => {
