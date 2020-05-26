@@ -102,7 +102,7 @@ describe('Messaging', () => {
 
             // * Check if reply text box height attribute is greater than reply text box offset height
             cy.get(`#${replyTextBoxId}`).should('have.attr', 'height').then((height) => {
-                expect(parseInt(height)).to.be.greaterThan(replyTextBox.offsetHeight);
+                expect(Number(height)).to.be.greaterThan(replyTextBox.offsetHeight);
             });
         });
     }
