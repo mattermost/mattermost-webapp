@@ -59,7 +59,7 @@ export default class Pluggable extends React.PureComponent {
         if (components.hasOwnProperty(componentName)) {
             let pluginComponents = components[componentName];
 
-            if (this.props.pluggableId) {
+            if (this.props.pluggableId !== undefined) {
                 pluginComponents = pluginComponents.filter(
                     (element) => element.id === this.props.pluggableId);
             }

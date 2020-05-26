@@ -12,13 +12,14 @@ function mapStateToProps(state) {
     const rhsPlugins = state.plugins.components.RightHandSidebarComponent;
     const pluginId = getPluginId(state);
 
-    const plugin = rhsPlugins.find((element) => element.id === pluginId);
-    const pluginName = plugin ? plugin.title : '';
-    const icons = plugin ? plugin.icons : [];
+    const pluginComponent = rhsPlugins.find((element) => element.pluginId === pluginId);
+    const pluggableId = pluginComponent ? pluginComponent.id : null;
+    const pluginTitle = pluginComponent ? pluginComponent.title : '';
+    const icons = pluginComponent ? pluginComponent.icons : [];
 
     return {
-        pluggableId: pluginId,
-        title: pluginName,
+        pluggableId,
+        title: pluginTitle,
         icons,
     };
 }
