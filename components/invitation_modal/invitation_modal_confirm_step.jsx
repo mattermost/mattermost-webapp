@@ -13,7 +13,7 @@ import {InviteTypes} from 'utils/constants';
 
 import './invitation_modal_confirm_step.scss';
 
-export default class InvitationModalConfirmStep extends React.Component {
+export default class InvitationModalConfirmStep extends React.PureComponent {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
         onDone: PropTypes.func.isRequired,

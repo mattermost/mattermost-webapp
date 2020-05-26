@@ -89,7 +89,7 @@ InstalledPlugins.propTypes = {
 };
 
 // MarketplaceModal is the plugin marketplace.
-export class MarketplaceModal extends React.Component {
+export class MarketplaceModal extends React.PureComponent {
     static propTypes = {
         show: PropTypes.bool,
         plugins: PropTypes.array.isRequired,

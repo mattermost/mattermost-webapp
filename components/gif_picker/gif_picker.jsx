@@ -4,8 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-
 import App from 'components/gif_picker/components/App';
 import Categories from 'components/gif_picker/components/Categories';
 import Search from 'components/gif_picker/components/Search';
@@ -26,9 +24,7 @@ export const appProps = {
     },
 };
 
-// shouldComponentUpdate set in constructor
-// eslint-disable-next-line react/require-optimization
-export default class GifPicker extends React.Component {
+export default class GifPicker extends React.PureComponent {
     static propTypes = {
         onGifClick: PropTypes.func.isRequired,
         defaultSearchText: PropTypes.string,
@@ -37,9 +33,6 @@ export default class GifPicker extends React.Component {
 
     constructor(props) {
         super(props);
-
-        // All props are primitives or treated as immutable
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
         const action = props.defaultSearchText ? 'search' : 'trending';
         this.state = {

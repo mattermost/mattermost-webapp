@@ -42,7 +42,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class LegacyTeamSidebar extends React.Component {
+export default class LegacyTeamSidebar extends React.PureComponent {
     static propTypes = {
         myTeams: PropTypes.array.isRequired,
         currentTeamId: PropTypes.string.isRequired,
