@@ -34,7 +34,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
     test('should match snapshot, on desktop with mentions badge', () => {
         const props = {...baseProps, badge: true};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...props}/>
+            <SidebarChannelButtonOrLink {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -42,14 +42,14 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
     test('should match snapshot, on desktop with draft', () => {
         const props = {...baseProps, hasDraft: true, badge: false, unreadMentions: 0};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...props}/>
+            <SidebarChannelButtonOrLink {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on desktop without badge', () => {
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...baseProps}/>
+            <SidebarChannelButtonOrLink {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -68,7 +68,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
 
         const props = {...baseProps, badge: true};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...props}/>
+            <SidebarChannelButtonOrLink {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -78,7 +78,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...baseProps}/>
+            <SidebarChannelButtonOrLink {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -120,7 +120,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 };
 
                 const wrapper = shallow(
-                    <SidebarChannelButtonOrLink {...props}/>
+                    <SidebarChannelButtonOrLink {...props}/>,
                 );
 
                 expect(wrapper.find(OverlayTrigger)).toHaveLength(0);

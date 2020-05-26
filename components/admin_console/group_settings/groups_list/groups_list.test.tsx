@@ -17,7 +17,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: true});
         expect(wrapper).toMatchSnapshot();
@@ -36,7 +36,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {test2: true}});
         expect(wrapper).toMatchSnapshot();
@@ -55,7 +55,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {test1: true}});
         expect(wrapper).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {test1: true, test2: true}});
         expect(wrapper).toMatchSnapshot();
@@ -93,7 +93,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({checked: {}});
         expect(wrapper).toMatchSnapshot();
@@ -112,7 +112,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
@@ -140,7 +140,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link,
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
@@ -167,7 +167,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink,
                 }}
-            />
+            />,
         );
         const instance = wrapper.instance();
         expect(wrapper.state().checked).toEqual({});
@@ -188,7 +188,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -208,7 +208,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -235,7 +235,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 1, loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -262,7 +262,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -282,7 +282,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 1, loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -303,7 +303,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 1, checked: {test1: true, test2: true}});
 
@@ -330,7 +330,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 0, checked: {test1: true, test2: true}});
 
@@ -364,7 +364,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({page: 0, checked: {test1: true, test2: true}});
 
@@ -385,7 +385,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, filterIsLinked: true, filterIsUnlinked: true});
         expect(wrapper).toMatchSnapshot();
@@ -401,7 +401,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({searchString: 'foo'});
         wrapper.find('i.fa-times-circle').first().simulate('click');
@@ -418,7 +418,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         expect(wrapper.state().showFilters).toEqual(false);
         wrapper.find('i.fa-caret-down').first().simulate('click');
@@ -436,7 +436,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, searchString: 'foo iS:ConfiGuReD is:notlinked'});
         expect(wrapper.state().filterIsConfigured).toEqual(false);
@@ -460,7 +460,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, searchString: 'foo'});
         wrapper.find('span.filter-check').first().simulate('click');
@@ -478,7 +478,7 @@ describe('components/admin_console/group_settings/GroupsList.tsx', () => {
                     link: jest.fn(),
                     unlink: jest.fn(),
                 }}
-            />
+            />,
         );
         wrapper.setState({showFilters: true, searchString: 'foo is:linked', filterIsLinked: true});
         wrapper.find('span.filter-check').first().simulate('click');

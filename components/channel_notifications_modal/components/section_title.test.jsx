@@ -15,7 +15,7 @@ describe('components/channel_notifications_modal/ExtraInfo', () => {
 
     test('should match snapshot, on DESKTOP', () => {
         const wrapper = shallow(
-            <SectionTitle {...baseProps}/>
+            <SectionTitle {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -24,7 +24,7 @@ describe('components/channel_notifications_modal/ExtraInfo', () => {
     test('should match snapshot, on PUSH', () => {
         const props = {...baseProps, section: NotificationSections.PUSH};
         const wrapper = shallow(
-            <SectionTitle {...props}/>
+            <SectionTitle {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -33,7 +33,7 @@ describe('components/channel_notifications_modal/ExtraInfo', () => {
     test('should match snapshot, on MARK_UNREAD', () => {
         const props = {...baseProps, section: NotificationSections.MARK_UNREAD};
         const wrapper = shallow(
-            <SectionTitle {...props}/>
+            <SectionTitle {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

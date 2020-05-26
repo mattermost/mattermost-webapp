@@ -23,7 +23,7 @@ describe('components/post_view/post_list_row', () => {
             listId,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -36,7 +36,7 @@ describe('components/post_view/post_list_row', () => {
             loadOlderPosts,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         wrapper.prop('onClick')();
@@ -54,7 +54,7 @@ describe('components/post_view/post_list_row', () => {
         };
 
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(ChannelIntroMessage).exists()).toBe(true);
@@ -66,7 +66,7 @@ describe('components/post_view/post_list_row', () => {
             listId,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(NewMessageSeparator).exists()).toBe(true);
@@ -78,7 +78,7 @@ describe('components/post_view/post_list_row', () => {
             listId,
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(DateSeparator).exists()).toBe(true);
@@ -91,7 +91,7 @@ describe('components/post_view/post_list_row', () => {
             previousListId: 'abcd',
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(CombinedUserActivityPost).exists()).toBe(true);
@@ -104,7 +104,7 @@ describe('components/post_view/post_list_row', () => {
             previousListId: 'abcd',
         };
         const wrapper = shallow(
-            <PostListRow {...props}/>
+            <PostListRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Post).exists()).toBe(true);

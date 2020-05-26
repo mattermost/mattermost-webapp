@@ -1,0 +1,573 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/BleveSettings should match snapshot, disabled 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Bleve"
+        id="admin.bleve.title"
+        values={Object {}}
+      />
+    </AdminHeader>
+    <SettingsGroup
+      container={true}
+      show={true}
+    >
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, indexing of new posts occurs automatically. Search queries will use database search until \\"Enable Bleve for search queries\\" is enabled. {documentationLink}"
+            id="admin.bleve.enableIndexingDescription"
+            values={
+              Object {
+                "documentationLink": <a
+                  href="https://about.mattermost.com/default-bleve-documentation/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn more about Bleve in our documentation."
+                    id="admin.bleve.enableIndexingDescription.documentationLinkText"
+                    values={Object {}}
+                  />
+                </a>,
+              }
+            }
+          />
+        }
+        id="enableIndexing"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Bleve Indexing:"
+            id="admin.bleve.enableIndexingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="Directory path to use for store bleve indexes."
+            id="admin.bleve.indexDirDescription"
+            values={Object {}}
+          />
+        }
+        id="indexDir"
+        label={
+          <FormattedMessage
+            defaultMessage="IndexDir:"
+            id="admin.bleve.indexDirTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        value=""
+      />
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+        >
+          <FormattedMessage
+            defaultMessage="Bulk Indexing:"
+            id="admin.bleve.bulkIndexingTitle"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-sm-8"
+        >
+          <div
+            className="job-table-setting"
+          >
+            <Connect(injectIntl(JobTable))
+              createJobButtonText={
+                <FormattedMessage
+                  defaultMessage="Index Now"
+                  id="admin.bleve.createJob.title"
+                  values={Object {}}
+                />
+              }
+              createJobHelpText={
+                <FormattedMessage
+                  defaultMessage="All users, channels and posts in the database will be indexed from oldest to newest. Bleve is available during indexing but search results may be incomplete until the indexing job is complete."
+                  id="admin.bleve.createJob.help"
+                  values={Object {}}
+                />
+              }
+              disabled={true}
+              getExtraInfoText={[Function]}
+              jobType="bleve_post_indexing"
+            />
+          </div>
+        </div>
+      </div>
+      <RequestButton
+        buttonText={
+          <FormattedMessage
+            defaultMessage="Purge Index"
+            id="admin.bleve.purgeIndexesButton"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        errorMessage={
+          Object {
+            "defaultMessage": "Failed to purge indexes: {error}",
+            "id": "admin.bleve.purgeIndexesButton.error",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Purging will entirely remove the indexes on the Bleve server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
+            id="admin.bleve.purgeIndexesHelpText"
+            values={Object {}}
+          />
+        }
+        id="purgeIndexesSection"
+        includeDetailedError={false}
+        label={
+          <FormattedMessage
+            defaultMessage="Purge Indexes:"
+            id="admin.bleve.purgeIndexesButton.label"
+            values={Object {}}
+          />
+        }
+        requestAction={[MockFunction]}
+        saveNeeded={false}
+        showSuccessMessage={true}
+        successMessage={
+          Object {
+            "defaultMessage": "Indexes purged successfully.",
+            "id": "admin.bleve.purgeIndexesButton.success",
+          }
+        }
+      />
+      <BooleanSetting
+        disabled={true}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
+            id="admin.bleve.enableSearchingDescription"
+            values={Object {}}
+          />
+        }
+        id="enableSearching"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Bleve for search queries:"
+            id="admin.bleve.enableSearchingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <BooleanSetting
+        disabled={true}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
+            id="admin.bleve.enableAutocompleteDescription"
+            values={Object {}}
+          />
+        }
+        id="enableAutocomplete"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Bleve for autocomplete queries:"
+            id="admin.bleve.enableAutocompleteTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+    </SettingsGroup>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`components/BleveSettings should match snapshot, enabled 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Bleve"
+        id="admin.bleve.title"
+        values={Object {}}
+      />
+    </AdminHeader>
+    <SettingsGroup
+      container={true}
+      show={true}
+    >
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="When true, indexing of new posts occurs automatically. Search queries will use database search until \\"Enable Bleve for search queries\\" is enabled. {documentationLink}"
+            id="admin.bleve.enableIndexingDescription"
+            values={
+              Object {
+                "documentationLink": <a
+                  href="https://about.mattermost.com/default-bleve-documentation/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn more about Bleve in our documentation."
+                    id="admin.bleve.enableIndexingDescription.documentationLinkText"
+                    values={Object {}}
+                  />
+                </a>,
+              }
+            }
+          />
+        }
+        id="enableIndexing"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Bleve Indexing:"
+            id="admin.bleve.enableIndexingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={true}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="Directory path to use for store bleve indexes."
+            id="admin.bleve.indexDirDescription"
+            values={Object {}}
+          />
+        }
+        id="indexDir"
+        label={
+          <FormattedMessage
+            defaultMessage="IndexDir:"
+            id="admin.bleve.indexDirTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        value="bleve.idx"
+      />
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+        >
+          <FormattedMessage
+            defaultMessage="Bulk Indexing:"
+            id="admin.bleve.bulkIndexingTitle"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-sm-8"
+        >
+          <div
+            className="job-table-setting"
+          >
+            <Connect(injectIntl(JobTable))
+              createJobButtonText={
+                <FormattedMessage
+                  defaultMessage="Index Now"
+                  id="admin.bleve.createJob.title"
+                  values={Object {}}
+                />
+              }
+              createJobHelpText={
+                <FormattedMessage
+                  defaultMessage="All users, channels and posts in the database will be indexed from oldest to newest. Bleve is available during indexing but search results may be incomplete until the indexing job is complete."
+                  id="admin.bleve.createJob.help"
+                  values={Object {}}
+                />
+              }
+              disabled={false}
+              getExtraInfoText={[Function]}
+              jobType="bleve_post_indexing"
+            />
+          </div>
+        </div>
+      </div>
+      <RequestButton
+        buttonText={
+          <FormattedMessage
+            defaultMessage="Purge Index"
+            id="admin.bleve.purgeIndexesButton"
+            values={Object {}}
+          />
+        }
+        disabled={false}
+        errorMessage={
+          Object {
+            "defaultMessage": "Failed to purge indexes: {error}",
+            "id": "admin.bleve.purgeIndexesButton.error",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Purging will entirely remove the indexes on the Bleve server. Search results may be incomplete until a bulk index of the existing database is rebuilt."
+            id="admin.bleve.purgeIndexesHelpText"
+            values={Object {}}
+          />
+        }
+        id="purgeIndexesSection"
+        includeDetailedError={false}
+        label={
+          <FormattedMessage
+            defaultMessage="Purge Indexes:"
+            id="admin.bleve.purgeIndexesButton.label"
+            values={Object {}}
+          />
+        }
+        requestAction={[MockFunction]}
+        saveNeeded={false}
+        showSuccessMessage={true}
+        successMessage={
+          Object {
+            "defaultMessage": "Indexes purged successfully.",
+            "id": "admin.bleve.purgeIndexesButton.success",
+          }
+        }
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
+            id="admin.bleve.enableSearchingDescription"
+            values={Object {}}
+          />
+        }
+        id="enableSearching"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Bleve for search queries:"
+            id="admin.bleve.enableSearchingTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Requires a successful connection to the Bleve server. When true, Bleve will be used for all autocompletion queries on users and channels using the latest index. Autocompletion results may be incomplete until a bulk index of the existing users and channels database is finished. When false, database autocomplete is used."
+            id="admin.bleve.enableAutocompleteDescription"
+            values={Object {}}
+          />
+        }
+        id="enableAutocomplete"
+        label={
+          <FormattedMessage
+            defaultMessage="Enable Bleve for autocomplete queries:"
+            id="admin.bleve.enableAutocompleteTitle"
+            values={Object {}}
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+    </SettingsGroup>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;

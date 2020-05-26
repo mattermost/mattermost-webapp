@@ -16,7 +16,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 ariaLabel='test'
             >
                 {'test'}
-            </FullScreenModal>
+            </FullScreenModal>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
@@ -64,7 +64,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 ariaLabel='test'
             >
                 {'test'}
-            </FullScreenModal>
+            </FullScreenModal>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
@@ -113,7 +113,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 ariaLabel='test'
             >
                 {'test'}
-            </FullScreenModal>
+            </FullScreenModal>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
@@ -172,7 +172,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 ariaLabel='test'
             >
                 {'test'}
-            </FullScreenModal>
+            </FullScreenModal>,
         );
         expect(close).not.toBeCalled();
         wrapper.find('button.close-x').simulate('click');
@@ -189,7 +189,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 ariaLabel='test'
             >
                 {'test'}
-            </FullScreenModal>
+            </FullScreenModal>,
         );
         expect(back).not.toBeCalled();
         wrapper.find('button.back').simulate('click');
@@ -205,7 +205,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 ariaLabel='test'
             >
                 {'test'}
-            </FullScreenModal>
+            </FullScreenModal>,
         );
         expect(close).not.toBeCalled();
         const event = new KeyboardEvent('keydown', {key: 'Escape'});

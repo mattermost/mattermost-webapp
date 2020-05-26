@@ -21,7 +21,6 @@
   },
   "rules": {
     "import/no-unresolved": 2,
-    "comma-dangle": 0,
     "import/order": [
       "error",
       {
@@ -38,19 +37,7 @@
         ]
       }
     ],
-    "no-magic-numbers": [
-      1,
-      {
-        "ignore": [
-          -1,
-          0,
-          1,
-          2
-        ],
-        "enforceConst": true,
-        "detectObjects": true
-      }
-    ],
+    "no-undefined": 0,
     "react/jsx-filename-extension": 0,
     "react/prop-types": [
       2,
@@ -70,8 +57,20 @@
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
-        "comma-dangle": 0,
+        "@typescript-eslint/camelcase": [
+          2,
+          {
+            "properties": "never"
+          }
+        ],
         "@typescript-eslint/no-non-null-assertion": 0,
+        "@typescript-eslint/no-unused-vars": [
+          2,
+          {
+            "vars": "all",
+            "args": "after-used"
+          }
+        ],
         "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/no-empty-function": 0,
         "@typescript-eslint/prefer-interface": 0,
@@ -91,18 +90,7 @@
             "variables": false
           }
         ],
-        "@typescript-eslint/camelcase": [
-          2,
-          {
-            "properties": "never"
-          }
-        ],
-        "react/jsx-filename-extension": [
-          1,
-          {
-            "extensions": [".jsx", ".tsx"]
-          }
-        ]
+        "react/jsx-filename-extension": 0
       }
     },
     {

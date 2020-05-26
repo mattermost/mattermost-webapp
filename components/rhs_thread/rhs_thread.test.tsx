@@ -22,7 +22,7 @@ describe('components/RhsThread', () => {
             emojis: [],
             files: [],
             images: {},
-            reactions: []
+            reactions: [],
         },
         channel_id: 'channel_id',
         create_at: 1502715365009,
@@ -58,7 +58,7 @@ describe('components/RhsThread', () => {
         teammate_id: '',
         status: '',
         fake: false,
-        group_constrained: false
+        group_constrained: false,
     };
 
     const actions = {
@@ -115,23 +115,29 @@ describe('components/RhsThread', () => {
         previewEnabled: true,
         socketConnectionStatus: true,
         actions,
-        directTeammate
+        directTeammate,
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
-
-        wrapper.setProps({socketConnectionStatus: false});
+        const prevProps = {
+            ...baseProps,
+            socketConnectionStatus: false,
+        };
         wrapper.setProps({socketConnectionStatus: true});
+        const instance = wrapper.instance() as RhsThread;
+        instance.componentDidUpdate(prevProps);
 
         expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
     });
@@ -139,7 +145,8 @@ describe('components/RhsThread', () => {
     test('should update openTime state when selected prop updated', async () => {
         jest.useRealTimers();
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
 
         const waitMilliseconds = 100;
@@ -155,10 +162,12 @@ describe('components/RhsThread', () => {
         const scrollToBottom = jest.fn();
 
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
         const instance = wrapper.instance() as RhsThread;
         instance.scrollToBottom = scrollToBottom;
+        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
         wrapper.setProps({
@@ -171,6 +180,7 @@ describe('components/RhsThread', () => {
                 post,
             ],
         });
+        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -179,10 +189,12 @@ describe('components/RhsThread', () => {
         const scrollToBottom = jest.fn();
 
         const wrapper = shallow(
-            <RhsThread {...baseProps}/>
+            <RhsThread {...baseProps}/>,
+            {disableLifecycleMethods: true},
         );
         const instance = wrapper.instance() as RhsThread;
         instance.scrollToBottom = scrollToBottom;
+        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
 
@@ -196,6 +208,7 @@ describe('components/RhsThread', () => {
                 post,
             ],
         });
+        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
     });

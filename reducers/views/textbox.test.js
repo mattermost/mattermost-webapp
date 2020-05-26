@@ -16,7 +16,7 @@ describe('Reducers.RHS', () => {
     test('Initial state', () => {
         const nextState = textboxReducer(
             {},
-            {}
+            {},
         );
 
         expect(nextState).toEqual(initialState);
@@ -28,7 +28,7 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.SET_SHOW_PREVIEW_ON_CREATE_COMMENT,
                 showPreview: true,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -43,7 +43,7 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.SET_SHOW_PREVIEW_ON_CREATE_POST,
                 showPreview: true,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -58,7 +58,7 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL,
                 showPreview: true,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -73,7 +73,7 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL,
                 showPreview: true,
-            }
+            },
         );
 
         expect(nextState).toEqual({

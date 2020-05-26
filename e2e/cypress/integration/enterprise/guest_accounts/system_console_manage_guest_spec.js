@@ -14,7 +14,7 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import {getRandomInt} from '../../../utils';
+import {getRandomId} from '../../../utils';
 import users from '../../../fixtures/users.json';
 
 let guest;
@@ -127,7 +127,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.wait(TIMEOUTS.TINY).findByText('Update Email').click();
 
         // * Update email of Guest User
-        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         cy.findByTestId('resetEmailModal').should('be.visible').within(() => {
             cy.findByTestId('resetEmailForm').should('be.visible').get('input').type(email);
             cy.findByTestId('resetEmailButton').click();

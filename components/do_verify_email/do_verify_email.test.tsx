@@ -9,7 +9,7 @@ import DoVerifyEmail from 'components/do_verify_email/do_verify_email';
 describe('components/DoVerifyEmail', () => {
     const requiredProps = {
         location: {
-            search: '?token=9f392f193973g11ggh398h39hg0ghH&email=test@example.com'
+            search: '?token=9f392f193973g11ggh398h39hg0ghH&email=test@example.com',
         },
         siteName: 'Mattermost',
         actions: {
@@ -23,7 +23,7 @@ describe('components/DoVerifyEmail', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <DoVerifyEmail {...requiredProps}/>
+            <DoVerifyEmail {...requiredProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe('components/DoVerifyEmail', () => {
 
     test('should show verifyStatus as pending', () => {
         const wrapper = shallow(
-            <DoVerifyEmail {...requiredProps}/>
+            <DoVerifyEmail {...requiredProps}/>,
         );
 
         expect(wrapper.state('verifyStatus')).toEqual('pending');
@@ -39,7 +39,7 @@ describe('components/DoVerifyEmail', () => {
 
     test('should set serverError state on mount', () => {
         const wrapper = shallow(
-            <DoVerifyEmail {...requiredProps}/>
+            <DoVerifyEmail {...requiredProps}/>,
         );
 
         expect(wrapper.state('serverError')).toBeDefined();

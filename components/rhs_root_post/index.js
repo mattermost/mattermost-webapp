@@ -54,7 +54,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             markPostAsUnread,
-            emitShortcutReactToLastPostFrom
+            emitShortcutReactToLastPostFrom,
         }, dispatch),
     };
 }

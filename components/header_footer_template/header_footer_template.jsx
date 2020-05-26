@@ -42,7 +42,7 @@ export default class NotLoggedIn extends React.PureComponent {
                     href={this.props.config.AboutLink}
                 >
                     <FormattedMessage id='web.footer.about'/>
-                </a>
+                </a>,
             );
         }
 
@@ -57,7 +57,7 @@ export default class NotLoggedIn extends React.PureComponent {
                     href={this.props.config.PrivacyPolicyLink}
                 >
                     <FormattedMessage id='web.footer.privacy'/>
-                </a>
+                </a>,
             );
         }
 
@@ -72,7 +72,7 @@ export default class NotLoggedIn extends React.PureComponent {
                     href={this.props.config.TermsOfServiceLink}
                 >
                     <FormattedMessage id='web.footer.terms'/>
-                </a>
+                </a>,
             );
         }
 
@@ -87,7 +87,7 @@ export default class NotLoggedIn extends React.PureComponent {
                     href={this.props.config.HelpLink}
                 >
                     <FormattedMessage id='web.footer.help'/>
-                </a>
+                </a>,
             );
         }
 

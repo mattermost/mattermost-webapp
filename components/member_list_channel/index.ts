@@ -58,7 +58,7 @@ const getUsersAndActionsToDisplay = createSelector(
             usersToDisplay: usersToDisplay.sort(sortByUsername),
             actionUserProps,
         };
-    }
+    },
 );
 
 function mapStateToProps(state: GlobalState) {

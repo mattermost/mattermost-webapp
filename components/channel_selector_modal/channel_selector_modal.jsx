@@ -15,7 +15,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 const CHANNELS_PER_PAGE = 50;
 
-export default class ChannelSelectorModal extends React.Component {
+export default class ChannelSelectorModal extends React.PureComponent {
     static propTypes = {
         searchTerm: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
@@ -67,7 +67,7 @@ export default class ChannelSelectorModal extends React.Component {
                         this.setState({channels: response.data});
                         this.setChannelsLoadingState(false);
                     },
-                    Constants.SEARCH_TIMEOUT_MILLISECONDS
+                    Constants.SEARCH_TIMEOUT_MILLISECONDS,
                 );
             }
         }

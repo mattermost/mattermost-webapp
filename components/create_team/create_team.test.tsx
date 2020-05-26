@@ -22,7 +22,7 @@ const match: RouterMatch<{ id: string }> = {
     isExact: false,
     path,
     url: path.replace(':id', '1'),
-    params: {id: '1'}
+    params: {id: '1'},
 };
 
 const location = createLocation(match.url);
@@ -45,7 +45,7 @@ describe('/components/create_team', () => {
             extra_update_at: 1,
             creator_id: 'a',
             scheme_id: 'a',
-            group_constrained: false
+            group_constrained: false,
         },
         currentTeam: {
             id: '1',
@@ -62,7 +62,7 @@ describe('/components/create_team', () => {
             invite_id: 'a',
             allow_open_invite: true,
             scheme_id: 'a',
-            group_constrained: false
+            group_constrained: false,
         },
         siteName: 'Mattermost',
         customBrand: true,
@@ -70,12 +70,12 @@ describe('/components/create_team', () => {
         customDescriptionText: 'Welcome to our custom branded site!',
         match,
         history,
-        location
+        location,
     };
 
     test('should match snapshot', () => {
         const wrapper: ShallowWrapper<any, any, CreateTeam> = shallow(
-            <CreateTeam {...defaultProps}/>
+            <CreateTeam {...defaultProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -83,7 +83,7 @@ describe('/components/create_team', () => {
 
     test('should run props.history.push with new state', () => {
         const wrapper: ShallowWrapper<any, any, CreateTeam> = shallow(
-            <CreateTeam {...defaultProps}/>
+            <CreateTeam {...defaultProps}/>,
         );
 
         const pushSpy = jest.spyOn(history, 'push');

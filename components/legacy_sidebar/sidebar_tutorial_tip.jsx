@@ -14,7 +14,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
     static propTypes = {
         townSquareDisplayName: PropTypes.string,
         offTopicDisplayName: PropTypes.string,
-        openLhs: PropTypes.func
+        openLhs: PropTypes.func,
     }
 
     componentDidMount() {
@@ -50,7 +50,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
                         defaultMessage={'**Channels** organize conversations across different topics. They\'re open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people.'}
                     />
                 </p>
-            </div>
+            </div>,
         );
 
         screens.push(
@@ -89,7 +89,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
                         }}
                     />
                 </p>
-            </div>
+            </div>,
         );
 
         screens.push(
@@ -112,7 +112,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
                         defaultMessage='You can also create a new channel by clicking the **"+" symbol** next to the public or private channel header.'
                     />
                 </p>
-            </div>
+            </div>,
         );
 
         return (

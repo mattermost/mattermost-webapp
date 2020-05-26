@@ -12,7 +12,7 @@ describe('components/MenuWrapper', () => {
             <MenuWrapper>
                 <p>{'title'}</p>
                 <p>{'menu'}</p>
-            </MenuWrapper>
+            </MenuWrapper>,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -39,7 +39,7 @@ describe('components/MenuWrapper', () => {
             <MenuWrapper>
                 <p>{'title'}</p>
                 <p>{'menu'}</p>
-            </MenuWrapper>
+            </MenuWrapper>,
         );
         wrapper.setState({open: true});
         expect(wrapper).toMatchInlineSnapshot(`
@@ -66,7 +66,7 @@ describe('components/MenuWrapper', () => {
             <MenuWrapper>
                 <p>{'title'}</p>
                 <p>{'menu'}</p>
-            </MenuWrapper>
+            </MenuWrapper>,
         );
         expect(wrapper.state('open')).toBe(false);
         wrapper.simulate('click');
@@ -83,7 +83,7 @@ describe('components/MenuWrapper', () => {
             shallow(
                 <MenuWrapper>
                     <p>{'title'}</p>
-                </MenuWrapper>
+                </MenuWrapper>,
             );
         }).toThrow();
         expect(() => {
@@ -92,7 +92,7 @@ describe('components/MenuWrapper', () => {
                     <p>{'title1'}</p>
                     <p>{'title2'}</p>
                     <p>{'title3'}</p>
-                </MenuWrapper>
+                </MenuWrapper>,
             );
         }).toThrow();
     });
