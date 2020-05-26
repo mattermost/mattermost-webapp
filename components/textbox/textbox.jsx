@@ -13,7 +13,6 @@ import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import * as Utils from 'utils/utils.jsx';
 
 export default class Textbox extends React.PureComponent {
     static propTypes = {
@@ -83,7 +82,6 @@ export default class Textbox extends React.PureComponent {
         this.wrapper = React.createRef();
     }
 
-    // TODO: remove redundant
     handleChange = (e) => {
         this.props.onChange(e);
     }

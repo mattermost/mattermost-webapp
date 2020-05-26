@@ -92,7 +92,7 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     handleChange = (header) => {
         this.setState({
-            header
+            header,
         });
     }
 

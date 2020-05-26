@@ -211,7 +211,7 @@ class EditPostModal extends React.PureComponent {
 
     handleChange = (editText) => {
         this.setState({
-            editText
+            editText,
         });
     }
 
