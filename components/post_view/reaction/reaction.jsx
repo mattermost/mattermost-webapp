@@ -14,6 +14,7 @@ import './reaction.scss';
 
 export default class Reaction extends React.Component {
     static propTypes = {
+
         /*
          * The post to render the reaction for
          */
