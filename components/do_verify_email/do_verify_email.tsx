@@ -4,9 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Error} from 'mattermost-redux/types/errors';
-
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
@@ -27,7 +25,7 @@ type Props = {
     actions: {
         verifyUserEmail: (token: string) => ActionFunc | ActionResult;
         getMe: () => ActionFunc | ActionResult;
-        logError: (error: Error, displayable: boolean) => void;
+        logError: (error: ServerError, displayable: boolean) => void;
         clearErrors: () => void;
     };
     isLoggedIn: boolean;

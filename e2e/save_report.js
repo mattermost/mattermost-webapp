@@ -15,9 +15,9 @@
  *   For saving reports to Automation dashboard
  *      - DASHBOARD_ENABLE, DASHBOARD_ENDPOINT and DASHBOARD_TOKEN
  *   For sending hooks to Mattermost channels
- *      - WEBHOOK_URL and DIAGNOSTIC_WEBHOOK_URL
+ *      - FULL_REPORT, WEBHOOK_URL and DIAGNOSTIC_WEBHOOK_URL
  *   Test type
- *      - TYPE=[type], e.g. "DAILY", "PR", "RELEASE"
+ *      - TYPE=[type], e.g. "MASTER", "PR", "RELEASE"
  */
 
 const {merge} = require('mochawesome-merge');
@@ -82,8 +82,8 @@ const saveReport = async () => {
     }
 
     // Send diagnostic report via webhook
-    // Send on "DAILY" type only
-    if (TYPE === 'DAILY' && DIAGNOSTIC_WEBHOOK_URL && DIAGNOSTIC_USER_ID && DIAGNOSTIC_TEAM_ID) {
+    // Send on "RELEASE" type only
+    if (TYPE === 'RELEASE' && DIAGNOSTIC_WEBHOOK_URL && DIAGNOSTIC_USER_ID && DIAGNOSTIC_TEAM_ID) {
         const data = generateDiagnosticReport(summary, {userId: DIAGNOSTIC_USER_ID, teamId: DIAGNOSTIC_TEAM_ID});
         await sendReport('test info for diagnostic analysis', DIAGNOSTIC_WEBHOOK_URL, data);
     }
