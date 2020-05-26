@@ -155,7 +155,7 @@
     @include flex(1 1 auto);
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
-    padding-top: 12em;
+    padding-top: 28px;
     position: relative;
 }
 
@@ -294,7 +294,7 @@
     ul.search-hint__suggestions-list {
         padding-left: 0;
         // to negate the padding in the mentioned element, since we don't know what will be affected if changed there.
-        margin: -66px -14px 0;
+        margin: -20vh -1vh 0;
     }
 
     .search-hint__suggestions-list__option:first-child {
