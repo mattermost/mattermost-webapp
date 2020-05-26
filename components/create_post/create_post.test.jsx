@@ -297,7 +297,7 @@ describe('components/create_post', () => {
         );
 
         const postTextbox = wrapper.find('#post_textbox');
-        postTextbox.simulate('change', {target: {value: 'change'}});
+        postTextbox.simulate('change', 'change');
         expect(setDraft).not.toHaveBeenCalled();
         jest.runAllTimers();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
@@ -1119,9 +1119,7 @@ describe('components/create_post', () => {
         expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
-        wrapper.instance().handleChange({
-            target: {value: 'some valid text'},
-        });
+        wrapper.instance().handleChange('some valid text');
         expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});

@@ -121,7 +121,7 @@ describe('components/EditChannelHeaderModal', () => {
             <EditChannelHeaderModal {...baseProps}/>,
         );
 
-        wrapper.find(Textbox).simulate('change', {target: {value: 'header'}});
+        wrapper.find(Textbox).simulate('change', 'header');
 
         expect(
             wrapper.state('header'),

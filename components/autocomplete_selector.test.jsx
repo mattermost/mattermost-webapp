@@ -103,7 +103,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
 </div>
 `);
 
-        wrapper.instance().onChange({target: {value: 'value from input'}});
+        wrapper.instance().onChange('value from input');
         wrapper.instance().onFocus();
 
         expect(wrapper).toMatchInlineSnapshot(`

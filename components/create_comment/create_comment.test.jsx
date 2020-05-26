@@ -462,7 +462,7 @@ describe('components/CreateComment', () => {
         const testMessage = 'new msg';
         const scrollToBottom = jest.fn();
         wrapper.instance().scrollToBottom = scrollToBottom;
-        wrapper.instance().handleChange({target: {value: testMessage}});
+        wrapper.instance().handleChange(testMessage);
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
@@ -497,9 +497,7 @@ describe('components/CreateComment', () => {
         expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
         expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
 
-        wrapper.instance().handleChange({
-            target: {value: 'some valid text'},
-        });
+        wrapper.instance().handleChange('some valid text');
 
         expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 

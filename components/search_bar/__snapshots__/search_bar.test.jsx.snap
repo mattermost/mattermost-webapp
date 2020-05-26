@@ -91,6 +91,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         }
         renderDividers={true}
         renderNoResults={false}
+        renderTaggedInput={true}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
         tabIndex="0"
@@ -193,6 +194,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         }
         renderDividers={true}
         renderNoResults={false}
+        renderTaggedInput={true}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
         tabIndex="0"
@@ -363,6 +365,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         }
         renderDividers={true}
         renderNoResults={false}
+        renderTaggedInput={true}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
         tabIndex="0"
@@ -533,6 +536,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         }
         renderDividers={true}
         renderNoResults={false}
+        renderTaggedInput={true}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
         tabIndex="0"

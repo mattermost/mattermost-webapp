@@ -344,7 +344,7 @@ describe('components/EditPostModal', () => {
         const instance = wrapper.instance();
 
         wrapper.setState({editText: ''});
-        instance.handleChange({target: {value: 'test'}});
+        instance.handleChange('test');
 
         expect(wrapper.state().editText).toBe('test');
     });

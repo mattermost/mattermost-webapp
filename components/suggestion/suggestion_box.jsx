@@ -697,7 +697,6 @@ export default class SuggestionBox extends React.PureComponent {
                 />
                 {renderTaggedInput ?
                     <SearchSuggestionTaggedInput
-                        inputRef={this.inputRef}
                         ref={this.inputCompRef}
                         autoComplete='off'
                         {...props}
