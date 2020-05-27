@@ -52,6 +52,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## @types/highlight.js"
 
+---
+
 ## @types/react-custom-scrollbars
 
 ---	
