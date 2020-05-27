@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ChannelType, Channel} from 'mattermost-redux/types/channels';
-import {Error} from 'mattermost-redux/types/errors';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -62,7 +62,7 @@ export type Props = {
     canCreatePrivateChannel: boolean;
 
     actions: {
-        createChannel: (channel: Channel) => Promise<{data: Channel; error?: Error}>;
+        createChannel: (channel: Channel) => Promise<{data: Channel; error?: ServerError}>;
         switchToChannel: (channel: Channel) => Promise<{}>;
     };
 };
@@ -85,7 +85,7 @@ type NewChannelData = {
     header: string;
 }
 
-export default class NewChannelFlow extends React.Component<Props, State> {
+export default class NewChannelFlow extends React.PureComponent<Props, State> {
     public static defaultProps = {
         show: false,
         channelType: Constants.OPEN_CHANNEL as ChannelType,
@@ -157,7 +157,7 @@ export default class NewChannelFlow extends React.Component<Props, State> {
             update_at: 0,
         };
 
-        actions.createChannel(channel).then((result: {data: Channel; error?: Error}) => {
+        actions.createChannel(channel).then((result: {data: Channel; error?: ServerError}) => {
             if (result.error) {
                 this.onCreateChannelError(result.error);
                 return;
@@ -168,7 +168,7 @@ export default class NewChannelFlow extends React.Component<Props, State> {
         });
     };
 
-    onCreateChannelError = (err: Error) => {
+    onCreateChannelError = (err: ServerError) => {
         if (err.server_error_id === 'model.channel.is_valid.2_or_more.app_error') {
             this.setState({
                 flowState: SHOW_EDIT_URL_THEN_COMPLETE,

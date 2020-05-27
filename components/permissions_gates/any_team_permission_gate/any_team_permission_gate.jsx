@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class AnyTeamPermissionGate extends React.Component {
+export default class AnyTeamPermissionGate extends React.PureComponent {
     static defaultProps = {
         invert: false,
     }

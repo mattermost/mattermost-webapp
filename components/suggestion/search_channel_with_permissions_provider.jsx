@@ -63,7 +63,7 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
                 }}
                 {...Suggestion.baseProps}
             >
-                <span className='suggestion-list__icon suggestion-list__icon--standard'>{icon}</span>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>{icon}</span>
                 {displayName}
             </div>
         );

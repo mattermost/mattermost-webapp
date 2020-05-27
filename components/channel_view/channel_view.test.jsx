@@ -49,17 +49,6 @@ describe('components/channel_view', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('Should have prevChannelId based on prev props', () => {
-        const wrapper = shallow(<ChannelView {...baseProps}/>);
-        expect(wrapper.state('prevChannelId')).toEqual('');
-
-        wrapper.setProps({channelId: 'newChannelId'});
-        expect(wrapper.state('prevChannelId')).toEqual('channelId');
-
-        wrapper.setProps({channelIsArchived: true});
-        expect(wrapper.state('prevChannelId')).toEqual('channelId'); //should still be the same value as there no change in channelId
-    });
-
     it('Should have focusedPostId state based on props', () => {
         const wrapper = shallow(<ChannelView {...baseProps}/>);
         expect(wrapper.state('focusedPostId')).toEqual(undefined);

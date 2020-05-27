@@ -11,7 +11,7 @@ import ArrowRightIcon from 'components/widgets/icons/arrow_right_icon';
 
 import './invitation_modal_initial_step.scss';
 
-export default class InvitationModalInitialStep extends React.Component {
+export default class InvitationModalInitialStep extends React.PureComponent {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
         goToMembers: PropTypes.func.isRequired,
