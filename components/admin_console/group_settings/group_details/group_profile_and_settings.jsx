@@ -87,7 +87,7 @@ export const GroupProfileAndSettings = ({displayname, mentionname, allowReferenc
 
 GroupProfileAndSettings.propTypes = {
     displayname: PropTypes.string.isRequired,
-    mentionname: PropTypes.string.isRequired,
+    mentionname: PropTypes.string,
     allowReference: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,

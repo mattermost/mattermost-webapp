@@ -13,7 +13,7 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 
 import EmojiList from './emoji_list';
 
-export default class EmojiPage extends React.Component {
+export default class EmojiPage extends React.PureComponent {
     static propTypes = {
         teamId: PropTypes.string.isRequired,
         teamName: PropTypes.string.isRequired,

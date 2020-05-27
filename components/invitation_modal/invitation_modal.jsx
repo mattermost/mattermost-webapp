@@ -23,7 +23,7 @@ const STEPS_INVITE_MEMBERS = 'members';
 const STEPS_INVITE_GUESTS = 'guests';
 const STEPS_INVITE_CONFIRM = 'confirm';
 
-export default class InvitationModal extends React.Component {
+export default class InvitationModal extends React.PureComponent {
     static propTypes = {
         show: PropTypes.bool,
         currentTeam: PropTypes.object.isRequired,

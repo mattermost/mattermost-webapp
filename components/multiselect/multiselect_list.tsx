@@ -35,7 +35,7 @@ type State = {
 }
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelectList<T extends Value> extends React.Component<Props<T>, State> {
+export default class MultiSelectList<T extends Value> extends React.PureComponent<Props<T>, State> {
     public static defaultProps = {
         options: [],
         perPage: 50,
