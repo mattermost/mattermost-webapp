@@ -88,17 +88,11 @@ export default class Reaction extends React.Component {
     constructor(props) {
         super(props);
 
-        const {reactionCount, canRemoveReaction, canAddReaction} = this.props;
+        const {reactionCount} = this.props;
         const {currentUserReacted} = this.props.sortedUsers;
-
-        this.state = {
-            canAddReaction,
-            canRemoveReaction,
-        };
 
         if (currentUserReacted) {
             this.state = {
-                ...this.state,
                 userReacted: currentUserReacted,
                 reactedClass: 'Reaction--reacted',
                 displayNumber: reactionCount,
@@ -107,19 +101,11 @@ export default class Reaction extends React.Component {
             };
         } else {
             this.state = {
-                ...this.state,
                 userReacted: currentUserReacted,
                 reactedClass: 'Reaction--unreacted',
                 displayNumber: reactionCount,
                 reactedNumber: reactionCount + 1,
                 unreactedNumber: reactionCount,
-            };
-        }
-
-        if (!canAddReaction || !canRemoveReaction) {
-            this.state = {
-                ...this.state,
-                reactedClass: 'Reaction--read-only',
             };
         }
 
@@ -147,57 +133,12 @@ export default class Reaction extends React.Component {
                 unreactedNumber: nextProps.reactionCount,
             };
         }
-
-        // if permission to add reactions has changed
-        if (nextProps.canAddReaction !== prevState.canAddReaction) {
-            // if can't add reaction
-            if (!nextProps.canAddReaction) {
-                return {
-                    reactedClass: 'Reaction--read-only',
-                    canAddReaction: nextProps.canAddReaction,
-                };
-            }
-
-            // if can add reaction and has/hasn't reacted
-            if (nextProps.sortedUsers.currentUserReacted) {
-                return {
-                    reactedClass: 'Reaction--reacted',
-                    canAddReaction: nextProps.canAddReaction,
-                };
-            }
-            return {
-                reactedClass: '',
-                canAddReaction: nextProps.canAddReaction,
-            };
-        }
-
-        // if permission to remove reactions has changed
-        if (nextProps.canRemoveReaction !== prevState.canRemoveReaction) {
-            if (!nextProps.canRemoveReaction) {
-                return {
-                    reactedClass: 'Reaction--read-only',
-                    canRemoveReaction: nextProps.canRemoveReaction,
-                };
-            }
-
-            // if can remove reaction and has/hasn't reacted
-            if (nextProps.sortedUsers.currentUserReacted) {
-                return {
-                    reactedClass: 'Reaction--reacted',
-                    canRemoveReaction: nextProps.canRemoveReaction,
-                };
-            }
-            return {
-                reactedClass: '',
-                canRemoveReaction: nextProps.canRemoveReaction,
-            };
-        }
         return null;
     }
 
     handleClick = () => {
         // only proceed if user has permission to react
-        if (!(this.props.canAddReaction || this.props.canRemoveReaction)) {
+        if (!(this.props.canAddReaction && this.props.canRemoveReaction)) {
             return;
         }
         this.setState((state) => {
@@ -251,6 +192,7 @@ export default class Reaction extends React.Component {
         const unreacted = (unreactedNumber > 0) ? unreactedNumber : '';
         const reacted = (reactedNumber > 0) ? reactedNumber : '';
         const display = (displayNumber > 0) ? displayNumber : '';
+        const readOnlyClass = (canAddReaction && canRemoveReaction) ? '' : 'Reaction--read-only';
 
         let names;
         if (otherUsersCount > 0) {
@@ -339,16 +281,14 @@ export default class Reaction extends React.Component {
         let clickTooltip;
         const emojiNameWithSpaces = this.props.emojiName.replace(/_/g, ' ');
         let ariaLabelEmoji = `${Utils.localizeMessage('reaction.reactWidth.ariaLabel', 'react with')} ${emojiNameWithSpaces}`;
-        if (currentUserReacted) {
-            if (canRemoveReaction) {
-                ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
-                clickTooltip = (
-                    <FormattedMessage
-                        id='reaction.clickToRemove'
-                        defaultMessage='(click to remove)'
-                    />
-                );
-            }
+        if (currentUserReacted && canRemoveReaction) {
+            ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
+            clickTooltip = (
+                <FormattedMessage
+                    id='reaction.clickToRemove'
+                    defaultMessage='(click to remove)'
+                />
+            );
         } else if (!currentUserReacted && canAddReaction) {
             clickTooltip = (
                 <FormattedMessage
@@ -362,7 +302,7 @@ export default class Reaction extends React.Component {
             <button
                 id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
                 aria-label={ariaLabelEmoji}
-                className={`Reaction ${this.state.reactedClass}`}
+                className={`Reaction ${this.state.reactedClass} ${readOnlyClass}`}
                 onClick={this.handleClick}
                 ref={this.reactionButtonRef}
             >
