@@ -3,7 +3,6 @@
 
 import {createCategory as createCategoryRedux} from 'mattermost-redux/actions/channel_categories';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {setItem} from 'actions/storage';
 import {DraggingState} from 'types/store';

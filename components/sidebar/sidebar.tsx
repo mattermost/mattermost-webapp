@@ -83,7 +83,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     handleCreateCategory = (categoryName: string) => {
-        const result = this.props.actions.createCategory(this.props.teamId, categoryName);
+        this.props.actions.createCategory(this.props.teamId, categoryName);
     }
 
     showMoreChannelsModal = () => {
