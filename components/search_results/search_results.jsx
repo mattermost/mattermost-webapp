@@ -202,8 +202,7 @@ class SearchResults extends React.Component {
                 >
                     <NoResultsIndicator
                         variant={NoResultsVariant.FlaggedPosts}
-                        subtitleValues={{icon: <FlagIcon className='icon  no-results__icon'/>,
-                        }}
+                        subtitleValues={{icon: <FlagIcon className='icon  no-results__icon'/>}}
                     />
                 </div>
             );
