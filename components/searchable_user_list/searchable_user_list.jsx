@@ -42,7 +42,7 @@ class SearchableUserList extends React.PureComponent {
 
     static defaultProps = {
         users: [],
-        usersPerPage: 50, // eslint-disable-line no-magic-numbers
+        usersPerPage: 50,
         extraInfo: {},
         actions: [],
         actionProps: {},

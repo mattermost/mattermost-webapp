@@ -4,12 +4,11 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import TeamButton from './team_button';
 
-function mapStateToProps(state: GlobalState) {
+function mapStateToProps() {
     return {
     };
 }
