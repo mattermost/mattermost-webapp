@@ -10,7 +10,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import MultiSelect, {Value} from './multiselect';
 import MultiSelectList, {Props as MultiSelectProps} from './multiselect_list';
 
-const element = (props: any) => <div/>;
+const element = () => <div/>;
 
 describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
