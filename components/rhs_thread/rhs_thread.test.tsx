@@ -121,7 +121,6 @@ describe('components/RhsThread', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -129,15 +128,10 @@ describe('components/RhsThread', () => {
     test('should make api call to get thread posts on socket reconnect', () => {
         const wrapper = shallow(
             <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
         );
-        const prevProps = {
-            ...baseProps,
-            socketConnectionStatus: false,
-        };
+
+        wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
-        const instance = wrapper.instance() as RhsThread;
-        instance.componentDidUpdate(prevProps);
 
         expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
     });
@@ -146,7 +140,6 @@ describe('components/RhsThread', () => {
         jest.useRealTimers();
         const wrapper = shallow(
             <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
         );
 
         const waitMilliseconds = 100;
@@ -163,11 +156,9 @@ describe('components/RhsThread', () => {
 
         const wrapper = shallow(
             <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
         );
         const instance = wrapper.instance() as RhsThread;
         instance.scrollToBottom = scrollToBottom;
-        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
         wrapper.setProps({
@@ -180,7 +171,6 @@ describe('components/RhsThread', () => {
                 post,
             ],
         });
-        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -190,11 +180,9 @@ describe('components/RhsThread', () => {
 
         const wrapper = shallow(
             <RhsThread {...baseProps}/>,
-            {disableLifecycleMethods: true},
         );
         const instance = wrapper.instance() as RhsThread;
         instance.scrollToBottom = scrollToBottom;
-        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
 
@@ -208,7 +196,6 @@ describe('components/RhsThread', () => {
                 post,
             ],
         });
-        instance.componentDidUpdate(baseProps);
 
         expect(scrollToBottom).not.toHaveBeenCalled();
     });

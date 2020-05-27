@@ -74,7 +74,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     private onClick = (event: React.MouseEvent<HTMLElement>) => {
         const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
-        const pathPair = Object.entries(event.nativeEvent).find(([key, value]) => key === 'path');
+        const pathPair = Object.entries(event.nativeEvent).find(([key]) => key === 'path');
         let path: HTMLElement[] | undefined;
         if (pathPair) {
             path = pathPair[1];

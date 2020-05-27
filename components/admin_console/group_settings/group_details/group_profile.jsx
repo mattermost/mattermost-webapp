@@ -9,7 +9,7 @@ import MentionsIcon from 'components/widgets/icons/mentions_icon';
 
 export default class GroupProfile extends React.PureComponent {
     static propTypes = {
-        name: PropTypes.string.isRequired,
+        name: PropTypes.string,
         title: PropTypes.string.isRequired,
         titleDefault: PropTypes.string.isRequired,
         customID: PropTypes.string,

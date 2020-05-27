@@ -10,7 +10,7 @@ type Props = {
     children: React.ReactNode;
 }
 
-export default class Highlight extends React.Component<Props> {
+export default class Highlight extends React.PureComponent<Props> {
     private markInstance? : Mark;
     private ref: React.RefObject<HTMLDivElement>;
 
