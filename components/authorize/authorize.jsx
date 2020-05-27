@@ -11,7 +11,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class Authorize extends React.Component {
+export default class Authorize extends React.PureComponent {
     static get propTypes() {
         return {
             location: PropTypes.object.isRequired,

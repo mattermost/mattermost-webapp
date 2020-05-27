@@ -13,7 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class Confirm extends React.Component {
+export default class Confirm extends React.PureComponent {
     componentDidMount() {
         document.body.addEventListener('keydown', this.onKeyPress);
     }

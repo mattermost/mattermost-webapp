@@ -34,7 +34,7 @@ type Props = {
         loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
             data: boolean;
         }>;
-        loadTeamMembersForProfilesList: (profiles: any, teamId: string) => Promise<{
+        loadTeamMembersForProfilesList: (profiles: any, teamId: string, reloadAllMembers: boolean) => Promise<{
             data: boolean;
         }>;
         setModalSearchTerm: (term: string) => Promise<{
@@ -47,7 +47,7 @@ type State = {
     loading: boolean;
 }
 
-export default class MemberListTeam extends React.Component<Props, State> {
+export default class MemberListTeam extends React.PureComponent<Props, State> {
     private searchTimeoutId: number;
 
     constructor(props: Props) {
@@ -105,7 +105,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
                     this.setState({loading: true});
 
                     loadStatusesForProfilesList(data);
-                    loadTeamMembersForProfilesList(data, this.props.currentTeamId).then(({data: membersLoaded}) => {
+                    loadTeamMembersForProfilesList(data, this.props.currentTeamId, true).then(({data: membersLoaded}) => {
                         if (membersLoaded) {
                             this.loadComplete();
                         }
