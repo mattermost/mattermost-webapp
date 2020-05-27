@@ -188,7 +188,7 @@ export default class PDFPreview extends React.PureComponent {
                             defaultMessage='Download to read more pages'
                         />
                     </button>
-                </div>
+                </div>,
             );
         }
 

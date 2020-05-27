@@ -214,7 +214,7 @@ export default class ViewImageModal extends React.PureComponent {
         let newScale = this.state.scale;
         newScale = Math.min(newScale + ZoomSettings.SCALE_DELTA, ZoomSettings.MAX_SCALE);
         this.setState(() => ({
-            scale: newScale
+            scale: newScale,
         }));
     };
 
@@ -222,13 +222,13 @@ export default class ViewImageModal extends React.PureComponent {
         let newScale = this.state.scale;
         newScale = Math.max(newScale - ZoomSettings.SCALE_DELTA, ZoomSettings.MIN_SCALE);
         this.setState(() => ({
-            scale: newScale
+            scale: newScale,
         }));
     };
 
     handleZoomReset = () => {
         this.setState(() => ({
-            scale: ZoomSettings.DEFAULT_SCALE
+            scale: ZoomSettings.DEFAULT_SCALE,
         }));
     }
 
