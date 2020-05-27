@@ -131,7 +131,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction, openUp} = this.props;
+        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {

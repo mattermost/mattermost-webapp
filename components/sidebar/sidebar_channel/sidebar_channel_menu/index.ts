@@ -13,12 +13,10 @@ import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences'
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
 import {isChannelMuted, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
-import {createCategory} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import {getSiteURL} from 'utils/url';
