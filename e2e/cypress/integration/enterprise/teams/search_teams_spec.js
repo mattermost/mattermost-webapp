@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @enterprise @system_console
 
-import uuid from 'uuid/v4';
+import {v4 as uuidv4} from 'uuid';
 const PAGE_SIZE = 10;
 
 describe('Search teams', () => {
@@ -37,7 +37,7 @@ describe('Search teams', () => {
     });
 
     it('returns results', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create a new team.
         cy.apiCreateTeam('team-search', displayName).then((response) => {
@@ -52,7 +52,7 @@ describe('Search teams', () => {
     });
 
     it('results are paginated', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create enough new teams with common name prefixes to get multiple pages of search results.
         for (let i = 0; i < PAGE_SIZE + 2; i++) {
@@ -75,7 +75,7 @@ describe('Search teams', () => {
     });
 
     it('clears the results when "x" is clicked', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create a new team.
         cy.apiCreateTeam('team-search', displayName).then((response) => {
@@ -99,7 +99,7 @@ describe('Search teams', () => {
     });
 
     it('clears the results when the search term is deleted with backspace', function() {
-        const displayName = uuid();
+        const displayName = uuidv4();
 
         // # Create a team.
         cy.apiCreateTeam('team-search', displayName).then((response) => {

@@ -53,24 +53,24 @@ export default class AbstractList extends React.PureComponent<Props, State> {
     }
 
     public componentDidMount() {
-        this.performSearch(this.state.page);
+        this.performSearch();
     }
 
     private previousPage = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({page, loading: true});
-        this.performSearch(page);
+        this.performSearch();
     }
 
     private nextPage = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
         e.preventDefault();
         const page = this.state.page + 1;
         this.setState({page, loading: true});
-        this.performSearch(page);
+        this.performSearch();
     }
 
-    private performSearch = (page: number): void => {
+    private performSearch = (): void => {
         const newState = {...this.state};
         const userId = this.props.userId;
         delete newState.page;
