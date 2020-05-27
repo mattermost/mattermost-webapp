@@ -221,7 +221,7 @@ class SearchResults extends React.Component {
             );
         } else if (!searchTerms && noResults && !this.props.isMentionSearch) {
             ctls = (
-                <div className='sidebar--right__subheader a11y__section'>
+                <div className='sidebar--right__subheader search__hints a11y__section'>
                     <SearchHint
                         onOptionSelected={this.props.updateSearchTerms}
                         options={searchHintOptions}
