@@ -76,7 +76,7 @@ export default class DeleteChannelModal extends React.PureComponent<Props, State
                         {!canViewArchivedChannels &&
                             <FormattedMarkdownMessage
                                 id='delete_channel.question'
-                                defaultMessage='This will archive the channel from the team and make its contents inaccessible for all users. \n \nAre you sure you wish to archive the **{display_name}** channel?'
+                                defaultMessage='This will archive the channel from the team and remove it from the user interface. A copy of the channel is kept on the server. \n \nAre you sure you wish to archive the {display_name} channel?'
                                 values={{
                                     display_name: this.props.channel.display_name,
                                 }}
