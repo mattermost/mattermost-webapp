@@ -211,7 +211,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {category, categoryIndex, isCollapsed, draggingState, channels} = this.props;
+        const {category, categoryIndex, isCollapsed, channels} = this.props;
         const isNewCategory = this.props.isNewCategory && !channels.length;
 
         if (!category) {
@@ -226,7 +226,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;
-        let newDropBox: (isDraggingOver: boolean) => JSX.Element;
         let directMessagesModalButton: JSX.Element;
         let hideArrow = false;
         if (isNewCategory) {
