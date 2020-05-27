@@ -142,4 +142,39 @@ describe('components/admin_console/group_settings/group_details/GroupDetails', (
         expect(actions.link).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'team', {auto_add: true});
         expect(actions.link).toBeCalledTimes(2);
     });
+
+    test('update name for null slug', async () => {
+        const wrapper = shallow(
+            <GroupDetails
+                {...defaultProps}
+                group={{display_name: 'test group', allow_reference: false}}
+            />,
+        );
+
+        wrapper.instance().onMentionToggle(true);
+        expect(wrapper.state().groupMentionName).toBe('test-group');
+    });
+
+    test('update name for empty slug', async () => {
+        const wrapper = shallow(
+            <GroupDetails
+                {...defaultProps}
+                group={{name: '', display_name: 'test group', allow_reference: false}}
+            />,
+        );
+
+        wrapper.instance().onMentionToggle(true);
+        expect(wrapper.state().groupMentionName).toBe('test-group');
+    });
+
+    test('Should not update name for slug', async () => {
+        const wrapper = shallow(
+            <GroupDetails
+                {...defaultProps}
+                group={{name: 'any_name_at_all', display_name: 'test group', allow_reference: false}}
+            />,
+        );
+        wrapper.instance().onMentionToggle(true);
+        expect(wrapper.state().groupMentionName).toBe('any_name_at_all');
+    });
 });
