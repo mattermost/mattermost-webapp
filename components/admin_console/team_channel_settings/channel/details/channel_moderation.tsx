@@ -35,15 +35,18 @@ const formattedMessages: any = defineMessages({
         },
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.createPosts.disabledGuest'),
-            defaultMessage: 'Create posts for guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=create_post).',
+            defaultMessage: 'Create posts for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_create_post',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.createPosts.disabledMember'),
-            defaultMessage: 'Create posts for members are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=create_post).',
+            defaultMessage: 'Create posts for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'create_post',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.createPosts.disabledBoth'),
-            defaultMessage: 'Create posts for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=create_post).',
+            defaultMessage: 'Create posts for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'create_post',
         },
     },
 
@@ -62,15 +65,18 @@ const formattedMessages: any = defineMessages({
         },
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.postReactions.disabledGuest'),
-            defaultMessage: 'Post reactions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=reactions).',
+            defaultMessage: 'Post reactions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_reactions',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.postReactions.disabledMember'),
-            defaultMessage: 'Post reactions for members are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=reactions).',
+            defaultMessage: 'Post reactions for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'reactions',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.postReactions.disabledBoth'),
-            defaultMessage: 'Post reactions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=reactions).',
+            defaultMessage: 'Post reactions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'reactions',
         },
     },
 
@@ -85,15 +91,18 @@ const formattedMessages: any = defineMessages({
         },
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.manageMembers.disabledGuest'),
-            defaultMessage: 'Manage members for guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=manage_{public_or_private}_channel_members).',
+            defaultMessage: 'Manage members for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_manage_{public_or_private}_channel_members',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.manageMembers.disabledMember'),
-            defaultMessage: 'Manage members for members are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=manage_{public_or_private}_channel_members).',
+            defaultMessage: 'Manage members for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'manage_{public_or_private}_channel_members',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.manageMembers.disabledBoth'),
-            defaultMessage: 'Manage members for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=manage_{public_or_private}_channel_members).',
+            defaultMessage: 'Manage members for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'manage_{public_or_private}_channel_members',
         },
     },
 
@@ -112,15 +121,18 @@ const formattedMessages: any = defineMessages({
         },
         disabledGuests: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledGuest'),
-            defaultMessage: 'Channel mentions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=use_channel_mentions).',
+            defaultMessage: 'Channel mentions for guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'guest_use_channel_mentions',
         },
         disabledMembers: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledMember'),
-            defaultMessage: 'Channel mentions for members are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=use_channel_mentions).',
+            defaultMessage: 'Channel mentions for members are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'use_channel_mentions',
         },
         disabledBoth: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledBoth'),
-            defaultMessage: 'Channel mentions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}?rowIdFromQuery=use_channel_mentions).',
+            defaultMessage: 'Channel mentions for members and guests are disabled in [{scheme_name}](../permissions/{scheme_link}).',
+            permissionName: 'use_channel_mentions',
         },
         disabledGuestsDueToCreatePosts: {
             id: t('admin.channel_settings.channel_moderation.channelMentions.disabledGuestsDueToCreatePosts'),
@@ -309,6 +321,11 @@ export default class ChannelModeration extends React.PureComponent<Props> {
                 schemeName = this.props.teamSchemeDisplayName + ' Team Scheme';
                 schemeLink = `team_override_scheme/${this.props.teamSchemeID}`;
             }
+
+            if (formattedMessages[entry.name][disabledKey].permissionName) {
+                schemeLink += `?rowIdFromQuery=${formattedMessages[entry.name][disabledKey].permissionName}`;
+            }
+
             errorMessages.push(
                 <div
                     data-testid={formattedMessages[entry.name][disabledKey].id.replace(PERIOD_TO_SLASH_REGEX, '-')}
