@@ -79,7 +79,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
     test('should match snapshot, on channel show', () => {
         const props = defaultProps;
         const wrapper = shallowWithIntl(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
@@ -88,7 +88,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
     test('should match snapshot, on channel hide', () => {
         const props = {...defaultProps, shouldHideChannel: true};
         const wrapper = shallowWithIntl(
-            <SidebarChannel {...props}/>
+            <SidebarChannel {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();

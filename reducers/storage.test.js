@@ -22,13 +22,13 @@ describe('Reducers.Storage', () => {
                     value: 'value',
                     timestamp: now,
                 },
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
             {
                 user_id_key: {value: 'value', timestamp: now},
-            }
+            },
         );
     });
 
@@ -44,13 +44,13 @@ describe('Reducers.Storage', () => {
                     value: 'value',
                     timestamp: now,
                 },
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
             {
                 key: {value: 'value', timestamp: now},
-            }
+            },
         );
     });
 
@@ -67,11 +67,11 @@ describe('Reducers.Storage', () => {
                     name: 'key',
                     prefix: 'user_id_',
                 },
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
-            {}
+            {},
         );
         nextState = storageReducer(
             {
@@ -83,11 +83,11 @@ describe('Reducers.Storage', () => {
                     name: 'key',
                     prefix: 'user_id_',
                 },
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
-            {}
+            {},
         );
     });
 
@@ -103,11 +103,11 @@ describe('Reducers.Storage', () => {
                 data: {
                     name: 'key',
                 },
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
-            {}
+            {},
         );
         nextState = storageReducer(
             {
@@ -118,11 +118,11 @@ describe('Reducers.Storage', () => {
                 data: {
                     name: 'key',
                 },
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
-            {}
+            {},
         );
     });
 
@@ -139,13 +139,13 @@ describe('Reducers.Storage', () => {
                 data: {
                     exclude: ['excluded'],
                 },
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
             {
                 excluded: {value: 'not-cleared', timestamp: now},
-            }
+            },
         );
     });
 
@@ -166,11 +166,11 @@ describe('Reducers.Storage', () => {
                     prefix: 'prefix',
                     action: (key, value) => touchedPairs.push([key, value]),
                 },
-            }
+            },
         );
         assert.deepEqual(
             touchedPairs,
-            [['prefix_key1', 1], ['prefix_key2', 2]]
+            [['prefix_key1', 1], ['prefix_key2', 2]],
         );
     });
 
@@ -190,11 +190,11 @@ describe('Reducers.Storage', () => {
                     prefix: 'prefix',
                     action: (key, value) => touchedPairs.push([key, value]),
                 },
-            }
+            },
         );
         assert.deepEqual(
             touchedPairs,
-            [['prefix_key1', 1], ['prefix_key2', 2]]
+            [['prefix_key1', 1], ['prefix_key2', 2]],
         );
     });
 
@@ -206,33 +206,33 @@ describe('Reducers.Storage', () => {
             {
                 type: StorageTypes.STORAGE_REHYDRATE,
                 data: {test: '123'},
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
-            {test: '123'}
+            {test: '123'},
         );
         nextState = storageReducer(
             nextState,
             {
                 type: StorageTypes.STORAGE_REHYDRATE,
                 data: {test: '456'},
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
-            {test: '456'}
+            {test: '456'},
         );
         nextState = storageReducer(
             nextState,
             {
                 type: StorageTypes.STORAGE_REHYDRATE,
                 data: {test2: '789'},
-            }
+            },
         );
         assert.deepEqual(
             nextState.storage,
-            {test: '456', test2: '789'}
+            {test: '456', test2: '789'},
         );
     });
 });

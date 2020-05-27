@@ -23,6 +23,7 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
         subtitleDefault={syncChecked ? 'Add and remove team members based on their group membership.' : 'Group members will be added to the team.'}
         button={
             <ToggleModalButton
+                id='addGroupsToTeamToggle'
                 className='btn btn-primary'
                 dialogType={AddGroupsToTeamModal}
                 dialogProps={{

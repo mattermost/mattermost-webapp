@@ -15,7 +15,7 @@ describe('admin_console/team_channel_settings/team/TeamModes', () => {
                 allAllowedChecked={false}
                 allowedDomains={''}
                 allowedDomainsChecked={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

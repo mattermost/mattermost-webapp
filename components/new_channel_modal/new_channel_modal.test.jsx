@@ -32,7 +32,7 @@ describe('components/NewChannelModal', () => {
     test('should match snapshot, modal not showing', () => {
         const props = {...baseProps, show: false};
         const wrapper = shallow(
-            <NewChannelModal {...props}/>
+            <NewChannelModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Modal).props().show).toEqual(false);
@@ -40,7 +40,7 @@ describe('components/NewChannelModal', () => {
 
     test('should match snapshot, modal showing', () => {
         const wrapper = shallow(
-            <NewChannelModal {...baseProps}/>
+            <NewChannelModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Modal).props().show).toEqual(true);
@@ -49,7 +49,7 @@ describe('components/NewChannelModal', () => {
     test('should match snapshot, display only public channel option', () => {
         const props = {...baseProps, canCreatePrivateChannel: false};
         const wrapper = shallow(
-            <NewChannelModal {...props}/>
+            <NewChannelModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Modal).props().show).toEqual(true);
@@ -58,7 +58,7 @@ describe('components/NewChannelModal', () => {
     test('should match snapshot, display only private channel option', () => {
         const props = {...baseProps, canCreatePublicChannel: false};
         const wrapper = shallow(
-            <NewChannelModal {...props}/>
+            <NewChannelModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Modal).props().show).toEqual(true);
@@ -69,14 +69,14 @@ describe('components/NewChannelModal', () => {
         const props = {...baseProps, channelData: newChannelData, channelType: Constants.PRIVATE_CHANNEL};
 
         const wrapper = shallow(
-            <NewChannelModal {...props}/>
+            <NewChannelModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on displayNameError', () => {
         const wrapper = shallow(
-            <NewChannelModal {...baseProps}/>
+            <NewChannelModal {...baseProps}/>,
         );
         wrapper.setState({displayNameError: true});
         expect(wrapper).toMatchSnapshot();
@@ -85,7 +85,7 @@ describe('components/NewChannelModal', () => {
     test('should match snapshot, on serverError', () => {
         const props = {...baseProps, serverError: 'server error'};
         const wrapper = shallow(
-            <NewChannelModal {...props}/>
+            <NewChannelModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -125,7 +125,7 @@ describe('components/NewChannelModal', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <NewChannelModal {...baseProps}/>
-            </Provider>
+            </Provider>,
         );
         const modal = wrapper.find(NewChannelModal).instance();
 
@@ -168,7 +168,7 @@ describe('components/NewChannelModal', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <NewChannelModal {...baseProps}/>
-            </Provider>
+            </Provider>,
         );
         const modal = wrapper.find(NewChannelModal).instance();
         modal.handleSubmit({preventDefault: jest.fn()});
@@ -179,7 +179,7 @@ describe('components/NewChannelModal', () => {
 
     test('should have called handleSubmit on onEnterKeyDown', () => {
         const wrapper = shallow(
-            <NewChannelModal {...baseProps}/>
+            <NewChannelModal {...baseProps}/>,
         );
         wrapper.instance().handleSubmit = jest.fn();
 
@@ -199,7 +199,7 @@ describe('components/NewChannelModal', () => {
             <NewChannelModal
                 {...baseProps}
                 show={false}
-            />
+            />,
         );
 
         wrapper.setState({displayNameError: 'an error'});

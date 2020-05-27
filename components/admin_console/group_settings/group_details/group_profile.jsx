@@ -9,7 +9,7 @@ import MentionsIcon from 'components/widgets/icons/mentions_icon';
 
 export default class GroupProfile extends React.PureComponent {
     static propTypes = {
-        name: PropTypes.string.isRequired,
+        name: PropTypes.string,
         title: PropTypes.string.isRequired,
         titleDefault: PropTypes.string.isRequired,
         customID: PropTypes.string,
@@ -44,8 +44,7 @@ export default class GroupProfile extends React.PureComponent {
                         </div>
                         <input
                             type='text'
-                            id={customID}
-                            className='form-control group_at_mention_input'
+                            className='form-control group-at-mention-input'
                             value={name}
                             disabled={isDisabled}
                             onChange={onChange}

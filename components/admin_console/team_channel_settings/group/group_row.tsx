@@ -17,7 +17,7 @@ interface GroupRowProps {
     type: string;
 }
 
-export default class GroupRow extends React.Component<GroupRowProps> {
+export default class GroupRow extends React.PureComponent<GroupRowProps> {
     removeGroup = () => {
         this.props.removeGroup(this.props.group.id!);
     };

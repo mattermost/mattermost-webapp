@@ -13,7 +13,7 @@ type Props = {
     errors?: React.ReactNode[];
 }
 
-export default class FormError extends React.Component<Props> {
+export default class FormError extends React.PureComponent<Props> {
     public static defaultProps = {
         error: null,
         errors: [],

@@ -29,14 +29,14 @@ describe('components/AnnouncementBar', () => {
         actions: {
             sendVerificationEmail: jest.fn(),
             incrementAnnouncementBarCount: jest.fn(),
-            decrementAnnouncementBarCount: jest.fn()
+            decrementAnnouncementBarCount: jest.fn(),
         },
     };
 
     test('should match snapshot, bar showing', () => {
         const props = baseProps;
         const wrapper = shallow(
-            <AnnouncementBar {...props}/>
+            <AnnouncementBar {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe('components/AnnouncementBar', () => {
     test('should match snapshot, bar not showing', () => {
         const props = {...baseProps, enableBanner: false};
         const wrapper = shallow(
-            <AnnouncementBar {...props}/>
+            <AnnouncementBar {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -54,7 +54,7 @@ describe('components/AnnouncementBar', () => {
     test('should match snapshot, bar showing, no dismissal', () => {
         const props = {...baseProps, allowBannerDismissal: false};
         const wrapper = shallow(
-            <AnnouncementBar {...props}/>
+            <AnnouncementBar {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -63,7 +63,7 @@ describe('components/AnnouncementBar', () => {
     test('should match snapshot, props change', () => {
         const props = baseProps;
         const wrapper = shallow(
-            <AnnouncementBar {...props}/>
+            <AnnouncementBar {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -84,7 +84,7 @@ describe('components/AnnouncementBar', () => {
     test('should match snapshot, dismissal', () => {
         const props = baseProps;
         const wrapper = shallow(
-            <AnnouncementBar {...props}/>
+            <AnnouncementBar {...props}/>,
         );
 
         // Banner should show

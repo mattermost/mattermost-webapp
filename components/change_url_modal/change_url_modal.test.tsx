@@ -20,7 +20,7 @@ describe('components/ChangeURLModal', () => {
     test('should match snapshot, modal not showing', () => {
         const props = {...baseProps, show: false};
         const wrapper = shallow(
-            <ChangeURLModal {...props}/>
+            <ChangeURLModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Modal).props().show).toEqual(false);
@@ -28,7 +28,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should match snapshot, modal showing', () => {
         const wrapper = shallow(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(Modal).props().show).toEqual(true);
@@ -37,7 +37,7 @@ describe('components/ChangeURLModal', () => {
     test('should match snapshot, with a input', () => {
         const props = {...baseProps};
         const wrapper = shallow(
-            <ChangeURLModal {...props}/>
+            <ChangeURLModal {...props}/>,
         );
         const input = wrapper.find('input');
         expect(wrapper).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should match snapshot, on urlErrors', () => {
         const wrapper = shallow(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
         wrapper.setState({urlErrors: true});
         expect(wrapper.find('.has-error').length).toEqual(2);
@@ -55,7 +55,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should match snapshot, on currentURL', () => {
         const wrapper = shallow(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
         wrapper.setState({urlErrors: true});
         expect(wrapper).toMatchSnapshot();
@@ -63,7 +63,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should match state when onSubmit is called with a valid URL', () => {
         const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
         const value = 'urlexample';
         const refURLInput = wrapper.find('input[type="text"]').getDOMNode() as HTMLInputElement;
@@ -77,7 +77,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should match state when onSubmit is called with a invalid URL', () => {
         const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
         const value = 'a';
         const refURLInput = wrapper.find('input[type="text"]').getDOMNode() as HTMLInputElement;
@@ -91,7 +91,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should match state when onURLChanged is called', () => {
         const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
         const value = 'URLEXAMPLE';
         const target = {value};
@@ -106,7 +106,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should match state when onCancel is called', () => {
         const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
 
         const instance = wrapper.instance() as ChangeURLModal;
@@ -118,7 +118,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should update current url when not editing', () => {
         const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
 
         const url = 'url_1';
@@ -129,7 +129,7 @@ describe('components/ChangeURLModal', () => {
 
     test('should not update current url when editing', () => {
         const wrapper = mountWithIntl(
-            <ChangeURLModal {...baseProps}/>
+            <ChangeURLModal {...baseProps}/>,
         );
 
         const url = 'url_1';

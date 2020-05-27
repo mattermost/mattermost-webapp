@@ -25,7 +25,7 @@ describe('components/QuickSwitchModal', () => {
 
     it('should match snapshot', () => {
         const wrapper = shallow(
-            <QuickSwitchModal {...baseProps}/>
+            <QuickSwitchModal {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -36,7 +36,7 @@ describe('components/QuickSwitchModal', () => {
             const props = {...baseProps};
 
             const wrapper = shallow(
-                <QuickSwitchModal {...props}/>
+                <QuickSwitchModal {...props}/>,
             );
 
             wrapper.instance().handleSubmit();
@@ -46,7 +46,7 @@ describe('components/QuickSwitchModal', () => {
 
         it('should fail to switch to a channel', (done) => {
             const wrapper = shallow(
-                <QuickSwitchModal {...baseProps}/>
+                <QuickSwitchModal {...baseProps}/>,
             );
 
             const channel = {id: 'channel_id', userId: 'user_id', type: Constants.DM_CHANNEL};
@@ -71,7 +71,7 @@ describe('components/QuickSwitchModal', () => {
             };
 
             const wrapper = shallow(
-                <QuickSwitchModal {...props}/>
+                <QuickSwitchModal {...props}/>,
             );
 
             const channel = {id: 'channel_id', userId: 'user_id', type: Constants.DM_CHANNEL};
@@ -96,7 +96,7 @@ describe('components/QuickSwitchModal', () => {
             };
 
             const wrapper = shallow(
-                <QuickSwitchModal {...props}/>
+                <QuickSwitchModal {...props}/>,
             );
 
             const channel = {id: 'channel_id', name: 'test', type: Constants.OPEN_CHANNEL};
@@ -125,7 +125,7 @@ describe('components/QuickSwitchModal', () => {
             };
 
             const wrapper = shallow(
-                <QuickSwitchModal {...props}/>
+                <QuickSwitchModal {...props}/>,
             );
 
             const channel = {id: 'channel_id', name: 'test', type: Constants.DM_CHANNEL};
