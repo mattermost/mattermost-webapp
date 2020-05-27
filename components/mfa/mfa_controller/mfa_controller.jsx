@@ -14,7 +14,7 @@ import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 import Setup from '../setup';
 import Confirm from '../confirm';
 
-export default class MFAController extends React.Component {
+export default class MFAController extends React.PureComponent {
     componentDidMount() {
         document.body.classList.add('sticky');
         document.getElementById('root').classList.add('container-fluid');

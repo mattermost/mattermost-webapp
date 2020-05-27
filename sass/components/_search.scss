@@ -267,7 +267,7 @@
     box-sizing: border-box;
 
     &.highlighted {
-        background: rgba(61, 60, 64, 0.06);
+        background: var(--center-channel-color-08);
     }
 }
 
@@ -299,9 +299,9 @@
 
     .search-hint__suggestions-list__option:first-child {
         padding-top: 10px;
-    }    
+    }
 
     .search-hint__suggestions-list__option:hover {
-        background: rgba(61, 60, 64, 0.06);
+        background: var(--center-channel-color-08);
     }
 }

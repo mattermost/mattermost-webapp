@@ -14,7 +14,7 @@ import Avatar from 'components/widgets/users/avatar';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-export default class StatusDropdown extends React.Component {
+export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
