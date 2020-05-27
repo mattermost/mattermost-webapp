@@ -18,6 +18,7 @@ type Props = {
     currentTeamId: string;
     categoryId?: string;
     initialCategoryName?: string;
+    channelIdsToAdd?: string[];
     actions: {
         createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
         renameCategory: (categoryId: string, newName: string) => void;
@@ -58,8 +59,9 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         if (this.props.categoryId) {
             this.props.actions.renameCategory(this.props.categoryId, this.state.categoryName);
         } else {
-            this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName);
+            this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName, this.props.channelIdsToAdd);
         }
+
         this.onHide();
     }
 
