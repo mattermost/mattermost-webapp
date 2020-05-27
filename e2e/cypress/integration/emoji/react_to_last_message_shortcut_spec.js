@@ -488,7 +488,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.findByLabelText('Flagged posts').click();
 
         // # Expand the flagged message
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Expand the sidebar icon').click();
 
         // Execute the shortcut
         pressShortcutReactToLastMessage();
@@ -497,13 +497,13 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.get('#emojiPicker').should('not.exist');
 
         // Close the expanded sidebar
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Shrink the sidebar icon').click();
 
         // # Open the Pinned Posts
         cy.findByLabelText('Pinned posts').click();
 
         // # Expand the Pinned Posts
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Expand the sidebar icon').click();
 
         // Execute the shortcut
         pressShortcutReactToLastMessage();
@@ -512,7 +512,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.get('#emojiPicker').should('not.exist');
 
         // Close the expanded sidebar
-        cy.findByLabelText('Expand').click();
+        cy.findByLabelText('Shrink the sidebar icon').click();
     });
 
     it('Should open the emoji picker for last message by shortcut if RHS is fully expanded for thread and focus is on RHS text box', () => {
