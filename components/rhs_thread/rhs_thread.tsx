@@ -4,6 +4,7 @@
 import $ from 'jquery';
 import {FormattedMessage} from 'react-intl';
 import React from 'react';
+import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
