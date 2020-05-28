@@ -16,11 +16,6 @@ export default class RhsPlugin extends React.PureComponent {
             PropTypes.string,
             PropTypes.object,
         ]),
-        icons: PropTypes.arrayOf(PropTypes.shape({
-            icon: PropTypes.node.isRequired,
-            tooltip: PropTypes.node.isRequired,
-            action: PropTypes.func.isRequired,
-        })),
     }
 
     render() {
@@ -29,9 +24,7 @@ export default class RhsPlugin extends React.PureComponent {
                 id='rhsContainer'
                 className='sidebar-right__body'
             >
-                <SearchResultsHeader
-                    icons={this.props.icons}
-                >
+                <SearchResultsHeader>
                     {this.props.title}
                 </SearchResultsHeader>
                 {

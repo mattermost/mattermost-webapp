@@ -15,13 +15,11 @@ function mapStateToProps(state) {
     const pluginComponent = rhsPlugins.find((element) => element.id === pluginComponentId);
     const pluggableId = pluginComponent ? pluginComponent.id : null;
     const pluginTitle = pluginComponent ? pluginComponent.title : '';
-    const icons = pluginComponent ? pluginComponent.icons : [];
 
     return {
         showPluggable: Boolean(pluggableId),
         pluggableId,
         title: pluginTitle,
-        icons,
     };
 }
 
