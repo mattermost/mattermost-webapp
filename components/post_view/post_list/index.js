@@ -83,11 +83,8 @@ function makeMapStateToProps() {
             latestPostTimeStamp,
             postListIds: postIds,
             latestAriaLabelFunc,
-<<<<<<< HEAD
             isPrefetchingInProcess,
-=======
             channelManuallyUnread,
->>>>>>> master
         };
     };
 }

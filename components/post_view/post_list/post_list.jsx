@@ -76,15 +76,11 @@ export default class PostList extends React.PureComponent {
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
-<<<<<<< HEAD
-        prevChannelId: PropTypes.string.isRequired,
-
         /*
          * Used for skipping the call on load
          */
         isPrefetchingInProcess: PropTypes.bool.isRequired,
-=======
->>>>>>> master
+
         actions: PropTypes.shape({
 
             /*
