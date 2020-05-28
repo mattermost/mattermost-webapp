@@ -154,6 +154,11 @@ const mockState = {
         },
     },
     websocket: {},
+    plugins: {
+        components: {
+            RightHandSidebarComponent: [],
+        },
+    },
 };
 
 jest.mock('stores/redux_store', () => {
