@@ -117,22 +117,11 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    getSnapshotBeforeUpdate(prevProps) {
+    componentDidUpdate(prevProps) {
         if (this.props.show === true && prevProps.show === false) {
-            return 'modalShown';
+            this.onModalShown(this.props);
         } else if (this.props.show === false && prevProps.show === true) {
-            return 'modalHidden';
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (snapshot !== null) {
-            if (snapshot === 'modalShown') {
-                this.onModalShown(prevProps);
-            } else {
-                this.onModalHidden();
-            }
+            this.onModalHidden();
         }
     }
 
