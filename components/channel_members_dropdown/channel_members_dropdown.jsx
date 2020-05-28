@@ -14,7 +14,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
-export default class ChannelMembersDropdown extends React.Component {
+export default class ChannelMembersDropdown extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,

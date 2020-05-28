@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
 import SearchIcon from 'components/widgets/icons/search_icon';
@@ -14,7 +14,7 @@ type Props = {
     term: string;
 }
 
-class DataGridSearch extends React.Component<Props> {
+class DataGridSearch extends React.PureComponent<Props> {
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
         this.props.onSearch(term);

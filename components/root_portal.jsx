@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-export default class RootPortal extends React.Component {
+export default class RootPortal extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
     }

@@ -13,7 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-export default class LicenseSettings extends React.Component {
+export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
         license: PropTypes.object.isRequired,
         stats: PropTypes.object,
