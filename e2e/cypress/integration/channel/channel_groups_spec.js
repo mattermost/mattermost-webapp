@@ -39,7 +39,7 @@ describe('channel groups', () => {
         teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
         cy.getCurrentTeamId().then((id) => {
-            cy.apiCreateGroupTeam(groups[0].id, id);
+            cy.apiLinkGroupTeam(groups[0].id, id);
             teamID = id;
         });
 
