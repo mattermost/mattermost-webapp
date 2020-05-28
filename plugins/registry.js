@@ -608,9 +608,9 @@ export default class PluginRegistry {
 
         return {
             id,
-            showRHSPlugin: showRHSPlugin(this.id),
-            hideRHSPlugin: hideRHSPlugin(this.id),
-            toggleRHSPlugin: toggleRHSPlugin(this.id),
+            showRHSPlugin: showRHSPlugin(id),
+            hideRHSPlugin: hideRHSPlugin(id),
+            toggleRHSPlugin: toggleRHSPlugin(id),
             setRHSPluginIcons,
         };
     }

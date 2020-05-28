@@ -12,6 +12,8 @@ import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 import {unregisterPluginTranslationsSource} from 'actions/views/root';
 import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
+import {hideRHSPlugin as hideRHSPluginAction} from 'actions/views/rhs';
+import {getPluginId} from 'selectors/rhs';
 
 // Plugins may have been compiled with the regenerator runtime. Ensure this remains available
 // as a global export even though the webapp does not depend on same.
@@ -90,6 +92,7 @@ export function loadPlugin(manifest) {
 
         if (oldManifest) {
             // upgrading, perform cleanup
+            hideRHSPlugin(oldManifest.id);
             store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
         }
 
@@ -145,6 +148,7 @@ export function removePlugin(manifest) {
 
     delete loadedPlugins[manifest.id];
 
+    hideRHSPlugin(manifest.id);
     store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
 
     const plugin = window.plugins[manifest.id];
@@ -202,4 +206,17 @@ export async function loadPluginsIfNecessary() {
             removePlugin(oldManifest);
         }
     });
+}
+
+// Closes RHS if its showing this plugin.
+function hideRHSPlugin(manifestId) {
+    const state = store.getState();
+    const rhsPlugins = state.plugins.components.RightHandSidebarComponent || [];
+    const pluginComponentId = getPluginId(state);
+    const pluginComponent = rhsPlugins.find((element) => element.id === pluginComponentId && element.pluginId === manifestId);
+
+    // Hide RHS if its showing this plugin
+    if (pluginComponent) {
+        store.dispatch(hideRHSPluginAction(pluginComponentId));
+    }
 }
