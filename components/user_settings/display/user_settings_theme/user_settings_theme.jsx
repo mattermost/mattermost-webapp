@@ -16,7 +16,7 @@ import SettingItemMin from 'components/setting_item_min';
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser';
 
-export default class ThemeSetting extends React.Component {
+export default class ThemeSetting extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
             saveTheme: PropTypes.func.isRequired,

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
