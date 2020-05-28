@@ -14,6 +14,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {DraggingState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
@@ -397,8 +398,10 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         if (result.reason === 'DROP' && result.destination) {
             if (result.type === 'SIDEBAR_CHANNEL') {
                 this.props.actions.moveChannelToCategory(result.destination.droppableId, result.draggableId, result.destination.index);
+                trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);
+                trackEvent('ui', 'ui_sidebar_dragdrop_dropped_category');
             }
         }
 

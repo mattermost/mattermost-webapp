@@ -7,6 +7,7 @@ import {IntlShape, injectIntl} from 'react-intl';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import DeleteCategoryModal from 'components/delete_category_modal';
 import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
@@ -64,6 +65,12 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
         });
+        trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
+    }
+
+    onToggle = (open: boolean) => {
+        this.props.onToggle(open);
+        trackEvent('ui', 'ui_sidebar_category_menu_opened');
     }
 
     renderDropdownItems = () => {
@@ -120,7 +127,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                     ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                     buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                     tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-                    onToggle={this.props.onToggle}
+                    onToggle={this.onToggle}
                 >
                     {this.renderDropdownItems()}
                 </SidebarMenu>

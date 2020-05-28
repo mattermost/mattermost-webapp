@@ -6,6 +6,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
+    onToggle={[Function]}
     refCallback={[Function]}
     tooltipText="Channel options"
   >
@@ -114,6 +115,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
+    onToggle={[Function]}
     refCallback={[Function]}
     tooltipText="Channel options"
   >
@@ -199,6 +201,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
+    onToggle={[Function]}
     refCallback={[Function]}
     tooltipText="Channel options"
   >
@@ -294,6 +297,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
+    onToggle={[Function]}
     refCallback={[Function]}
     tooltipText="Channel options"
   >
@@ -402,6 +406,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
+    onToggle={[Function]}
     refCallback={[Function]}
     tooltipText="Channel options"
   >
@@ -510,6 +515,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
+    onToggle={[Function]}
     refCallback={[Function]}
     tooltipText="Channel options"
   >
@@ -607,6 +613,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     ariaLabel="Channel Menu"
     buttonAriaLabel="Channel Menu"
     id="SidebarChannelMenu-channel_id"
+    onToggle={[Function]}
     refCallback={[Function]}
     tooltipText="Channel options"
   >

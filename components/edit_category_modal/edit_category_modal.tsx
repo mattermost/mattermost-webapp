@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
+import {trackEvent} from 'actions/diagnostics_actions';
 import QuickInput from 'components/quick_input';
 import {localizeMessage} from 'utils/utils';
 
@@ -60,6 +61,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
             this.props.actions.renameCategory(this.props.categoryId, this.state.categoryName);
         } else {
             this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName, this.props.channelIdsToAdd);
+            trackEvent('ui', 'ui_sidebar_created_category');
         }
 
         this.onHide();
