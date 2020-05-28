@@ -60,7 +60,7 @@ export type State = {
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelect<T extends Value> extends React.Component<Props<T>, State> {
+export default class MultiSelect<T extends Value> extends React.PureComponent<Props<T>, State> {
     private listRef = React.createRef<MultiSelectList<T>>()
     private reactSelectRef = React.createRef<ReactSelect>()
     private selected: T | null = null

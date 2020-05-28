@@ -9,7 +9,7 @@ import {mount} from 'enzyme';
 
 import ModalController from 'components/modal_controller';
 
-class TestModal extends React.Component {
+class TestModal extends React.PureComponent {
     render() {
         return (
             <Modal

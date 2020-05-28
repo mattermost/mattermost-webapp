@@ -17,7 +17,7 @@ type Props = {
     autoFocus?: boolean;
 }
 
-export default class BoolSetting extends React.Component<Props> {
+export default class BoolSetting extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',

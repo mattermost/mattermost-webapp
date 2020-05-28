@@ -23,7 +23,7 @@ const getRecursivePermissions = (permissions) => {
     return result;
 };
 
-export default class PermissionGroup extends React.Component {
+export default class PermissionGroup extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         uniqId: PropTypes.string.isRequired,
