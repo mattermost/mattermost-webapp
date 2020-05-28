@@ -34,6 +34,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         }
       }
       dialogType={[Function]}
+      id="addChannelMembers"
     >
       <FormattedMessage
         defaultMessage="Add Members"
@@ -43,7 +44,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     </ModalToggleButton>
   }
   className=""
-  id="channel_members"
+  id="channelMembers"
   subtitleDefault="A list of users who are currently in the channel right now"
   subtitleId="admin.channel_settings.channel_detail.membersDescription"
   titleDefault="Members"
@@ -259,6 +260,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         }
       }
       dialogType={[Function]}
+      id="addChannelMembers"
     >
       <FormattedMessage
         defaultMessage="Add Members"
@@ -268,7 +270,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     </ModalToggleButton>
   }
   className=""
-  id="channel_members"
+  id="channelMembers"
   subtitleDefault="A list of users who are currently in the channel right now"
   subtitleId="admin.channel_settings.channel_detail.membersDescription"
   titleDefault="Members"

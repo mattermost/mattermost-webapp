@@ -24,7 +24,7 @@ describe('Messaging', () => {
     it('M18706-Input box on reply thread can expand', () => {
         const maxReplyCount = 15;
         const halfViewportHeight = Cypress.config('viewportHeight') / 2;
-        const padding = 7;
+        const padding = 3;
         const postCreateContainerDefaultHeight = 187;
         const replyTextBoxDefaultHeight = 100;
         const postCreateContainerClassName = 'post-create__container';
@@ -49,7 +49,7 @@ describe('Messaging', () => {
             const replyTextBox = doc.getElementById(replyTextBoxId);
 
             // * Check if post create container has default offset height and less than 50% of viewport height
-            expect(postCreateContainer.offsetHeight).to.eq(postCreateContainerDefaultHeight).and.lessThan(halfViewportHeight);
+            expect(postCreateContainer.offsetHeight).to.eq(postCreateContainerDefaultHeight - padding - 1).and.lessThan(halfViewportHeight);
 
             // * Check if reply text box has default offset height and less than post create container default offset height
             expect(replyTextBox.offsetHeight).to.eq(replyTextBoxDefaultHeight).and.lessThan(postCreateContainerDefaultHeight);
@@ -101,7 +101,9 @@ describe('Messaging', () => {
             expect(replyTextBox.offsetHeight).to.be.greaterThan(postCreateContainerDefaultHeight);
 
             // * Check if reply text box height attribute is greater than reply text box offset height
-            cy.get(`#${replyTextBoxId}`).should('have.attr', 'height').and('greaterThan', replyTextBox.offsetHeight);
+            cy.get(`#${replyTextBoxId}`).should('have.attr', 'height').then((height) => {
+                expect(Number(height)).to.be.greaterThan(replyTextBox.offsetHeight);
+            });
         });
     }
 });

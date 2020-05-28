@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
-import {Error} from 'mattermost-redux/types/errors';
+import {ServerError} from 'mattermost-redux/types/errors';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -16,7 +16,7 @@ import {switchToChannel} from 'actions/views/channel';
 import NewChannelFlow from './new_channel_flow';
 
 type Actions = {
-    createChannel: (channel: Channel) => Promise<{data: Channel; error?: Error}>;
+    createChannel: (channel: Channel) => Promise<{data: Channel; error?: ServerError}>;
     switchToChannel: (channel: Channel) => Promise<{}>;
 }
 
