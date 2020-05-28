@@ -193,3 +193,17 @@
         top: -1px;
     }
 }
+
+.status-dropdown-menu {
+    i,
+    path,
+    ellipse {
+        @include opacity(.5);
+
+        &.online--icon,
+        &.away--icon,
+        &.dnd--icon {
+            @include opacity(1);
+        }
+    }
+}

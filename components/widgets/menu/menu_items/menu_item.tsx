@@ -35,9 +35,11 @@ export default function menuItem(Component: React.ComponentType<any>) {
                 );
             }
 
+            const iconClassname = icon ? ' MenuItem--with-icon' : '';
+
             return (
                 <li
-                    className='MenuItem'
+                    className={`MenuItem${iconClassname}`}
                     role='menuitem'
                     id={id}
                 >
