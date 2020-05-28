@@ -14,12 +14,10 @@ function mapStateToProps(state) {
 
     const plugin = rhsPlugins.find((element) => element.id === pluginId);
     const pluginName = plugin ? plugin.title : '';
-    const icons = plugin ? plugin.icons : [];
 
     return {
-        pluggableId: pluginId,
         title: pluginName,
-        icons,
+        pluggableId: pluginId,
     };
 }
 
