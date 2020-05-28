@@ -10,6 +10,7 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {trackEvent} from 'actions/diagnostics_actions';
 import ChannelInviteModal from 'components/channel_invite_modal';
+import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
@@ -31,7 +32,6 @@ type Props = {
     managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
     actions: {
-        createCategory: (teamId: string, categoryName: string, channelIds?: string[]) => {data: ChannelCategory};
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
@@ -43,7 +43,6 @@ type Props = {
 };
 
 type State = {
-    showCreateCategoryModal: boolean;
     openUp: boolean;
     width: number;
 };
@@ -55,7 +54,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            showCreateCategoryModal: false,
             openUp: false,
             width: 0,
         };
@@ -93,21 +91,14 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         };
     }
 
-    showCreateCategoryModal = () => {
-        this.setState({showCreateCategoryModal: true});
-    }
-
-    hideCreateCategoryModal = () => {
-        this.setState({showCreateCategoryModal: false});
-    }
-
     moveToNewCategory = () => {
-        this.showCreateCategoryModal();
-        trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-    }
-
-    handleCreateCategory = (categoryName: string) => {
-        this.props.actions.createCategory(this.props.currentTeamId, categoryName, [this.props.channel.id]);
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+            dialogProps: {
+                channelIdsToAdd: [this.props.channel.id],
+            },
+        });
     }
 
     copyLink = () => {
