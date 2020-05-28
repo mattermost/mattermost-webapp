@@ -6,6 +6,10 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+// Stage: @prod
+// Group: @messaging
+
 function emojiVerification(postId) {
     // # set the postMessageTextId var
     const postMessageTextId = `#postMessageText_${postId}`;

@@ -195,7 +195,7 @@ class CreateComment extends React.PureComponent {
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
 
-        isMarkdownPreviewEnabled: PropTypes.bool,
+        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
 
         /**
          * Function to set or unset emoji picker for last message
