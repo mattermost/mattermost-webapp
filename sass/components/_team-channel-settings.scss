@@ -7,7 +7,7 @@ span.greyed-out {
 .row-content {
     @include opacity(.8)
 }
-.groups-list-no-padding {
+.groups-list-no-padding {    
     div.group-row {
         height: 40px;
         padding-left: 20px;

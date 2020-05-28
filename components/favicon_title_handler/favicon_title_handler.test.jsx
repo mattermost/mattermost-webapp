@@ -42,7 +42,7 @@ describe('components/FaviconTitleHandler', () => {
 
     test('set correctly the title when needed', () => {
         const wrapper = shallowWithIntl(
-            <FaviconTitleHandler {...defaultProps}/>
+            <FaviconTitleHandler {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.updateTitle();
@@ -70,7 +70,7 @@ describe('components/FaviconTitleHandler', () => {
         document.head.appendChild(link);
 
         const wrapper = shallowWithIntl(
-            <FaviconTitleHandler {...defaultProps}/>
+            <FaviconTitleHandler {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         instance.updateFavicon = jest.fn();

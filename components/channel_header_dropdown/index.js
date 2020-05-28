@@ -50,7 +50,7 @@ const getTeammateStatus = createSelector(
         }
 
         return userStatuses[teammateId];
-    }
+    },
 );
 
 const mapStateToProps = (state) => ({

@@ -25,6 +25,8 @@ import {FakePost} from 'types/store/rhs';
 
 import './rhs_thread.scss';
 
+const SCROLL_NEAR_BOTTOM_BUFFER = 200;
+
 type Props = {
     posts: Post[];
     channel: Channel | null;
@@ -48,6 +50,7 @@ type State = {
     windowWidth?: number;
     windowHeight?: number;
     isScrolling: boolean;
+    isNearBottom: boolean;
     topRhsPostId: string;
     openTime: number;
     postsArray?: Record<string, any>[];
@@ -78,6 +81,7 @@ export default class RhsThread extends React.Component<Props, State> {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
+            isNearBottom: true,
             topRhsPostId: '',
             openTime,
         };
@@ -98,7 +102,7 @@ export default class RhsThread extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props) {
+    public componentDidUpdate(prevProps: Props, prevState: State) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -112,6 +116,13 @@ export default class RhsThread extends React.Component<Props, State> {
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
             this.props.actions.getPostThread(this.props.selected.id);
+        }
+
+        // if near bottom of thread, continue to scroll after adding new post
+        if (!Utils.areObjectsEqual(prevPostsArray, curPostsArray)) {
+            if (prevState.isNearBottom) {
+                this.scrollToBottom();
+            }
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
@@ -143,6 +154,10 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         if (nextState.isScrolling !== this.state.isScrolling) {
+            return true;
+        }
+
+        if (nextState.isNearBottom !== this.state.isNearBottom) {
             return true;
         }
 
@@ -254,6 +269,17 @@ export default class RhsThread extends React.Component<Props, State> {
         this.setState({
             isScrolling: false,
         });
+
+        if (this.scrollbarsRef.current) {
+            const elem = this.scrollbarsRef.current;
+
+            // scrollTop on Chrome/Win10 when UI is scaled sometimes returns float value +/- <.5px
+            // corrected by rounding plus a buffer of 200px for inadvertant/insignificant scroll
+            const isNearBottom = Math.round(elem.scrollTop) + elem.clientHeight >= (elem.scrollHeight - SCROLL_NEAR_BOTTOM_BUFFER);
+            this.setState({
+                isNearBottom,
+            });
+        }
     }
 
     public render(): JSX.Element {
@@ -316,7 +342,7 @@ export default class RhsThread extends React.Component<Props, State> {
                     handleCardClick={this.handleCardClickPost}
                     a11yIndex={a11yIndex++}
                     isLastPost={comPost.id === lastRhsCommentPost.id}
-                />
+                />,
             );
         }
 

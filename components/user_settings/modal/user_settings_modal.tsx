@@ -8,7 +8,7 @@ import {
     defineMessages,
     FormattedMessage,
     injectIntl,
-    IntlShape
+    IntlShape,
 } from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -102,7 +102,7 @@ class UserSettingsModal extends React.Component<Props, State> {
             showConfirmModal: false,
             enforceFocus: true,
             show: true,
-            resendStatus: ''
+            resendStatus: '',
         };
 
         this.requireConfirm = false;

@@ -26,7 +26,7 @@ export default class LeavePrivateChannelModal extends React.Component<Props, Sta
         super(props);
 
         this.state = {
-            show: false
+            show: false,
         };
     }
 
@@ -67,7 +67,7 @@ export default class LeavePrivateChannelModal extends React.Component<Props, Sta
 
     handleHide = () => {
         this.setState({
-            show: false
+            show: false,
         });
     };
 

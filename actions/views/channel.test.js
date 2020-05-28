@@ -526,7 +526,7 @@ describe('channel view actions', () => {
 
             expect(store.getActions()).toEqual([{
                 data: true,
-                type: 'UPDATE_TOAST_STATUS'
+                type: 'UPDATE_TOAST_STATUS',
             }]);
         });
     });

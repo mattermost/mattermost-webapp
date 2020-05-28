@@ -29,7 +29,7 @@ const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = fals
                 data: {
                     scheme_user: true,
                     scheme_admin: teamAdmin,
-                }
+                },
             });
 
             // # Reload page to ensure no cache or saved information
@@ -45,7 +45,7 @@ const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = fals
                 data: {
                     scheme_user: true,
                     scheme_admin: channelAdmin,
-                }
+                },
             });
 
             // # Reload page to ensure no cache or saved information

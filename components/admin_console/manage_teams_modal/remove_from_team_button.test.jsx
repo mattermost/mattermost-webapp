@@ -14,7 +14,7 @@ describe('RemoveFromTeamButton', () => {
 
     test('should match snapshot init', () => {
         const wrapper = shallow(
-            <RemoveFromTeamButton {...baseProps}/>
+            <RemoveFromTeamButton {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -22,7 +22,7 @@ describe('RemoveFromTeamButton', () => {
 
     test('should call handleRemoveUserFromTeam on button click', () => {
         const wrapper = shallow(
-            <RemoveFromTeamButton {...baseProps}/>
+            <RemoveFromTeamButton {...baseProps}/>,
         );
         wrapper.find('button').prop('onClick')({preventDefault: jest.fn()});
         expect(baseProps.handleRemoveUserFromTeam).toHaveBeenCalledTimes(1);

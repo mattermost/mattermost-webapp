@@ -39,7 +39,7 @@ describe('components/ModalController', () => {
         const wrapper = mount(
             <Provider store={store}>
                 <ModalController/>
-            </Provider>
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -67,7 +67,7 @@ describe('components/ModalController', () => {
         mount(
             <Provider store={store}>
                 <ModalController/>
-            </Provider>
+            </Provider>,
         );
 
         expect(document.getElementsByClassName('modal-dialog').length).toBe(1);

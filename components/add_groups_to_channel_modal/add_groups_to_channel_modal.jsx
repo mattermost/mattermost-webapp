@@ -78,7 +78,7 @@ export default class AddGroupsToChannelModal extends React.Component {
                     await this.props.actions.getGroupsNotAssociatedToChannel(this.props.currentChannelId, searchTerm);
                     this.setGroupsLoadingState(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         }
     }
