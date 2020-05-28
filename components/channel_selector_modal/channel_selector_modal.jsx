@@ -43,7 +43,7 @@ export default class ChannelSelectorModal extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
             this.setState({channels: response.data.sort(compareChannels)});
             this.setChannelsLoadingState(false);
         });
@@ -55,7 +55,7 @@ export default class ChannelSelectorModal extends React.Component {
 
             const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
-                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
                     this.setState({channels: response.data.sort(compareChannels)});
                     this.setChannelsLoadingState(false);
                 });
