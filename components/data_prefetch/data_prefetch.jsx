@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
-export const queue = new PQueue({concurrency: 2});
+const queue = new PQueue({concurrency: 2});
 
 export default class DataPrefetch extends React.PureComponent {
     static propTypes = {
@@ -17,14 +17,13 @@ export default class DataPrefetch extends React.PureComponent {
         }),
         prefetchQueueObj: PropTypes.object,
         prefetchRequestStatus: PropTypes.object,
-        children: PropTypes.node.isRequired,
     }
 
     async componentDidUpdate(prevProps) {
         if (!prevProps.currentChannelId && this.props.currentChannelId) {
-            queue.add(() => this.props.actions.prefetchChannelPosts(this.props.currentChannelId));
+            queue.add(async () => this.prefetchPosts(this.props.currentChannelId));
             await loadProfilesForSidebar();
-            await this.prefetchData();
+            this.prefetchData();
         } else if (prevProps.prefetchQueueObj !== this.props.prefetchQueueObj) {
             clearTimeout(this.prefetchTimeout);
             queue.clear();
@@ -38,8 +37,8 @@ export default class DataPrefetch extends React.PureComponent {
         clearTimeout(this.prefetchTimeout);
     }
 
-    prefetchPosts = async (channelId) => {
-        await this.props.actions.prefetchChannelPosts(channelId);
+    prefetchPosts = (channelId) => {
+        return this.props.actions.prefetchChannelPosts(channelId);
     }
 
     shouldLoadPriorityQueue = (priority, numberOfPiorityRequests) => {
@@ -63,9 +62,10 @@ export default class DataPrefetch extends React.PureComponent {
             for (let channelIndex = 0; channelIndex < priorityQueue.length; channelIndex++) {
                 if (!this.props.prefetchRequestStatus[priorityQueue[channelIndex]] && this.shouldLoadPriorityQueue(priorityOrder, numberOfPiorityRequests)) {
                     numberOfPiorityRequests[priorityOrder]++;
-                    queue.add(() => this.prefetchPosts(priorityQueue[channelIndex]));
+                    queue.add(async () => this.prefetchPosts(priorityQueue[channelIndex]));
                 }
             }
+            numberOfPiorityRequests[priorityOrder] = 0;
         }
     }
 

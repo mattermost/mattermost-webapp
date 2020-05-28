@@ -43,7 +43,7 @@ function mapStateToProps(state) {
     const memberships = getMyChannelMemberships(state);
     const unreadChannels = getUnreadChannels(state, lastUnreadChannel);
     const prefetchQueueObj = prefetchQueue(unreadChannels, memberships);
-    const prefetchRequestStatus = state.views.channel.prefetchChannelStatus;
+    const prefetchRequestStatus = state.views.channel.channelPrefetchStatus;
 
     return {
         currentChannelId: getCurrentChannelId(state),

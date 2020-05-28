@@ -150,7 +150,7 @@ function toastStatus(state = false, action) {
     }
 }
 
-function prefetchChannelStatus(state = {}, action) {
+function channelPrefetchStatus(state = {}, action) {
     switch (action.type) {
     case ActionTypes.PREFETCH_POSTS_FOR_CHANNEL:
         return {
@@ -175,5 +175,5 @@ export default combineReducers({
     keepChannelIdAsUnread,
     lastGetPosts,
     toastStatus,
-    prefetchChannelStatus,
+    channelPrefetchStatus,
 });

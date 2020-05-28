@@ -76,6 +76,14 @@ describe('components/post_view/post_list', () => {
         expect(wrapper.state('loadingOlderPosts')).toBe(false);
     });
 
+    it('Should not call loadUnreads if isPrefetchingInProcess is true', async () => {
+        const emptyPostList = [];
+
+        shallow(<PostList {...{...baseProps, postListIds: emptyPostList, isPrefetchingInProcess: true}}/>);
+
+        expect(actionsProp.loadUnreads).not.toHaveBeenCalledWith(baseProps.channelId);
+    });
+
     it('Should call for before and afterPosts', async () => {
         const postIds = createFakePosIds(2);
         const wrapper = shallow(

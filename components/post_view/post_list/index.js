@@ -46,7 +46,7 @@ function makeMapStateToProps() {
         const {focusedPostId, unreadChunkTimeStamp, channelId} = ownProps;
         const channelViewState = state.views.channel;
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
-        const isPrefetchingInProcess = channelViewState.prefetchChannelStatus[channelId] === RequestStatus.STARTED;
+        const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
 
         if (focusedPostId && unreadChunkTimeStamp !== '') {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
