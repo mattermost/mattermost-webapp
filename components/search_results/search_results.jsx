@@ -342,7 +342,7 @@ class SearchResults extends React.Component {
                     <div
                         id='search-items-container'
                         role='application'
-                        className={classNames(['search-items-container post-list__table a11y__region'])}
+                        className={classNames(['search-items-container post-list__table a11y__region', {'no-results': noResults}])}
                         data-a11y-sort-order='3'
                         data-a11y-focus-child={true}
                         data-a11y-loop-navigation={false}

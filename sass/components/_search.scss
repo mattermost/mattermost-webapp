@@ -156,7 +156,12 @@
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
     position: relative;
-    display: flex;
+    padding-top: 28px;
+
+    &.no-results {
+        display: flex;
+        padding-top: 0;
+    }
 }
 
 .search-items-container div.loading {

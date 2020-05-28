@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {searchHintOptions} from 'utils/constants';
+import Constants, {searchHintOptions, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
@@ -43,6 +43,7 @@ export default class SearchBar extends React.PureComponent {
             closeRightHandSide: PropTypes.func,
             autocompleteChannelsForSearch: PropTypes.func.isRequired,
             autocompleteUsersInTeam: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func,
         }),
     };
 
@@ -129,6 +130,8 @@ export default class SearchBar extends React.PureComponent {
 
     onClear = () => {
         this.props.actions.updateSearchTerms('');
+        this.props.actions.updateRhsState(RHSStates.SEARCH);
+
         if (this.props.isMentionSearch) {
             this.setState({keepInputFocused: false});
         }
