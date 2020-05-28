@@ -142,7 +142,23 @@ exports[`plugins/Pluggable should match snapshot with null pluggableId 1`] = `
       "id": "theme_id",
     }
   }
-/>
+>
+  <ProfilePopoverPlugin
+    key="PopoverSection1undefined"
+    pluggableId={null}
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
+  >
+    <span
+      id="pluginId"
+    >
+      ProfilePopoverPlugin
+    </span>
+  </ProfilePopoverPlugin>
+</Pluggable>
 `;
 
 exports[`plugins/Pluggable should match snapshot with valid pluggableId 1`] = `

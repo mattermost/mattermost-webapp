@@ -18,6 +18,7 @@ function mapStateToProps(state) {
     const icons = pluginComponent ? pluginComponent.icons : [];
 
     return {
+        showPluggable: Boolean(pluggableId),
         pluggableId,
         title: pluginTitle,
         icons,

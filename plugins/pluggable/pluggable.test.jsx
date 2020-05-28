@@ -174,7 +174,7 @@ describe('plugins/Pluggable', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.children().length).toBe(0);
+        expect(wrapper.children().length).toBe(1);
     });
 
     test('should match snapshot with valid pluggableId', () => {
