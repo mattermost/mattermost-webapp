@@ -95,7 +95,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         });
     }
 
-    if (options.warnMetricStatus) {
+    if (options.isWarnMetricEnabled) {
         const attrib = 'data-warn-metric-status';
 
         processingInstructions.push({
@@ -113,7 +113,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                         modalId={ModalIdentifiers.WARN_METRIC_ACK}
                         onClick={() => trackEvent('admin', 'click_warn_metric_ack_button')}
                         dialogProps={{
-                            warnMetricId: options.warnMetricId,
+                            warnMetricStatus: options.warnMetricStatus,
                         }}
                     >
                         {contactUsString}

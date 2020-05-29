@@ -53,6 +53,12 @@ export type Team = {
     name: string;
     displayName: string;
 };
+
+export type WarnMetricStatus = {
+    id: string;
+    aae_id: string;
+    limit: number;
+};
 interface TextFormattingOptionsBase {
 
     /**
@@ -173,14 +179,14 @@ interface TextFormattingOptionsBase {
    *
    * Defaults to `false`.
    */
-    warnMetricStatus: boolean;
+    isWarnMetricEnabled: boolean;
 
     /**
-   * The id of the warn metric to warn the admin on
+   * The status of the warn metric to warn the admin on
    *
-   * Defaults to ``.
+   * Defaults to null.
    */
-    warnMetricId: string;
+    warnMetricStatus: WarnMetricStatus;
 }
 
 export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
@@ -194,8 +200,7 @@ const DEFAULT_OPTIONS: TextFormattingOptions = {
     atMentions: false,
     minimumHashtagLength: 3,
     proxyImages: false,
-    warnMetricStatus: false,
-    warnMetricId: '',
+    isWarnMetricEnabled: false,
 };
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
@@ -266,7 +271,7 @@ export function doFormatText(text: string, options: TextFormattingOptions, emoji
         output = autolinkAtMentions(output, tokens);
     }
 
-    if (options.warnMetricStatus) {
+    if (options.isWarnMetricEnabled) {
         output = autolinkWarnMetricStatus(output, tokens);
     }
 

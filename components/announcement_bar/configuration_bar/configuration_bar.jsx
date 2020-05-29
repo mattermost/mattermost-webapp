@@ -44,12 +44,24 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         this.props.actions.dismissNotice(AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS);
     }
 
-    getNoticeForWarnMetricId = (warnMetricId) => {
-        switch (warnMetricId) {
-        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS:
+    getNoticeForWarnMetric = (warnMetricStatus) => {
+        if (!warnMetricStatus) {
+            return null;
+        }
+
+        switch (warnMetricStatus.id) {
+        case WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500:
+            var message = (
+                <FormattedMarkdownMessage
+                    id={AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS}
+                    defaultMessage={'Team exceeds {limit} users. Consider activating user management access controls to ensure compliance.'}
+                    values={{
+                        limit: warnMetricStatus.limit,
+                    }}
+                />
+            );
             return {
-                Id: AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS,
-                DefaultText: 'The number of active users is greater than the supported limit. Please acknowledge and upgrade.',
+                Message: message,
                 DismissFunc: this.dismissNumberOfActiveUsersWarnMetric,
                 IsDismissed: this.props.dismissedNumberOfActiveUsersWarnMetricStatus,
             };
@@ -115,14 +127,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                     />
                 );
             }
-            if (this.props.license.IsLicensed === 'false' && this.props.warnMetricsStatus) {
-                for (const [id, flag] of Object.entries(this.props.warnMetricsStatus)) {
-                    if (!flag) {
-                        continue;
-                    }
-
-                    var notice = this.getNoticeForWarnMetricId(id);
-                    if (notice.IsDismissed) {
+            if ((this.props.config.BuildEnterpriseReady === 'false' || (this.props.config.BuildEnterpriseReady === 'true' && this.props.license.IsLicensed === 'false')) && this.props.warnMetricsStatus) {
+                for (const status of Object.values(this.props.warnMetricsStatus)) {
+                    var notice = this.getNoticeForWarnMetric(status);
+                    if (!notice || notice.IsDismissed) {
                         continue;
                     }
 
@@ -133,14 +141,9 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                             type={AnnouncementBarTypes.LICENSE_EXPIRED}
                             showModal={true}
                             modalButtonText={t('announcement_bar.error.warn_metric_status.link')}
-                            modalButtonDefaultText={'Acknowledge'}
-                            warnMetricId={id}
-                            message={
-                                <FormattedMarkdownMessage
-                                    id={notice.Id}
-                                    defaultMessage={notice.DefaultText}
-                                />
-                            }
+                            modalButtonDefaultText={'Contact Support'}
+                            warnMetricStatus={status}
+                            message={notice.Message}
                         />
                     );
                 }

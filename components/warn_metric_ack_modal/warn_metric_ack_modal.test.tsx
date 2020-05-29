@@ -30,7 +30,11 @@ describe('components/WarnMetricAckModal', () => {
         } as UserProfile,
         show: false,
         closeParentComponent: jest.fn(),
-        warnMetricId: 'metric1',
+        warnMetricStatus: {
+            id: 'metric1',
+            aae_id: 'aae_id',
+            limit: 500,
+        },
         actions: {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),

@@ -208,7 +208,7 @@ export const PostRequestTypes = keyMirror({
 });
 
 export const WarnMetricTypes = {
-    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS: 'warn_metric_number_of_active_users',
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500: 'warn_metric_number_of_active_users_500',
 };
 
 export const ModalIdentifiers = {

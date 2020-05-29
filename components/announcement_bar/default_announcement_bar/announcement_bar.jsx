@@ -29,7 +29,7 @@ export default class AnnouncementBar extends React.PureComponent {
         showModal: PropTypes.bool,
         modalButtonText: PropTypes.string,
         modalButtonDefaultText: PropTypes.string,
-        warnMetricId: PropTypes.string,
+        warnMetricStatus: PropTypes.object,
         actions: PropTypes.shape({
             incrementAnnouncementBarCount: PropTypes.func.isRequired,
             decrementAnnouncementBarCount: PropTypes.func.isRequired,
@@ -136,7 +136,7 @@ export default class AnnouncementBar extends React.PureComponent {
                                         onClick={() => trackEvent('admin', 'click_warn_metric_ack_button')}
                                         modalId={ModalIdentifiers.WARN_METRIC_ACK}
                                         dialogProps={{
-                                            warnMetricId: this.props.warnMetricId,
+                                            warnMetricStatus: this.props.warnMetricStatus,
                                             closeParentComponent: this.props.handleClose,
                                         }}
                                     >

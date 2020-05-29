@@ -15,7 +15,7 @@ import {t} from 'utils/i18n';
 import {trackEvent} from 'actions/diagnostics_actions';
 import * as AdminActions from 'actions/admin_actions.jsx';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import ErrorLink from 'components/error_page/error_link';
 
 const StatTypes = Constants.StatTypes;
 
@@ -25,7 +25,7 @@ type Props = {
     show: boolean;
     closeParentComponent?: () => Promise<void>;
     stats: Record<string, any>;
-    warnMetricId: string;
+    warnMetricStatus: any;
     actions: {
         closeModal: (arg: string) => void;
         getStandardAnalytics: () => any;
@@ -53,11 +53,11 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         AdminActions.getStandardAnalytics();
     }
 
-    onAcknowledgeClick = async () => {
-        trackEvent('admin', 'click_warn_metric_ack_acknowledge', {metric: this.props.warnMetricId});
+    onContactSupportClick = async () => {
+        trackEvent('admin', 'click_warn_metric_ack_contact_support', {metric: this.props.warnMetricStatus.id});
 
         this.setState({saving: true});
-        const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricId, this.state.forceAck);
+        const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricStatus.id, this.state.forceAck);
         if (error) {
             this.setState({serverError: error.message, saving: false});
         } else {
@@ -83,24 +83,22 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             return null;
         }
 
-        const mailRecipient = 'acknowledge@mattermost.com';
-        const mailSubject = encodeURIComponent('Acknowledgement of User Limit');
+        const mailRecipient = 'support@mattermost.com';
+        const mailSubject = encodeURIComponent('Mattermost support request:' + this.props.warnMetricStatus.aae_id);
 
-        let mailBody = 'This is a receipt of acknowledgement for the number of active users exceeding the limit for the following site.';
+        let mailBody = 'Mattermost support request for ' + this.props.warnMetricStatus.aae_id + ': Team exceeds ' + this.props.warnMetricStatus.limit + ' users. Consider activating user management access controls to ensure compliance.';
         mailBody += '\r\n';
-        mailBody += 'Contact Email ' + this.props.user.email;
+        mailBody += 'Contact ' + this.props.user.first_name + ' ' + this.props.user.last_name;
         mailBody += '\r\n';
-        mailBody += 'Site URL ' + getSiteURL();
+        mailBody += 'Email ' + this.props.user.email;
         mailBody += '\r\n';
-
-        if (this.props.license && this.props.license.IsLicensed === 'true') {
-            mailBody += 'License ID ' + this.props.license.Id;
-            mailBody += '\r\n';
-        }
         if (this.props.stats[StatTypes.TOTAL_USERS]) {
             mailBody += 'Registered Users ' + this.props.stats[StatTypes.TOTAL_USERS];
             mailBody += '\r\n';
         }
+        mailBody += 'Site URL ' + getSiteURL();
+        mailBody += '\r\n';
+
         mailBody += 'If you have any additional inquiries, please contact support@mattermost.com';
         mailBody = encodeURIComponent(mailBody);
 
@@ -113,15 +111,14 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 <label className='control-label'>
                     <FormattedMessage
                         id='warn_metric_ack_modal.mailto.message'
-                        defaultMessage='We were unable to send acknowledgement. Please {link} to acknowledge the warning!'
+                        defaultMessage='We were unable to reach support. {link} instead to contact support'
                         values={{
                             link: (
                                 <WarnMetricAckErrorLink
                                     url={mailToLinkText}
                                     messageId={t('warn_metric_ack_modal.mailto.link')}
-                                    defaultMessage={'Email Us'}
-                                    onClickHandler={this.onAcknowledgeClick}
-                                    warnMetricId={this.props.warnMetricId}
+                                    defaultMessage={'Email us'}
+                                    onClickHandler={this.onContactSupportClick}
                                 />
                             ),
                         }}
@@ -132,6 +129,9 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     }
 
     render() {
+        const learnMoreLink = 'https://mattermost.com/pl/default-aae-faq';
+        const aaeLink = 'https://mattermost.com/pl/default-aae-faq';
+
         const headerTitle = (
             <FormattedMessage
                 id='warn_metric_ack_modal.header.title'
@@ -140,14 +140,24 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         );
         const descriptionText = (
             <FormattedMessage
-                id='warn_metric_ack_modal.description'
-                defaultMessage='The number of active users is greater than the supported limit. Please acknowledge the issue by clicking below.'
+                id='warn_metric_ack_modal.number_of_active_users.description'
+                defaultMessage='"Team exceeds {limit} users. Consider activating user management controls to ensure compliance. {link}"'
+                values={{
+                    limit: this.props.warnMetricStatus.limit,
+                    link: (
+                        <ErrorLink
+                            url={aaeLink}
+                            messageId={this.props.warnMetricStatus.aae_id}
+                            defaultMessage={this.props.warnMetricStatus.aae_id}
+                        />
+                    ),
+                }}
             />
         );
         const buttonText = (
             <FormattedMessage
-                id='warn_metric_ack_modal.acknowledge'
-                defaultMessage='Acknowledge'
+                id='warn_metric_ack_modal.contact_support'
+                defaultMessage='Contact Support'
             />
         );
         const subText = (
@@ -155,9 +165,18 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 style={{opacity: '0.45'}}
                 className='help__format-text'
             >
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='warn_metric_ack_modal.mailto.body.sub_text'
-                    defaultMessage='Acknowledgement will be sent to Mattermost, Inc.'
+                    defaultMessage='Contacting support sends your contact information to Mattermost, Inc. {link}'
+                    values={{
+                        link: (
+                            <ErrorLink
+                                url={learnMoreLink}
+                                messageId={t('warn_metric_ack_modal.learn_more.link')}
+                                defaultMessage={'Learn More'}
+                            />
+                        ),
+                    }}
                 />
             </div>
         );
@@ -205,7 +224,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                         data-dismiss='modal'
                         disabled={this.state.saving}
                         autoFocus={true}
-                        onClick={this.onAcknowledgeClick}
+                        onClick={this.onContactSupportClick}
                     >
                         {buttonText}
                     </button>
@@ -220,7 +239,6 @@ type ErrorLinkProps = {
     messageId: string;
     onClickHandler: () => Promise<void>;
     url: string;
-    warnMetricId: string;
 }
 
 const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messageId, onClickHandler, url}: ErrorLinkProps) => {
