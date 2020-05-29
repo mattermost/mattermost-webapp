@@ -13,7 +13,7 @@ import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} fr
 import {unregisterPluginTranslationsSource} from 'actions/views/root';
 import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
 import {hideRHSPlugin as hideRHSPluginAction} from 'actions/views/rhs';
-import {getPluginId} from 'selectors/rhs';
+import {getPluggableId} from 'selectors/rhs';
 
 // Plugins may have been compiled with the regenerator runtime. Ensure this remains available
 // as a global export even though the webapp does not depend on same.
@@ -208,15 +208,15 @@ export async function loadPluginsIfNecessary() {
     });
 }
 
-// Closes RHS if its showing this plugin.
+// hideRHSPlugin closes the RHS if currently showing this plugin.
 function hideRHSPlugin(manifestId) {
     const state = store.getState();
     const rhsPlugins = state.plugins.components.RightHandSidebarComponent || [];
-    const pluginComponentId = getPluginId(state);
-    const pluginComponent = rhsPlugins.find((element) => element.id === pluginComponentId && element.pluginId === manifestId);
+    const pluggableId = getPluggableId(state);
+    const pluginComponent = rhsPlugins.find((element) => element.id === pluggableId && element.pluginId === manifestId);
 
     // Hide RHS if its showing this plugin
     if (pluginComponent) {
-        store.dispatch(hideRHSPluginAction(pluginComponentId));
+        store.dispatch(hideRHSPluginAction(pluggableId));
     }
 }
