@@ -177,9 +177,10 @@ export default class PostList extends React.PureComponent {
             await actions.loadLatestPosts(channelId);
         }
 
-        if (focusedPostId) {
+        if (!focusedPostId) {
             this.markChannelAsReadAndViewed(channelId);
         }
+
         if (this.mounted) {
             this.setState({
                 loadingOlderPosts: false,
