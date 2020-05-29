@@ -7,14 +7,14 @@ import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import OverlayTrigger from 'components/overlay_trigger';
-
 import Constants from 'utils/constants';
 
-export default class SearchResultsHeader extends React.Component {
+export default class SearchResultsHeader extends React.PureComponent {
     static propTypes = {
+        isExpanded: PropTypes.bool.isRequired,
         children: PropTypes.node,
         actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func,
+            closeRightHandSide: PropTypes.func.isRequired,
             toggleRhsExpanded: PropTypes.func.isRequired,
         }),
     };
@@ -51,16 +51,15 @@ export default class SearchResultsHeader extends React.Component {
             <div className='sidebar--right__header'>
                 <span className='sidebar--right__title'>{this.props.children}</span>
                 <div className='pull-right'>
-                    <button
-                        type='button'
-                        className='sidebar--right__expand btn-icon'
-                        aria-label='Expand'
-                        onClick={this.props.actions.toggleRhsExpanded}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={expandSidebarTooltip}
+                        <button
+                            type='button'
+                            className='sidebar--right__expand btn-icon'
+                            onClick={this.props.actions.toggleRhsExpanded}
                         >
                             <FormattedMessage
                                 id='rhs_header.expandSidebarTooltip.icon'
@@ -73,12 +72,6 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={shrinkSidebarTooltip}
-                        >
                             <FormattedMessage
                                 id='rhs_header.expandTooltip.icon'
                                 defaultMessage='Shrink the sidebar icon'
@@ -90,19 +83,19 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
-                    <button
-                        id='searchResultsCloseButton'
-                        type='button'
-                        className='sidebar--right__close btn-icon'
-                        aria-label='Close'
-                        onClick={this.props.actions.closeRightHandSide}
+                        </button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={closeSidebarTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={closeSidebarTooltip}
+                        <button
+                            id='searchResultsCloseButton'
+                            type='button'
+                            className='sidebar--right__close btn-icon'
+                            aria-label='Close'
+                            onClick={this.props.actions.closeRightHandSide}
                         >
                             <FormattedMessage
                                 id='rhs_header.closeTooltip.icon'
@@ -115,8 +108,8 @@ export default class SearchResultsHeader extends React.Component {
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </div>
             </div>
         );
