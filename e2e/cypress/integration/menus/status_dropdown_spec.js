@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging
+// Group: @menu
 
 describe('Status dropdown menu', () => {
     beforeEach(() => {
