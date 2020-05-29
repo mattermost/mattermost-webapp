@@ -12,8 +12,8 @@ import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 import {unregisterPluginTranslationsSource} from 'actions/views/root';
 import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
-import {hideRHSPlugin as hideRHSPluginAction} from 'actions/views/rhs';
-import {getPluggableId} from 'selectors/rhs';
+
+import {removeWebappPlugin} from './actions';
 
 // Plugins may have been compiled with the regenerator runtime. Ensure this remains available
 // as a global export even though the webapp does not depend on same.
@@ -92,8 +92,7 @@ export function loadPlugin(manifest) {
 
         if (oldManifest) {
             // upgrading, perform cleanup
-            hideRHSPlugin(oldManifest.id);
-            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
+            store.dispatch(removeWebappPlugin(manifest));
         }
 
         function onLoad() {
@@ -148,8 +147,7 @@ export function removePlugin(manifest) {
 
     delete loadedPlugins[manifest.id];
 
-    hideRHSPlugin(manifest.id);
-    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
+    store.dispatch(removeWebappPlugin(manifest));
 
     const plugin = window.plugins[manifest.id];
     if (plugin && plugin.uninitialize) {
@@ -202,21 +200,7 @@ export async function loadPluginsIfNecessary() {
     Object.keys(oldManifests).forEach((id) => {
         if (!newManifests.hasOwnProperty(id)) {
             const oldManifest = oldManifests[id];
-            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: oldManifest});
             removePlugin(oldManifest);
         }
     });
-}
-
-// hideRHSPlugin closes the RHS if currently showing this plugin.
-function hideRHSPlugin(manifestId) {
-    const state = store.getState();
-    const rhsPlugins = state.plugins.components.RightHandSidebarComponent || [];
-    const pluggableId = getPluggableId(state);
-    const pluginComponent = rhsPlugins.find((element) => element.id === pluggableId && element.pluginId === manifestId);
-
-    // Hide RHS if its showing this plugin
-    if (pluginComponent) {
-        store.dispatch(hideRHSPluginAction(pluggableId));
-    }
 }
