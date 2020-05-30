@@ -195,18 +195,15 @@
 }
 
 .status-dropdown-menu {
-    i,
-    path,
-    ellipse {
-        @include opacity(.5);
-
-        &.online--icon,
-        &.away--icon,
-        &.dnd--icon {
-            @include opacity(1);
-        }
+    .online--icon > svg {
+        fill: rgba(var(--online-indicator-rgb), 1);
     }
-
+    .away--icon > svg {
+        fill: rgba(var(--away-indicator-rgb), 1);
+    }
+    .dnd--icon > svg {
+        fill: rgba(var(--dnd-indicator-rgb), 1);
+    }
     .offline--icon {
         fill: rgba(var(--center-channel-color-rgb), 0.6);
     }

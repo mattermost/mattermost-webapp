@@ -556,13 +556,11 @@ export function applyTheme(theme) {
     if (theme.onlineIndicator) {
         changeCss('.app__body .status.status--online', 'color:' + theme.onlineIndicator);
         changeCss('.app__body .status .online--icon', 'fill:' + theme.onlineIndicator);
-        changeCss('.app__body .status-dropdown-menu .online--icon', 'fill:' + theme.onlineIndicator);
     }
 
     if (theme.awayIndicator) {
         changeCss('.app__body .status.status--away', 'color:' + theme.awayIndicator);
         changeCss('.app__body .status .away--icon', 'fill:' + theme.awayIndicator);
-        changeCss('.app__body .status-dropdown-menu .away--icon', 'fill:' + theme.awayIndicator);
     }
 
     let dndIndicator;
@@ -586,7 +584,6 @@ export function applyTheme(theme) {
     }
     changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
     changeCss('.app__body .status .dnd--icon', 'fill:' + dndIndicator);
-    changeCss('.app__body .status-dropdown-menu .dnd--icon', 'fill:' + theme.dndIndicator);
 
     // Including 'mentionBj' for backwards compatability (old typo)
     const mentionBg = theme.mentionBg || theme.mentionBj;
@@ -876,6 +873,7 @@ export function applyTheme(theme) {
             'error-text-color-rgb': toRgbValues(theme.errorTextColor),
             'link-color-rgb': toRgbValues(theme.linkColor),
             'mention-bg-rgb': toRgbValues(theme.mentionBg),
+            'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
