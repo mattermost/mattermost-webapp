@@ -13,14 +13,14 @@
     width: 24px;
     height: 24px;
     border-radius: 2px;
-    border:  1px solid v(center-channel-color-32);
+    border:  1px solid rgba(var(--center-channel-color-rgb), 0.32);
     cursor: pointer;
 }
 
 .color-pad {
     border-radius: 0 2px 2px 0;
     background: v(center-channel-bg) !important;
-    border-color: v(center-channel-color-32) !important;
+    border-color: rgba(var(--center-channel-color-rgb), 0.32) !important;
     padding: 5px;
     line-height: 0;
 }

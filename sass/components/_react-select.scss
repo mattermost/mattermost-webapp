@@ -20,7 +20,7 @@
 
     .react-select__multi-value {
         align-items: center;
-        background: var(--center-channel-color-08);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         padding: 2px;
         border-radius: 16px;
         color: var(--center-channel-color);
@@ -43,9 +43,9 @@
         svg {
             height: 16px;
             width: 16px;
-            fill: var(--center-channel-color-64);
+            fill: rgba(var(--center-channel-color-rgb), 0.64);
             &:hover {
-                fill: var(--center-channel-color-80);
+                fill: rgba(var(--center-channel-color-rgb), 0.8);
             }
             opacity: .6;
         }
@@ -53,7 +53,7 @@
 
     .react-select__control {
         background: v(center-channel-bg);
-        border-color: v(center-channel-color-20);
+        border-color: rgba(var(--center-channel-color-rgb), 0.20);
         height: 36px;
         min-height: 36px;
 
@@ -62,7 +62,7 @@
         }
 
         &:hover {
-            border-color: v(center-channel-color-40);
+            border-color: rgba(var(--center-channel-color-rgb), 0.40);
 
             .react-select__indicator {
                 opacity: .8;
@@ -95,12 +95,12 @@
     }
 
     .react-select__menu-list {
-        border: 1px solid v(center-channel-color-20);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.20);
         border-radius: 4px;
     }
 
     .react-select__option--is-focused {
-        background: v(button-bg-24);
+        background: rgba(var(--button-bg-rgb), 0.24);
     }
 
     .react-select__option--is-selected {

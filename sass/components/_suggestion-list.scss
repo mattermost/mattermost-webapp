@@ -2,7 +2,7 @@
 
 .app__body {
     .suggestion--selected {
-        background-color: v(center-channel-color-08);
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
 }
 
@@ -73,7 +73,7 @@
     border-radius: 4px;
     -webkit-overflow-scrolling: touch;
     background-color: v(center-channel-bg);
-    border: 1px solid v(center-channel-color-16);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     max-height: 292px;
     overflow-x: auto;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -89,7 +89,7 @@
 
     &::-webkit-scrollbar-thumb {
         border: 1px solid v(center-channel-bg);
-        background-color: v(center-channel-color-24) !important;
+        background-color: rgba(var(--center-channel-color-rgb), 0.24) !important;
         border-radius: 4px;
     }
 
@@ -122,7 +122,7 @@
 }
 
 .slash-command__icon {
-    background: v(center-channel-color-08);
+    background: rgba(var(--center-channel-color-rgb), 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -177,7 +177,7 @@
     &:before {
         content: '';
         height: 1px;
-        background: v(center-channel-color-08);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         position: absolute;
         top: -7px;
         left: 0;

@@ -165,7 +165,7 @@
         padding-bottom: 10px;
         li {
             >h4, >.nav-more {
-                color: var(--sidebar-text-60);
+                color: rgba(var(--sidebar-text-rgb), 0.6);
             }
         }
     }
@@ -288,7 +288,7 @@
 
             .sidebar-item {
                 @include single-transition(none);
-                color: v(sidebar-text-60);
+                color: rgba(var(--sidebar-text-rgb), 0.6);
                 align-items: center;
                 border-radius: 0;
                 display: flex;
@@ -418,7 +418,7 @@
         border-radius: 50%;
         line-height: 0;
         height: 28px;
-        color: var(--sidebar-text-80);
+        color: rgba(var(--sidebar-text-rgb), 0.80);
 
         &:hover, &:focus {
             color: var(--sidebar-text);

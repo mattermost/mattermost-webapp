@@ -30,7 +30,7 @@
     left: 0;
     height: 100%;
     z-index: 16;
-    border-right: 1px solid var(--center-channel-color-20);
+    border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.20);
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -56,7 +56,7 @@
     }
 
     .a11y--focused {
-        box-shadow: inset 0 0 1px 3px var(--sidebar-text-50), inset 0 0 0 1px var(--sidebar-text) !important;
+        box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5), inset 0 0 0 1px var(--sidebar-text) !important;
     }
 
     .SidebarContainer_filterAddChannel {
@@ -72,7 +72,7 @@
             color: var(--sidebar-header-text-color);
 
             .user__name {
-                color: var(--sidebar-header-text-color-80);
+                color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             }
 
             &:hover .user__name {
@@ -119,7 +119,7 @@
             vertical-align: middle;
             border: 0;
             background: rgba(255, 255, 255, 0.16);
-            color: var(--sidebar-text-72);
+            color: rgba(var(--sidebar-text-rgb), 0.72);
 
             &:hover:not(.disabled) {
                 color: var(--sidebar-text);
@@ -182,11 +182,11 @@
         background: rgba(255, 255, 255, 0.16);
         text-align: center;
         border-radius: 4px;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         font-size: 16px;
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
-        color: var(--sidebar-text-80);
+        color: rgba(var(--sidebar-text-rgb), 0.80);
         background: rgba(255, 255, 255, 0.24);
     }
     .SidebarFilters .SidebarFilters_filterButton.active {
@@ -195,7 +195,7 @@
     }
 
     .SidebarFilters .SidebarFilters_filterTitle {
-        color: var(--sidebar-text-72);
+        color: rgba(var(--sidebar-text-rgb), 0.72);
         font-weight: 600;
         font-size: 10px;
         line-height: 12px;
@@ -228,7 +228,7 @@
 
             i {
                 font-size: 16px;
-                color: var(--center-channel-color-72);
+                color: var(--rgba(var(--center-channel-color-rgb), 0.72));
                 line-height: 16px;
             }
         }
@@ -241,7 +241,7 @@
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text-80);
+        color: rgba(var(--sidebar-text-rgb), 0.80);
         font-size: 18px;
         line-height: 16px;
         height: 28px;
@@ -342,7 +342,7 @@
         text-overflow: ellipsis;
         text-align: left;
         border: none;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         position: sticky;
         top: 0;
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
@@ -361,7 +361,7 @@
         white-space: nowrap;
         text-align: left;
         border: none;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         background-color: var(--sidebar-bg);
         position: sticky;
         top: 0;
@@ -423,7 +423,7 @@
         z-index: 1;
         background: transparent;
         border: none;
-        color: var(--sidebar-text-80);
+        color: rgba(var(--sidebar-text-rgb), 0.80);
         font-size: 18px;
         line-height: 16px;
         height: 28px;
@@ -458,7 +458,7 @@
         list-style-type: none;
         /* border: solid 2px transparent; */
         overflow: hidden;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
 
         &:hover {
             .btn-close {
@@ -519,7 +519,7 @@
         text-decoration: none;
         padding: 7px 5px 7px 14px;
         display: flex;
-        color: var(--sidebar-text-60);
+        color: rgba(var(--sidebar-text-rgb), 0.6);
         align-items: flex-start;
         margin-right: 0;
         width: 100%;

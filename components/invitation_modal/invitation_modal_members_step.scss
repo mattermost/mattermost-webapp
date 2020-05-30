@@ -20,15 +20,15 @@
         .share-link-input {
             flex-grow: 1;
             height: 48px;
-            background: var(--center-channel-color-04);
-            border-top: 1px solid var(--center-channel-color-20);
-            border-left: 1px solid var(--center-channel-color-20);
-            border-bottom: 1px solid var(--center-channel-color-20);
+            background: rgba(var(--center-channel-color-rgb), 0.04);
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.20);
+            border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.20);
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.20);
             border-right: 0;
             border-radius: 4px 0 0 4px;
             padding: 12px 14px;
             font-size: 16px;
-            color: var(--center-channel-color-56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
         .share-link-input-button {
             display: flex;
@@ -45,10 +45,10 @@
             font-size: 16px;
             font-weight: 600;
             &:hover {
-                background: var(--button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
             }
             &:active {
-                background: var(--button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
             }
             span {
                 display: inline-block;
@@ -61,7 +61,7 @@
         }
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-64);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
     .search-and-add {
@@ -78,7 +78,7 @@
         }
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-64);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
     .invitation-modal-or {
@@ -92,7 +92,7 @@
             max-width: 720px;
             width: calc(100% - 40px);
             margin: 45px 0;
-            border-color: var(--center-channel-color-08);
+            border-color: rgba(var(--center-channel-color-rgb), 0.08);
         }
         div {
             text-align: center;
@@ -101,7 +101,7 @@
             background: var(--center-channel-bg);
             padding: 30px 12px;
             top: 0;
-            color: var(--center-channel-color-20);
+            color: rgba(var(--center-channel-color-rgb), 0.20);
             font-size: 20px;
         }
     }
@@ -128,8 +128,8 @@
             border-color: transparent;
         }
         &.btn-inactive {
-            background: var(--center-channel-color-08);
-            color: var(--center-channel-color-56);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
         &.btn-secondary {
             background: var(--center-channel-bg);

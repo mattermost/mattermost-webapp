@@ -11,9 +11,9 @@
     .users-emails-input__control {
         min-height: 48px;
         background: var(--center-channel-bg);
-        color: var(--center-channel-color-64);
+        color: rgba(var(--center-channel-color-rgb), 0.64);
         box-shadow: none;
-        border-color: var(--center-channel-color-20);
+        border-color: rgba(var(--center-channel-color-rgb), 0.20);
         padding: 3px;
         transition: none;
         &--is-focused, &--menu-is-open {
@@ -42,7 +42,7 @@
         padding: 0;
     }
     .users-emails-input__placeholder {
-        color: var(--center-channel-color-64);
+        color: rgba(var(--center-channel-color-rgb), 0.64);
         margin-left: 8px;
     }
     .users-emails-input__input {
@@ -79,7 +79,7 @@
         display: flex;
         align-items: center;
         &--no-matches {
-            color: var(--center-channel-color-56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
             text-align: center;
             span {
                 width: 100%;
@@ -95,7 +95,7 @@
             border-radius: 0 0 4px 4px;
         }
         &--is-focused {
-            background: var(--button-bg-08);
+            background: rgba(var(--button-bg-rgb), 0.08);
         }
         &--no-matches:hover{
             background: none;
@@ -146,7 +146,7 @@
     }
     .users-emails-input__multi-value {
         align-items: center;
-        background: var(--center-channel-color-08);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         padding: 4px;
         border-radius: 16px;
         color: var(--center-channel-color);
@@ -165,13 +165,13 @@
             width: 24px;
             height: 24px;
             border-radius: 16px;
-            background: var(--center-channel-color-56);
+            background: rgba(var(--center-channel-color-rgb), 0.56);
             padding: 3px;
             margin-right: 4px;
             svg {
                 width: 18px;
                 height: 18px;
-                fill: var(--button-color-88);
+                fill: rgba(var(--button-color-rgb), 0.88);
             }
         }
         .Avatar {
@@ -192,9 +192,9 @@
         svg {
             height: 16px;
             width: 16px;
-            fill: var(--center-channel-color-64);
+            fill: rgba(var(--center-channel-color-rgb), 0.64);
             &:hover {
-                fill: var(--center-channel-color-80);
+                fill: rgba(var(--center-channel-color-rgb), 0.8);
             }
             opacity: .6;
         }

@@ -45,7 +45,7 @@
                 left: 9px;
                 position: absolute;
                 pointer-events: none;
-                fill: var(--center-channel-color-56);
+                fill: rgba(var(--center-channel-color-rgb), 0.56);
             }
         }
     }

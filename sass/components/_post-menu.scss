@@ -22,13 +22,13 @@
     justify-content: center;
     width: 28px;
     height: 28px;
-    fill: v(center-channel-color-40);
-    color: v(center-channel-color-40);
+    fill: rgba(var(--center-channel-color-rgb), 0.40);
+    color: rgba(var(--center-channel-color-rgb), 0.40);
 
     &:active,
     &--active,
     &--active:hover {
-        background: v(button-bg-08);
+        background: rgba(var(--button-bg-rgb), 0.08);
         fill: v(button-bg);
         color: v(button-bg);
     }
@@ -70,13 +70,13 @@
         &.post--hovered,
         &.a11y--active {
             .post-menu {
-                border-color: v(center-channel-color-08);
+                border-color: rgba(var(--center-channel-color-rgb), 0.08);
                 @include box-shadow($elevation-1);
                 background-color: v(center-channel-bg);
             }
 
             .search-item__jump {
-                color: v(center-channel-color-56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
 
                 &:hover {
                     color: v(link-color);
@@ -85,19 +85,19 @@
 
             .post-menu__item {
                 display: inline-flex;
-                fill: v(center-channel-color-56);
-                color: v(center-channel-color-56);
+                fill: rgba(var(--center-channel-color-rgb), 0.56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
 
                 &:hover {
-                    background: v(center-channel-color-08);
-                    fill: v(center-channel-color-72);
-                    color: v(center-channel-color-72);
+                    background: rgba(var(--center-channel-color-rgb), 0.08);
+                    fill: rgba(var(--center-channel-color-rgb), 0.72);
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
                 }
 
                 &:active,
                 &--active,
                 &--active:hover {
-                    background: v(button-bg-08);
+                    background: rgba(var(--button-bg-rgb), 0.08);
                     fill: v(button-bg);
                     color: v(button-bg);
                 }

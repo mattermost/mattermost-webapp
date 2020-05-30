@@ -61,7 +61,7 @@
             padding-left: 0px !important;
             &:hover,
             &:focus {
-                background-color: var(--center-channel-color-08) !important;
+                background-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
             }
         }
 
