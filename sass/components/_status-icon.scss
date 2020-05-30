@@ -206,4 +206,8 @@
             @include opacity(1);
         }
     }
+
+    .offline--icon {
+        fill: rgba(var(--center-channel-color-rgb), 0.6);
+    }
 }
