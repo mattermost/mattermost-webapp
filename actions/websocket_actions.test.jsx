@@ -17,6 +17,8 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
+import {Client4} from 'mattermost-redux/client';
+
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
@@ -1019,7 +1021,6 @@ describe('handlePluginEnabled/handlePluginDisabled/loadPluginsIfNecessary', () =
             console.log = jest.fn();
             console.error = jest.fn();
 
-            const {Client4} = require('mattermost-redux/client'); // eslint-disable-line global-require
             getWebappPlugins = Client4.getWebappPlugins;
             loadPluginsIfNecessary = jest.requireActual('plugins').loadPluginsIfNecessary;
 
@@ -1051,9 +1052,9 @@ describe('handlePluginEnabled/handlePluginDisabled/loadPluginsIfNecessary', () =
             handlePluginEnabled({data: {manifest}});
             mockState.plugins.manifests = {[manifest.id]: manifest};
 
-            const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
-            expect(dispatchReceivedArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
-            expect(dispatchReceivedArg.data).toBe(manifest);
+            const dispatchAddArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchAddArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
+            expect(dispatchAddArg.data).toBe(manifest);
 
             expect(document.createElement).toHaveBeenCalledWith('script');
             expect(document.createElement).toHaveBeenCalledTimes(1);
@@ -1064,15 +1065,115 @@ describe('handlePluginEnabled/handlePluginDisabled/loadPluginsIfNecessary', () =
             await loadPluginsIfNecessary();
             mockState.plugins.manifests = {};
 
-            const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
-            expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);
-            expect(dispatchRemovedArg.data).toBe(manifest);
+            const dispatchRemoveArg = store.dispatch.mock.calls[1][0];
+            expect(dispatchRemoveArg.type).toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);
+            expect(dispatchRemoveArg.data).toBe(manifest);
+
+            const dispatchArg = store.dispatch.mock.calls[2][0];
+            expect(dispatchArg.type).not.toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
+            expect(dispatchArg.type).not.toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);
 
             // Assert disabling is idempotent
             await loadPluginsIfNecessary();
 
             expect(store.dispatch).toHaveBeenCalledTimes(3);
             expect(console.error).toHaveBeenCalledTimes(0);
+        });
+
+        test('should remove unused old plugin and add new plugin when socket reconnects', async () => {
+            const manifest = {
+                ...baseManifest,
+                id: 'com.mattermost.demo-2-plugin',
+            };
+
+            const manifest2 = {
+                ...baseManifest,
+                id: 'com.mattermost.demo-3-plugin',
+            };
+
+            const initialize = jest.fn();
+            const initialize2 = jest.fn();
+            window.plugins = {
+                [manifest.id]: {
+                    initialize,
+                },
+                [manifest2.id]: {
+                    initialize: initialize2,
+                },
+            };
+            const mockScript = {};
+            document.createElement.mockReturnValue(mockScript);
+
+            expect(mockScript.onload).toBeUndefined();
+
+            // Enable plugin
+            handlePluginEnabled({data: {manifest}});
+            mockState.plugins.manifests = {[manifest.id]: manifest};
+
+            const dispatchAddArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchAddArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
+            expect(dispatchAddArg.data).toBe(manifest);
+
+            expect(document.createElement).toHaveBeenCalledWith('script');
+            expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
+            expect(document.getElementsByTagName()[0].appendChild).toHaveBeenCalledTimes(1);
+            expect(mockScript.onload).toBeInstanceOf(Function);
+
+            // Pretend to be a browser, invoke onload
+            mockScript.onload();
+            expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            expect(initialize).toHaveBeenCalledTimes(1);
+            const registry = initialize.mock.calls[0][0];
+            const mockComponent = 'mockRootComponent';
+            registry.registerRootComponent(mockComponent);
+
+            const dispatchReceivedArg = store.dispatch.mock.calls[1][0];
+            expect(dispatchReceivedArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchReceivedArg.name).toBe('Root');
+            expect(dispatchReceivedArg.data.component).toBe(mockComponent);
+            expect(dispatchReceivedArg.data.pluginId).toBe(manifest.id);
+
+            // Disable plugin with reload and add new plugin
+            mockState.entities.general.config.PluginsEnabled = 'true';
+            getWebappPlugins.mockImplementation(() => [manifest2]);
+            mockScript.onload = undefined;
+            await loadPluginsIfNecessary();
+            mockState.plugins.manifests = {[manifest2.id]: manifest2};
+
+            // Assert disabling is idempotent
+            await loadPluginsIfNecessary();
+
+            expect(mockScript.onload).toBeInstanceOf(Function);
+            expect(document.createElement).toHaveBeenCalledTimes(2);
+
+            mockScript.onload();
+            expect(initialize2).toHaveBeenCalledWith(expect.anything(), store);
+            expect(initialize2).toHaveBeenCalledTimes(1);
+            const registry2 = initialize2.mock.calls[0][0];
+            const mockComponent2 = 'mockRootComponent';
+            registry2.registerRootComponent(mockComponent2);
+
+            const dispatchAddArg2 = store.dispatch.mock.calls[2][0];
+            expect(dispatchAddArg2.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
+            expect(dispatchAddArg2.data).toBe(manifest2);
+
+            const dispatchRemoveArg = store.dispatch.mock.calls[3][0];
+            expect(dispatchRemoveArg.type).toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);
+            expect(dispatchRemoveArg.data).toBe(manifest);
+
+            const dispatchArg = store.dispatch.mock.calls[4][0];
+            expect(dispatchArg.type).not.toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
+            expect(dispatchArg.type).not.toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);
+
+            const dispatchReceivedArg2 = store.dispatch.mock.calls[5][0];
+            expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchReceivedArg2.name).toBe('Root');
+            expect(dispatchReceivedArg2.data.component).toBe(mockComponent2);
+            expect(dispatchReceivedArg2.data.pluginId).toBe(manifest2.id);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(6);
+            expect(console.error).toHaveBeenCalledTimes(0);
+            mockState.plugins.manifests = {};
         });
 
         test('should upgrade old plugins when socket reconnects', async () => {
@@ -1104,9 +1205,9 @@ describe('handlePluginEnabled/handlePluginDisabled/loadPluginsIfNecessary', () =
             handlePluginEnabled({data: {manifest}});
             mockState.plugins.manifests = {[manifest.id]: manifest};
 
-            const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
-            expect(dispatchReceivedArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
-            expect(dispatchReceivedArg.data).toBe(manifest);
+            const dispatchAddArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchAddArg.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
+            expect(dispatchAddArg.data).toBe(manifest);
 
             expect(document.createElement).toHaveBeenCalledWith('script');
             expect(document.getElementsByTagName).toHaveBeenCalledTimes(1);
@@ -1116,15 +1217,16 @@ describe('handlePluginEnabled/handlePluginDisabled/loadPluginsIfNecessary', () =
             // Pretend to be a browser, invoke onload
             mockScript.onload();
             expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            expect(initialize).toHaveBeenCalledTimes(1);
             const registry = initialize.mock.calls[0][0];
             const mockComponent = 'mockRootComponent';
             registry.registerRootComponent(mockComponent);
 
-            const dispatchReceivedArg2 = store.dispatch.mock.calls[1][0];
-            expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-            expect(dispatchReceivedArg2.name).toBe('Root');
-            expect(dispatchReceivedArg2.data.component).toBe(mockComponent);
-            expect(dispatchReceivedArg2.data.pluginId).toBe(manifest.id);
+            const dispatchReceivedArg = store.dispatch.mock.calls[1][0];
+            expect(dispatchReceivedArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchReceivedArg.name).toBe('Root');
+            expect(dispatchReceivedArg.data.component).toBe(mockComponent);
+            expect(dispatchReceivedArg.data.pluginId).toBe(manifest.id);
 
             // Upgrade plugin with reload
             mockScript.onload = undefined;
@@ -1145,14 +1247,13 @@ describe('handlePluginEnabled/handlePluginDisabled/loadPluginsIfNecessary', () =
             const mockComponent2 = 'mockRootComponent2';
             registry2.registerRootComponent(mockComponent2);
 
-            expect(store.dispatch).toHaveBeenCalledTimes(5);
-            const dispatchRemovedArg = store.dispatch.mock.calls[2][0];
-            expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);
-            expect(dispatchRemovedArg.data).toBe(manifestv2);
+            const dispatchRemoveArg = store.dispatch.mock.calls[2][0];
+            expect(dispatchRemoveArg.type).toBe(ActionTypes.REMOVE_WEBAPP_PLUGIN);
+            expect(dispatchRemoveArg.data).toBe(manifestv2);
 
-            const dispatchReceivedArg3 = store.dispatch.mock.calls[3][0];
-            expect(dispatchReceivedArg3.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
-            expect(dispatchReceivedArg3.data).toBe(manifestv2);
+            const dispatchAddArg2 = store.dispatch.mock.calls[3][0];
+            expect(dispatchAddArg2.type).toBe(ActionTypes.ADD_WEBAPP_PLUGIN);
+            expect(dispatchAddArg2.data).toBe(manifestv2);
 
             const dispatchReceivedArg4 = store.dispatch.mock.calls[4][0];
             expect(dispatchReceivedArg4.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
@@ -1160,6 +1261,7 @@ describe('handlePluginEnabled/handlePluginDisabled/loadPluginsIfNecessary', () =
             expect(dispatchReceivedArg4.data.component).toBe(mockComponent2);
             expect(dispatchReceivedArg4.data.pluginId).toBe(manifest.id);
 
+            expect(store.dispatch).toHaveBeenCalledTimes(5);
             expect(console.error).toHaveBeenCalledTimes(0);
             mockState.plugins.manifests = {};
         });
