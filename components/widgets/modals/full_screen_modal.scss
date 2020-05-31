@@ -27,7 +27,7 @@
             border-radius: 4px;
 
             &:hover {
-                fill: var(--rgba(var(--center-channel-color-rgb), 0.72));
+                fill: rgba(var(--center-channel-color-rgb), var(--alpha-900));
                 background: rgba(var(--center-channel-color-rgb), 0.08);
             }
 

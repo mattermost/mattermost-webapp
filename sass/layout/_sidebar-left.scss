@@ -228,7 +228,7 @@
 
             i {
                 font-size: 16px;
-                color: var(--rgba(var(--center-channel-color-rgb), 0.72));
+                color: rgba(var(--center-channel-color-rgb), var(--alpha-900));
                 line-height: 16px;
             }
         }

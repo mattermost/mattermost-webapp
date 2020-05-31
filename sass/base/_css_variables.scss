@@ -48,4 +48,21 @@
     --sidebar-text-active-color-rgb: 255, 255, 255;
     --sidebar-text-hover-bg-rgb: 69, 120, 191;
     --sidebar-unread-text-rgb: 255, 255, 255;
+
+    /* Alpha channal values
+    * The following opacity changes are commonly applied to:
+    * - border colors,
+    * - background colors on hover
+    * - box-shadows
+    * - muted text
+    */
+    --alpha-100: 0.04;
+    --alpha-200: 0.08;
+    --alpha-300: 0.16;
+    --alpha-400: 0.24;
+    --alpha-500: 0.32;
+    --alpha-600: 0.48;
+    --alpha-700: 0.56;
+    --alpha-800: 0.64;
+    --alpha-900: 0.72;
 }
