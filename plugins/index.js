@@ -179,7 +179,7 @@ export async function loadPluginsIfNecessary() {
     });
 
     // Get new plugins and update existing plugins if version changed
-    Object.values(newManifestsMap).forEach((newManifest) => {
+    newManifests.forEach((newManifest) => {
         const oldManifest = oldManifests[newManifest.id];
         if (!oldManifest || oldManifest.version !== newManifest.version) {
             loadPlugin(newManifest).catch((loadErr) => {
@@ -190,7 +190,7 @@ export async function loadPluginsIfNecessary() {
 
     // Remove old plugins
     Object.keys(oldManifests).forEach((id) => {
-        if (!Object.prototype.hasOwnProperty.call(newManifestsMap, id)) {
+        if (!newManifestsMap[id]) {
             const oldManifest = oldManifests[id];
             removePlugin(oldManifest);
         }
