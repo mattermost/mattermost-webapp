@@ -18,6 +18,9 @@ exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
     />
   </div>
   <span
+    data-channel-mention="somechannel"
+    data-hashtag="#somehashtag"
+    data-link="somelink"
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
   >
