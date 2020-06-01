@@ -3,24 +3,26 @@
 
 import React from 'react';
 import PQueue from 'p-queue';
-import PropTypes from 'prop-types';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
 const queue = new PQueue({concurrency: 2});
 
-export default class DataPrefetch extends React.PureComponent {
-    static propTypes = {
-        currentChannelId: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            prefetchChannelPosts: PropTypes.func.isRequired,
-        }),
-        prefetchQueueObj: PropTypes.object,
-        prefetchRequestStatus: PropTypes.object,
-        unreadChannels: PropTypes.array,
-    }
+type Props = {
+    currentChannelId: string;
+    prefetchQueueObj: Record<string, string[]>;
+    prefetchRequestStatus: Record<string, any>;
+    unreadChannels: Channel[];
+    actions: {
+        prefetchChannelPosts: (channelId: string, delay: number | undefined) => Promise<{data: {}}>;
+    };
+}
 
-    async componentDidUpdate(prevProps) {
+export default class DataPrefetch extends React.PureComponent<Props, {}> {
+    private prefetchTimeout?: number;
+
+    async componentDidUpdate(prevProps: Props) {
         const {currentChannelId, prefetchQueueObj} = this.props;
         if (!prevProps.currentChannelId && currentChannelId) {
             queue.add(async () => this.prefetchPosts(currentChannelId));
@@ -29,17 +31,17 @@ export default class DataPrefetch extends React.PureComponent {
         } else if (prevProps.prefetchQueueObj !== prefetchQueueObj) {
             clearTimeout(this.prefetchTimeout);
             queue.clear();
-            this.prefetchTimeout = setTimeout(() => {
+            this.prefetchTimeout = window.setTimeout(() => {
                 this.prefetchData();
             }, 0);
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         clearTimeout(this.prefetchTimeout);
     }
 
-    prefetchPosts = (channelId) => {
+    public prefetchPosts = (channelId: string) => {
         let delay;
         const channel = this.props.unreadChannels.find((unreadChannel) => channelId === unreadChannel.id);
         if (channel) {
@@ -51,7 +53,7 @@ export default class DataPrefetch extends React.PureComponent {
         return this.props.actions.prefetchChannelPosts(channelId, delay);
     }
 
-    shouldLoadPriorityQueue = (priority, numberOfPiorityRequests) => {
+    private shouldLoadPriorityQueue = (priority: number, numberOfPiorityRequests: Record<string, number>) => {
         if (priority === 1) {
             return true;
         } else if (priority === 2) {
@@ -60,8 +62,8 @@ export default class DataPrefetch extends React.PureComponent {
         return !numberOfPiorityRequests[1] && !numberOfPiorityRequests[2];
     }
 
-    prefetchData = () => {
-        const numberOfPiorityRequests = {
+    private prefetchData = () => {
+        const numberOfPiorityRequests: Record<string, number> = {
             3: 0,
             2: 0,
             1: 0, // high priority requests

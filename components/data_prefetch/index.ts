@@ -2,22 +2,33 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannelId, getUnreadChannels} from 'mattermost-redux/selectors/entities/channels';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+
+import {GlobalState} from 'types/store';
+
 import {prefetchChannelPosts} from 'actions/views/channel';
 
 import DataPrefetch from './data_prefetch';
 
-const prefetchQueue = memoizeResult((channels, memberships) => {
-    return channels.reduce((acc, channel) => {
+type Actions = {
+    prefetchChannelPosts: (channelId: string, delay: number | undefined) => Promise<{data: {}}>;
+};
+
+const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationOneToOne<Channel, ChannelMembership>) => {
+    return channels.reduce((acc: Record<string, string[]>, channel: Channel) => {
         const channelId = channel.id;
-        if (!isChannelMuted(channelId)) {
-            const membership = memberships[channelId];
+        const membership = memberships[channelId];
+        if (!isChannelMuted(membership)) {
             if (membership.mention_count > 0) {
                 return {
                     ...acc,
@@ -38,7 +49,7 @@ const prefetchQueue = memoizeResult((channels, memberships) => {
     });
 });
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
     const memberships = getMyChannelMemberships(state);
     const unreadChannels = getUnreadChannels(state, lastUnreadChannel);
@@ -53,9 +64,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             prefetchChannelPosts,
         }, dispatch),
     };

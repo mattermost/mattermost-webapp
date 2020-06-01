@@ -4,9 +4,11 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {ChannelType} from 'mattermost-redux/types/channels';
+
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
-import DataPrefetch from './data_prefetch.jsx';
+import DataPrefetch from './data_prefetch';
 
 jest.mock('actions/user_actions.jsx', () => ({
     loadProfilesForSidebar: jest.fn().mockResolvedValue({}),
@@ -26,9 +28,37 @@ describe('/components/create_team', () => {
         prefetchRequestStatus: {},
         unreadChannels: [{
             id: 'mentionChannel',
+            display_name: 'mentionChannel',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: 'team_id',
+            type: 'O' as ChannelType,
+            name: '',
+            header: '',
+            purpose: '',
+            total_msg_count: 10,
+            extra_update_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
             last_post_at: 1234,
         }, {
             id: 'unreadChannel',
+            display_name: 'unreadChannel',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: 'team_id',
+            type: 'O' as ChannelType,
+            name: '',
+            header: '',
+            purpose: '',
+            total_msg_count: 10,
+            extra_update_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
             last_post_at: 1235,
         }],
     };
@@ -37,7 +67,7 @@ describe('/components/create_team', () => {
         const wrapper = shallow(
             <DataPrefetch {...defaultProps}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as DataPrefetch;
 
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
@@ -48,7 +78,7 @@ describe('/components/create_team', () => {
         const wrapper = shallow(
             <DataPrefetch {...defaultProps}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as DataPrefetch;
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
 
@@ -73,7 +103,7 @@ describe('/components/create_team', () => {
         const wrapper = shallow(
             <DataPrefetch {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as DataPrefetch;
         instance.prefetchPosts = jest.fn().mockResolvedValue({});
 
         wrapper.setProps({currentChannelId: 'currentChannelId'});
@@ -103,7 +133,7 @@ describe('/components/create_team', () => {
         const wrapper = shallow(
             <DataPrefetch {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as DataPrefetch;
         instance.prefetchPosts = jest.fn().mockResolvedValue({});
 
         wrapper.setProps({currentChannelId: 'currentChannelId'});
@@ -139,7 +169,7 @@ describe('/components/create_team', () => {
         const wrapper = shallow(
             <DataPrefetch {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as DataPrefetch;
         instance.prefetchPosts = jest.fn().mockResolvedValue({});
 
         wrapper.setProps({currentChannelId: 'currentChannelId'});
@@ -173,7 +203,7 @@ describe('/components/create_team', () => {
         const wrapper = shallow(
             <DataPrefetch {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as DataPrefetch;
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
 
@@ -194,6 +224,20 @@ describe('/components/create_team', () => {
             },
             unreadChannels: [{
                 id: 'mentionChannel',
+                display_name: 'mentionChannel',
+                create_at: 0,
+                update_at: 0,
+                delete_at: 0,
+                team_id: 'team_id',
+                type: 'O' as ChannelType,
+                name: '',
+                header: '',
+                purpose: '',
+                total_msg_count: 10,
+                extra_update_at: 0,
+                creator_id: '',
+                scheme_id: '',
+                group_constrained: false,
                 last_post_at: 12345,
             }],
         };
@@ -201,7 +245,6 @@ describe('/components/create_team', () => {
         const wrapper = shallow(
             <DataPrefetch {...props}/>,
         );
-        wrapper.instance();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
 
         expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('currentChannelId', undefined);
