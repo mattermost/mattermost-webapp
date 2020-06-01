@@ -720,7 +720,7 @@
   "admin.group_settings.group_detail.groupUsersDescription": "Mattermost üzerinde bu grup ile ilişkili kullanıcıların listesi.",
   "admin.group_settings.group_detail.groupUsersTitle": "Kullanıcılar",
   "admin.group_settings.group_detail.introBanner": "Varsayılan takım ve kanalları yapılandır ve bu gruptaki kullanıcıları görüntüle.",
-  "admin.group_settings.group_detail.invalidOrReservedMentionNameError": "Yalnız küçük harfler (a-z), rakamlar (0-9) ile virgül, tire ve alt çizgi karakterleri kullanılabilir.",
+  "admin.group_settings.group_detail.invalidOrReservedMentionNameError": "Yalnız küçük harfler (a-z), rakamlar (0-9) ile nokta, tire ve alt çizgi karakterleri kullanılabilir.",
   "admin.group_settings.group_details.add_channel": "Kanal Ekle",
   "admin.group_settings.group_details.add_team": "Takım Ekle",
   "admin.group_settings.group_details.add_team_or_channel": "Takım ya da Kanal Ekle",

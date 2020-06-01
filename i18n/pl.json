@@ -720,7 +720,7 @@
   "admin.group_settings.group_detail.groupUsersDescription": "Lista użytkowników Mattermost przypisana do tej grupy.",
   "admin.group_settings.group_detail.groupUsersTitle": "Użytkownicy",
   "admin.group_settings.group_detail.introBanner": "Skonfiguruj domyślne zespoły i kanały oraz zobacz użytkowników należących do tej grupy.",
-  "admin.group_settings.group_detail.invalidOrReservedMentionNameError": "Only letters (a-z), numbers(0-9), periods, dashes and underscores are allowed.",
+  "admin.group_settings.group_detail.invalidOrReservedMentionNameError": "Only letters (a-z), numbers (0-9), periods, dashes and underscores are allowed.",
   "admin.group_settings.group_details.add_channel": "Dodaj kanał",
   "admin.group_settings.group_details.add_team": "Dodaj Zespół",
   "admin.group_settings.group_details.add_team_or_channel": "Dodaj Zespół lub Kanał",
