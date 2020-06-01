@@ -17,14 +17,16 @@ export default class DataPrefetch extends React.PureComponent {
         }),
         prefetchQueueObj: PropTypes.object,
         prefetchRequestStatus: PropTypes.object,
+        unreadChannels: PropTypes.array,
     }
 
     async componentDidUpdate(prevProps) {
-        if (!prevProps.currentChannelId && this.props.currentChannelId) {
-            queue.add(async () => this.prefetchPosts(this.props.currentChannelId));
+        const {currentChannelId, prefetchQueueObj} = this.props;
+        if (!prevProps.currentChannelId && currentChannelId) {
+            queue.add(async () => this.prefetchPosts(currentChannelId));
             await loadProfilesForSidebar();
             this.prefetchData();
-        } else if (prevProps.prefetchQueueObj !== this.props.prefetchQueueObj) {
+        } else if (prevProps.prefetchQueueObj !== prefetchQueueObj) {
             clearTimeout(this.prefetchTimeout);
             queue.clear();
             this.prefetchTimeout = setTimeout(() => {
@@ -38,7 +40,15 @@ export default class DataPrefetch extends React.PureComponent {
     }
 
     prefetchPosts = (channelId) => {
-        return this.props.actions.prefetchChannelPosts(channelId);
+        let delay;
+        const channel = this.props.unreadChannels.find((unreadChannel) => channelId === unreadChannel.id);
+        if (channel) {
+            const isLatestPostInLastMin = (Date.now() - channel.last_post_at) <= 1000;
+            if (isLatestPostInLastMin) {
+                delay = Math.random() * 1000; // 1ms - 1000ms random wait to not choke server
+            }
+        }
+        return this.props.actions.prefetchChannelPosts(channelId, delay);
     }
 
     shouldLoadPriorityQueue = (priority, numberOfPiorityRequests) => {
@@ -61,8 +71,9 @@ export default class DataPrefetch extends React.PureComponent {
             const priorityQueue = this.props.prefetchQueueObj[priorityOrder];
             for (let channelIndex = 0; channelIndex < priorityQueue.length; channelIndex++) {
                 if (!this.props.prefetchRequestStatus[priorityQueue[channelIndex]] && this.shouldLoadPriorityQueue(priorityOrder, numberOfPiorityRequests)) {
+                    const channelId = priorityQueue[channelIndex];
                     numberOfPiorityRequests[priorityOrder]++;
-                    queue.add(async () => this.prefetchPosts(priorityQueue[channelIndex]));
+                    queue.add(async () => this.prefetchPosts(channelId));
                 }
             }
             numberOfPiorityRequests[priorityOrder] = 0;

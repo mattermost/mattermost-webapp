@@ -23,8 +23,14 @@ describe('/components/create_team', () => {
             1: ['mentionChannel'],
             2: ['unreadChannel'],
         },
-        prefetchRequestStatus: {
-        },
+        prefetchRequestStatus: {},
+        unreadChannels: [{
+            id: 'mentionChannel',
+            last_post_at: 1234,
+        }, {
+            id: 'unreadChannel',
+            last_post_at: 1235,
+        }],
     };
 
     test('should call posts of current channel when it is set', async () => {
@@ -176,5 +182,30 @@ describe('/components/create_team', () => {
         await loadProfilesForSidebar();
         expect(instance.prefetchPosts).toHaveBeenCalledWith('mentionChannel');
         expect(instance.prefetchPosts).toHaveBeenCalledTimes(2);
+    });
+
+    test('should add delay if last post is made in last min', async () => {
+        Date.now = jest.fn().mockReturnValue(12346);
+        Math.random = jest.fn().mockReturnValue(0.5);
+        const props = {
+            ...defaultProps,
+            prefetchQueueObj: {
+                1: ['mentionChannel'],
+            },
+            unreadChannels: [{
+                id: 'mentionChannel',
+                last_post_at: 12345,
+            }],
+        };
+
+        const wrapper = shallow(
+            <DataPrefetch {...props}/>,
+        );
+        wrapper.instance();
+        wrapper.setProps({currentChannelId: 'currentChannelId'});
+
+        expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('currentChannelId', undefined);
+        await loadProfilesForSidebar();
+        expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('mentionChannel', 500);
     });
 });

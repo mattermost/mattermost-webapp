@@ -379,10 +379,13 @@ export function syncPostsInChannel(channelId, since, prefetch = false) {
     };
 }
 
-export function prefetchChannelPosts(channelId) {
+export function prefetchChannelPosts(channelId, jitter) {
     return async (dispatch, getState) => {
         const state = getState();
         if (!state.entities.posts.postsInChannel[channelId]) {
+            if (jitter) {
+                await new Promise((resolve) => setTimeout(resolve, jitter));
+            }
             return dispatch(loadUnreads(channelId, true));
         }
 
