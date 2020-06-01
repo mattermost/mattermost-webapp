@@ -339,10 +339,6 @@ export default class SuggestionBox extends React.PureComponent {
         const textbox = this.getTextbox();
         const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
 
-        if (this.props.isMentionSearch) {
-            this.props.updateRhsState(RHSStates.SEARCH);
-        }
-
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
         }
@@ -553,6 +549,10 @@ export default class SuggestionBox extends React.PureComponent {
                 } else {
                     clearTimeout(this.timeoutId);
                     this.nonDebouncedPretextChanged(this.pretext, true);
+                }
+
+                if (this.props.isMentionSearch) {
+                    this.props.updateRhsState(RHSStates.SEARCH);
                 }
 
                 if (this.props.onKeyDown) {
