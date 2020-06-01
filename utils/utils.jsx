@@ -476,8 +476,8 @@ export function isHexColor(value) {
 
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
 export function toRgbValues(hexStr) {
-    const hslaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
-    return hslaStr;
+    const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
+    return rgbaStr;
 }
 
 export function applyTheme(theme) {
