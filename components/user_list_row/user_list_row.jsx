@@ -22,7 +22,6 @@ export default class UserListRow extends React.PureComponent {
         index: PropTypes.number,
         totalUsers: PropTypes.number,
         userCount: PropTypes.number,
-        hasMention: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -30,7 +29,6 @@ export default class UserListRow extends React.PureComponent {
         actions: [],
         actionProps: {},
         actionUserProps: {},
-        hasMention: true,
     };
 
     render() {
@@ -93,7 +91,7 @@ export default class UserListRow extends React.PureComponent {
                     status={status}
                     size='md'
                     userId={this.props.user.id}
-                    hasMention={this.props.hasMention}
+                    hasMention={true}
                 />
                 <div
                     className='more-modal__details'
@@ -105,8 +103,8 @@ export default class UserListRow extends React.PureComponent {
                     >
                         <UserProfile
                             userId={this.props.user.id}
-                            hasMention={this.props.hasMention}
-                            displayUsername={false}
+                            hasMention={true}
+                            displayUsername={true}
                         />
                         {'&nbsp;'}
                         {this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
