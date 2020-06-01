@@ -94,17 +94,18 @@ export default class SearchBar extends React.PureComponent {
         if (searchTerms.trim() === '') {
             visibleSearchHintOptions = searchHintOptions;
         } else {
-            const pretextArray = searchTerms.split(' ');
+            const pretextArray = searchTerms.split(/\s+/g);
             const pretext = pretextArray[pretextArray.length - 1];
+            const penultimatePretext = pretextArray[pretextArray.length - 2];
 
-            const shouldShowHintOptions = !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(`${searchTerm.toLowerCase()} `));
+            const shouldShowHintOptions = penultimatePretext && !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
             if (shouldShowHintOptions) {
                 try {
                     visibleSearchHintOptions = searchHintOptions.filter((option) => {
                         return new RegExp(pretext, 'ig').test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase();
                     });
-                } catch (err) {
+                } catch {
                     visibleSearchHintOptions = [];
                 }
             }
