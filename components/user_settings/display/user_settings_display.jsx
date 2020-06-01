@@ -34,7 +34,7 @@ function getDisplayStateFromProps(props) {
     };
 }
 
-export default class UserSettingsDisplay extends React.Component {
+export default class UserSettingsDisplay extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         updateSection: PropTypes.func,

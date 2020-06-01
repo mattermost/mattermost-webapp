@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SearchTypes, TeamTypes} from 'mattermost-redux/action_types';
+import {SearchTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
@@ -16,7 +16,7 @@ describe('Reducers.RHS', () => {
         rhsState: null,
         searchTerms: '',
         searchResultsTerms: '',
-        pluginId: '',
+        pluggableId: '',
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
         isMenuOpen: false,
@@ -57,13 +57,13 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PLUGIN,
-                pluginId: '123',
+                pluggableId: '123',
             },
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            pluginId: '123',
+            pluggableId: '123',
             rhsState: RHSStates.PLUGIN,
             isSidebarOpen: true,
         });
@@ -392,7 +392,6 @@ describe('Reducers.RHS', () => {
         [
             ActionTypes.TOGGLE_LHS,
             ActionTypes.OPEN_LHS,
-            TeamTypes.SELECT_TEAM,
         ].forEach((action) => {
             it(`on ${action}`, () => {
                 const nextState = rhsReducer(

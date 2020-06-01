@@ -24,7 +24,7 @@ type Props = {
         mentionCount: number;
     };
     siteName?: string;
-    currentChannel?: Channel;
+    currentChannel: Channel;
     currentTeam: Team;
     currentTeammate: Channel | null;
 };

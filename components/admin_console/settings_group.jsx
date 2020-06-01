@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class SettingsGroup extends React.Component {
+export default class SettingsGroup extends React.PureComponent {
     static get propTypes() {
         return {
             show: PropTypes.bool.isRequired,

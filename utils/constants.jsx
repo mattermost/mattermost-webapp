@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -139,7 +138,6 @@ export const ActionTypes = keyMirror({
     BROWSER_CHANGE_FOCUS: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
-    RECEIVED_PLUGIN_RHS_ICONS: null,
     REMOVED_PLUGIN_COMPONENT: null,
     RECEIVED_PLUGIN_POST_COMPONENT: null,
     RECEIVED_PLUGIN_POST_CARD_COMPONENT: null,
