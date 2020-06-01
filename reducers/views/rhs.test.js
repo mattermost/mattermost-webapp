@@ -16,7 +16,7 @@ describe('Reducers.RHS', () => {
         rhsState: null,
         searchTerms: '',
         searchResultsTerms: '',
-        pluginId: '',
+        pluggableId: '',
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
         isMenuOpen: false,
@@ -57,13 +57,13 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PLUGIN,
-                pluginId: '123',
+                pluggableId: '123',
             },
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            pluginId: '123',
+            pluggableId: '123',
             rhsState: RHSStates.PLUGIN,
             isSidebarOpen: true,
         });
