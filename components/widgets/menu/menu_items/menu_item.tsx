@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 import './menu_item.scss';
 
@@ -35,11 +36,11 @@ export default function menuItem(Component: React.ComponentType<any>) {
                 );
             }
 
-            const iconClassname = icon ? ' MenuItem--with-icon' : '';
-
             return (
                 <li
-                    className={`MenuItem${iconClassname}`}
+                    className={classNames('MenuItem', {
+                        'MenuItem--with-icon': icon,
+                    })}
                     role='menuitem'
                     id={id}
                 >
