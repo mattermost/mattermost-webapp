@@ -238,6 +238,7 @@ export const ModalIdentifiers = {
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
+    GROUP_MEMBERS: 'group_members',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
 };
@@ -437,6 +438,7 @@ export const UserFilters = {
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
     SET_SYSTEM_USERS_SEARCH: null,
+    SET_USER_GRID_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({

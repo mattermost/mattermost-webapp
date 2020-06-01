@@ -46,7 +46,7 @@ type Props = {
         searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
             data: boolean;
         }>;
-        setModalSearchTerm: (term: string) => Promise<{
+        setSystemUsersSearch: (term: string) => Promise<{
             data: boolean;
         }>;
     };
@@ -73,9 +73,9 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         const {channelId} = this.props;
-        const {loadProfilesAndReloadChannelMembers, getChannelStats, setModalSearchTerm} = this.props.actions;
+        const {loadProfilesAndReloadChannelMembers, getChannelStats, setSystemUsersSearch} = this.props.actions;
         Promise.all([
-            setModalSearchTerm(''),
+            setSystemUsersSearch(''),
             getChannelStats(channelId),
             loadProfilesAndReloadChannelMembers(0, PROFILE_CHUNK_SIZE * 2, channelId),
         ]).then(() => this.setStateLoading(false));
@@ -128,7 +128,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
     }
 
     private search = async (term: string) => {
-        this.props.actions.setModalSearchTerm(term);
+        this.props.actions.setSystemUsersSearch(term);
     }
 
     private updateMembership = (membership: BaseMembership) => {
