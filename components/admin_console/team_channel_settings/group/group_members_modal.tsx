@@ -59,13 +59,7 @@ export default class GroupMembersModal extends React.PureComponent<Props, State>
                         componentClass='h1'
                         id='groupMemberModalLabel'
                     >
-                        <FormattedMessage
-                            id='group_member_modal.members'
-                            defaultMessage='{group} Members'
-                            values={{
-                                group: group.display_name || 'Group',
-                            }}
-                        />
+                        {group.display_name}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

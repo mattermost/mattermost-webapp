@@ -2512,7 +2512,6 @@
   "gif_picker.gfycat": "Search Gfycat",
   "group_list_modal.addGroupButton": "Add Groups",
   "group_list_modal.removeGroupButton": "Remove Group",
-  "group_member_modal.members": "{group} Members",
   "groups": "{team} Groups",
   "help.attaching.downloading.description": "Download an attached file by clicking the download icon next to the file thumbnail or by opening the file previewer and clicking **Download**.",
   "help.attaching.downloading.title": "Downloading Files",
