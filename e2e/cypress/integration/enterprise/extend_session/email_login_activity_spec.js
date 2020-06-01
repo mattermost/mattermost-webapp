@@ -123,35 +123,39 @@ describe('Extend Session - Email Login', () => {
             };
             cy.apiUpdateConfig(setting);
 
-            const fifteenMinutes = (15 * 60 * 1000);
-
             // # Login as test user and go to town-square channel
             cy.apiLogin(testUser);
             cy.visit(townSquarePage);
 
             // # Get active user sessions as baseline reference
             cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: initialSessions}) => {
+                const initialSession = initialSessions[0];
+
                 // Post a message to a channel
                 cy.postMessage(Date.now());
 
-                const sessionToExpireSoon = Date.now() + fifteenMinutes;
+                // Elapsed time of 1.1% or a bit above 1.00%
+                const elapsedAboveThreshold = parseDateTime(initialSession.expiresat) - (testCase.sessionLengthInDays * oneDay * 0.011);
 
-                // # Update user with soon to expire session
+                // # Update the user session with new expiration to simulate that
+                // # the session has elapsed just above 1% of session length.
                 cy.dbUpdateUserSession({
-                    userId: initialSessions[0].userid,
-                    sessionId: initialSessions[0].id,
-                    fieldsToUpdate: {expiresat: sessionToExpireSoon},
+                    userId: initialSession.userid,
+                    sessionId: initialSession.id,
+                    fieldsToUpdate: {expiresat: elapsedAboveThreshold},
                 }).then(({session: updatedSession}) => {
                     // * Verify that the session is updated
-                    expect(parseDateTime(updatedSession.expiresat)).to.equal(sessionToExpireSoon);
+                    expect(parseDateTime(updatedSession.expiresat)).to.equal(elapsedAboveThreshold);
 
+                    // # Invalidate cache and reload to take effect the new session
                     cy.externalRequest({user: users.sysadmin, method: 'POST', path: 'caches/invalidate'});
+                    cy.reload();
 
                     // # Visit a channel or post a message
                     const now = Date.now();
                     testCase.fn(now);
 
-                    // * Get user's active session of test user and verify that the session has been extended depending on SessionLengthWebInDays setting
+                    // * Get active session of test user and verify that the session has been extended depending on SessionLengthWebInDays setting
                     cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: extendedSessions}) => {
                         expect(extendedSessions[0].id).to.equal(updatedSession.id);
                         expect(parseDateTime(extendedSessions[0].expiresat)).to.be.greaterThan(parseDateTime(updatedSession.expiresat));
@@ -182,21 +186,37 @@ describe('Extend Session - Email Login', () => {
             // # Get active user sessions as baseline reference
             cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: initialSessions}) => {
                 const initialSession = initialSessions[0];
+
+                // Post a message to a channel
                 cy.postMessage(Date.now());
 
-                // # Invalidate cache and reload to take effect the expired session
-                cy.externalRequest({user: users.sysadmin, method: 'POST', path: 'caches/invalidate'});
+                // Elapsed time of 0.9% or a bit below 1.00%
+                const elapsedBelowThreshold = parseDateTime(initialSession.expiresat) - (testCase.sessionLengthInDays * oneDay * 0.009);
 
-                // # Visit a channel or post a message
-                const now = Date.now();
-                testCase.fn(now);
+                // # Update the user session with new expiration to simulate that
+                // # the session has elapsed just below 1% of session length.
+                cy.dbUpdateUserSession({
+                    userId: initialSession.userid,
+                    sessionId: initialSession.id,
+                    fieldsToUpdate: {expiresat: elapsedBelowThreshold},
+                }).then(({session: updatedSession}) => {
+                    // * Verify that the session is updated
+                    expect(parseDateTime(updatedSession.expiresat)).to.equal(elapsedBelowThreshold);
 
-                // * Get active user session of test user and verify that the session has remained the same and has not expired
-                cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: unExtendedSessions}) => {
-                    const unExtendedSession = unExtendedSessions[0];
-                    expect(initialSession.id).to.equal(unExtendedSession.id);
-                    expect(parseDateTime(initialSession.expiresat)).to.equal(parseDateTime(unExtendedSession.expiresat));
-                    expect(parseDateTime(initialSession.expiresat)).to.greaterThan(parseDateTime(Date.now()));
+                    // # Invalidate cache and reload to take effect the new session
+                    cy.externalRequest({user: users.sysadmin, method: 'POST', path: 'caches/invalidate'});
+                    cy.reload();
+
+                    // # Visit a channel or post a message
+                    const now = Date.now();
+                    testCase.fn(now);
+
+                    // * Get active session of test user and verify that the session has remained the same and has not extended
+                    cy.dbGetActiveUserSessions({username: testUser}).then(({sessions: unExtendedSessions}) => {
+                        const unExtendedSession = unExtendedSessions[0];
+                        expect(initialSession.id).to.equal(unExtendedSession.id);
+                        expect(elapsedBelowThreshold).to.equal(parseDateTime(unExtendedSession.expiresat));
+                    });
                 });
             });
         });
