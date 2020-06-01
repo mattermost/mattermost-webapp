@@ -35,7 +35,7 @@ const mockStore = configureStore([thunk]);
 const currentChannelId = '123';
 const currentTeamId = '321';
 const currentUserId = 'user123';
-const pluginId = 'pluginId';
+const pluggableId = 'pluggableId';
 const previousSelectedPost = {
     id: 'post123',
     channel_id: 'channel123',
@@ -476,7 +476,7 @@ describe('rhs view actions', () => {
             views: {
                 rhs: {
                     state: RHSStates.PLUGIN,
-                    pluginId,
+                    pluggableId,
                 },
             },
         };
@@ -492,13 +492,13 @@ describe('rhs view actions', () => {
 
         describe('showRHSPlugin', () => {
             it('dispatches the right action', () => {
-                store.dispatch(showRHSPlugin(pluginId));
+                store.dispatch(showRHSPlugin(pluggableId));
 
                 const compareStore = mockStore(initialState);
                 compareStore.dispatch({
                     type: ActionTypes.UPDATE_RHS_STATE,
                     state: RHSStates.PLUGIN,
-                    pluginId,
+                    pluggableId,
                 });
 
                 expect(store.getActions()).toEqual(compareStore.getActions());
@@ -509,7 +509,7 @@ describe('rhs view actions', () => {
             it('it dispatches the right action when plugin rhs is opened', () => {
                 store = mockStore(stateWithPluginRhs);
 
-                store.dispatch(hideRHSPlugin(pluginId));
+                store.dispatch(hideRHSPlugin(pluggableId));
 
                 const compareStore = mockStore(stateWithPluginRhs);
                 compareStore.dispatch(closeRightHandSide());
@@ -520,7 +520,7 @@ describe('rhs view actions', () => {
             it('it doesn\'t dispatch the action when plugin rhs is closed', () => {
                 store = mockStore(stateWithoutPluginRhs);
 
-                store.dispatch(hideRHSPlugin(pluginId));
+                store.dispatch(hideRHSPlugin(pluggableId));
 
                 const compareStore = mockStore(initialState);
 
@@ -530,7 +530,7 @@ describe('rhs view actions', () => {
             it('it doesn\'t dispatch the action when other plugin rhs is opened', () => {
                 store = mockStore(stateWithPluginRhs);
 
-                store.dispatch(hideRHSPlugin('pluginId2'));
+                store.dispatch(hideRHSPlugin('pluggableId2'));
 
                 const compareStore = mockStore(initialState);
 
@@ -542,7 +542,7 @@ describe('rhs view actions', () => {
             it('it dispatches hide action when rhs is open', () => {
                 store = mockStore(stateWithPluginRhs);
 
-                store.dispatch(toggleRHSPlugin(pluginId));
+                store.dispatch(toggleRHSPlugin(pluggableId));
 
                 const compareStore = mockStore(initialState);
                 compareStore.dispatch(closeRightHandSide());
@@ -553,10 +553,10 @@ describe('rhs view actions', () => {
             it('it dispatches hide action when rhs is closed', () => {
                 store = mockStore(stateWithoutPluginRhs);
 
-                store.dispatch(toggleRHSPlugin(pluginId));
+                store.dispatch(toggleRHSPlugin(pluggableId));
 
                 const compareStore = mockStore(initialState);
-                compareStore.dispatch(showRHSPlugin(pluginId));
+                compareStore.dispatch(showRHSPlugin(pluggableId));
 
                 expect(store.getActions()).toEqual(compareStore.getActions());
             });
