@@ -8,7 +8,7 @@ import {_} from 'lodash';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users.jsx';
 
 describe('components/admin_console/group_settings/group_details/GroupUsers', () => {
-    const members =  _.range(0, 55).map((i) => ({
+    const members = _.range(0, 55).map((i) => ({
         id: 'id' + i,
         username: 'username' + i,
         first_name: 'Name' + i,
@@ -16,6 +16,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         email: 'test' + i + '@test.com',
         last_picture_update: i,
     }));
+
     const defaultProps = {
         groupID: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
         members: members.slice(0, 20),
