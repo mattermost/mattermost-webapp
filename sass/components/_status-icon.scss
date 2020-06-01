@@ -152,7 +152,7 @@
         top: 0;
 
         .mentions__name & {
-            background-color: v(center-channel-color-30);
+            background-color: rgba(var(--center-channel-color-rgb), 0.32);
             flex: 0 0 17px;
             height: 18px;
             left: 0;
@@ -196,13 +196,13 @@
 
 .status-dropdown-menu {
     .online--icon > svg {
-        fill: rgba(var(--online-indicator-rgb), 1);
+        fill: var(--online-indicator);
     }
     .away--icon > svg {
-        fill: rgba(var(--away-indicator-rgb), 1);
+        fill: var(--away-indicator);
     }
     .dnd--icon > svg {
-        fill: rgba(var(--dnd-indicator-rgb), 1);
+        fill: var(--dnd-indicator);
     }
     .offline--icon {
         fill: rgba(var(--center-channel-color-rgb), 0.56);
