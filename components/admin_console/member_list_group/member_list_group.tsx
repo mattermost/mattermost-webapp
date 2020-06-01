@@ -139,7 +139,7 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
             {
                 name: (
                     <FormattedMessage
-                        id='admin.user_grid.name'
+                        id='admin.member_list_group.name'
                         defaultMessage='Name'
                     />
                 ),
@@ -170,7 +170,7 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
 
         const placeholderEmpty: JSX.Element = (
             <FormattedMessage
-                id='admin.user_grid.notFound'
+                id='admin.member_list_group.notFound'
                 defaultMessage='No users found'
             />
         );
