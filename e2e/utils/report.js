@@ -145,13 +145,13 @@ function generateTestReport(summary, isUploadedToS3, reportLink) {
         title = 'Cypress UI Test';
     }
 
-    if (FULL_REPORT) {
+    if (FULL_REPORT === 'true') {
         return {
             username: 'Cypress UI Test',
             icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             attachments: [{
                 color: testResult.color,
-                author_name: 'Cypress UI Test',
+                author_name: 'Webapp End-to-end Testing',
                 author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
                 author_link: 'https://www.mattermost.com',
                 title,
