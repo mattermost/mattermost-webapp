@@ -15,7 +15,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
                 usersLoader={jest.fn()}
                 onChange={jest.fn()}
                 value={['test@email.com', {id: 'test-user-id', username: 'test-username', first_name: 'test', last_name: 'user'}]}
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Async

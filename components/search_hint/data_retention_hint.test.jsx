@@ -9,7 +9,7 @@ import DataRetentionHint from 'components/search_hint/data_retention_hint';
 describe('components/DataRetentionHint', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <DataRetentionHint dataRetentionMessageRetentionDays={'30'}/>
+            <DataRetentionHint dataRetentionMessageRetentionDays={'30'}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

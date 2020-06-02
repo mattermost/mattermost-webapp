@@ -9,7 +9,7 @@ import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entiti
 import {getAutolinkedUrlSchemes, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
+import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
@@ -21,6 +21,7 @@ import Markdown from './markdown';
 
 type Props = {
     channelNamesMap?: ChannelNamesMap;
+    mentionKeys?: [];
 }
 
 function makeGetChannelNamesMap() {
@@ -33,7 +34,7 @@ function makeGetChannelNamesMap() {
             }
 
             return channelNamesMap;
-        }
+        },
     );
 }
 
@@ -47,12 +48,12 @@ function makeMapStateToProps() {
             autolinkedUrlSchemes: getAutolinkedUrlSchemes(state),
             channelNamesMap: getChannelNamesMap(state, ownProps),
             enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
-            mentionKeys: getCurrentUserMentionKeys(state),
+            mentionKeys: ownProps.mentionKeys || getAllUserMentionKeys(state),
             siteURL: getSiteURL(),
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',
             minimumHashtagLength: parseInt(config.MinimumHashtagLength || '', 10),
-            emojiMap: getEmojiMap(state)
+            emojiMap: getEmojiMap(state),
         };
     };
 }

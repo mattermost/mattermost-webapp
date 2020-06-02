@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class SuggestionBox extends React.Component {
+export default class SuggestionBox extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -132,6 +132,16 @@ export default class SuggestionBox extends React.Component {
          * Passes the wrapper reference for height calculation
          */
         wrapperHeight: PropTypes.number,
+
+        /**
+         * Allows parent to access received suggestions
+         */
+        onSuggestionsReceived: PropTypes.func,
+
+        /**
+         * Suppress loading spinner when necessary
+         */
+        suppressLoadingSpinner: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -444,7 +454,7 @@ export default class SuggestionBox extends React.Component {
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
-                provider.handleCompleteWord(term, matchedPretext);
+                provider.handleCompleteWord(term, matchedPretext, this.handlePretextChanged);
             }
         }
     }
@@ -548,6 +558,10 @@ export default class SuggestionBox extends React.Component {
     handleReceivedSuggestions = (suggestions) => {
         const newComponents = [];
         const newPretext = [];
+        if (this.props.onSuggestionsReceived) {
+            this.props.onSuggestionsReceived(suggestions);
+        }
+
         for (let i = 0; i < suggestions.terms.length; i++) {
             newComponents.push(suggestions.component);
             newPretext.push(suggestions.matchedPretext);
@@ -619,6 +633,19 @@ export default class SuggestionBox extends React.Component {
 
     blur = () => {
         this.inputRef.current.blur();
+    }
+
+    focus = () => {
+        const input = this.inputRef.current.input;
+        if (input.value === '""' || input.value.endsWith('""')) {
+            input.selectionStart = input.value.length - 1;
+            input.selectionEnd = input.value.length - 1;
+        } else {
+            input.selectionStart = input.value.length;
+        }
+        input.focus();
+
+        this.handleChange({target: this.inputRef.current});
     }
 
     setContainerRef = (container) => {
@@ -713,6 +740,7 @@ export default class SuggestionBox extends React.Component {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
+                            suppressLoadingSpinner={this.props.suppressLoadingSpinner}
                         />
                     </div>
                 }

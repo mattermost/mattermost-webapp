@@ -26,6 +26,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             has_syncables: false,
             member_count: 3,
             scheme_admin: false,
+            allow_reference: false,
         }];
         const allGroups = {
             123: groups[0],
@@ -82,6 +83,9 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             getChannelModerations: jest.fn().mockResolvedValue([]),
             patchChannelModerations: jest.fn(),
             loadScheme: jest.fn(),
+            addChannelMember: jest.fn(),
+            removeChannelMember: jest.fn(),
+            updateChannelMemberSchemeRoles: jest.fn(),
         };
 
         const additionalProps = {
@@ -103,7 +107,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channelID={testChannel.id}
                 allGroups={allGroups}
                 {...additionalProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -118,7 +122,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 channelID={testChannel.id}
                 allGroups={allGroups}
                 {...additionalProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

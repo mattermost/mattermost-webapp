@@ -78,6 +78,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     };
 
     private searchBarChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {searchString} = this.state;
+        if (searchString.length !== 0 && e.target.value.length === 0) {
+            this.resetSearch();
+            return;
+        }
         this.setState({searchString: e.target.value});
     };
 
@@ -92,11 +97,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                 }
             }
         }
-        if (searchString.length === 0) {
-            this.resetSearch();
-        }
     };
-    private getDataBySearch = async (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean): Promise<ChannelWithTeamData[]> => {
+    private getDataBySearch = async (page: number, perPage: number): Promise<ChannelWithTeamData[]> => {
         const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
         if ('data' in response) {
@@ -111,32 +113,29 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     header() {
         return (
-            <>
-                {this.searchBar()}
-                <div className='groups-list--header'>
-                    <div className='group-name adjusted'>
+            <div className='groups-list--header'>
+                <div className='group-name adjusted'>
+                    <FormattedMessage
+                        id='admin.channel_settings.channel_list.nameHeader'
+                        defaultMessage='Name'
+                    />
+                </div>
+                <div className='group-content'>
+                    <div className='group-description'>
                         <FormattedMessage
-                            id='admin.channel_settings.channel_list.nameHeader'
-                            defaultMessage='Name'
+                            id='admin.channel_settings.channel_list.teamHeader'
+                            defaultMessage='Team'
                         />
                     </div>
-                    <div className='group-content'>
-                        <div className='group-description'>
-                            <FormattedMessage
-                                id='admin.channel_settings.channel_list.teamHeader'
-                                defaultMessage='Team'
-                            />
-                        </div>
-                        <div className='group-description adjusted'>
-                            <FormattedMessage
-                                id='admin.channel_settings.channel_list.managementHeader'
-                                defaultMessage='Management'
-                            />
-                        </div>
-                        <div className='group-actions'/>
+                    <div className='group-description adjusted'>
+                        <FormattedMessage
+                            id='admin.channel_settings.channel_list.managementHeader'
+                            defaultMessage='Management'
+                        />
                     </div>
+                    <div className='group-actions'/>
                 </div>
-            </>
+            </div>
         );
     }
 
@@ -152,15 +151,19 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             absProps.actions.getData = this.getDataBySearch;
         }
         return (
-            <AbstractList
-                header={this.header()}
-                renderRow={this.renderRow}
-                {...absProps}
-                key={this.state.pageResetKey}
-                onPageChangedCallback={this.onPageChangedCallback}
-                data={this.state.searchMode ? this.state.channels : this.props.data}
-                total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
-            />
+            <div className='groups-list groups-list-no-padding'>
+                {this.searchBar()}
+                <AbstractList
+                    header={this.header()}
+                    renderRow={this.renderRow}
+                    noPadding={true}
+                    {...absProps}
+                    key={this.state.pageResetKey}
+                    onPageChangedCallback={this.onPageChangedCallback}
+                    data={this.state.searchMode ? this.state.channels : this.props.data}
+                    total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
+                />
+            </div>
         );
     }
 

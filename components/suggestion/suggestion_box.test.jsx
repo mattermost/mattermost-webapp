@@ -36,7 +36,7 @@ describe('components/SuggestionBox', () => {
 
     test('should avoid ref access on unmount race', (done) => {
         const wrapper = mount(
-            <SuggestionBox {...baseProps}/>
+            <SuggestionBox {...baseProps}/>,
         );
         wrapper.instance().handleFocusIn({});
         wrapper.unmount();
@@ -49,7 +49,7 @@ describe('components/SuggestionBox', () => {
             <SuggestionBox
                 {...baseProps}
                 onBlur={onBlur}
-            />
+            />,
         );
         wrapper.setState({focused: true});
         const instance = wrapper.instance();
@@ -79,7 +79,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
-            />
+            />,
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
@@ -99,7 +99,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
-            />
+            />,
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
@@ -116,7 +116,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...baseProps}
-            />
+            />,
         );
         const instance = wrapper.instance();
         instance.handlePretextChanged = jest.fn();
@@ -134,10 +134,17 @@ describe('components/SuggestionBox', () => {
         const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'};
         const userid3 = {id: 'userid3', username: 'other', first_name: 'X', last_name: 'Y', nickname: 'Z'};
 
+        const groupid1 = {id: 'groupid1', name: 'board', display_name: 'board'};
+        const groupid2 = {id: 'groupid2', name: 'developers', display_name: 'developers'};
+
         const baseParams = {
+            currentChannelId: 'channelid1',
+            currentTeamId: 'teamid1',
             currentUserId: 'userid1',
             profilesInChannel: [userid1, userid2, userid3],
+            autocompleteGroups: [groupid1, groupid2],
             autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
+            searchAssociatedGroupsForReference: jest.fn().mockResolvedValue(false),
         };
         const provider = new AtMentionProvider(baseParams);
         const props = {
@@ -147,7 +154,7 @@ describe('components/SuggestionBox', () => {
         const wrapper = shallow(
             <SuggestionBox
                 {...props}
-            />
+            />,
         );
         const instance = wrapper.instance();
 
@@ -168,7 +175,7 @@ describe('components/SuggestionBox', () => {
 
     test('should call setState for clear based on present cleared state', () => {
         const wrapper = mount(
-            <SuggestionBox {...baseProps}/>
+            <SuggestionBox {...baseProps}/>,
         );
 
         const instance = wrapper.instance();

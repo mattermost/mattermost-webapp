@@ -8,7 +8,9 @@ import Textbox from 'components/textbox/textbox.jsx';
 
 describe('components/TextBox', () => {
     const baseProps = {
+        channelId: 'channelId',
         currentUserId: 'currentUserId',
+        currentTeamId: 'currentTeamId',
         profilesInChannel: [
             {id: 'id1'},
             {id: 'id2'},
@@ -17,9 +19,14 @@ describe('components/TextBox', () => {
             {id: 'id3'},
             {id: 'id4'},
         ],
+        autocompleteGroups: [
+            {id: 'gid1'},
+            {id: 'gid2'},
+        ],
         actions: {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),
+            searchAssociatedGroupsForReference: jest.fn(),
         },
         useChannelMentions: true,
     };
@@ -37,7 +44,7 @@ describe('components/TextBox', () => {
                 createMessage='placeholder text'
                 supportsCommands={false}
                 {...baseProps}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -62,7 +69,7 @@ describe('components/TextBox', () => {
                 supportsCommands={false}
                 handlePostError={handlePostError}
                 {...baseProps}
-            />
+            />,
         );
 
         expect(gotError).toEqual(true);
@@ -89,7 +96,7 @@ describe('components/TextBox', () => {
                 supportsCommands={false}
                 handlePostError={handlePostError}
                 {...baseProps}
-            />
+            />,
         );
 
         wrapper.setProps({value: 'some test text that exceeds char limit'});

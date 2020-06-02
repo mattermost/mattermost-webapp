@@ -17,7 +17,7 @@ describe('admin_console/team_channel_settings/channel/ChannelProfile', () => {
             <ChannelProfile
                 team={testTeam}
                 channel={testChannel}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

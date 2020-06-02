@@ -30,6 +30,7 @@ export default class SuggestionList extends React.PureComponent {
         selection: PropTypes.string.isRequired,
         components: PropTypes.array.isRequired,
         wrapperHeight: PropTypes.number,
+        suppressLoadingSpinner: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -209,7 +210,7 @@ export default class SuggestionList extends React.PureComponent {
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
                     onMouseMove={this.props.onItemHover}
-                />
+                />,
             );
         }
         const mainClass = 'suggestion-list suggestion-list--' + this.props.location;
@@ -218,24 +219,23 @@ export default class SuggestionList extends React.PureComponent {
         if (this.props.wrapperHeight) {
             maxHeight = Math.min(
                 windowHeight() - (this.props.wrapperHeight + Constants.SUGGESTION_LIST_MAXHEIGHT),
-                Constants.SUGGESTION_LIST_MAXHEIGHT
+                Constants.SUGGESTION_LIST_MAXHEIGHT,
             );
         }
 
         const contentStyle = {maxHeight};
 
-        return (
-            <div className={mainClass}>
-                <div
-                    id='suggestionList'
-                    ref={this.contentRef}
-                    style={{...contentStyle}}
-                    className={contentClass}
-                    onMouseDown={this.props.preventClose}
-                >
-                    {items}
-                </div>
+        return this.props.suppressLoadingSpinner ? '' : (<div className={mainClass}>
+            <div
+                id='suggestionList'
+                ref={this.contentRef}
+                style={{...contentStyle}}
+                className={contentClass}
+                onMouseDown={this.props.preventClose}
+            >
+                {items}
             </div>
+        </div>
         );
     }
 }

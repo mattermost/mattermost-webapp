@@ -36,7 +36,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarBaseChannel {...baseProps}/>
+            <SidebarBaseChannel {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -52,7 +52,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         };
 
         const wrapper = shallow(
-            <SidebarBaseChannel {...props}/>
+            <SidebarBaseChannel {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         };
 
         const wrapper = shallow<SidebarBaseChannel>(
-            <SidebarBaseChannel {...props}/>
+            <SidebarBaseChannel {...props}/>,
         );
 
         expect(wrapper.instance().getCloseHandler()).toBe(wrapper.instance().handleLeavePublicChannel);

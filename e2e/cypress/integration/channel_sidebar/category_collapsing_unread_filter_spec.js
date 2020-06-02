@@ -7,11 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel_sidebar
+
 import users from '../../fixtures/users';
 
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 const sysadmin = users.sysadmin;
 
@@ -30,7 +33,7 @@ describe('Channel sidebar', () => {
 
     it('should display collapsed state when collapsed', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -48,7 +51,7 @@ describe('Channel sidebar', () => {
 
     it('should collapse channels that are not the currently viewed channel', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -69,7 +72,7 @@ describe('Channel sidebar', () => {
 
     it('should collapse channels that are not unread channels', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -100,7 +103,7 @@ describe('Channel sidebar', () => {
 
     it('should save collapsed state and remember the state on refresh', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -145,7 +148,7 @@ describe('Channel sidebar', () => {
 
     it('should change the text state when the unread filter changes state', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -173,7 +176,7 @@ describe('Channel sidebar', () => {
 
     it('should only show unreads when the unread filter is enabled', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -204,7 +207,7 @@ describe('Channel sidebar', () => {
 
     it('should collapse all categories when the unread filter is enabled', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -234,7 +237,7 @@ describe('Channel sidebar', () => {
 
     it('should retain the collapsed state of categories when unread filter is enabled/disabled', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -270,7 +273,7 @@ describe('Channel sidebar', () => {
 
     it('should not persist the state of the unread filter on reload', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square

@@ -20,7 +20,7 @@ import {t} from 'utils/i18n.jsx';
 
 import './channels_input.scss';
 
-export default class ChannelsInput extends React.Component {
+export default class ChannelsInput extends React.PureComponent {
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,

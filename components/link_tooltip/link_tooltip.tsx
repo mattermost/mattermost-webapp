@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React, {RefObject, MouseEvent, CSSProperties} from 'react';
+import React, {RefObject, CSSProperties} from 'react';
 import Popper from 'popper.js';
 import ReactDOM from 'react-dom';
 
@@ -19,13 +18,10 @@ const tooltipContainerStyles: CSSProperties = {
 type Props = {
     href: string;
     title: string;
+    attributes: {[attribute: string]: string};
 }
 
 export default class LinkTooltip extends React.PureComponent<Props> {
-    public static propTypes = {
-        href: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-    };
     private tooltipContainerRef: RefObject<any>;
     private show: boolean;
     private hideTimeout: number;
@@ -91,7 +87,13 @@ export default class LinkTooltip extends React.PureComponent<Props> {
     };
 
     public render() {
-        const {href, title} = this.props;
+        const {href, title, attributes} = this.props;
+
+        const dataAttributes = {
+            'data-hashtag': attributes['data-hashtag'],
+            'data-link': attributes['data-link'],
+            'data-channel-mention': attributes['data-channel-mention'],
+        };
         return (
             <React.Fragment>
                 {ReactDOM.createPortal(
@@ -104,11 +106,12 @@ export default class LinkTooltip extends React.PureComponent<Props> {
                             pluggableName='LinkTooltip'
                         />
                     </div>,
-                    document.getElementById('root') as HTMLElement
+                    document.getElementById('root') as HTMLElement,
                 )}
                 <span
                     onMouseOver={this.showTooltip}
                     onMouseLeave={this.hideTooltip}
+                    {...dataAttributes}
                 >
                     {title}
                 </span>
@@ -116,4 +119,3 @@ export default class LinkTooltip extends React.PureComponent<Props> {
         );
     }
 }
-

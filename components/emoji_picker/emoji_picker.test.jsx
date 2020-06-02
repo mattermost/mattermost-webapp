@@ -66,11 +66,13 @@ describe('components/emoji_picker/EmojiPicker', () => {
         emojiMap: new EmojiMap([]),
         recentEmojis: [],
         actions,
+        filter: '',
+        handleFilterChange: jest.fn(),
     };
 
     test('Recent category should not exist if there are no recent emojis', () => {
         const wrapper = shallow(
-            <EmojiPicker {...baseProps}/>
+            <EmojiPicker {...baseProps}/>,
         );
 
         wrapper.instance().emojiPickerContainer = {
@@ -94,7 +96,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         const wrapper = shallow(
-            <EmojiPicker {...props}/>
+            <EmojiPicker {...props}/>,
         );
 
         wrapper.instance().emojiPickerContainer = {
@@ -119,7 +121,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         const wrapper = await shallow(
-            <EmojiPicker {...props}/>
+            <EmojiPicker {...props}/>,
         );
 
         wrapper.instance().emojiPickerContainer = {

@@ -30,7 +30,7 @@ describe('components/RenameChannelModal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -40,11 +40,11 @@ describe('components/RenameChannelModal', () => {
         const {actions: {patchChannel}} = baseProps;
         const props = {...baseProps, requestStatus: RequestStatus.STARTED};
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...props}/>
+            <RenameChannelModal {...props}/>,
         );
 
         wrapper.find('#display_name').simulate(
-            'change', {preventDefault: jest.fn(), target: {value: 'valid name'}}
+            'change', {preventDefault: jest.fn(), target: {value: 'valid name'}},
         );
 
         wrapper.find('#save-button').simulate('click');
@@ -57,7 +57,8 @@ describe('components/RenameChannelModal', () => {
             [{name: 'must be two or more characters', value: 'a'}, false],
             [{name: 'must start with a letter or number', value: '_channel'}, false],
             [{name: 'must end with a letter or number', value: 'channel_'}, false],
-            [{name: 'can not contain two underscores in a row', value: 'channel__two'}, false],
+            [{name: 'can contain two underscores in a row', value: 'channel__two'}, true],
+            [{name: 'can not resemble direct message channel url', value: 'uzsfmtmniifsjgesce4u7yznyh__uzsfmtmniifsjgesce4u7yznyh'}, false],
             [{name: 'valid channel url', value: 'a_valid_channel'}, true],
         ];
 
@@ -65,7 +66,7 @@ describe('components/RenameChannelModal', () => {
             it(testCaseProps.name, () => {
                 const {actions: {patchChannel}} = baseProps;
                 const wrapper = shallowWithIntl(
-                    <RenameChannelModal {...baseProps}/>
+                    <RenameChannelModal {...baseProps}/>,
                 );
 
                 wrapper.setState({channelName: testCaseProps.value});
@@ -83,11 +84,11 @@ describe('components/RenameChannelModal', () => {
     test('should not call patchChannel as channel.name.length > Constants.MAX_CHANNELNAME_LENGTH (64)', () => {
         const {actions: {patchChannel}} = baseProps;
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal {...baseProps}/>,
         );
 
         wrapper.find('#display_name').simulate(
-            'change', {preventDefault: jest.fn(), target: {value: 'string-above-sixtyfour-characters-to-test-the-channel-maxlength-limit-properly-in-the-component'}}
+            'change', {preventDefault: jest.fn(), target: {value: 'string-above-sixtyfour-characters-to-test-the-channel-maxlength-limit-properly-in-the-component'}},
         );
 
         wrapper.find('#save-button').simulate('click');
@@ -97,11 +98,11 @@ describe('components/RenameChannelModal', () => {
 
     test('should change state when display_name is edited', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal {...baseProps}/>,
         );
 
         wrapper.find('#display_name').simulate(
-            'change', {preventDefault: jest.fn(), target: {value: 'New Fake Channel'}}
+            'change', {preventDefault: jest.fn(), target: {value: 'New Fake Channel'}},
         );
 
         expect(wrapper.state('displayName')).toBe('New Fake Channel');
@@ -109,7 +110,7 @@ describe('components/RenameChannelModal', () => {
 
     test('should call setError function', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -121,7 +122,7 @@ describe('components/RenameChannelModal', () => {
     test('should call unsetError function', () => {
         const props = {...baseProps, serverError: {message: 'This is an error message'}};
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...props}/>
+            <RenameChannelModal {...props}/>,
         );
 
         wrapper.setState({serverError: props.serverError.message});
@@ -140,7 +141,7 @@ describe('components/RenameChannelModal', () => {
             <RenameChannelModal
                 {...baseProps}
                 actions={{patchChannel}}
-            />
+            />,
         );
 
         wrapper.setState({displayName: 'Changed Name', channelName: 'changed-name'});
@@ -167,7 +168,7 @@ describe('components/RenameChannelModal', () => {
 
     test('should call handleCancel', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -178,7 +179,7 @@ describe('components/RenameChannelModal', () => {
 
     test('should call handleHide function', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal {...baseProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -190,7 +191,7 @@ describe('components/RenameChannelModal', () => {
     test('should call onNameChange function', () => {
         const changedName = {target: {value: 'changed-name'}};
         const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
+            <RenameChannelModal {...baseProps}/>,
         );
 
         const instance = wrapper.instance();

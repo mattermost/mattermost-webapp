@@ -133,7 +133,7 @@ export default class QuickInput extends React.PureComponent {
                 ...props,
                 ref: this.setInput,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
-            }
+            },
         );
 
         return (<div>
@@ -152,7 +152,7 @@ export default class QuickInput extends React.PureComponent {
                             className='input-clear-x'
                             aria-hidden='true'
                         >
-                            {'×'}
+                            <i className='icon icon-close-circle'/>
                         </span>
                     </OverlayTrigger>
                 </div>

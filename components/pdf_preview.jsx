@@ -145,7 +145,7 @@ export default class PDFPreview extends React.PureComponent {
                 <canvas
                     ref={'pdfCanvas' + i}
                     key={'previewpdfcanvas' + i}
-                />
+                />,
             );
 
             if (i < this.state.numPages - 1 && this.state.numPages > 1) {
@@ -153,7 +153,7 @@ export default class PDFPreview extends React.PureComponent {
                     <div
                         key={'previewpdfspacer' + i}
                         className='pdf-preview-spacer'
-                    />
+                    />,
                 );
             }
         }
@@ -171,7 +171,7 @@ export default class PDFPreview extends React.PureComponent {
                         id='pdf_preview.max_pages'
                         defaultMessage='Download to read more pages'
                     />
-                </a>
+                </a>,
             );
         }
 

@@ -105,7 +105,17 @@
 }
 
 .mention--highlight {
+    padding: 0 1px;
+    border-radius: 4px;
     background-color: $yellow;
+
+    .mention--highlight {
+        padding: 0;
+    }
+}
+
+.group-mention-link {
+    color: var(--link-color);
 }
 
 .mention__purpose {

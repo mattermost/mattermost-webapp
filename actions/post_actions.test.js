@@ -83,9 +83,14 @@ describe('Actions.Posts', () => {
                         user_id: 'current_user_id',
                         roles: 'channel_role',
                     },
+                    other_channel_id: {
+                        channel_id: 'other_channel_id',
+                        user_id: 'current_user_id',
+                        roles: 'channel_role',
+                    },
                 },
                 channels: {
-                    current_channel_id: {team_id: 'team_id'},
+                    current_channel_id: {team_a: 'team_a'},
                 },
             },
             preferences: {
@@ -99,16 +104,22 @@ describe('Actions.Posts', () => {
                 },
             },
             teams: {
-                currentTeamId: 'team-1',
+                currentTeamId: 'team-a',
                 teams: {
-                    team_id: {
-                        id: 'team_id',
-                        name: 'team-1',
-                        displayName: 'Team 1',
+                    team_a: {
+                        id: 'team_a',
+                        name: 'team-a',
+                        displayName: 'Team A',
+                    },
+                    team_b: {
+                        id: 'team_b',
+                        name: 'team-a',
+                        displayName: 'Team B',
                     },
                 },
                 myMembers: {
-                    'team-1': {roles: 'team_role'},
+                    'team-a': {roles: 'team_role'},
+                    'team-b': {roles: 'team_role'},
                 },
             },
             users: {
@@ -156,7 +167,7 @@ describe('Actions.Posts', () => {
     test('handleNewPost', async () => {
         const testStore = await mockStore(initialState);
         const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME};
-        const msg = {data: {team_id: 'team_id', mentions: ['current_user_id']}};
+        const msg = {data: {team_a: 'team_a', mentions: ['current_user_id']}};
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg));
         expect(testStore.getActions()).toEqual([
@@ -169,6 +180,30 @@ describe('Actions.Posts', () => {
         ]);
     });
 
+    test('handleNewPostOtherChannel', async () => {
+        const testStore = await mockStore(initialState);
+        const newPost = {id: 'other_channel_post_id', channel_id: 'other_channel_id', message: 'new message in other channel', type: '', user_id: 'other_user_id', create_at: POST_CREATED_TIME};
+        const msg = {data: {team_b: 'team_b', mentions: ['current_user_id']}};
+
+        await testStore.dispatch(Actions.handleNewPost(newPost, msg));
+        expect(testStore.getActions()).toEqual([
+            {
+                meta: {batch: true},
+                payload: [
+                    PostActions.receivedNewPost(newPost),
+                    {
+                        type: 'stop_typing',
+                        data: {
+                            id: 'other_channel_idundefined',
+                            now: POST_CREATED_TIME,
+                            userId: newPost.user_id},
+                    },
+                ],
+                type: 'BATCHING_REDUCER.BATCH',
+            },
+        ]);
+    });
+
     test('setEditingPost', async () => {
         // should allow to edit and should fire an action
         let testStore = mockStore({...initialState});
@@ -176,7 +211,7 @@ describe('Actions.Posts', () => {
         expect(data).toEqual(true);
 
         expect(testStore.getActions()).toEqual(
-            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}]
+            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
         );
 
         const general = {
@@ -192,7 +227,7 @@ describe('Actions.Posts', () => {
         const {data: withLicenseData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
         expect(withLicenseData).toEqual(true);
         expect(testStore.getActions()).toEqual(
-            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}]
+            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
         );
 
         // should not allow edit for pending post

@@ -13,7 +13,7 @@ describe('components/FileInfoPreview', () => {
                 fileUrl='https://pre-release.mattermost.com/api/v4/files/rqir81f7a7ft8m6j6ej7g1txuo'
                 fileInfo={{name: 'Test Image', size: 100, extension: 'jpg'}}
                 canDownloadFiles={true}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -25,7 +25,7 @@ describe('components/FileInfoPreview', () => {
                 fileUrl='https://pre-release.mattermost.com/api/v4/files/aasf9afshaskj1asf91jasf0a0'
                 fileInfo={{name: 'Test Image 2', size: 200, extension: 'png'}}
                 canDownloadFiles={false}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

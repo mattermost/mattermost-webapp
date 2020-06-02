@@ -31,7 +31,7 @@
             padding: 0;
 
             .close {
-                color: v(center-channel-color-50);
+                color: v(center-channel-color-56);
                 width: 4rem;
                 height: 4rem;
                 font-size: 32px;
@@ -59,7 +59,7 @@
     .channel-switcher__suggestion-box {
         min-height: 344px;
         position: relative;
-        padding: 0 0 1.2rem;
+        padding: 0;
 
         .icon-magnify {
             opacity: .48;

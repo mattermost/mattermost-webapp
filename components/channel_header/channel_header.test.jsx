@@ -6,6 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
 import Markdown from 'components/markdown';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 import Constants, {RHSStates} from 'utils/constants';
 
 describe('components/ChannelHeader', () => {
@@ -55,14 +56,14 @@ describe('components/ChannelHeader', () => {
 
     test('should render properly when empty', () => {
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...baseProps}/>
+            <ChannelHeader {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should render properly when populated', () => {
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...populatedProps}/>
+            <ChannelHeader {...populatedProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -93,7 +94,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -105,7 +106,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -117,7 +118,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -129,7 +130,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -141,7 +142,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -153,7 +154,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -173,23 +174,53 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper.containsMatchingElement(
             <Markdown
                 message={props.currentUser.bot_description}
-            />
+            />,
         )).toEqual(true);
     });
 
     test('should render the pinned icon with the pinned posts count', () => {
         const props = {
             ...populatedProps,
-            pinnedPostsCount: 2
+            pinnedPostsCount: 2,
         };
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render the guest badges on gms', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'test',
+                display_name: 'regular_user, guest_user',
+                type: Constants.GM_CHANNEL,
+            },
+            gmMembers: [
+                {
+                    id: 'user_id',
+                    username: 'regular_user',
+                    roles: 'system_user',
+                },
+                {
+                    id: 'guest_id',
+                    username: 'guest_user',
+                    roles: 'system_guest',
+                },
+            ],
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper.containsMatchingElement(
+            <GuestBadge show={true}/>,
+        )).toEqual(true);
     });
 });

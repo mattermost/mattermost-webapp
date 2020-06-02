@@ -10,7 +10,7 @@ export default class DialogIntroductionText extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string,
         value: PropTypes.string.isRequired,
-        emojiMap: PropTypes.object.isRequired
+        emojiMap: PropTypes.object.isRequired,
     };
 
     render() {
@@ -19,9 +19,9 @@ export default class DialogIntroductionText extends React.PureComponent {
             {
                 breaks: true,
                 sanitize: true,
-                gfm: true
+                gfm: true,
             },
-            this.props.emojiMap
+            this.props.emojiMap,
         );
 
         return (

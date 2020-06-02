@@ -39,7 +39,7 @@ describe('components/ListModal', () => {
 
     it('should match snapshot', () => {
         const wrapper = shallow(
-            <ListModal {...baseProps}/>
+            <ListModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
         setTimeout(() => {
@@ -54,7 +54,7 @@ describe('components/ListModal', () => {
         const props = {...baseProps};
         props.numPerPage = numPerPage;
         const wrapper = shallow(
-            <ListModal {...props}/>
+            <ListModal {...props}/>,
         );
         setTimeout(() => {
             expect(wrapper.state('numPerPage')).toEqual(numPerPage);
@@ -66,7 +66,7 @@ describe('components/ListModal', () => {
         props.titleBarButtonText = 'Add Foo';
         props.titleBarButtonTextOnClick = () => { };
         const wrapper = shallow(
-            <ListModal {...baseProps}/>
+            <ListModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -75,7 +75,7 @@ describe('components/ListModal', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
         const wrapper = shallow(
-            <ListModal {...props}/>
+            <ListModal {...props}/>,
         );
         wrapper.instance().handleExit();
         expect(onHide).toHaveBeenCalledTimes(1);
@@ -83,7 +83,7 @@ describe('components/ListModal', () => {
 
     test('paging loads new items', () => {
         const wrapper = shallow(
-            <ListModal {...baseProps}/>
+            <ListModal {...baseProps}/>,
         );
         wrapper.instance().onNext();
         setTimeout(() => {
@@ -99,7 +99,7 @@ describe('components/ListModal', () => {
 
     test('search input', () => {
         const wrapper = shallow(
-            <ListModal {...baseProps}/>
+            <ListModal {...baseProps}/>,
         );
         wrapper.instance().onSearchInput({target: {value: mockSearchTerm}});
         setTimeout(() => {
