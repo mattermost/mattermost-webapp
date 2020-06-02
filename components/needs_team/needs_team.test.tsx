@@ -163,7 +163,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
