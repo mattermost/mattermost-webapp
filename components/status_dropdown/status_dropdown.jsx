@@ -142,7 +142,10 @@ export default class StatusDropdown extends React.PureComponent {
                     id='statusDropdownMenu'
                 >
                     <Menu.Header>
-                        {localizeMessage('status_dropdown.set_your_status', 'Set your status')}
+                        <FormattedMessage
+                            id='status_dropdown.set_your_status'
+                            defaultMessage='Set your status'
+                        />
                     </Menu.Header>
                     <Menu.Group>
                         <Menu.ItemAction

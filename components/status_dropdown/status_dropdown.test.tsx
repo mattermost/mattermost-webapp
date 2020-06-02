@@ -22,4 +22,16 @@ describe('components/StatusDropdown', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot with profile picture URL', () => {
+        const props = {
+            ...baseProps,
+            profilePicture: 'http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944',
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });
