@@ -171,8 +171,10 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
     }
 
     updateSetting<T extends keyof SettingType>(setting: T, value: SettingType[T]): void {
-        const settings: SettingType = this.state.settings;
-        settings[setting] = value;
+        const settings: SettingType = {
+            ...this.state.settings,
+            [setting]: value,
+        };
 
         this.setState({
             ...this.state,
