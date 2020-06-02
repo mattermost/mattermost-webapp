@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError,
-    checkIfErrorsMatchElements
+    checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
 
 import SpinnerButton from 'components/spinner_button';
@@ -17,7 +17,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import DialogElement from './dialog_element';
 import DialogIntroductionText from './dialog_introduction_text';
 
-export default class InteractiveDialog extends React.Component {
+export default class InteractiveDialog extends React.PureComponent {
     static propTypes = {
         url: PropTypes.string.isRequired,
         callbackId: PropTypes.string,
@@ -30,9 +30,9 @@ export default class InteractiveDialog extends React.Component {
         state: PropTypes.string,
         onHide: PropTypes.func,
         actions: PropTypes.shape({
-            submitInteractiveDialog: PropTypes.func.isRequired
+            submitInteractiveDialog: PropTypes.func.isRequired,
         }).isRequired,
-        emojiMap: PropTypes.object.isRequired
+        emojiMap: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -56,7 +56,7 @@ export default class InteractiveDialog extends React.Component {
             values,
             error: null,
             errors: {},
-            submitting: false
+            submitting: false,
         };
     }
 
@@ -70,7 +70,7 @@ export default class InteractiveDialog extends React.Component {
             elements.forEach((elem) => {
                 const error = checkDialogElementForError(
                     elem,
-                    values[elem.name]
+                    values[elem.name],
                 );
                 if (error) {
                     errors[elem.name] = (
@@ -96,13 +96,13 @@ export default class InteractiveDialog extends React.Component {
             url,
             callback_id: callbackId,
             state,
-            submission: values
+            submission: values,
         };
 
         this.setState({submitting: true});
 
         const {data} = await this.props.actions.submitInteractiveDialog(
-            dialog
+            dialog,
         );
 
         this.setState({submitting: false});
@@ -142,7 +142,7 @@ export default class InteractiveDialog extends React.Component {
                 url,
                 callback_id: callbackId,
                 state,
-                cancelled: true
+                cancelled: true,
             };
 
             this.props.actions.submitInteractiveDialog(dialog);
@@ -162,7 +162,7 @@ export default class InteractiveDialog extends React.Component {
             introductionText,
             iconUrl,
             submitLabel,
-            elements
+            elements,
         } = this.props;
 
         let submitText = (
@@ -270,7 +270,7 @@ export default class InteractiveDialog extends React.Component {
                             spinning={this.state.submitting}
                             spinningText={localizeMessage(
                                 'interactive_dialog.submitting',
-                                'Submitting...'
+                                'Submitting...',
                             )}
                         >
                             {submitText}

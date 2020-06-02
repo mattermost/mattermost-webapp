@@ -39,7 +39,7 @@ function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, tea
                 map[category.id] = isCategoryCollapsedFromStorage(prefix, storage, category.id) || unreadFilterEnabled;
                 return map;
             }, {});
-        }
+        },
     );
 }
 
@@ -74,6 +74,6 @@ export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState,
 
                 return channels;
             }).flat();
-        }
+        },
     );
 }

@@ -14,7 +14,7 @@ import InvitationModal from 'components/invitation_modal';
 
 const NUM_SCREENS = 3;
 
-export default class TutorialIntroScreens extends React.Component {
+export default class TutorialIntroScreens extends React.PureComponent {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         step: PropTypes.number,
@@ -304,7 +304,7 @@ export default class TutorialIntroScreens extends React.Component {
                     className={className}
                     data-screen={i}
                     onClick={(e) => this.handleCircleClick(e, i)}
-                />
+                />,
             );
         }
 

@@ -15,7 +15,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 const CHANNELS_PER_PAGE = 50;
 
-export default class ChannelSelectorModal extends React.Component {
+export default class ChannelSelectorModal extends React.PureComponent {
     static propTypes = {
         searchTerm: PropTypes.string.isRequired,
         onModalDismissed: PropTypes.func,
@@ -43,7 +43,7 @@ export default class ChannelSelectorModal extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
             this.setState({channels: response.data.sort(compareChannels)});
             this.setChannelsLoadingState(false);
         });
@@ -55,7 +55,7 @@ export default class ChannelSelectorModal extends React.Component {
 
             const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
-                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, true).then((response) => {
+                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
                     this.setState({channels: response.data.sort(compareChannels)});
                     this.setChannelsLoadingState(false);
                 });
@@ -67,7 +67,7 @@ export default class ChannelSelectorModal extends React.Component {
                         this.setState({channels: response.data});
                         this.setChannelsLoadingState(false);
                     },
-                    Constants.SEARCH_TIMEOUT_MILLISECONDS
+                    Constants.SEARCH_TIMEOUT_MILLISECONDS,
                 );
             }
         }

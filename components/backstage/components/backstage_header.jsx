@@ -8,7 +8,7 @@ import LocalizedIcon from 'components/localized_icon';
 
 import {t} from 'utils/i18n';
 
-export default class BackstageHeader extends React.Component {
+export default class BackstageHeader extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
     };
@@ -27,7 +27,7 @@ export default class BackstageHeader extends React.Component {
                             className='fa fa-angle-right'
                             title={{id: t('generic_icons.breadcrumb'), defaultMessage: 'Breadcrumb Icon'}}
                         />
-                    </span>
+                    </span>,
                 );
             }
 

@@ -20,7 +20,7 @@ describe('components/AccessHistoryModal', () => {
 
     test('should match snapshot when no audits exist', () => {
         const wrapper = shallow(
-            <AccessHistoryModal {...baseProps}/>
+            <AccessHistoryModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingScreen).exists()).toBe(true);
@@ -29,7 +29,7 @@ describe('components/AccessHistoryModal', () => {
 
     test('should match snapshot when audits exist', () => {
         const wrapper = shallow(
-            <AccessHistoryModal {...baseProps}/>
+            <AccessHistoryModal {...baseProps}/>,
         );
 
         wrapper.setProps({userAudits: ['audit1', 'audit2']});
@@ -44,7 +44,7 @@ describe('components/AccessHistoryModal', () => {
         };
         const props = {...baseProps, actions};
         const wrapper: ShallowWrapper<any, any, AccessHistoryModal> = shallow(
-            <AccessHistoryModal {...props}/>
+            <AccessHistoryModal {...props}/>,
         );
 
         wrapper.instance().onShow();
@@ -53,7 +53,7 @@ describe('components/AccessHistoryModal', () => {
 
     test('should match state when onHide is called', () => {
         const wrapper: ShallowWrapper<any, any, AccessHistoryModal> = shallow(
-            <AccessHistoryModal {...baseProps}/>
+            <AccessHistoryModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});

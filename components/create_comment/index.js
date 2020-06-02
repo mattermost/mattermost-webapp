@@ -62,7 +62,7 @@ function makeMapStateToProps() {
                 channel: channel.id,
                 team: channel.team_id,
                 permission: Permissions.CREATE_POST,
-            }
+            },
         );
         const useChannelMentions = haveIChannelPermission(state, {
             channel: channel.id,
@@ -156,7 +156,7 @@ function makeMapDispatchToProps() {
             getChannelTimezones,
             emitShortcutReactToLastPostFrom,
             setShowPreview: setShowPreviewOnCreateComment,
-            getChannelMemberCountsByGroup
+            getChannelMemberCountsByGroup,
         }, dispatch);
     };
 }
