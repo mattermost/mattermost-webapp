@@ -80,7 +80,7 @@ describe('MM-T2574 Session Lengths', () => {
         });
     });
 
-    it.only('should match help text', () => {
+    it('should match help text', () => {
         const helpText = {
             extendSessionLengthWithActivity: {
                 false: 'When true, sessions will be automatically extended when the user is active in their Mattermost client. Users sessions will only expire if they are not active in their Mattermost client for the entire duration of the session lengths defined in the fields below. When false, sessions will not extend with activity in Mattermost. User sessions will immediately expire at the end of the session length or idle timeouts defined below. ',
