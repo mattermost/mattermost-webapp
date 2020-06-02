@@ -148,4 +148,47 @@ describe('plugins/Pluggable', () => {
 
         expect(wrapper.type()).toBe(null);
     });
+
+    test('should match snapshot with non-null pluggableId', () => {
+        const wrapper = mount(
+            <Pluggable
+                pluggableName='PopoverSection1'
+                pluggableId={'pluggableId'}
+                components={{PopoverSection1: [{component: ProfilePopoverPlugin}]}}
+                theme={{id: 'theme_id'}}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.children().length).toBe(0);
+    });
+
+    test('should match snapshot with null pluggableId', () => {
+        const wrapper = mount(
+            <Pluggable
+                pluggableName='PopoverSection1'
+                pluggableId={null}
+                components={{PopoverSection1: [{component: ProfilePopoverPlugin}]}}
+                theme={{id: 'theme_id'}}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.children().length).toBe(1);
+    });
+
+    test('should match snapshot with valid pluggableId', () => {
+        const wrapper = mount(
+            <Pluggable
+                pluggableName='PopoverSection1'
+                pluggableId={'pluggableId'}
+                components={{PopoverSection1: [{id: 'pluggableId', component: ProfilePopoverPlugin}]}}
+                theme={{id: 'theme_id'}}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.children().length).toBe(1);
+        expect(wrapper.childAt(0).type()).toBe(ProfilePopoverPlugin);
+    });
 });

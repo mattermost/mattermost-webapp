@@ -386,11 +386,11 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
 /**
  * On default "ad-1" team, create and visit a new channel
  */
-Cypress.Commands.add('createAndVisitNewChannel', () => {
+Cypress.Commands.add('createAndVisitNewChannel', (channelName = 'channel-test') => {
     cy.visit('/ad-1/channels/town-square');
 
     cy.getCurrentTeamId().then((teamId) => {
-        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+        cy.apiCreateChannel(teamId, channelName, 'Channel Test').then((res) => {
             const channel = res.body;
 
             // # Visit the new channel
