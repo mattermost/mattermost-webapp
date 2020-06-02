@@ -19,7 +19,7 @@ interface Props {
     subtitleValues?: {[key: string]: string} | {[key: string]: {}};
 }
 
-const iconMap: {[key in NoResultsVariant]: React.PureComponent } = {
+const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
     [NoResultsVariant.ChannelSearch]: <SearchIcon className='no-results__icon'/>,
     [NoResultsVariant.Mentions]: <MentionsIcon className='no-results__icon'/>,
     [NoResultsVariant.FlaggedPosts]: <FlagIcon className='no-results__icon'/>,
