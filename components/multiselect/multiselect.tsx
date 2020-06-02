@@ -60,7 +60,7 @@ export type State = {
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelect<T extends Value> extends React.Component<Props<T>, State> {
+export default class MultiSelect<T extends Value> extends React.PureComponent<Props<T>, State> {
     private listRef = React.createRef<MultiSelectList<T>>()
     private reactSelectRef = React.createRef<ReactSelect>()
     private selected: T | null = null
@@ -159,7 +159,7 @@ export default class MultiSelect<T extends Value> extends React.Component<Props<
 
         if (this.reactSelectRef.current) {
             this.reactSelectRef.current.select.handleInputChange(
-                {currentTarget: {value: ''}} as React.KeyboardEvent<HTMLInputElement>
+                {currentTarget: {value: ''}} as React.KeyboardEvent<HTMLInputElement>,
             );
             this.onInput('');
             this.reactSelectRef.current.focus();

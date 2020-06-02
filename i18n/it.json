@@ -2533,7 +2533,6 @@
   "save_button.saving": "Salvataggio",
   "search_bar.clear": "Pulisci query di ricerca",
   "search_bar.search": "Ricerca",
-  "search_bar.usage.tips": "*Usare **\"virgolette\"** per cercare delle frasi\n*Usare **from:** per cercare pubblicazioni dagli utenti specificati e **in:** per cercare pubblicazioni nei canali specificati\n*Usare **on:** per cercare pubblicazioni della data specificata\n*Usare **before:** per cercare pubblicazioni antecedenti alla data specificata\n*Usare **after:** per cercare pubblicazioni successive alla data specificata",
   "search_bar.usage.title": "Opzioni di ricerca",
   "search_header.loading": "Ricerca...",
   "search_header.results": "Risultati di Ricerca",

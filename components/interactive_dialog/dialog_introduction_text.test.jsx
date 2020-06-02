@@ -15,7 +15,7 @@ describe('components/DialogIntroductionText', () => {
         const descriptor = {
             id: 'testsupported',
             value: '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
-            emojiMap
+            emojiMap,
         };
         const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();
@@ -25,7 +25,7 @@ describe('components/DialogIntroductionText', () => {
         const descriptor = {
             id: 'testblankvalue',
             value: '',
-            emojiMap
+            emojiMap,
         };
         const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();

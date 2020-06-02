@@ -19,7 +19,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 invitesType={InviteTypes.INVITE_GUEST}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
                 invitesNotSent={[{email: 'invite3@email'}, {email: 'invite4@email'}]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -34,7 +34,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
                 invitesNotSent={[{email: 'invite3@email'}, {email: 'invite4@email'}]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -49,7 +49,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[]}
                 invitesNotSent={[{email: 'invite3@email'}, {email: 'invite4@email'}]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -64,7 +64,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
                 invitesNotSent={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -79,7 +79,7 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[]}
                 invitesNotSent={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

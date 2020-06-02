@@ -12,7 +12,7 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
-export default class GuestPermissionsTree extends React.Component {
+export default class GuestPermissionsTree extends React.PureComponent {
     static propTypes = {
         scope: PropTypes.string.isRequired,
         role: PropTypes.object.isRequired,
@@ -21,6 +21,7 @@ export default class GuestPermissionsTree extends React.Component {
         selected: PropTypes.string,
         selectRow: PropTypes.func.isRequired,
         readOnly: PropTypes.bool,
+        license: PropTypes.object,
     };
 
     static defaultProps = {
@@ -55,9 +56,12 @@ export default class GuestPermissionsTree extends React.Component {
                 ],
             },
             Permissions.USE_CHANNEL_MENTIONS,
-            Permissions.USE_GROUP_MENTIONS,
-            Permissions.CREATE_POST,
         ];
+
+        if (props.license && props.license.IsLicensed === 'true' && props.license.LDAPGroups === 'true') {
+            this.permissions.push(Permissions.USE_GROUP_MENTIONS);
+        }
+        this.permissions.push(Permissions.CREATE_POST);
     }
 
     openPostTimeLimitModal = () => {

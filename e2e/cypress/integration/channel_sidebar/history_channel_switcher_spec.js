@@ -7,9 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @channel_sidebar
+
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -26,7 +29,7 @@ describe('Channel sidebar', () => {
 
     it('should not show history arrows on the regular webapp', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -39,7 +42,7 @@ describe('Channel sidebar', () => {
 
     it('should switch to channel when using the channel switcher', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -49,7 +52,7 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannelNavigator_jumpToButton').should('be.visible').click();
 
         // # Search for Off-Topic and press Enter
-        cy.get('.channel-switcher__suggestion-box #quickSwitchInput').type('Off-Topic');
+        cy.get('.channel-switcher__suggestion-box #quickSwitchInput').click().type('Off-Topic');
         cy.get('.channel-switcher__suggestion-box #suggestionList').should('be.visible');
         cy.get('.channel-switcher__suggestion-box #quickSwitchInput').type('{enter}');
 

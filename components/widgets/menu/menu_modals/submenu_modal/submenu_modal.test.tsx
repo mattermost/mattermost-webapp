@@ -43,14 +43,14 @@ describe('components/submenu_modal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SubMenuModal {...baseProps}/>
+            <SubMenuModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow<SubMenuModal>(
-            <SubMenuModal {...baseProps}/>
+            <SubMenuModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -64,7 +64,7 @@ describe('components/submenu_modal', () => {
             ...baseProps,
         };
         const wrapper = mount(
-            <SubMenuModal {...props}/>
+            <SubMenuModal {...props}/>,
         );
 
         wrapper.setState({show: true});
@@ -87,7 +87,7 @@ describe('components/submenu_modal', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
         const wrapper = shallow(
-            <SubMenuModal {...props}/>
+            <SubMenuModal {...props}/>,
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));

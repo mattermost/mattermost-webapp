@@ -3,7 +3,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import GeneralTab from 'components/team_general_tab/team_general_tab.jsx';
+
+const helpText = (
+    <FormattedMarkdownMessage
+        id='setting_picture.help.team'
+        defaultMessage='Upload a team icon in BMP, JPG or PNG format.\\nSquare images with a solid background color are recommended.'
+    />
+);
 
 describe('components/TeamSettings', () => {
     const getTeam = jest.fn().mockResolvedValue({data: true});
@@ -11,7 +19,6 @@ describe('components/TeamSettings', () => {
     const regenerateTeamInviteId = jest.fn().mockReturnValue({data: true});
     const removeTeamIcon = jest.fn().mockReturnValue({data: true});
     const setTeamIcon = jest.fn().mockReturnValue({data: true});
-
     const baseActions = {
         getTeam,
         patchTeam,
@@ -28,6 +35,7 @@ describe('components/TeamSettings', () => {
         collapseModal: jest.fn(),
         actions: baseActions,
         canInviteTeamMembers: true,
+        helpText: {helpText},
     };
 
     test('should handle bad updateTeamIcon function call', () => {

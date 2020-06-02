@@ -14,7 +14,7 @@ describe('Reducers.Browser', () => {
             {
                 focused: true,
             },
-            {}
+            {},
         );
 
         expect(nextState).toEqual(initialState);
@@ -28,7 +28,7 @@ describe('Reducers.Browser', () => {
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
                 focus: false,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -45,7 +45,7 @@ describe('Reducers.Browser', () => {
             {
                 type: ActionTypes.BROWSER_CHANGE_FOCUS,
                 focus: true,
-            }
+            },
         );
 
         expect(nextState).toEqual({

@@ -47,7 +47,7 @@ describe('OverlayTrigger', () => {
                 <BaseOverlayTrigger {...baseProps}>
                     <span/>
                 </BaseOverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         const overlay = mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
@@ -64,7 +64,7 @@ describe('OverlayTrigger', () => {
                 <OverlayTrigger {...baseProps}>
                     <span/>
                 </OverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         const overlay = mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
@@ -85,7 +85,7 @@ describe('OverlayTrigger', () => {
                 <OverlayTrigger {...props}>
                     <span/>
                 </OverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         expect(ref.current).toBe(wrapper.find(BaseOverlayTrigger).instance());
@@ -110,7 +110,7 @@ describe('OverlayTrigger', () => {
                 <OverlayTrigger {...props}>
                     <span/>
                 </OverlayTrigger>
-            </IntlProvider>
+            </IntlProvider>,
         );
 
         // Dive into the react-bootstrap internals to find our overlay

@@ -319,15 +319,18 @@
     }
 }
 
-#GroupDisplayName{
-    &.group-profile{
+#groupDisplayName {
+    &.group-profile {
         padding-bottom: 0px;
     }
 }
 
-#GroupMention{
-    &.group-profile{
+#groupMention {
+    .group-profile {
         padding-top: 0px;
+    }
+    .group-at-mention-input {
+        padding-left: 26px;
     }
 }
 
@@ -719,4 +722,11 @@
 
 .group-users--header-padded {
     padding-left: 24px;
+}
+
+.icon-over-input {
+    padding-left: 12px;
+    padding-top: 9px;
+    position: absolute;
+    opacity: .8;
 }

@@ -11,7 +11,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 
 import LogList from './log_list.jsx';
 
-export default class Logs extends React.Component {
+export default class Logs extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -40,14 +40,14 @@ export default class Logs extends React.Component {
 
     componentDidMount() {
         this.props.actions.getLogs(this.state.page, this.state.perPage).then(
-            () => this.setState({loadingLogs: false})
+            () => this.setState({loadingLogs: false}),
         );
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.page !== prevState.page) {
             this.props.actions.getLogs(this.state.page, this.state.perPage).then(
-                () => this.setState({loadingLogs: false})
+                () => this.setState({loadingLogs: false}),
             );
         }
     }
@@ -63,7 +63,7 @@ export default class Logs extends React.Component {
     reload = () => {
         this.setState({loadingLogs: true});
         this.props.actions.getLogs(this.state.page, this.state.perPage).then(
-            () => this.setState({loadingLogs: false})
+            () => this.setState({loadingLogs: false}),
         );
     }
 

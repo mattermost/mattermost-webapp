@@ -37,7 +37,7 @@ describe('components/invitation_modal/InvitationModal', () => {
     test('should match the snapshot', () => {
         const wrapper = shallow(
             <InvitationModal {...defaultProps}/>,
-            {context}
+            {context},
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -48,7 +48,7 @@ describe('components/invitation_modal/InvitationModal', () => {
                 {...defaultProps}
                 show={false}
             />,
-            {context}
+            {context},
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -59,7 +59,7 @@ describe('components/invitation_modal/InvitationModal', () => {
                 {...defaultProps}
                 canAddUsers={false}
             />,
-            {context}
+            {context},
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -70,7 +70,7 @@ describe('components/invitation_modal/InvitationModal', () => {
                 {...defaultProps}
                 canInviteGuests={false}
             />,
-            {context}
+            {context},
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -80,7 +80,7 @@ describe('components/invitation_modal/InvitationModal', () => {
         props.currentTeam.invite_id = '';
         const wrapper = shallow(
             <InvitationModal {...props}/>,
-            {context}
+            {context},
         );
         wrapper.instance().goToMembers();
 
@@ -92,7 +92,7 @@ describe('components/invitation_modal/InvitationModal', () => {
         const props = {...defaultProps};
         props.currentTeam.invite_id = '';
         const wrapper = mountWithIntl(
-            <InvitationModal {...props}/>
+            <InvitationModal {...props}/>,
         );
         wrapper.instance().goToMembers();
 

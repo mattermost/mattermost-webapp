@@ -12,7 +12,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepTable', () => {
             <InvitationModalConfirmStepTable
                 fixInviteRow={jest.fn()}
                 invites={[{email: 'test-email@test.com'}, {user: {id: 'test-id', username: 'test'}}]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
