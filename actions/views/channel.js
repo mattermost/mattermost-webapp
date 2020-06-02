@@ -112,7 +112,7 @@ export function joinChannelById(channelId) {
 
 export function leaveChannel(channelId) {
     return async (dispatch, getState) => {
-        const state = getState();
+        let state = getState();
         const myPreferences = getMyPreferences(state);
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
@@ -123,10 +123,13 @@ export function leaveChannel(channelId) {
 
         const teamUrl = getCurrentRelativeTeamUrl(state);
         LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
             return {error};
         }
+        state = getState();
+
         const prevChannelName = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
         const prevChannel = getChannelByName(channelsInTeam, prevChannelName);

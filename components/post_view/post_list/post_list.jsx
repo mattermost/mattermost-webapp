@@ -61,6 +61,11 @@ export default class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
+        /*
+         * Used for handling the read logic when unmounting the component
+         */
+        channelManuallyUnread: PropTypes.bool.isRequired,
+
         /**
          * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
          */
@@ -71,7 +76,6 @@ export default class PostList extends React.PureComponent {
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
-        prevChannelId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
 
             /*
@@ -147,6 +151,10 @@ export default class PostList extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        if (!this.props.channelManuallyUnread) {
+            this.markChannelAsReadAndViewed(this.props.channelId);
+        }
+
         this.mounted = false;
     }
 
@@ -162,7 +170,7 @@ export default class PostList extends React.PureComponent {
         }
 
         if (!this.props.focusedPostId) {
-            this.markChannelAsReadAndViewed();
+            this.markChannelAsReadAndViewed(this.props.channelId);
         }
         if (this.mounted) {
             this.setState({
@@ -205,15 +213,11 @@ export default class PostList extends React.PureComponent {
         return {error};
     }
 
-    markChannelAsReadAndViewed = () => {
-        const currentChannelId = this.props.channelId;
-        const prevChannelId = this.props.prevChannelId;
-
-        // Mark previous and next channel as read
+    markChannelAsReadAndViewed = (channelId) => {
         // Posts are marked as read from here to not cause a race when loading posts
         // marking channel as read and viewed after calling for posts in channel
-        this.props.actions.markChannelAsViewed(currentChannelId, prevChannelId);
-        this.props.actions.markChannelAsRead(currentChannelId, prevChannelId);
+        this.props.actions.markChannelAsViewed(channelId);
+        this.props.actions.markChannelAsRead(channelId);
     }
 
     getOldestVisiblePostId = () => {
