@@ -5,6 +5,7 @@ import React from 'react';
 import PQueue from 'p-queue';
 import {Channel} from 'mattermost-redux/types/channels';
 
+import {Constants} from 'utils/constants';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
 const queue = new PQueue({concurrency: 2});
@@ -44,7 +45,7 @@ export default class DataPrefetch extends React.PureComponent<Props, {}> {
     public prefetchPosts = (channelId: string) => {
         let delay;
         const channel = this.props.unreadChannels.find((unreadChannel) => channelId === unreadChannel.id);
-        if (channel) {
+        if (channel && (channel.type === Constants.PRIVATE_CHANNEL || channel.type === Constants.OPEN_CHANNEL)) {
             const isLatestPostInLastMin = (Date.now() - channel.last_post_at) <= 1000;
             if (isLatestPostInLastMin) {
                 delay = Math.random() * 1000; // 1ms - 1000ms random wait to not choke server

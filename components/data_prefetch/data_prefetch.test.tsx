@@ -11,7 +11,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import DataPrefetch from './data_prefetch';
 
 jest.mock('actions/user_actions.jsx', () => ({
-    loadProfilesForSidebar: jest.fn().mockResolvedValue({}),
+    loadProfilesForSidebar: jest.fn(() => Promise.resolve({})),
 }));
 
 describe('/components/create_team', () => {
@@ -19,7 +19,7 @@ describe('/components/create_team', () => {
     const defaultProps = {
         currentChannelId: '',
         actions: {
-            prefetchChannelPosts: jest.fn().mockResolvedValue({}),
+            prefetchChannelPosts: jest.fn(() => Promise.resolve({})),
         },
         prefetchQueueObj: {
             1: ['mentionChannel'],
@@ -104,7 +104,7 @@ describe('/components/create_team', () => {
             <DataPrefetch {...props}/>,
         );
         const instance = wrapper.instance() as DataPrefetch;
-        instance.prefetchPosts = jest.fn().mockResolvedValue({});
+        instance.prefetchPosts = jest.fn(() => Promise.resolve({}));
 
         wrapper.setProps({currentChannelId: 'currentChannelId'});
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
@@ -134,7 +134,7 @@ describe('/components/create_team', () => {
             <DataPrefetch {...props}/>,
         );
         const instance = wrapper.instance() as DataPrefetch;
-        instance.prefetchPosts = jest.fn().mockResolvedValue({});
+        instance.prefetchPosts = jest.fn(() => Promise.resolve({}));
 
         wrapper.setProps({currentChannelId: 'currentChannelId'});
 
@@ -170,7 +170,7 @@ describe('/components/create_team', () => {
             <DataPrefetch {...props}/>,
         );
         const instance = wrapper.instance() as DataPrefetch;
-        instance.prefetchPosts = jest.fn().mockResolvedValue({});
+        instance.prefetchPosts = jest.fn(() => Promise.resolve({}));
 
         wrapper.setProps({currentChannelId: 'currentChannelId'});
 
@@ -250,5 +250,43 @@ describe('/components/create_team', () => {
         expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('currentChannelId', undefined);
         await loadProfilesForSidebar();
         expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('mentionChannel', 500);
+    });
+
+    test('should not add delay if channel is DM even if last post is made in last min', async () => {
+        Date.now = jest.fn().mockReturnValue(12346);
+        Math.random = jest.fn().mockReturnValue(0.5);
+        const props = {
+            ...defaultProps,
+            prefetchQueueObj: {
+                1: ['mentionChannel'],
+            },
+            unreadChannels: [{
+                id: 'mentionChannel',
+                display_name: 'mentionChannel',
+                create_at: 0,
+                update_at: 0,
+                delete_at: 0,
+                team_id: 'team_id',
+                type: 'D' as ChannelType,
+                name: '',
+                header: '',
+                purpose: '',
+                total_msg_count: 10,
+                extra_update_at: 0,
+                creator_id: '',
+                scheme_id: '',
+                group_constrained: false,
+                last_post_at: 12345,
+            }],
+        };
+
+        const wrapper = shallow(
+            <DataPrefetch {...props}/>,
+        );
+        wrapper.setProps({currentChannelId: 'currentChannelId'});
+
+        expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('currentChannelId', undefined);
+        await loadProfilesForSidebar();
+        expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('mentionChannel', undefined);
     });
 });
