@@ -569,6 +569,7 @@
 
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
+        padding-bottom: $announcement-bar-height;
     }
 
     .dropdown-menu {

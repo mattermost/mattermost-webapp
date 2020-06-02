@@ -102,3 +102,99 @@ exports[`plugins/Pluggable should match snapshot with no extended component 1`] 
   />
 </Provider>
 `;
+
+exports[`plugins/Pluggable should match snapshot with non-null pluggableId 1`] = `
+<Pluggable
+  components={
+    Object {
+      "PopoverSection1": Array [
+        Object {
+          "component": [Function],
+        },
+      ],
+    }
+  }
+  pluggableId="pluggableId"
+  pluggableName="PopoverSection1"
+  theme={
+    Object {
+      "id": "theme_id",
+    }
+  }
+/>
+`;
+
+exports[`plugins/Pluggable should match snapshot with null pluggableId 1`] = `
+<Pluggable
+  components={
+    Object {
+      "PopoverSection1": Array [
+        Object {
+          "component": [Function],
+        },
+      ],
+    }
+  }
+  pluggableId={null}
+  pluggableName="PopoverSection1"
+  theme={
+    Object {
+      "id": "theme_id",
+    }
+  }
+>
+  <ProfilePopoverPlugin
+    key="PopoverSection1undefined"
+    pluggableId={null}
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
+  >
+    <span
+      id="pluginId"
+    >
+      ProfilePopoverPlugin
+    </span>
+  </ProfilePopoverPlugin>
+</Pluggable>
+`;
+
+exports[`plugins/Pluggable should match snapshot with valid pluggableId 1`] = `
+<Pluggable
+  components={
+    Object {
+      "PopoverSection1": Array [
+        Object {
+          "component": [Function],
+          "id": "pluggableId",
+        },
+      ],
+    }
+  }
+  pluggableId="pluggableId"
+  pluggableName="PopoverSection1"
+  theme={
+    Object {
+      "id": "theme_id",
+    }
+  }
+>
+  <ProfilePopoverPlugin
+    key="PopoverSection1pluggableId"
+    pluggableId="pluggableId"
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
+  >
+    <span
+      id="pluginId"
+    >
+      ProfilePopoverPlugin
+    </span>
+  </ProfilePopoverPlugin>
+</Pluggable>
+`;
