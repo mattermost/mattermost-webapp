@@ -94,36 +94,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
       >
         <GroupTeamsAndChannels
-          channels={
-            Array [
-              Object {
-                "channel_id": "44444444444444444444444444",
-              },
-              Object {
-                "channel_id": "55555555555555555555555555",
-              },
-              Object {
-                "channel_id": "66666666666666666666666666",
-              },
-            ]
-          }
+          channels={Array []}
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
           onChangeRoles={[Function]}
-          teams={
-            Array [
-              Object {
-                "team_id": "11111111111111111111111111",
-              },
-              Object {
-                "team_id": "22222222222222222222222222",
-              },
-              Object {
-                "team_id": "33333333333333333333333333",
-              },
-            ]
-          }
+          onRemoveItem={[Function]}
+          teams={Array []}
           unlink={[MockFunction]}
         />
       </AdminPanel>
@@ -272,36 +249,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
       >
         <GroupTeamsAndChannels
-          channels={
-            Array [
-              Object {
-                "channel_id": "44444444444444444444444444",
-              },
-              Object {
-                "channel_id": "55555555555555555555555555",
-              },
-              Object {
-                "channel_id": "66666666666666666666666666",
-              },
-            ]
-          }
+          channels={Array []}
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
           onChangeRoles={[Function]}
-          teams={
-            Array [
-              Object {
-                "team_id": "11111111111111111111111111",
-              },
-              Object {
-                "team_id": "22222222222222222222222222",
-              },
-              Object {
-                "team_id": "33333333333333333333333333",
-              },
-            ]
-          }
+          onRemoveItem={[Function]}
+          teams={Array []}
           unlink={[MockFunction]}
         />
       </AdminPanel>
@@ -449,36 +403,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
       >
         <GroupTeamsAndChannels
-          channels={
-            Array [
-              Object {
-                "channel_id": "44444444444444444444444444",
-              },
-              Object {
-                "channel_id": "55555555555555555555555555",
-              },
-              Object {
-                "channel_id": "66666666666666666666666666",
-              },
-            ]
-          }
+          channels={Array []}
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
           onChangeRoles={[Function]}
-          teams={
-            Array [
-              Object {
-                "team_id": "11111111111111111111111111",
-              },
-              Object {
-                "team_id": "22222222222222222222222222",
-              },
-              Object {
-                "team_id": "33333333333333333333333333",
-              },
-            ]
-          }
+          onRemoveItem={[Function]}
+          teams={Array []}
           unlink={[MockFunction]}
         />
       </AdminPanel>
@@ -615,36 +546,13 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         titleId="admin.group_settings.group_detail.groupTeamsAndChannelsTitle"
       >
         <GroupTeamsAndChannels
-          channels={
-            Array [
-              Object {
-                "channel_id": "44444444444444444444444444",
-              },
-              Object {
-                "channel_id": "55555555555555555555555555",
-              },
-              Object {
-                "channel_id": "66666666666666666666666666",
-              },
-            ]
-          }
+          channels={Array []}
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={false}
           onChangeRoles={[Function]}
-          teams={
-            Array [
-              Object {
-                "team_id": "11111111111111111111111111",
-              },
-              Object {
-                "team_id": "22222222222222222222222222",
-              },
-              Object {
-                "team_id": "33333333333333333333333333",
-              },
-            ]
-          }
+          onRemoveItem={[Function]}
+          teams={Array []}
           unlink={[MockFunction]}
         />
       </AdminPanel>
