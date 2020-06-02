@@ -256,7 +256,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     navigateChannelShortcut = (e: KeyboardEvent) => {
-        if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+        if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
@@ -282,7 +282,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     };
 
     navigateUnreadChannelShortcut = (e: KeyboardEvent) => {
-        if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+        if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
