@@ -6,10 +6,10 @@ import {FormattedMessage, MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-import searchImage from 'images/search.svg';
-import pinnedPostsImage from 'images/pinned_posts.svg';
-import mentionsImage from 'images/mentions.svg';
-import flaggedPostsImage from 'images/flagged_posts.svg';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+import MentionsIcon from 'components/widgets/icons/mentions_icon';
+import PinIcon from 'components/widgets/icons/pin_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
 
 import {NoResultsVariant} from './types';
 
@@ -19,11 +19,11 @@ interface Props {
     subtitleValues?: {[key: string]: string} | {[key: string]: {}};
 }
 
-const iconMap: {[key in NoResultsVariant]: string } = {
-    [NoResultsVariant.ChannelSearch]: searchImage,
-    [NoResultsVariant.Mentions]: mentionsImage,
-    [NoResultsVariant.FlaggedPosts]: flaggedPostsImage,
-    [NoResultsVariant.PinnedPosts]: pinnedPostsImage,
+const iconMap: {[key in NoResultsVariant]: React.PureComponent } = {
+    [NoResultsVariant.ChannelSearch]: <SearchIcon className='no-results__icon'/>,
+    [NoResultsVariant.Mentions]: <MentionsIcon className='no-results__icon'/>,
+    [NoResultsVariant.FlaggedPosts]: <FlagIcon className='no-results__icon'/>,
+    [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
@@ -62,10 +62,7 @@ const NoResultsIndicator = (props: Props) => {
             className='no-results__wrapper'
         >
             <div className='no-results__variant-wrapper'>
-                <img
-                    className='no-results__search-image'
-                    src={iconMap[props.variant]}
-                />
+                {iconMap[props.variant]}
             </div>
             <div className='no-results__title'>
                 <FormattedMessage
