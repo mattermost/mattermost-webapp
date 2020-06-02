@@ -80,7 +80,7 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
 
                     this.setState({loading: true});
 
-                    await searchProfiles(searchTerm, {group_id: this.props.groupID});
+                    await searchProfiles(searchTerm, {in_group_id: this.props.groupID});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
