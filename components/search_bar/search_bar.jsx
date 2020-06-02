@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {searchHintOptions} from 'utils/constants';
+import Constants, {searchHintOptions, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
@@ -107,6 +107,10 @@ export default class SearchBar extends React.PureComponent {
             this.handleUpdateSearchTerm(searchHintOptions[index].searchTerm);
             this.setState({keepInputFocused: true});
         }
+
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && this.props.isMentionSearch) {
+            this.props.actions.updateRhsState(RHSStates.SEARCH);
+        }
     }
 
     handleChange = (e) => {
@@ -129,10 +133,11 @@ export default class SearchBar extends React.PureComponent {
     }
 
     onClear = () => {
-        this.props.actions.updateSearchTerms('');
         if (this.props.isMentionSearch) {
             this.setState({keepInputFocused: false});
+            this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
+        this.props.actions.updateSearchTerms('');
         this.setState({termsUsed: 0});
     }
 
@@ -381,8 +386,6 @@ export default class SearchBar extends React.PureComponent {
                             renderDividers={true}
                             clearable={true}
                             onClear={this.onClear}
-                            isMentionSearch={this.props.isMentionSearch}
-                            updateRhsState={this.props.actions.updateRhsState}
                         />
                         {this.props.isSearchingTerm && <LoadingSpinner/>}
                         {this.renderHintPopover()}

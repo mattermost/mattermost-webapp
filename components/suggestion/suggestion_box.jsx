@@ -7,7 +7,7 @@ import React from 'react';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input.jsx';
-import Constants, {RHSStates} from 'utils/constants';
+import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
@@ -142,16 +142,6 @@ export default class SuggestionBox extends React.PureComponent {
          * Suppress loading spinner when necessary
          */
         suppressLoadingSpinner: PropTypes.bool,
-
-        /**
-         * Check if is mention search
-         */
-        isMentionSearch: PropTypes.bool,
-
-        /**
-         * Update RHS state back to search
-         */
-        updateRhsState: PropTypes.func,
     }
 
     static defaultProps = {
@@ -507,9 +497,6 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     clear = () => {
-        if (this.props.isMentionSearch) {
-            this.props.updateRhsState(RHSStates.SEARCH);
-        }
         if (!this.state.cleared) {
             this.setState({
                 cleared: true,
@@ -549,10 +536,6 @@ export default class SuggestionBox extends React.PureComponent {
                 } else {
                     clearTimeout(this.timeoutId);
                     this.nonDebouncedPretextChanged(this.pretext, true);
-                }
-
-                if (this.props.isMentionSearch) {
-                    this.props.updateRhsState(RHSStates.SEARCH);
                 }
 
                 if (this.props.onKeyDown) {
