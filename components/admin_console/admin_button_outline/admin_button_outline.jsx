@@ -6,7 +6,7 @@ import React from 'react';
 
 import './admin_button_outline.scss';
 
-export default class AdminButtonOutline extends React.Component {
+export default class AdminButtonOutline extends React.PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         children: PropTypes.string.isRequired,

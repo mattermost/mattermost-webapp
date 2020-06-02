@@ -11,7 +11,7 @@ import UserProfile from 'components/user_profile';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class UserListRow extends React.Component {
+export default class UserListRow extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         status: PropTypes.string,
@@ -106,10 +106,10 @@ export default class UserListRow extends React.Component {
                             hasMention={true}
                             displayUsername={true}
                         />
-                        &nbsp;
+                        {'&nbsp;'}
                         {this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
                             '-' : null}
-                        &nbsp;
+                        {'&nbsp;'}
                         {Utils.displayFullAndNicknameForUser(this.props.user)}
                     </div>
                     <div

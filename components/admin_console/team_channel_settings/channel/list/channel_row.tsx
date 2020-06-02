@@ -15,7 +15,7 @@ interface Props {
     onRowClick: (id: string) => void;
 }
 
-export default class ChannelRow extends React.Component<Props> {
+export default class ChannelRow extends React.PureComponent<Props> {
     private handleRowClick = () => {
         const {channel, onRowClick} = this.props;
         onRowClick(channel.id);
