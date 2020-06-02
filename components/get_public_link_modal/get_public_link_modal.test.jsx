@@ -13,7 +13,7 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={''}
                 actions={{getFilePublicLink: jest.fn()}}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -23,7 +23,7 @@ describe('components/GetPublicLinkModal', () => {
         const wrapper = shallow(
             <GetPublicLinkModal
                 actions={{getFilePublicLink: jest.fn()}}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -34,7 +34,7 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink: jest.fn()}}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -48,7 +48,7 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink}}
-            />
+            />,
         );
 
         wrapper.setState({show: true, fileId});
@@ -64,7 +64,7 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink}}
-            />
+            />,
         );
 
         wrapper.setState({show: true, fileId});
@@ -78,7 +78,7 @@ describe('components/GetPublicLinkModal', () => {
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink: jest.fn()}}
-            />
+            />,
         );
 
         wrapper.find(GetLinkModal).first().props().onHide();

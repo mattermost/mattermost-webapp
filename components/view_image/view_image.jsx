@@ -110,7 +110,7 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     onModalHidden = () => {
-        document.addEventListener('keyup', this.handleKeyPress);
+        document.removeEventListener('keyup', this.handleKeyPress);
 
         if (this.refs.video) {
             this.refs.video.stop();
@@ -159,7 +159,7 @@ export default class ViewImageModal extends React.PureComponent {
             Utils.loadImage(
                 previewUrl,
                 () => this.handleImageLoaded(index),
-                (completedPercentage) => this.handleImageProgress(index, completedPercentage)
+                (completedPercentage) => this.handleImageProgress(index, completedPercentage),
             );
         } else {
             // there's nothing to load for non-image files

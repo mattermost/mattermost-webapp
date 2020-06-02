@@ -142,7 +142,7 @@ export default class EmojiPicker extends React.PureComponent {
             incrementEmojiPickerPage: PropTypes.func.isRequired,
         }).isRequired,
         filter: PropTypes.string.isRequired,
-        handleFilterChange: PropTypes.func.isRequired
+        handleFilterChange: PropTypes.func.isRequired,
     };
 
     static defaultProps = {

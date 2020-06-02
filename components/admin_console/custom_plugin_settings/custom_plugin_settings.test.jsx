@@ -116,7 +116,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                 config={config}
                 schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
                 updateConfig={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -131,7 +131,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                     translate: false,
                 }}
                 updateConfig={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -149,7 +149,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                 }}
                 schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
                 updateConfig={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

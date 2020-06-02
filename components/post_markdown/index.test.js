@@ -11,7 +11,7 @@ describe('makeGetMentionKeysForPost', () => {
             props: {
                 disable_group_highlight: false,
                 mentionHighlightDisabled: false,
-            }
+            },
         };
         const state = {
             entities: {
@@ -27,7 +27,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',
@@ -49,7 +49,7 @@ describe('makeGetMentionKeysForPost', () => {
             props: {
                 disable_group_highlight: true,
                 mentionHighlightDisabled: false,
-            }
+            },
         };
         const state = {
             entities: {
@@ -65,7 +65,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',
@@ -86,7 +86,7 @@ describe('makeGetMentionKeysForPost', () => {
             props: {
                 disable_group_highlight: false,
                 mentionHighlightDisabled: true,
-            }
+            },
         };
         const state = {
             entities: {
@@ -102,7 +102,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',
@@ -123,7 +123,7 @@ describe('makeGetMentionKeysForPost', () => {
             props: {
                 disable_group_highlight: true,
                 mentionHighlightDisabled: true,
-            }
+            },
         };
         const state = {
             entities: {
@@ -139,7 +139,7 @@ describe('makeGetMentionKeysForPost', () => {
                     },
                 },
                 groups: {
-                    groups: {
+                    myGroups: {
                         developers: {
                             id: 123,
                             name: 'developers',

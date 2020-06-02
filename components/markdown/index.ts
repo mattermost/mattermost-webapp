@@ -34,7 +34,7 @@ function makeGetChannelNamesMap() {
             }
 
             return channelNamesMap;
-        }
+        },
     );
 }
 
@@ -53,7 +53,7 @@ function makeMapStateToProps() {
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',
             minimumHashtagLength: parseInt(config.MinimumHashtagLength || '', 10),
-            emojiMap: getEmojiMap(state)
+            emojiMap: getEmojiMap(state),
         };
     };
 }

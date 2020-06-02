@@ -34,7 +34,7 @@ import Markdown from 'components/markdown';
 
 import LoginMfa from '../login_mfa.jsx';
 
-class LoginController extends React.Component {
+class LoginController extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
 
@@ -157,7 +157,7 @@ class LoginController extends React.Component {
                 title: this.props.siteName,
                 body: Utils.localizeMessage(
                     'login.session_expired.notification',
-                    'Session Expired: Please sign in to continue receiving notifications.'
+                    'Session Expired: Please sign in to continue receiving notifications.',
                 ),
                 requireInteraction: true,
                 silent: false,
@@ -603,7 +603,7 @@ class LoginController extends React.Component {
                             </button>
                         </div>
                     </div>
-                </form>
+                </form>,
             );
         }
 
@@ -629,7 +629,7 @@ class LoginController extends React.Component {
                             />
                         </Link>
                     </span>
-                </div>
+                </div>,
             );
         }
 
@@ -646,7 +646,7 @@ class LoginController extends React.Component {
                             defaultMessage='I forgot my password.'
                         />
                     </Link>
-                </div>
+                </div>,
             );
         }
 
@@ -660,7 +660,7 @@ class LoginController extends React.Component {
                         id='login.or'
                         defaultMessage='or'
                     />
-                </div>
+                </div>,
             );
 
             loginControls.push(
@@ -669,7 +669,7 @@ class LoginController extends React.Component {
                         id='login.signInWith'
                         defaultMessage='Sign in with:'
                     />
-                </h5>
+                </h5>,
             );
         }
 
@@ -689,7 +689,7 @@ class LoginController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -709,7 +709,7 @@ class LoginController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -729,7 +729,7 @@ class LoginController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -749,7 +749,7 @@ class LoginController extends React.Component {
                             {this.props.samlLoginButtonText}
                         </span>
                     </span>
-                </a>
+                </a>,
             );
         }
 
@@ -764,7 +764,7 @@ class LoginController extends React.Component {
                         />
                     }
                     margin={true}
-                />
+                />,
             );
         }
 

@@ -5,9 +5,6 @@ import React from 'react';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import ArchiveIcon from 'components/widgets/icons/archive_icon';
-import DraftIcon from 'components/widgets/icons/draft_icon';
-
 type Props = {
     icon: JSX.Element | null;
     channel: Channel;

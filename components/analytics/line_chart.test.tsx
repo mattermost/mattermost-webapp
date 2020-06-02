@@ -12,7 +12,7 @@ describe('components/analytics/line_chart.tsx', () => {
                 title='Test'
                 height={400}
                 width={600}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -30,7 +30,7 @@ describe('components/analytics/line_chart.tsx', () => {
                 height={400}
                 width={600}
                 data={data}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -50,7 +50,7 @@ describe('components/analytics/line_chart.tsx', () => {
                 height={400}
                 width={600}
                 data={data}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

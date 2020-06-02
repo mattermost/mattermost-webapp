@@ -42,7 +42,7 @@ export default class ChannelView extends React.PureComponent {
                 data-a11y-sort-order='1'
                 data-a11y-focus-child={true}
                 data-a11y-order-reversed={true}
-            />
+            />,
         );
     }
 
@@ -55,7 +55,7 @@ export default class ChannelView extends React.PureComponent {
         }
 
         if (props.channelId !== state.channelId) {
-            updatedState = {...updatedState, channelId: props.channelId, prevChannelId: state.channelId, focusedPostId};
+            updatedState = {...updatedState, channelId: props.channelId, focusedPostId};
         }
 
         if (focusedPostId && focusedPostId !== state.focusedPostId) {
@@ -75,7 +75,6 @@ export default class ChannelView extends React.PureComponent {
         this.state = {
             url: props.match.url,
             channelId: props.channelId,
-            prevChannelId: '',
             deferredPostView: ChannelView.createDeferredPostView(),
         };
     }
@@ -188,7 +187,6 @@ export default class ChannelView extends React.PureComponent {
                 />
                 <DeferredPostView
                     channelId={this.props.channelId}
-                    prevChannelId={this.state.prevChannelId}
                     focusedPostId={this.state.focusedPostId}
                 />
                 {createPost}

@@ -14,7 +14,7 @@ import TeamList from './team_list.jsx';
 
 const getSortedListOfTeams = createSelector(
     getTeams,
-    (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name))
+    (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name)),
 );
 
 function mapStateToProps(state) {

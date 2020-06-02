@@ -30,16 +30,6 @@ describe('Interactive Dialog', () => {
             cy.apiLogin('sysadmin');
             cy.apiSaveTeammateNameDisplayPreference('username');
 
-            // Set required ServiceSettings
-            const newSettings = {
-                ServiceSettings: {
-                    AllowedUntrustedInternalConnections: 'localhost',
-                    EnablePostUsernameOverride: true,
-                    EnablePostIconOverride: true,
-                },
-            };
-            cy.apiUpdateConfig(newSettings);
-
             // # Create new team and create command on it
             cy.apiCreateTeam('test-team', 'Test Team').then((teamResponse) => {
                 const team = teamResponse.body;
