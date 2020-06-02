@@ -98,7 +98,7 @@ export default class SearchBar extends React.PureComponent {
             const pretext = pretextArray[pretextArray.length - 1];
             const penultimatePretext = pretextArray[pretextArray.length - 2];
 
-            const shouldShowHintOptions = penultimatePretext && !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase()));
+            const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
             if (shouldShowHintOptions) {
                 try {
