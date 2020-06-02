@@ -141,7 +141,7 @@ export default class PostAddChannelMember extends React.PureComponent {
                     />
                     {commaSeparator(1)}
                     <a
-                        id='post_body_other_users_link'
+                        className='PostBody_otherUsersLink'
                         onClick={this.expand}
                     >
                         <FormattedMessage
@@ -212,7 +212,7 @@ export default class PostAddChannelMember extends React.PureComponent {
                         defaultMessage={outOfChannelMessageText}
                     />
                     <a
-                        id='add_channel_member_link'
+                        className='PostBody_addChannelMemberLink'
                         onClick={this.handleAddChannelMember}
                     >
                         <FormattedMessage

@@ -18,7 +18,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
         , 
       </span>
       <a
-        id="post_body_other_users_link"
+        className="PostBody_otherUsersLink"
         onClick={[Function]}
       >
         <FormattedMessage
@@ -49,7 +49,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
       values={Object {}}
     />
     <a
-      id="add_channel_member_link"
+      className="PostBody_addChannelMemberLink"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -111,7 +111,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
       values={Object {}}
     />
     <a
-      id="add_channel_member_link"
+      className="PostBody_addChannelMemberLink"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -142,7 +142,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, privat
       values={Object {}}
     />
     <a
-      id="add_channel_member_link"
+      className="PostBody_addChannelMemberLink"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -173,7 +173,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, public
       values={Object {}}
     />
     <a
-      id="add_channel_member_link"
+      className="PostBody_addChannelMemberLink"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -204,7 +204,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, with n
       values={Object {}}
     />
     <a
-      id="add_channel_member_link"
+      className="PostBody_addChannelMemberLink"
       onClick={[Function]}
     >
       <FormattedMessage

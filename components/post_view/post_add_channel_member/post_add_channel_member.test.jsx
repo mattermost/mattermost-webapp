@@ -81,7 +81,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         expect(wrapper.state('expanded')).toEqual(false);
         expect(wrapper).toMatchSnapshot();
 
-        wrapper.find('#post_body_other_users_link').simulate('click');
+        wrapper.find('.PostBody_otherUsersLink').simulate('click');
         expect(wrapper.state('expanded')).toEqual(true);
         expect(wrapper).toMatchSnapshot();
     });
@@ -96,7 +96,7 @@ describe('components/post_view/PostAddChannelMember', () => {
             <PostAddChannelMember {...props}/>
         );
 
-        wrapper.find('#add_channel_member_link').simulate('click');
+        wrapper.find('.PostBody_addChannelMemberLink').simulate('click');
 
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledWith(post.channel_id, requiredProps.userIds[0]);
@@ -118,7 +118,7 @@ describe('components/post_view/PostAddChannelMember', () => {
             <PostAddChannelMember {...props}/>
         );
 
-        wrapper.find('#add_channel_member_link').simulate('click');
+        wrapper.find('.PostBody_addChannelMemberLink').simulate('click');
         expect(actions.addChannelMember).toHaveBeenCalledTimes(4);
     });
 
