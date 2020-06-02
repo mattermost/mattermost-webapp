@@ -53,7 +53,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"
-        isMentionSearch={false}
         isRHS={false}
         listComponent={[Function]}
         listStyle="top"
@@ -156,7 +155,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"
-        isMentionSearch={false}
         isRHS={false}
         listComponent={[Function]}
         listStyle="top"
@@ -327,7 +325,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"
-        isMentionSearch={false}
         isRHS={false}
         listComponent={[Function]}
         listStyle="top"
@@ -498,7 +495,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         dateComponent={[Function]}
         delayInputUpdate={true}
         id="searchBox"
-        isMentionSearch={false}
         isRHS={false}
         listComponent={[Function]}
         listStyle="top"
