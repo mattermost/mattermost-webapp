@@ -539,7 +539,17 @@ export function handleNewPostEvent(msg) {
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
 
-        if (post.user_id !== getCurrentUserId(myGetState()) && !fromAutoResponder(post) && !getIsManualStatusForUserId(myGetState(), post.user_id)) {
+        // Since status updates aren't real time, assume another user is online if they have posted and:
+        // 1. The post isn't from the auto responder
+        // 2. The user hasn't set their status manually to something that isn't online
+        // 3. The server hasn't told the client not to set the user to online (because the other user
+        //    responded from a post notification)
+        if (
+            post.user_id !== getCurrentUserId(myGetState()) &&
+            !fromAutoResponder(post) &&
+            !getIsManualStatusForUserId(myGetState(), post.user_id) &&
+            msg.data.set_online
+        ) {
             myDispatch({
                 type: UserTypes.RECEIVED_STATUSES,
                 data: [{user_id: post.user_id, status: UserStatuses.ONLINE}],
