@@ -354,7 +354,7 @@ function renderMeMessage(post) {
 //Note: this assumes that the locale at the server is the same as the locale at the client!
 function renderWarnMetricStatusMessage(post) {
     const options = {
-        markdown: false,
+        markdown: true,
         isWarnMetricEnabled: true,
         warnMetricStatus: post.props.warnMetricStatus,
     };

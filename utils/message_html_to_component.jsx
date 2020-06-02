@@ -104,7 +104,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return node.attribs && node.attribs[attrib];
             },
             processNode: (node) => {
-                const contactUsString = '<' + node.attribs[attrib] + '>';
+                const contactUsString = node.attribs[attrib];
                 const callWarnMetricStatus = (
                     <ToggleModalButtonRedux
                         accessibilityLabel={contactUsString}

@@ -418,7 +418,7 @@ export function autolinkWarnMetricStatus(text: string, tokens: Tokens) {
         const alias = `$MM_WARNMETRICSTATUS${index}$`;
 
         tokens.set(alias, {
-            value: '<span data-warn-metric-status="contact us">contact us</span>',
+            value: '<span data-warn-metric-status="Contact Support">Contact Support</span>',
             originalText,
         });
 
