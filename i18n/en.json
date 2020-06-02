@@ -940,7 +940,7 @@
   "admin.license.noFile": "No file uploaded",
   "admin.license.removing": "Removing License...",
   "admin.license.title": "Edition and License",
-  "admin.license.trial-request.different-data": "Or get a trial license with different data here: ",
+  "admin.license.trial-request.different-data": "Or get a trial license manually at ",
   "admin.license.trial-request.loading": "Getting trial",
   "admin.license.trial-request.submit": "Start a trial",
   "admin.license.type": "License: ",

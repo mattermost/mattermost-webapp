@@ -219,7 +219,7 @@ export default class LicenseSettings extends React.PureComponent {
                     <p className='help-text'>
                         <FormattedMessage
                             id='admin.license.trial-request.different-data'
-                            defaultMessage='Or get a trial license with different data here: '
+                            defaultMessage='Or get a trial license manually at '
                         />
                         <a
                             target='_blank'
