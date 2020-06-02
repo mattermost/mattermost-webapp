@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {searchHintOptions} from 'utils/constants';
+import Constants, {searchHintOptions, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
@@ -43,6 +43,7 @@ export default class SearchBar extends React.PureComponent {
             closeRightHandSide: PropTypes.func,
             autocompleteChannelsForSearch: PropTypes.func.isRequired,
             autocompleteUsersInTeam: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func,
         }),
     };
 
@@ -143,6 +144,10 @@ export default class SearchBar extends React.PureComponent {
                 this.setState({keepInputFocused: true});
             }
         }
+
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && this.props.isMentionSearch) {
+            this.props.actions.updateRhsState(RHSStates.SEARCH);
+        }
     }
 
     handleChange = (e) => {
@@ -165,10 +170,11 @@ export default class SearchBar extends React.PureComponent {
     }
 
     onClear = () => {
-        this.props.actions.updateSearchTerms('');
         if (this.props.isMentionSearch) {
             this.setState({keepInputFocused: false});
+            this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
+        this.props.actions.updateSearchTerms('');
         this.setState({termsUsed: 0});
     }
 
@@ -178,7 +184,7 @@ export default class SearchBar extends React.PureComponent {
 
     handleSearch = async (terms) => {
         if (terms.length) {
-            const {error} = await this.props.actions.showSearchResults();
+            const {error} = await this.props.actions.showSearchResults(this.props.isMentionSearch);
 
             if (!error) {
                 this.handleSearchOnSuccess();
