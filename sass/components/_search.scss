@@ -342,8 +342,8 @@
 }
   
 .search-suggestion__tagged-input__tags .tag {
-    padding: 0px 4px;
-    height: 16px;
+    padding: 1px 4px 1.5px;
+    line-height: 25px;
     background: rgba(61, 60, 64, 0.08);
     border-radius: 4px;
     text-transform: uppercase;

@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import * as Utils from 'utils/utils.jsx';
+
 import SearchSuggestionInput from './search_suggestion_input';
 const exampleTags = ['from:', 'in:', 'on:', 'before:', 'after:'];
 
@@ -160,6 +162,8 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
                 className='search-suggestion__tagged-input'
                 onClick={this.props.onFocus}
             >
+
+                {this.props.value && this.props.onClear &&
                 <div
                     className='input-clear visible'
                     onClick={(e) => this.onClear(e)}
@@ -170,7 +174,7 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
                     >
                         <i className='icon icon-close-circle'/>
                     </span>
-                </div>
+                </div>}
                 <ul className='search-suggestion__tagged-input__tags'>
                     { pairs.map(({tag, value}) => (
                         <li
@@ -201,6 +205,7 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
                     type='text'
                     autoComplete='off'
                     className='search-suggestion__tagged-input'
+                    placeholder={this.props.value ? '' : Utils.localizeMessage('search_bar.search', 'Search')}
                     onChange={this.handleChange}
                     onKeyDown={this.onKeyDown}
                     value={remainder}
