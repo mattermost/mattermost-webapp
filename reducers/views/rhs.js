@@ -115,6 +115,8 @@ function searchTerms(state = '', action) {
 function pluggableId(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_STATE:
+    case ActionTypes.SELECT_POST:
+    case ActionTypes.SELECT_POST_CARD:
         if (action.state === RHSStates.PLUGIN) {
             return action.pluggableId;
         }
