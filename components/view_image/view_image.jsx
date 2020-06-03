@@ -110,7 +110,7 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     onModalHidden = () => {
-        document.addEventListener('keyup', this.handleKeyPress);
+        document.removeEventListener('keyup', this.handleKeyPress);
 
         if (this.refs.video) {
             this.refs.video.stop();
