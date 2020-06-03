@@ -476,7 +476,7 @@ describe('handleNewPostEvent', () => {
         const msg = {
             data: {
                 post: JSON.stringify(post),
-                set_online: true,
+                set_online: false,
             },
         };
 
