@@ -40,11 +40,11 @@
             }
 
             .DataGrid_searchIcon {
-                top: 7px;
+                top: 5px;
                 left: 10px;
                 position: absolute;
                 pointer-events: none;
-                fill: $dark-gray;
+                color: $dark-gray;
             }
         }
     }
