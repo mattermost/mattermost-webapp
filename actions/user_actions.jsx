@@ -102,7 +102,7 @@ export function searchProfilesAndTeamMembers(term = '', options = {}) {
 
 export function searchProfilesAndChannelMembers(term, options = {}) {
     return async (doDispatch, doGetState) => {
-        const newChannelId = options.channel_id || getCurrentChannelId(doGetState());
+        const newChannelId = options.in_channel_id || getCurrentChannelId(doGetState());
         const {data} = await doDispatch(UserActions.searchProfiles(term, options));
         if (data) {
             await Promise.all([

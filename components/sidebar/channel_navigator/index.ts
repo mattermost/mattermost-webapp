@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
@@ -14,20 +13,20 @@ import ChannelNavigator from './channel_navigator';
 
 // TODO: For Phase 1. Will revisit history in Phase 2
 function goBack() {
-    return (dispatch: any, getState: any) => {
+    return () => {
         browserHistory.goBack();
         return {data: null};
     };
 }
 
 function goForward() {
-    return (dispatch: any, getState: any) => {
+    return () => {
         browserHistory.goForward();
         return {data: null};
     };
 }
 
-function mapStateToProps(state: GlobalState) {
+function mapStateToProps() {
     return {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
