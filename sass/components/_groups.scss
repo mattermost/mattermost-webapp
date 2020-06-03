@@ -746,8 +746,8 @@
     padding: 9px 16px;
 }
 
-.AdminChannelDetails_archiveContainer .channel-icon__archive {
-    top: 2px;
+.AdminChannelDetails_archiveContainer .channel-icon__archive,
+.AdminChannelDetails_archiveContainer .channel-icon__unarchive {
     width: 16px;
     height: 16px;
 }

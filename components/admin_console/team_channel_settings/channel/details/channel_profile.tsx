@@ -12,6 +12,7 @@ import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
 
 interface ChannelProfileProps {
     channel: Partial<Channel>;
@@ -66,7 +67,7 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
                             className={'btn btn-secondary ArchiveButton ' + (isArchived ? 'ArchiveButton___archived' : 'ArchiveButton___unarchived')}
                             onClick={props.onToggleArchive}
                         >
-                            <ArchiveIcon className='channel-icon channel-icon__archive'/>
+                            {isArchived ? <UnarchiveIcon className='channel-icon channel-icon__unarchive'/> : <ArchiveIcon className='channel-icon channel-icon__archive'/>}
                             <FormattedMessage
                                 id={archiveBtnID}
                                 defaultMessage={archiveBtnDefault}

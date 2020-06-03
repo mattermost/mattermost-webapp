@@ -8,11 +8,12 @@
 }
 
 .channel-icon__lock,
-.channel-icon__globe,
-.channel-icon__archive {
+.channel-icon__globe {
     top: 1px;
 }
 
-.channel-icon__archive {
+.channel-icon__archive,
+.channel-icon__unarchive {
     left: -2px;
+    top: 2px;
 }
