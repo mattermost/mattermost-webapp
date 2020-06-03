@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SearchTypes, TeamTypes} from 'mattermost-redux/action_types';
+import {SearchTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
@@ -16,7 +16,7 @@ describe('Reducers.RHS', () => {
         rhsState: null,
         searchTerms: '',
         searchResultsTerms: '',
-        pluginId: '',
+        pluggableId: '',
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
         isMenuOpen: false,
@@ -27,7 +27,7 @@ describe('Reducers.RHS', () => {
     test('Initial state', () => {
         const nextState = rhsReducer(
             {},
-            {}
+            {},
         );
 
         expect(nextState).toEqual(initialState);
@@ -40,7 +40,7 @@ describe('Reducers.RHS', () => {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PIN,
                 channelId: '123',
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -57,13 +57,13 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PLUGIN,
-                pluginId: '123',
-            }
+                pluggableId: '123',
+            },
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            pluginId: '123',
+            pluggableId: '123',
             rhsState: RHSStates.PLUGIN,
             isSidebarOpen: true,
         });
@@ -77,7 +77,7 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.SEARCH,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -96,7 +96,7 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.SEARCH,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -112,7 +112,7 @@ describe('Reducers.RHS', () => {
             {},
             {
                 type: SearchTypes.SEARCH_FLAGGED_POSTS_REQUEST,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -126,7 +126,7 @@ describe('Reducers.RHS', () => {
             {},
             {
                 type: SearchTypes.SEARCH_FLAGGED_POSTS_SUCCESS,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -141,7 +141,7 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
                 terms: 'testing',
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -158,7 +158,7 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 timestamp: 1234,
-            }
+            },
         );
 
         expect(nextState1).toEqual({
@@ -178,7 +178,7 @@ describe('Reducers.RHS', () => {
                 channelId: '321',
                 previousRhsState: RHSStates.SEARCH,
                 timestamp: 4567,
-            }
+            },
         );
 
         expect(nextState2).toEqual({
@@ -200,7 +200,7 @@ describe('Reducers.RHS', () => {
                 channelId: '321',
                 previousRhsState: RHSStates.FLAG,
                 timestamp: 0,
-            }
+            },
         );
 
         expect(nextState3).toEqual({
@@ -220,7 +220,7 @@ describe('Reducers.RHS', () => {
                 type: ActionTypes.SELECT_POST_CARD,
                 postId: '123',
                 channelId: '321',
-            }
+            },
         );
 
         expect(nextState1).toEqual({
@@ -238,7 +238,7 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.SEARCH,
-            }
+            },
         );
 
         expect(nextState2).toEqual({
@@ -258,7 +258,7 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.FLAG,
-            }
+            },
         );
 
         expect(nextState3).toEqual({
@@ -280,7 +280,7 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.PIN,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -303,7 +303,7 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.PIN,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -324,7 +324,7 @@ describe('Reducers.RHS', () => {
             },
             {
                 type: ActionTypes.TOGGLE_RHS_MENU,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -342,7 +342,7 @@ describe('Reducers.RHS', () => {
             },
             {
                 type: ActionTypes.TOGGLE_RHS_MENU,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -360,7 +360,7 @@ describe('Reducers.RHS', () => {
             },
             {
                 type: ActionTypes.OPEN_RHS_MENU,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -378,7 +378,7 @@ describe('Reducers.RHS', () => {
             },
             {
                 type: ActionTypes.CLOSE_RHS_MENU,
-            }
+            },
         );
 
         expect(nextState).toEqual({
@@ -392,7 +392,6 @@ describe('Reducers.RHS', () => {
         [
             ActionTypes.TOGGLE_LHS,
             ActionTypes.OPEN_LHS,
-            TeamTypes.SELECT_TEAM,
         ].forEach((action) => {
             it(`on ${action}`, () => {
                 const nextState = rhsReducer(
@@ -402,7 +401,7 @@ describe('Reducers.RHS', () => {
                     },
                     {
                         type: action,
-                    }
+                    },
                 );
 
                 expect(nextState).toEqual({

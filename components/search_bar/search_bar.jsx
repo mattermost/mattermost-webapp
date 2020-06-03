@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {searchHintOptions} from 'utils/constants';
+import Constants, {searchHintOptions, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
@@ -24,7 +24,7 @@ import Popover from 'components/widgets/popover';
 
 const {KeyCodes} = Constants;
 
-export default class SearchBar extends React.Component {
+export default class SearchBar extends React.PureComponent {
     static propTypes = {
         isSearchingTerm: PropTypes.bool,
         searchTerms: PropTypes.string,
@@ -43,12 +43,14 @@ export default class SearchBar extends React.Component {
             closeRightHandSide: PropTypes.func,
             autocompleteChannelsForSearch: PropTypes.func.isRequired,
             autocompleteUsersInTeam: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func,
         }),
     };
 
     static defaultProps = {
         showMentionFlagBtns: true,
         isFocus: false,
+        indexChangedViaKeyPress: false,
     };
 
     constructor(props) {
@@ -57,8 +59,8 @@ export default class SearchBar extends React.Component {
         this.state = {
             focused: false,
             keepInputFocused: false,
-            index: -1,
-            termsUsed: 0,
+            highlightedSearchHintIndex: -1,
+            visibleSearchHintOptions: this.determineVisibleSearchHintOptions(props.searchTerms),
         };
 
         this.suggestionProviders = [
@@ -79,12 +81,46 @@ export default class SearchBar extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        const {searchTerms} = nextProps;
+
+        this.setState({
+            visibleSearchHintOptions: this.determineVisibleSearchHintOptions(searchTerms),
+        });
+    }
+
+    determineVisibleSearchHintOptions = (searchTerms) => {
+        let visibleSearchHintOptions = [];
+
+        if (searchTerms.trim() === '') {
+            visibleSearchHintOptions = searchHintOptions;
+        } else {
+            const pretextArray = searchTerms.split(/\s+/g);
+            const pretext = pretextArray[pretextArray.length - 1];
+            const penultimatePretext = pretextArray[pretextArray.length - 2];
+
+            const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+
+            if (shouldShowHintOptions) {
+                try {
+                    visibleSearchHintOptions = searchHintOptions.filter((option) => {
+                        return new RegExp(pretext, 'ig').test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase();
+                    });
+                } catch {
+                    visibleSearchHintOptions = [];
+                }
+            }
+        }
+
+        return visibleSearchHintOptions;
+    }
+
     handleClose = () => {
         this.props.actions.closeRightHandSide();
     }
 
     handleKeyDown = (e) => {
-        const {index} = this.state;
+        const {highlightedSearchHintIndex, visibleSearchHintOptions} = this.state;
 
         if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
             this.search.blur();
@@ -93,18 +129,24 @@ export default class SearchBar extends React.Component {
         }
 
         if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
-            const newIndex = index === searchHintOptions.length ? 0 : index + 1;
-            this.setState({index: newIndex});
+            const newIndex = highlightedSearchHintIndex === visibleSearchHintOptions.length - 1 ? 0 : highlightedSearchHintIndex + 1;
+            this.setState({highlightedSearchHintIndex: newIndex, indexChangedViaKeyPress: true});
         }
 
         if (Utils.isKeyPressed(e, KeyCodes.UP)) {
-            const newIndex = index <= 0 ? searchHintOptions.length - 1 : index - 1;
-            this.setState({index: newIndex});
+            const newIndex = highlightedSearchHintIndex <= 0 ? visibleSearchHintOptions.length - 1 : highlightedSearchHintIndex - 1;
+            this.setState({highlightedSearchHintIndex: newIndex, indexChangedViaKeyPress: true});
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && index >= 0) {
-            this.handleUpdateSearchTerm(searchHintOptions[index].searchTerm);
-            this.setState({keepInputFocused: true});
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && highlightedSearchHintIndex >= 0) {
+            if (this.state.indexChangedViaKeyPress) {
+                this.handleUpdateSearchTerm(visibleSearchHintOptions[highlightedSearchHintIndex].searchTerm);
+                this.setState({keepInputFocused: true});
+            }
+        }
+
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER) && this.props.isMentionSearch) {
+            this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
     }
 
@@ -124,14 +166,15 @@ export default class SearchBar extends React.Component {
             }
         }, 0);
 
-        this.setState({iindex: -1});
+        this.setState({highlightedSearchHintIndex: -1});
     }
 
     onClear = () => {
-        this.props.actions.updateSearchTerms('');
         if (this.props.isMentionSearch) {
             this.setState({keepInputFocused: false});
+            this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
+        this.props.actions.updateSearchTerms('');
         this.setState({termsUsed: 0});
     }
 
@@ -141,7 +184,7 @@ export default class SearchBar extends React.Component {
 
     handleSearch = async (terms) => {
         if (terms.length) {
-            const {error} = await this.props.actions.showSearchResults();
+            const {error} = await this.props.actions.showSearchResults(this.props.isMentionSearch);
 
             if (!error) {
                 this.handleSearchOnSuccess();
@@ -188,18 +231,12 @@ export default class SearchBar extends React.Component {
     }
 
     handleUpdateSearchTerm = (term) => {
-        if (this.state.termsUsed === 0) {
-            this.props.actions.updateSearchTerms(term.toLowerCase());
-        } else {
-            const pretextArray = this.props.searchTerms.split(' ');
-            pretextArray.pop();
-            pretextArray.push(term.toLowerCase());
-            this.props.actions.updateSearchTerms(pretextArray.join(' '));
-        }
-
+        const pretextArray = this.props.searchTerms.split(' ');
+        pretextArray.pop();
+        pretextArray.push(term.toLowerCase());
+        this.props.actions.updateSearchTerms(pretextArray.join(' '));
         this.focus();
-        this.setState({index: -1});
-        this.setState({termsUsed: this.state.termsUsed + 1});
+        this.setState({highlightedSearchHintIndex: -1, indexChangedViaKeyPress: false, termsUsed: this.state.termsUsed + 1});
     }
 
     focus = () => {
@@ -222,42 +259,37 @@ export default class SearchBar extends React.Component {
         this.setState({keepInputFocused: true});
     }
 
-    setHoverHintIndex = (index) => {
-        this.setState({index});
+    setHoverHintIndex = (highlightedSearchHintIndex) => {
+        this.setState({highlightedSearchHintIndex, indexChangedViaKeyPress: false});
     }
 
-    renderHintPopover() {
+    renderHintPopover = () => {
         if (Utils.isMobile()) {
             return null;
         }
 
-        let filteredOptions;
-        const pretextArray = this.props.searchTerms.split(' ');
-        const pretext = pretextArray[pretextArray.length - 1];
-        try {
-            filteredOptions = searchHintOptions.filter((option) => new RegExp(pretext, 'ig').test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase());
-        } catch {
-            filteredOptions = [];
-        }
+        const {visibleSearchHintOptions} = this.state;
 
-        if (filteredOptions.length > 0 && !this.props.isMentionSearch) {
-            let helpClass = 'search-help-popover';
-            if (this.state.focused && this.state.termsUsed <= 1) {
-                helpClass += ' visible';
+        let termsUsed = 0;
+        this.props.searchTerms.split(/[: ]/g).forEach((word) => {
+            if (searchHintOptions.some(({searchTerm}) => searchTerm.toLowerCase() === `${word.toLowerCase()}:`)) {
+                termsUsed++;
             }
+        });
 
+        if (visibleSearchHintOptions.length > 0 && !this.props.isMentionSearch && termsUsed <= 1 && this.state.focused) {
             return (
                 <Popover
                     id={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
                     placement='bottom'
-                    className={helpClass}
+                    className='search-help-popover visible'
                 >
                     <SearchHint
-                        options={filteredOptions}
+                        options={visibleSearchHintOptions}
                         withTitle={true}
                         onOptionSelected={this.handleUpdateSearchTerm}
                         onMouseDown={this.keepInputFocused}
-                        highlightedIndex={this.state.index}
+                        highlightedIndex={this.state.highlightedSearchHintIndex}
                         onOptionHover={this.setHoverHintIndex}
                     />
                 </Popover>

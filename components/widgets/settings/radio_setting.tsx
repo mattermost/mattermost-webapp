@@ -17,7 +17,7 @@ type Props = {
 
 }
 
-export default class RadioSetting extends React.Component<Props> {
+export default class RadioSetting extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',

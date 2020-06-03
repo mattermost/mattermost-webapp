@@ -90,7 +90,7 @@ export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)) // alt/option + enter is already handled in Safari, so don't handle again
+            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -1056,7 +1056,7 @@ export function isValidUsername(name) {
     } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
         error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        error = "Must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+        error = "Username must contain only letters, numbers, and the symbols '.', '-', and '_'.";
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
         error = 'First character must be a letter.';
     } else {

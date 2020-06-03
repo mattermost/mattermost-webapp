@@ -143,7 +143,7 @@ describe('Interactive Menu', () => {
             cy.getLastPostId().then((replyMessageId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyMessageId}`).within(() => {
-                    cy.get('.post__link').should('be.visible').and('have.text', `Commented on webhook's message: ${payload.attachments[0].pretext}`);
+                    cy.get('.post__link').should('be.visible').and('have.text', `Commented on sysadmin's message: ${payload.attachments[0].pretext}`);
                     cy.get(`#postMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
 

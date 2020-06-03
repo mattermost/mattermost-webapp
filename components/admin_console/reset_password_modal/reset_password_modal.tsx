@@ -38,7 +38,7 @@ type Props = {
     };
 }
 
-export default class ResetPasswordModal extends React.Component<Props, State> {
+export default class ResetPasswordModal extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         show: false,
     };

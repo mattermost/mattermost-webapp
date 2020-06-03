@@ -728,6 +728,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 />
               }
             />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
         </ul>
       </Highlight>
@@ -1333,6 +1346,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 />
               }
             />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
         </ul>
       </Highlight>
@@ -1931,6 +1957,19 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                 />
               }
             />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
         </ul>
       </Highlight>
@@ -2525,6 +2564,19 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
                   values={Object {}}
                 />
               }
@@ -3363,6 +3415,19 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
                 />
               }
             />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
         </ul>
       </Highlight>
@@ -4076,6 +4141,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
                   values={Object {}}
                 />
               }

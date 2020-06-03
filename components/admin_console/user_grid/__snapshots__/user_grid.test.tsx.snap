@@ -1,0 +1,1022 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/user_grid/UserGrid should match snapshot with 2 users 1`] = `
+<DataGrid
+  columns={
+    Array [
+      Object {
+        "field": "name",
+        "fixed": true,
+        "name": <FormattedMessage
+          defaultMessage="Name"
+          id="admin.user_grid.name"
+          values={Object {}}
+        />,
+        "width": 3,
+      },
+      Object {
+        "field": "new",
+        "fixed": true,
+        "name": "",
+      },
+      Object {
+        "field": "role",
+        "name": <FormattedMessage
+          defaultMessage="Role"
+          id="admin.user_grid.role"
+          values={Object {}}
+        />,
+        "overflow": "visible",
+      },
+      Object {
+        "field": "remove",
+        "fixed": true,
+        "name": "",
+        "textAlign": "right",
+      },
+    ]
+  }
+  endCount={2}
+  loading={false}
+  nextPage={[Function]}
+  page={0}
+  placeholderEmpty={
+    <FormattedMessage
+      defaultMessage="No users found"
+      id="admin.user_grid.notFound"
+      values={Object {}}
+    />
+  }
+  previousPage={[Function]}
+  rows={
+    Array [
+      Object {
+        "id": "userid1",
+        "name": <UserGridName
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid1",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-1",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-1",
+            }
+          }
+        />,
+        "new": <Badge
+          className="NewUserBadge"
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
+        "remove": <UserGridRemove
+          removeUser={[Function]}
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid1",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-1",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-1",
+            }
+          }
+        />,
+        "role": <UserGridRoleDropdown
+          handleUpdateMembership={[Function]}
+          membership={
+            Object {
+              "delete_at": 0,
+              "mention_count": 0,
+              "msg_count": 0,
+              "roles": "team_user",
+              "scheme_admin": false,
+              "scheme_user": true,
+              "team_id": "team",
+              "user_id": "userId1",
+            }
+          }
+          scope="team"
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid1",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-1",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-1",
+            }
+          }
+        />,
+      },
+      Object {
+        "id": "userid2",
+        "name": <UserGridName
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+        "new": <Badge
+          className="NewUserBadge"
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
+        "remove": <UserGridRemove
+          removeUser={[Function]}
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+        "role": <UserGridRoleDropdown
+          handleUpdateMembership={[Function]}
+          membership={
+            Object {
+              "delete_at": 0,
+              "mention_count": 0,
+              "msg_count": 0,
+              "roles": "team_user",
+              "scheme_admin": false,
+              "scheme_user": true,
+              "team_id": "team",
+              "user_id": "userId2",
+            }
+          }
+          scope="team"
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+      },
+    ]
+  }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "160px",
+    }
+  }
+  search={[Function]}
+  startCount={1}
+  term=""
+  total={2}
+/>
+`;
+
+exports[`components/admin_console/user_grid/UserGrid should match snapshot with 2 users and 1 added included 1`] = `
+<DataGrid
+  columns={
+    Array [
+      Object {
+        "field": "name",
+        "fixed": true,
+        "name": <FormattedMessage
+          defaultMessage="Name"
+          id="admin.user_grid.name"
+          values={Object {}}
+        />,
+        "width": 3,
+      },
+      Object {
+        "field": "new",
+        "fixed": true,
+        "name": "",
+      },
+      Object {
+        "field": "role",
+        "name": <FormattedMessage
+          defaultMessage="Role"
+          id="admin.user_grid.role"
+          values={Object {}}
+        />,
+        "overflow": "visible",
+      },
+      Object {
+        "field": "remove",
+        "fixed": true,
+        "name": "",
+        "textAlign": "right",
+      },
+    ]
+  }
+  endCount={3}
+  loading={false}
+  nextPage={[Function]}
+  page={0}
+  placeholderEmpty={
+    <FormattedMessage
+      defaultMessage="No users found"
+      id="admin.user_grid.notFound"
+      values={Object {}}
+    />
+  }
+  previousPage={[Function]}
+  rows={
+    Array [
+      Object {
+        "id": "userid-not-saved",
+        "name": <UserGridName
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid-not-saved",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-not-saved",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-not-saved",
+            }
+          }
+        />,
+        "new": <Badge
+          className="NewUserBadge"
+          show={true}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
+        "remove": <UserGridRemove
+          removeUser={[Function]}
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid-not-saved",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-not-saved",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-not-saved",
+            }
+          }
+        />,
+        "role": <UserGridRoleDropdown
+          handleUpdateMembership={[Function]}
+          membership={
+            Object {
+              "scheme_admin": false,
+              "scheme_user": true,
+              "user_id": "userid-not-saved",
+            }
+          }
+          scope="team"
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid-not-saved",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-not-saved",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-not-saved",
+            }
+          }
+        />,
+      },
+      Object {
+        "id": "userid1",
+        "name": <UserGridName
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid1",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-1",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-1",
+            }
+          }
+        />,
+        "new": <Badge
+          className="NewUserBadge"
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
+        "remove": <UserGridRemove
+          removeUser={[Function]}
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid1",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-1",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-1",
+            }
+          }
+        />,
+        "role": <UserGridRoleDropdown
+          handleUpdateMembership={[Function]}
+          membership={
+            Object {
+              "delete_at": 0,
+              "mention_count": 0,
+              "msg_count": 0,
+              "roles": "team_user",
+              "scheme_admin": false,
+              "scheme_user": true,
+              "team_id": "team",
+              "user_id": "userId1",
+            }
+          }
+          scope="team"
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid1",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-1",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-1",
+            }
+          }
+        />,
+      },
+      Object {
+        "id": "userid2",
+        "name": <UserGridName
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+        "new": <Badge
+          className="NewUserBadge"
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
+        "remove": <UserGridRemove
+          removeUser={[Function]}
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+        "role": <UserGridRoleDropdown
+          handleUpdateMembership={[Function]}
+          membership={
+            Object {
+              "delete_at": 0,
+              "mention_count": 0,
+              "msg_count": 0,
+              "roles": "team_user",
+              "scheme_admin": false,
+              "scheme_user": true,
+              "team_id": "team",
+              "user_id": "userId2",
+            }
+          }
+          scope="team"
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+      },
+    ]
+  }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "240px",
+    }
+  }
+  search={[Function]}
+  startCount={1}
+  term=""
+  total={3}
+/>
+`;
+
+exports[`components/admin_console/user_grid/UserGrid should match snapshot with 2 users and 1 removed user 1`] = `
+<DataGrid
+  columns={
+    Array [
+      Object {
+        "field": "name",
+        "fixed": true,
+        "name": <FormattedMessage
+          defaultMessage="Name"
+          id="admin.user_grid.name"
+          values={Object {}}
+        />,
+        "width": 3,
+      },
+      Object {
+        "field": "new",
+        "fixed": true,
+        "name": "",
+      },
+      Object {
+        "field": "role",
+        "name": <FormattedMessage
+          defaultMessage="Role"
+          id="admin.user_grid.role"
+          values={Object {}}
+        />,
+        "overflow": "visible",
+      },
+      Object {
+        "field": "remove",
+        "fixed": true,
+        "name": "",
+        "textAlign": "right",
+      },
+    ]
+  }
+  endCount={1}
+  loading={false}
+  nextPage={[Function]}
+  page={0}
+  placeholderEmpty={
+    <FormattedMessage
+      defaultMessage="No users found"
+      id="admin.user_grid.notFound"
+      values={Object {}}
+    />
+  }
+  previousPage={[Function]}
+  rows={
+    Array [
+      Object {
+        "id": "userid2",
+        "name": <UserGridName
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+        "new": <Badge
+          className="NewUserBadge"
+          show={false}
+        >
+          <FormattedMessage
+            defaultMessage="New"
+            id="admin.user_grid.new"
+            values={Object {}}
+          />
+        </Badge>,
+        "remove": <UserGridRemove
+          removeUser={[Function]}
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+        "role": <UserGridRoleDropdown
+          handleUpdateMembership={[Function]}
+          membership={
+            Object {
+              "delete_at": 0,
+              "mention_count": 0,
+              "msg_count": 0,
+              "roles": "team_user",
+              "scheme_admin": false,
+              "scheme_user": true,
+              "team_id": "team",
+              "user_id": "userId2",
+            }
+          }
+          scope="team"
+          user={
+            Object {
+              "auth_data": "",
+              "auth_service": "",
+              "create_at": 1589222794545,
+              "delete_at": 0,
+              "email": "",
+              "email_verified": true,
+              "first_name": "",
+              "id": "userid2",
+              "is_bot": false,
+              "last_name": "",
+              "last_picture_update": 0,
+              "locale": "",
+              "nickname": "user-2",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "any",
+                "desktop": "none",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "online",
+              },
+              "position": "",
+              "roles": "system_user",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 1589222794545,
+              "username": "user-2",
+            }
+          }
+        />,
+      },
+    ]
+  }
+  rowsContainerStyles={
+    Object {
+      "minHeight": "80px",
+    }
+  }
+  search={[Function]}
+  startCount={1}
+  term=""
+  total={1}
+/>
+`;

@@ -25,7 +25,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ActivityLog {...baseProps}/>
+            <ActivityLog {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -33,7 +33,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
 
     test('submitRevoke is called correctly', () => {
         const wrapper = shallow(
-            <ActivityLog {...baseProps}/>
+            <ActivityLog {...baseProps}/>,
         );
 
         wrapper.instance().submitRevoke('e');
@@ -44,7 +44,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
 
     test('handleMoreInfo updates state correctly', () => {
         const wrapper = shallow(
-            <ActivityLog {...baseProps}/>
+            <ActivityLog {...baseProps}/>,
         );
 
         wrapper.instance().handleMoreInfo();
@@ -53,7 +53,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
 
     test('should match when isMobileSession is called', () => {
         const wrapper = shallow(
-            <ActivityLog {...baseProps}/>
+            <ActivityLog {...baseProps}/>,
         );
 
         const isMobileSession = wrapper.instance().isMobileSession;
@@ -64,7 +64,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
 
     test('should match when mobileSessionInfo is called', () => {
         const wrapper = shallow(
-            <ActivityLog {...baseProps}/>
+            <ActivityLog {...baseProps}/>,
         );
 
         const mobileSessionInfo = wrapper.instance().mobileSessionInfo;

@@ -45,7 +45,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
         };
 
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
