@@ -848,12 +848,23 @@ Cypress.Commands.add('requireLicense', () => {
     });
 });
 
+const getDefaultConfig = () => {
+    const fromCypressEnv = {
+        LdapSettings: {
+            LdapServer: Cypress.env('ldapServer'),
+            LdapPort: Cypress.env('ldapPort'),
+        },
+    };
+
+    return merge(partialDefaultConfig, fromCypressEnv);
+};
+
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     // # Get current settings
     return cy.request('/api/v4/config').then((response) => {
         const oldSettings = response.body;
 
-        const settings = merge(oldSettings, partialDefaultConfig, newSettings);
+        const settings = merge(oldSettings, getDefaultConfig(), newSettings);
 
         // # Set the modified settings
         return cy.request({
@@ -1238,6 +1249,11 @@ Cypress.Commands.add('apiActivateUser', (userId, active = true) => {
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${userId}/active`, data: {active}});
 });
 
+// *****************************************************************************
+// Groups
+// https://api.mattermost.com/#tag/groups
+// *****************************************************************************
+
 /**
  * Get all groups via the API
  *
@@ -1249,6 +1265,25 @@ Cypress.Commands.add('apiGetGroups', (page = 0, perPage = 100) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups?page=${page}&per_page=${perPage}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get LDAP groups
+ *
+ * @param {Integer} page - The desired page of the paginated list
+ * @param {Integer} perPage - The number of groups per page
+ *
+ */
+Cypress.Commands.add('apiGetLDAPGroups', (page = 0, perPage = 100) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups?page=${page}&per_page=${perPage}`,
         method: 'GET',
         timeout: 60000,
     }).then((response) => {
@@ -1280,6 +1315,160 @@ Cypress.Commands.add('apiPatchGroup', (groupID, patch) => {
         return cy.wrap(response);
     });
 });
+
+/**
+ * Get all LDAP groups via API
+ * @param {Integer} page - The page to select
+ * @param {Integer} perPage - The number of groups per page
+ */
+Cypress.Commands.add('apiGetLDAPGroups', (page = 0, perPage = 100) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups?page=${page}&per_page=${perPage}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Add a link for LDAP group via API
+ * @param {String} remoteId - remote ID of the group
+ */
+Cypress.Commands.add('apiAddLDAPGroupLink', (remoteId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups/${remoteId}/link`,
+        method: 'POST',
+        timeout: 60000,
+    }).then((response) => {
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Retrieve the list of groups associated with a given team via API
+ * @param {String} teamId - Team GUID
+ */
+Cypress.Commands.add('apiGetTeamGroups', (teamId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/teams/${teamId}/groups`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Delete a link from a team to a group via API
+ * @param {String} groupId - Group GUID
+ * @param {String} teamId - Team GUID
+ */
+Cypress.Commands.add('apiDeleteLinkFromTeamToGroup', (groupId, teamId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupId}/teams/${teamId}/link`,
+        method: 'DELETE',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+Cypress.Commands.add('apiLinkGroup', (groupID) => {
+    return linkUnlinkGroup(groupID, 'POST');
+});
+
+Cypress.Commands.add('apiUnlinkGroup', (groupID) => {
+    return linkUnlinkGroup(groupID, 'DELETE');
+});
+
+function linkUnlinkGroup(groupID, httpMethod) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/ldap/groups/${groupID}/link`,
+        method: httpMethod,
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.be.oneOf([200, 201, 204]);
+        return cy.wrap(response);
+    });
+}
+
+Cypress.Commands.add('apiGetGroupTeams', (groupID) => {
+    return getGroupSyncables(groupID, 'team');
+});
+
+Cypress.Commands.add('apiGetGroupTeam', (groupID, teamID) => {
+    return getGroupSyncable(groupID, 'team', teamID);
+});
+
+Cypress.Commands.add('apiGetGroupChannels', (groupID) => {
+    return getGroupSyncables(groupID, 'channel');
+});
+
+Cypress.Commands.add('apiGetGroupChannel', (groupID, channelID) => {
+    return getGroupSyncable(groupID, 'channel', channelID);
+});
+
+function getGroupSyncable(groupID, syncableType, syncableID) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+}
+
+function getGroupSyncables(groupID, syncableType) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupID}/${syncableType}s?page=0&per_page=100`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+}
+
+Cypress.Commands.add('apiUnlinkGroupTeam', (groupID, teamID) => {
+    return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'DELETE');
+});
+
+Cypress.Commands.add('apiLinkGroupTeam', (groupID, teamID) => {
+    return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'POST');
+});
+
+Cypress.Commands.add('apiUnlinkGroupChannel', (groupID, channelID) => {
+    return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'DELETE');
+});
+
+Cypress.Commands.add('apiLinkGroupChannel', (groupID, channelID) => {
+    return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'POST');
+});
+
+function linkUnlinkGroupSyncable(groupID, syncableID, syncableType, httpMethod) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}/link`,
+        method: httpMethod,
+        timeout: 60000,
+        body: {auto_add: true},
+    }).then((response) => {
+        expect(response.status).to.be.oneOf([200, 201, 204]);
+        return cy.wrap(response);
+    });
+}
 
 // *****************************************************************************
 // SAML
