@@ -276,13 +276,17 @@ export default class SearchBar extends React.PureComponent {
                 termsUsed++;
             }
         });
+        if (visibleSearchHintOptions.length > 0 && !this.props.isMentionSearch) {
+            let helpClass = 'search-help-popover';
+            if (this.state.focused && termsUsed <= 2) {
+                helpClass += ' visible';
+            }
 
-        if (visibleSearchHintOptions.length > 0 && !this.props.isMentionSearch && termsUsed <= 1 && this.state.focused) {
             return (
                 <Popover
                     id={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
                     placement='bottom'
-                    className='search-help-popover visible'
+                    className={helpClass}
                 >
                     <SearchHint
                         options={visibleSearchHintOptions}
