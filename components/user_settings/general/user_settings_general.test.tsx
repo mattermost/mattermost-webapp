@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import UserSettingsGeneral from './user_settings_general';
+import UserSettingsGeneral, {UserSettingsGeneralTab} from './user_settings_general';
 
 describe('components/user_settings/general/UserSettingsGeneral', () => {
     const user = {
@@ -56,9 +56,9 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     test('submitUser() should have called updateMe', () => {
         const updateMe = jest.fn().mockResolvedValue({data: true});
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
-        const wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
+        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        wrapper.instance().submitUser(requiredProps.user, '');
+        (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, '');
         expect(updateMe).toHaveBeenCalledTimes(1);
         expect(updateMe).toHaveBeenCalledWith(requiredProps.user);
     });
@@ -69,7 +69,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe, getMe}};
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        await wrapper.instance().submitUser(requiredProps.user, '');
+        await (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, '');
         expect(getMe).toHaveBeenCalledTimes(1);
         expect(getMe).toHaveBeenCalledWith();
     });
@@ -79,7 +79,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const props = {...requiredProps, actions: {...requiredProps.actions, uploadProfileImage}};
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        wrapper.instance().submitPicture(requiredProps.user, '');
+        (wrapper.instance() as UserSettingsGeneralTab).submitPicture(requiredProps.user, '');
         expect(uploadProfileImage).toHaveBeenCalledTimes(0);
     });
 
@@ -91,18 +91,18 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const mockFile = {type: 'image/jpeg', size: requiredProps.maxFileSize};
         const event = {target: {files: [mockFile]}};
 
-        wrapper.instance().updatePicture(event);
+        (wrapper.instance() as UserSettingsGeneralTab).updatePicture(event);
 
         expect(wrapper.state('pictureFile')).toBe(event.target.files[0]);
-        expect(wrapper.instance().submitActive).toBe(true);
+        expect((wrapper.instance() as UserSettingsGeneralTab).submitActive).toBe(true);
 
-        await wrapper.instance().submitPicture(requiredProps.user, '');
+        await (wrapper.instance() as UserSettingsGeneralTab).submitPicture(requiredProps.user, '');
 
         expect(uploadProfileImage).toHaveBeenCalledTimes(1);
         expect(uploadProfileImage).toHaveBeenCalledWith(requiredProps.user.id, mockFile);
 
         expect(wrapper.state('pictureFile')).toBe(null);
-        expect(wrapper.instance().submitActive).toBe(false);
+        expect((wrapper.instance() as UserSettingsGeneralTab).submitActive).toBe(false);
 
         expect(requiredProps.updateSection).toHaveBeenCalledTimes(1);
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');

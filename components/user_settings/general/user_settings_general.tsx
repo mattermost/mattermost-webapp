@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl} from 'react-intl';
 
@@ -95,39 +94,39 @@ type Props = {
         nickname: string;
         position: string;
         email: string;
-        password: string;
-        auth_service: string
+        password?: string;
+        auth_service: string;
         last_picture_update: number;
     };
     updateSection: (section: string) => void;
     updateTab: (notifications: string) => void;
-    activeSection: string;
+    activeSection?: string;
     closeModal: () => void;
     collapseModal: () => void;
     maxFileSize: number;
     actions: {
-        logError: ({message, type} : {message: any, type: string}, status: boolean) => void;
+        logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
         clearErrors: () => void;
         getMe: () => void;
-        updateMe: (user: object) => Promise<{
+        updateMe: (user: {}) => Promise<{
             data: boolean;
             error?: {
                 server_error_id: string;
                 message: string;
-            }
+            };
         }>;
         sendVerificationEmail: (email: string) => Promise<{
             data: boolean;
             error?: {
                 err: string;
-            }
+            };
         }>;
         setDefaultProfileImage: (id: string) => void;
         uploadProfileImage: (id: string, file: object) => Promise<{
             data: boolean;
             error?: {
                 message: string;
-            }
+            };
         }>;
     };
     requireEmailVerification?: boolean;
@@ -142,27 +141,27 @@ type Props = {
 }
 
 type State = {
-  username: string;
-  firstName: string;
-  lastName: string;
-  nickname: string;
-  position: string;
-  originalEmail: string;
-  email: string;
-  confirmEmail: string;
-  currentPassword: string;
-  pictureFile: {type: string, size: number} | null;
-  loadingPicture: boolean;
-  sectionIsSaving: boolean;
-  showSpinner: boolean;
-  resendStatus?: string;
-  clientError?: string | null;
-  serverError?: string;
-  emailError?: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    nickname: string;
+    position: string;
+    originalEmail: string;
+    email: string;
+    confirmEmail: string;
+    currentPassword: string;
+    pictureFile: {type: string; size: number} | null;
+    loadingPicture: boolean;
+    sectionIsSaving: boolean;
+    showSpinner: boolean;
+    resendStatus?: string;
+    clientError?: string | null;
+    serverError?: string;
+    emailError?: string;
 }
 
-class UserSettingsGeneralTab extends React.Component<Props, State> {
-    private submitActive = false;
+export class UserSettingsGeneralTab extends React.Component<Props, State> {
+    public submitActive = false;
 
     constructor(props: Props) {
         super(props);
@@ -302,7 +301,7 @@ class UserSettingsGeneralTab extends React.Component<Props, State> {
         this.submitUser(user, true);
     }
 
-    submitUser = (user: object, emailUpdated: boolean) => {
+    submitUser = (user: object, emailUpdated: boolean | string) => {
         const {formatMessage} = this.props.intl;
         this.setState({sectionIsSaving: true});
 
@@ -350,7 +349,7 @@ class UserSettingsGeneralTab extends React.Component<Props, State> {
         }
     }
 
-    submitPicture = () => {
+    submitPicture = (user: {}, x: string) => {
         if (!this.state.pictureFile) {
             return;
         }
@@ -380,7 +379,7 @@ class UserSettingsGeneralTab extends React.Component<Props, State> {
                     this.updateSection('');
                     this.submitActive = false;
                 } else if (err) {
-                    var state = this.setupInitialState(this.props);
+                    const state = this.setupInitialState(this.props);
                     state.serverError = err.message;
                     this.setState(state);
                 }
@@ -435,7 +434,7 @@ class UserSettingsGeneralTab extends React.Component<Props, State> {
         this.setState({currentPassword: e.target.value});
     }
 
-    updatePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updatePicture = (e: {target: {files: {type: string; size: number}[]}}) => {
         if (e.target.files && e.target.files[0]) {
             this.setState({pictureFile: e.target.files[0]});
 
@@ -857,11 +856,11 @@ class UserSettingsGeneralTab extends React.Component<Props, State> {
                     </div>
                 );
 
-                let notifClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+                const notifClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
                     e.preventDefault();
                     this.updateSection('');
                     this.props.updateTab('notifications');
-                }
+                };
 
                 const notifLink = (
                     <a
@@ -1236,7 +1235,7 @@ class UserSettingsGeneralTab extends React.Component<Props, State> {
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
-                    updateSection={(e) => {
+                    updateSection={(e: any) => {
                         this.updateSection('');
                         e.preventDefault();
                     }}

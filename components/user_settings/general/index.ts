@@ -19,29 +19,29 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import UserSettingsGeneralTab from './user_settings_general';
 
 type Actions = {
-    logError: ({message, type} : {message: any, type: string}, status: boolean) => void;
-        clearErrors: () => void;
-        getMe: () => void;
-        updateMe: (user: object) => Promise<{
-            data: boolean;
-            error?: {
-                server_error_id: string;
-                message: string;
-            }
-        }>;
-        sendVerificationEmail: (email: string) => Promise<{
-            data: boolean;
-            error?: {
-                err: string;
-            }
-        }>;
-        setDefaultProfileImage: (id: string) => void;
-        uploadProfileImage: (id: string, file: object) => Promise<{
-            data: boolean;
-            error?: {
-                message: string;
-            }
-        }>;
+    logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
+    clearErrors: () => void;
+    getMe: () => void;
+    updateMe: (user: object) => Promise<{
+        data: boolean;
+        error?: {
+            server_error_id: string;
+            message: string;
+        };
+    }>;
+    sendVerificationEmail: (email: string) => Promise<{
+        data: boolean;
+        error?: {
+            err: string;
+        };
+    }>;
+    setDefaultProfileImage: (id: string) => void;
+    uploadProfileImage: (id: string, file: object) => Promise<{
+        data: boolean;
+        error?: {
+            message: string;
+        };
+    }>;
 }
 
 function mapStateToProps(state: GlobalState) {

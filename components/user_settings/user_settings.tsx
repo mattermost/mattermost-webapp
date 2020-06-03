@@ -11,11 +11,21 @@ import SecurityTab from './security';
 import SidebarTab from './sidebar';
 
 type Props = {
-    user: {};
+    user: {
+        id: string;
+        username: string;
+        first_name: string;
+        last_name: string;
+        nickname: string;
+        position: string;
+        email: string;
+        auth_service: string;
+        last_picture_update: number;
+    };
     activeTab?: string;
     activeSection?: string;
-    updateSection?: () => void;
-    updateTab?: () => void;
+    updateSection: (section: string) => void;
+    updateTab: (notifications: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
     setEnforceFocus: () => void;
