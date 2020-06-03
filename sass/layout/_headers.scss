@@ -2,7 +2,7 @@
 
 .channel-header {
     @include flex(0 0 63px);
-    z-index: 11;
+    z-index: 15;
     background: v(center-channel-bg);
     max-height: 63px;
     border-bottom: 1px solid;
