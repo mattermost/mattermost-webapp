@@ -474,6 +474,12 @@ export function isHexColor(value) {
     return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
 }
 
+// given '#fffff', returns '255, 255, 255' (no trailing comma)
+export function toRgbValues(hexStr) {
+    const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
+    return rgbaStr;
+}
+
 export function applyTheme(theme) {
     if (theme.sidebarBg) {
         changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
@@ -855,6 +861,34 @@ export function applyTheme(theme) {
     updateCodeTheme(theme.codeTheme);
     cssVars({
         variables: {
+
+            // RGB values derived from theme hex values i.e. '255, 255, 255'
+            // (do not apply opacity mutations here)
+            'away-indicator-rgb': toRgbValues(theme.awayIndicator),
+            'button-bg-rgb': toRgbValues(theme.buttonBg),
+            'button-color-rgb': toRgbValues(theme.buttonColor),
+            'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
+            'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),
+            'dnd-indicator-rgb': toRgbValues(theme.dndIndicator),
+            'error-text-color-rgb': toRgbValues(theme.errorTextColor),
+            'link-color-rgb': toRgbValues(theme.linkColor),
+            'mention-bg-rgb': toRgbValues(theme.mentionBg),
+            'mention-color-rgb': toRgbValues(theme.mentionColor),
+            'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
+            'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
+            'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
+            'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
+            'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
+            'sidebar-header-bg-rgb': toRgbValues(theme.sidebarHeaderBg),
+            'sidebar-header-text-color-rgb': toRgbValues(theme.sidebarHeaderTextColor),
+            'sidebar-text-rgb': toRgbValues(theme.sidebarText),
+            'sidebar-text-active-border-rgb': toRgbValues(theme.sidebarTextActiveBorder),
+            'sidebar-text-active-color-rgb': toRgbValues(theme.sidebarTextActiveColor),
+            'sidebar-text-hover-bg-rgb': toRgbValues(theme.sidebarTextHoverBg),
+            'sidebar-unread-text-rgb': toRgbValues(theme.sidebarUnreadText),
+
+            // Hex CSS variables
+            // TODO: phase out changeOpacity() here
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
             'sidebar-text-30': changeOpacity(theme.sidebarText, 0.3),
