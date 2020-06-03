@@ -112,11 +112,11 @@ function searchTerms(state = '', action) {
     }
 }
 
-function pluginId(state = '', action) {
+function pluggableId(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_STATE:
         if (action.state === RHSStates.PLUGIN) {
-            return action.pluginId;
+            return action.pluggableId;
         }
         return '';
     default:
@@ -233,7 +233,7 @@ export default combineReducers({
     rhsState,
     searchTerms,
     searchResultsTerms,
-    pluginId,
+    pluggableId,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,
