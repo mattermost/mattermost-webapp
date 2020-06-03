@@ -16,7 +16,7 @@ type Props = {
     prefetchRequestStatus: Record<string, any>;
     unreadChannels: Channel[];
     actions: {
-        prefetchChannelPosts: (channelId: string, delay: number | undefined) => Promise<{data: {}}>;
+        prefetchChannelPosts: (channelId: string, delay: number | undefined) => Promise<any>;
     };
 }
 
