@@ -24,7 +24,7 @@ export default class SearchResultsHeader extends React.PureComponent {
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.closeSidebarTooltip'
-                    defaultMessage='Close the sidebar'
+                    defaultMessage='Close'
                 />
             </Tooltip>
         );
@@ -33,7 +33,7 @@ export default class SearchResultsHeader extends React.PureComponent {
             <Tooltip id='expandSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand the sidebar'
+                    defaultMessage='Expand Sidebar'
                 />
             </Tooltip>
         );
@@ -42,7 +42,7 @@ export default class SearchResultsHeader extends React.PureComponent {
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.shrinkSidebarTooltip'
-                    defaultMessage='Shrink the sidebar'
+                    defaultMessage='Collapse Sidebar'
                 />
             </Tooltip>
         );
@@ -63,7 +63,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                         >
                             <FormattedMessage
                                 id='rhs_header.expandSidebarTooltip.icon'
-                                defaultMessage='Expand the sidebar icon'
+                                defaultMessage='Expand Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i
@@ -74,7 +74,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                             </FormattedMessage>
                             <FormattedMessage
                                 id='rhs_header.expandTooltip.icon'
-                                defaultMessage='Shrink the sidebar icon'
+                                defaultMessage='Collapse Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i
@@ -99,7 +99,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                         >
                             <FormattedMessage
                                 id='rhs_header.closeTooltip.icon'
-                                defaultMessage='Close the sidebar icon'
+                                defaultMessage='Close Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i
