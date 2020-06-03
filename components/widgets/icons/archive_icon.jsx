@@ -14,8 +14,8 @@ export default class ArchiveIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            width='13px'
-                            height='13px'
+                            width='16px'
+                            height='16px'
                             viewBox='0 0 16 16'
                             role='img'
                             aria-label={ariaLabel}
