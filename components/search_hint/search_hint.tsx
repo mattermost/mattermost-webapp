@@ -8,6 +8,7 @@ import classNames from 'classnames';
 interface SearchTerm {
     searchTerm: string;
     message: MessageDescriptor;
+    additionalDisplay?: string;
 }
 
 type Props = {
@@ -49,7 +50,7 @@ const SearchHint = (props: Props) => {
                         onMouseOver={() => handleOnOptionHover(optionIndex)}
                     >
                         <div className='search-hint__suggestion-list__flex-wrap'>
-                            <span className='search-hint__suggestion-list__label'>{option.searchTerm}</span>
+                            <span className='search-hint__suggestion-list__label'>{option.additionalDisplay ? option.additionalDisplay : option.searchTerm}</span>
                         </div>
                         <div className='search-hint__suggestion-list__value'>
                             <FormattedMessage
