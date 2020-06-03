@@ -2533,7 +2533,6 @@
   "save_button.saving": "Zapisywanie",
   "search_bar.clear": "Wyczyść zapytanie wyszukiwania",
   "search_bar.search": "Szukaj",
-  "search_bar.usage.tips": "* Użyj **\"cudzysłowy\"**, aby wyszukać frazy\n* Użyj **from:**, aby znaleźć posty od konkretnych użytkowników i **in:**, aby znaleźć posty w określonych kanałach\n* Użyj **on:**, aby znaleźć posty z określonej daty\n* Użyj **before:**, aby znaleźć posty przed określoną datą\n* Użyj **after:**, aby znaleźć posty po określonej dacie",
   "search_bar.usage.title": "Opcje Wyszukiwania",
   "search_header.loading": "Wyszukiwanie...",
   "search_header.results": "Wyniki wyszukiwania",

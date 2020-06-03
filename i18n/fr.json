@@ -2533,7 +2533,6 @@
   "save_button.saving": "Enregistrement en cours",
   "search_bar.clear": "Effacer la requête de recherche",
   "search_bar.search": "Rechercher",
-  "search_bar.usage.tips": "* Utilisez les **« guillemets »** pour rechercher une phrase\n* Utilisez **from:** pour trouver des messages publiés par un utilisateur spécifique et **in:** pour trouver ceux publiés dans des canaux spécifiques\n* Utilisez **on:** pour trouver des messages publiés à une date spécifique\n* Utilisez **before:** pour trouver des messages publiés avant une date spécifique\n* Utilisez **after:** pour trouver des messages après une date spécifique",
   "search_bar.usage.title": "Options de recherche",
   "search_header.loading": "Recherche en cours…",
   "search_header.results": "Résultats de la recherche",

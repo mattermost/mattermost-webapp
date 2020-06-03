@@ -2533,7 +2533,6 @@
   "save_button.saving": "Salvando",
   "search_bar.clear": "Limpar a pesquisa",
   "search_bar.search": "Procurar",
-  "search_bar.usage.tips": "* Use **\"aspas\"** para procurar por frases\n* Use **from:** encontrar publicações de um usuário específico e **in:** encontrar publicações em canais específicos\n* Use **on:** encontrar publicações em uma data específica\n* Use **before:** encontrar publicações antes de uma data específica\n* Use **after:** encontrar publicações após uma data específica",
   "search_bar.usage.title": "Opções de busca",
   "search_header.loading": "Pesquisando...",
   "search_header.results": "Resultados da Pesquisa",

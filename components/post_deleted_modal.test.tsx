@@ -16,7 +16,7 @@ describe('components/ChannelInfoModal', () => {
             <PostDeletedModal
                 show={true}
                 onHide={emptyFunction}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -29,7 +29,7 @@ describe('components/ChannelInfoModal', () => {
             <PostDeletedModal
                 show={false}
                 onHide={emptyFunction}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -44,7 +44,7 @@ describe('components/ChannelInfoModal', () => {
             <PostDeletedModal
                 show={true}
                 onHide={onHide}
-            />
+            />,
         );
 
         wrapper.find(Modal).first().props().onHide();
@@ -57,7 +57,7 @@ describe('components/ChannelInfoModal', () => {
             <PostDeletedModal
                 show={false}
                 onHide={emptyFunction}
-            />
+            />,
         );
         const shouldUpdate = wrapper.instance().shouldComponentUpdate!({show: true}, {}, null);
         expect(shouldUpdate).toBe(true);

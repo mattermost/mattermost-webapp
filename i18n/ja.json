@@ -2533,7 +2533,6 @@
   "save_button.saving": "保存中",
   "search_bar.clear": "検索クエリを消去する",
   "search_bar.search": "検索する",
-  "search_bar.usage.tips": "* 特定のフレーズを検索するには **\"引用符\"** を使用してください\n* 特定のユーザーの投稿をを検索するには **from:** を、特定のチャンネル内の投稿を検索するには **in:** を使用してください\n* 特定の日付の投稿を検索するには **on:** を使用してください\n* 特定の日付より前の投稿を検索するには **before:** を使用してください\n* 特定の日付より後の投稿を検索するには **after:** を使用してください",
   "search_bar.usage.title": "検索オプション",
   "search_header.loading": "検索しています...",
   "search_header.results": "検索結果",

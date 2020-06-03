@@ -10,7 +10,7 @@ import {generateId} from 'utils/utils.jsx';
 import {intlShape} from 'utils/react_intl';
 import Constants from 'utils/constants';
 
-export class PermissionDescription extends React.Component {
+export class PermissionDescription extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
         id: PropTypes.string.isRequired,

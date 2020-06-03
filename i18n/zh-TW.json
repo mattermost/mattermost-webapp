@@ -2533,7 +2533,6 @@
   "save_button.saving": "儲存中",
   "search_bar.clear": "清除搜尋條件",
   "search_bar.search": "搜尋",
-  "search_bar.usage.tips": "* 用 **\"雙引號\"** 搜尋片語\n* 用 **from:** 搜尋特定使用者的訊息跟 **in:** 搜尋特定頻道的訊息\n* 用 **on:** 搜尋特定日期的訊息\n* 用 **before:** 搜尋特定日期之前的訊息\n* 用 **after:** 搜尋特定日期之後的訊息",
   "search_bar.usage.title": "搜尋選項",
   "search_header.loading": "搜尋中…",
   "search_header.results": "搜尋結果",

@@ -58,7 +58,7 @@ storiesOf('Menus', module).
                     </Menu>
                 </div>
             );
-        }
+        },
     ).
     add(
         'menu with groups',
@@ -107,7 +107,7 @@ storiesOf('Menus', module).
                     </Menu>
                 </div>
             );
-        }
+        },
     ).
     add(
         'Content with a menu',
@@ -159,5 +159,5 @@ storiesOf('Menus', module).
                     </MenuWrapper>
                 </div>
             );
-        }
+        },
     );

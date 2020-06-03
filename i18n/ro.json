@@ -2533,7 +2533,6 @@
   "save_button.saving": "Salvez",
   "search_bar.clear": "Ștergeți interogarea de căutare",
   "search_bar.search": "Caută",
-  "search_bar.usage.tips": "* Utilizați **\"ghilimele\"** pentru a căuta expresii\n* Utilizați **de la:** pentru a găsi postări de la anumiți utilizatori și **în:** pentru a găsi postări în anumite canale\n* Utilizați **pentru:** pentru a găsi postări la o anumită dată\n* Utilizați **înainte:** pentru a găsi postări înainte de o anumită dată\n* Utilizați **după:** pentru a găsi postări după o anumită dată",
   "search_bar.usage.title": "Opțiuni De Căutare",
   "search_header.loading": "In căutare...",
   "search_header.results": "Rezultatele căutării",

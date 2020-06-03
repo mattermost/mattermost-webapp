@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @plugin_marketplace
+// Group: @plugin_marketplace @plugin
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -125,7 +124,7 @@ describe('Plugin Marketplace', () => {
 
         it('display installed plugins and error bar', () => {
             // * install one plugin
-            cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
+            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
             // * one local plugin should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
@@ -251,7 +250,7 @@ describe('Plugin Marketplace', () => {
 
         it('should install a plugin on demand', () => {
             // # uninstall any existing webex plugin
-            cy.uninstallPluginById('com.mattermost.webex');
+            cy.apiRemovePluginById('com.mattermost.webex');
 
             // * webex plugin should be visible
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').scrollIntoView().should('be.visible');
@@ -265,7 +264,7 @@ describe('Plugin Marketplace', () => {
 
         it('should install a plugin from search results on demand', () => {
             // # uninstall any existing webex plugin
-            cy.uninstallPluginById('com.mattermost.webex');
+            cy.apiRemovePluginById('com.mattermost.webex');
 
             // # filter to webex plugin only
             cy.findByPlaceholderText('Search Plugins').should('be.visible').type('webex');
@@ -288,7 +287,7 @@ describe('Plugin Marketplace', () => {
 
         it('should prompt to update an old GitHub plugin from all plugins', () => {
             // # Install GitHub 0.7.0 plugin
-            cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
+            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
             // # Scroll to GitHub plugin
             cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
@@ -391,7 +390,7 @@ describe('Plugin Marketplace', () => {
 
         it('display installed plugins', () => {
             // * install one plugin
-            cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
+            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
             // * one local plugin should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
@@ -402,10 +401,10 @@ describe('Plugin Marketplace', () => {
     });
 
     function uninstallAllPlugins() {
-        cy.getAllPlugins().then((response) => {
+        cy.apiGetAllPlugins().then((response) => {
             const {active, inactive} = response.body;
-            inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-            active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
+            active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
         });
     }
 });

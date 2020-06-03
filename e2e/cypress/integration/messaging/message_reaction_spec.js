@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
 // Group: @messaging
 
 import users from '../../fixtures/users.json';
@@ -37,7 +36,7 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            cy.get('#emoji-1f641').click();
+            cy.get('#emoji-1f641').should('be.visible').click({force: true});
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__count`).should('have.text', '1');
@@ -56,7 +55,7 @@ describe("Click another user's emoji reaction to add it", () => {
                 should('be.visible').
                 click().
                 should('have.css', 'background-color').
-                and('eq', 'rgba(35, 137, 215, 0.1)');
+                and('eq', 'rgba(22, 109, 224, 0.08)');
 
             // * The number shown on the "slightly_frowning_face" reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .post-reaction__count`).should('have.text', '2');
@@ -68,7 +67,7 @@ describe("Click another user's emoji reaction to add it", () => {
             cy.get('#emojiPicker').should('be.visible');
 
             // # Select the "scream" emoji
-            cy.get('#emoji-1f631').click();
+            cy.get('#emoji-1f631').should('be.visible').click({force: true});
 
             // * The emoji picker is no longer open
             cy.get('#emojiPicker').should('be.not.visible');

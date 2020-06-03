@@ -2533,7 +2533,6 @@
   "save_button.saving": "Saving",
   "search_bar.clear": "Clear search query",
   "search_bar.search": "검색",
-  "search_bar.usage.tips": "* 구문을 검색하려면 \"큰따옴표\"를 사용하세요\n* 특정 사용자의 게시물을 찾으려면 **from:** 을 사용하고 특정 채널의 게시물을 찾으려면 **in:** 을 사용하세요\n* 특정 날짜의 게시물을 찾으시려면 **on:** 을 사용하세요\n* 특정 날짜 이전의 게시물을 찾으시려면 **before:** 을 사용하세요\n* 특정 날짜 이후의 게시물을 찾으시려면 **after:** 을 사용하세요",
   "search_bar.usage.title": "검색 옵션들",
   "search_header.loading": "Searching...",
   "search_header.results": "검색 결과",

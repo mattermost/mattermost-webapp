@@ -21,6 +21,8 @@ export default class AtMentionProvider extends Provider {
         this.setProps(props);
 
         this.data = null;
+        this.lastCompletedWord = '';
+        this.lastPrefixWithNoResults = '';
     }
 
     // setProps gives the provider additional context for matching pretexts. Ideally this would
@@ -42,7 +44,7 @@ export default class AtMentionProvider extends Provider {
         }
 
         return ['here', 'channel', 'all'].filter((item) =>
-            item.startsWith(this.latestPrefix)
+            item.startsWith(this.latestPrefix),
         ).map((name) => ({
             username: name,
             type: Constants.MENTION_SPECIAL,
@@ -244,6 +246,11 @@ export default class AtMentionProvider extends Provider {
 
     // updateMatches invokes the resultCallback with the metadata for rendering at mentions
     updateMatches(resultCallback, items) {
+        if (items.length === 0) {
+            this.lastPrefixWithNoResults = this.latestPrefix;
+        } else if (this.lastPrefixWithNoResults === this.latestPrefix) {
+            this.lastPrefixWithNoResults = '';
+        }
         const mentions = items.map((item) => {
             if (item.username) {
                 return '@' + item.username;
@@ -267,7 +274,16 @@ export default class AtMentionProvider extends Provider {
             return false;
         }
 
+        if (this.lastCompletedWord && captured[0].trim().startsWith(this.lastCompletedWord.trim())) {
+            // It appears we're still matching a channel handle that we already completed
+            return false;
+        }
+
         const prefix = captured[1];
+        if (this.lastPrefixWithNoResults && prefix.startsWith(this.lastPrefixWithNoResults)) {
+            // Just give up since we know it won't return any results
+            return false;
+        }
 
         this.startNewRequest(prefix);
         this.updateMatches(resultCallback, this.items());
@@ -307,6 +323,11 @@ export default class AtMentionProvider extends Provider {
         });
 
         return true;
+    }
+
+    handleCompleteWord(term) {
+        this.lastCompletedWord = term;
+        this.lastPrefixWithNoResults = '';
     }
 
     createFromProfile(profile, type) {
