@@ -11,7 +11,7 @@ import users from '../../../fixtures/users.json';
 
 // Group: @enterprise @extend_session
 
-describe('Extend Session - Email Login', () => {
+describe('MM-T2575 Extend Session - Email Login', () => {
     const townSquarePage = '/ad-1/channels/town-square';
     const oneDay = 24 * 60 * 60 * 1000;
     const testUser = 'user-1';
