@@ -634,6 +634,14 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     toPublic={isPublic}
                 />
 
+                <ChannelModeration
+                    channelPermissions={channelPermissions}
+                    onChannelPermissionsChanged={this.channelPermissionsChanged}
+                    teamSchemeID={teamScheme?.id}
+                    teamSchemeDisplayName={teamScheme?.['display_name']}
+                    guestAccountsEnabled={this.props.guestAccountsEnabled}
+                />
+
                 <RemoveConfirmModal
                     show={showRemoveConfirmModal}
                     onCancel={this.hideRemoveConfirmModal}
@@ -656,14 +664,6 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     isSynced={isSynced}
                     isDefault={isDefault}
                     onToggle={this.setToggles}
-                />
-
-                <ChannelModeration
-                    channelPermissions={channelPermissions}
-                    onChannelPermissionsChanged={this.channelPermissionsChanged}
-                    teamSchemeID={teamScheme?.id}
-                    teamSchemeDisplayName={teamScheme?.['display_name']}
-                    guestAccountsEnabled={this.props.guestAccountsEnabled}
                 />
 
                 <ChannelGroups
