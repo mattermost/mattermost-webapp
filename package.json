@@ -38,7 +38,7 @@
     "localforage-observable": "2.0.0",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#87769262aa02e1784570f61f4f962050e07cc335",
-    "mattermost-redux": "github:mattermost/mattermost-redux#1d67e1be9ef9ad6528c4a7bf4f4d278193e84515",
+    "mattermost-redux": "github:mattermost/mattermost-redux#76ac07812bca251981762caa5996a92142685128",
     "moment-timezone": "0.5.27",
     "p-queue": "^6.4.0",
     "pdfjs-dist": "2.0.489",

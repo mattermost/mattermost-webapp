@@ -33,8 +33,8 @@ export function getSelectedChannelId(state: GlobalState) {
     return state.views.rhs.selectedChannelId;
 }
 
-export function getPluginId(state: GlobalState) {
-    return state.views.rhs.pluginId;
+export function getPluggableId(state: GlobalState) {
+    return state.views.rhs.pluggableId;
 }
 
 function getRealSelectedPost(state: GlobalState) {
