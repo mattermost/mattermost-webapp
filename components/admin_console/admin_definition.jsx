@@ -1070,6 +1070,8 @@ const AdminDefinition = {
                 'admin.cluster.UseIpAddressDesc',
                 'admin.cluster.UseExperimentalGossip',
                 'admin.cluster.UseExperimentalGossipDesc',
+                'admin.cluster.EnableExperimentalGossipEncryption',
+                'admin.cluster.EnableExperimentalGossipEncryptionDesc',
                 'admin.cluster.GossipPort',
                 'admin.cluster.GossipPortDesc',
                 'admin.cluster.StreamingPort',
