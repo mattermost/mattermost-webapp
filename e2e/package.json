@@ -16,6 +16,7 @@
     "lodash": "4.17.15",
     "lodash.intersection": "4.4.0",
     "lodash.without": "4.4.0",
+    "mattermost-redux": "5.23.0",
     "merge-deep": "3.0.2",
     "mime-types": "2.1.27",
     "mocha": "7.1.1",

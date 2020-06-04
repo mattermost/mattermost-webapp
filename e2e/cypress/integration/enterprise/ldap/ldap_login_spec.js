@@ -32,67 +32,27 @@ context('ldap', () => {
 
     let testSettings;
 
-    const newConfig = {
-        ServiceSettings: {
-            SiteURL: Cypress.config('baseUrl'),
-        },
-        LdapSettings: {
-            Enable: true,
-            EnableSync: false,
-            LdapServer: Cypress.env('ldapServer'),
-            LdapPort: Cypress.env('ldapPort'),
-            ConnectionSecurity: '',
-            BaseDN: 'dc=mm,dc=test,dc=com',
-            BindUsername: 'cn=admin,dc=mm,dc=test,dc=com',
-            BindPassword: 'mostest',
-            UserFilter: '',
-            GroupFilter: '',
-            GuestFilter: '',
-            EnableAdminFilter: false,
-            AdminFilter: '',
-            GroupDisplayNameAttribute: 'cn',
-            GroupIdAttribute: 'entryUUID',
-            FirstNameAttribute: 'cn',
-            LastNameAttribute: 'sn',
-            EmailAttribute: 'mail',
-            UsernameAttribute: 'uid',
-            NicknameAttribute: 'cn',
-            IdAttribute: 'uid',
-            PositionAttribute: '',
-            LoginIdAttribute: 'uid',
-            SyncIntervalMinutes: 60,
-            SkipCertificateVerification: false,
-            QueryTimeout: 60,
-            MaxPageSize: 0,
-            LoginFieldName: '',
-            LoginButtonColor: '#0000',
-            LoginButtonBorderColor: '#2389D7',
-            LoginButtonTextColor: '#2389D7',
-            Trace: false,
-        },
-        GuestAccountsSettings: {
-            Enable: true,
-        },
-    };
-
     describe('LDAP Login flow - Admin Login', () => {
         before(() => {
             // * Check if server has license for LDAP
             cy.requireLicenseForFeature('LDAP');
 
             cy.apiLogin('sysadmin');
-            cy.apiUpdateConfig(newConfig).then(() => {
-                cy.apiGetConfig().then((response) => {
-                    testSettings = setLDAPTestSettings(response.body);
-                });
+
+            cy.apiGetConfig().then((response) => {
+                testSettings = setLDAPTestSettings(response.body);
             });
         });
 
         it('LDAP login new MM admin, create team', () => {
             testSettings.user = admin1;
-            newConfig.LdapSettings.EnableAdminFilter = true;
-            newConfig.LdapSettings.AdminFilter = '(cn=dev*)';
-            cy.apiUpdateConfig(newConfig).then(() => {
+            const ldapSetting = {
+                LdapSettings: {
+                    EnableAdminFilter: true,
+                    AdminFilter: '(cn=dev*)',
+                },
+            };
+            cy.apiUpdateConfig(ldapSetting).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     // new user create team
                     cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
@@ -116,9 +76,13 @@ context('ldap', () => {
     describe('LDAP Login flow - Member Login)', () => {
         it('Invalid login with user filter', () => {
             testSettings.user = user1;
-            newConfig.LdapSettings.UserFilter = '(cn=no_users)';
+            const ldapSetting = {
+                LdapSettings: {
+                    UserFilter: '(cn=no_users)',
+                },
+            };
             cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.checkLoginFailed(testSettings);
                     });
@@ -128,9 +92,13 @@ context('ldap', () => {
 
         it('LDAP login, new MM user, no channels', () => {
             testSettings.user = user1;
-            newConfig.LdapSettings.UserFilter = '(cn=test*)';
+            const ldapSetting = {
+                LdapSettings: {
+                    UserFilter: '(cn=test*)',
+                },
+            };
             cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doMemberLogout(testSettings);
                     });
@@ -142,9 +110,13 @@ context('ldap', () => {
     describe('LDAP Login flow - Guest Login', () => {
         it('Invalid login with guest filter', () => {
             testSettings.user = guest1;
-            newConfig.LdapSettings.GuestFilter = '(cn=no_guests)';
+            const ldapSetting = {
+                LdapSettings: {
+                    GuestFilter: '(cn=no_guests)',
+                },
+            };
             cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.checkLoginFailed(testSettings);
                     });
@@ -154,9 +126,13 @@ context('ldap', () => {
 
         it('LDAP login, new guest, no channels', () => {
             testSettings.user = guest1;
-            newConfig.LdapSettings.GuestFilter = '(cn=board*)';
+            const ldapSetting = {
+                LdapSettings: {
+                    GuestFilter: '(cn=board*)',
+                },
+            };
             cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doGuestLogout(testSettings);
                     });

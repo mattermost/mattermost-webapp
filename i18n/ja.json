@@ -2632,7 +2632,6 @@
   "sidebar.createPublicPrivateChannel": "新しい公開/非公開チャンネルを作成する",
   "sidebar.directchannel.you": "{displayname} (あなた)",
   "sidebar.leave": "チャンネルから脱退する",
-  "sidebar.mainMenu": "メインメニュー",
   "sidebar.moreElips": "追加...",
   "sidebar.removeList": "一覧から削除する",
   "sidebar.tutorialScreen1.body": "**チャンネル** は様々な話題の会話をまとめることができ、あなたのチームの全員に対してオープンとなっています。プライベートなメッセージを送信する場合、一人に対しては **ダイレクトメッセージ** を、複数人に対しては **非公開チャンネル** を使用してください。",
