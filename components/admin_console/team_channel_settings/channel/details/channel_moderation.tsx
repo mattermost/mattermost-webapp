@@ -324,6 +324,11 @@ export default class ChannelModeration extends React.PureComponent<Props> {
 
             if (formattedMessages[entry.name][disabledKey].permissionName) {
                 schemeLink += `?rowIdFromQuery=${formattedMessages[entry.name][disabledKey].permissionName}`;
+                if (schemeLink.includes('{public_or_private}')) {
+                    const publicOrPrivate = this.props.isPublic ? 'public' : 'private';
+                    schemeLink = schemeLink.replace('{public_or_private}', publicOrPrivate);
+                }
+
             }
 
             errorMessages.push(
@@ -337,7 +342,6 @@ export default class ChannelModeration extends React.PureComponent<Props> {
                         values={{
                             scheme_name: schemeName,
                             scheme_link: schemeLink,
-                            public_or_private: this.props.isPublic ? 'public' : 'private',
                         }}
                     />
                 </div>,
