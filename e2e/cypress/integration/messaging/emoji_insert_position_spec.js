@@ -33,6 +33,6 @@ describe('Messaging', () => {
         cy.get('#post_textbox').type('{enter}');
 
         // * The emoji should be displayed in the post at the position inserted.
-        cy.getLastPost().find('p').should('have.html', `Hello <span data-emoticon="grinning"><span alt=":grinning:" class="emoticon" title=":grinning:" style="background-image: url(&quot;${Cypress.config('baseUrl')}/static/emoji/1f600.png&quot;);"></span></span> World!`);
+        cy.getLastPost().find('p').should('have.html', `Hello <span data-emoticon="grinning"><span alt=":grinning:" class="emoticon" title=":grinning:" style="background-image: url(&quot;${Cypress.config('baseUrl')}/static/emoji/1f600.png&quot;);">:grinning:</span></span> World!`);
     });
 });
