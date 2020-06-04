@@ -65,11 +65,6 @@ describe('components/PostMarkdown', () => {
             post: {
                 type: Posts.POST_TYPES.HEADER_CHANGE,
                 props: {
-                    warnMetricStatus: {
-                        id: 'id',
-                        aae_id: 'aae_id',
-                        limit: 500,
-                    },
                 },
             },
             options: {
@@ -107,11 +102,6 @@ describe('components/PostMarkdown', () => {
                 id: 'post_id',
                 type: null,
                 props: {
-                    warnMetricStatus: {
-                        id: 'id',
-                        aae_id: 'aae_id',
-                        limit: 500,
-                    },
                 },
             },
         };

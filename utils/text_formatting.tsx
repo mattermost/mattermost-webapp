@@ -173,20 +173,6 @@ interface TextFormattingOptionsBase {
    * Defaults to `3`.
    */
     minimumHashtagLength: number;
-
-    /**
-   * Whether or not to include metric status warning into spans with a data-* attribute.
-   *
-   * Defaults to `false`.
-   */
-    isWarnMetricEnabled: boolean;
-
-    /**
-   * The status of the warn metric to warn the admin on
-   *
-   * Defaults to null.
-   */
-    warnMetricStatus: WarnMetricStatus;
 }
 
 export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
@@ -200,7 +186,6 @@ const DEFAULT_OPTIONS: TextFormattingOptions = {
     atMentions: false,
     minimumHashtagLength: 3,
     proxyImages: false,
-    isWarnMetricEnabled: false,
 };
 
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
@@ -269,10 +254,6 @@ export function doFormatText(text: string, options: TextFormattingOptions, emoji
     // replace important words and phrases with tokens
     if (options.atMentions) {
         output = autolinkAtMentions(output, tokens);
-    }
-
-    if (options.isWarnMetricEnabled) {
-        output = autolinkWarnMetricStatus(output, tokens);
     }
 
     if (options.channelNamesMap) {

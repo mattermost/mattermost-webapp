@@ -83,7 +83,7 @@ exports[`components/WarnMetricAckModal error display 1`] = `
                   defaultMessage="Email us"
                   messageId="warn_metric_ack_modal.mailto.link"
                   onClickHandler={[Function]}
-                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Mattermost%20support%20request%3Aaae_id&body=Mattermost%20support%20request%20for%20aae_id%3A%20Team%20exceeds%20500%20users.%20Consider%20activating%20user%20management%20access%20controls%20to%20ensure%20compliance.%0D%0AContact%20Fake%20Person%0D%0AEmail%20a%40test.com%0D%0ASite%20URL%20http%3A%2F%2Flocalhost%3A8065%0D%0AIf%20you%20have%20any%20additional%20inquiries%2C%20please%20contact%20support%40mattermost.com"
+                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Mattermost%20support%20request%3Aaae_id&body=Mattermost%20support%20request%20for%20aae_id%3A%20Team%20exceeds%20500%20users.%20Consider%20activating%20user%20management%20access%20controls%20to%20ensure%20compliance.%0D%0AContact%20Fake%20Person%0D%0AEmail%20a%40test.com%0D%0ASite%20URL%20http%3A%2F%2Flocalhost%3A8065%0D%0ADiagnostic%20Id%20diag_0%0D%0AIf%20you%20have%20any%20additional%20inquiries%2C%20please%20contact%20support%40mattermost.com"
                 />,
               }
             }

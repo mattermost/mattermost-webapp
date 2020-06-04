@@ -29,6 +29,7 @@ describe('components/WarnMetricAckModal', () => {
             email: 'a@test.com',
         } as UserProfile,
         show: false,
+        diagnosticId: 'diag_0',
         closeParentComponent: jest.fn(),
         warnMetricStatus: {
             id: 'metric1',

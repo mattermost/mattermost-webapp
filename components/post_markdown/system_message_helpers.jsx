@@ -351,18 +351,6 @@ function renderMeMessage(post) {
     return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
 }
 
-//Note: this assumes that the locale at the server is the same as the locale at the client!
-function renderWarnMetricStatusMessage(post) {
-    const options = {
-        markdown: true,
-        isWarnMetricEnabled: true,
-        warnMetricStatus: post.props.warnMetricStatus,
-    };
-
-    const ackMessage = renderFormattedText(post.message, options);
-    return (ackMessage);
-}
-
 const systemMessageRenderers = {
     [Posts.POST_TYPES.JOIN_CHANNEL]: renderJoinChannelMessage,
     [Posts.POST_TYPES.GUEST_JOIN_CHANNEL]: renderGuestJoinChannelMessage,
@@ -407,8 +395,6 @@ export function renderSystemMessage(post, channel, isUserCanManageMembers) {
         return systemMessageRenderers[post.type](post);
     } else if (post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL) {
         return renderAddToChannelMessage(post);
-    } else if (post.type === Posts.POST_TYPES.SYSTEM_WARN_METRIC_STATUS) {
-        return renderWarnMetricStatusMessage(post);
     } else if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY) {
         const {allUserIds, allUsernames, messageData} = post.props.user_activity;
 

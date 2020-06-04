@@ -8,7 +8,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics, sendWarnMetricAck} from 'mattermost-redux/actions/admin';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from '../../selectors/views/modals';
@@ -21,10 +21,13 @@ type Props = {
 };
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
+    const config = getConfig(state);
+
     return {
         stats: state.entities.admin.analytics,
         user: getCurrentUser(state),
         license: getLicense(state),
+        diagnosticId: config.DiagnosticId,
         show: isModalOpen(state, ModalIdentifiers.WARN_METRIC_ACK),
         closeParentComponent: ownProps.closeParentComponent,
     };

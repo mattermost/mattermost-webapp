@@ -343,7 +343,8 @@ export const SocketEvents = {
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
     RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
-    WARN_METRICS_STATUS: 'warn_metrics_status',
+    WARN_METRIC_STATUS_RECEIVED: 'warn_metric_status_received',
+    WARN_METRIC_STATUS_REMOVED: 'warn_metric_status_removed',
 };
 
 export const TutorialSteps = {
@@ -376,7 +377,6 @@ export const PostTypes = {
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
     ME: 'me',
-    SYSTEM_WARN_METRIC_STATUS: 'warn_metric_status',
 };
 
 export const StatTypes = keyMirror({

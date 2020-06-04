@@ -445,8 +445,12 @@ export function handleEvent(msg) {
         handleGroupNotAssociatedToChannelEvent(msg);
         break;
 
-    case SocketEvents.WARN_METRICS_STATUS:
-        handleWarnMetricsStatus(msg);
+    case SocketEvents.WARN_METRIC_STATUS_RECEIVED:
+        handleWarnMetricStatusReceivedEvent(msg);
+        break;
+
+    case SocketEvents.WARN_METRIC_STATUS_REMOVED:
+        handleWarnMetricStatusRemovedEvent(msg);
         break;
 
     default:
@@ -1134,10 +1138,6 @@ function handleLicenseChanged(msg) {
     store.dispatch({type: GeneralTypes.CLIENT_LICENSE_RECEIVED, data: msg.data.license});
 }
 
-function handleWarnMetricsStatus(msg) {
-    store.dispatch({type: GeneralTypes.RECEIVED_WARN_METRICS_STATUS, data: msg.data});
-}
-
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
 }
@@ -1197,4 +1197,12 @@ function handleGroupNotAssociatedToChannelEvent(msg) {
         type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
         data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
     });
+}
+
+function handleWarnMetricStatusReceivedEvent(msg) {
+    store.dispatch({type: GeneralTypes.WARN_METRIC_STATUS_RECEIVED, data: JSON.parse(msg.data.warnMetricStatus)});
+}
+
+function handleWarnMetricStatusRemovedEvent(msg) {
+    store.dispatch({type: GeneralTypes.WARN_METRIC_STATUS_REMOVED, data: {id: msg.data.warnMetricId}});
 }

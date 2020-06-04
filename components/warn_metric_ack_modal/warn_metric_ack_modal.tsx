@@ -22,6 +22,7 @@ const StatTypes = Constants.StatTypes;
 type Props = {
     user: UserProfile;
     license?: Record<string, any>;
+    diagnosticId?: string;
     show: boolean;
     closeParentComponent?: () => Promise<void>;
     stats: Record<string, any>;
@@ -84,14 +85,14 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         }
 
         const mailRecipient = 'support@mattermost.com';
-        const mailSubject = encodeURIComponent('Mattermost support request:' + this.props.warnMetricStatus.aae_id);
-
+        const mailSubject = 'Mattermost support request:' + this.props.warnMetricStatus.aae_id;
         let mailBody = 'Mattermost support request for ' + this.props.warnMetricStatus.aae_id + ': Team exceeds ' + this.props.warnMetricStatus.limit + ' users. Consider activating user management access controls to ensure compliance.';
         mailBody += '\r\n';
         mailBody += 'Contact ' + this.props.user.first_name + ' ' + this.props.user.last_name;
         mailBody += '\r\n';
         mailBody += 'Email ' + this.props.user.email;
         mailBody += '\r\n';
+
         if (this.props.stats[StatTypes.TOTAL_USERS]) {
             mailBody += 'Registered Users ' + this.props.stats[StatTypes.TOTAL_USERS];
             mailBody += '\r\n';
@@ -99,10 +100,12 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         mailBody += 'Site URL ' + getSiteURL();
         mailBody += '\r\n';
 
-        mailBody += 'If you have any additional inquiries, please contact support@mattermost.com';
-        mailBody = encodeURIComponent(mailBody);
+        mailBody += 'Diagnostic Id ' + this.props.diagnosticId;
+        mailBody += '\r\n';
 
-        const mailToLinkText = 'mailto:' + mailRecipient + '?cc=' + this.props.user.email + '&subject=' + mailSubject + '&body=' + mailBody;
+        mailBody += 'If you have any additional inquiries, please contact support@mattermost.com';
+
+        const mailToLinkText = 'mailto:' + mailRecipient + '?cc=' + this.props.user.email + '&subject=' + encodeURIComponent(mailSubject) + '&body=' + encodeURIComponent(mailBody);
 
         this.setState({forceAck: true});
         return (
