@@ -18,7 +18,7 @@ function emojiVerification(postId) {
     cy.get(`${postMessageTextId} p span span.emoticon`).should('have.attr', 'title', ':slightly_smiling_face:');
 
     // * Check for the punctuation('=') is exists without space
-    cy.get(`${postMessageTextId} p`).should('same.text', '=');
+    cy.get(`${postMessageTextId} p`).should('same.text', ':slightly_smiling_face:=');
 }
 
 describe('Messaging', () => {

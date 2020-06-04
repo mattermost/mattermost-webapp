@@ -152,7 +152,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
         <span
           className="search-hint__suggestion-list__label"
         >
-          -
+          —
         </span>
       </div>
       <div
@@ -337,7 +337,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
         <span
           className="search-hint__suggestion-list__label"
         >
-          -
+          —
         </span>
       </div>
       <div
