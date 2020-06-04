@@ -2632,7 +2632,6 @@
   "sidebar.createPublicPrivateChannel": "Créer un canal public ou privé",
   "sidebar.directchannel.you": "{displayname} (vous)",
   "sidebar.leave": "Quitter le canal",
-  "sidebar.mainMenu": "Menu principal",
   "sidebar.moreElips": "Plus...",
   "sidebar.removeList": "Retirer de la liste",
   "sidebar.tutorialScreen1.body": "Les **canaux** organisent les conversations en différents sujets. Ils sont ouverts à tous les membres de votre équipe. Pour envoyer des communications privées, utilisez les **messages personnels** pour une personne seule ou les **canaux privés** pour plusieurs personnes.",
