@@ -2632,7 +2632,6 @@
   "sidebar.createPublicPrivateChannel": "Herkese açık ya da özel bir kanal ekle",
   "sidebar.directchannel.you": "{displayname} (siz)",
   "sidebar.leave": "Kanaldan Ayrıl",
-  "sidebar.mainMenu": "Ana Menü",
   "sidebar.moreElips": "Diğer...",
   "sidebar.removeList": "Listeden çıkar",
   "sidebar.tutorialScreen1.body": "**Kanallar** farklı konulardaki görüşmeleri düzenlemek için kullanılır. Takımınızdaki herkese açıktır. Özel ileti gönderirken tek bir kişi için **Doğrudan İleti**, bir kaç kişi için **Özel Kanalları** kullanabilirsiniz.",

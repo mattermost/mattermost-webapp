@@ -41,7 +41,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
     }
 };
 
-describe('Session Lengths', () => {
+describe('MM-T2574 Session Lengths', () => {
     before(() => {
         cy.requireLicense();
         goToSessionLengths();
@@ -77,6 +77,50 @@ describe('Session Lengths', () => {
                 const setting = response.body.ServiceSettings.SessionIdleTimeoutInMinutes;
                 expect(setting).to.equal(43201);
             });
+        });
+    });
+
+    it('should match help text', () => {
+        const helpText = {
+            extendSessionLengthWithActivity: {
+                false: 'When true, sessions will be automatically extended when the user is active in their Mattermost client. Users sessions will only expire if they are not active in their Mattermost client for the entire duration of the session lengths defined in the fields below. When false, sessions will not extend with activity in Mattermost. User sessions will immediately expire at the end of the session length or idle timeouts defined below. ',
+                true: 'When true, sessions will be automatically extended when the user is active in their Mattermost client. Users sessions will only expire if they are not active in their Mattermost client for the entire duration of the session lengths defined in the fields below. When false, sessions will not extend with activity in Mattermost. User sessions will immediately expire at the end of the session length or idle timeouts defined below. ',
+            },
+            sessionLengthWebInDays: {
+                false: 'The number of days from the last time a user entered their credentials to the expiry of the user\'s session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
+                true: 'Set the number of days from the last activity in Mattermost to the expiry of the user’s session when using email and AD/LDAP authentication. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
+            },
+            sessionLengthMobileInDays: {
+                false: 'The number of days from the last time a user entered their credentials to the expiry of the user\'s session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
+                true: 'Set the number of days from the last activity in Mattermost to the expiry of the user’s session on mobile. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
+            },
+            sessionLengthSSOInDays: {
+                false: 'The number of days from the last time a user entered their credentials to the expiry of the user\'s session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
+                true: 'Set the number of days from the last activity in Mattermost to the expiry of the user’s session for SSO authentication, such as SAML, GitLab and OAuth 2.0. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
+            },
+            sessionCacheInMinutes: {
+                false: 'The number of minutes to cache a session in memory.',
+                true: 'The number of minutes to cache a session in memory.',
+            },
+            sessionIdleTimeoutInMinutes: {
+                false: 'The number of minutes from the last time a user was active on the system to the expiry of the user\'s session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement.',
+            },
+        };
+
+        cy.get('#extendSessionLengthWithActivityfalse').check();
+        Object.entries(helpText).forEach(([key, value]) => {
+            cy.findByTestId(key).should('exist');
+            cy.findByTestId(`${key}help-text`).should('have.text', value.false);
+        });
+
+        cy.get('#extendSessionLengthWithActivitytrue').check();
+        Object.entries(helpText).forEach(([key, value]) => {
+            if (value.true) {
+                cy.findByTestId(key).should('exist');
+                cy.findByTestId(`${key}help-text`).should('have.text', value.true);
+            } else {
+                cy.findByTestId(key).should('not.exist');
+            }
         });
     });
 });
