@@ -41,7 +41,7 @@ export default class SearchResultsHeader extends React.PureComponent {
         const shrinkSidebarTooltip = (
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
-                    id='rhs_header.shrinkSidebarTooltip'
+                    id='rhs_header.collapseSidebarTooltip'
                     defaultMessage='Collapse Sidebar'
                 />
             </Tooltip>
@@ -73,7 +73,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                                 )}
                             </FormattedMessage>
                             <FormattedMessage
-                                id='rhs_header.expandTooltip.icon'
+                                id='rhs_header.collapseSidebarTooltip.icon'
                                 defaultMessage='Collapse Sidebar Icon'
                             >
                                 {(ariaLabel) => (
