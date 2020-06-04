@@ -328,7 +328,6 @@ export default class ChannelModeration extends React.PureComponent<Props> {
                     const publicOrPrivate = this.props.isPublic ? 'public' : 'private';
                     schemeLink = schemeLink.replace('{public_or_private}', publicOrPrivate);
                 }
-
             }
 
             errorMessages.push(
