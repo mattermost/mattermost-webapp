@@ -53,7 +53,7 @@ export default class ActionButton extends React.PureComponent {
                 data-action-cookie={action.cookie}
                 disabled={disabled}
                 key={action.id}
-                onClick={handleAction}
+                onClick={e => handleAction(e, this.props.action.options)}
                 style={customButtonStyle}
             >
                 <Markdown

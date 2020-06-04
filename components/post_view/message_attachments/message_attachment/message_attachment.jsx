@@ -144,12 +144,19 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
-    handleAction = (e) => {
+    handleAction = (e, actionOptions) => {
         e.preventDefault();
         const actionId = e.currentTarget.getAttribute('data-action-id');
         const actionCookie = e.currentTarget.getAttribute('data-action-cookie');
 
         this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie);
+
+        if (actionOptions) {
+            let extUrlOption = actionOptions.find(option => option.text == 'ExternalUrl')
+            if(extUrlOption) {
+                window.location.href = extUrlOption.value;
+            }
+        }
     };
 
     getFieldsTable = () => {
