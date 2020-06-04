@@ -58,6 +58,7 @@ describe('Messaging', () => {
 
         // # Visit the Town Square channel
         cy.visit('/ad-1/channels/town-square');
+        cy.get('#post_textbox').should('be.visible');
     });
 
     afterEach(() => {
@@ -68,24 +69,23 @@ describe('Messaging', () => {
     });
 
     it('M15406 - Focus move from Recent Mentions to main input box when a character key is selected', () => {
-        //#Click the flag icon to open the flagged posts RHS to move the focus out of the main input box
+        // # Click the flag icon to open the flagged posts RHS to move the focus out of the main input box
         cy.get('#channelHeaderFlagButton').click();
-
-        //#Making sure Flagged Posts is present on the page
-        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Flagged Posts').should('be.visible');
+        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
         cy.get('#post_textbox').should('not.be.focused');
 
-        //#Push a character key such as "A"
+        // # Push a character key such as "A"
+        // # Expect to have "A" value in main input
         cy.get('body').type('A');
-
-        //#Expect to have "A" value in main input
         cy.get('#post_textbox').should('be.focused');
 
-        //#Click the @ icon to open the Recent mentions RHS to move the focus out of the main input box
+        // # Click the @ icon to open the Recent mentions RHS to move the focus out of the main input box
         cy.get('#channelHeaderMentionButton').click({force: true});
+        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
         cy.get('#post_textbox').should('not.be.focused');
 
-        //#Push a character key such as "B"
+        // # Push a character key such as "B"
+        // # Expect to have "A" value in main input
         cy.get('body').type('B');
         cy.get('#post_textbox').should('be.focused');
     });
@@ -159,8 +159,11 @@ describe('Messaging', () => {
             });
         });
     });
+
     it('M17455 - Focus does not move for non-character keys', () => {
-        //# Make sure main input is not focused
+        // # Click the flag icon to open the flagged posts RHS to move the focus out of the main input box
+        cy.get('#channelHeaderFlagButton').click();
+        cy.get('#searchContainer', {timeout: TIMEOUTS.SMALL}).contains('Search').should('be.visible');
         cy.get('#post_textbox').should('not.be.focused');
 
         // Keycodes for keys that don't have a special character sequence for cypress.type()

@@ -21,10 +21,6 @@ import theme from '../fixtures/theme.json';
 // https://api.mattermost.com/#tag/authentication
 // *****************************************************************************
 
-/**
- * Login a user directly via API
- * @param {String} username - e.g. "user-1" (default)
- */
 Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -37,9 +33,6 @@ Cypress.Commands.add('apiLogin', (username = 'user-1', password = null) => {
     });
 });
 
-/**
- * Logout a user directly via API
- */
 Cypress.Commands.add('apiLogout', () => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -59,16 +52,19 @@ Cypress.Commands.add('apiLogout', () => {
     cy.getCookies({log: false}).should('be.empty');
 });
 
-/**
- * Get a list of all the bots
- * This API assumes that the user logged in has permission to read bots
- */
+// *******************************************************************************
+// Bots
+// https://api.mattermost.com/#tag/bots
+// *******************************************************************************
 
 Cypress.Commands.add('apiGetBots', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
         method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
     });
 });
 
@@ -77,17 +73,6 @@ Cypress.Commands.add('apiGetBots', () => {
 // https://api.mattermost.com/#tag/channels
 // *****************************************************************************
 
-/**
- * Creates a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} teamId - The team ID of the team to create the channel on
- * @param {String} name - The unique handle for the channel, will be present in the channel URL
- * @param {String} displayName - The non-unique UI name for the channel
- * @param {String} type - 'O' for a public channel (default), 'P' for a private channel
- * @param {String} purpose - A short description of the purpose of the channel
- * @param {String} header - Markdown-formatted text to display in the header of the channel
- * All parameters required except purpose and header
- */
 Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '') => {
     const uniqueName = `${name}-${getRandomId()}`;
 
@@ -109,27 +94,18 @@ Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O',
     });
 });
 
-/**
- * Creates a new Direct channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} userids - array of userids
- * All parameters required
- */
 Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/channels/direct',
         method: 'POST',
         body: userids,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
     });
 });
 
-/**
- * Creates a group channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} userIds - IDs of users as member of the group
- * All parameters required except purpose and header
- */
 Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -142,12 +118,6 @@ Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
     });
 });
 
-/**
- * Deletes a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - The channel ID to be deleted
- * All parameter required
- */
 Cypress.Commands.add('apiDeleteChannel', (channelId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -159,18 +129,6 @@ Cypress.Commands.add('apiDeleteChannel', (channelId) => {
     });
 });
 
-/**
- * Updates a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - The channel's id, not updatable
- * @param {Object} channelData
- *   {String} name - The unique handle for the channel, will be present in the channel URL
- *   {String} display_name - The non-unique UI name for the channel
- *   {String} type - 'O' for a public channel (default), 'P' for a private channel
- *   {String} purpose - A short description of the purpose of the channel
- *   {String} header - Markdown-formatted text to display in the header of the channel
- * Only channelId is required
- */
 Cypress.Commands.add('apiUpdateChannel', (channelId, channelData) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -186,17 +144,6 @@ Cypress.Commands.add('apiUpdateChannel', (channelId, channelData) => {
     });
 });
 
-/**
- * Partially update a channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - The channel's id, not updatable
- * @param {Object} channelData
- *   {String} name - The unique handle for the channel, will be present in the channel URL
- *   {String} display_name - The non-unique UI name for the channel
- *   {String} purpose - A short description of the purpose of the channel
- *   {String} header - Markdown-formatted text to display in the header of the channel
- * Only channelId is required
- */
 Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},

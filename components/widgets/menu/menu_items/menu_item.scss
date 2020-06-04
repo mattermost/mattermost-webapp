@@ -7,6 +7,12 @@
         display: flex;
         align-items: center;
 
+        &.MenuItem--with-icon {
+            .MenuItem__help-text {
+                padding-left: 28px;
+            }
+        }
+
         .MenuItem__icon {
             text-align: center;
             width: 20px;
@@ -14,14 +20,16 @@
         }
 
         span.icon {
-            width: 30px;
-            padding-right: 15px;
+            width: 28px; // less 12px padding is 16px
+            height: 16px; // less 3px top padding is 16px;
+            padding-right: 12px;
+            line-height: 16px;
             display: inline-block;
-            text-align: center;
+            align-self: center;
         }
 
         span.MenuItem__primary-text {
-            display: block;
+            display: inline-flex;
             white-space: normal;
             line-height: 22px;
             padding: 5px 0;
