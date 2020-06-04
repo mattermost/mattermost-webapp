@@ -152,8 +152,8 @@ export default class MessageAttachment extends React.PureComponent {
         this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie);
 
         if (actionOptions) {
-            let extUrlOption = actionOptions.find(option => option.text == 'ExternalUrl')
-            if(extUrlOption) {
+            const extUrlOption = actionOptions.find((option) => option.text === 'ExternalUrl');
+            if (extUrlOption) {
                 window.location.href = extUrlOption.value;
             }
         }
