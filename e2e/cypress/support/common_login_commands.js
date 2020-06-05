@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.add('checkLoginPage', (settings = {}) => {
     // * Check the title
@@ -78,23 +77,21 @@ Cypress.Commands.add('doMemberLogoutFromSignUp', () => {
 });
 
 Cypress.Commands.add('skipOrCreateTeam', (settings, userId) => {
-    let teamName = '';
+    return cy.get('body').then((body) => {
+        let teamName = '';
 
-    cy.get('body').then((body) => {
+        // # Create a team if a user is not member of any team
         if (body.text().includes('Create a team')) {
+            teamName = 't' + userId.substring(0, 14);
+
             cy.checkCreateTeamPage(settings);
 
-            teamName = 't' + userId.substring(0, 14);
-            cy.findByText('Create a team').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
-                cy.get('input[id="teamNameInput"]').should('be.visible').type(teamName, {force: true}).wait(TIMEOUTS.TINY).then(() => {
-                    cy.findByText('Next').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
-                        cy.findByText('Finish').should('be.visible').click().wait(TIMEOUTS.TINY).then(() => {
-                            settings.teamName = teamName;
-                        });
-                    });
-                });
-            });
-            settings.teamName = teamName;
+            cy.findByText('Create a team').scrollIntoView().should('be.visible').click();
+            cy.get('#teamNameInput').should('be.visible').type(teamName, {force: true});
+            cy.findByText('Next').should('be.visible').click();
+            cy.findByText('Finish').should('be.visible').click();
         }
+
+        return cy.wrap(teamName);
     });
 });

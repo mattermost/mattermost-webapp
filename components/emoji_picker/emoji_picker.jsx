@@ -13,6 +13,10 @@ import imgTrans from 'images/img_trans.gif';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+
+import {NoResultsVariant} from 'components/no_results_indicator/types';
+
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
@@ -142,7 +146,7 @@ export default class EmojiPicker extends React.PureComponent {
             incrementEmojiPickerPage: PropTypes.func.isRequired,
         }).isRequired,
         filter: PropTypes.string.isRequired,
-        handleFilterChange: PropTypes.func.isRequired
+        handleFilterChange: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -421,9 +425,19 @@ export default class EmojiPicker extends React.PureComponent {
             }
             break;
         case 'ArrowUp':
+            e.preventDefault();
             if (e.shiftKey) {
+                // If Shift + Ctrl/Cmd + Up is pressed at any time,
+                // select/highlight the string to the left of the cursor.
                 e.target.selectionStart = 0;
-            } else if (this.state.cursor[1] < EMOJI_PER_ROW) {
+            } else if (this.state.cursor[0] === -1) {
+                // If cursor is on the textbox,
+                // set the cursor to the beginning of the string.
+                e.target.selectionStart = 0;
+                e.target.selectionEnd = 0;
+            } else if (this.state.cursor[0] === 0 && this.state.cursor[1] < EMOJI_PER_ROW) {
+                // If the cursor is highlighting an emoji in the top row,
+                // move the cursor back into the text box to the end of the string.
                 this.setState({
                     cursor: [-1, -1],
                 });
@@ -431,18 +445,23 @@ export default class EmojiPicker extends React.PureComponent {
                 e.target.selectionEnd = this.props.filter.length;
                 this.searchInput.focus();
             } else {
-                e.preventDefault();
+                // Otherwise, move the emoji selector up a row.
                 this.selectPrevEmoji(EMOJI_PER_ROW);
             }
             break;
         case 'ArrowDown':
+            e.preventDefault();
             if (e.shiftKey) {
+                // If Shift + Ctrl/Cmd + Down is pressed at any time,
+                // select/highlight the string to the right of the cursor.
                 e.target.selectionEnd = this.props.filter.length;
-            } else if (e.target.selectionStart === 0) {
+            } else if (this.props.filter && e.target.selectionStart === 0) {
+                // If the cursor is at the beginning of the string,
+                // move the cursor to the end of the string.
                 e.target.selectionStart = this.props.filter.length;
                 e.target.selectionEnd = this.props.filter.length;
             } else {
-                e.preventDefault();
+                // Otherwise, move the selection down in the emoji picker.
                 this.selectNextEmoji(EMOJI_PER_ROW);
             }
             break;
@@ -683,6 +702,14 @@ export default class EmojiPicker extends React.PureComponent {
                     {items}
                 </EmojiPickerCategorySection>
             )];
+
+            if (items.length === 0) {
+                return (
+                    <NoResultsIndicator
+                        variant={NoResultsVariant.ChannelSearch}
+                        titleValues={{channelName: `"${this.props.filter}"`}}
+                    />);
+            }
         }
 
         return (

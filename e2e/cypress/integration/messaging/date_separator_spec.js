@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import users from '../../fixtures/users.json';
@@ -28,6 +27,13 @@ describe('Messaging', () => {
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {
             newChannel = channel;
+        });
+    });
+
+    after(() => {
+        cy.apiPatchMe({
+            locale: 'en',
+            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
         });
     });
 

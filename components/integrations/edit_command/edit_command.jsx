@@ -69,7 +69,7 @@ export default class EditCommand extends React.PureComponent {
                     this.setState({
                         originalCommand: Object.values(this.props.commands).filter((command) => command.id === this.props.commandId)[0],
                     });
-                }
+                },
             );
         }
     }

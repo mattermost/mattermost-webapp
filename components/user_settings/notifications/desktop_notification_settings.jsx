@@ -11,7 +11,7 @@ import {t} from 'utils/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-export default class DesktopNotificationSettings extends React.Component {
+export default class DesktopNotificationSettings extends React.PureComponent {
     handleMinUpdateSection = (section) => {
         this.props.updateSection(section);
 
@@ -192,7 +192,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 </fieldset>
                 <hr/>
                 {soundSection}
-            </div>
+            </div>,
         );
 
         return (

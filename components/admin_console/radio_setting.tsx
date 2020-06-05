@@ -15,7 +15,7 @@ interface Props {
     helpText?: React.ReactNode;
     onChange(id: string, value: any): void;
 }
-export default class RadioSetting extends React.Component<Props> {
+export default class RadioSetting extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         disabled: false,
     };
@@ -43,7 +43,7 @@ export default class RadioSetting extends React.Component<Props> {
                         />
                         {text}
                     </label>
-                </div>
+                </div>,
             );
         }
 

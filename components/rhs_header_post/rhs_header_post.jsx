@@ -9,13 +9,20 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
+import {isMobile} from 'utils/utils.jsx';
+import {browserHistory} from 'utils/browser_history';
 
-export default class RhsHeaderPost extends React.Component {
+export default class RhsHeaderPost extends React.PureComponent {
     static propTypes = {
+        rootPostId: PropTypes.string.isRequired,
+        channel: PropTypes.object.isRequired,
         previousRhsState: PropTypes.oneOf(
-            Object.values(RHSStates)
+            Object.values(RHSStates),
         ),
+        isExpanded: PropTypes.bool.isRequired,
+        relativeTeamUrl: PropTypes.string.isRequired,
         actions: PropTypes.shape({
+            setRhsExpanded: PropTypes.func,
             showMentions: PropTypes.func,
             showSearchResults: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
@@ -46,13 +53,23 @@ export default class RhsHeaderPost extends React.Component {
         }
     }
 
+    handleJumpClick = () => {
+        if (isMobile()) {
+            this.props.actions.closeRightHandSide();
+        }
+
+        this.props.actions.setRhsExpanded(false);
+        const teamUrl = this.props.relativeTeamUrl;
+        browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
+    }
+
     render() {
         let back;
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.closeSidebarTooltip'
-                    defaultMessage='Close Sidebar'
+                    defaultMessage='Close'
                 />
             </Tooltip>
         );
@@ -105,11 +122,13 @@ export default class RhsHeaderPost extends React.Component {
         const shrinkSidebarTooltip = (
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
-                    id='rhs_header.shrinkSidebarTooltip'
-                    defaultMessage='Shrink Sidebar'
+                    id='rhs_header.collapseSidebarTooltip'
+                    defaultMessage='Collapse Sidebar'
                 />
             </Tooltip>
         );
+
+        const channelName = this.props.channel.display_name;
 
         if (backToResultsTooltip) {
             back = (
@@ -129,7 +148,7 @@ export default class RhsHeaderPost extends React.Component {
                         >
                             {(ariaLabel) => (
                                 <i
-                                    className='fa fa-angle-left'
+                                    className='icon icon-arrow-back-ios'
                                     aria-label={ariaLabel}
                                 />
                             )}
@@ -145,20 +164,28 @@ export default class RhsHeaderPost extends React.Component {
                     {back}
                     <FormattedMessage
                         id='rhs_header.details'
-                        defaultMessage='Message Details'
+                        defaultMessage='Thread'
                     />
+                    {channelName &&
+                        <button
+                            onClick={this.handleJumpClick}
+                            className='style--none sidebar--right__title__channel'
+                        >
+                            {channelName}
+                        </button>
+                    }
                 </span>
                 <div className='pull-right'>
-                    <button
-                        type='button'
-                        className='sidebar--right__expand'
-                        aria-label='Expand'
-                        onClick={this.props.actions.toggleRhsExpanded}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={expandSidebarTooltip}
+                        <button
+                            type='button'
+                            className='sidebar--right__expand btn-icon'
+                            aria-label='Expand'
+                            onClick={this.props.actions.toggleRhsExpanded}
                         >
                             <FormattedMessage
                                 id='rhs_header.expandSidebarTooltip.icon'
@@ -166,42 +193,36 @@ export default class RhsHeaderPost extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-expand'
+                                        className='icon icon-arrow-expand'
                                         aria-label={ariaLabel}
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={shrinkSidebarTooltip}
-                        >
                             <FormattedMessage
-                                id='rhs_header.expandTooltip.icon'
-                                defaultMessage='Shrink Sidebar Icon'
+                                id='rhs_header.collapseSidebarTooltip.icon'
+                                defaultMessage='Collapse Sidebar Icon'
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-compress'
+                                        className='icon icon-arrow-collapse'
                                         aria-label={ariaLabel}
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
-                    <button
-                        id='rhsCloseButton'
-                        type='button'
-                        className='sidebar--right__close'
-                        aria-label='Close'
-                        onClick={this.props.actions.closeRightHandSide}
-                    >
+                        </button>
+                    </OverlayTrigger>
 
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={closeSidebarTooltip}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={closeSidebarTooltip}
+                    >
+                        <button
+                            id='rhsCloseButton'
+                            type='button'
+                            className='sidebar--right__close btn-icon'
+                            aria-label='Close'
+                            onClick={this.props.actions.closeRightHandSide}
                         >
                             <FormattedMessage
                                 id='rhs_header.closeTooltip.icon'
@@ -209,13 +230,13 @@ export default class RhsHeaderPost extends React.Component {
                             >
                                 {(ariaLabel) => (
                                     <i
-                                        className='fa fa-sign-out'
+                                        className='icon icon-close'
                                         aria-label={ariaLabel}
                                     />
                                 )}
                             </FormattedMessage>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </div>
             </div>
         );

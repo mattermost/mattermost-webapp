@@ -14,7 +14,7 @@ import users from '../../fixtures/users';
 
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 const sysadmin = users.sysadmin;
 
@@ -33,7 +33,7 @@ describe('Channel sidebar', () => {
 
     it('should switch channels when clicking on a channel in the sidebar', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -50,13 +50,12 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannel:contains(Town Square)').should('be.visible').click();
 
         // * Verify that the channel changed
-        cy.url().should('include', `/${teamName}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        verifyChannelSwitch('Town Square', `/${teamName}/channels/town-square`);
     });
 
     it('should mark channel as read and unread in sidebar', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -81,7 +80,7 @@ describe('Channel sidebar', () => {
 
     it('should remove channel from sidebar after leaving it', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -98,8 +97,7 @@ describe('Channel sidebar', () => {
         cy.get('#channelLeaveChannel').should('be.visible').click();
 
         // * Verify that we've switched to Town Square
-        cy.url().should('include', `/${teamName}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        verifyChannelSwitch('Town Square', `/${teamName}/channels/town-square`);
 
         // * Verify that Off Topic has disappeared from the sidebar
         cy.get('.SidebarChannel:contains(Off-Topic)').should('not.exist');
@@ -107,7 +105,7 @@ describe('Channel sidebar', () => {
 
     it('MM-23239 should remove channel from sidebar after deleting it', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -125,10 +123,14 @@ describe('Channel sidebar', () => {
         cy.get('#deleteChannelModalDeleteButton').should('be.visible').click();
 
         // * Verify that we've switched to Town Square
-        cy.url().should('include', `/${teamName}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        verifyChannelSwitch('Town Square', `/${teamName}/channels/town-square`);
 
         // * Verify that Off Topic has disappeared from the sidebar
         cy.get('.SidebarChannel:contains(Off-Topic)').should('not.exist');
     });
+
+    function verifyChannelSwitch(displayName, url) {
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', displayName);
+        cy.url().should('include', url);
+    }
 });

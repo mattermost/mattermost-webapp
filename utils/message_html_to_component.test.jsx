@@ -87,4 +87,21 @@ That was some latex!`;
         expect(component).toMatchSnapshot();
         expect(shallow(component).find(AtMention).prop('disableHighlight')).toBe(true);
     });
+
+    test('At mention with group highlight disabled', () => {
+        const options = {mentionHighlight: true, atMentions: true, mentionKeys: [{key: '@joram'}]};
+        let html = TextFormatting.formatText('@developers', options);
+
+        let component = messageHtmlToComponent(html, false, {disableGroupHighlight: false});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableGroupHighlight')).toBe(false);
+
+        options.disableGroupHighlight = true;
+
+        html = TextFormatting.formatText('@developers', options);
+
+        component = messageHtmlToComponent(html, false, {disableGroupHighlight: true});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(AtMention).prop('disableGroupHighlight')).toBe(true);
+    });
 });

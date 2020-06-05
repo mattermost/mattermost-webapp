@@ -23,16 +23,6 @@ describe('Interactive Menu', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
 
-        // Set required ServiceSettings
-        const newSettings = {
-            ServiceSettings: {
-                AllowedUntrustedInternalConnections: 'localhost',
-                EnablePostUsernameOverride: true,
-                EnablePostIconOverride: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         // # Update teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.apiSaveMessageDisplayPreference('clean');
@@ -93,7 +83,7 @@ function getPayload(webhookBaseUrl) {
                         spoiler: 'a < a | b > a',
                         skipSlackParsing: true,
                     },
-                }
+                },
             }, {
                 name: 'Do Parsing',
                 integration: {

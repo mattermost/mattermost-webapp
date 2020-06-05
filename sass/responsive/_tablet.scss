@@ -176,15 +176,10 @@
         }
 
         &.sidebar--right--expanded {
-            width: calc(100% - 220px);
+            width: calc(100% - 220px - 48px);
 
             .multi-teams & {
-                width: calc(100% - 285px);
-            }
-
-            .sidebar--right__bg {
-                background-color: alpha-color($black, .4);
-                visibility: visible;
+                width: calc(100% - 285px - 48px);
             }
 
             .search-bar__container {
@@ -197,21 +192,14 @@
             }
 
             .sidebar--right__expand {
-                .fa-expand {
+                .icon-arrow-expand {
                     display: none;
                 }
 
-                .fa-compress {
+                .icon-arrow-collapse {
                     display: inline-block;
                 }
             }
-        }
-
-        .sidebar--right__title {
-            display: inline-block;
-            max-width: 300px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
     }
 
@@ -514,6 +502,10 @@
 }
 
 @media screen and (max-width: 1020px) {
+    .channel-header {
+        z-index: 5;
+    }
+
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);

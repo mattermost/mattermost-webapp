@@ -104,7 +104,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             return this.teamOverrideUnavalableView(
                 t('admin.permissions.teamOverrideSchemesInProgress'),
                 'Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}.',
-                docLink
+                docLink,
             );
         }
 
@@ -257,6 +257,8 @@ t('admin.permissions.permission.create_direct_channel.description');
 t('admin.permissions.permission.create_direct_channel.name');
 t('admin.permissions.permission.create_group_channel.description');
 t('admin.permissions.permission.create_group_channel.name');
+t('admin.permissions.permission.create_post.description');
+t('admin.permissions.permission.create_post.name');
 t('admin.permissions.permission.create_private_channel.description');
 t('admin.permissions.permission.create_private_channel.name');
 t('admin.permissions.permission.create_public_channel.description');
@@ -276,6 +278,20 @@ t('admin.permissions.permission.delete_public_channel.name');
 t('admin.permissions.permission.edit_other_users.description');
 t('admin.permissions.permission.edit_other_users.name');
 t('admin.permissions.permission.edit_post.description');
+t('admin.permissions.group.guest_reactions.description');
+t('admin.permissions.group.guest_reactions.name');
+t('admin.permissions.group.guest_create_post.description');
+t('admin.permissions.group.guest_create_post.name');
+t('admin.permissions.group.guest_create_private_channel.description');
+t('admin.permissions.group.guest_create_private_channel.name');
+t('admin.permissions.group.guest_delete_post.description');
+t('admin.permissions.group.guest_delete_post.name');
+t('admin.permissions.group.guest_edit_post.description');
+t('admin.permissions.group.guest_edit_post.name');
+t('admin.permissions.group.guest_use_channel_mentions.description');
+t('admin.permissions.group.guest_use_channel_mentions.name');
+t('admin.permissions.group.guest_use_group_mentions.description');
+t('admin.permissions.group.guest_use_group_mentions.name');
 t('admin.permissions.permission.edit_post.name');
 t('admin.permissions.permission.import_team.description');
 t('admin.permissions.permission.import_team.name');

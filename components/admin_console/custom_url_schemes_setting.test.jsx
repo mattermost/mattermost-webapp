@@ -24,7 +24,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
             expect(wrapper).toMatchSnapshot();
 
@@ -38,7 +38,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
             expect(wrapper).toMatchSnapshot();
 
@@ -52,7 +52,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
             expect(wrapper).toMatchSnapshot();
 
@@ -68,7 +68,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
 
             wrapper.find(LocalizedInput).simulate('change', {target: {value: ''}});
@@ -83,7 +83,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
 
             wrapper.find(LocalizedInput).simulate('change', {target: {value: '  steam  '}});
@@ -98,7 +98,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
 
             wrapper.find(LocalizedInput).simulate('change', {target: {value: 'steam, git'}});
@@ -113,7 +113,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
 
             wrapper.find(LocalizedInput).simulate('change', {target: {value: 'ts3server, smtp, ms-excel'}});
@@ -128,7 +128,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
             };
 
             const wrapper = shallow(
-                <CustomUrlSchemesSetting {...props}/>
+                <CustomUrlSchemesSetting {...props}/>,
             );
 
             wrapper.find(LocalizedInput).simulate('change', {target: {value: ',,,,,chrome,,,,ms-excel,,'}});
@@ -144,7 +144,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
         };
 
         const wrapper = shallow(
-            <CustomUrlSchemesSetting {...props}/>
+            <CustomUrlSchemesSetting {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -156,7 +156,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
         };
 
         const wrapper = shallow(
-            <CustomUrlSchemesSetting {...props}/>
+            <CustomUrlSchemesSetting {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

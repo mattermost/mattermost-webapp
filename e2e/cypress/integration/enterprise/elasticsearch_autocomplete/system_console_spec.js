@@ -8,8 +8,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @elasticsearch_autocomplete
+// Group: @enterprise @elasticsearch @autocomplete
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -99,7 +98,6 @@ describe('Elasticsearch system console', () => {
         // * Get config from API and verify that EnableAutocomplete setting is false
         cy.apiGetConfig().then((configResponse) => {
             const config = configResponse.body;
-            cy.log(config.ElasticsearchSettings);
             expect(config.ElasticsearchSettings.EnableAutocomplete).to.be.false;
         });
     });

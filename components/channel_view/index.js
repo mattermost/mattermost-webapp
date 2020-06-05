@@ -26,7 +26,7 @@ const getDeactivatedChannel = createSelector(
     },
     (teammate) => {
         return Boolean(teammate && teammate.delete_at);
-    }
+    },
 );
 
 function mapStateToProps(state) {
@@ -40,12 +40,15 @@ function mapStateToProps(state) {
     let channelRolesLoading = true;
     if (channel && channel.id) {
         const roles = getRoles(state);
-        const channelRoles = getMyChannelRoles(state)[channel.id];
-        for (const roleName of channelRoles.values()) {
-            if (roles[roleName]) {
-                channelRolesLoading = false;
+        const myChannelRoles = getMyChannelRoles(state);
+        if (myChannelRoles[channel.id]) {
+            const channelRoles = myChannelRoles[channel.id].values();
+            for (const roleName of channelRoles) {
+                if (roles[roleName]) {
+                    channelRolesLoading = false;
+                }
+                break;
             }
-            break;
         }
     }
 

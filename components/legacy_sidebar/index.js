@@ -56,7 +56,7 @@ function mapStateToProps(state) {
         state,
         Preferences.CATEGORY_SIDEBAR_SETTINGS,
         'channel_switcher_section',
-        'true'
+        'true',
     );
 
     return {
@@ -72,7 +72,7 @@ function mapStateToProps(state) {
         canCreatePrivateChannel,
         isOpen: getIsLhsOpen(state),
         unreads: getUnreads(state),
-        viewArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true')
+        viewArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true'),
     };
 }
 

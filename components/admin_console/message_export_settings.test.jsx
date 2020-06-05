@@ -21,7 +21,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -52,7 +52,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -89,7 +89,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -133,7 +133,7 @@ describe('components/MessageExportSettings', () => {
         const wrapper = shallow(
             <MessageExportSettings
                 config={config}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -155,5 +155,58 @@ describe('components/MessageExportSettings', () => {
         expect(wrapper.find('#globalRelaySmtpUsername').prop('value')).toBe('globalRelayUser');
         expect(wrapper.find('#globalRelaySmtpPassword').prop('value')).toBe('globalRelayPassword');
         expect(wrapper.find('#globalRelayEmailAddress').prop('value')).toBe('globalRelay@mattermost.com');
+    });
+});
+
+describe('components/MessageExportSettings/getJobDetails', () => {
+    const baseProps = {
+        config: {
+            MessageExportSettings: {
+                EnableExport: true,
+                ExportFormat: 'actiance',
+                DailyRunTime: '01:00',
+                ExportFromTimestamp: 12345678,
+                BatchSize: 10000,
+            },
+        },
+    };
+
+    const wrapper = shallow(<MessageExportSettings {...baseProps}/>);
+
+    function runTest(testJob, expectNull, expectedCount) {
+        const jobDetails = wrapper.instance().getJobDetails(testJob);
+        if (expectNull) {
+            expect(jobDetails).toBe(null);
+        } else {
+            expect(jobDetails.length).toBe(expectedCount);
+        }
+    }
+
+    const job = {};
+    test('test no data', () => {
+        runTest(job, true, 0);
+    });
+
+    test('test success message, missing warnings', () => {
+        job.data = {
+            messages_exported: 3,
+        };
+        runTest(job, false, 1);
+    });
+
+    test('test success message, 0 warnings', () => {
+        job.data = {
+            messages_exported: 3,
+            warning_count: 0,
+        };
+        runTest(job, false, 1);
+    });
+
+    test('test warning message', () => {
+        job.data = {
+            messages_exported: 3,
+            warning_count: 2,
+        };
+        runTest(job, false, 2);
     });
 });

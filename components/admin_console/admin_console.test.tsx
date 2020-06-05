@@ -52,7 +52,7 @@ describe('components/AdminConsole', () => {
             isCurrentUserSystemAdmin: false,
         };
         const wrapper = shallow(
-            <AdminConsole {...props}/>
+            <AdminConsole {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -64,7 +64,7 @@ describe('components/AdminConsole', () => {
             isCurrentUserSystemAdmin: true,
         };
         const wrapper = shallow(
-            <AdminConsole {...props}/>
+            <AdminConsole {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
