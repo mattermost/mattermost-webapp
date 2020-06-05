@@ -271,7 +271,7 @@ export default class SearchBar extends React.PureComponent {
 
         let termsUsed = 0;
         this.props.searchTerms.split(/[: ]/g).forEach((word) => {
-            if (searchHintOptions.some(({searchTerm}) => searchTerm.toLowerCase() === `${word.toLowerCase()}:`)) {
+            if (searchHintOptions.some(({searchTerm}) => searchTerm.toLowerCase() === word.toLowerCase())) {
                 termsUsed++;
             }
         });
