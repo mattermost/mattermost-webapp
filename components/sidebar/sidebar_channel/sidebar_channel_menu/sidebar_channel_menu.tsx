@@ -31,6 +31,7 @@ type Props = {
     managePublicChannelMembers: boolean;
     managePrivateChannelMembers: boolean;
     closeHandler?: (callback: () => void) => void;
+    isCollapsed: boolean;
     actions: {
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
@@ -336,6 +337,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                     buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
                     tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
                     onToggle={this.onToggle}
+                    tabIndex={this.props.isCollapsed ? -1 : 0}
                 >
                     {this.renderDropdownItems()}
                 </SidebarMenu>
