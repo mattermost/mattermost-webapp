@@ -24,7 +24,7 @@ describe('components/UserProfile', () => {
             <UserProfile
                 {...baseProps}
                 disablePopover={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -34,7 +34,7 @@ describe('components/UserProfile', () => {
             <UserProfile
                 {...baseProps}
                 displayUsername={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

@@ -1047,6 +1047,10 @@
     .post-edited__indicator {
         @include opacity(.6);
         font-size: .87em;
+        -webkit-user-select: none; /* Chrome all / Safari all */
+        -moz-user-select: none;    /* Firefox all */
+        -ms-user-select: none;     /* IE 10+ */
+        user-select: none;
     }
 
     .emoticon {
@@ -1278,6 +1282,10 @@
                     height: 28px;
                     width: 28px;
                     min-width: 28px;
+                    -webkit-user-select: none; /* Chrome all / Safari all */
+                    -moz-user-select: none;    /* Firefox all */
+                    -ms-user-select: none;     /* IE 10+ */
+                    user-select: none;
                 }
             }
         }
@@ -1556,7 +1564,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-
+        -webkit-user-select: none; /* Chrome all / Safari all */
+        -moz-user-select: none;    /* Firefox all */
+        -ms-user-select: none;     /* IE 10+ */
+        user-select: none;
+    
         a {
             font-weight: bold;
         }

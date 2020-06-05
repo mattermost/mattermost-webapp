@@ -34,13 +34,13 @@ describe('Verify Accessibility Support in different Buttons', () => {
             cy.get('#rhsContainer').should('be.visible').within(() => {
                 // * Verify accessibility support in Sidebar Expand and Shrink icon
                 cy.get('button.sidebar--right__expand').should('have.attr', 'aria-label', 'Expand').within(() => {
-                    cy.get('.fa-expand').should('have.attr', 'aria-label', 'Expand the sidebar icon');
-                    cy.get('.fa-compress').should('have.attr', 'aria-label', 'Shrink the sidebar icon');
+                    cy.get('.icon-arrow-expand').should('have.attr', 'aria-label', 'Expand the sidebar icon');
+                    cy.get('.icon-arrow-collapse').should('have.attr', 'aria-label', 'Shrink the sidebar icon');
                 });
 
                 // * Verify accessibility support in Close icon
                 cy.get('#rhsCloseButton').should('have.attr', 'aria-label', 'Close').within(() => {
-                    cy.get('i').should('have.attr', 'aria-label', 'Close the sidebar icon');
+                    cy.get('.icon-close').should('have.attr', 'aria-label', 'Close the sidebar icon');
                 });
 
                 // # Close the sidebar

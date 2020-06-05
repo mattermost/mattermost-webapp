@@ -64,7 +64,7 @@ export default class BrandImageSetting extends React.PureComponent {
                 } else {
                     this.setState({brandImageExists: false});
                 }
-            }
+            },
         );
 
         this.props.registerSaveAction(this.handleSave);
@@ -123,7 +123,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     this.setState({
                         error: err.message,
                     });
-                }
+                },
             );
         } else if (this.state.brandImage) {
             await uploadBrandImage(
@@ -140,7 +140,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     this.setState({
                         error: err.message,
                     });
-                }
+                },
             );
         }
         return {error};

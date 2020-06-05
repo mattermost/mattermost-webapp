@@ -18,7 +18,7 @@ type Props = {
     doMakeUserTeamMember: (teamId: string) => Promise<void>;
 }
 
-export default class TeamRow extends React.Component<Props, {}> {
+export default class TeamRow extends React.PureComponent<Props, {}> {
     private renderTeamType = (team: {[x: string]: string}) => {
         if (team.group_constrained) {
             return (

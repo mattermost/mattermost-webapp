@@ -23,7 +23,7 @@ interface AdminGroupUsersState {
 
 export default class AdminGroupUsers extends React.PureComponent<AdminGroupUsersProps, AdminGroupUsersState> {
     state: AdminGroupUsersState = {
-        page: 0
+        page: 0,
     }
 
     previousPage = async () => {
@@ -67,7 +67,7 @@ export default class AdminGroupUsers extends React.PureComponent<AdminGroupUsers
                         values={{
                             startCount,
                             endCount,
-                            total
+                            total,
                         }}
                     />
                 </div>

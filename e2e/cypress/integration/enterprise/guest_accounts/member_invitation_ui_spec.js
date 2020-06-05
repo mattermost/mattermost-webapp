@@ -13,7 +13,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {getRandomInt} from '../../../utils';
+import {getRandomId} from '../../../utils';
 import users from '../../../fixtures/users.json';
 
 let testTeam;
@@ -76,8 +76,20 @@ function verifyInvitationSuccess(user, successText) {
     cy.get('.InvitationModal').should('not.exist');
 }
 
+function loginAsNewUser() {
+    // # Login as new user and get the user id
+    cy.apiCreateNewUser().then((newUser) => {
+        cy.apiAddUserToTeam(testTeam.id, newUser.id);
+
+        // # Logout sysadmin, then login as new user
+        cy.apiLogout();
+        cy.apiLogin(newUser.username, newUser.password);
+        cy.visit(`/${testTeam.name}`);
+    });
+}
+
 describe('Guest Account - Member Invitation Flow', () => {
-    before(() => {
+    beforeEach(() => {
         // * Check if server has license for Guest Accounts
         cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
@@ -101,11 +113,6 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     afterEach(() => {
-        // # Reload current page after each test to close any popup/modals left open
-        cy.reload();
-    });
-
-    after(() => {
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
             cy.apiLogin('sysadmin');
@@ -114,7 +121,7 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
-        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
 
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -189,15 +196,8 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-18040 Verify Invite New/Existing Users', () => {
-        // # Login as new user and get the user id
-        cy.apiCreateNewUser().then((newUser) => {
-            cy.apiAddUserToTeam(testTeam.id, newUser.id);
-
-            // # Logout sysadmin, then login as new user
-            cy.apiLogout();
-            cy.apiLogin(newUser.username, newUser.password);
-            cy.visit(`/${testTeam.name}`);
-        });
+        // # Login as new user
+        loginAsNewUser();
 
         // # Search and add an existing member by username who is part of the team
         invitePeople(sysadmin.username, 1, sysadmin.username);
@@ -212,7 +212,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         verifyInvitationSuccess(user1.username, 'This member has been added to the team.');
 
         // # Search and add a new member by email who is not part of the team
-        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
@@ -220,8 +220,11 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-22037 Invite Member via Email containing upper case letters', () => {
+        // # Login as new user
+        loginAsNewUser();
+
         // # Invite a email containing uppercase letters
-        const email = `tEMp-${getRandomInt(9999)}@mattermost.com`;
+        const email = `tEMp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen

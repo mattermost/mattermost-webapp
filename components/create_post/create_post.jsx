@@ -571,7 +571,7 @@ class CreatePost extends React.PureComponent {
             groupsWithAllowReference,
             channelMemberCountsByGroup,
             currentChannelMembersCount,
-            useGroupMentions
+            useGroupMentions,
         } = this.props;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
@@ -675,7 +675,7 @@ class CreatePost extends React.PureComponent {
             draft,
             useGroupMentions,
             useChannelMentions,
-            groupsWithAllowReference
+            groupsWithAllowReference,
         } = this.props;
 
         let post = originalPost;

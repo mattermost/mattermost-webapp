@@ -34,7 +34,7 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
             <ChannelRow
                 onRowClick={jest.fn()}
                 channel={testChannel}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

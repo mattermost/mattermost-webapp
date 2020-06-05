@@ -18,7 +18,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
                 emailInvitationsEnabled={true}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -33,7 +33,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
                 emailInvitationsEnabled={false}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -54,7 +54,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
                 emailInvitationsEnabled={false}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
-            />
+            />,
         );
 
         wrapper.instance().usersLoader('@something', jest.fn());

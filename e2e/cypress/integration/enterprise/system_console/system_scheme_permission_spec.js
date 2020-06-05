@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @enterprise @system_console
+
 import users from '../../../fixtures/users.json';
 
 const channelUrl = '/ad-1/channels/suscipit-4';
@@ -29,7 +32,7 @@ const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = fals
                 data: {
                     scheme_user: true,
                     scheme_admin: teamAdmin,
-                }
+                },
             });
 
             // # Reload page to ensure no cache or saved information
@@ -45,7 +48,7 @@ const setUserTeamAndChannelMemberships = (channelAdmin = false, teamAdmin = fals
                 data: {
                     scheme_user: true,
                     scheme_admin: channelAdmin,
-                }
+                },
             });
 
             // # Reload page to ensure no cache or saved information

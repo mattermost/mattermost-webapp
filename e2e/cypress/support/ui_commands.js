@@ -105,7 +105,7 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
+    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(`${message}{enter}`);
     cy.waitUntil(() => {
         return cy.get('#post_textbox').then((el) => {
             return el[0].textContent === '';
@@ -114,7 +114,7 @@ Cypress.Commands.add('postMessage', (message) => {
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
+    cy.get('#reply_textbox').should('be.visible').clear().type(`${message}{enter}`);
     cy.wait(TIMEOUTS.TINY);
 });
 
@@ -386,11 +386,11 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
 /**
  * On default "ad-1" team, create and visit a new channel
  */
-Cypress.Commands.add('createAndVisitNewChannel', () => {
+Cypress.Commands.add('createAndVisitNewChannel', (channelName = 'channel-test') => {
     cy.visit('/ad-1/channels/town-square');
 
     cy.getCurrentTeamId().then((teamId) => {
-        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+        cy.apiCreateChannel(teamId, channelName, 'Channel Test').then((res) => {
             const channel = res.body;
 
             // # Visit the new channel

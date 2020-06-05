@@ -73,7 +73,7 @@ class RecentDate extends React.PureComponent<Props> {
         }
 
         const defaultFormat: Intl.DateTimeFormatOptions = withinPastSixDays ? {
-            weekday: 'long'
+            weekday: 'long',
         } : {
             day: '2-digit',
             month: 'long',

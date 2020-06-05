@@ -12,6 +12,7 @@ describe('CommandSuggestion', () => {
             suggestion: '/invite',
             hint: '@[username] ~[channel]',
             description: 'Invite a user to a channel',
+            iconData: '',
         },
         isSelection: true,
         term: '/',
@@ -20,7 +21,7 @@ describe('CommandSuggestion', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <CommandSuggestion {...baseProps}/>
+            <CommandSuggestion {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

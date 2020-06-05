@@ -70,7 +70,7 @@ export default class CreateTeam extends React.PureComponent<Props & RouteCompone
             currentTeam,
             customDescriptionText,
             match,
-            siteName
+            siteName,
         } = this.props;
 
         let url = '/select_team';

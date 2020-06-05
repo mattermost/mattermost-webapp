@@ -37,26 +37,23 @@ export default class TeamList extends React.PureComponent {
 
     header() {
         return (
-            <>
-                {this.searchBar()}
-                <div className='groups-list--header'>
-                    <div className='group-name adjusted'>
+            <div className='groups-list--header'>
+                <div className='group-name adjusted'>
+                    <FormattedMessage
+                        id='admin.team_settings.team_list.nameHeader'
+                        defaultMessage='Name'
+                    />
+                </div>
+                <div className='group-content'>
+                    <div className='group-description adjusted'>
                         <FormattedMessage
-                            id='admin.team_settings.team_list.nameHeader'
-                            defaultMessage='Name'
+                            id='admin.team_settings.team_list.mappingHeader'
+                            defaultMessage='Management'
                         />
                     </div>
-                    <div className='group-content'>
-                        <div className='group-description adjusted'>
-                            <FormattedMessage
-                                id='admin.team_settings.team_list.mappingHeader'
-                                defaultMessage='Management'
-                            />
-                        </div>
-                        <div className='group-actions'/>
-                    </div>
+                    <div className='group-actions'/>
                 </div>
-            </>
+            </div>
         );
     }
 
@@ -88,6 +85,11 @@ export default class TeamList extends React.PureComponent {
     }
 
     searchBarChangeHandler = (e) => {
+        const {searchString} = this.state;
+        if (searchString.length !== 0 && e.target.value.length === 0) {
+            this.resetSearch();
+            return;
+        }
         this.setState({searchString: e.target.value});
     }
 
@@ -100,10 +102,6 @@ export default class TeamList extends React.PureComponent {
                 const response = await this.props.actions.searchTeams(searchString, 0, PAGE_SIZE);
                 this.setState({searchMode: true, teams: response.data.teams, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
             }
-        }
-
-        if (searchString.length === 0) {
-            this.resetSearch();
         }
     }
 
@@ -132,15 +130,20 @@ export default class TeamList extends React.PureComponent {
             absProps.actions.getData = this.getDataBySearch;
         }
         return (
-            <AbstractList
-                header={this.header()}
-                renderRow={this.renderRow}
-                {...absProps}
-                key={this.state.pageResetKey}
-                onPageChangedCallback={this.onPageChangedCallback}
-                data={this.state.searchMode ? this.state.teams : this.props.data}
-                total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
-            />);
+            <div className='groups-list groups-list-no-padding'>
+                {this.searchBar()}
+                <AbstractList
+                    header={this.header()}
+                    renderRow={this.renderRow}
+                    noPadding={true}
+                    {...absProps}
+                    key={this.state.pageResetKey}
+                    onPageChangedCallback={this.onPageChangedCallback}
+                    data={this.state.searchMode ? this.state.teams : this.props.data}
+                    total={this.state.searchMode ? this.state.searchTotalCount : this.props.total}
+                />
+            </div>
+        );
     }
 
     renderRow = (item) => {
