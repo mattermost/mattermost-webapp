@@ -1514,38 +1514,3 @@ Cypress.Commands.add('apiUploadFile', (name, filename, options = {}) => {
             formRequest(options.method, options.url, formData, options.successStatus);
         });
 });
-
-/**
- * process binary file HTTP form request
- * @param {String} method - Http request method - POST/PUT
- * @param {String} url - HTTP resource URL
- * @param {FormData} FormData - Key value pairs representing form fields and value
- */
-function formRequest(method, url, formData, successStatus) {
-    const baseUrl = Cypress.config('baseUrl');
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url, false);
-    let cookies = '';
-    cy.getCookie('MMCSRF', {log: false}).then((token) => {
-        //get MMCSRF cookie value
-        const csrfToken = token.value;
-        cy.getCookies({log: false}).then((cookieValues) => {
-            //prepare cookie string
-            cookieValues.forEach((cookie) => {
-                cookies += cookie.name + '=' + cookie.value + '; ';
-            });
-
-            //set headers
-            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
-            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
-            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-            xhr.setRequestHeader('Cookie', cookies);
-            xhr.send(formData);
-            if (xhr.readyState === 4) {
-                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(successStatus);
-            } else {
-                expect(xhr.status, 'Form request process delayed').to.equal(successStatus);
-            }
-        });
-    });
-}
