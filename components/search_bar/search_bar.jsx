@@ -175,7 +175,6 @@ export default class SearchBar extends React.PureComponent {
             this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
         this.props.actions.updateSearchTerms('');
-        this.setState({termsUsed: 0});
     }
 
     handleUserFocus = () => {
@@ -236,7 +235,7 @@ export default class SearchBar extends React.PureComponent {
         pretextArray.push(term.toLowerCase());
         this.props.actions.updateSearchTerms(pretextArray.join(' '));
         this.focus();
-        this.setState({highlightedSearchHintIndex: -1, indexChangedViaKeyPress: false, termsUsed: this.state.termsUsed + 1});
+        this.setState({highlightedSearchHintIndex: -1, indexChangedViaKeyPress: false});
     }
 
     focus = () => {
