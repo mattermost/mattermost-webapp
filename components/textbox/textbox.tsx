@@ -224,6 +224,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     <PostMarkdown
                         isRHS={this.props.isRHS}
                         message={this.props.value}
+                        mentionKeys={[]}
                     />
                 </div>
             );
