@@ -277,7 +277,7 @@ export default class SearchBar extends React.PureComponent {
             }
         });
 
-        if (visibleSearchHintOptions.length > 0 && !this.props.isMentionSearch && termsUsed <= 1 && this.state.focused) {
+        if (visibleSearchHintOptions.length > 0 && !this.props.isMentionSearch && termsUsed <= 2 && this.state.focused) {
             return (
                 <Popover
                     id={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
