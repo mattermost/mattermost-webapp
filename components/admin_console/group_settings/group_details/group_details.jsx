@@ -133,6 +133,7 @@ export default class GroupDetails extends React.PureComponent {
             groupTeams: groupTeams.concat(teamsToAdd),
             teamsToAdd,
         });
+        this.props.actions.setNavigationBlocked(true);
     }
 
     addChannels = (channels) => {
@@ -152,6 +153,7 @@ export default class GroupDetails extends React.PureComponent {
             groupChannels: groupChannels.concat(channelsToAdd),
             channelsToAdd,
         });
+        this.props.actions.setNavigationBlocked(true);
     }
 
     onRemoveTeamOrChannel = (id, type) => {
@@ -166,6 +168,7 @@ export default class GroupDetails extends React.PureComponent {
             }
         });
         this.setState(newState);
+        this.props.actions.setNavigationBlocked(true);
     }
 
     syncableTypeFromEntryType = (entryType) => {
@@ -241,26 +244,49 @@ export default class GroupDetails extends React.PureComponent {
 
     handleSubmit = async () => {
         this.setState({saving: true});
+
+        const patchGroupSuccessful = await this.handlePatchGroup();
+        const addsSuccessful = await this.handleAddedTeamsAndChannels();
+        const removesSuccessful = await this.handleRemovedTeamsAndChannels();
+        const rolesSuccessful = await this.handleRolesToUpdate();
+
+        await Promise.all([
+            this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL),
+            this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM),
+        ]);
+
+        const allSuccuessful = patchGroupSuccessful && addsSuccessful && removesSuccessful && rolesSuccessful;
+
+        this.setState({saveNeeded: !allSuccuessful, saving: false});
+
+        this.props.actions.setNavigationBlocked(!allSuccuessful);
+    }
+
+    roleChangeKey = (groupTeamOrChannel) => {
+        let fieldKey;
+        if (this.syncableTypeFromEntryType(groupTeamOrChannel.type) === Groups.SYNCABLE_TYPE_TEAM) {
+            fieldKey = 'team_id';
+        } else {
+            fieldKey = 'channel_id';
+        }
+        return `${groupTeamOrChannel[fieldKey]}/${groupTeamOrChannel.type}`;
+    };
+
+    handlePatchGroup = async () => {
         const {allowReference, groupMentionName, hasAllowReferenceChanged, hasGroupMentionNameChanged} = this.state;
-
         let serverError = null;
-        let nameSuccessful = false;
 
-        if (!groupMentionName) {
-            nameSuccessful = true;
+        if (!groupMentionName && allowReference) {
             serverError = <NeedGroupNameError/>;
             this.setState({allowReference, serverError});
+            return false;
         } else if (hasAllowReferenceChanged || hasGroupMentionNameChanged) {
-            serverError = null;
-
             let lcGroupMentionName;
             if (allowReference) {
                 lcGroupMentionName = groupMentionName.toLowerCase();
             }
-
             const result = await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference, name: lcGroupMentionName});
             if (result.error) {
-                nameSuccessful = true;
                 if (result.error.server_error_id === 'store.sql_group.unique_constraint') {
                     serverError = <GroupNameIsTakenError/>;
                 } else if (result.error.server_error_id === 'model.group.name.invalid_chars.app_error') {
@@ -276,28 +302,7 @@ export default class GroupDetails extends React.PureComponent {
             this.setState({allowReference, groupMentionName: lcGroupMentionName, serverError});
         }
 
-        const addsSuccessful = await this.handleAddedTeamsAndChannels();
-        const removesSuccessful = await this.handleRemovedTeamsAndChannels();
-        const rolesSuccessful = await this.handleRolesToUpdate();
-
-        await Promise.all([
-            this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL),
-            this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM),
-        ]);
-
-        this.setState({saveNeeded: false, saving: false});
-
-        this.props.actions.setNavigationBlocked(!nameSuccessful || !addsSuccessful || !removesSuccessful || !rolesSuccessful);
-    }
-
-    roleChangeKey = (groupTeamOrChannel) => {
-        let fieldKey;
-        if (this.syncableTypeFromEntryType(groupTeamOrChannel.type) === Groups.SYNCABLE_TYPE_TEAM) {
-            fieldKey = 'team_id';
-        } else {
-            fieldKey = 'channel_id';
-        }
-        return `${groupTeamOrChannel[fieldKey]}/${groupTeamOrChannel.type}`;
+        return true;
     };
 
     handleRolesToUpdate = async () => {
@@ -393,7 +398,7 @@ export default class GroupDetails extends React.PureComponent {
                         </div>
 
                         <GroupProfileAndSettings
-                            displayname={group.display_name}
+                            displayname={group.display_name || ''}
                             mentionname={groupMentionName}
                             allowReference={allowReference}
                             onToggle={this.onMentionToggle}
