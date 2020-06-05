@@ -4,43 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import Textbox from 'components/textbox/textbox';
-
-const mkUserProfile = (id: string): UserProfile => ({
-    id,
-    create_at: 0,
-    update_at: 0,
-    delete_at: 0,
-    username: `username-${id}`,
-    auth_data: '',
-    auth_service: '',
-    email: `${id}@email.test`,
-    email_verified: true,
-    nickname: id,
-    first_name: `name-${id}`,
-    last_name: `name-${id}`,
-    position: '',
-    roles: '',
-    locale: '',
-    notify_props: {
-        desktop: 'default',
-        desktop_sound: 'true',
-        email: 'true',
-        mark_unread: 'all',
-        push: 'default',
-        push_status: 'ooo',
-        comments: 'never',
-        first_name: 'true',
-        channel: 'true',
-        mention_keys: '',
-    },
-    terms_of_service_id: `tos-${id}`,
-    terms_of_service_create_at: 0,
-    is_bot: false,
-    last_picture_update: 0
-});
 
 describe('components/TextBox', () => {
     const baseProps = {
