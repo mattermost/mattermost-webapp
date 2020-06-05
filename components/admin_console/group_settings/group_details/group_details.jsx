@@ -207,6 +207,7 @@ export default class GroupDetails extends React.PureComponent {
         updatedItems.find((item) => item[keyName] === id).scheme_admin = schemeAdmin;
 
         this.setState({saveNeeded: true, rolesToChange, [stateKey]: updatedItems});
+        this.props.actions.setNavigationBlocked(true);
     }
 
     onMentionToggle = (allowReference) => {
