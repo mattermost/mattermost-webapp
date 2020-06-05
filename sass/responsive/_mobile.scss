@@ -1563,6 +1563,10 @@
             display: block;
         }
 
+        .SidebarContainer_filterAddChannel {
+            width: 260px;
+        }
+
         .SidebarChannelGroup {
             div {
                 &.dropdown.open {
@@ -1590,9 +1594,13 @@
                 .SidebarChannel {
                     height: 45px;
 
-                    a,
-                    button {
+                    .SidebarLink {
                         height: 45px;
+                        align-items: center;
+
+                        &::before {
+                            height: 45px;
+                        }
                     }
 
                     &.has-close {
@@ -1605,6 +1613,10 @@
                             height: 30px;
                             line-height: 30px;
                         }
+                    }
+
+                    .SidebarMenu_menuButton {
+                        margin-top: 1px;
                     }
                 }
 
