@@ -484,6 +484,10 @@
     .suggestion--selected {
         background-color: #e2e2e2;
     }
+
+    .trial {
+        margin-top: 15px;
+    }
 }
 
 .job-table__cancel-button {
@@ -569,6 +573,7 @@
 
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
+        padding-bottom: $announcement-bar-height;
     }
 
     .dropdown-menu {

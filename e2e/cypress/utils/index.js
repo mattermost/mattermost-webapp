@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import mapKeys from 'lodash.mapkeys';
 import {v4 as uuidv4} from 'uuid';
 
 import messageMenusData from '../fixtures/hooks/message_menus.json';
@@ -66,3 +67,9 @@ export function titleCase(str) {
 }
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
+
+export function convertKeysToLowercase(obj) {
+    return mapKeys(obj, (_, k) => {
+        return k.toLowerCase();
+    });
+}

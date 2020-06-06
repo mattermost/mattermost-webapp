@@ -106,10 +106,10 @@ export default class UserListRow extends React.PureComponent {
                             hasMention={true}
                             displayUsername={true}
                         />
-                        {'&nbsp;'}
+                        &nbsp;
                         {this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
                             '-' : null}
-                        {'&nbsp;'}
+                        &nbsp;
                         {Utils.displayFullAndNicknameForUser(this.props.user)}
                     </div>
                     <div

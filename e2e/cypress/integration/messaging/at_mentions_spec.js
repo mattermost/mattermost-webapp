@@ -122,7 +122,7 @@ describe('at-mention', () => {
             townsquareChannelId = id;
         });
 
-        cy.get('#sidebarItem_off-topic').click({force: true});
+        cy.visit('/ad-1/channels/off-topic');
         cy.getCurrentChannelId().then((id) => {
             offTopicChannelId = id;
         });
