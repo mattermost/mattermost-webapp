@@ -741,6 +741,21 @@ Cypress.Commands.add('apiUpdateUserStatus', (status = 'online') => {
     });
 });
 
+/**
+ * Revoke all active sessions for a user
+ * @param {String} userId - ID of user to revoke sessions
+ */
+Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/sessions/revoke/all`,
+        method: 'POST',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Posts
 // https://api.mattermost.com/#tag/posts
