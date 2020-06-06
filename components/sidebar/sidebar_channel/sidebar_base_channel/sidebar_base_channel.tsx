@@ -8,9 +8,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {trackEvent} from 'actions/diagnostics_actions';
 import * as GlobalActions from 'actions/global_actions';
 
-import GlobeIcon from 'components/widgets/icons/globe_icon';
-import LockIcon from 'components/widgets/icons/lock_icon';
-
 import SidebarChannelLink from 'components/sidebar/sidebar_channel/sidebar_channel_link';
 import {localizeMessage} from 'utils/utils';
 import Constants from 'utils/constants';

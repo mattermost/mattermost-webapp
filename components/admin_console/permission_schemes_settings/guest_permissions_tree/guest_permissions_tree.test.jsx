@@ -34,7 +34,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
 
     test('should match snapshot on default data', () => {
         const wrapper = shallow(
-            <GuestPermissionsTree {...defaultProps}/>
+            <GuestPermissionsTree {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -44,7 +44,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <GuestPermissionsTree
                 {...defaultProps}
                 readOnly={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -54,7 +54,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <GuestPermissionsTree
                 {...defaultProps}
                 scope={'team_scope'}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -64,7 +64,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <GuestPermissionsTree
                 {...defaultProps}
                 scope={'system_scope'}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -75,7 +75,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
                 {...defaultProps}
                 parentRole={{permissions: 'invite_user'}}
                 scope={'system_scope'}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -86,7 +86,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <GuestPermissionsTree
                 {...defaultProps}
                 onToggle={onToggle}
-            />
+            />,
         );
         wrapper.find(PermissionGroup).first().prop('onChange')(['test_permission', 'test_permission2']);
         expect(onToggle).toBeCalledWith('test', ['test_permission', 'test_permission2']);
@@ -103,7 +103,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
                     EnableCommands: 'false',
                     EnableCustomEmoji: 'false',
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -113,7 +113,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <GuestPermissionsTree
                 {...defaultProps}
                 license={{}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

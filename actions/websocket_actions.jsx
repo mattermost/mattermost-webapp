@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 import {
     ChannelTypes,
     EmojiTypes,
+    GroupTypes,
     PostTypes,
     TeamTypes,
     UserTypes,
@@ -206,7 +207,7 @@ export function startPeriodicSync() {
                 reconnect(false);
             }
         },
-        SYNC_INTERVAL_MILLISECONDS
+        SYNC_INTERVAL_MILLISECONDS,
     );
 }
 
@@ -424,6 +425,26 @@ export function handleEvent(msg) {
         handleOpenDialogEvent(msg);
         break;
 
+    case SocketEvents.RECEIVED_GROUP:
+        handleGroupUpdatedEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
+        handleGroupAssociatedToTeamEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM:
+        handleGroupNotAssociatedToTeamEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL:
+        handleGroupAssociatedToChannelEvent(msg);
+        break;
+
+    case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL:
+        handleGroupNotAssociatedToChannelEvent(msg);
+        break;
+
     default:
     }
 
@@ -578,7 +599,7 @@ export function handlePostUnreadEvent(msg) {
                 msgCount: msg.data.msg_count,
                 mentionCount: msg.data.mention_count,
             },
-        }
+        },
     );
 }
 
@@ -1126,4 +1147,46 @@ function handleOpenDialogEvent(msg) {
     }
 
     store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
+}
+
+function handleGroupUpdatedEvent(msg) {
+    const data = JSON.parse(msg.data.group);
+    dispatch(batchActions([
+        {
+            type: GroupTypes.RECEIVED_GROUP,
+            data,
+        },
+        {
+            type: GroupTypes.RECEIVED_MY_GROUPS,
+            data: [data],
+        },
+    ]));
+}
+
+function handleGroupAssociatedToTeamEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_TEAM,
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]},
+    });
+}
+
+function handleGroupNotAssociatedToTeamEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM,
+        data: {teamID: msg.broadcast.team_id, groups: [{id: msg.data.group_id}]},
+    });
+}
+
+function handleGroupAssociatedToChannelEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL,
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
+    });
+}
+
+function handleGroupNotAssociatedToChannelEvent(msg) {
+    store.dispatch({
+        type: GroupTypes.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL,
+        data: {channelID: msg.broadcast.channel_id, groups: [{id: msg.data.group_id}]},
+    });
 }

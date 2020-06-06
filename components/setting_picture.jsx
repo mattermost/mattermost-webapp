@@ -7,11 +7,10 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants';
-import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';
 
 import FormError from 'components/form_error';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
@@ -19,7 +18,6 @@ export default class SettingPicture extends Component {
     static defaultProps = {
         imageContext: 'profile',
     };
-
     static propTypes = {
         clientError: PropTypes.string,
         serverError: PropTypes.string,
@@ -36,6 +34,7 @@ export default class SettingPicture extends Component {
         updateSection: PropTypes.func,
         imageContext: PropTypes.string,
         maxFileSize: PropTypes.number,
+        helpText: PropTypes.object,
     };
 
     constructor(props) {
@@ -95,6 +94,9 @@ export default class SettingPicture extends Component {
 
     handleSave = (e) => {
         e.preventDefault();
+        if (this.props.loadingPicture) {
+            return;
+        }
         if (this.state.removeSrc) {
             this.props.onRemove();
         } else if (this.state.setDefaultSrc) {
@@ -243,8 +245,6 @@ export default class SettingPicture extends Component {
     }
 
     render() {
-        const imageContext = this.props.imageContext;
-
         const img = this.renderImg();
 
         let confirmButtonClass = 'btn btn-sm';
@@ -254,24 +254,6 @@ export default class SettingPicture extends Component {
         } else {
             confirmButtonClass += ' btn-inactive disabled';
             disableSaveButtonFocus = true;
-        }
-
-        let helpText;
-        if (imageContext === 'team') {
-            helpText = (
-                <FormattedMarkdownMessage
-                    id={'setting_picture.help.team'}
-                    defaultMessage='Upload a team icon in BMP, JPG or PNG format.\nSquare images with a solid background color are recommended.'
-                />
-            );
-        } else {
-            helpText = (
-                <FormattedMessage
-                    id={'setting_picture.help.profile'}
-                    defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
-                    values={{max: fileSizeToString(this.props.maxFileSize)}}
-                />
-            );
         }
 
         let imgRender;
@@ -286,6 +268,55 @@ export default class SettingPicture extends Component {
             );
         }
 
+        let buttonRender;
+        if (this.props.onSubmit) {
+            buttonRender = (
+                <span>
+                    <input
+                        data-testid='uploadPicture'
+                        ref={this.selectInput}
+                        className='hidden'
+                        accept='.jpg,.png,.bmp'
+                        type='file'
+                        onChange={this.handleFileChange}
+                        disabled={this.props.loadingPicture}
+                        aria-hidden={true}
+                        tabIndex='-1'
+                    />
+                    <button
+                        data-testid='inputSettingPictureButton'
+                        className='btn btn-sm btn-primary btn-file sel-btn'
+                        disabled={this.props.loadingPicture}
+                        onClick={this.handleInputFile}
+                        aria-label={localizeMessage('setting_picture.select', 'Select')}
+                    >
+                        <FormattedMessage
+                            id='setting_picture.select'
+                            defaultMessage='Select'
+                        />
+                    </button>
+                    <button
+                        tabIndex={disableSaveButtonFocus ? '-1' : '0'}
+                        data-testid='saveSettingPicture'
+                        disabled={disableSaveButtonFocus}
+                        ref={this.confirmButton}
+                        className={confirmButtonClass}
+                        onClick={this.handleSave}
+                        aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}
+                    >
+                        <LoadingWrapper
+                            loading={this.props.loadingPicture}
+                            text={localizeMessage('setting_picture.uploading', 'Uploading...')}
+                        >
+                            <FormattedMessage
+                                id='setting_picture.save'
+                                defaultMessage='Save'
+                            />
+                        </LoadingWrapper>
+                    </button>
+                </span>
+            );
+        }
         return (
             <section className='section-max form-horizontal'>
                 <h4 className='col-xs-12 section-title'>
@@ -304,7 +335,7 @@ export default class SettingPicture extends Component {
                             id='setting-picture__helptext'
                             className='setting-list-item pt-3'
                         >
-                            {helpText}
+                            {this.props.helpText}
                         </div>
                         <div
                             className='setting-list-item'
@@ -314,48 +345,7 @@ export default class SettingPicture extends Component {
                                 errors={[this.props.clientError, this.props.serverError]}
                                 type={'modal'}
                             />
-                            <input
-                                data-testid='uploadPicture'
-                                ref={this.selectInput}
-                                className='hidden'
-                                accept='.jpg,.png,.bmp'
-                                type='file'
-                                onChange={this.handleFileChange}
-                                disabled={this.props.loadingPicture}
-                                aria-hidden={true}
-                                tabIndex='-1'
-                            />
-                            <button
-                                data-testid='inputSettingPictureButton'
-                                className='btn btn-sm btn-primary btn-file sel-btn'
-                                disabled={this.props.loadingPicture}
-                                onClick={this.handleInputFile}
-                                aria-label={localizeMessage('setting_picture.select', 'Select')}
-                            >
-                                <FormattedMessage
-                                    id='setting_picture.select'
-                                    defaultMessage='Select'
-                                />
-                            </button>
-                            <button
-                                tabIndex={disableSaveButtonFocus ? '-1' : '0'}
-                                data-testid='saveSettingPicture'
-                                disabled={disableSaveButtonFocus}
-                                ref={this.confirmButton}
-                                className={confirmButtonClass}
-                                onClick={this.props.loadingPicture ? () => true : this.handleSave}
-                                aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}
-                            >
-                                <LoadingWrapper
-                                    loading={this.props.loadingPicture}
-                                    text={localizeMessage('setting_picture.uploading', 'Uploading...')}
-                                >
-                                    <FormattedMessage
-                                        id='setting_picture.save'
-                                        defaultMessage='Save'
-                                    />
-                                </LoadingWrapper>
-                            </button>
+                            {buttonRender}
                             <button
                                 data-testid='cancelSettingPicture'
                                 className='btn btn-link btn-sm theme'

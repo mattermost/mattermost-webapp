@@ -493,7 +493,7 @@ class CreateComment extends React.PureComponent {
             isTimezoneEnabled,
             groupsWithAllowReference,
             channelMemberCountsByGroup,
-            useGroupMentions
+            useGroupMentions,
         } = this.props;
         const {draft} = this.state;
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;

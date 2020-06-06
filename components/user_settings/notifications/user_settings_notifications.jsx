@@ -26,7 +26,7 @@ function getNotificationsStateFromProps(props) {
     let autoResponderActive = false;
     let autoResponderMessage = Utils.localizeMessage(
         'user.settings.notifications.autoResponderDefault',
-        'Hello, I am out of office and unable to respond to messages.'
+        'Hello, I am out of office and unable to respond to messages.',
     );
 
     if (user.notify_props) {
@@ -147,7 +147,7 @@ export default class NotificationsTab extends React.PureComponent {
         if (!data.auto_responder_message || data.auto_responder_message === '') {
             data.auto_responder_message = Utils.localizeMessage(
                 'user.settings.notifications.autoResponderDefault',
-                'Hello, I am out of office and unable to respond to messages.'
+                'Hello, I am out of office and unable to respond to messages.',
             );
         }
 
@@ -403,7 +403,7 @@ export default class NotificationsTab extends React.PureComponent {
                         </fieldset>
                         <hr/>
                         {pushStatusSettings}
-                    </div>
+                    </div>,
                 );
 
                 submit = this.handleSubmit;
@@ -417,7 +417,7 @@ export default class NotificationsTab extends React.PureComponent {
                             id='user.settings.push_notification.disabled_long'
                             defaultMessage='Push notifications have not been enabled by your System Administrator.'
                         />
-                    </div>
+                    </div>,
                 );
             }
 
@@ -537,7 +537,7 @@ export default class NotificationsTab extends React.PureComponent {
                                 />
                             </label>
                         </div>
-                    </div>
+                    </div>,
                 );
             }
 
@@ -563,7 +563,7 @@ export default class NotificationsTab extends React.PureComponent {
                             />
                         </label>
                     </div>
-                </div>
+                </div>,
             );
 
             const handleUpdateChannelKey = (e) => {
@@ -585,7 +585,7 @@ export default class NotificationsTab extends React.PureComponent {
                             />
                         </label>
                     </div>
-                </div>
+                </div>,
             );
 
             inputs.push(
@@ -616,7 +616,7 @@ export default class NotificationsTab extends React.PureComponent {
                         onFocus={Utils.moveCursorToEnd}
                         aria-labelledby='notificationTriggerCustom'
                     />
-                </div>
+                </div>,
             );
 
             const extraInfo = (
@@ -753,7 +753,7 @@ export default class NotificationsTab extends React.PureComponent {
                             />
                         </label>
                     </div>
-                </fieldset>
+                </fieldset>,
             );
 
             const extraInfo = (

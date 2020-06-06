@@ -10,13 +10,25 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-const waitUntilConfigSave = () => {
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
+// # Save setting and get back to the resource page
+const saveAndNavigateBackTo = (name) => {
+    cy.get('#saveSetting').should('be.enabled').click({force: true});
+
+    cy.findByTestId('search-input').should('be.visible').type(`${name}{enter}`).wait(TIMEOUTS.TINY);
+    cy.findByTestId(`${name}edit`).should('be.visible').click();
+};
+
+const changeRoleTo = (role) => {
+    cy.get('#role-to-be > button').should('be.visible').and('have.text', role).click();
+    cy.findByTestId('current-role').should('have.text', role).wait(TIMEOUTS.TINY);
 };
 
 describe('System Console', () => {
+    const groupDisplayName = 'board';
+    let team;
+
     before(() => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
@@ -24,11 +36,28 @@ describe('System Console', () => {
         // * Check if server has license for LDAP Groups
         cy.requireLicenseForFeature('LDAPGroups');
 
-        // Enable LDAP
-        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+        // # Get the test team and link "board" group
+        cy.apiGetTeamByName('ad-1').then((resTeam) => {
+            team = resTeam.body;
 
-        // # Check and run LDAP Sync job
-        cy.checkRunLDAPSync();
+            cy.apiGetLDAPGroups().then((res) => {
+                res.body.groups.forEach((group) => {
+                    if (group.name === groupDisplayName) {
+                        cy.apiAddLDAPGroupLink(group.primary_key);
+                    }
+                });
+            });
+        });
+    });
+
+    beforeEach(() => {
+        cy.apiGetTeamGroups(team.id).then((resGroups) => {
+            resGroups.body.groups.forEach((group) => {
+                if (group.display_name === groupDisplayName) {
+                    cy.apiDeleteLinkFromTeamToGroup(group.id, team.id);
+                }
+            });
+        });
     });
 
     it('MM-20059 - System Admin can map roles to groups from Team Configuration screen', () => {
@@ -41,31 +70,14 @@ describe('System Console', () => {
         cy.findByTestId('search-input').type(`${teamName}{enter}`);
         cy.findByTestId(`${teamName}edit`).click();
 
-        // # Wait until the groups retrieved and show up
-        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
-
-        // # Remove all existing groups
-        cy.get('#groups-list--body').then((el) => {
-            if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0; i < el[0].childNodes.length; i++) {
-                    cy.get('#group-actions').click();
-                }
-
-                // # Save the setting
-                cy.get('#saveSetting').click();
-                waitUntilConfigSave();
-            }
-        });
-
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
+        cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+        cy.get('#multiSelectList').should('be.visible');
+        cy.get('#multiSelectList>div').children().eq(0).click();
         cy.get('#saveItems').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
 
         // * Ensure default role is Member
-        cy.findByTestId('current-role').should('have.text', 'Member').click();
+        cy.findByTestId('current-role').scrollIntoView().should('be.visible').should('have.text', 'Member').click();
 
         // * Assert that only one option exists in the dropdown for changing roles
         cy.get('#role-to-be-menu').then((el) => {
@@ -73,12 +85,10 @@ describe('System Console', () => {
         });
 
         // # Continue changing the role to Team Admin
-        cy.get('#role-to-be').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
+        changeRoleTo('Team Admin');
 
-        // # Reload to ensure it's been saved
-        cy.reload();
+        // # Save the setting and navigate back to page
+        saveAndNavigateBackTo(teamName);
 
         // * Check to make the the current role text is displayed as Team Admin
         cy.findByTestId('current-role').should('have.text', 'Team Admin');
@@ -92,34 +102,27 @@ describe('System Console', () => {
         });
 
         // # Change role to member
-        cy.get('#role-to-be').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
+        changeRoleTo('Member');
 
-        // # Reload to ensure it's been saved
-        cy.reload();
+        // # Save the setting and navigate back to page
+        saveAndNavigateBackTo(teamName);
 
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
 
-        // # Remove all existing groups
-        cy.get('#groups-list--body').then((el) => {
-            if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0; i < el[0].childNodes.length; i++) {
-                    cy.get('#group-actions').click();
-                }
-
-                // # Save the setting
-                cy.get('#saveSetting').click();
-                waitUntilConfigSave();
-            }
+        // # Remove "board" group
+        cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
+            cy.get('.group-name').should('have.text', groupDisplayName);
+            cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
         });
 
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
+        // * Assert that the group was removed successfully
+        cy.get('#groups-list--body').then((el) => {
+            expect(el[0].childNodes[0].innerText).equal('No groups specified yet');
+        });
 
-        // # Reload to ensure it's been saved
-        cy.reload();
+        // # Save the setting and navigate back to page
+        saveAndNavigateBackTo(teamName);
 
         // * Assert that the group was removed successfully
         cy.get('#groups-list--body').then((el) => {
@@ -137,25 +140,10 @@ describe('System Console', () => {
         cy.findByTestId('search-input').type(`${teamName}{enter}`);
         cy.findByTestId(`${teamName}edit`).click();
 
-        // # Wait until the groups retrieved and show up
-        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
-
-        // # Remove all existing groups
-        cy.get('#groups-list--body').then((el) => {
-            if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0; i < el[0].childNodes.length; i++) {
-                    cy.get('#group-actions').click();
-                }
-
-                // # Save the setting
-                cy.get('#saveSetting').click();
-                waitUntilConfigSave();
-            }
-        });
-
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
+        cy.findByTestId('addGroupsToTeamToggle').click();
+        cy.get('#multiSelectList').should('be.visible');
+        cy.get('#multiSelectList>div').children().eq(0).click();
         cy.get('#saveItems').click();
 
         // * Ensure default role is Member
@@ -166,13 +154,11 @@ describe('System Console', () => {
             expect(el[0].firstElementChild.children.length).equal(1);
         });
 
-        // # Continue changing the role to Team Admin
-        cy.get('#role-to-be').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
+        // # Continue changing the role to Team Admin and save
+        changeRoleTo('Team Admin');
 
-        // # Reload to ensure it's been saved
-        cy.reload();
+        // # Save the setting and navigate back to page
+        saveAndNavigateBackTo(teamName);
 
         // * Check to make the the current role text is displayed as Team Admin
         cy.findByTestId('current-role').should('have.text', 'Team Admin');
@@ -188,31 +174,15 @@ describe('System Console', () => {
         cy.findByTestId('search-input').type(`${channelName}{enter}`);
         cy.findByTestId(`${channelName}edit`).click();
 
-        // # Wait until the groups retrieved and show up
-        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
-
-        // # Remove all existing groups
-        cy.get('#groups-list--body').then((el) => {
-            if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0; i < el[0].childNodes.length; i++) {
-                    cy.get('#group-actions').click();
-                }
-
-                // # Save the setting
-                cy.get('#saveSetting').click();
-                waitUntilConfigSave();
-            }
-        });
-
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
+        cy.findByTestId('addGroupsToChannelToggle').click();
+        cy.get('#multiSelectList').should('be.visible');
+        cy.get('#multiSelectList>div').children().eq(0).click();
         cy.get('#saveItems').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
+        saveAndNavigateBackTo(channelName);
 
         // * Ensure default role is Member
-        cy.findByTestId('current-role').should('have.text', 'Member').click();
+        cy.findByTestId('current-role').scrollIntoView().should('have.text', 'Member').click();
 
         // * Assert that only one option exists in the dropdown for changing roles
         cy.get('#role-to-be-menu').then((el) => {
@@ -220,21 +190,16 @@ describe('System Console', () => {
         });
 
         // # Continue changing the role to Channel Admin
-        cy.get('#role-to-be').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
+        changeRoleTo('Channel Admin');
 
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
-
-        // # Reload to ensure it's been saved
-        cy.reload();
+        // # Save the setting and navigate back to page
+        saveAndNavigateBackTo(channelName);
 
         // * Check to make the the current role text is displayed as Channel Admin
         cy.findByTestId('current-role').should('have.text', 'Channel Admin');
 
         // # Change the role from Channel Admin to member
-        cy.findByTestId('current-role').click();
+        cy.findByTestId('current-role').scrollIntoView().should('be.visible').click();
 
         // * Assert that only one option exists in the dropdown for changing roles
         cy.get('#role-to-be-menu').then((el) => {
@@ -242,39 +207,13 @@ describe('System Console', () => {
         });
 
         // # Change role to Member
-        cy.get('#role-to-be').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
+        changeRoleTo('Member');
 
-        // # Reload to ensure it's been saved
-        cy.reload();
+        // # Save the setting and navigate back to page
+        saveAndNavigateBackTo(channelName);
 
         // * Check to make the the current role text is displayed as Member
         cy.findByTestId('current-role').should('have.text', 'Member');
-
-        // # Remove all existing groups
-        cy.get('#groups-list--body').then((el) => {
-            if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0; i < el[0].childNodes.length; i++) {
-                    cy.get('#group-actions').click();
-                }
-
-                // # Save the setting
-                cy.get('#saveSetting').click();
-                waitUntilConfigSave();
-            }
-        });
-
-        // # Wait to ensure it has saved before reloading
-        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
-
-        // # Reload to ensure it's been saved
-        cy.reload();
-
-        // * Assert that the group was removed successfully
-        cy.get('#groups-list--body').then((el) => {
-            expect(el[0].childNodes[0].innerText).equal('No groups specified yet');
-        });
     });
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on channel configuration page', () => {
@@ -287,25 +226,10 @@ describe('System Console', () => {
         cy.findByTestId('search-input').type(`${channelName}{enter}`);
         cy.findByTestId(`${channelName}edit`).click();
 
-        // # Wait until the groups retrieved and show up
-        cy.wait(5000); //eslint-disable-line cypress/no-unnecessary-waiting
-
-        // # Remove all existing groups
-        cy.get('#groups-list--body').then((el) => {
-            if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0; i < el[0].childNodes.length; i++) {
-                    cy.get('#group-actions').click();
-                }
-
-                // # Save the setting
-                cy.get('#saveSetting').click();
-                waitUntilConfigSave();
-            }
-        });
-
         // # Add the first group in the group list then save
-        cy.findByTestId('add-group').click();
-        cy.get('#multiSelectList>div').children().eq(0).get('.more-modal__actions').click();
+        cy.findByTestId('addGroupsToChannelToggle').click();
+        cy.get('#multiSelectList').should('be.visible');
+        cy.get('#multiSelectList>div').children().eq(0).click();
         cy.get('#saveItems').click();
 
         // * Ensure default role is Member
@@ -316,13 +240,11 @@ describe('System Console', () => {
             expect(el[0].firstElementChild.children.length).equal(1);
         });
 
-        // # Continue changing the role to Team Admin
-        cy.get('#role-to-be').click();
-        cy.get('#saveSetting').click();
-        waitUntilConfigSave();
+        // # Continue changing the role to Channel Admin
+        changeRoleTo('Channel Admin');
 
-        // # Reload to ensure it's been saved
-        cy.reload();
+        // # Save the setting and navigate back to page
+        saveAndNavigateBackTo(channelName);
 
         // * Check to make the the current role text is displayed as Channel Admin
         cy.findByTestId('current-role').should('have.text', 'Channel Admin');

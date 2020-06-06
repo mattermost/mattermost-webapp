@@ -89,7 +89,7 @@ describe('components/SearchResultsItem', () => {
 
     test('should match snapshot for channel', () => {
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...defaultProps}/>
+            <SearchResultsItem {...defaultProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -111,7 +111,7 @@ describe('components/SearchResultsItem', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...props}/>
+            <SearchResultsItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -132,7 +132,7 @@ describe('components/SearchResultsItem', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...props}/>
+            <SearchResultsItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -148,7 +148,7 @@ describe('components/SearchResultsItem', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...props}/>
+            <SearchResultsItem {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -156,7 +156,7 @@ describe('components/SearchResultsItem', () => {
 
     test('Check for dotmenu dropdownOpened state', () => {
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...defaultProps}/>
+            <SearchResultsItem {...defaultProps}/>,
         );
 
         const instance = wrapper.instance();
@@ -177,7 +177,7 @@ describe('components/SearchResultsItem', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...props}/>
+            <SearchResultsItem {...props}/>,
         );
 
         wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
@@ -196,7 +196,7 @@ describe('components/SearchResultsItem', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...props}/>
+            <SearchResultsItem {...props}/>,
         );
 
         wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
@@ -212,7 +212,7 @@ describe('components/SearchResultsItem', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <SearchResultsItem {...props}/>
+            <SearchResultsItem {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

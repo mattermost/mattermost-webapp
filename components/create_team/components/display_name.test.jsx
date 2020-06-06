@@ -48,7 +48,7 @@ describe('/components/create_team/components/display_name', () => {
             <FormattedMessage
                 id='create_team.display_name.required'
                 defaultMessage='This field is required'
-            />
+            />,
         );
     });
 
@@ -69,7 +69,7 @@ describe('/components/create_team/components/display_name', () => {
                     min: Constants.MIN_TEAMNAME_LENGTH,
                     max: Constants.MAX_TEAMNAME_LENGTH,
                 }}
-            />
+            />,
         );
     });
 });

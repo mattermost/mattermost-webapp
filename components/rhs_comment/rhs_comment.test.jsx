@@ -66,12 +66,12 @@ describe('components/RhsComment', () => {
         actions: {
             markPostAsUnread: jest.fn(),
         },
-        emojiMap: new EmojiMap(new Map())
+        emojiMap: new EmojiMap(new Map()),
     };
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <RhsComment {...baseProps}/>
+            <RhsComment {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -79,7 +79,7 @@ describe('components/RhsComment', () => {
 
     test('should match snapshot hovered', () => {
         const wrapper = shallowWithIntl(
-            <RhsComment {...baseProps}/>
+            <RhsComment {...baseProps}/>,
         );
 
         wrapper.setState({hover: true});
@@ -90,7 +90,7 @@ describe('components/RhsComment', () => {
     test('should match snapshot mobile', () => {
         isMobile.mockImplementation(() => true);
         const wrapper = shallowWithIntl(
-            <RhsComment {...baseProps}/>
+            <RhsComment {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -105,7 +105,7 @@ describe('components/RhsComment', () => {
             },
         };
         const wrapper = shallowWithIntl(
-            <RhsComment {...props}/>
+            <RhsComment {...props}/>,
         );
         wrapper.setState({hover: true});
 
@@ -114,7 +114,7 @@ describe('components/RhsComment', () => {
 
     test('should show pointer when alt is held down', () => {
         const wrapper = shallowWithIntl(
-            <RhsComment {...baseProps}/>
+            <RhsComment {...baseProps}/>,
         );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
@@ -127,11 +127,11 @@ describe('components/RhsComment', () => {
     test('should not show pointer when alt is held down, but channel is archived', () => {
         const props = {
             ...baseProps,
-            channelIsArchived: true
+            channelIsArchived: true,
         };
 
         const wrapper = shallowWithIntl(
-            <RhsComment {...props}/>
+            <RhsComment {...props}/>,
         );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
@@ -143,7 +143,7 @@ describe('components/RhsComment', () => {
 
     test('should call markPostAsUnread when post is alt+clicked on', () => {
         const wrapper = shallowWithIntl(
-            <RhsComment {...baseProps}/>
+            <RhsComment {...baseProps}/>,
         );
 
         wrapper.simulate('click', {altKey: false});
@@ -158,11 +158,11 @@ describe('components/RhsComment', () => {
     test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {
         const props = {
             ...baseProps,
-            channelIsArchived: true
+            channelIsArchived: true,
         };
 
         const wrapper = shallowWithIntl(
-            <RhsComment {...props}/>
+            <RhsComment {...props}/>,
         );
 
         wrapper.simulate('click', {altKey: false});

@@ -2,10 +2,10 @@ version: 2.1
 
 orbs:
   aws-s3: circleci/aws-s3@1.0.11
+  owasp: entur/owasp@0.0.10
 
 executors:
   default:
-    working_directory: ~/mattermost-webapp
     docker:
       - image: mattermost/mattermost-build-webapp:oct-2-2018
     resource_class: "xlarge"
@@ -13,17 +13,18 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}
+      key: dependencies-{{ checksum "package-lock.json" }}-1
   - &save_cache
     save_cache:
-      key: dependencies-{{ checksum "package-lock.json" }}
+      key: dependencies-{{ checksum "package-lock.json" }}-1
       paths:
-        - node_modules
+        - ~/mattermost/mattermost-webapp/node_modules
 
 jobs:
   install:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -32,9 +33,63 @@ jobs:
           cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
 
+  check-deps:
+    parameters:
+      cve_data_directory:
+        type: string
+        default: "~/.owasp/dependency-check-data"
+    working_directory: ~/mattermost/mattermost-webapp
+    executor: owasp/default
+    environment:
+      version_url: "https://jeremylong.github.io/DependencyCheck/current.txt"
+      executable_url: "https://dl.bintray.com/jeremy-long/owasp/dependency-check-VERSION-release.zip"
+    steps:
+      - checkout
+      - run:
+          name: Link dependency cache
+          command: |
+            sudo mkdir /root/mattermost
+            sudo ln -s ~/mattermost/mattermost-webapp /root/mattermost/mattermost-webapp; sudo chmod 777 /root
+      - *restore_cache
+      - run:
+          name: Adjust permissions
+          command: sudo chown -R `id -nu`:`id -ng` node_modules
+      - run:
+          name: Checkout config
+          command: cd .. && git clone https://github.com/mattermost/security-automation-config
+      - run:
+          name: Install Go
+          command: sudo apt-get update && sudo apt-get install golang
+      - owasp/with_commandline:
+          steps:
+            # Taken from https://github.com/entur/owasp-orb/blob/master/src/%40orb.yml#L349-L361
+            - owasp/generate_cache_keys:
+                cache_key: commmandline-default-cache-key-v6
+            - owasp/restore_owasp_cache
+            - run:
+                name: Update OWASP Dependency-Check Database
+                command: ~/.owasp/dependency-check/bin/dependency-check.sh --data << parameters.cve_data_directory >> --updateonly
+            - owasp/store_owasp_cache:
+                cve_data_directory: <<parameters.cve_data_directory>>
+            - run:
+                name: Run OWASP Dependency-Check Analyzer
+                command: |
+                  ~/.owasp/dependency-check/bin/dependency-check.sh \
+                    --data << parameters.cve_data_directory >> --format ALL --noupdate --enableExperimental \
+                    --propertyfile ../security-automation-config/dependency-check/dependencycheck.properties \
+                    --suppression ../security-automation-config/dependency-check/suppression.xml \
+                    --suppression ../security-automation-config/dependency-check/suppression.$CIRCLE_PROJECT_REPONAME.xml \
+                    --scan './**/*' || true
+            - owasp/collect_reports:
+                persist_to_workspace: false
+      - run:
+          name: Post results to Mattermost
+          command: go run ../security-automation-config/dependency-check/post_results.go
+
   lint:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -44,6 +99,7 @@ jobs:
   i18n-check:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -57,6 +113,7 @@ jobs:
   type-check:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -66,6 +123,7 @@ jobs:
   test:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -77,6 +135,7 @@ jobs:
     executor:
       name: default
     resource_class: xlarge
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
@@ -85,30 +144,34 @@ jobs:
           npm version
           make package-ci
       - store_artifacts:
-          path: ~/mattermost-webapp/mattermost-webapp.tar.gz
+          path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:
-          root: .
-          paths: .
+          root: ~/mattermost
+          paths:
+            - mattermost-webapp
 
   build-storybook:
     executor:
       name: default
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - *restore_cache
       - run: npm run build-storybook
       - store_artifacts:
-          path: ~/mattermost-webapp/storybook-static
+          path: ~/mattermost/mattermost-webapp/storybook-static
       - persist_to_workspace:
-          root: .
-          paths: .
+          root: ~/mattermost
+          paths:
+            - mattermost-webapp
 
   upload-storybook:
     docker:
       - image: circleci/python:3.6
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - aws-s3/sync:
           from: storybook-static
           to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
@@ -121,9 +184,10 @@ jobs:
   upload-s3:
     docker:
       - image: circleci/python:3.6
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
           to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
@@ -134,11 +198,12 @@ jobs:
           arguments: --cache-control no-cache
 
   prepare-docker-build:
+    working_directory: ~/mattermost/mattermost-webapp
     docker:
       - image: circleci/python:3.6
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - run:
           command: |
             curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
@@ -149,19 +214,19 @@ jobs:
             mv client mattermost/client
             tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
       - store_artifacts:
-          path: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+          path: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
       - aws-s3/copy:
-          from: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+          from: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
           to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
   build-docker:
-    working_directory: ~/
+    working_directory: ~/mattermost/
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
       - attach_workspace:
-          at: .
+          at: ~/mattermost/
       - setup_remote_docker
       - run:
           command: |
@@ -180,6 +245,10 @@ workflows:
   untagged-build:
     jobs:
       - install
+      - check-deps:
+          context: sast-webhook
+          requires:
+            - install
       - lint:
           requires:
             - install

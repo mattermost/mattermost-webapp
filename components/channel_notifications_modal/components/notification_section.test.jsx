@@ -22,7 +22,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
 
     test('should match snapshot, DESKTOP on collapsed view', () => {
         const wrapper = shallow(
-            <NotificationSection {...baseProps}/>
+            <NotificationSection {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     test('should match snapshot, DESKTOP on expanded view', () => {
         const props = {...baseProps, expand: true};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -40,7 +40,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     test('should match snapshot, PUSH on collapsed view', () => {
         const props = {...baseProps, section: NotificationSections.PUSH};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -49,7 +49,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     test('should match snapshot, PUSH on expanded view', () => {
         const props = {...baseProps, section: NotificationSections.PUSH, expand: true};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -58,7 +58,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     test('should match snapshot, MARK_UNREAD on collapsed view', () => {
         const props = {...baseProps, section: NotificationSections.MARK_UNREAD, globalNotificationLevel: null};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -67,7 +67,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     test('should match snapshot, MARK_UNREAD on expanded view', () => {
         const props = {...baseProps, section: NotificationSections.MARK_UNREAD, expand: true, globalNotificationLevel: null};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -77,7 +77,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         const onChange = jest.fn();
         const props = {...baseProps, expand: true, onChange};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
         wrapper.instance().handleOnChange({target: {value: NotificationLevels.ALL}});
         expect(onChange).toHaveBeenCalledTimes(1);
@@ -88,7 +88,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         const onUpdateSection = jest.fn();
         const props = {...baseProps, expand: true, onUpdateSection};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
         wrapper.instance().handleExpandSection({preventDefault: jest.fn()});
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
@@ -99,7 +99,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         const onUpdateSection = jest.fn();
         const props = {...baseProps, expand: true, onUpdateSection};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
         wrapper.instance().handleCollapseSection({preventDefault: jest.fn()});
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
@@ -109,7 +109,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     test('should match snapshot on server error', () => {
         const props = {...baseProps, serverError: 'server error occurred'};
         const wrapper = shallow(
-            <NotificationSection {...props}/>
+            <NotificationSection {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

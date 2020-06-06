@@ -61,12 +61,12 @@ describe('components/RhsRootPost', () => {
         actions: {
             markPostAsUnread: jest.fn(),
         },
-        emojiMap: new EmojiMap(new Map())
+        emojiMap: new EmojiMap(new Map()),
     };
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps}/>
+            <RhsRootPost {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -78,7 +78,7 @@ describe('components/RhsRootPost', () => {
             isFlagged: true,
         };
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props}/>
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -93,7 +93,7 @@ describe('components/RhsRootPost', () => {
             },
         };
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props}/>
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -109,7 +109,7 @@ describe('components/RhsRootPost', () => {
             },
         };
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props}/>
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -117,7 +117,7 @@ describe('components/RhsRootPost', () => {
 
     test('should show pointer when alt is held down', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps}/>
+            <RhsRootPost {...baseProps}/>,
         );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
@@ -134,7 +134,7 @@ describe('components/RhsRootPost', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props}/>
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
@@ -146,7 +146,7 @@ describe('components/RhsRootPost', () => {
 
     test('should call markPostAsUnread when post is alt+clicked on', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps}/>
+            <RhsRootPost {...baseProps}/>,
         );
 
         wrapper.simulate('click', {altKey: false});
@@ -161,11 +161,11 @@ describe('components/RhsRootPost', () => {
     test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {
         const props = {
             ...baseProps,
-            channelIsArchived: true
+            channelIsArchived: true,
         };
 
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props}/>
+            <RhsRootPost {...props}/>,
         );
 
         wrapper.simulate('click', {altKey: false});
