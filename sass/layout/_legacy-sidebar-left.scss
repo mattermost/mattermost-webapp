@@ -177,10 +177,12 @@
         position: absolute;
         margin-left: 50%;
         width: 188px;
-        font-size: 14px;
+        height: 34px;
+        font-size: 15px;
         line-height: 28px;
         text-align: center;
-        @include border-radius(14px);
+        @include border-radius(4px);
+        font-weight: 700;
         z-index: 1;
         cursor: pointer;
         transform: translateX(-50%);
@@ -191,7 +193,7 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin-left: 5px;
+            margin-right: 5px;
         }
 
         body.enable-animations & {
