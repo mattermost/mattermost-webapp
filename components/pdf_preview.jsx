@@ -60,8 +60,8 @@ export default class PDFPreview extends React.PureComponent {
         return null;
     }
 
-    componentDidUpdate() {
-        if (this.state.pdf === null) {
+    componentDidUpdate(prevProps) {
+        if (this.props.fileUrl !== prevProps.fileUrl) {
             this.getPdfDocument();
             this.pdfPagesRendered = {};
         }

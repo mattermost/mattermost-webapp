@@ -51,8 +51,8 @@ export default class CodePreview extends React.PureComponent {
         return null;
     }
 
-    componentDidUpdate() {
-        if (this.state.code === '') {
+    componentDidUpdate(prevProps) {
+        if (this.props.fileUrl !== prevProps.fileUrl) {
             this.getCode();
         }
     }
