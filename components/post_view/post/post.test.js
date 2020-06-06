@@ -108,7 +108,7 @@ describe('Post', () => {
 
     test('should pass props correctly to PostPreHeader', () => {
         const wrapper = shallowWithIntl(
-            <Post {...baseProps}/>
+            <Post {...baseProps}/>,
         );
 
         const postPreHeader = wrapper.find(PostPreHeader);
@@ -119,7 +119,7 @@ describe('Post', () => {
 
     test('should not highlight the post of it is neither flagged nor pinned', () => {
         const wrapper = shallowWithIntl(
-            <Post {...baseProps}/>
+            <Post {...baseProps}/>,
         );
 
         expect(wrapper.find('div.a11y__section')).toHaveLength(1);
@@ -142,7 +142,7 @@ describe('Post', () => {
                 name: 'pinned and flagged',
                 isFlagged: true,
                 isPinned: true,
-            }
+            },
         ]) {
             // eslint-disable-next-line no-loop-func
             test(testCase.name, () => {
@@ -153,7 +153,7 @@ describe('Post', () => {
                 };
 
                 const wrapper = shallowWithIntl(
-                    <Post {...props}/>
+                    <Post {...props}/>,
                 );
 
                 expect(wrapper.find('div.a11y__section')).toHaveLength(1);

@@ -17,7 +17,7 @@ describe('components/PostPreHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <PostPreHeader {...props}/>
+            <PostPreHeader {...props}/>,
         );
 
         expect(wrapper.find('div')).toHaveLength(0);
@@ -29,11 +29,11 @@ describe('components/PostPreHeader', () => {
             isFlagged: true,
             isPinned: true,
             skipFlagged: true,
-            skipPinned: true
+            skipPinned: true,
         };
 
         const wrapper = shallowWithIntl(
-            <PostPreHeader {...props}/>
+            <PostPreHeader {...props}/>,
         );
 
         expect(wrapper.find('div')).toHaveLength(0);
@@ -47,7 +47,7 @@ describe('components/PostPreHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <PostPreHeader {...props}/>
+            <PostPreHeader {...props}/>,
         );
 
         expect(wrapper.find('span.icon-pin')).toHaveLength(0);
@@ -72,7 +72,7 @@ describe('components/PostPreHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <PostPreHeader {...props}/>
+            <PostPreHeader {...props}/>,
         );
 
         expect(wrapper.find(FlagIconFilled)).toHaveLength(0);
@@ -98,7 +98,7 @@ describe('components/PostPreHeader', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <PostPreHeader {...props}/>
+                <PostPreHeader {...props}/>,
             );
 
             expect(wrapper.find(FlagIconFilled)).toHaveLength(1);
@@ -116,7 +116,7 @@ describe('components/PostPreHeader', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <PostPreHeader {...props}/>
+                <PostPreHeader {...props}/>,
             );
 
             expect(wrapper.find(FlagIconFilled)).toHaveLength(0);
@@ -135,7 +135,7 @@ describe('components/PostPreHeader', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <PostPreHeader {...props}/>
+                <PostPreHeader {...props}/>,
             );
 
             expect(wrapper.find('span.icon-pin')).toHaveLength(0);

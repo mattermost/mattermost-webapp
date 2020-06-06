@@ -211,10 +211,6 @@ class RhsComment extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (post.is_pinned || this.props.isFlagged) {
-            className += ' post--pinned-or-flagged';
-        }
-
         if (this.state.dropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }

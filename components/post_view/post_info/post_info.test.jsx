@@ -157,11 +157,11 @@ describe('components/post_view/PostInfo', () => {
     test('should pass props correctly to PostFlagIcon', () => {
         const props = {
             ...requiredProps,
-            isFlagged: true
+            isFlagged: true,
         };
 
         const wrapper = shallow(
-            <PostInfo {...props}/>
+            <PostInfo {...props}/>,
         );
 
         const flagIcon = wrapper.find(PostFlagIcon);

@@ -9,7 +9,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="a11y__section post post--thread post--compact post--pinned-or-flagged"
+    className="a11y__section post post--thread post--compact"
     onFocus={[Function]}
   >
     <div
@@ -215,7 +215,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="a11y__section post post--thread post--compact post--pinned-or-flagged"
+    className="a11y__section post post--thread post--compact"
     onFocus={[Function]}
   >
     <div
@@ -433,7 +433,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="a11y__section post post--thread post--compact post--pinned-or-flagged"
+    className="a11y__section post post--thread post--compact"
     onFocus={[Function]}
   >
     <div
@@ -639,7 +639,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="a11y__section post post--thread post--compact post--pinned-or-flagged"
+    className="a11y__section post post--thread post--compact"
     onFocus={[Function]}
   >
     <div
@@ -780,7 +780,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="a11y__section post post--thread post--compact post--pinned-or-flagged"
+    className="a11y__section post post--thread post--compact"
     onFocus={[Function]}
   >
     <div

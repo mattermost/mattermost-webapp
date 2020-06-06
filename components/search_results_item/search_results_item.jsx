@@ -196,12 +196,6 @@ class SearchResultsItem extends React.PureComponent {
             className += ' post--hovered';
         }
 
-        if (this.props.post.is_pinned && !this.props.isPinnedPosts) {
-            className += ' post--pinned-or-flagged';
-        } else if (this.props.isFlagged && !this.props.isFlaggedPosts) {
-            className += ' post--pinned-or-flagged';
-        }
-
         return className;
     };
 

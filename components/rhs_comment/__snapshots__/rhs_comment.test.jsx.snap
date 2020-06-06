@@ -3,7 +3,7 @@
 exports[`components/RhsComment should match snapshot 1`] = `
 <div
   aria-label=""
-  className="a11y__section post post--thread same--root post--comment current--user post--compact post--pinned-or-flagged"
+  className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}
@@ -137,7 +137,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
 exports[`components/RhsComment should match snapshot hovered 1`] = `
 <div
   aria-label=""
-  className="a11y__section post post--thread same--root post--comment current--user post--compact post--pinned-or-flagged"
+  className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}
@@ -317,7 +317,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
 exports[`components/RhsComment should match snapshot hovered on deleted post 1`] = `
 <div
   aria-label=""
-  className="a11y__section post post--thread same--root post--comment current--user post--compact post--pinned-or-flagged"
+  className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}
@@ -465,7 +465,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
 exports[`components/RhsComment should match snapshot mobile 1`] = `
 <div
   aria-label=""
-  className="a11y__section post post--thread same--root post--comment current--user post--compact post--pinned-or-flagged"
+  className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}
