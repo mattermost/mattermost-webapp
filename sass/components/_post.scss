@@ -1175,11 +1175,11 @@
             margin-left: 5px; // if left margin of post__content changes, this needs to be adjusted accordingly
 
             .icon--post-pre-header {
-                height: 11px;
-                width: 11px;
+                height: 10px;
+                width: 10px;
                 fill: var(--link-color);
                 color: var(--link-color);
-                font-size: 11px;
+                font-size: 12px;
 
                 &:nth-of-type(even) {
                     margin-left: 9px;

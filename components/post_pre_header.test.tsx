@@ -54,7 +54,7 @@ describe('components/PostPreHeader', () => {
 
         expect(wrapper.find(FlagIconFilled)).toHaveLength(1);
         expect(wrapper.find(FormattedMessage)).toHaveLength(1);
-        expect(wrapper.find(FormattedMessage).prop('defaultMessage')).toEqual('Flagged');
+        expect(wrapper.find(FormattedMessage).prop('defaultMessage')).toEqual('Saved');
         expect(wrapper).toMatchSnapshot();
 
         // case of skipFlagged is true
@@ -104,7 +104,7 @@ describe('components/PostPreHeader', () => {
             expect(wrapper.find(FlagIconFilled)).toHaveLength(1);
             expect(wrapper.find('span.icon-pin')).toHaveLength(1);
             expect(wrapper.find(FormattedMessage)).toHaveLength(1);
-            expect(wrapper.find(FormattedMessage).prop('defaultMessage')).toEqual('Pinned and Flagged');
+            expect(wrapper.find(FormattedMessage).prop('defaultMessage')).toEqual('Pinned and Saved');
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -142,7 +142,7 @@ describe('components/PostPreHeader', () => {
 
             expect(wrapper.find(FlagIconFilled)).toHaveLength(1);
             expect(wrapper.find(FormattedMessage)).toHaveLength(1);
-            expect(wrapper.find(FormattedMessage).prop('defaultMessage')).toEqual('Flagged');
+            expect(wrapper.find(FormattedMessage).prop('defaultMessage')).toEqual('Saved');
             expect(wrapper).toMatchSnapshot();
         });
     });

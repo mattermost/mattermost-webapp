@@ -14,7 +14,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
       placement="right"
     >
       <FormattedMessage
-        defaultMessage="Flag for follow up"
+        defaultMessage="Save"
         id="flag_post.flag"
         values={Object {}}
       />
@@ -29,7 +29,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
   }
 >
   <button
-    aria-label="flag for follow up"
+    aria-label="save"
     className="post-menu__item "
     id="CENTER_flagIcon_post_id"
     onClick={[Function]}
@@ -55,7 +55,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
       placement="right"
     >
       <FormattedMessage
-        defaultMessage="Unflag"
+        defaultMessage="Remove from Saved"
         id="flag_post.unflag"
         values={Object {}}
       />
@@ -70,7 +70,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
   }
 >
   <button
-    aria-label="unflag"
+    aria-label="remove from saved"
     className="post-menu__item visible"
     id="CENTER_flagIcon_post_id"
     onClick={[Function]}

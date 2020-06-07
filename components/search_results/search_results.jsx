@@ -303,7 +303,7 @@ class SearchResults extends React.Component {
         } else if (this.props.isFlaggedPosts) {
             formattedTitle = this.props.intl.formatMessage({
                 id: 'search_header.title3',
-                defaultMessage: 'Flagged Posts',
+                defaultMessage: 'Saved Posts',
             });
         } else if (this.props.isPinnedPosts) {
             formattedTitle = this.props.intl.formatMessage({

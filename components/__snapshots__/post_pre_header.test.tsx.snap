@@ -19,7 +19,7 @@ exports[`components/PostPreHeader should properly handle flagged posts (and not 
     className="post-pre-header__text-container"
   >
     <FormattedMessage
-      defaultMessage="Flagged"
+      defaultMessage="Saved"
       id="post_pre_header.flagged"
       values={Object {}}
     />
@@ -72,7 +72,7 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
     className="post-pre-header__text-container"
   >
     <FormattedMessage
-      defaultMessage="Pinned and Flagged"
+      defaultMessage="Pinned and Saved"
       id="post_pre_header.pinnedAndFlagged"
       values={Object {}}
     />
@@ -118,7 +118,7 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
     className="post-pre-header__text-container"
   >
     <FormattedMessage
-      defaultMessage="Flagged"
+      defaultMessage="Saved"
       id="post_pre_header.flagged"
       values={Object {}}
     />

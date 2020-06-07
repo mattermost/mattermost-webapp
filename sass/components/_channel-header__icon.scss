@@ -31,6 +31,13 @@
         }
     }
 
+    .icon.icon__flag {
+        svg {
+            height: 18px;
+            width: 18px;
+        }
+    }
+
     &:active,
     &--active,
     &--active:hover {

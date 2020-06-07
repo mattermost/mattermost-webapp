@@ -108,7 +108,7 @@ export default class PostFlagIcon extends React.PureComponent {
                     >
                         <FormattedMessage
                             id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
-                            defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
+                            defaultMessage={isFlagged ? 'Remove from Saved' : 'Save'}
                         />
                     </Tooltip>
                 }
@@ -116,7 +116,7 @@ export default class PostFlagIcon extends React.PureComponent {
                 <button
                     ref={this.buttonRef}
                     id={`${this.props.location}_flagIcon_${this.props.postId}`}
-                    aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Unflag').toLowerCase() : localizeMessage('flag_post.flag', 'Flag for follow up').toLowerCase()}
+                    aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Remove from Saved').toLowerCase() : localizeMessage('flag_post.flag', 'Save').toLowerCase()}
                     className={'post-menu__item ' + flagVisible}
                     onClick={this.handlePress}
                 >

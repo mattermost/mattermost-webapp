@@ -35,8 +35,8 @@ class PostPreHeader extends React.PureComponent<Props> {
 
     getMessageInfo(postStatus: PostPinnedOrFlagged, skipFlagged?: boolean, skipPinned?: boolean): {id: string; defaultMessage: string} | false {
         const messageInfos = {
-            pinnedAndFlagged: {id: 'post_pre_header.pinnedAndFlagged', defaultMessage: 'Pinned and Flagged'},
-            flagged: {id: 'post_pre_header.flagged', defaultMessage: 'Flagged'},
+            pinnedAndFlagged: {id: 'post_pre_header.pinnedAndFlagged', defaultMessage: 'Pinned and Saved'},
+            flagged: {id: 'post_pre_header.flagged', defaultMessage: 'Saved'},
             pinned: {id: 'post_pre_header.pinned', defaultMessage: 'Pinned'},
         };
 
