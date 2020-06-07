@@ -85,7 +85,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                         message={
                             <FormattedMarkdownMessage
                                 id={AnnouncementBarMessages.LICENSE_EXPIRING}
-                                defaultMessage='Enterprise license expires on {date, date, long}. [Please renew](!{link}).'
+                                defaultMessage='Enterprise license expires on {date, date, long}. [Please renew](!{link}). AAE-010-0014'
                                 values={{
                                     date: new Date(parseInt(this.props.license.ExpiresAt, 10)),
                                     link: renewalLink,
@@ -119,7 +119,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         ) {
             const emailMessage = formatMessage({
                 id: AnnouncementBarMessages.PREVIEW_MODE,
-                defaultMessage: 'Preview Mode: Email notifications have not been configured',
+                defaultMessage: 'Preview Mode: Email notifications have not been configured. AAE-000-0011',
             });
 
             return (
@@ -136,10 +136,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             let defaultMessage;
             if (this.props.config.EnableSignUpWithGitLab === 'true') {
                 id = t('announcement_bar.error.site_url_gitlab.full');
-                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb.';
+                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb. AAE-010-0013';
             } else {
                 id = t('announcement_bar.error.site_url.full');
-                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server).';
+                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server). AAE-010-0012';
             }
 
             const values = {siteURL: this.props.siteURL};
