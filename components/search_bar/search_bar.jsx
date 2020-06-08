@@ -169,7 +169,7 @@ export default class SearchBar extends React.Component {
         if (this.props.isMentionSearch) {
             this.setState({keepInputFocused: false});
         }
-        this.setState({termsUsed: 0});
+        this.props.actions.updateSearchTerms('');
     }
 
     handleUserFocus = () => {
@@ -230,7 +230,7 @@ export default class SearchBar extends React.Component {
         pretextArray.push(term.toLowerCase());
         this.props.actions.updateSearchTerms(pretextArray.join(' '));
         this.focus();
-        this.setState({highlightedSearchHintIndex: -1, indexChangedViaKeyPress: false, termsUsed: this.state.termsUsed + 1});
+        this.setState({highlightedSearchHintIndex: -1, indexChangedViaKeyPress: false});
     }
 
     focus = () => {
@@ -266,17 +266,21 @@ export default class SearchBar extends React.Component {
 
         let termsUsed = 0;
         this.props.searchTerms.split(/[: ]/g).forEach((word) => {
-            if (searchHintOptions.some(({searchTerm}) => searchTerm.toLowerCase() === `${word.toLowerCase()}:`)) {
+            if (searchHintOptions.some(({searchTerm}) => searchTerm.toLowerCase() === word.toLowerCase())) {
                 termsUsed++;
             }
         });
+        if (visibleSearchHintOptions.length > 0 && !this.props.isMentionSearch) {
+            let helpClass = 'search-help-popover';
+            if (this.state.focused && termsUsed <= 2) {
+                helpClass += ' visible';
+            }
 
-        if (visibleSearchHintOptions.length > 0 && !this.props.isMentionSearch && termsUsed <= 1 && this.state.focused) {
             return (
                 <Popover
                     id={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
                     placement='bottom'
-                    className='search-help-popover visible'
+                    className={helpClass}
                 >
                     <SearchHint
                         options={visibleSearchHintOptions}
