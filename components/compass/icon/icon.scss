@@ -1,0 +1,66 @@
+.Icon {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    padding: 1px;
+    width: 20px;
+    height: 20px;
+    -webkit-font-smoothing: subpixel-antialiased;
+
+    &::before {
+        margin: 0; // remove margins added by fontello
+        font-size: 18/10*1rem;
+        line-height: 1;
+        letter-spacing: 18/10*1rem;
+    }
+
+    &.Icon___xsmall {
+        padding: 0;
+        width: 12px;
+        height: 12px;
+
+        &::before {
+            font-size: 12/10*1rem;
+            letter-spacing: 12/10*1rem;
+        }
+    }
+
+    &.Icon___small {
+        padding: 0;
+        width: 16px;
+        height: 16px;
+
+        &::before {
+            font-size: 16/10*1rem;
+            letter-spacing: 16/10*1rem;
+        }
+    }
+
+    &.Icon___large {
+        padding: 2px;
+        width: 24px;
+        height: 24px;
+
+        &::before {
+            font-size: 20/10*1rem;
+            letter-spacing: 20/10*1rem;
+        }
+    }
+
+    &.Icon___xlarge {
+        padding: 4px;
+        width: 48px;
+        height: 48px;
+
+        &::before {
+            font-size: 40/10*1rem;
+            letter-spacing: 40/10*1rem;
+        }
+    }
+
+    // animation
+    .enable-animations & {
+        transition: color $animation-speed-shorter 0s ease-in-out;
+    }
+}
