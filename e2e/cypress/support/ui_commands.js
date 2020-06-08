@@ -136,6 +136,27 @@ Cypress.Commands.add('getLastPostId', () => {
         invoke('replace', 'post_', '');
 });
 
+/**
+ * @see `cy.uiWaitUntilMessagePostedIncludes` at ./ui_commands.d.ts
+ */
+Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
+    const checkFn = () => {
+        return cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        });
+    };
+
+    // Wait for 5 seconds with 200ms check interval
+    const options = {
+        timeout: TIMEOUTS.SMALL,
+        interval: 200,
+        errorMsg: `Expected "${message}" to be in the last message posted but not found.`,
+    };
+
+    return cy.waitUntil(checkFn, options);
+});
+
 Cypress.Commands.add('getLastPostIdRHS', () => {
     waitUntilPermanentPost();
 
