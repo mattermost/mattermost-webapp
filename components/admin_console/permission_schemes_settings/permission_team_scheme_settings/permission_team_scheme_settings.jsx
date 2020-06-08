@@ -63,6 +63,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
                 channel_admin: true,
                 guests: true,
             },
+            urlParams: new URLSearchParams(props.location.search),
         };
     }
 
@@ -84,6 +85,12 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
                 ]);
             });
             this.props.actions.loadSchemeTeams(this.props.schemeId);
+        }
+
+        if (this.state.urlParams.get('rowIdFromQuery')) {
+            setTimeout(() => {
+                this.selectRow(this.state.urlParams.get('rowIdFromQuery'));
+            }, 1000);
         }
     }
 
