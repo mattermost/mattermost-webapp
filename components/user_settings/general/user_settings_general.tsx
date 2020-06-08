@@ -2,12 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -85,7 +84,7 @@ const holders = defineMessages({
 });
 
 type Props = {
-    intl: any;
+    intl: IntlShape;
     user: {
         id: string;
         username: string;
@@ -138,6 +137,7 @@ type Props = {
     samlNicknameAttributeSet?: boolean;
     ldapPositionAttributeSet?: boolean;
     samlPositionAttributeSet?: boolean;
+    ldapPictureAttributeSet?: boolean;
 }
 
 type State = {
@@ -156,7 +156,7 @@ type State = {
     showSpinner: boolean;
     resendStatus?: string;
     clientError?: string | null;
-    serverError?: string;
+    serverError?: string | {server_error_id: string; message: string};
     emailError?: string;
 }
 
@@ -349,7 +349,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         }
     }
 
-    submitPicture = (user: {}, x: string) => {
+    submitPicture = () => {
         if (!this.state.pictureFile) {
             return;
         }
@@ -1275,7 +1275,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 />
             );
         } else {
-            let minMessage = formatMessage(holders.uploadImage);
+            let minMessage: any = formatMessage(holders.uploadImage);
             if (Utils.isMobile()) {
                 minMessage = formatMessage(holders.uploadImageMobile);
             }

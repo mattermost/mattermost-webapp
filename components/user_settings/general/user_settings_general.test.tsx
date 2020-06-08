@@ -42,6 +42,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         maxFileSize: 1024,
         ldapPositionAttributeSet: false,
         samlPositionAttributeSet: false,
+        ldapPictureAttributeSet: false,
     };
 
     const mockStore = configureStore();
@@ -79,7 +80,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const props = {...requiredProps, actions: {...requiredProps.actions, uploadProfileImage}};
         const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
 
-        (wrapper.instance() as UserSettingsGeneralTab).submitPicture(requiredProps.user, '');
+        (wrapper.instance() as UserSettingsGeneralTab).submitPicture();
         expect(uploadProfileImage).toHaveBeenCalledTimes(0);
     });
 
@@ -96,7 +97,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         expect(wrapper.state('pictureFile')).toBe(event.target.files[0]);
         expect((wrapper.instance() as UserSettingsGeneralTab).submitActive).toBe(true);
 
-        await (wrapper.instance() as UserSettingsGeneralTab).submitPicture(requiredProps.user, '');
+        await (wrapper.instance() as UserSettingsGeneralTab).submitPicture();
 
         expect(uploadProfileImage).toHaveBeenCalledTimes(1);
         expect(uploadProfileImage).toHaveBeenCalledWith(requiredProps.user.id, mockFile);
