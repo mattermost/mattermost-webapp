@@ -325,7 +325,7 @@ export default class GroupDetails extends React.PureComponent {
                     result.error.server_error_id === 'api.ldap_groups.existing_group_name_error') {
                     serverError = GroupNameIsTakenError;
                 } else {
-                    serverError = <FormError error={result.error.message}/>;
+                    serverError = <FormError error={result.error?.message}/>;
                 }
             }
             this.setState({allowReference, groupMentionName: lcGroupMentionName, serverError});
@@ -341,7 +341,7 @@ export default class GroupDetails extends React.PureComponent {
             return this.props.actions.patchGroupSyncable(this.props.groupID, syncableID, this.syncableTypeFromEntryType(type), {scheme_admin: value});
         });
         const results = await Promise.all(promises);
-        const errors = results.map((r) => r.error.message);
+        const errors = results.map((r) => r.error?.message).filter((item) => item);
         if (errors.length) {
             this.setState({serverError: <>{errors[0]}</>});
             return false;
@@ -370,7 +370,7 @@ export default class GroupDetails extends React.PureComponent {
             });
         }
         const results = await Promise.all(promises);
-        const errors = results.map((r) => r.error.message);
+        const errors = results.map((r) => r.error?.message).filter((item) => item);
         if (errors.length) {
             this.setState({serverError: <>{errors[0]}</>});
             return false;
@@ -389,7 +389,7 @@ export default class GroupDetails extends React.PureComponent {
             });
         }
         const results = await Promise.all(promises);
-        const errors = results.map((r) => r.error.message);
+        const errors = results.map((r) => r.error?.message).filter((item) => item);
         if (errors.length) {
             this.setState({serverError: <>{errors[0]}</>});
             return false;
