@@ -38,7 +38,7 @@ export default class GuestPermissionsTree extends React.PureComponent {
         };
 
         this.ADDITIONAL_VALUES = {
-            edit_post: {
+            guest_edit_post: {
                 editTimeLimitButton: <EditPostTimeLimitButton onClick={this.openPostTimeLimitModal}/>,
             },
         };
@@ -48,7 +48,7 @@ export default class GuestPermissionsTree extends React.PureComponent {
             Permissions.EDIT_POST,
             Permissions.DELETE_POST,
             {
-                id: 'reactions',
+                id: 'guest_reactions',
                 combined: true,
                 permissions: [
                     Permissions.ADD_REACTION,
@@ -62,6 +62,18 @@ export default class GuestPermissionsTree extends React.PureComponent {
             this.permissions.push(Permissions.USE_GROUP_MENTIONS);
         }
         this.permissions.push(Permissions.CREATE_POST);
+        this.permissions = this.permissions.map((permission) => {
+            if (typeof (permission) === 'string') {
+                return {
+                    id: `guest_${permission}`,
+                    combined: true,
+                    permissions: [
+                        permission,
+                    ],
+                };
+            }
+            return permission;
+        });
     }
 
     openPostTimeLimitModal = () => {
