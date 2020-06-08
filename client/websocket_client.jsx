@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 const MAX_WEBSOCKET_FAILS = 7;
-const MIN_WEBSOCKET_RETRY_TIME = 30000; // 3 sec
+const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
 
 export default class WebSocketClient {
@@ -35,7 +35,7 @@ export default class WebSocketClient {
             console.log('websocket connecting to ' + connectionUrl); //eslint-disable-line no-console
         }
 
-        window.websock = this.conn = new WebSocket(connectionUrl); //eslint-disable-line no-multi-assign
+        this.conn = new WebSocket(connectionUrl);
         this.connectionUrl = connectionUrl;
 
         this.conn.onopen = () => {
