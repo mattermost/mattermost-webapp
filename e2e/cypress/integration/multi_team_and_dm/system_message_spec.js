@@ -10,9 +10,7 @@
 // Stage: @prod
 // Group: @multi_team_and_dm
 
-/* eslint max-nested-callbacks: ["error", 4] */
-
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getRandomId} from '../../utils';
 
 function verifySystemMessage(post) {
     cy.get(post).
@@ -39,15 +37,16 @@ describe('System message', () => {
         cy.postMessage('Test for no status of a system message');
 
         // # Update the header
+        const newHeader = `Update header with ${getRandomId()}`;
         cy.getCurrentChannelId().then((channelId) => {
             cy.apiPatchChannel(
                 channelId,
-                {header: ' Updating header'.repeat(Math.floor(Math.random() * 10))},
+                {header: newHeader},
             );
         });
 
-        // # Added to wait for the system message to get posted
-        cy.wait(TIMEOUTS.TINY);
+        // # Wait until the system message gets posted.
+        cy.uiWaitUntilMessagePostedIncludes(newHeader);
     });
 
     const displayTypes = ['compact', 'clean'];
