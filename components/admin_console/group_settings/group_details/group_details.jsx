@@ -23,8 +23,6 @@ import ChannelSelectorModal from 'components/channel_selector_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import {GroupNameIsTakenError, InvalidOrReservedGroupNameError, NeedGroupNameError} from 'components/admin_console/group_settings/group_details/group_details_errors';
-
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
         groupID: PropTypes.string.isRequired,
@@ -98,7 +96,7 @@ export default class GroupDetails extends React.PureComponent {
             this.setState({groupTeams: this.props.groupTeams});
         }
         if (this.props.groupChannels !== prevProps.groupChannels) {
-            this.setState({groupChannels: this.props.groupChannels});
+            this.setState({groupChannels: this.props.groupChannels.concat(this.state.groupChannels)});
         }
     }
 
@@ -157,16 +155,29 @@ export default class GroupDetails extends React.PureComponent {
     }
 
     onRemoveTeamOrChannel = (id, type) => {
-        const {groupTeams, groupChannels, itemsToRemove} = this.state;
-        itemsToRemove.push({id, type});
+        const {groupTeams, groupChannels, itemsToRemove, channelsToAdd, teamsToAdd} = this.state;
         const newState = {saveNeeded: true, itemsToRemove};
-        itemsToRemove.forEach((item) => {
-            if (this.syncableTypeFromEntryType(item.type) === Groups.SYNCABLE_TYPE_TEAM) {
-                newState.groupTeams = groupTeams.filter((gt) => gt.team_id !== item.id);
-            } else {
-                newState.groupChannels = groupChannels.filter((gc) => gc.channel_id !== item.id);
+        const syncableType = this.syncableTypeFromEntryType(type);
+        let skipRemove = false;
+        if (syncableType === Groups.SYNCABLE_TYPE_CHANNEL) {
+            newState.channelsToAdd = channelsToAdd.filter((item) => item.channel_id !== id);
+            if (channelsToAdd.length !== newState.channelsToAdd) {
+                skipRemove = true;
             }
-        });
+        } else if (syncableType === Groups.SYNCABLE_TYPE_TEAM) {
+            newState.teamsToAdd = teamsToAdd.filter((item) => item.team_id !== id);
+            if (teamsToAdd.length !== newState.teamsToAdd) {
+                skipRemove = true;
+            }
+        }
+        if (!skipRemove) {
+            itemsToRemove.push({id, type});
+        }
+        if (this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM) {
+            newState.groupTeams = groupTeams.filter((gt) => gt.team_id !== id);
+        } else {
+            newState.groupChannels = groupChannels.filter((gc) => gc.channel_id !== id);
+        }
         this.setState(newState);
         this.props.actions.setNavigationBlocked(true);
     }
@@ -277,8 +288,20 @@ export default class GroupDetails extends React.PureComponent {
         const {allowReference, groupMentionName, hasAllowReferenceChanged, hasGroupMentionNameChanged} = this.state;
         let serverError = null;
 
+        const GroupNameIsTakenError = (
+            <FormattedMessage
+                id='admin.group_settings.group_detail.duplicateMentionNameError'
+                defaultMessage='Group mention is already taken.'
+            />
+        );
+
         if (!groupMentionName && allowReference) {
-            serverError = <NeedGroupNameError/>;
+            serverError = (
+                <FormattedMessage
+                    id='admin.group_settings.need_groupname'
+                    defaultMessage='You must specify a group mention.'
+                />
+            );
             this.setState({allowReference, serverError});
             return false;
         } else if (hasAllowReferenceChanged || hasGroupMentionNameChanged) {
@@ -289,13 +312,18 @@ export default class GroupDetails extends React.PureComponent {
             const result = await this.props.actions.patchGroup(this.props.groupID, {allow_reference: allowReference, name: lcGroupMentionName});
             if (result.error) {
                 if (result.error.server_error_id === 'store.sql_group.unique_constraint') {
-                    serverError = <GroupNameIsTakenError/>;
+                    serverError = GroupNameIsTakenError;
                 } else if (result.error.server_error_id === 'model.group.name.invalid_chars.app_error') {
-                    serverError = <InvalidOrReservedGroupNameError/>;
+                    serverError = (
+                        <FormattedMessage
+                            id='admin.group_settings.group_detail.invalidOrReservedMentionNameError'
+                            defaultMessage='Only letters (a-z), numbers(0-9), periods, dashes and underscores are allowed.'
+                        />
+                    );
                 } else if (result.error.server_error_id === 'api.ldap_groups.existing_reserved_name_error' ||
                     result.error.server_error_id === 'api.ldap_groups.existing_user_name_error' ||
                     result.error.server_error_id === 'api.ldap_groups.existing_group_name_error') {
-                    serverError = <GroupNameIsTakenError/>;
+                    serverError = GroupNameIsTakenError;
                 } else {
                     serverError = <FormError error={result.error.message}/>;
                 }
@@ -312,9 +340,10 @@ export default class GroupDetails extends React.PureComponent {
             const [syncableID, type] = key.split('/');
             return this.props.actions.patchGroupSyncable(this.props.groupID, syncableID, this.syncableTypeFromEntryType(type), {scheme_admin: value});
         });
-        const result = await Promise.all(promises);
-        if (result.error) {
-            this.setState({serverError: result.error});
+        const results = await Promise.all(promises);
+        const errors = results.map((r) => r.error.message);
+        if (errors.length) {
+            this.setState({serverError: <>{errors[0]}</>});
             return false;
         }
         this.setState({rolesToChange: {}});
@@ -340,9 +369,10 @@ export default class GroupDetails extends React.PureComponent {
                 promises.push(this.props.actions.link(this.props.groupID, groupChannel.channel_id, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: groupChannel.scheme_admin}));
             });
         }
-        const result = await Promise.all(promises);
-        if (result.error) {
-            this.setState({serverError: result.error});
+        const results = await Promise.all(promises);
+        const errors = results.map((r) => r.error.message);
+        if (errors.length) {
+            this.setState({serverError: <>{errors[0]}</>});
             return false;
         }
         this.setState({teamsToAdd: [], channelsToAdd: []});
@@ -358,9 +388,10 @@ export default class GroupDetails extends React.PureComponent {
                 promises.push(this.props.actions.unlink(this.props.groupID, item.id, this.syncableTypeFromEntryType(item.type)));
             });
         }
-        const result = await Promise.all(promises);
-        if (result.error) {
-            this.setState({serverError: result.error});
+        const results = await Promise.all(promises);
+        const errors = results.map((r) => r.error.message);
+        if (errors.length) {
+            this.setState({serverError: <>{errors[0]}</>});
             return false;
         }
         this.setState({itemsToRemove: []});
@@ -490,7 +521,13 @@ export default class GroupDetails extends React.PureComponent {
                     cancelLink='/admin_console/user_management/groups'
                     saveNeeded={saveNeeded}
                     onClick={this.handleSubmit}
-                    serverError={serverError}
+                    serverError={serverError &&
+                        <FormError
+                            iconClassName={'fa-exclamation-triangle'}
+                            textClassName={'has-error'}
+                            error={serverError}
+                        />
+                    }
                 />
             </div>
         );
