@@ -863,7 +863,7 @@ describe('Channel Moderation Test', () => {
 
         it('Effect of changing System Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
             // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
-            const randomChannelName = 'NeverModifiedChannel' + getRandomId();
+            const randomChannelName = 'NeverModified' + getRandomId();
             createNewChannel(randomChannelName, 'sysadmin');
 
             goToSystemScheme();
@@ -886,7 +886,7 @@ describe('Channel Moderation Test', () => {
 
         it('Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
             // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
-            const randomChannelName = 'NeverModifiedChannel' + getRandomId();
+            const randomChannelName = 'NeverModified' + getRandomId();
             createNewChannel(randomChannelName, 'sysadmin');
             goToPermissionsAndCreateTeamOverrideScheme(`${randomChannelName}`);
             deleteOrEditTeamScheme(`${randomChannelName}`, 'edit');

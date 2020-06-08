@@ -87,7 +87,7 @@ describe('components/QuickInput', () => {
         wrapper.setProps({onClear: () => wrapper.setProps({value: ''})});
         expect(wrapper.find('.input-clear').exists()).toBe(true);
 
-        wrapper.find('.input-clear').simulate('click');
+        wrapper.find('.input-clear').simulate('mousedown');
         expect(wrapper.find('.input-clear').exists()).toBe(false);
         expect(focusFn).toBeCalled();
     });
