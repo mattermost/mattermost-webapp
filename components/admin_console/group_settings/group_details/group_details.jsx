@@ -161,12 +161,12 @@ export default class GroupDetails extends React.PureComponent {
         let skipRemove = false;
         if (syncableType === Groups.SYNCABLE_TYPE_CHANNEL) {
             newState.channelsToAdd = channelsToAdd.filter((item) => item.channel_id !== id);
-            if (channelsToAdd.length !== newState.channelsToAdd) {
+            if (channelsToAdd.length !== newState.channelsToAdd.length) {
                 skipRemove = true;
             }
         } else if (syncableType === Groups.SYNCABLE_TYPE_TEAM) {
             newState.teamsToAdd = teamsToAdd.filter((item) => item.team_id !== id);
-            if (teamsToAdd.length !== newState.teamsToAdd) {
+            if (teamsToAdd.length !== newState.teamsToAdd.length) {
                 skipRemove = true;
             }
         }
