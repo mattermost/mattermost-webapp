@@ -1221,6 +1221,7 @@
                 text-align: left;
                 vertical-align: top;
                 white-space: nowrap;
+                -moz-user-select: all;    /* Firefox all */
             }
 
             .colon {
