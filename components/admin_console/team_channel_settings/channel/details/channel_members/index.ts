@@ -72,7 +72,7 @@ function makeMapStateToProps() {
         const searchTerm = state.views.search.modalSearch;
         let users = [];
         if (searchTerm) {
-            users = searchProfilesInChannel(state, channelId, searchTerm, false, true)
+            users = searchProfilesInChannel(state, channelId, searchTerm, false, true);
             usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
         } else {
             users = doGetProfilesInChannel(state, channelId, true);
