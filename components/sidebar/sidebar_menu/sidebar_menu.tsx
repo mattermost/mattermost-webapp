@@ -22,6 +22,7 @@ type Props = {
     refCallback?: (ref: SidebarMenu) => void;
     onToggle?: (open: boolean) => void;
     draggingState: DraggingState;
+    tabIndex?: number;
 };
 
 type State = {
@@ -168,6 +169,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                     ref={this.menuButtonRef}
                     className='SidebarMenu_menuButton'
                     aria-label={buttonAriaLabel}
+                    tabIndex={this.props.tabIndex}
                 >
                     {buttonContents}
                 </button>

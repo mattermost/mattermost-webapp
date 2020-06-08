@@ -8,6 +8,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     id="SidebarChannelMenu-channel_id"
     onToggle={[Function]}
     refCallback={[Function]}
+    tabIndex={0}
     tooltipText="Channel options"
   >
     <MenuGroup>
@@ -117,6 +118,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     id="SidebarChannelMenu-channel_id"
     onToggle={[Function]}
     refCallback={[Function]}
+    tabIndex={0}
     tooltipText="Channel options"
   >
     <MenuGroup>
@@ -203,6 +205,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     id="SidebarChannelMenu-channel_id"
     onToggle={[Function]}
     refCallback={[Function]}
+    tabIndex={0}
     tooltipText="Channel options"
   >
     <MenuGroup>
@@ -299,6 +302,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     id="SidebarChannelMenu-channel_id"
     onToggle={[Function]}
     refCallback={[Function]}
+    tabIndex={0}
     tooltipText="Channel options"
   >
     <MenuGroup>
@@ -408,6 +412,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     id="SidebarChannelMenu-channel_id"
     onToggle={[Function]}
     refCallback={[Function]}
+    tabIndex={0}
     tooltipText="Channel options"
   >
     <MenuGroup>
@@ -517,6 +522,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     id="SidebarChannelMenu-channel_id"
     onToggle={[Function]}
     refCallback={[Function]}
+    tabIndex={0}
     tooltipText="Channel options"
   >
     <MenuGroup>
@@ -615,6 +621,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     id="SidebarChannelMenu-channel_id"
     onToggle={[Function]}
     refCallback={[Function]}
+    tabIndex={0}
     tooltipText="Channel options"
   >
     <MenuGroup>
