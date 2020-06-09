@@ -57,7 +57,7 @@ type Props = {
     actions: {
         removePost: (post: ExtendedPost) => void;
         selectPostCard: (post: Post) => void;
-        getPostThread: (rootId: string, root?: boolean) => void;
+        getPostThread: (rootId: string, root?: boolean) => any;
     };
     directTeammate: UserProfile;
 }
@@ -69,6 +69,7 @@ type State = {
     isScrolling: boolean;
     topRhsPostId: string;
     openTime: number;
+    loading: boolean;
     postsArray?: Record<string, any>[];
     isBusy?: boolean;
 }
@@ -100,7 +101,7 @@ export default class RhsThread extends React.Component<Props, State> {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
-            topRhsPostId: 0,
+            topRhsPostId: '',
             loading,
             openTime,
         };
