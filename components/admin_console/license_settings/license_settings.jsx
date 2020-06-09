@@ -153,10 +153,6 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     render() {
-        let serverError = '';
-        if (this.state.serverError) {
-            serverError = <div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div></div>;
-        }
         let gettingTrialError = '';
         if (this.state.gettingTrialError) {
             gettingTrialError = <p className='form-group has-error'><label className='control-label'>{this.state.gettingTrialError}</label></p>;

@@ -32,33 +32,25 @@ describe('components/admin_console/group_settings/GroupSettings', () => {
     };
 
     test('should match snapshot enterprise build with license', () => {
-        const wrapper = shallow(
-            <LicenseSettings {...defaultProps}/>
-        );
+        const wrapper = shallow(<LicenseSettings {...defaultProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot enterprise build without license', () => {
         const props = {...defaultProps, license: {IsLicensed: false}};
-        const wrapper = shallow(
-            <LicenseSettings {...props}/>
-        );
+        const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot team edition build without license', () => {
         const props = {...defaultProps, enterpriseReady: false, license: {IsLicensed: false}};
-        const wrapper = shallow(
-            <LicenseSettings {...props}/>
-        );
+        const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot team edition build with license', () => {
         const props = {...defaultProps, enterpriseReady: false};
-        const wrapper = shallow(
-            <LicenseSettings {...props}/>
-        );
+        const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -72,9 +64,7 @@ describe('components/admin_console/group_settings/GroupSettings', () => {
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
         };
         const props = {...defaultProps, enterpriseReady: false, actions};
-        const wrapper = shallow(
-            <LicenseSettings {...props}/>
-        );
+        const wrapper = shallow(<LicenseSettings {...props}/>);
 
         expect(actions.getLicenseConfig).toBeCalledTimes(1);
         expect(actions.upgradeToE0Status).toBeCalledTimes(1);
@@ -97,9 +87,7 @@ describe('components/admin_console/group_settings/GroupSettings', () => {
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 42, error: null})),
         };
         const props = {...defaultProps, enterpriseReady: false, actions};
-        const wrapper = shallow(
-            <LicenseSettings {...props}/>
-        );
+        const wrapper = shallow(<LicenseSettings {...props}/>);
         await flushPromises();
         expect(wrapper).toMatchSnapshot();
     });
@@ -110,9 +98,7 @@ describe('components/admin_console/group_settings/GroupSettings', () => {
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 100, error: null})),
         };
         const props = {...defaultProps, enterpriseReady: false, actions};
-        const wrapper = shallow(
-            <LicenseSettings {...props}/>
-        );
+        const wrapper = shallow(<LicenseSettings {...props}/>);
         await flushPromises();
         expect(wrapper).toMatchSnapshot();
     });

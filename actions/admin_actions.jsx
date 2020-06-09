@@ -404,7 +404,7 @@ export function upgradeToE0Status() {
 export function restartServer() {
     return async () => {
         const data = await Client4.restartServer();
-        return data
+        return data;
     };
 }
 
