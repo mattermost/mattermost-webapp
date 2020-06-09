@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @smoke
 // Group: @plugin_marketplace @plugin
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
