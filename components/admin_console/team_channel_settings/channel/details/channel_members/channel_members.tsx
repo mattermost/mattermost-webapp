@@ -95,7 +95,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchProfilesAndChannelMembers(searchTerm, {in_channel_id: this.props.channelId});
+                    await prevProps.actions.searchProfilesAndChannelMembers(searchTerm, {in_channel_id: this.props.channelId, allow_inactive: false});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;

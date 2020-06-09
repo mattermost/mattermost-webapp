@@ -64,7 +64,7 @@ describe('Message Draft and Switch Channels', () => {
 
         // * Validate if the draft icon is visible to left of the channel name in the filtered list
         cy.get('#publicChannel').scrollIntoView();
-        cy.get('#switchChannel_town-square #draftIcon').should('be.visible');
+        cy.get('#switchChannel_town-square .icon-pencil-outline').should('be.visible');
 
         // * Escape channel switcher and reset post textbox for test channel
         cy.get('.close').click();

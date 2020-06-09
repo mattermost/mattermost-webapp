@@ -30,6 +30,13 @@ describe('Messaging', () => {
         });
     });
 
+    after(() => {
+        cy.apiPatchMe({
+            locale: 'en',
+            timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
+        });
+    });
+
     it('MM-21482 Date separators should translate correctly', () => {
         function verifyDateSeparator(index, match) {
             cy.findAllByTestId('basicSeparator').eq(index).within(() => {

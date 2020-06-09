@@ -72,10 +72,10 @@ function makeMapStateToProps() {
         const searchTerm = state.views.search.systemUsersSearch?.term || '';
         let users = [];
         if (searchTerm) {
-            users = searchProfilesInChannel(state, channelId, searchTerm);
+            users = searchProfilesInChannel(state, channelId, searchTerm, false, true);
             usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
         } else {
-            users = doGetProfilesInChannel(state, channelId, false);
+            users = doGetProfilesInChannel(state, channelId, true);
         }
 
         return {
