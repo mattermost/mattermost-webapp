@@ -35,9 +35,7 @@ export default class NavbarInfoButton extends React.PureComponent {
     }
 
     showEditChannelHeaderModal = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
-        }
+        this.hide();
 
         const {actions, channel} = this.props;
         const modalData = {
