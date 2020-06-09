@@ -170,12 +170,13 @@ export default class Textbox extends React.PureComponent<Props> {
 
     focus = () => {
         const textbox = this.refs.message;
-        textbox.focus();
+        if (textbox) {
+            textbox.focus();
 
-        // reset character count warning
-        this.checkMessageLength(textbox.getValue());
+            // reset character count warning
+            this.checkMessageLength(textbox.getValue());
+        }
     }
-
     blur = () => {
         this.refs.message.blur();
     };
@@ -196,7 +197,7 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
-        if (this.wrapper.current) {
+        if (this.wrapper.current && this.refs.message) {
             wrapperHeight = this.refs.message.getClientHeight();
         }
         if (this.props.preview) {

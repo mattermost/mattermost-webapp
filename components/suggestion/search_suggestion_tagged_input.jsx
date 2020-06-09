@@ -9,6 +9,58 @@ import * as Utils from 'utils/utils.jsx';
 import SearchSuggestionInput from './search_suggestion_input';
 const exampleTags = ['from:', 'in:', 'on:', 'before:', 'after:'];
 
+const includesTags = (str) => {
+    const lcStr = str.toLowerCase();
+    return exampleTags.some((tag) => lcStr.includes(tag));
+};
+
+const isTag = (str) => {
+    const lcStr = str.toLowerCase();
+    return exampleTags.some((tag) => lcStr.startsWith(tag));
+};
+
+const determinePairs = (value = this.props.value) => {
+    const pairIncludesTags = includesTags(value);
+    let remainder;
+    let pairs = [];
+
+    if (pairIncludesTags) {
+        const split = value.split(/(?<!:) /);
+        let lastEntry = split[split.length - 1];
+        const lastEntryIsTag = isTag(lastEntry);
+
+        lastEntry = lastEntry.split(':');
+
+        remainder = lastEntry[lastEntryIsTag ? 1 : 0];
+        pairs = split.slice(0, split.length - 1).map((x) => {
+            if (isTag(x)) {
+                const [tag, val] = x.split(':');
+                return {
+                    tag,
+                    value: val,
+                };
+            }
+
+            return {
+                tag: '',
+                value: x,
+            };
+        });
+
+        if (lastEntryIsTag) {
+            pairs.push({tag: lastEntry[0], value: ''});
+        }
+
+        pairs = pairs.filter((pair) => Boolean(pair.tag || pair.value));
+    } else {
+        remainder = value;
+    }
+
+    return {
+        pairs, remainder,
+    };
+};
+
 export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
     static propTypes = {
         onClear: PropTypes.func,
@@ -32,10 +84,23 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
         const value = this.getInput().value;
 
         if (e.key === 'Backspace' && !value) {
-            const pairs = [...this.state.pairs];
-            pairs.pop();
+            const lastPair = this.state.pairs[this.state.pairs.length - 1];
+
+            let pairs;
+            let remainder = this.state.remainder;
+
+            if (lastPair.value) {
+                pairs = [...this.state.pairs.slice(0, this.state.pairs.length - 1), {
+                    tag: lastPair.tag, value: '',
+                }];
+                remainder = lastPair.value;
+            } else {
+                pairs = this.state.pairs.slice(0, this.state.pairs.length - 1);
+            }
+
             this.setState({
                 pairs,
+                remainder,
             }, () => {
                 this.handleChange();
             });
@@ -44,58 +109,6 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
         if (this.props.onKeyDown) {
             this.props.onKeyDown(e);
         }
-    }
-
-    isTag = (str) => {
-        const lcStr = str.toLowerCase();
-        return exampleTags.some((tag) => lcStr.startsWith(tag));
-    }
-
-    includesTags = (str) => {
-        const lcStr = str.toLowerCase();
-        return exampleTags.some((tag) => lcStr.includes(tag));
-    }
-
-    determinePairs(value = this.props.value) {
-        const includesTags = this.includesTags(value);
-        let remainder;
-        let pairs = [];
-
-        if (includesTags) {
-            const split = value.split(/(?<!:) /);
-            let lastEntry = split[split.length - 1];
-            const lastEntryIsTag = this.isTag(lastEntry);
-
-            lastEntry = lastEntry.split(':');
-
-            remainder = lastEntry[lastEntryIsTag ? 1 : 0];
-            pairs = split.slice(0, split.length - 1).map((x) => {
-                if (this.isTag(x)) {
-                    const [tag, val] = x.split(':');
-                    return {
-                        tag,
-                        value: val,
-                    };
-                }
-
-                return {
-                    tag: '',
-                    value: x,
-                };
-            });
-
-            if (lastEntryIsTag) {
-                pairs.push({tag: lastEntry[0], value: ''});
-            }
-
-            pairs = pairs.filter((pair) => Boolean(pair.tag || pair.value));
-        } else {
-            remainder = value;
-        }
-
-        return {
-            pairs, remainder,
-        };
     }
 
     getPretext = () => {
@@ -125,11 +138,14 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
         return pairsText;
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            value: nextProps.value,
-            ...this.determinePairs(nextProps.value),
-        });
+    static getDerivedStateFromProps(nextProps, state) {
+        if (state.value !== nextProps.value) {
+            return {
+                value: nextProps.value,
+                ...determinePairs(nextProps.value),
+            };
+        }
+        return null;
     }
 
     handleChange = () => {
@@ -199,9 +215,7 @@ export default class SearchSuggestionTaggedInput extends SearchSuggestionInput {
                     ))}
                 </ul>
                 <input
-                    ref={(current) => {
-                        this.inputRef.current = current;
-                    }}
+                    ref={this.inputRef}
                     type='text'
                     autoComplete='off'
                     className='search-suggestion__tagged-input'
