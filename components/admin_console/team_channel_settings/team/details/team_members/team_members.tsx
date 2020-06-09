@@ -92,7 +92,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchProfilesAndTeamMembers(searchTerm, {team_id: this.props.teamId});
+                    await prevProps.actions.searchProfilesAndTeamMembers(searchTerm, {team_id: this.props.teamId, allow_inactive: false});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
