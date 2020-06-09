@@ -28,7 +28,7 @@ describe('components/emoji/components/AddEmoji', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <AddEmoji {...baseProps}/>,
-            {context}
+            {context},
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -40,7 +40,7 @@ describe('components/emoji/components/AddEmoji', () => {
     test('should update emoji name and match snapshot', () => {
         const wrapper = shallow(
             <AddEmoji {...baseProps}/>,
-            {context}
+            {context},
         );
 
         const nameInput = wrapper.find('#name');
@@ -52,7 +52,7 @@ describe('components/emoji/components/AddEmoji', () => {
     test('should select a file and match snapshot', () => {
         const wrapper = shallow(
             <AddEmoji {...baseProps}/>,
-            {context}
+            {context},
         );
 
         const file = new Blob([image], {type: 'image/png'});
@@ -85,7 +85,7 @@ describe('components/emoji/components/AddEmoji', () => {
     test('should submit the new added emoji', () => {
         const wrapper = shallow(
             <AddEmoji {...baseProps}/>,
-            {context}
+            {context},
         );
 
         const file = new Blob([image], {type: 'image/png'});

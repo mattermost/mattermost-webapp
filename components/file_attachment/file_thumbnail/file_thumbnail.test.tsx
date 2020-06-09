@@ -29,7 +29,7 @@ describe('FileThumbnail', () => {
 
     test('should render a small image', () => {
         const wrapper = shallow(
-            <FileThumbnail {...baseProps}/>
+            <FileThumbnail {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('FileThumbnail', () => {
         };
 
         const wrapper = shallow(
-            <FileThumbnail {...props}/>
+            <FileThumbnail {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -63,7 +63,7 @@ describe('FileThumbnail', () => {
         };
 
         const wrapper = shallow(
-            <FileThumbnail {...props}/>
+            <FileThumbnail {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -81,7 +81,7 @@ describe('FileThumbnail', () => {
         };
 
         const wrapper = shallow(
-            <FileThumbnail {...props}/>
+            <FileThumbnail {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -98,7 +98,7 @@ describe('FileThumbnail', () => {
         };
 
         const wrapper = shallow(
-            <FileThumbnail {...props}/>
+            <FileThumbnail {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 import {openModal, closeModal} from 'actions/views/modals';
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
-class TestModal extends React.Component {
+class TestModal extends React.PureComponent {
     render() {
         return (
             <Modal

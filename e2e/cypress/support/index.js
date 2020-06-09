@@ -5,29 +5,52 @@
 // Read more at: https://on.cypress.io/configuration
 // ***********************************************************
 
-/* eslint-disable no-loop-func */
+/* eslint-disable no-loop-func, quote-props */
 
-import './ui_commands';
-import './api_commands';
-import './task_commands';
-import './fetch_commands';
-import './storybook_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import 'cypress-wait-until';
 import 'cypress-plugin-tab';
+import addContext from 'mochawesome/addContext';
+
+import './api_commands';
+import './common_login_commands';
+import './db_commands';
+import './fetch_commands';
+import './ldap_commands';
 import './okta_commands';
 import './saml_commands';
-import './ldap_commands';
-import './common_login_commands';
+import './storybook_commands';
+import './task_commands';
+import './ui_commands';
 
-import addContext from 'mochawesome/addContext';
+const percentEncoding = {
+    ':': '%3A',
+    '/': '%2F',
+    '?': '%3F',
+    '#': '%23',
+    '[': '%5B',
+    ']': '%5D',
+    '@': '%40',
+    '!': '%21',
+    '$': '%24',
+    '&': '%26',
+    "'": '%27',
+    '(': '%28',
+    ')': '%29',
+    '*': '%2A',
+    '+': '%2B',
+    ',': '%2C',
+    ';': '%3B',
+    '=': '%3D',
+    '%': '%25',
+    ' ': '+',
+};
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
     // the additional context of the screenshot.
     if (test.state === 'failed') {
-        let filename = Cypress.spec.name + '/';
         let parentNames = '';
 
         // Define our starting parent
@@ -75,12 +98,12 @@ Cypress.on('test:after:run', (test, runnable) => {
         // and consequently Cypress appends some text to the file name
         const hookName = test.hookName ? ' -- ' + test.hookName + ' hook' : '';
 
-        filename += parentNames + testTitle + hookName + ' (failed).png';
+        const filename = `${parentNames}${testTitle}${hookName} (failed).png`.split('').map((w) => percentEncoding[w] || w).join('');
 
         // Add context to the mochawesome report which includes the screenshot
         addContext({test}, {
-            title: 'Failing Screenshot: >> screenshots/' + filename,
-            value: 'screenshots/' + filename,
+            title: 'Failing Screenshot: >> screenshots/' + Cypress.spec.name + '/' + filename,
+            value: 'screenshots/' + Cypress.spec.name + '/' + filename,
         });
     }
 });
@@ -89,6 +112,7 @@ Cypress.on('test:after:run', (test, runnable) => {
 before(() => {
     cy.apiLogin('sysadmin');
     cy.apiUpdateConfig();
+    cy.apiInvalidateCache();
 });
 
 // Add login cookies to whitelist to preserve it

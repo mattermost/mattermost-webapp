@@ -90,7 +90,7 @@ export default function configureStore(initialState) {
             }
 
             return outboundState;
-        }
+        },
     );
 
     const offlineOptions = {

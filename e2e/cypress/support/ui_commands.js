@@ -105,7 +105,7 @@ function isMac() {
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
+    cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(`${message}{enter}`);
     cy.waitUntil(() => {
         return cy.get('#post_textbox').then((el) => {
             return el[0].textContent === '';
@@ -114,7 +114,7 @@ Cypress.Commands.add('postMessage', (message) => {
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
+    cy.get('#reply_textbox').should('be.visible').clear().type(`${message}{enter}`);
     cy.wait(TIMEOUTS.TINY);
 });
 
@@ -134,6 +134,27 @@ Cypress.Commands.add('getLastPostId', () => {
 
     cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
+});
+
+/**
+ * @see `cy.uiWaitUntilMessagePostedIncludes` at ./ui_commands.d.ts
+ */
+Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
+    const checkFn = () => {
+        return cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post-message__text')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes(message));
+        });
+    };
+
+    // Wait for 5 seconds with 200ms check interval
+    const options = {
+        timeout: TIMEOUTS.SMALL,
+        interval: 200,
+        errorMsg: `Expected "${message}" to be in the last message posted but not found.`,
+    };
+
+    return cy.waitUntil(checkFn, options);
 });
 
 Cypress.Commands.add('getLastPostIdRHS', () => {
@@ -386,11 +407,11 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
 /**
  * On default "ad-1" team, create and visit a new channel
  */
-Cypress.Commands.add('createAndVisitNewChannel', () => {
+Cypress.Commands.add('createAndVisitNewChannel', (channelName = 'channel-test') => {
     cy.visit('/ad-1/channels/town-square');
 
     cy.getCurrentTeamId().then((teamId) => {
-        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+        cy.apiCreateChannel(teamId, channelName, 'Channel Test').then((res) => {
             const channel = res.body;
 
             // # Visit the new channel
@@ -398,6 +419,58 @@ Cypress.Commands.add('createAndVisitNewChannel', () => {
 
             // * Verify channel's display name
             cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+            cy.wrap(channel);
+        });
+    });
+});
+
+/**
+ * On default "ad-1" team, create and visit a new direct message between user-1 and the provided user
+ * @param {String} user - Username of user to open DM with
+ */
+Cypress.Commands.add('createAndVisitNewDirectMessageWith', (user) => {
+    cy.visit('/ad-1/channels/town-square');
+
+    cy.apiGetUsers(['user-1', user]).then((userResponse) => {
+        const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
+
+        cy.apiCreateDirectChannel(userEmailArray).then((res) => {
+            const channel = res.body;
+
+            // # Visit the new channel
+            cy.visit(`/ad-1/channels/${channel.name}`);
+
+            // * Verify channel's display name
+            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+            cy.wrap(channel);
+        });
+    });
+});
+
+/**
+ * On default "ad-1" team, create and visit a new group message between user-1 and the provided users
+ * @param {Array} usernames - Array of usernames of the users to open GM with
+ */
+Cypress.Commands.add('createAndVisitNewGroupMessageWith', (usernames) => {
+    cy.visit('/ad-1/channels/town-square');
+
+    cy.apiGetUsers(usernames).then((userResponse) => {
+        const userEmailArray = userResponse.body.map((u) => u.id);
+
+        cy.apiCreateGroupChannel(userEmailArray).then((res) => {
+            const channel = res.body;
+
+            // # Visit the new channel
+            cy.visit(`/ad-1/channels/${channel.name}`);
+
+            // The display name does not contain the logged in user
+            const names = channel.display_name.split(', ');
+            names.splice(names.indexOf('user-1'), 1);
+
+            // * Verify channel's display name
+            cy.get('#channelHeaderTitle').should('contain', names.join(', '));
 
             cy.wrap(channel);
         });

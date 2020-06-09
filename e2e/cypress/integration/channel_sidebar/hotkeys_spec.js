@@ -7,14 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel_sidebar
 
 import users from '../../fixtures/users';
 
 import {testWithConfig} from '../../support/hooks';
 
-import {getRandomInt} from '../../utils';
+import {getRandomId} from '../../utils';
 
 const sysadmin = users.sysadmin;
 
@@ -35,7 +34,7 @@ describe('Channel switching', () => {
 
     it('should switch channels when pressing the alt + arrow hotkeys', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -58,7 +57,7 @@ describe('Channel switching', () => {
 
     it('should switch to unread channels when pressing the alt + shift + arrow hotkeys', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -105,12 +104,12 @@ describe('Channel switching', () => {
         cy.get('body').type(cmdOrCtrl, {release: false}).type('k').type(cmdOrCtrl, {release: true});
 
         // * Verify that the modal has been opened
-        cy.get('.channel-switch__modal').should('be.visible');
+        cy.get('.channel-switcher').should('be.visible');
 
         // # Press ctrl/cmd + k
         cy.get('body').type(cmdOrCtrl, {release: false}).type('k').type(cmdOrCtrl, {release: true});
 
         // * Verify that the modal has been closed
-        cy.get('.channel-switch__modal').should('not.be.visible');
+        cy.get('.channel-switcher').should('not.be.visible');
     });
 });

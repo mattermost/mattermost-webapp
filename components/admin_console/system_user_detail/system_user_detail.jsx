@@ -179,7 +179,7 @@ export default class SystemUserDetail extends React.PureComponent {
                 (err) => {
                     const serverError = err.message ? err.message : err;
                     this.setState({serverError});
-                }
+                },
             );
 
             this.setState({

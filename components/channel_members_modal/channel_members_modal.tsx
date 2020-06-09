@@ -31,7 +31,7 @@ type Props = {
         openModal: (modalData: {
             modalId: string;
             dialogProps: {};
-            dialogType: (props: {}) => React.ReactElement | null;
+            dialogType: (props: any) => React.ReactElement | null;
         }) => Promise<{data: boolean}>;
     };
 }
@@ -50,9 +50,7 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
     }
 
     handleHide = () => {
-        this.setState({
-            show: false,
-        });
+        this.setState({show: false});
     }
 
     handleExit = () => {

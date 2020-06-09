@@ -20,7 +20,7 @@ describe('components/CopyUrlContextMenu', () => {
         const wrapper = shallow(
             <CopyUrlContextMenu {...props}>
                 <span>{'Click'}</span>
-            </CopyUrlContextMenu>
+            </CopyUrlContextMenu>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -41,7 +41,7 @@ describe('components/CopyUrlContextMenu', () => {
         const wrapper = shallow(
             <CopyUrlContextMenu {...props}>
                 <span>{'Click'}</span>
-            </CopyUrlContextMenu>
+            </CopyUrlContextMenu>,
         );
 
         expect(wrapper).toMatchSnapshot();

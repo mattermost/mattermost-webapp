@@ -44,7 +44,7 @@ span.greyed-out {
     max-width: 129px;
     padding-right: 20px;
 }
-.team-desc-col {
+.team-desc-col, .channel-desc-col {
     line-height: 20px;
 }
 .center-row > div {
@@ -73,6 +73,6 @@ span.greyed-out {
     line-height: 17px;
 }
 
-#teams, #team_profile{
+#teams, #team_profile, #channels, #channel_profile {
     margin-top: 0px;
 }

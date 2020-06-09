@@ -37,7 +37,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 
 import Setting from './setting';
 
-export default class SchemaAdminSettings extends React.Component {
+export default class SchemaAdminSettings extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object,
         environmentConfig: PropTypes.object,

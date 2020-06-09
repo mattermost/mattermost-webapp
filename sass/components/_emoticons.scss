@@ -23,6 +23,7 @@
     min-width: 21px;
     vertical-align: middle;
     width: 21px;
+    color: transparent;
 
     &--unicode {
         font-size: 21px;
@@ -137,7 +138,7 @@
     padding: 5px 10px;
 
     .emoji-picker__category {
-        color: v(center-channel-color-50);
+        color: v(center-channel-color-48);
         width: 20px;
         height: 20px;
         display: inline-flex;
@@ -147,12 +148,12 @@
         text-decoration: none;
 
         &:hover {
-            background-color: v(center-channel-color-05);
+            background-color: v(center-channel-color-04);
             color: v(center-channel-color);
         }
 
         &:active {
-            background-color: v(center-channel-color-15);
+            background-color: v(center-channel-color-16);
             color: v(center-channel-color);
         }
 
@@ -347,7 +348,6 @@
     padding: 7px 10px 0;
     position: relative;
     vertical-align: middle;
-    width: 278px;
 
     &.emoji-picker__preview-placeholder {
         padding: 12px;
@@ -359,7 +359,9 @@
     }
 
     .emoji-picker__preview-image-label-box {
+        margin-top: -3px;
         margin-left: 4px;
+        min-width: 0;
 
         .emoji-picker__preview-name {
             font-size: 13px;
@@ -368,6 +370,9 @@
 
         .emoji-picker__preview-aliases {
             display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             font-size: 12px;
             font-weight: bold;
         }

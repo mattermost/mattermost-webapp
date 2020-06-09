@@ -20,7 +20,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils.jsx';
-import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -278,7 +278,7 @@ class CreatePost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
 
-            selectChannelMemberCountsByGroup: PropTypes.func,
+            getChannelMemberCountsByGroup: PropTypes.func,
         }).isRequired,
 
         groupsWithAllowReference: PropTypes.object,
@@ -327,9 +327,10 @@ class CreatePost extends React.PureComponent {
     }
 
     componentDidMount() {
+        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         this.onOrientationChange();
-        this.props.actions.setShowPreview(false);
-        this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
+        actions.setShowPreview(false);
+        actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
             }
@@ -339,17 +340,24 @@ class CreatePost extends React.PureComponent {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
         this.setOrientationListeners();
+
+        if (useGroupMentions) {
+            actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.currentChannel.id !== this.props.currentChannel.id) {
+        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
-            this.props.actions.selectChannelMemberCountsByGroup(this.props.currentChannel.id, this.props.isTimezoneEnabled);
+            if (useGroupMentions) {
+                actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+            }
         }
 
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.props.actions.setShowPreview(false);
+        if (currentChannel.id !== prevProps.currentChannel.id) {
+            actions.setShowPreview(false);
         }
 
         // Focus on textbox when emoji picker is closed
@@ -563,7 +571,7 @@ class CreatePost extends React.PureComponent {
             groupsWithAllowReference,
             channelMemberCountsByGroup,
             currentChannelMembersCount,
-            useGroupMentions
+            useGroupMentions,
         } = this.props;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
@@ -665,6 +673,9 @@ class CreatePost extends React.PureComponent {
             currentChannel,
             currentUserId,
             draft,
+            useGroupMentions,
+            useChannelMentions,
+            groupsWithAllowReference,
         } = this.props;
 
         let post = originalPost;
@@ -679,9 +690,13 @@ class CreatePost extends React.PureComponent {
         post.parent_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
-        if (!this.props.useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
+        if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
+        if (!useGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
+            post.props.disable_group_highlight = true;
+        }
+
         const hookResult = await actions.runMessageWillBePostedHooks(post);
 
         if (hookResult.error) {
@@ -795,19 +810,23 @@ class CreatePost extends React.PureComponent {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
-        const table = getTable(e.clipboardData);
+
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
         if (!table) {
             return;
         }
 
         e.preventDefault();
 
-        let message = '';
+        let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
-        } else {
-            message = formatMarkdownTableMessage(table, this.state.message.trim());
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
+            this.setMessageAndCaretPostion(formattedMessage, newCaretPosition, clipboardData);
+            return;
         }
+        message = formatMarkdownTableMessage(table, message.trim());
         this.setState({message});
     }
 
@@ -1098,6 +1117,17 @@ class CreatePost extends React.PureComponent {
         this.setState({showEmojiPicker: false});
     }
 
+    setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
+        const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+
+        this.setState({
+            message: newMessage,
+            caretPosition: newCaretPosition,
+        }, () => {
+            Utils.setCaretPosition(textbox, newCaretPosition);
+        });
+    }
+
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
 
@@ -1116,15 +1146,7 @@ class CreatePost extends React.PureComponent {
             const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
 
             const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-
-            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
-
-            this.setState({
-                message: newMessage,
-                caretPosition: newCaretPosition,
-            }, () => {
-                Utils.setCaretPosition(textbox, newCaretPosition);
-            });
+            this.setMessageAndCaretPostion(newMessage, newCaretPosition);
         }
 
         this.handleEmojiClose();

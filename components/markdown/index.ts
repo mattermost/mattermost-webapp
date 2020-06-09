@@ -21,6 +21,7 @@ import Markdown from './markdown';
 
 type Props = {
     channelNamesMap?: ChannelNamesMap;
+    mentionKeys?: [];
 }
 
 function makeGetChannelNamesMap() {
@@ -33,7 +34,7 @@ function makeGetChannelNamesMap() {
             }
 
             return channelNamesMap;
-        }
+        },
     );
 }
 
@@ -47,12 +48,12 @@ function makeMapStateToProps() {
             autolinkedUrlSchemes: getAutolinkedUrlSchemes(state),
             channelNamesMap: getChannelNamesMap(state, ownProps),
             enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
-            mentionKeys: getAllUserMentionKeys(state),
+            mentionKeys: ownProps.mentionKeys || getAllUserMentionKeys(state),
             siteURL: getSiteURL(),
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',
             minimumHashtagLength: parseInt(config.MinimumHashtagLength || '', 10),
-            emojiMap: getEmojiMap(state)
+            emojiMap: getEmojiMap(state),
         };
     };
 }

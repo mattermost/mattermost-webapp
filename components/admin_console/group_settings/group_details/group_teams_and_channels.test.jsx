@@ -56,6 +56,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
         getGroupSyncables: jest.fn().mockReturnValue(Promise.resolve()),
         unlink: jest.fn(),
         onChangeRoles: jest.fn(),
+        onRemoveItem: jest.fn(),
     };
 
     test('should match snapshot, with teams, with channels and loading', () => {
@@ -63,7 +64,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             <GroupTeamsAndChannels
                 {...defaultProps}
                 loading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +74,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
             <GroupTeamsAndChannels
                 {...defaultProps}
                 loading={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -85,7 +86,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 teams={[]}
                 channels={[]}
                 loading={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -97,7 +98,7 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
                 teams={[]}
                 channels={[]}
                 loading={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -115,37 +116,31 @@ describe('components/admin_console/group_settings/group_details/GroupTeamsAndCha
         expect(Boolean(wrapper.state().collapsed['22222222222222222222222222'])).toBe(false);
     });
 
-    test('should remove the item based on the item type', async () => {
-        const unlink = jest.fn().mockReturnValue(Promise.resolve());
-        const getGroupSyncables = jest.fn().mockReturnValue(Promise.resolve());
+    test('should invoke the onRemoveItem callback', async () => {
+        const onRemoveItem = jest.fn();
         const wrapper = shallow(
             <GroupTeamsAndChannels
                 {...defaultProps}
-                unlink={unlink}
-                getGroupSyncables={getGroupSyncables}
-            />
+                onChangeRoles={jest.fn()}
+                onRemoveItem={onRemoveItem}
+            />,
         );
         const instance = wrapper.instance();
-        await instance.onRemoveItem('11111111111111111111111111', 'public-team');
-        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '11111111111111111111111111', 'team');
-        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
-        unlink.mockClear();
-        getGroupSyncables.mockClear();
+        instance.onRemoveItem('11111111111111111111111111', 'public-team');
+        expect(onRemoveItem).toBeCalledWith('11111111111111111111111111', 'public-team');
+    });
 
-        await instance.onRemoveItem('22222222222222222222222222', 'private-team');
-        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '22222222222222222222222222', 'team');
-        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'team');
-        unlink.mockClear();
-        getGroupSyncables.mockClear();
-
-        await instance.onRemoveItem('44444444444444444444444444', 'public-channel');
-        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '44444444444444444444444444', 'channel');
-        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
-        unlink.mockClear();
-        getGroupSyncables.mockClear();
-
-        await instance.onRemoveItem('55555555555555555555555555', 'private-channel');
-        expect(unlink).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', '55555555555555555555555555', 'channel');
-        expect(getGroupSyncables).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 'channel');
+    test('should invoke the onChangeRoles callback', async () => {
+        const onChangeRoles = jest.fn();
+        const wrapper = shallow(
+            <GroupTeamsAndChannels
+                {...defaultProps}
+                onChangeRoles={onChangeRoles}
+                onRemoveItem={jest.fn()}
+            />,
+        );
+        const instance = wrapper.instance();
+        instance.onChangeRoles('11111111111111111111111111', 'public-team', true);
+        expect(onChangeRoles).toBeCalledWith('11111111111111111111111111', 'public-team', true);
     });
 });

@@ -39,7 +39,7 @@ describe('components/ChannelHeaderMobile/ChannelHeaderMobile', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ChannelHeaderMobile {...baseProps}/>
+            <ChannelHeaderMobile {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -51,7 +51,7 @@ describe('components/ChannelHeaderMobile/ChannelHeaderMobile', () => {
             channel: {type: 'O', id: '123', name: 'town-square', display_name: 'Town Square', team_id: 'team_id'},
         };
         const wrapper = shallow(
-            <ChannelHeaderMobile {...props}/>
+            <ChannelHeaderMobile {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe('components/ChannelHeaderMobile/ChannelHeaderMobile', () => {
             <ChannelHeaderMobile
                 {...baseProps}
                 isLicensed={false}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

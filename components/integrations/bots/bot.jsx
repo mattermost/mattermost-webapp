@@ -278,7 +278,7 @@ export default class Bot extends React.PureComponent {
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>,
             );
         });
 
@@ -398,7 +398,7 @@ export default class Bot extends React.PureComponent {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
             );
         } else if (this.state.creatingTokenState === 'CREATED') {
             tokenList.push(
@@ -445,7 +445,7 @@ export default class Bot extends React.PureComponent {
                             />
                         </button>
                     </div>
-                </div>
+                </div>,
             );
         }
 
