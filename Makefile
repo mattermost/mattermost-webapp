@@ -45,7 +45,6 @@ node_modules: .npminstall
 	npm install
 	touch $@
 
-
 package: build ## Packages app
 	@echo Packaging webapp
 
