@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod @smoke
-// Group: @accessibility
+// Group: @accessibility @smoke
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';

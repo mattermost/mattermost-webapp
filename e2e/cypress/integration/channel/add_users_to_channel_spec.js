@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod @smoke
-// Group: @channel @channel_settings
+// Group: @channel @channel_settings @smoke
 
 function verifyMentionedUserAndProfilePopover(postId) {
     cy.get(`#post_${postId}`).find('.mention-link').each(($el) => {

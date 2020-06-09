@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod @smoke
-// Group: @messaging
+// Group: @messaging @smoke
 
 import users from '../../fixtures/users.json';
 

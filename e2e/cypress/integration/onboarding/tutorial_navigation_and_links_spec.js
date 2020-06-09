@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod @smoke
-// Group: @onboarding
+// Group: @onboarding @smoke
 
 const appDownloadLink = 'https://about.mattermost.com/downloads/';
 

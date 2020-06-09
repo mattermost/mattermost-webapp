@@ -6,7 +6,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console
+// Stage: @smoke
+// Group: @system_console @smoke
 
 describe('Cluster', () => {
     before(() => {
