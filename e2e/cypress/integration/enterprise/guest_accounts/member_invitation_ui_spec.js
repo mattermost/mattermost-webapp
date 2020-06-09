@@ -76,8 +76,20 @@ function verifyInvitationSuccess(user, successText) {
     cy.get('.InvitationModal').should('not.exist');
 }
 
+function loginAsNewUser() {
+    // # Login as new user and get the user id
+    cy.apiCreateNewUser().then((newUser) => {
+        cy.apiAddUserToTeam(testTeam.id, newUser.id);
+
+        // # Logout sysadmin, then login as new user
+        cy.apiLogout();
+        cy.apiLogin(newUser.username, newUser.password);
+        cy.visit(`/${testTeam.name}`);
+    });
+}
+
 describe('Guest Account - Member Invitation Flow', () => {
-    before(() => {
+    beforeEach(() => {
         // * Check if server has license for Guest Accounts
         cy.apiLogin('sysadmin');
         cy.requireLicenseForFeature('GuestAccounts');
@@ -101,11 +113,6 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     afterEach(() => {
-        // # Reload current page after each test to close any popup/modals left open
-        cy.reload();
-    });
-
-    after(() => {
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
             cy.apiLogin('sysadmin');
@@ -189,15 +196,8 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-18040 Verify Invite New/Existing Users', () => {
-        // # Login as new user and get the user id
-        cy.apiCreateNewUser().then((newUser) => {
-            cy.apiAddUserToTeam(testTeam.id, newUser.id);
-
-            // # Logout sysadmin, then login as new user
-            cy.apiLogout();
-            cy.apiLogin(newUser.username, newUser.password);
-            cy.visit(`/${testTeam.name}`);
-        });
+        // # Login as new user
+        loginAsNewUser();
 
         // # Search and add an existing member by username who is part of the team
         invitePeople(sysadmin.username, 1, sysadmin.username);
@@ -220,6 +220,9 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-22037 Invite Member via Email containing upper case letters', () => {
+        // # Login as new user
+        loginAsNewUser();
+
         // # Invite a email containing uppercase letters
         const email = `tEMp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
