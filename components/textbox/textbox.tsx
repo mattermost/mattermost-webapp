@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
+import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
 import CommandProvider from 'components/suggestion/command_provider.jsx';
@@ -14,42 +16,47 @@ import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
-export default class Textbox extends React.PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        channelId: PropTypes.string,
-        value: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired,
-        onKeyPress: PropTypes.func.isRequired,
-        onComposition: PropTypes.func,
-        onHeightChange: PropTypes.func,
-        createMessage: PropTypes.string.isRequired,
-        onKeyDown: PropTypes.func,
-        onMouseUp: PropTypes.func,
-        onKeyUp: PropTypes.func,
-        onBlur: PropTypes.func,
-        supportsCommands: PropTypes.bool.isRequired,
-        handlePostError: PropTypes.func,
-        suggestionListStyle: PropTypes.string,
-        emojiEnabled: PropTypes.bool,
-        isRHS: PropTypes.bool,
-        characterLimit: PropTypes.number.isRequired,
-        disabled: PropTypes.bool,
-        badConnection: PropTypes.bool,
-        listenForMentionKeyClick: PropTypes.bool,
-        currentUserId: PropTypes.string.isRequired,
-        currentTeamId: PropTypes.string.isRequired,
-        preview: PropTypes.bool,
-        profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
-        profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
-        autocompleteGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
-        actions: PropTypes.shape({
-            autocompleteUsersInChannel: PropTypes.func.isRequired,
-            autocompleteChannels: PropTypes.func.isRequired,
-            searchAssociatedGroupsForReference: PropTypes.func.isRequired,
-        }),
-        useChannelMentions: PropTypes.bool.isRequired,
+type Props = {
+    id: string;
+    channelId?: string;
+    value: string;
+    onChange: (e: ChangeEvent) => void;
+    onKeyPress: (e: KeyboardEvent) => void;
+    onComposition?: () => void;
+    onHeightChange?: (height: number, maxHeight: number) => void;
+    createMessage: string;
+    onKeyDown?: (e: KeyboardEvent) => void;
+    onMouseUp?: (e: MouseEvent) => void;
+    onKeyUp?: (e: KeyboardEvent) => void;
+    onBlur?: (e: FocusEvent) => void;
+    supportsCommands: boolean;
+    handlePostError?: (message: JSX.Element | null) => void;
+    suggestionListStyle?: string;
+    emojiEnabled?: boolean;
+    isRHS?: boolean;
+    characterLimit: number;
+    disabled?: boolean;
+    badConnection?: boolean;
+    listenForMentionKeyClick?: boolean;
+    currentUserId: string;
+    currentTeamId: string;
+    preview?: boolean;
+    profilesInChannel: { id: string }[];
+    profilesNotInChannel: { id: string }[];
+    autocompleteGroups: { id: string }[];
+    actions: {
+        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };
+    useChannelMentions: boolean;
+};
+
+export default class Textbox extends React.PureComponent<Props> {
+    private suggestionProviders: Provider[];
+    private wrapper: React.RefObject<HTMLDivElement>;
+    private message: React.RefObject<SuggestionBox>;
+    private preview: React.RefObject<HTMLDivElement>;
 
     static defaultProps = {
         supportsCommands: true,
@@ -57,7 +64,7 @@ export default class Textbox extends React.PureComponent {
         listenForMentionKeyClick: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.suggestionProviders = [
@@ -65,10 +72,10 @@ export default class Textbox extends React.PureComponent {
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
                 profilesNotInChannel: this.props.profilesNotInChannel,
-                autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
+                autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups,
-                searchAssociatedGroupsForReference: (prefix) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
+                searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -80,13 +87,15 @@ export default class Textbox extends React.PureComponent {
 
         this.checkMessageLength(props.value);
         this.wrapper = React.createRef();
+        this.message = React.createRef();
+        this.preview = React.createRef();
     }
 
-    handleChange = (e) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(e);
     }
 
-    updateSuggestions(prevProps) {
+    updateSuggestions(prevProps: Props) {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
@@ -96,15 +105,14 @@ export default class Textbox extends React.PureComponent {
             const providers = this.suggestionProviders;
             for (let i = 0; i < providers.length; i++) {
                 if (providers[i] instanceof AtMentionProvider) {
-                    providers[i].setProps({
+                    (providers[i] as AtMentionProvider).setProps({
                         currentUserId: this.props.currentUserId,
-                        currentChannelId: this.props.channelId,
                         profilesInChannel: this.props.profilesInChannel,
                         profilesNotInChannel: this.props.profilesNotInChannel,
-                        autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
+                        autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
                         autocompleteGroups: this.props.autocompleteGroups,
-                        searchAssociatedGroupsForReference: (prefix) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
+                        searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                     });
                 }
             }
@@ -113,15 +121,15 @@ export default class Textbox extends React.PureComponent {
             this.checkMessageLength(this.props.value);
         }
     }
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (!prevProps.preview && this.props.preview) {
-            this.refs.preview.focus();
+            this.preview.current?.focus();
         }
 
         this.updateSuggestions(prevProps);
     }
 
-    checkMessageLength = (message) => {
+    checkMessageLength = (message: string) => {
         if (this.props.handlePostError) {
             if (message.length > this.props.characterLimit) {
                 const errorMessage = (
@@ -140,34 +148,24 @@ export default class Textbox extends React.PureComponent {
         }
     }
 
-    handleKeyDown = (e) => {
-        if (this.props.onKeyDown) {
-            this.props.onKeyDown(e);
-        }
+    handleKeyDown = (e: KeyboardEvent) => {
+        this.props.onKeyDown?.(e);
     }
 
-    handleMouseUp = (e) => {
-        if (this.props.onMouseUp) {
-            this.props.onMouseUp(e);
-        }
+    handleMouseUp = (e: MouseEvent) => {
+        this.props.onMouseUp?.(e);
     }
 
-    handleKeyUp = (e) => {
-        if (this.props.onKeyUp) {
-            this.props.onKeyUp(e);
-        }
+    handleKeyUp = (e: KeyboardEvent) => {
+        this.props.onKeyUp?.(e);
     }
 
-    handleBlur = (e) => {
-        if (this.props.onBlur) {
-            this.props.onBlur(e);
-        }
+    handleBlur = (e: FocusEvent) => {
+        this.props.onBlur?.(e);
     }
 
-    handleHeightChange = (height, maxHeight) => {
-        if (this.props.onHeightChange) {
-            this.props.onHeightChange(height, maxHeight);
-        }
+    handleHeightChange = (height: number, maxHeight: number) => {
+        this.props.onHeightChange?.(height, maxHeight);
     }
 
     focus = () => {
@@ -183,7 +181,7 @@ export default class Textbox extends React.PureComponent {
     };
 
     recalculateSize = () => {
-        this.refs.message.recalculateSize();
+        this.message.current?.recalculateSize();
     }
 
     render() {
@@ -207,8 +205,8 @@ export default class Textbox extends React.PureComponent {
 
             preview = (
                 <div
-                    tabIndex='0'
-                    ref='preview'
+                    tabIndex={0}
+                    ref={this.preview}
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
@@ -217,6 +215,7 @@ export default class Textbox extends React.PureComponent {
                     <PostMarkdown
                         isRHS={this.props.isRHS}
                         message={this.props.value}
+                        mentionKeys={[]}
                     />
                 </div>
             );
@@ -229,7 +228,7 @@ export default class Textbox extends React.PureComponent {
             >
                 <SuggestionBox
                     id={this.props.id}
-                    ref='message'
+                    ref={this.message}
                     className={textboxClassName}
                     spellCheck='true'
                     placeholder={this.props.createMessage}

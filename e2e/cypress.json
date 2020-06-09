@@ -8,10 +8,12 @@
     "integrationFolder": "..",
     "testFiles": "**/*_spec.js",
     "env": {
-        "storybookUrl": "http://localhost:6006/",
-        "webhookBaseUrl": "http://localhost:3000",
+        "dbClient": "mysql",
+        "dbConnection": "mysql://mmuser:mostest@localhost:3306/mattermost_test?charset=utf8mb4&readTimeout=30s&writeTimeout=30s",
         "ldapServer": "localhost",
         "ldapPort": 389,
-        "runLDAPSync": true
+        "runLDAPSync": true,
+        "storybookUrl": "http://localhost:6006/",
+        "webhookBaseUrl": "http://localhost:3000"
     }
 }
