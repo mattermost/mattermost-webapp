@@ -90,13 +90,37 @@ export default class GroupDetails extends React.PureComponent {
         });
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         /* eslint-disable react/no-did-update-set-state */
-        if (this.props.groupTeams !== prevProps.groupTeams) {
+
+        // groupchannels
+        if (prevState.saveNeeded !== this.state.saveNeeded && !this.state.saveNeeded && prevProps.groupChannels === this.props.groupChannels) {
+            this.setState({groupChannels: this.props.groupChannels});
+        }
+        if (prevProps.groupChannels !== this.props.groupChannels) {
+            let gcs;
+            if (this.state.saveNeeded) {
+                const stateIDs = this.state.groupChannels.map((gc) => gc.channel_id);
+                gcs = this.props.groupChannels.filter((gc) => !stateIDs.includes(gc.channel_id)).concat(this.state.groupChannels);
+            } else {
+                gcs = this.props.groupChannels;
+            }
+            this.setState({groupChannels: gcs});
+        }
+
+        // groupteams
+        if (prevState.saveNeeded !== this.state.saveNeeded && !this.state.saveNeeded && prevProps.groupTeams === this.props.groupTeams) {
             this.setState({groupTeams: this.props.groupTeams});
         }
-        if (this.props.groupChannels !== prevProps.groupChannels) {
-            this.setState({groupChannels: this.props.groupChannels.concat(this.state.groupChannels)});
+        if (prevProps.groupTeams !== this.props.groupTeams) {
+            let gcs;
+            if (this.state.saveNeeded) {
+                const stateIDs = this.state.groupTeams.map((gc) => gc.team_id);
+                gcs = this.props.groupTeams.filter((gc) => !stateIDs.includes(gc.team_id)).concat(this.state.groupTeams);
+            } else {
+                gcs = this.props.groupTeams;
+            }
+            this.setState({groupTeams: gcs});
         }
     }
 
@@ -156,25 +180,25 @@ export default class GroupDetails extends React.PureComponent {
 
     onRemoveTeamOrChannel = (id, type) => {
         const {groupTeams, groupChannels, itemsToRemove, channelsToAdd, teamsToAdd} = this.state;
-        const newState = {saveNeeded: true, itemsToRemove};
+        const newState = {saveNeeded: true, itemsToRemove, serverError: null};
         const syncableType = this.syncableTypeFromEntryType(type);
-        let skipRemove = false;
+
+        let makeAPIRequest = true;
         if (syncableType === Groups.SYNCABLE_TYPE_CHANNEL) {
             newState.channelsToAdd = channelsToAdd.filter((item) => item.channel_id !== id);
-            if (channelsToAdd.length !== newState.channelsToAdd.length) {
-                skipRemove = true;
-                newState.serverError = null;
+            if (!this.props.groupChannels.some((item) => item.channel_id === id)) {
+                makeAPIRequest = false;
             }
         } else if (syncableType === Groups.SYNCABLE_TYPE_TEAM) {
             newState.teamsToAdd = teamsToAdd.filter((item) => item.team_id !== id);
-            if (teamsToAdd.length !== newState.teamsToAdd.length) {
-                skipRemove = true;
-                newState.serverError = null;
+            if (!this.props.groupTeams.some((item) => item.team_id === id)) {
+                makeAPIRequest = false;
             }
         }
-        if (!skipRemove) {
+        if (makeAPIRequest) {
             itemsToRemove.push({id, type});
         }
+
         if (this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM) {
             newState.groupTeams = groupTeams.filter((gt) => gt.team_id !== id);
         } else {
