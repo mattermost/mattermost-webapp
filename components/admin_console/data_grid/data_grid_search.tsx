@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {MouseEvent} from 'react';
 
 import * as Utils from 'utils/utils.jsx';
 import SearchIcon from 'components/widgets/icons/search_icon';
@@ -18,6 +18,10 @@ class DataGridSearch extends React.PureComponent<Props> {
     handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
         this.props.onSearch(term);
+    }
+
+    resetSearch = (event: MouseEvent<HTMLElement, MouseEvent>)=> {
+        this.props.onSearch('');
     }
 
     render() {
@@ -37,6 +41,11 @@ class DataGridSearch extends React.PureComponent<Props> {
                         placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                         onChange={this.handleSearch}
                         value={this.props.term}
+                    />
+                    <i
+                        className={'DataGrid_clearButton fa fa-times-circle ' + (this.props.term.length ? '' : 'hidden')}
+                        onClick={this.resetSearch}
+                        data-testid='clear-search'
                     />
                 </div>
             </div>
