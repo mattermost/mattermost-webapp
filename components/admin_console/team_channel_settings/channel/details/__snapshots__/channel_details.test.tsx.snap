@@ -83,6 +83,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         guestAccountsEnabled={true}
+        isPublic={true}
         onChannelPermissionsChanged={[Function]}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
@@ -234,6 +235,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       />
       <ChannelModeration
         guestAccountsEnabled={true}
+        isPublic={true}
         onChannelPermissionsChanged={[Function]}
         teamSchemeDisplayName="asdf"
         teamSchemeID="asdf"
