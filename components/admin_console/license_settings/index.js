@@ -6,9 +6,15 @@ import {bindActionCreators} from 'redux';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {uploadLicense, removeLicense} from 'mattermost-redux/actions/admin';
 
-import {upgradeToE0Status, upgradeToE0, restartServer} from 'actions/admin_actions';
+import {requestTrialLicense, upgradeToE0Status, upgradeToE0, restartServer} from 'actions/admin_actions';
 
 import LicenseSettings from './license_settings.jsx';
+
+function mapStateToProps(state) {
+    return {
+        stats: state.entities.admin.analytics,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -19,8 +25,9 @@ function mapDispatchToProps(dispatch) {
             upgradeToE0,
             upgradeToE0Status,
             restartServer,
+            requestTrialLicense,
         }, dispatch),
     };
 }
 
-export default connect(null, mapDispatchToProps)(LicenseSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(LicenseSettings);

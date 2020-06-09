@@ -7,6 +7,8 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
@@ -403,5 +405,19 @@ export function restartServer() {
     return async () => {
         const data = await Client4.restartServer();
         return data
+    };
+}
+
+export function requestTrialLicense(users) {
+    return async () => {
+        try {
+            trackEvent('api', 'api_request_trial_license');
+            const response = await Client4.doFetch(`${Client4.getBaseRoute()}/trial-license`, {
+                method: 'POST', body: JSON.stringify({users}),
+            });
+            return {data: response};
+        } catch (e) {
+            return {error: e.message};
+        }
     };
 }

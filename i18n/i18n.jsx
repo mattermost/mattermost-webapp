@@ -82,7 +82,7 @@ const languages = {
     },
     nl: {
         value: 'nl',
-        name: 'Nederlands (Beta)',
+        name: 'Nederlands',
         order: 5,
         url: nl,
     },
@@ -106,7 +106,7 @@ const languages = {
     },
     ru: {
         value: 'ru',
-        name: 'Pусский (Beta)',
+        name: 'Pусский',
         order: 10,
         url: ru,
     },

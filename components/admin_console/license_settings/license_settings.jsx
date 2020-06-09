@@ -7,6 +7,8 @@ import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
+import * as AdminActions from 'actions/admin_actions.jsx';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
@@ -15,6 +17,7 @@ export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
         license: PropTypes.object.isRequired,
         enterpriseReady: PropTypes.bool.isRequired,
+        stats: PropTypes.object,
         actions: PropTypes.shape({
             getLicenseConfig: PropTypes.func.isRequired,
             uploadLicense: PropTypes.func.isRequired,
@@ -22,6 +25,7 @@ export default class LicenseSettings extends React.PureComponent {
             upgradeToE0: PropTypes.func.isRequired,
             restartServer: PropTypes.func.isRequired,
             upgradeToE0Status: PropTypes.func.isRequired,
+            requestTrialLicense: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -33,6 +37,8 @@ export default class LicenseSettings extends React.PureComponent {
             fileSelected: false,
             fileName: null,
             serverError: null,
+            gettingTrialError: null,
+            gettingTrial: false,
             removing: false,
             uploading: false,
             upgradingPercentage: 0,
@@ -47,6 +53,7 @@ export default class LicenseSettings extends React.PureComponent {
             this.reloadPercentage();
         }
         this.props.actions.getLicenseConfig();
+        AdminActions.getStandardAnalytics();
     }
 
     componentWillUnmount() {
@@ -122,6 +129,18 @@ export default class LicenseSettings extends React.PureComponent {
         await this.reloadPercentage();
     }
 
+    requestLicense = async (e) => {
+        e.preventDefault();
+        this.setState({gettingTrial: true, gettingTrialError: null});
+        const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30);
+        const {error} = await this.props.actions.requestTrialLicense(requestedUsers);
+        if (error) {
+            this.setState({gettingTrialError: error});
+        }
+        this.setState({gettingTrial: false});
+        this.props.actions.getLicenseConfig();
+    }
+
     handleRestart = async (e) => {
         e.preventDefault();
         this.setState({restarting: true});
@@ -134,6 +153,15 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     render() {
+        let serverError = '';
+        if (this.state.serverError) {
+            serverError = <div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div></div>;
+        }
+        let gettingTrialError = '';
+        if (this.state.gettingTrialError) {
+            gettingTrialError = <p className='form-group has-error'><label className='control-label'>{this.state.gettingTrialError}</label></p>;
+        }
+
         const {license} = this.props;
         const {uploading} = this.state;
 
@@ -195,16 +223,39 @@ export default class LicenseSettings extends React.PureComponent {
         } else {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
-                <p>
-                    {'Mattermost Enterprise Edition. A license is required to unlock enterprise features. Start a trial subscription at '}
-                    <a
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        href='https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial'
-                    >
-                        {'https://mattermost.com/trial/'}
-                    </a>
-                </p>
+                <div>
+                    {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
+                    <p className='trial'>
+                        <button
+                            className='btn btn-primary'
+                            onClick={this.requestLicense}
+                        >
+                            <LoadingWrapper
+                                loading={this.state.gettingTrial}
+                                text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
+                            >
+                                <FormattedMessage
+                                    id='admin.license.trial-request.submit'
+                                    defaultMessage='Start a trial'
+                                />
+                            </LoadingWrapper>
+                        </button>
+                        {gettingTrialError}
+                    </p>
+                    <p className='help-text'>
+                        <FormattedMessage
+                            id='admin.license.trial-request.different-data'
+                            defaultMessage='Or get a trial license manually at '
+                        />
+                        <a
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            href='https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial'
+                        >
+                            {'https://mattermost.com/trial/'}
+                        </a>
+                    </p>
+                </div>
             );
 
             licenseType = 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.';
