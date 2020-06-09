@@ -63,7 +63,7 @@ export default class ChannelSelectorModal extends React.Component {
                 this.searchTimeoutId = setTimeout(
                     async () => {
                         this.setChannelsLoadingState(true);
-                        const response = await this.props.actions.searchChannels(searchTerm, this.props.groupID, true);
+                        const response = await this.props.actions.searchChannels(searchTerm, this.props.groupID, false);
                         this.setState({channels: response.data});
                         this.setChannelsLoadingState(false);
                     },
