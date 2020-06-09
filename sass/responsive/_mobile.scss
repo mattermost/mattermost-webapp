@@ -236,7 +236,7 @@
         }
     }
 
-    .SidebarMenu {
+    .SidebarMenu, .AddChannelDropdown {
         display: block !important;
 
         .Menu {
@@ -245,7 +245,7 @@
     }
 
     .app__body {
-        .post, .SidebarMenu {
+        .post, .SidebarMenu, .AddChannelDropdown {
             .Menu {
                 @include border-radius(0);
                 border: 0px;
