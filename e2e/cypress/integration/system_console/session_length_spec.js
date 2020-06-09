@@ -41,7 +41,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
     }
 };
 
-describe('Session Lengths', () => {
+describe('MM-T2574 Session Lengths', () => {
     before(() => {
         goToSessionLengths();
     });

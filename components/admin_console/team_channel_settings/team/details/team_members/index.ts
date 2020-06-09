@@ -55,15 +55,15 @@ function mapStateToProps(state: GlobalState, props: Props) {
 
     const teamMembers = getMembersInTeams(state)[teamId] || {};
     const team = getTeam(state, teamId) || {};
-    const stats = getTeamStats(state)[teamId] || {total_member_count: 0};
+    const stats = getTeamStats(state)[teamId] || {active_member_count: 0};
 
     const searchTerm = state.views.search.modalSearch;
     let users = [];
     if (searchTerm) {
-        users = searchProfilesInTeam(state, teamId, searchTerm, false);
+        users = searchProfilesInTeam(state, teamId, searchTerm, false, {skipInactive: true});
         usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
     } else {
-        users = getProfilesInTeam(state, teamId);
+        users = getProfilesInTeam(state, teamId, {skipInactive: true});
     }
 
     return {
@@ -73,7 +73,7 @@ function mapStateToProps(state: GlobalState, props: Props) {
         teamMembers,
         usersToAdd,
         usersToRemove,
-        totalCount: stats.total_member_count,
+        totalCount: stats.active_member_count,
         searchTerm,
     };
 }

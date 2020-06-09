@@ -25,6 +25,8 @@ describe('Post search display', () => {
         // # click on "x" displayed on searchbox
         cy.get('#searchbarContainer').should('be.visible').within(() => {
             cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
+            cy.get('#searchbar-help-popup').should('be.visible');
+            cy.get('#searchFormContainer').type('{esc}');
         });
 
         // # RHS should be visible with search results
@@ -36,15 +38,15 @@ describe('Post search display', () => {
         });
 
         // # check the contents in search options
-        cy.get('#searchbar-help-popup').within(() => {
+        cy.get('#searchbar-help-popup').should('be.visible').within(() => {
             cy.get('h4 span').first().should('have.text', 'Search Options');
-            cy.get('span ul li').first().should('have.text', 'Use "quotation marks" to search for phrases');
-            cy.get('span ul li').eq(1).should('have.text', 'Use from: to find posts from specific users');
-            cy.get('span ul li').eq(2).should('have.text', 'Use in: to find posts in specific channels');
-            cy.get('span ul li').eq(3).should('have.text', 'Use on: to find posts on a specific date');
-            cy.get('span ul li').eq(4).should('have.text', 'Use before: to find posts before a specific date');
-            cy.get('span ul li').eq(5).should('have.text', 'Use after: to find posts after a specific date');
-            cy.get('span ul li').last().should('have.text', 'Use dash "-" to exclude search terms and modifiers');
+            cy.get('div ul li').first().should('have.text', 'From:Messages from a user');
+            cy.get('div ul li').eq(1).should('have.text', 'In:Messages in a channel');
+            cy.get('div ul li').eq(2).should('have.text', 'On:Messages on a date');
+            cy.get('div ul li').eq(3).should('have.text', 'Before:Messages before a date');
+            cy.get('div ul li').eq(4).should('have.text', 'After:Messages after a date');
+            cy.get('div ul li').eq(5).should('have.text', '—Exclude search terms');
+            cy.get('div ul li').last().should('have.text', '""Messages with phrases');
         });
     });
 });

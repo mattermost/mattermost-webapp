@@ -249,6 +249,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
                 "searchTerm": "After:",
               },
               Object {
+                "additionalDisplay": "—",
                 "message": Object {
                   "defaultMessage": "Exclude search terms",
                   "id": "search_list_option.exclude",
@@ -419,6 +420,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
                 "searchTerm": "After:",
               },
               Object {
+                "additionalDisplay": "—",
                 "message": Object {
                   "defaultMessage": "Exclude search terms",
                   "id": "search_list_option.exclude",
