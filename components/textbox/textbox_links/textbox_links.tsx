@@ -1,28 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-export default class TextboxLinks extends React.PureComponent {
+type Props = {
+    showPreview?: boolean;
+    characterLimit: number;
+    previewMessageLink?: string;
+    updatePreview?: (showPreview: boolean) => void;
+    message: string;
+    isMarkdownPreviewEnabled: boolean;
+};
+
+export default class TextboxLinks extends React.PureComponent<Props> {
     static propTypes = {
-        showPreview: PropTypes.bool,
-        characterLimit: PropTypes.number.isRequired,
-        previewMessageLink: PropTypes.string,
-        updatePreview: PropTypes.func,
-        message: PropTypes.string.isRequired,
-        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
         message: '',
     };
 
-    togglePreview = (e) => {
+    togglePreview = (e: MouseEvent) => {
         e.preventDefault();
-        this.props.updatePreview(!this.props.showPreview);
+        this.props.updatePreview?.(!this.props.showPreview);
     }
 
     render() {
@@ -90,12 +92,12 @@ export default class TextboxLinks extends React.PureComponent {
                 </i>
                 <span>
                     {'~~'}
-                    <strike>
+                    <s>
                         <FormattedMessage
                             id='textbox.strike'
                             defaultMessage='strike'
                         />
-                    </strike>
+                    </s>
                     {'~~ '}
                 </span>
                 <span>
