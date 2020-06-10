@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @search_date_filter
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
