@@ -112,11 +112,11 @@ const channelMentionsPermissionCheck = (enabled) => {
 const createPostPermissionCheck = (enabled) => {
     if (enabled) {
         // # Try post it to the channel
-        cy.get('#post_textbox').should('not.be.disabled');
+        cy.get('#post_textbox').should('be.visible').and('not.be.disabled');
         cy.postMessage('test');
     } else {
         // # Ensure the input is disabled
-        cy.get('#post_textbox').should('be.disabled');
+        cy.get('#post_textbox').should('be.visible').and('be.disabled');
     }
 
     // # Get last post message text
@@ -174,7 +174,7 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
 });
 
 const checkChannelPermission = (permissionName, hasChannelPermisisonCheckFunc, notHasChannelPermissionCheckFunc) => {
-    const guestsTestId = `guests-${permissionName}-checkbox`;
+    const guestsTestId = `guests-guest_${permissionName}-checkbox`;
     const usersTestId = `all_users-posts-${permissionName}-checkbox`;
     const channelTestId = `channel_admin-posts-${permissionName}-checkbox`;
     const teamTestId = `team_admin-posts-${permissionName}-checkbox`;
