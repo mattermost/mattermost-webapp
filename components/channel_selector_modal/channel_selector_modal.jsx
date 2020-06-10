@@ -157,10 +157,10 @@ export default class ChannelSelectorModal extends React.PureComponent {
                 <div
                     className='more-modal__details'
                 >
-                    {option.type === 'P' &&
-                        <i className='icon icon-globe'/>}
-                    {option.type === 'O' &&
+                    {option.type === Constants.PRIVATE_CHANNEL &&
                         <i className='icon icon-lock-outline'/>}
+                    {option.type === Constants.OPEN_CHANNEL &&
+                        <i className='icon icon-globe'/>}
                     <span className='channel-name'>{option.display_name}</span>
                     <span className='team-name'>{'(' + option.team_display_name + ')'}</span>
                 </div>

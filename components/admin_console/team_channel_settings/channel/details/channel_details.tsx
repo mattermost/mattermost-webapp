@@ -640,6 +640,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     teamSchemeID={teamScheme?.id}
                     teamSchemeDisplayName={teamScheme?.['display_name']}
                     guestAccountsEnabled={this.props.guestAccountsEnabled}
+                    isPublic={this.props.channel.type === Constants.OPEN_CHANNEL}
                 />
 
                 <RemoveConfirmModal

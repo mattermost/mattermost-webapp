@@ -35,7 +35,7 @@ describe('Negative search filters will omit results', () => {
         search(`-${query}`);
 
         // * If we expect no results, verify results message
-        cy.get('#noResultsMessage').should('be.visible').and('have.text', 'No results found. Try again?');
+        cy.get('.no-results__title').should('be.visible').and('have.text', `No results for "-${query}"`);
 
         cy.get('#searchResultsCloseButton').click();
         cy.get('.search-item__container').should('not.exist');

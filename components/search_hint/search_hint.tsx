@@ -46,7 +46,7 @@ const SearchHint = (props: Props) => {
                     <li
                         className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
                         key={option.searchTerm}
-                        onClick={() => props.onOptionSelected(option.searchTerm)}
+                        onMouseDown={() => props.onOptionSelected(option.searchTerm)}
                         onMouseOver={() => handleOnOptionHover(optionIndex)}
                     >
                         <div className='search-hint__suggestion-list__flex-wrap'>
