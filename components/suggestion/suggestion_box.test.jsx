@@ -188,7 +188,7 @@ describe('components/SuggestionBox', () => {
         expect(instance.setState).toHaveBeenCalled();
     });
 
-    test('should call clear search resutls when forceSuggestionsWhenBlur is true', () => {
+    test('should not call clear search resutls when forceSuggestionsWhenBlur is true', () => {
         const onBlur = jest.fn();
         const wrapper = shallow(
             <SuggestionBox
