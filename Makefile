@@ -36,10 +36,7 @@ test: node_modules ## Runs tests
 i18n-extract: ## Extract strings for translation from the source code
 	npm run mmjstool -- i18n extract-webapp
 
-.PHONY: node_modules
-node_modules: .npminstall
-
-.npminstall: package.json package-lock.json
+node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
 
 	npm install
