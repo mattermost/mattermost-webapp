@@ -49,7 +49,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         const intl = createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'}, {});
 
         const idx = generateIndex(AdminDefinition, {}, intl);
-        expect(idx.search('ldap')).toEqual([
+        expect(idx.search('ldap').sort()).toEqual([
             'authentication/mfa',
             'authentication/ldap',
             'authentication/saml',
@@ -58,21 +58,21 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'authentication/discover-ldap',
             'environment/session_lengths',
             'authentication/guest_access',
-        ]);
-        expect(idx.search('saml')).toEqual([
+        ].sort());
+        expect(idx.search('saml').sort()).toEqual([
             'authentication/saml',
             'authentication/discover-saml',
             'environment/session_lengths',
             'authentication/email',
             'experimental/features',
-        ]);
+        ].sort());
         expect(idx.search('nginx')).toEqual([
             'environment/rate_limiting',
         ]);
-        expect(idx.search('caracteres')).toEqual([
+        expect(idx.search('caracteres').sort()).toEqual([
             'site_config/customization',
             'authentication/password',
-        ]);
+        ].sort());
         expect(idx.search('characters')).toEqual([]);
         expect(idx.search('notexistingword')).toEqual([]);
     });
