@@ -210,7 +210,7 @@
   "admin.bleve.enableSearchingDescription": "When true, Bleve will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.",
   "admin.bleve.enableSearchingTitle": "Enable Bleve for search queries:",
   "admin.bleve.indexDirDescription": "Directory path to use for store bleve indexes.",
-  "admin.bleve.indexDirTitle": "IndexDir:",
+  "admin.bleve.indexDirTitle": "Index Directory:",
   "admin.bleve.percentComplete": "{percent}% Complete",
   "admin.bleve.purgeIndexesButton": "Purge Index",
   "admin.bleve.purgeIndexesButton.error": "Failed to purge indexes: {error}",
