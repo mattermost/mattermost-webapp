@@ -1195,6 +1195,13 @@
             color: var(--link-color);
             font-size: 12px;
             line-height: 15px;
+
+            .post-pre-header__link-separator {
+                margin: 0px 5px;
+                color: var(--center-channel-color-64);
+                font-size: 4px;
+                vertical-align: top;
+            }
         }
     }
 

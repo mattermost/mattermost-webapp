@@ -23,7 +23,7 @@ import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
-import PostPreHeader from 'components/post_pre_header';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -400,6 +400,7 @@ class SearchResultsItem extends React.PureComponent {
                         isPinned={post.is_pinned || false}
                         skipPinned={this.props.isPinnedPosts}
                         skipFlagged={this.props.isFlaggedPosts}
+                        channelId={post.channel_id}
                     />
                     <div
                         role='application'

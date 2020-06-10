@@ -10,7 +10,7 @@ import {Locations} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 import SearchResultsItem from 'components/search_results_item/search_results_item';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
-import PostPreHeader from 'components/post_pre_header';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -247,5 +247,6 @@ describe('components/SearchResultsItem', () => {
         expect(postPreHeader.prop('isPinned')).toEqual(props.post.is_pinned);
         expect(postPreHeader.prop('skipPinned')).toEqual(props.isPinnedPosts);
         expect(postPreHeader.prop('skipFlagged')).toEqual(props.isFlaggedPosts);
+        expect(postPreHeader.prop('channelId')).toEqual(defaultProps.post.channel_id);
     });
 });

@@ -10,7 +10,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
 import EmojiMap from 'utils/emoji_map';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
-import PostPreHeader from 'components/post_pre_header';
+import PostPreHeader from 'components/post_view/post_pre_header';
 import {Locations} from 'utils/constants';
 
 jest.mock('utils/post_utils.jsx', () => ({
@@ -197,5 +197,6 @@ describe('components/RhsComment', () => {
         expect(postPreHeader).toHaveLength(1);
         expect(postPreHeader.prop('isFlagged')).toEqual(baseProps.isFlagged);
         expect(postPreHeader.prop('isPinned')).toEqual(baseProps.post.is_pinned);
+        expect(postPreHeader.prop('channelId')).toEqual(baseProps.post.channel_id);
     });
 });

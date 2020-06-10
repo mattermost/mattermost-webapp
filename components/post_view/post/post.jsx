@@ -15,7 +15,7 @@ import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
-import PostPreHeader from 'components/post_pre_header';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 class Post extends React.PureComponent {
     static propTypes = {
@@ -373,6 +373,7 @@ class Post extends React.PureComponent {
                     <PostPreHeader
                         isFlagged={this.props.isFlagged}
                         isPinned={post.is_pinned || false}
+                        channelId={post.channel_id}
                     />
                     <div
                         role='application'

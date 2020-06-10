@@ -3117,7 +3117,6 @@
   "post_info.unread": "Mark as Unread",
   "post_pre_header.pinned": "Pinned",
   "post_pre_header.flagged": "Saved",
-  "post_pre_header.pinnedAndFlagged": "Pinned and Saved",
   "post_message_view.edited": "(edited)",
   "post.ariaLabel.attachment": ", 1 attachment",
   "post.ariaLabel.attachmentMultiple": ", {attachmentCount} attachments",

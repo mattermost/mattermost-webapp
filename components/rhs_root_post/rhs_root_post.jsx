@@ -25,7 +25,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
-import PostPreHeader from 'components/post_pre_header';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -396,6 +396,7 @@ class RhsRootPost extends React.PureComponent {
                 <PostPreHeader
                     isFlagged={this.props.isFlagged}
                     isPinned={post.is_pinned || false}
+                    channelId={post.channel_id}
                 />
                 <div
                     role='application'

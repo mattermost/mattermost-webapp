@@ -29,7 +29,7 @@ import MessageWithAdditionalContent from 'components/message_with_additional_con
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
-import PostPreHeader from 'components/post_pre_header';
+import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 
 class RhsComment extends React.PureComponent {
@@ -517,6 +517,7 @@ class RhsComment extends React.PureComponent {
                 <PostPreHeader
                     isFlagged={this.props.isFlagged}
                     isPinned={post.is_pinned || false}
+                    channelId={post.channel_id}
                 />
                 <div
                     role='application'

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import PostPreHeader from 'components/post_pre_header';
+import PostPreHeader from 'components/post_view/post_pre_header';
 
 import Post from './post';
 
@@ -115,6 +115,7 @@ describe('Post', () => {
         expect(postPreHeader).toHaveLength(1);
         expect(postPreHeader.prop('isFlagged')).toEqual(baseProps.isFlagged);
         expect(postPreHeader.prop('isPinned')).toEqual(baseProps.post.is_pinned);
+        expect(postPreHeader.prop('channelId')).toEqual(baseProps.post.channel_id);
     });
 
     test('should not highlight the post of it is neither flagged nor pinned', () => {

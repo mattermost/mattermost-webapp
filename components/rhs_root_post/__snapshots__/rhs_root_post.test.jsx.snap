@@ -11,7 +11,8 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
   role="listitem"
   tabIndex="-1"
 >
-  <injectIntl(PostPreHeader)
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
     isFlagged={false}
     isPinned={false}
   />
@@ -192,7 +193,8 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
   role="listitem"
   tabIndex="-1"
 >
-  <injectIntl(PostPreHeader)
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
     isFlagged={false}
     isPinned={false}
   />
@@ -329,7 +331,8 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
   role="listitem"
   tabIndex="-1"
 >
-  <injectIntl(PostPreHeader)
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
     isFlagged={false}
     isPinned={false}
   />
@@ -469,7 +472,8 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
   role="listitem"
   tabIndex="-1"
 >
-  <injectIntl(PostPreHeader)
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
     isFlagged={true}
     isPinned={false}
   />

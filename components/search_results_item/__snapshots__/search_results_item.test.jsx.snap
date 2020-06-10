@@ -18,7 +18,8 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
     >
       Direct Message (with Other guy)
     </div>
-    <injectIntl(PostPreHeader)
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
       isFlagged={true}
       isPinned={true}
     />
@@ -236,7 +237,8 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
         />
       </span>
     </div>
-    <injectIntl(PostPreHeader)
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
       isFlagged={true}
       isPinned={false}
     />
@@ -442,7 +444,8 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
     >
       channel_name
     </div>
-    <injectIntl(PostPreHeader)
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
       isFlagged={true}
       isPinned={false}
     />
@@ -648,7 +651,8 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     >
       channel_name
     </div>
-    <injectIntl(PostPreHeader)
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
       isFlagged={true}
       isPinned={false}
     />
@@ -789,7 +793,8 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     >
       channel_name
     </div>
-    <injectIntl(PostPreHeader)
+    <Connect(injectIntl(PostPreHeader))
+      channelId="channel_id"
       isFlagged={true}
       isPinned={false}
     />
