@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import {Group} from 'mattermost-redux/types/groups';
 
@@ -43,9 +44,17 @@ export default class GroupMembersModal extends React.PureComponent<Props, State>
 
     render() {
         const {group} = this.props;
+
+        const button = (
+            <FormattedMessage
+                id='admin.team_channel_settings.groupMembers.close'
+                defaultMessage='Close'
+            />
+        );
+
         return (
             <Modal
-                dialogClassName='a11y__modal more-modal'
+                dialogClassName='a11y__modal settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
@@ -66,6 +75,17 @@ export default class GroupMembersModal extends React.PureComponent<Props, State>
                         groupID={group.id}
                     />
                 </Modal.Body>
+                <Modal.Footer>
+                    <button
+                        autoFocus={true}
+                        type='button'
+                        className='btn btn-primary'
+                        onClick={this.handleHide}
+                        id='closeModalButton'
+                    >
+                        {button}
+                    </button>
+                </Modal.Footer>
             </Modal>
         );
     }

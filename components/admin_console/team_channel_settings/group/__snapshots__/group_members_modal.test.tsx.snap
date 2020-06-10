@@ -7,7 +7,7 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal more-modal"
+  dialogClassName="a11y__modal settings-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="groupMembersModal"
@@ -52,5 +52,23 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
       groupID="group_id"
     />
   </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      autoFocus={true}
+      className="btn btn-primary"
+      id="closeModalButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="admin.team_channel_settings.groupMembers.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;
