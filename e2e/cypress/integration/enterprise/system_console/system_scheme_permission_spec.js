@@ -93,10 +93,7 @@ const removePermission = (permissionCheckBoxTestId) => {
 // # If enabled is true assumes the user has the permission enabled and checks for no system message
 const channelMentionsPermissionCheck = (enabled) => {
     // # Type @here and post it to the channel
-    cy.get('#post_textbox').clear().type('@here{enter}');
-
-    // # Wait for system message to appear
-    cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.postMessage('@here');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -116,14 +113,11 @@ const createPostPermissionCheck = (enabled) => {
     if (enabled) {
         // # Try post it to the channel
         cy.get('#post_textbox').should('not.be.disabled');
-        cy.get('#post_textbox').clear().type('test{enter}');
+        cy.postMessage('test');
     } else {
         // # Ensure the input is disabled
         cy.get('#post_textbox').should('be.disabled');
     }
-
-    // # Wait for system message to appear
-    cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
