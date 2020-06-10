@@ -7,8 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
-// Group: @onboarding
+// Stage: @prod
+// Group: @onboarding @smoke
 
 const appDownloadLink = 'https://about.mattermost.com/downloads/';
 
