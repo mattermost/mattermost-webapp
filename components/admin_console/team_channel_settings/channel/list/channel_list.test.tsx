@@ -4,29 +4,19 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ChannelType} from 'mattermost-redux/src/types/channels';
+import {Channel, ChannelType} from 'mattermost-redux/src/types/channels';
+import {TestHelper} from '../../../../../utils/test_helper';
 
 import ChannelList from './channel_list';
 
 describe('admin_console/team_channel_settings/channel/ChannelList', () => {
+    const channel: Channel = Object.assign(TestHelper.getChannelMock({id: 'channel-1'}));
+
     test('should match snapshot', () => {
         const testChannels = [{
+            ...channel,
             id: '123',
             display_name: 'DN',
-            create_at: 1,
-            update_at: 1,
-            delete_at: 0,
-            team_id: 'a',
-            type: 'O' as ChannelType,
-            name: 'abc',
-            header: 'abc',
-            purpose: 'abc',
-            last_post_at: 123,
-            total_msg_count: 123,
-            extra_update_at: 123,
-            creator_id: 'abc',
-            scheme_id: 'abc',
-            group_constrained: false,
             team_display_name: 'teamDisplayName',
             team_name: 'teamName',
             team_update_at: 1,
@@ -52,22 +42,9 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
         const testChannels = [];
         for (let i = 0; i < 30; i++) {
             testChannels.push({
+                ...channel,
                 id: 'id' + i,
                 display_name: 'DN' + i,
-                create_at: 1,
-                update_at: 1,
-                delete_at: 0,
-                team_id: 'a',
-                type: 'O' as ChannelType,
-                name: 'abc',
-                header: 'abc',
-                purpose: 'abc',
-                last_post_at: 123,
-                total_msg_count: 123,
-                extra_update_at: 123,
-                creator_id: 'abc',
-                scheme_id: 'abc',
-                group_constrained: false,
                 team_display_name: 'teamDisplayName',
                 team_name: 'teamName',
                 team_update_at: 1,

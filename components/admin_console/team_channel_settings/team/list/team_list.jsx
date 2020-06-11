@@ -62,7 +62,7 @@ export default class TeamList extends React.PureComponent {
 
     searchTeamsDebounced = debounce(async (page, term) => {
         const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
-        const teams = this.state.teams.concat(response.data.teams);
+        const teams = page > 0 ? this.state.teams.concat(response.data.teams) : response.data.teams;
         const total = response.data.total_count;
         this.setState({page, loading: false, teams, total});
     }, 300);
