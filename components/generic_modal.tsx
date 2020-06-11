@@ -11,6 +11,7 @@ import './generic_modal.scss';
 type Props = {
     onHide: () => void;
     modalHeaderText: string | JSX.Element;
+    show?: boolean;
     handleCancel?: () => void;
     handleConfirm?: () => void;
     confirmButtonText?: string | JSX.Element;
@@ -24,11 +25,15 @@ type State = {
 }
 
 export default class GenericModal extends React.PureComponent<Props, State> {
+    static defaultProps: Partial<Props> = {
+        show: true,
+    };
+
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            show: true,
+            show: props.show!,
         };
     }
 
