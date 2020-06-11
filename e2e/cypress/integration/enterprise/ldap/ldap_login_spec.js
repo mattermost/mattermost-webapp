@@ -117,7 +117,8 @@ context('ldap', () => {
             cy.apiLogin('sysadmin').then(() => {
                 cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.checkLoginFailed(testSettings);
+                        cy.get('#createPublicChannel').should('be.visible');
+                        cy.doMemberLogout(testSettings);
                     });
                 });
             });
