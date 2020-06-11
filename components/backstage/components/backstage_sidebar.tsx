@@ -10,8 +10,8 @@ import {Permissions} from 'mattermost-redux/constants';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import BackstageCategory from './backstage_category.jsx';
-import BackstageSection from './backstage_section.jsx';
+import BackstageCategory from './backstage_category';
+import BackstageSection from './backstage_section';
 
 export default class BackstageSidebar extends React.PureComponent {
     static get propTypes() {
