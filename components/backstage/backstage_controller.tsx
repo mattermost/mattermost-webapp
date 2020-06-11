@@ -26,7 +26,7 @@ import EditOauthApp from 'components/integrations/edit_oauth_app';
 import CommandsContainer from 'components/integrations/commands_container';
 import ConfirmIntegration from 'components/integrations/confirm_integration';
 
-import BackstageSidebar from './components/backstage_sidebar.jsx';
+import BackstageSidebar from './components/backstage_sidebar';
 import BackstageNavbar from './components/backstage_navbar';
 
 const BackstageRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disable-line react/prop-types

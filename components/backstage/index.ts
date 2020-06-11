@@ -10,7 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveITeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
-import BackstageController from './backstage_controller.jsx';
+import BackstageController from './backstage_controller';
 
 function mapStateToProps(state) {
     const user = getCurrentUser(state);
