@@ -8,7 +8,13 @@
  * in MySQL, first letter is capitalized.
  */
 
-import {convertKeysToLowercase} from '../utils';
+const mapKeys = require('lodash.mapkeys');
+
+function convertKeysToLowercase(obj) {
+    return mapKeys(obj, (_, k) => {
+        return k.toLowerCase();
+    });
+}
 
 function getKnexClient({client, connection}) {
     return require('knex')({client, connection}); // eslint-disable-line global-require
