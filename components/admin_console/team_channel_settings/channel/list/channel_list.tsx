@@ -62,7 +62,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({loading: true, term});
 
         if (term.length > 0) {
-            this.searchChannelsDebounced(page, term);
+            page > 0 ? this.searchChannels(page,term) : this.searchChannelsDebounced(page, term);
             return;
         }
 
@@ -70,12 +70,14 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({page, loading: false});
     }
 
-    searchChannelsDebounced = debounce(async (page, term) => {
+    searchChannels = async (page = 0, term = '') => {
         const response = await this.props.actions.searchAllChannels(term, '', false, page, PAGE_SIZE);
         const channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
         const total = response.data.total_count;
         this.setState({page, loading: false, channels, total});
-    }, 300, false, () => {});
+    }
+
+    searchChannelsDebounced = debounce((page, term) => this.searchChannels(page, term), 300, false, () => {});
 
     nextPage = () => {
         this.loadPage(this.state.page + 1, this.state.term);

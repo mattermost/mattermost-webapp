@@ -52,7 +52,7 @@ export default class TeamList extends React.PureComponent {
         this.setState({loading: true, term});
 
         if (term.length > 0) {
-            this.searchTeamsDebounced(page, term);
+            page > 0 ? this.searchTeams(page, term) : this.searchTeamsDebounced(page, term);
             return;
         }
 
@@ -60,12 +60,14 @@ export default class TeamList extends React.PureComponent {
         this.setState({page, loading: false});
     }
 
-    searchTeamsDebounced = debounce(async (page, term) => {
+    searchTeams = async (page = 0, term = '') => {
         const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
         const teams = page > 0 ? this.state.teams.concat(response.data.teams) : response.data.teams;
         const total = response.data.total_count;
         this.setState({page, loading: false, teams, total});
-    }, 300);
+    }
+
+    searchTeamsDebounced = debounce((page, term) => this.searchTeams(page, term), 300);
 
     nextPage = () => {
         this.loadPage(this.state.page + 1);
