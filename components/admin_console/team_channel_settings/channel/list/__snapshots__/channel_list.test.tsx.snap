@@ -91,7 +91,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
     ]
   }
@@ -193,7 +195,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -231,7 +235,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -269,7 +275,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -307,7 +315,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -345,7 +355,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -383,7 +395,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -421,7 +435,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -459,7 +475,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -497,7 +515,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
       Object {
         "edit": <span
@@ -535,7 +555,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         </span>,
         "team": <span
           className="group-description row-content"
-        />,
+        >
+          teamDisplayName
+        </span>,
       },
     ]
   }
