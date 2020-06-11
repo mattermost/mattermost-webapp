@@ -5,28 +5,41 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelList from './channel_list';
+import { ChannelType } from 'mattermost-redux/src/types/channels';
 
 describe('admin_console/team_channel_settings/channel/ChannelList', () => {
     test('should match snapshot', () => {
         const testChannels = [{
             id: '123',
             display_name: 'DN',
+            create_at: 1,
+            update_at: 1,
+            delete_at: 0,
+            team_id: 'a',
+            type: 'O' as ChannelType,
+            name: 'abc',
+            header: 'abc',
+            purpose: 'abc',
+            last_post_at: 123,
+            total_msg_count: 123,
+            extra_update_at: 123,
+            creator_id: 'abc',
+            scheme_id: 'abc',
+            group_constrained: false,
+            team_display_name: 'teamDisplayName',
+            team_name: 'teamName',
+            team_update_at: 1,
         }];
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testChannels),
             searchAllChannels: jest.fn().mockResolvedValue(testChannels),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
             <ChannelList
-                removeGroup={jest.fn()}
                 data={testChannels}
-                onPageChangedCallback={jest.fn()}
                 total={testChannels.length}
-                emptyListTextId={'test'}
-                emptyListTextDefaultMessage={'test'}
                 actions={actions}
             />);
 
@@ -40,22 +53,34 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
             testChannels.push({
                 id: 'id' + i,
                 display_name: 'DN' + i,
+                create_at: 1,
+                update_at: 1,
+                delete_at: 0,
+                team_id: 'a',
+                type: 'O' as ChannelType,
+                name: 'abc',
+                header: 'abc',
+                purpose: 'abc',
+                last_post_at: 123,
+                total_msg_count: 123,
+                extra_update_at: 123,
+                creator_id: 'abc',
+                scheme_id: 'abc',
+                group_constrained: false,
+                team_display_name: 'teamDisplayName',
+                team_name: 'teamName',
+                team_update_at: 1,
             });
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),
             searchAllChannels: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
             <ChannelList
-                removeGroup={jest.fn()}
                 data={testChannels}
-                onPageChangedCallback={jest.fn()}
                 total={30}
-                emptyListTextId={'test'}
-                emptyListTextDefaultMessage={'test'}
                 actions={actions}
             />);
         wrapper.setState({loading: false});
