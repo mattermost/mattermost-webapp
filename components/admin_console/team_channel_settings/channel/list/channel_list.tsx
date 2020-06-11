@@ -7,6 +7,7 @@ import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {Constants} from 'utils/constants';
 
@@ -21,15 +22,11 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import './channel_list.scss'; 
 interface ChannelListProps {
     actions: {
-        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]> | any;
+        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => Promise<{ data: any }>;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
     };
-    data?: Channel[];
-    total?: number;
-    removeGroup?: () => void;
-    onPageChangedCallback?: () => void;
-    emptyListTextId?: string;
-    emptyListTextDefaultMessage?: string;
+    data: Channel[];
+    total: number;
 }
 
 interface ChannelListState {
@@ -57,7 +54,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     getPaginationProps = () => {
-        const {page, total} = this.state;
+        const {page, term} = this.state;
+        let total = term === '' ? this.props.total : this.state.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
@@ -65,36 +63,37 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     loadPage = async (page = 0, term = '') => {
-        this.setState({loading: true});
-        let response, channels, total;
+        this.setState({loading: true, term});
 
         if (term.length > 0) {
-            response = await this.props.actions.searchAllChannels(term, '', false, page, PAGE_SIZE);
-            channels = response.data.channels;
-            total = response.data.total_count;
-        } else {
-            response = await this.props.actions.getData(page, PAGE_SIZE);
-            channels = response.data.channels;
-            total = response.data.total_count;
+            this.searchChannelsDebounced(page, term);
+            return;
         }
-
-        this.setState({page, loading: false, channels, total, term});
+        
+        await this.props.actions.getData(page, PAGE_SIZE);
+        this.setState({page, loading: false});
     }
 
+    searchChannelsDebounced = debounce(async (page, term) => {
+        const response = await this.props.actions.searchAllChannels(term, '', false, page, PAGE_SIZE);
+        const channels = this.state.channels.concat(response.data.channels);
+        const total = response.data.total_count;
+        this.setState({page, loading: false, channels, total});
+    }, 300, false, () => {});
+
     nextPage = () => {
-        this.loadPage(this.state.page + 1);
+        this.loadPage(this.state.page + 1, this.state.term);
     }
 
     previousPage = () => {
-        this.loadPage(this.state.page - 1);
+        this.setState({page: this.state.page - 1});
     }
 
     search = async (term = '') => {
         this.loadPage(0, term);
     }
 
-
-    private getColumns = (): Column[] => {
+    getColumns = (): Column[] => {
         const name: JSX.Element = (
             <FormattedMessage
                 id='admin.channel_settings.channel_list.nameHeader'
@@ -141,9 +140,12 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         ];
     }
 
-    private getRows = (): Row[] => {
-        let channelsToDisplay = [...this.state.channels];
-        channelsToDisplay = channelsToDisplay.slice(0, PAGE_SIZE);
+    getRows = (): Row[] => {
+        const { data } = this.props;
+        const { term, channels } = this.state;
+        const {startCount, endCount} = this.getPaginationProps();
+        let channelsToDisplay = term.length > 0 ? channels : data;
+        channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);
 
         return channelsToDisplay.map((channel) => {
             return {
@@ -190,7 +192,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             };
         });
     }
-    public render = (): JSX.Element => {
+
+    render = (): JSX.Element => {
         const {term} = this.state;
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();

@@ -41,9 +41,8 @@ export default class TeamList extends React.PureComponent {
     }
 
     getPaginationProps = () => {
-        const {page} = this.state;
-        let total = this.state.total;
-        if (this.state.term === '') total = this.props.total;
+        const {page, term} = this.state;
+        let total = term === '' ? this.props.total : this.state.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
@@ -56,19 +55,18 @@ export default class TeamList extends React.PureComponent {
         if (term.length > 0) {
             this.searchTeamsDebounced(page, term);
             return;
-        } else {
-            await this.props.actions.getData(page, PAGE_SIZE);
         }
 
+        await this.props.actions.getData(page, PAGE_SIZE);
         this.setState({page, loading: false});
     }
 
     searchTeamsDebounced = debounce(async (page, term) => {
         const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
-        const teams = response.data.teams;
+        const teams = this.state.teams.concat(response.data.teams);
         const total = response.data.total_count;
         this.setState({page, loading: false, teams, total});
-    }, 200);
+    }, 300);
 
     nextPage = () => {
         this.loadPage(this.state.page + 1);
@@ -142,15 +140,10 @@ export default class TeamList extends React.PureComponent {
     }
 
     getRows = () => {
-        let teamsToDisplay;
-
-        if (this.state.term.length > 0) {
-            teamsToDisplay = this.state.teams;
-        } else {
-            teamsToDisplay = this.props.data;
-        }
-
+        const { data } = this.props;
+        const { term, teams } = this.state;
         const {startCount, endCount} = this.getPaginationProps();
+        let teamsToDisplay = term.length > 0 ? teams : data;
         teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
 
         return teamsToDisplay.map((team) => {
