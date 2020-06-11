@@ -10,6 +10,8 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import GenericModal from 'components/generic_modal';
 import Constants from 'utils/constants';
 
+import './sidebar_whats_new_modal.scss';
+
 type Props = {
     currentUserId: string;
     hasSeenModal: boolean;
@@ -44,7 +46,8 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
     render() {
         return (
             <GenericModal
-                show={!this.props.hasSeenModal && this.state.isUsingNewSidebar}
+                show={true}
+                //show={!this.props.hasSeenModal && this.state.isUsingNewSidebar}
                 onHide={this.onHide}
                 modalHeaderText={(
                     <FormattedMessage
@@ -60,12 +63,13 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
                     />
                 )}
             >
-                <span>
+                <span className='SidebarWhatsNewModal__helpText'>
                     <FormattedMessage
                         id={'sidebar_whats_new_modal.whatsNewText'}
-                        defaultMessage='Create custom categories in your sidebar. Drag and drop to organize channels and categories'
+                        defaultMessage='Create custom categories in your sidebar. Drag and drop to organize channels and categories.'
                     />
                 </span>
+                <div className='SidebarWhatsNewModal__img'/>
             </GenericModal>
         );
     }
