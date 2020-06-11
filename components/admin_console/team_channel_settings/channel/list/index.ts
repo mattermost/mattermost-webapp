@@ -33,8 +33,6 @@ function mapStateToProps(state: GlobalState) {
     return {
         data: getSortedListOfChannels(state),
         total: state.entities.channels.totalCount,
-        emptyListTextId: t('admin.channel_settings.channel_list.no_channels_found'),
-        emptyListTextDefaultMessage: 'No channels found',
     };
 }
 

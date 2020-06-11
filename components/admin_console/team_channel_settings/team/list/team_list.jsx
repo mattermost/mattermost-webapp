@@ -4,19 +4,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {cloneDeep} from 'lodash';
 import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-import {Constants} from 'utils/constants';
 
-import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
-import TeamRow from 'components/admin_console/team_channel_settings/team/list/team_row.jsx';
-import AbstractList, {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
+import DataGrid from 'components/admin_console/data_grid/data_grid';
+import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
-import {browserHistory} from 'utils/browser_history';
-
-import SearchIcon from 'components/widgets/icons/search_icon';
 
 import './team_list.scss'; 
 export default class TeamList extends React.PureComponent {
@@ -41,7 +35,7 @@ export default class TeamList extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.loadPage(0);
+        this.loadPage();
     }
 
     getPaginationProps = () => {
@@ -52,7 +46,7 @@ export default class TeamList extends React.PureComponent {
         return {startCount, endCount, total};
     }
 
-    loadPage = async (page, term = '') => {
+    loadPage = async (page = 0, term = '') => {
         this.setState({loading: true});
         let response, teams, total;
 
@@ -116,7 +110,6 @@ export default class TeamList extends React.PureComponent {
         ];
     }
 
-
     renderManagementMethodText = (team) => {
         if (team.group_constrained) {
             return (
@@ -141,10 +134,9 @@ export default class TeamList extends React.PureComponent {
         );
     }
 
-
     getRows = () => {
         let teamsToDisplay = [...this.state.teams];
-        teamsToDisplay = teamsToDisplay.slice(0, 10);
+        teamsToDisplay = teamsToDisplay.slice(0, PAGE_SIZE);
 
         return teamsToDisplay.map((team) => {
             return {
@@ -195,6 +187,14 @@ export default class TeamList extends React.PureComponent {
         const rows = this.getRows();
         const columns = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
+
+        const placeholderEmpty = (
+            <FormattedMessage
+                id='admin.team_settings.team_list.no_teams_found'
+                defaultMessage='No teams found'
+            />
+        );
+
         return (
             <DataGrid
                 columns={columns}
@@ -208,12 +208,7 @@ export default class TeamList extends React.PureComponent {
                 total={total}
                 search={this.search}
                 term={term}
-                placeholderEmpty={
-                    <FormattedMessage
-                        id='admin.team_settings.team_list.no_teams_found'
-                        defaultMessage='No teams found'
-                    />
-                }
+                placeholderEmpty={placeholderEmpty}
             />
         );
     }
