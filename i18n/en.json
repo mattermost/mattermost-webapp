@@ -2532,6 +2532,8 @@
   "generic_icons.success": "Success Icon",
   "generic_icons.upload": "Upload Icon",
   "generic_icons.warning": "Warning Icon",
+  "generic_modal.cancel": "Cancel",
+  "generic_modal.confirm": "Confirm",
   "get_app.continueToBrowser": "View in Browser",
   "get_app.dontHaveTheDesktopApp": "Don't have the Desktop App?",
   "get_app.dontHaveTheMobileApp": "Don't have the Mobile App?",
