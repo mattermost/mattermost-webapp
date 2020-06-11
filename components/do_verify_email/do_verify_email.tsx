@@ -66,7 +66,7 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
             this.props.actions.logError({
                 message: AnnouncementBarMessages.EMAIL_VERIFIED,
                 type: AnnouncementBarTypes.SUCCESS,
-            }, true);
+            } as any, true);
             trackEvent('settings', 'verify_email');
             const me = await this.props.actions.getMe();
             if ('data' in me) {
