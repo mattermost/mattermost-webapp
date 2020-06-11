@@ -15,7 +15,7 @@ type Props = {
     hasSeenModal: boolean;
     newSidebarPreference: boolean;
     actions: {
-        savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
 }
 
@@ -34,9 +34,9 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
 
     onHide = () => {
         this.props.actions.savePreferences(this.props.currentUserId, [{
-            user_id: this.props.currentUserId, 
-            category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS, 
-            name: Preferences.HAS_SEEN_WHATS_NEW_MODAL, 
+            user_id: this.props.currentUserId,
+            category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
+            name: Preferences.HAS_SEEN_WHATS_NEW_MODAL,
             value: 'true',
         }]);
     }
@@ -49,7 +49,7 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
                 modalHeaderText={(
                     <FormattedMessage
                         id={'sidebar_whats_new_modal.header'}
-                        defaultMessage={`What's new`}
+                        defaultMessage={'What\'s new'}
                     />
                 )}
                 handleConfirm={() => {}}

@@ -61,8 +61,8 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         let confirmButton;
         if (this.props.handleConfirm) {
             let confirmButtonText = (
-                <FormattedMessage 
-                    id='generic_modal.confirm' 
+                <FormattedMessage
+                    id='generic_modal.confirm'
                     defaultMessage='Confirm'
                 />
             );
@@ -77,7 +77,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
             confirmButton = (
                 <button
                     type='submit'
-                    className={classNames(`GenericModal__button create ${this.props.confirmButtonClassName}`, {
+                    className={classNames(`GenericModal__button confirm ${this.props.confirmButtonClassName}`, {
                         disabled: this.props.isConfirmDisabled,
                     })}
                     onClick={this.handleConfirm}
@@ -91,8 +91,8 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         let cancelButton;
         if (this.props.handleCancel) {
             let cancelButtonText = (
-                <FormattedMessage 
-                    id='generic_modal.cancel' 
+                <FormattedMessage
+                    id='generic_modal.cancel'
                     defaultMessage='Cancel'
                 />
             );

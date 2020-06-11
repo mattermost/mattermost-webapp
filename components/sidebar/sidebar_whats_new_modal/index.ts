@@ -19,7 +19,7 @@ function mapStateToProps(state: GlobalState) {
     const hasSeenModal = getPreference(
         state,
         Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        Preferences.HAS_SEEN_WHATS_NEW_MODAL, 
+        Preferences.HAS_SEEN_WHATS_NEW_MODAL,
         'false',
     ) === 'true';
 
@@ -27,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
         currentUserId,
         hasSeenModal,
         newSidebarPreference: getNewSidebarPreference(state),
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
