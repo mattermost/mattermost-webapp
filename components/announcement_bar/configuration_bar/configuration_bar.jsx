@@ -18,6 +18,7 @@ import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
 
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
+const AAE_REGISTRY_LINK = 'https://mattermost.com/pl/default-aae-message-code-registry';
 
 class ConfigurationAnnouncementBar extends React.PureComponent {
     static propTypes = {
@@ -85,10 +86,11 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                         message={
                             <FormattedMarkdownMessage
                                 id={AnnouncementBarMessages.LICENSE_EXPIRING}
-                                defaultMessage='Enterprise license expires on {date, date, long}. [Please renew](!{link}). AAE-010-0014'
+                                defaultMessage='Enterprise license expires on {date, date, long}. [Please renew](!{link}). [AAE-010-0014](!{link2})'
                                 values={{
-                                    date: new Date(parseInt(this.props.license.ExpiresAt, 10)),
-                                    link: renewalLink,
+                                    date:  new Date(parseInt(this.props.license.ExpiresAt, 10)),
+                                    link:  renewalLink,
+                                    link2: AAE_REGISTRY_LINK,
                                 }}
                             />
                         }
@@ -119,9 +121,11 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         ) {
             const emailMessage = formatMessage({
                 id: AnnouncementBarMessages.PREVIEW_MODE,
-                defaultMessage: 'Preview Mode: Email notifications have not been configured. AAE-000-0011',
+                defaultMessage: 'Preview Mode: Email notifications have not been configured. [AAE-000-0011](!{link})',
+                values={{
+                    link: AAE_REGISTRY_LINK,
+                }}
             });
-
             return (
                 <TextDismissableBar
                     allowDismissal={true}
@@ -136,10 +140,16 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             let defaultMessage;
             if (this.props.config.EnableSignUpWithGitLab === 'true') {
                 id = t('announcement_bar.error.site_url_gitlab.full');
-                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb. AAE-010-0013';
+                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb. [AAE-010-0013](!{link})';
+                values={{
+                    link: AAE_REGISTRY_LINK,
+                }}
             } else {
                 id = t('announcement_bar.error.site_url.full');
-                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server). AAE-010-0012';
+                defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server). [AAE-010-0012](!{link})';
+                values={{
+                    link: AAE_REGISTRY_LINK,
+                }}
             }
 
             const values = {siteURL: this.props.siteURL};
