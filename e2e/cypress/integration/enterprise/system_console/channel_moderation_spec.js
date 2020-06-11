@@ -694,7 +694,7 @@ describe('Channel Moderation Test', () => {
     });
 
     describe('MM-23102 - Channel Mentions', () => {
-        it.only('Channel Mentions option for Guests', () => {
+        it('Channel Mentions option for Guests', () => {
             // # Uncheck the Channel Mentions option for Guests and save
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_GUESTS);
@@ -718,7 +718,7 @@ describe('Channel Moderation Test', () => {
             postChannelMentionsAndVerifySystemMessageNotExist();
         });
 
-        it.only('Channel Mentions option for Members', () => {
+        it('Channel Mentions option for Members', () => {
             // # Visit Channel page and Search for the channel.
             visitAutemChannelConfigPage();
 
@@ -778,7 +778,7 @@ describe('Channel Moderation Test', () => {
             cy.findByTestId(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS).should('be.disabled');
         });
 
-        it.only('Message when user without channel mention permission uses special channel mentions', () => {
+        it('Message when user without channel mention permission uses special channel mentions', () => {
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
             saveConfigForChannel();
@@ -796,7 +796,7 @@ describe('Channel Moderation Test', () => {
             postChannelMentionsAndVerifySystemMessageExist();
         });
 
-        it.only('Confirm sending notifications while using special channel mentions', () => {
+        it('Confirm sending notifications while using special channel mentions', () => {
             // # Visit Channel page and Search for the channel.
             visitAutemChannelConfigPage();
             disableChannelModeratedPermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
