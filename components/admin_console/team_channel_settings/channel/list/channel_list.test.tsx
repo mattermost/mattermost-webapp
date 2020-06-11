@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {ChannelType} from 'mattermost-redux/src/types/channels';
+
 import ChannelList from './channel_list';
-import { ChannelType } from 'mattermost-redux/src/types/channels';
 
 describe('admin_console/team_channel_settings/channel/ChannelList', () => {
     test('should match snapshot', () => {
