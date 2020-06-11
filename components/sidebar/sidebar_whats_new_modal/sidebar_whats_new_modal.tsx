@@ -45,8 +45,7 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
     render() {
         return (
             <GenericModal
-                show={true}
-                //show={!this.props.hasSeenModal && this.state.isUsingNewSidebar}
+                show={!this.props.hasSeenModal && this.state.isUsingNewSidebar}
                 onHide={this.onHide}
                 modalHeaderText={(
                     <FormattedMessage
