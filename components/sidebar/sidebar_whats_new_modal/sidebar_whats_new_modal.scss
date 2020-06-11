@@ -1,0 +1,31 @@
+@charset 'UTF-8';
+
+.GenericModal {
+    width: 692px;
+
+    
+    
+    .modal-content {
+        padding: 16px 15px;
+    }
+
+    .SidebarWhatsNewModal__helpText {
+        margin-top: 8px;
+    }
+
+    .SidebarWhatsNewModal__img {
+        margin-top: 40px;
+        height: 360px;
+        border: 1px solid var(--center-channel-color-16);
+        border-radius: 4px;
+        min-height: 360px;  // TODO: remove
+    }
+
+    .modal-footer {
+        margin-top: 20px;
+    }
+}
+
+.modal .GenericModal.modal-dialog {
+    margin-top: calc(50vh - 307px);
+}
