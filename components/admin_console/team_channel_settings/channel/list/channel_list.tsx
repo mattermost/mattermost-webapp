@@ -201,7 +201,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
         const placeholderEmpty: JSX.Element = (
             <FormattedMessage
-                id='admin.channel_settings.channel_list.no_channels_fo'
+                id='admin.channel_settings.channel_list.no_channels_found'
                 defaultMessage='No channels found'
             />
         );
