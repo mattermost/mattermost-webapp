@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {debounce} from 'mattermost-redux/actions/helpers';
+
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -39,7 +41,9 @@ export default class TeamList extends React.PureComponent {
     }
 
     getPaginationProps = () => {
-        const {page, total} = this.state;
+        const {page} = this.state;
+        let total = this.state.total;
+        if (this.state.term === '') total = this.props.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
@@ -47,33 +51,36 @@ export default class TeamList extends React.PureComponent {
     }
 
     loadPage = async (page = 0, term = '') => {
-        this.setState({loading: true});
-        let response, teams, total;
+        this.setState({loading: true, term});
 
         if (term.length > 0) {
-            response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
-            teams = response.data.teams;
-            total = response.data.total_count;
+            this.searchTeamsDebounced(page, term);
+            return;
         } else {
-            response = await this.props.actions.getData(page, PAGE_SIZE);
-            teams = response.data.teams;
-            total = response.data.total_count;
+            await this.props.actions.getData(page, PAGE_SIZE);
         }
 
-        this.setState({page, loading: false, teams, total, term});
+        this.setState({page, loading: false});
     }
+
+    searchTeamsDebounced = debounce(async (page, term) => {
+        const response = await this.props.actions.searchTeams(term, page, PAGE_SIZE);
+        const teams = response.data.teams;
+        const total = response.data.total_count;
+        this.setState({page, loading: false, teams, total});
+    }, 200);
 
     nextPage = () => {
         this.loadPage(this.state.page + 1);
     }
 
     previousPage = () => {
-        this.loadPage(this.state.page - 1);
+        this.setState({page: this.state.page - 1});
     }
 
-    search = async (term) => {
+    search = (term) => {
         this.loadPage(0, term);
-    }
+    };
 
     getColumns = () => {
         const name = (
@@ -135,8 +142,16 @@ export default class TeamList extends React.PureComponent {
     }
 
     getRows = () => {
-        let teamsToDisplay = [...this.state.teams];
-        teamsToDisplay = teamsToDisplay.slice(0, PAGE_SIZE);
+        let teamsToDisplay;
+
+        if (this.state.term.length > 0) {
+            teamsToDisplay = this.state.teams;
+        } else {
+            teamsToDisplay = this.props.data;
+        }
+
+        const {startCount, endCount} = this.getPaginationProps();
+        teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
 
         return teamsToDisplay.map((team) => {
             return {

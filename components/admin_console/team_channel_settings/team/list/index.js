@@ -3,13 +3,23 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {createSelector} from 'reselect';
 
 import {getTeams as fetchTeams, searchTeams} from 'mattermost-redux/actions/teams';
+import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 
 import TeamList from './team_list.jsx';
 
+const getSortedListOfTeams = createSelector(
+    getTeams,
+    (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name)),
+);
+
 function mapStateToProps(state) {
-    return {};
+    return {
+        data: getSortedListOfTeams(state),
+        total: state.entities.teams.totalCount || 0,
+    };
 }
 
 function mapDispatchToProps(dispatch) {
