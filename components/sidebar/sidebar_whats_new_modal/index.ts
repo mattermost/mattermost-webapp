@@ -10,7 +10,6 @@ import {get as getPreference, getNewSidebarPreference} from 'mattermost-redux/se
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
-import Constants from 'utils/constants';
 
 import SidebarWhatsNewModal from './sidebar_whats_new_modal';
 
@@ -18,8 +17,8 @@ function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     const hasSeenModal = getPreference(
         state,
-        Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
-        Preferences.HAS_SEEN_WHATS_NEW_MODAL,
+        Preferences.CATEGORY_WHATS_NEW_MODAL,
+        Preferences.HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL,
         'false',
     ) === 'true';
 

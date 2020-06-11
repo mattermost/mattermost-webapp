@@ -8,7 +8,6 @@ import {Preferences} from 'mattermost-redux/constants';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import GenericModal from 'components/generic_modal';
-import Constants from 'utils/constants';
 
 import './sidebar_whats_new_modal.scss';
 
@@ -37,8 +36,8 @@ export default class SidebarWhatsNewModal extends React.PureComponent<Props, Sta
     onHide = () => {
         this.props.actions.savePreferences(this.props.currentUserId, [{
             user_id: this.props.currentUserId,
-            category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            name: Preferences.HAS_SEEN_WHATS_NEW_MODAL,
+            category: Preferences.CATEGORY_WHATS_NEW_MODAL,
+            name: Preferences.HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL,
             value: 'true',
         }]);
     }
