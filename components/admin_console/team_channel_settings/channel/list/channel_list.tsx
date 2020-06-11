@@ -2,24 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ChannelWithTeamData, Channel} from 'mattermost-redux/types/channels';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {Constants} from 'utils/constants';
-
-import {Channel} from 'mattermost-redux/types/channels';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
-
-
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 
-import './channel_list.scss'; 
+import './channel_list.scss';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => Promise<{ data: any }>;
@@ -48,14 +44,14 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             total: 0,
         };
     }
-    
+
     componentDidMount() {
         this.loadPage();
     }
 
     getPaginationProps = () => {
         const {page, term} = this.state;
-        let total = term === '' ? this.props.total : this.state.total;
+        const total = term === '' ? this.props.total : this.state.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
@@ -69,7 +65,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             this.searchChannelsDebounced(page, term);
             return;
         }
-        
+
         await this.props.actions.getData(page, PAGE_SIZE);
         this.setState({page, loading: false});
     }
@@ -141,8 +137,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     getRows = (): Row[] => {
-        const { data } = this.props;
-        const { term, channels } = this.state;
+        const {data} = this.props;
+        const {term, channels} = this.state;
         const {startCount, endCount} = this.getPaginationProps();
         let channelsToDisplay = term.length > 0 ? channels : data;
         channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);

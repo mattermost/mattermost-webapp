@@ -20,7 +20,7 @@ class DataGridSearch extends React.PureComponent<Props> {
         this.props.onSearch(term);
     }
 
-    resetSearch = (event: MouseEvent<HTMLElement, MouseEvent>)=> {
+    resetSearch = (event: MouseEvent<HTMLElement, MouseEvent>) => {
         this.props.onSearch('');
     }
 

@@ -10,7 +10,6 @@ import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {t} from 'utils/i18n';
 import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
 

@@ -7,14 +7,13 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-
 import * as Utils from 'utils/utils.jsx';
 
 import DataGrid from 'components/admin_console/data_grid/data_grid';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
-import './team_list.scss'; 
+import './team_list.scss';
 export default class TeamList extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
@@ -42,7 +41,7 @@ export default class TeamList extends React.PureComponent {
 
     getPaginationProps = () => {
         const {page, term} = this.state;
-        let total = term === '' ? this.props.total : this.state.total;
+        const total = term === '' ? this.props.total : this.state.total;
         const startCount = (page * PAGE_SIZE) + 1;
         let endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
@@ -140,8 +139,8 @@ export default class TeamList extends React.PureComponent {
     }
 
     getRows = () => {
-        const { data } = this.props;
-        const { term, teams } = this.state;
+        const {data} = this.props;
+        const {term, teams} = this.state;
         const {startCount, endCount} = this.getPaginationProps();
         let teamsToDisplay = term.length > 0 ? teams : data;
         teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
@@ -150,7 +149,7 @@ export default class TeamList extends React.PureComponent {
             return {
                 id: team.id,
                 name: (
-                    <div className="TeamList_NameText">
+                    <div className='TeamList_NameText'>
                         <TeamIcon
                             size='sm'
                             url={Utils.imageURLForTeam(team)}
@@ -179,7 +178,7 @@ export default class TeamList extends React.PureComponent {
                         className='group-actions'
                     >
                         <Link to={`/admin_console/user_management/teams/${team.id}`}>
-                        <   FormattedMessage
+                            <FormattedMessage
                                 id='admin.team_settings.team_row.configure'
                                 defaultMessage='Edit'
                             />
