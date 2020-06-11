@@ -52,7 +52,11 @@ export default class TeamList extends React.PureComponent {
         this.setState({loading: true, term});
 
         if (term.length > 0) {
-            page > 0 ? this.searchTeams(page, term) : this.searchTeamsDebounced(page, term);
+            if (page > 0) {
+                this.searchTeams(page, term);
+            } else {
+                this.searchTeamsDebounced(page, term);
+            }
             return;
         }
 

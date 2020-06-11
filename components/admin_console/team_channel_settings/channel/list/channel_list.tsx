@@ -62,7 +62,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({loading: true, term});
 
         if (term.length > 0) {
-            page > 0 ? this.searchChannels(page,term) : this.searchChannelsDebounced(page, term);
+            if (page > 0) {
+                this.searchChannels(page, term);
+            } else {
+                this.searchChannelsDebounced(page, term);
+            }
             return;
         }
 
